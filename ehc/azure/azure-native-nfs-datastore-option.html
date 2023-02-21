@@ -8712,7 +8712,7 @@
 <p class="page-details">
   
     
-    <time datetime="2023-02-21 17:34:46 +0000">02/21/2023</time>
+    <time datetime="2023-02-21 17:58:55 +0000">02/21/2023</time>
     
   
 
@@ -8866,18 +8866,6 @@ Las máquinas virtuales «guest» utilizadas con el almacenamiento «en invitado
 </td>
 <td class="content">
 Para obtener un rendimiento óptimo, implemente Azure NetApp Files en la misma zona de disponibilidad que el cloud privado. Al colocar con la ruta rápida Express, se obtiene el mejor rendimiento con una latencia de red mínima.
-</td>
-</tr>
-</table>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<img src="/us-en/netapp-solutions/images/note.svg" alt="Nota">
-</td>
-<td class="content">
-Esta función se encuentra actualmente en vista previa pública.
 </td>
 </tr>
 </table>
@@ -9040,7 +9028,7 @@ az feature register --name "CloudSanExperience" --namespace "Microsoft.AVS"</pre
 <p>NFSv3 es compatible con los almacenes de datos en Azure NetApp Files.</p>
 </li>
 <li>
-<p>Utilice el nivel Premium o Ultra para un rendimiento óptimo.</p>
+<p>Utilice el nivel Premium o estándar para cargas de trabajo condicionadas por la capacidad y Ultra Tier para cargas de trabajo condicionadas por el rendimiento cuando sea necesario, además de complementar el almacenamiento VSAN predeterminado.</p>
 </li>
 </ul>
 </div></div></td>
@@ -9068,6 +9056,18 @@ az feature register --name "CloudSanExperience" --namespace "Microsoft.AVS"</pre
 <details>
 <summary class="title">Añada el almacén de datos Azure NetApp Files al cloud privado</summary>
 <div class="content">
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<img src="/us-en/netapp-solutions/images/note.svg" alt="Nota">
+</td>
+<td class="content">
+El volumen de Azure NetApp Files puede adjuntarse a su cloud privado mediante el portal de Azure. Siga este <a href="https://learn.microsoft.com/en-us/azure/azure-vmware/attach-azure-netapp-files-to-azure-vmware-solution-hosts?tabs=azure-portal">"Vínculo de Microsoft"</a> Para el enfoque paso a paso del uso del portal de Azure para montar un almacén de datos Azure NetApp Files.
+</td>
+</tr>
+</table>
+</div>
 <div class="paragraph">
 <p>Para añadir un almacén de datos Azure NetApp Files a un cloud privado, complete los siguientes pasos:</p>
 </div>
@@ -9142,6 +9142,9 @@ az feature register --name "CloudSanExperience" --namespace "Microsoft.AVS"</pre
 <div class="paragraph">
 <p>Para obtener más información, consulte <a href="https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-service-levels" target="_blank" rel="noopener">"Niveles de servicio para Azure NetApp Files"</a>.</p>
 </div>
+<div class="paragraph">
+<p>Consulte este apartado <a href="https://learn.microsoft.com/en-us/azure/azure-netapp-files/performance-benchmarks-azure-vmware-solution">"Vínculo de Microsoft"</a> para obtener pruebas de rendimiento detalladas que pueden utilizarse durante un ejercicio de configuración.</p>
+</div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 100%;">
@@ -9156,10 +9159,10 @@ az feature register --name "CloudSanExperience" --namespace "Microsoft.AVS"</pre
 <td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
 <ul>
 <li>
-<p>Use el nivel Premium o Ultra para volúmenes de almacenes de datos con un rendimiento óptimo.</p>
+<p>Use el nivel Premium o estándar para volúmenes de almacenes de datos para obtener un rendimiento y una capacidad óptimos. Si se requiere rendimiento, se puede utilizar Ultra Tier.</p>
 </li>
 <li>
-<p>Para los requisitos de uso compartido de archivos para las máquinas virtuales invitados, use volúmenes de niveles Standard o Premium.</p>
+<p>Para los requisitos de montaje de invitado, utilice los volúmenes de nivel Standard o Premium y destinados a los requisitos de uso compartido de archivos para las máquinas virtuales invitadas.</p>
 </li>
 </ul>
 </div></div></td>
@@ -9179,6 +9182,9 @@ az feature register --name "CloudSanExperience" --namespace "Microsoft.AVS"</pre
 </div>
 <div class="paragraph">
 <p>Para un ancho de banda mayor, como práctica recomendada, cree varios almacenes de datos mediante varios volúmenes ANF, cree VMDK y secte los volúmenes lógicos entre VMDK.</p>
+</div>
+<div class="paragraph">
+<p>Consulte este apartado <a href="https://learn.microsoft.com/en-us/azure/azure-netapp-files/performance-benchmarks-azure-vmware-solution">"Vínculo de Microsoft"</a> para obtener pruebas de rendimiento detalladas que pueden utilizarse durante un ejercicio de configuración.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
@@ -9203,50 +9209,7 @@ az feature register --name "CloudSanExperience" --namespace "Microsoft.AVS"</pre
 <p>Con las funciones de red "básicas" de Azure NetApp Files, la conectividad de la solución VMware de Azure está vinculada por el ancho de banda del circuito ExpressRoute y la puerta de enlace ExpressRoute.</p>
 </li>
 <li>
-<p>Para volúmenes Azure NetApp Files con funciones de red "estándar" (actualmente en vista previa pública), es compatible ExpressRoute FastPath. Cuando se habilita esta opción, FastPath envía tráfico de red directamente a los volúmenes Azure NetApp Files, saltando la puerta de enlace, lo que proporciona un ancho de banda mayor y una latencia menor.</p>
-</li>
-</ul>
-</div></div></td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<div class="sect1">
-<h2 id="optimización-del-rendimiento">Optimización del rendimiento</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Si bien la cantidad recomendada de máquinas virtuales por almacén de datos NFS es subjetiva, hay muchos factores que determinan la cantidad óptima de máquinas virtuales que pueden colocarse en cada almacén de datos. Aunque la mayoría de los administradores solo consideran la capacidad, la cantidad de I/o simultáneas que se envían a los VMDK es uno de los factores más importantes para el rendimiento general. El host ESXi tiene muchos mecanismos para garantizar la justicia entre las máquinas virtuales que compiten por los recursos de almacenes de datos. Sin embargo, la forma más sencilla de controlar el rendimiento es regular cuántas máquinas virtuales se colocan en cada almacén de datos. Si los patrones de I/o simultáneos de las máquinas virtuales envían demasiado tráfico al almacén de datos, se llenan las colas de discos y se genera una latencia más alta.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="ajuste-de-tamaño-de-volúmenes-y-almacenes-de-datos">Ajuste de tamaño de volúmenes y almacenes de datos</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Cuando se crea un volumen en Azure NetApp Files con fines de almacén de datos, la práctica recomendada es crear un volumen no mayor al necesario. Aunque el tamaño máximo de volumen puede ser de hasta 100 TB, NetApp recomienda comenzar con una capacidad de almacén de datos pequeña y aumentarla según se requiera. Los almacenes de datos con ajuste de tamaño adecuado evitan que se coloque de forma accidental demasiados equipos virtuales en el almacén de datos y reducen la probabilidad de que se produzca una contención de recursos. Dado que los tamaños de almacenes de datos y VMDK se pueden aumentar fácilmente si un equipo virtual necesita capacidad adicional, no es necesario crear almacenes de datos mayores de lo necesario. Para obtener un rendimiento óptimo, se recomienda aumentar el número de almacenes de datos en lugar de aumentar el tamaño.</p>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 100%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Puntos que debe recordar</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>Un buen tamaño para un almacén de datos ANF NFS es de 4 TB a 8 TB.</p>
-</li>
-<li>
-<p>Coloque 15-20 equipos virtuales en un único almacén de datos. En función de los requisitos del equipo virtual, esto puede aumentarse a 35-40 equipos virtuales.</p>
-</li>
-<li>
-<p>Para obtener el mejor rendimiento y capacidad de gestión, considere sistemas de archivos propiedad de invitado como sistemas de archivos NFS/SMB gestionados por los invitados para aplicaciones de alto I/o como bases de datos.</p>
+<p>Para volúmenes Azure NetApp Files con funciones de red "estándar", es compatible ExpressRoute FastPath. Cuando se habilita esta opción, FastPath envía tráfico de red directamente a los volúmenes Azure NetApp Files, saltando la puerta de enlace, lo que proporciona un ancho de banda mayor y una latencia menor.</p>
 </li>
 </ul>
 </div></div></td>
@@ -9278,7 +9241,7 @@ az feature register --name "CloudSanExperience" --namespace "Microsoft.AVS"</pre
 <p>La modificación del volumen y la funcionalidad de nivel de servicio dinámico le permiten optimizar los costes mediante el dimensionamiento para las cargas de trabajo de estado constante y, así, evitar el sobreaprovisionamiento.</p>
 </li>
 <li>
-<p>Durante la vista previa pública, VAAI no se habilita.</p>
+<p>VAAI no está habilitado.</p>
 </li>
 </ul>
 </div></div></td>

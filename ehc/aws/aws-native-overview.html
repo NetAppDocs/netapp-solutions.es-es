@@ -8714,7 +8714,7 @@
 <p class="page-details">
   
     
-    <time datetime="2023-02-21 17:34:46 +0000">02/21/2023</time>
+    <time datetime="2023-02-21 17:58:55 +0000">02/21/2023</time>
     
   
 
@@ -8763,11 +8763,20 @@ Esta solución también está disponible en VMware. Visite la <a href="https://v
 <div class="sect1">
 <h2 id="opciones-de-conectividad">Opciones de conectividad</h2>
 <div class="sectionbody">
-<div class="paragraph">
-<p>En esta sección se describe la arquitectura de conectividad de alto nivel junto con los pasos necesarios para implementar la solución para ampliar el almacenamiento en un clúster SDDC sin la necesidad de añadir hosts adicionales.</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<img src="/us-en/netapp-solutions/images/note.svg" alt="Nota">
+</td>
+<td class="content">
+VMware Cloud en AWS es compatible con las puestas en marcha de FSX para ONTAP, tanto de Multi-AZ como de Single-AZ.
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
-<p>Amazon FSX para ONTAP de NetApp es un servicio totalmente gestionado que ofrece un almacenamiento de archivos altamente fiable, escalable, de alto rendimiento y con numerosas funciones incorporado en el popular sistema de archivos ONTAP de NetApp. Amazon FSX para ONTAP de NetApp (Multi-AZ) utiliza una dirección IP flotante que permite la función de recuperación tras fallos del tráfico NAS en caso de un fallo en el nivel de la zona de disponibilidad. Esta dirección IP se encuentra fuera del espacio de dirección CIDR de VPC y, por lo tanto, no se puede enrutar a SDDC a través de ENI. Por lo tanto, debe utilizarse VMware Transit Connect para conectar con la dirección IP flotante de la interfaz NAS.</p>
+<p>En esta sección se describe la arquitectura de conectividad de alto nivel junto con los pasos necesarios para implementar la solución para ampliar el almacenamiento en un clúster SDDC sin la necesidad de añadir hosts adicionales.</p>
 </div>
 <div class="paragraph">
 <p><span class="image"><img src="./../../media/fsx-nfs-image1.png" alt="Error: Falta la imagen gráfica"></span></p>
