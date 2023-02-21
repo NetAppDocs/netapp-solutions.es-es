@@ -1,0 +1,70 @@
+---
+sidebar: sidebar 
+permalink: ai/osrunai_achieving_high_cluster_utilization_with_over-uota_gpu_allocation.html 
+keywords:  
+summary:  
+---
+= Utilización óptima del clúster gracias a la asignación de GPU por encima de una cuota
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+En esta sección y en las secciones link:osrunai_basic_resource_allocation_fairness.html["Equidad en la asignación de recursos básicos"], y. link:osrunai_over-quota_fairness.html["Justicia por exceso de cuotas"], Hemos diseñado escenarios de pruebas avanzados para demostrar las capacidades de orquestación Run:AI para la administración de cargas de trabajo complejas, la programación preventiva automática y el aprovisionamiento de GPU con exceso de cuota. Hemos hecho esto para lograr un uso elevado de los recursos de clúster y optimizar la productividad de los equipos científicos de datos a nivel empresarial en un entorno de IA de ONTAP.
+
+Para estas tres secciones, defina los siguientes proyectos y cuotas:
+
+|===
+| Proyecto | Cuota 
+
+
+| equipo a | 4 
+
+
+| equipo-b | 2 
+
+
+| equipo-c | 2 
+
+
+| equipo d | 8 
+|===
+Además, utilizamos los siguientes contenedores para estas tres secciones:
+
+* Portátil Jupyter: `jupyter/base-notebook`
+* Ejecutar:AI Quickstart: `gcr.io/run-ai-demo/quickstart`
+
+
+Definimos los siguientes objetivos para este escenario de prueba:
+
+* Muestre la simplicidad del aprovisionamiento de recursos y cómo los recursos se abstraen de los usuarios
+* Mostrar cómo los usuarios pueden aprovisionar fácilmente fracciones de una GPU y un número entero de GPU
+* Muestre cómo el sistema elimina los cuellos de botella de computación al permitir que equipos o usuarios hagan uso de su cuota de recursos si hay GPU libres en el clúster
+* Muestre cómo se eliminan los cuellos de botella en la canalización de datos utilizando la solución de NetApp cuando se ejecutan tareas con un gran procesamiento como el contenedor de NetApp
+* Muestra cómo se ejecutan los diversos tipos de contenedores mediante el sistema
++
+** Portátil Jupyter
+** Ejecute:contenedor de IA
+
+
+* Muestra una alta utilización cuando el clúster está lleno
+
+
+Para obtener información detallada sobre la secuencia de comandos real ejecutada durante la prueba, consulte link:osrunai_testing_details_for_section_4.8.html["Detalles de las pruebas para la sección 4.8"].
+
+Cuando se envían las 13 cargas de trabajo, puede ver una lista con los nombres de los contenedores y las GPU asignadas, como se muestra en la siguiente figura. Contamos con siete cursos de formación y seis trabajos interactivos, que simulan cuatro equipos de ciencia de datos, cada uno con sus propios modelos en ejecución o en desarrollo. Para trabajos interactivos, los desarrolladores individuales están utilizando Jupyter Notebooks para escribir o depurar su código. Por lo tanto, es adecuado aprovisionar fracciones de GPU sin usar demasiados recursos de clúster.
+
+image:osrunai_image8.png["Error: Falta la imagen gráfica"]
+
+Los resultados de este escenario de prueba muestran lo siguiente:
+
+* El clúster debe estar lleno: Se utilizan 16/16 GPU.
+* Uso elevado de clúster.
+* Más experimentos que las GPU debido a la asignación fraccionaria.
+* `team-d` no está utilizando toda su cuota; por lo tanto, `team-b` y.. `team-c` Puede utilizar más GPU para sus experimentos, lo que acelera el plazo de innovación.
+
+
+link:osrunai_basic_resource_allocation_fairness.html["Siguiente: Equidad en la asignación de recursos básicos"]

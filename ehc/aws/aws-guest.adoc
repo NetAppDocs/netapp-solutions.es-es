@@ -1,0 +1,452 @@
+---
+sidebar: sidebar 
+permalink: ehc/aws/aws-guest.html 
+keywords: NetApp Solutions, amazon, vmc, aws, vmware managed cloud, enterprise, hybrid, cloud, fsx, ontap, cvo, cloud volumes ontap, guest connected 
+summary:  
+---
+= Opciones de almacenamiento conectado invitado de NetApp para AWS
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../../media/
+
+
+[role="lead"]
+AWS admite almacenamiento de NetApp conectado como invitado con el servicio FSX nativo (FSX ONTAP) o Cloud Volumes ONTAP (CVO).
+
+
+
+== FSX ONTAP
+
+Amazon FSX para ONTAP de NetApp es un servicio completamente gestionado que ofrece un almacenamiento de archivos muy fiable, escalable, de alto rendimiento y con numerosas funciones integrado en el popular sistema de archivos ONTAP de NetApp. FSX para ONTAP combina las funciones, el rendimiento, las funcionalidades y las operaciones API de los sistemas de archivos de NetApp con la agilidad, la escalabilidad y la simplicidad de un servicio AWS totalmente gestionado.
+
+FSX para ONTAP proporciona un almacenamiento de archivos compartido con gran diversidad de funciones, rápido y flexible, al que se puede acceder ampliamente desde instancias informáticas de Linux, Windows y MacOS que se ejecutan en AWS o en las instalaciones. FSX para ONTAP ofrece un almacenamiento en unidades de estado sólido (SSD) de alto rendimiento con latencias inferiores a milisegundos. Con FSX para ONTAP, puede obtener niveles de SSD de rendimiento de su carga de trabajo a la vez que paga el almacenamiento SSD por una pequeña fracción de sus datos.
+
+La gestión de los datos con FSX para ONTAP es más sencilla porque puede crear copias Snapshot, clonar y replicar los archivos con solo hacer clic en un botón. Además, FSX para ONTAP ordena automáticamente los datos en niveles para un almacenamiento elástico de menor coste, reduciendo así la necesidad de aprovisionar o gestionar capacidad.
+
+FSX para ONTAP también proporciona un almacenamiento duradero y de alta disponibilidad con backups totalmente gestionados y soporte para la recuperación ante desastres en toda la región. Para facilitar la protección y seguridad de sus datos, FSX para ONTAP admite la seguridad de datos y aplicaciones antivirus más conocidas.
+
+
+
+=== FSX ONTAP como almacenamiento conectado como invitado
+
+.Configure Amazon FSX para ONTAP de NetApp con VMware Cloud en AWS
+[%collapsible]
+====
+Se pueden montar LUN y recursos compartidos de archivos de Amazon FSX para ONTAP de NetApp a partir de máquinas virtuales creadas dentro del entorno VMware SDDC en VMware Cloud en AWS. Los volúmenes también pueden montarse en el cliente Linux y asignarse en el cliente Windows mediante el protocolo NFS o SMB, y se puede acceder A LAS LUN en clientes Linux o Windows como dispositivos de bloque cuando se montan mediante iSCSI. Amazon FSX para el sistema de archivos ONTAP de NetApp puede configurarse rápidamente con los siguientes pasos.
+
+
+NOTE: Amazon FSX para ONTAP de NetApp y VMware Cloud en AWS debe estar en la misma zona de disponibilidad para conseguir un mejor rendimiento y evitar cargos por transferencia de datos entre zonas de disponibilidad.
+
+====
+.Cree y monte Amazon FSX para volúmenes de ONTAP
+[%collapsible]
+====
+Para crear y montar el sistema de archivos Amazon FSX para ONTAP de NetApp, lleve a cabo los siguientes pasos:
+
+. Abra el link:https://console.aws.amazon.com/fsx/["Consola de Amazon FSX"] Y elija Crear sistema de archivos para iniciar el asistente de creación del sistema de archivos.
+. En la página Select File System Type, seleccione Amazon FSX para ONTAP de NetApp y, a continuación, seleccione Next. Aparece la página Crear sistema de archivos.
++
+image:aws-fsx-guest-1.png[""]
+
+. En la sección Networking, para la nube privada virtual (VPC), elija el VPC adecuado y las subredes preferidas junto con la tabla de rutas. En este caso, se selecciona vmcfsx2.vpc en la lista desplegable.
++
+image:aws-fsx-guest-2.png[""]
+
+. Para el método de creación, seleccione creación estándar. También puede seleccionar creación rápida, pero este documento utiliza la opción creación estándar.
++
+image:aws-fsx-guest-3.png[""]
+
+. En la sección Networking, para la nube privada virtual (VPC), elija el VPC adecuado y las subredes preferidas junto con la tabla de rutas. En este caso, se selecciona vmcfsx2.vpc en la lista desplegable.
++
+image:aws-fsx-guest-4.png[""]
+
++
+
+NOTE: En la sección Networking, para la nube privada virtual (VPC), elija el VPC adecuado y las subredes preferidas junto con la tabla de rutas. En este caso, se selecciona vmcfsx2.vpc en la lista desplegable.
+
+. En la sección Security & Encryption, en la clave de cifrado, elija la clave de cifrado del servicio de gestión de claves de AWS (AWS KMS) que protege los datos del sistema de archivos en reposo. Para la contraseña administrativa del sistema de archivos, introduzca una contraseña segura para el usuario fsxadmin.
++
+image:aws-fsx-guest-5.png[""]
+
+. En la máquina virtual y especifique la contraseña para su uso con vsadmin para administrar ONTAP mediante las API DE REST o la CLI. Si no se especifica ninguna contraseña, se puede utilizar un usuario fsxadmin para administrar la SVM. En la sección Active Directory, asegúrese de unirse a Active Directory a la SVM para aprovisionar los recursos compartidos de SMB. En la sección Default Storage Virtual Machine Configuration, proporcione un nombre para el almacenamiento en esta validación, los recursos compartidos de SMB se aprovisionan mediante un dominio de Active Directory autogestionado.
++
+image:aws-fsx-guest-6.png[""]
+
+. En la sección Default Volume Configuration, especifique el nombre y el tamaño del volumen. Este es un volumen NFS. Para la eficiencia del almacenamiento, elija Activado para activar las funciones de eficiencia del almacenamiento de ONTAP (compresión, deduplicación y compactación) o Desactivado para desactivarlas.
++
+image:aws-fsx-guest-7.png[""]
+
+. Revise la configuración del sistema de archivos que se muestra en la página Crear sistema de archivos.
+. Haga clic en Crear sistema de archivos.
++
+image:aws-fsx-guest-8.png[""]
+image:aws-fsx-guest-9.png[""]
+image:aws-fsx-guest-10.png[""]
+
+
+
+Para obtener información detallada, consulte link:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/getting-started.html["Introducción a Amazon FSX para ONTAP de NetApp"].
+
+Después de crear el sistema de archivos como se ha mencionado anteriormente, cree el volumen con el tamaño y el protocolo necesarios.
+
+. Abra el link:https://console.aws.amazon.com/fsx/["Consola de Amazon FSX"].
+. En el panel de navegación de la izquierda, elija sistemas de archivos y, a continuación, elija el sistema de archivos ONTAP para el que desea crear un volumen.
+. Seleccione la pestaña volúmenes.
+. Seleccione la pestaña Crear volumen.
+. Se muestra el cuadro de diálogo Crear volumen.
+
+
+Por motivos de demostración, se crea un volumen NFS en esta sección que se puede montar fácilmente en máquinas virtuales que se ejecuten en el cloud de VMware en AWS. nfsdemovol01 se crea como se muestra a continuación:
+
+image:aws-fsx-guest-11.png[""]
+
+====
+.Montaje del volumen ONTAP FSX en el cliente Linux
+[%collapsible]
+====
+Para montar el volumen ONTAP FSX creado en el paso anterior. A partir de los equipos virtuales de Linux dentro de VMC en AWS SDDC, complete los pasos siguientes:
+
+. Conéctese a la instancia de Linux designada.
+. Abra un terminal en la instancia mediante Secure Shell (SSH) e inicie sesión con las credenciales adecuadas.
+. Cree un directorio para el punto de montaje del volumen con el comando siguiente:
++
+ $ sudo mkdir /fsx/nfsdemovol01
+. Monte el volumen NFS de Amazon FSX para ONTAP de NetApp en el directorio creado en el paso anterior.
++
+ sudo mount -t nfs nfsvers=4.1,198.19.254.239:/nfsdemovol01 /fsx/nfsdemovol01
++
+image:aws-fsx-guest-20.png[""]
+
+. Una vez ejecutado, ejecute el comando df para validar el montaje.
++
+image:aws-fsx-guest-21.png[""]
+
+
+
+video::vmc_linux_vm_nfs.mp4[]
+====
+.Conecte volúmenes ONTAP FSX a clientes de Microsoft Windows
+[%collapsible]
+====
+Para administrar y asignar recursos compartidos de archivos en un sistema de archivos Amazon FSX, se debe utilizar la GUI de carpetas compartidas.
+
+. Abra el menú Inicio y ejecute fsgmt.msc mediante Ejecutar como administrador. Al hacerlo, se abre la herramienta GUI de carpetas compartidas.
+. Haga clic en Acción > todas las tareas y elija conectar a otro equipo.
+. En otro equipo, introduzca el nombre de DNS de la máquina virtual de almacenamiento (SVM). Por ejemplo, se utiliza FSXSMBTESTING01.FSXTESTING.LOCAL en este ejemplo.
++
+
+NOTE: TP encuentra el nombre de DNS de la SVM en la consola de Amazon FSX, elige Storage Virtual Machines, selecciona SVM y, a continuación, desplácese hacia abajo hasta extremos para encontrar el nombre DNS del SMB. Haga clic en Aceptar. El sistema de archivos Amazon FSX aparece en la lista de carpetas compartidas.
+
++
+image:aws-fsx-guest-22.png[""]
+
+. En la herramienta carpetas compartidas, seleccione recursos compartidos en el panel izquierdo para ver los recursos compartidos activos del sistema de archivos Amazon FSX.
++
+image:aws-fsx-guest-23.png[""]
+
+. Ahora elija un nuevo recurso compartido y complete el asistente Crear una carpeta compartida.
++
+image:aws-fsx-guest-24.png[""]
+image:aws-fsx-guest-25.png[""]
+
++
+Para obtener más información sobre la creación y gestión de recursos compartidos SMB en un sistema de archivos Amazon FSX, consulte link:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/create-smb-shares.html["Creación de recursos compartidos de SMB"].
+
+. Una vez que se ha establecido la conectividad, el recurso compartido de SMB se puede conectar y utilizar para los datos de las aplicaciones. Para ello, copie la ruta de uso compartido y utilice la opción Map Network Drive para montar el volumen en el equipo virtual que se ejecuta en VMware Cloud en el centro de datos definido por software de AWS.
++
+image:aws-fsx-guest-26.png[""]
+
+
+
+====
+.Conecte un FSX para la LUN de ONTAP de NetApp a un host mediante iSCSI
+[%collapsible]
+====
+video::vmc_windows_vm_iscsi.mp4[]
+El tráfico iSCSI para FSX atraviesa VMware Transit Connect/AWS Transit Gateway a través de las rutas proporcionadas en la sección anterior. Para configurar un LUN en Amazon FSX para ONTAP de NetApp, siga la documentación encontrada link:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/supported-fsx-clients.html["aquí"].
+
+En los clientes Linux, asegúrese de que el daemon iSCSI esté en ejecución. Una vez aprovisionados las LUN, consulte la guía detallada sobre la configuración de iSCSI con Ubuntu (como ejemplo) link:https://ubuntu.com/server/docs/service-iscsi["aquí"].
+
+En este documento, se muestra la conexión del LUN iSCSI a un host Windows:
+
+====
+.Aprovisionar un LUN en FSX para ONTAP de NetApp:
+[%collapsible]
+====
+. Acceda a la CLI de ONTAP de NetApp mediante el puerto de gestión de FSX para el sistema de archivos ONTAP.
+. Cree las LUN con el tamaño necesario tal y como se indica en la salida de ajuste de tamaño.
++
+ FsxId040eacc5d0ac31017::> lun create -vserver vmcfsxval2svm -volume nimfsxscsivol -lun nimofsxlun01 -size 5gb -ostype windows -space-reserve enabled
++
+En este ejemplo, creamos una LUN de tamaño 5g (5368709120).
+
+. Cree los iGroups necesarios para controlar qué hosts tienen acceso a una LUN específica.
++
+[listing]
+----
+FsxId040eacc5d0ac31017::> igroup create -vserver vmcfsxval2svm -igroup winIG -protocol iscsi -ostype windows -initiator iqn.1991-05.com.microsoft:vmcdc01.fsxtesting.local
+
+FsxId040eacc5d0ac31017::> igroup show
+
+Vserver   Igroup       Protocol OS Type  Initiators
+
+--------- ------------ -------- -------- ------------------------------------
+
+vmcfsxval2svm
+
+          ubuntu01     iscsi    linux    iqn.2021-10.com.ubuntu:01:initiator01
+
+vmcfsxval2svm
+
+          winIG        iscsi    windows  iqn.1991-05.com.microsoft:vmcdc01.fsxtesting.local
+----
++
+Se mostraron dos entradas.
+
+. Asigne las LUN a iGroups mediante el siguiente comando:
++
+[listing]
+----
+FsxId040eacc5d0ac31017::> lun map -vserver vmcfsxval2svm -path /vol/nimfsxscsivol/nimofsxlun01 -igroup winIG
+
+FsxId040eacc5d0ac31017::> lun show
+
+Vserver   Path                            State   Mapped   Type        Size
+
+--------- ------------------------------- ------- -------- -------- --------
+
+vmcfsxval2svm
+
+          /vol/blocktest01/lun01          online  mapped   linux         5GB
+
+vmcfsxval2svm
+
+          /vol/nimfsxscsivol/nimofsxlun01 online  mapped   windows       5GB
+----
++
+Se mostraron dos entradas.
+
+. Conectar la LUN recién aprovisionada a una máquina virtual Windows:
++
+Para conectar el nuevo LUN tor un host de Windows que reside en el cloud de VMware en el centro de datos definido por software de AWS, complete los siguientes pasos:
+
++
+.. RDP a la máquina virtual de Windows alojada en VMware Cloud en el SDDC de AWS.
+.. Vaya a Administrador de servidores > Panel > Herramientas > iniciador iSCSI para abrir el cuadro de diálogo Propiedades del iniciador iSCSI.
+.. En la pestaña Discovery, haga clic en Discover Portal o Add Portal y, a continuación, introduzca la dirección IP del puerto de destino iSCSI.
+.. En la pestaña Destinos, seleccione el objetivo detectado y haga clic en Iniciar sesión o conectar.
+.. Seleccione Activar acceso múltiple y, a continuación, seleccione “Restaurar automáticamente esta conexión cuando se inicie el equipo” o “Agregar esta conexión a la lista de destinos favoritos”. Haga clic en Avanzado.
++
+
+NOTE: El host de Windows debe tener una conexión iSCSI con cada nodo del clúster. El DSM nativo selecciona las mejores rutas que se van a utilizar.
+
++
+image:aws-fsx-guest-30.png[""]
+
+
+
+
+
+Los LUN de la máquina virtual de almacenamiento (SVM) aparecen como discos en el host Windows. El host no detecta automáticamente los nuevos discos que se añaden. Active una detección repetida manual para detectar los discos realizando los pasos siguientes:
+
+. Abra la utilidad Administración de equipos de Windows: Inicio > Herramientas administrativas > Administración de equipos.
+. Expanda el nodo almacenamiento en el árbol de navegación.
+. Haga clic en Administración de discos.
+. Haga clic en Acción > discos de reexploración.
++
+image:aws-fsx-guest-31.png[""]
+
+
+
+Cuando el host Windows accede por primera vez a una nueva LUN, no tiene sistema de archivos o partición. Inicialice la LUN y, de manera opcional, formatee la LUN con un sistema de archivos realizando los pasos siguientes:
+
+. Inicie Administración de discos de Windows.
+. Haga clic con el botón derecho en el LUN y seleccione el disco o el tipo de partición necesarios.
+. Siga las instrucciones del asistente. En este ejemplo, la unidad F: Está montada.
++
+image:aws-fsx-guest-32.png[""]
+
+
+
+====
+
+
+== Cloud Volumes ONTAP (CVO)
+
+Cloud Volumes ONTAP, o CVO, es la solución de gestión de datos en el cloud líder del sector que se basa en el software de almacenamiento ONTAP de NetApp, disponible de forma nativa en Amazon Web Services (AWS), Microsoft Azure y Google Cloud Platform (GCP).
+
+Se trata de una versión de ONTAP definida por software que consume almacenamiento nativo del cloud, lo que le permite tener el mismo software de almacenamiento en el cloud y en las instalaciones, lo que reduce la necesidad de volver a formar al personal INFORMÁTICO en todos los métodos nuevos para gestionar sus datos.
+
+CVO ofrece a los clientes la capacidad de mover datos del perímetro, al centro de datos, al cloud y al backup sin problemas, de tal modo que su cloud híbrido se aúna, todo ello gestionado con una consola de gestión de panel único, Cloud Manager de NetApp.
+
+Por su diseño, CVO ofrece un rendimiento extremo y capacidades de gestión de datos avanzadas para responder incluso a sus aplicaciones más exigentes en el cloud
+
+
+
+=== Cloud Volumes ONTAP (CVO) como almacenamiento conectado como invitado
+
+.Implemente una nueva instancia de Cloud Volumes ONTAP en AWS (hágalo usted mismo)
+[%collapsible]
+====
+Los recursos compartidos y las LUN de Cloud Volumes ONTAP se pueden montar a partir de máquinas virtuales que se crean en VMware Cloud en un entorno SDDC de AWS. Los volúmenes también se pueden montar en clientes Windows nativos de VM de AWS, y se puede acceder A LUN en clientes Linux o Windows como dispositivos de bloque cuando se monta a través de iSCSI, porque Cloud Volumes ONTAP admite los protocolos iSCSI, SMB y NFS. Los volúmenes de Cloud Volumes ONTAP se pueden configurar en unos pocos pasos sencillos.
+
+Para replicar volúmenes de un entorno local al cloud por motivos de recuperación ante desastres o migración, establezca la conectividad de red a AWS mediante una VPN de sitio a sitio o DirectConnect. La replicación de datos de las instalaciones a Cloud Volumes ONTAP no se encuentra fuera del alcance de este documento. Para replicar datos entre sistemas Cloud Volumes ONTAP y locales, consulte link:https://docs.netapp.com/us-en/occm/task_replicating_data.html#setting-up-data-replication-between-systems["Configurar la replicación de datos entre sistemas"].
+
+
+NOTE: Utilice la link:https://cloud.netapp.com/cvo-sizer["Configuración de Cloud Volumes ONTAP"] Para ajustar el tamaño de las instancias de Cloud Volumes ONTAP de forma precisa. Además, supervise el rendimiento local para utilizarlo como entradas en el dimensionador de Cloud Volumes ONTAP.
+
+. Inicie sesión en NetApp Cloud Central; aparecerá la pantalla Fabric View. Localice la pestaña Cloud Volumes ONTAP y seleccione Go to Cloud Manager. Una vez que haya iniciado sesión, aparecerá la pantalla Canvas.
++
+image:aws-cvo-guest-1.png[""]
+
+. En la página de inicio de Cloud Manager, haga clic en Add a Working Environment y, a continuación, seleccione AWS como cloud y el tipo de configuración del sistema.
++
+image:aws-cvo-guest-2.png[""]
+
+. Proporcione los detalles del entorno que se va a crear, incluidos el nombre del entorno y las credenciales de administración. Haga clic en Continue.
++
+image:aws-cvo-guest-3.png[""]
+
+. Seleccione los servicios complementarios para la puesta en marcha de Cloud Volumes ONTAP, incluidos Cloud Data Sense, Cloud Backup y Cloud Insights. Haga clic en Continue.
++
+image:aws-cvo-guest-4.png[""]
+
+. En la página ha Deployment Models, elija la configuración de varias zonas de disponibilidad.
++
+image:aws-cvo-guest-5.png[""]
+
+. En la página Region & VPC, introduzca la información de red y, a continuación, haga clic en Continue.
++
+image:aws-cvo-guest-6.png[""]
+
+. En la página conectividad y autenticación SSH, elija los métodos de conexión para el par de alta disponibilidad y el mediador.
++
+image:aws-cvo-guest-7.png[""]
+
+. Especifique las direcciones IP flotantes y, a continuación, haga clic en continuar.
++
+image:aws-cvo-guest-8.png[""]
+
+. Seleccione las tablas de rutas adecuadas para incluir rutas a las direcciones IP flotantes y, a continuación, haga clic en continuar.
++
+image:aws-cvo-guest-9.png[""]
+
+. En la página Data Encryption, elija el cifrado gestionado por AWS.
++
+image:aws-cvo-guest-10.png[""]
+
+. Seleccione la opción de licencia: Pago por uso o BYOL para usar una licencia existente. En este ejemplo, se utiliza la opción de pago por uso.
++
+image:aws-cvo-guest-11.png[""]
+
+. Seleccione entre varios paquetes preconfigurados disponibles en función del tipo de carga de trabajo que se va a poner en marcha en equipos virtuales que se ejecuten en el cloud de VMware en AWS SDDC.
++
+image:aws-cvo-guest-12.png[""]
+
+. En la página Review & Approve, revise y confirme las selecciones.para crear la instancia de Cloud Volumes ONTAP, haga clic en Go.
++
+image:aws-cvo-guest-13.png[""]
+
+. Una vez que se ha aprovisionado Cloud Volumes ONTAP, se muestra en los entornos de trabajo de la página lienzo.
++
+image:aws-cvo-guest-14.png[""]
+
+
+
+====
+.Configuraciones adicionales para volúmenes SMB
+[%collapsible]
+====
+. Una vez listo el entorno de trabajo, asegúrese de que el servidor CIFS esté configurado con los parámetros de configuración DNS y Active Directory adecuados. Este paso es necesario para poder crear el volumen de SMB.
++
+image:aws-cvo-guest-20.png[""]
+
+. Seleccione la instancia de CVO para crear el volumen y haga clic en la opción Create Volume. Elija el tamaño adecuado y el gestor de cloud elija el agregado que lo contiene o utilice un mecanismo de asignación avanzado para colocarlo en un agregado concreto. En esta demostración, se ha seleccionado SMB como protocolo.
++
+image:aws-cvo-guest-21.png[""]
+
+. Una vez que el volumen se ha aprovisionado, está disponible en el panel Volumes. Debido a que se aprovisiona un recurso compartido de CIFS, debe otorgar a sus usuarios o grupos permiso a los archivos y carpetas y comprobar que esos usuarios pueden acceder al recurso compartido y crear un archivo.
++
+image:aws-cvo-guest-22.png[""]
+
+. Una vez creado el volumen, utilice el comando de montaje para conectarse al recurso compartido desde la máquina virtual que se ejecuta en VMware Cloud en hosts SDDC de AWS.
+. Copie la siguiente ruta y utilice la opción Map Network Drive para montar el volumen en el equipo virtual que se ejecuta en VMware Cloud en el centro de datos definido por software de AWS.
++
+image:aws-cvo-guest-23.png[""]
+image:aws-cvo-guest-24.png[""]
+
+
+
+====
+.Conectar el LUN a un host
+[%collapsible]
+====
+Para conectar el LUN de Cloud Volumes ONTAP a un host, complete los pasos siguientes:
+
+. En la página lienzo de Cloud Manager, haga doble clic en el entorno de trabajo de Cloud Volumes ONTAP para crear y gestionar volúmenes.
+. Haga clic en Add Volume > New Volume, seleccione iSCSI y haga clic en Create Initiator Group. Haga clic en Continue.
++
+image:aws-cvo-guest-30.png[""]
+image:aws-cvo-guest-31.png[""]
+
+. Una vez que se haya aprovisionado el volumen, seleccione el volumen y, a continuación, haga clic en IQN de destino. Para copiar el nombre completo de iSCSI (IQN), haga clic en Copy. Configurar una conexión iSCSI desde el host al LUN.
+
+
+Para realizar lo mismo con el host que reside en VMware Cloud en SDDC de AWS, complete los pasos siguientes:
+
+. RDP a la máquina virtual alojada en el cloud de VMware en AWS.
+. Abra el cuadro de diálogo Propiedades del iniciador iSCSI: Administrador del servidor > Panel > Herramientas > Iniciador iSCSI.
+. En la pestaña Discovery, haga clic en Discover Portal o Add Portal y, a continuación, introduzca la dirección IP del puerto de destino iSCSI.
+. En la pestaña Destinos, seleccione el objetivo detectado y haga clic en Iniciar sesión o conectar.
+. Seleccione Activar acceso múltiple y, a continuación, seleccione Restaurar automáticamente esta conexión cuando se inicie el equipo o Agregar esta conexión a la lista de destinos favoritos. Haga clic en Avanzado.
+
+
+
+NOTE: El host de Windows debe tener una conexión iSCSI con cada nodo del clúster. El DSM nativo selecciona las mejores rutas que se van a utilizar.
+
++image:aws-cvo-guest-32.png[""]
+
+Los LUN de la SVM se muestran como discos al host Windows. El host no detecta automáticamente los nuevos discos que se añaden. Active una detección repetida manual para detectar los discos realizando los pasos siguientes:
+
+. Abra la utilidad Administración de equipos de Windows: Inicio > Herramientas administrativas > Administración de equipos.
+. Expanda el nodo almacenamiento en el árbol de navegación.
+. Haga clic en Administración de discos.
+. Haga clic en Acción > discos de reexploración.
+
+
+image:aws-cvo-guest-33.png[""]
+
+Cuando el host Windows accede por primera vez a una nueva LUN, no tiene sistema de archivos o partición. Inicialice la LUN y, de manera opcional, formatee la LUN con un sistema de archivos realizando los pasos siguientes:
+
+. Inicie Administración de discos de Windows.
+. Haga clic con el botón derecho en el LUN y seleccione el disco o el tipo de partición necesarios.
+. Siga las instrucciones del asistente. En este ejemplo, la unidad F: Está montada.
+
+
+image:aws-cvo-guest-34.png[""]
+
+En los clientes Linux, compruebe que el daemon iSCSI se esté ejecutando. Una vez aprovisionados los LUN, consulte una guía detallada sobre la configuración de iSCSI para su distribución de Linux. Por ejemplo, se puede encontrar la configuración de Ubuntu iSCSI link:https://ubuntu.com/server/docs/service-iscsi["aquí"]. Para verificar, ejecute lsblk cmd desde el shell.
+
+====
+.Montar el volumen NFS de Cloud Volumes ONTAP en el cliente Linux
+[%collapsible]
+====
+Para montar el sistema de archivos Cloud Volumes ONTAP (DIY) desde equipos virtuales en VMC en AWS SDDC, complete los siguientes pasos:
+
+. Conéctese a la instancia de Linux designada.
+. Abra un terminal en la instancia mediante el shell seguro (SSH) e inicie sesión con las credenciales adecuadas.
+. Cree un directorio para el punto de montaje del volumen con el comando siguiente.
++
+ $ sudo mkdir /fsxcvotesting01/nfsdemovol01
+. Monte el volumen NFS de Amazon FSX para ONTAP de NetApp en el directorio creado en el paso anterior.
++
+ sudo mount -t nfs nfsvers=4.1,172.16.0.2:/nfsdemovol01 /fsxcvotesting01/nfsdemovol01
+
+
+image:aws-cvo-guest-40.png[""]
+image:aws-cvo-guest-41.png[""]
+
+====

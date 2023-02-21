@@ -1,0 +1,165 @@
+---
+sidebar: sidebar 
+permalink: containers/tanzu_with_netapp/vtwn_solution_overview.html 
+keywords: VMware Tanzu, Tanzu, DevOps, Netapp, Astra Trident, Astra Control, Astra 
+summary: 'Este documento de referencia ofrece la validación de la puesta en marcha de distintas soluciones de VMware Tanzu Kubernetes, implementadas como Tanzania Kubernetes Grid (TKG), Tanzu Kubernetes Grid Service (TKGS) o Tanzu Kubernetes Grid Integrated (TKGI) en varios entornos de centros de datos diferentes y validados por NetApp.' 
+---
+= NVA-1166: VMware Tanzu con NetApp
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../../media/
+
+
+Alan Cowles y Nikhil M Kulkarni, NetApp
+
+Este documento de referencia ofrece la validación de la puesta en marcha de distintas soluciones de VMware Tanzu Kubernetes, implementadas como Tanzania Kubernetes Grid (TKG), Tanzu Kubernetes Grid Service (TKGS) o Tanzu Kubernetes Grid Integrated (TKGI) en varios entornos de centros de datos diferentes y validados por NetApp. También describe la integración del almacenamiento con los sistemas de almacenamiento de NetApp y el orquestador de almacenamiento Astra Trident para la gestión del almacenamiento persistente y Astra Control Center para backup y clonado de las aplicaciones con estado mediante ese almacenamiento persistente. Por último, el documento proporciona demostraciones en vídeo de las integraciones y validaciones de las soluciones.
+
+
+
+== Casos de uso
+
+La solución VMware Tanzu con NetApp está diseñada para ofrecer un valor excepcional a los clientes con los siguientes casos prácticos:
+
+* Ofertas de almacenamiento Grid de VMware Tanzania Kubernetes fáciles de poner en marcha y gestionar, que se instalan en vSphere de VMware y se integran con sistemas de almacenamiento de NetApp.
+* La potencia combinada de las cargas de trabajo virtualizadas y de contenedores empresariales con las ofertas Grid de VMware Tanzania Kubernetes.
+* Casos de uso y configuración reales que destacan las funciones de VMware Tanzu al utilizar con el almacenamiento de NetApp y la suite de productos Astra de NetApp.
+* Protección o migración coherente con las aplicaciones de cargas de trabajo en contenedores puestas en marcha en clústeres de Grid de VMware Tanzu Kubernetes cuyos datos residen en sistemas de almacenamiento de NetApp mediante Astra Control Center.
+
+
+
+
+== Valor empresarial
+
+Las empresas están adoptando cada vez más prácticas de DevOps para crear nuevos productos, acortar los ciclos de lanzamiento y agregar nuevas funciones con rapidez. Debido a su naturaleza ágil innata, los contenedores y microservicios tienen un papel crucial en el soporte de las prácticas de DevOps. Sin embargo, practicar DevOps a escala de producción en un entorno empresarial presenta sus propios retos e impone ciertos requisitos sobre la infraestructura subyacente, como los siguientes:
+
+* Alta disponibilidad en todas las capas de la pila
+* Facilidad de los procedimientos de puesta en marcha
+* Operaciones y actualizaciones no disruptivas
+* Infraestructura programable y impulsada por API para adaptarse a la agilidad de los microservicios
+* Multi-tenancy con garantías de rendimiento
+* Capacidad de ejecutar cargas de trabajo virtualizadas y en contenedores de forma simultánea
+* Capacidad de escalar la infraestructura de forma independiente en función de las demandas de las cargas de trabajo
+* Capacidad de poner en marcha en un modelo de cloud híbrido con contenedores que se ejecutan tanto en centros de datos locales como en el cloud.
+
+
+VMware Tanzania con NetApp reconoce estos retos y presenta una solución que le ayuda a dar respuesta a cada problema mediante la puesta en marcha de ofertas de Kubernetes tanzu de VMware en el entorno de cloud híbrido que elija el cliente.
+
+
+
+== Información general de la tecnología
+
+La solución VMware Tanzu con NetApp consta de los siguientes componentes principales:
+
+
+
+=== Plataformas Kubernetes VMware Tanzania
+
+VMware Tanzania presenta una gran variedad de sabores que el equipo de ingeniería de soluciones de NetApp ha validado en nuestros laboratorios. Cada lanzamiento de Tanzu se integra correctamente con la cartera de almacenamiento de NetApp y cada uno de ellos contribuye a satisfacer ciertas demandas de infraestructura. Los siguientes puntos destacados con viñetas describen las características y ofertas de cada versión de Tanzania descrita en este documento.
+
+* Red Kubernetes de VMware Tanzu (TKG)*
+
+* Entorno de Kubernetes estándar anterior puesto en marcha en un entorno de VMware vSphere.
+* Anteriormente conocido como PKS esencial (de la adquisición Heptio, febrero de 2019).
+* TKG se pone en marcha con una instancia de clúster de gestión independiente para admitir vSphere 6.7U3 en adelante.
+* Las implementaciones de TKG se pueden implementar en el cloud, así como en AWS o Azure.
+* Permite el uso de nodos de trabajo de Windows o Linux (Ubuntu/Phototon).
+* NSX-T, ha Proxy, redes AVI o balanceadores de carga se pueden utilizar para el plano de control.
+* TKG admite MetalLB para el plano de aplicación/datos.
+* Puede utilizar vSphere CSI y CSIs de terceros como NetApp Astra Trident.
+
+
+*Servicio de Red Kubernetes de VMware Tanzu (TKGS)*
+
+* Entorno de Kubernetes estándar anterior puesto en marcha en un entorno de VMware vSphere.
+* Anteriormente conocido como PKS esencial (de la adquisición Heptio, febrero de 2019).
+* TKGS implementado con clústeres de carga de trabajo y clúster de supervisor solo en vSphere 7.0U1 en adelante.
+* Permite el uso de nodos de trabajo de Windows o Linux (Ubuntu/Phototon).
+* NSX-T, ha Proxy, redes AVI o balanceadores de carga se pueden utilizar para el plano de control.
+* TKGS admite MetalLB para aplicaciones/plano de datos.
+* Puede utilizar vSphere CSI y CSIs de terceros como NetApp Astra Trident.
+* Ofrece compatibilidad con vSphere Pods con Tanzu, lo que permite que los POD se ejecuten directamente en hosts ESXi habilitados en el entorno.
+
+
+* VMware Tanzu Kubernetes Grid Integrated (TKGI)*
+
+* Anteriormente conocido como Enterprise PKS (de Heptio adquirida, febrero de 2019).
+* Puede usar NSX-T, ha Proxy o AVI. También puede proporcionar su propio equilibrador de carga.
+* Compatible con vSphere 6.7U3 en adelante, así como AWS, Azure y GCP.
+* Configuración mediante un asistente para facilitar la puesta en marcha.
+* Ejecuta tanzu en máquinas virtuales inmutables controladas gestionadas por BOSH.
+* Puede utilizar vSphere CSI y CSIs de terceros como NetApp Astra Trident (se aplican algunas condiciones).
+
+
+*VSphere con tanzu (vSphere Pods)*
+
+* Los POD nativos de vSphere se ejecutan en una capa fina basada en fotones con el hardware virtual prescrito para un aislamiento completo.
+* Necesita NSX-T, pero que permite la compatibilidad de funciones adicionales como un registro de imágenes Harbour.
+* Se implementa y gestiona en vSphere 7.0U1 en adelante mediante un clúster de supervisor virtual como TKGS. Ejecuta pods directamente en nodos ESXi.
+* Totalmente integrado, máxima visibilidad y control por parte de la administración de vSphere.
+* Pods aislados basados en CRX para el máximo nivel de seguridad.
+* Solo es compatible con vSphere CSI para almacenamiento persistente. No se admiten orquestadores de almacenamiento de terceros.
+
+
+
+
+=== Sistemas de almacenamiento NetApp
+
+NetApp cuenta con varios sistemas de almacenamiento perfectos para centros de datos empresariales y para puestas en marcha de cloud híbrido. La cartera de NetApp incluye sistemas de almacenamiento ONTAP, NetApp Element y E-Series de NetApp, todos los cuales pueden proporcionar almacenamiento persistente para aplicaciones en contenedores.
+
+Si quiere más información, visite el sitio web de NetApp https://www.netapp.com["aquí"].
+
+
+
+=== Integraciones de almacenamiento de NetApp
+
+Astra Control Center de NetApp ofrece un amplio conjunto de servicios de gestión de datos para aplicaciones y almacenamiento para cargas de trabajo con estado de Kubernetes, puestas en marcha en un entorno local y con la tecnología de confianza de protección de datos de NetApp.
+
+Si quiere más información, visite el sitio web de Astra de NetApp https://cloud.netapp.com/astra["aquí"].
+
+Astra Trident es un orquestador de almacenamiento de código abierto y totalmente compatible para contenedores y distribuciones de Kubernetes, incluida VMware Tanzu.
+
+Si quiere más información, visite el sitio web de Astra Trident https://docs.netapp.com/us-en/trident/index.html["aquí"].
+
+
+
+== Matriz de compatibilidad actual para versiones validadas
+
+|===
+
+
+| Tecnología | Específico | Versión de software 
+
+
+| ONTAP de NetApp | Reducida | 9.9.1 
+
+
+| Centro de control de Astra de NetApp | Gestión de datos para aplicaciones | 22.04 
+
+
+| Astra Trident de NetApp | Orquestación de almacenamiento | 22.04.0 
+
+
+| Grid de Kubernetes de VMware Tanzania | Orquestación de contenedores | 1.4 o posterior 
+
+
+.2+| Servicio Grid de VMware Tanzania Kubernetes .2+| Orquestación de contenedores | 0.0.15 [espacios de nombres de vSphere] 
+
+
+| 1.22.6 [Supervisor de Kubernetes] 
+
+
+| VMware Tanzania Kubernetes Grid integrado | Orquestación de contenedores | 1.13.3 
+
+
+| VSphere de VMware | Virtualización del centro de datos | 7.0U3 
+
+
+| Centro de datos NSX-T de VMware | Redes y seguridad | 3.1.3 
+
+
+| Equilibrador de carga avanzado de VMware NSX | Equilibrador de carga | 20.1.3 
+|===
+link:vtwn_overview_vmware_tanzu.html["Siguiente: Descripción general de VMware Tanzania."]

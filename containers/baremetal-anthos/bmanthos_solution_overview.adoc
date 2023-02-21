@@ -1,0 +1,99 @@
+---
+sidebar: sidebar 
+permalink: containers/baremetal-anthos/bmanthos_solution_overview.html 
+keywords: AFF, NFS, CIFS, iSCSI, FC, FCoE, FC-NVMe, 
+summary: AFF de NetApp es una sólida plataforma de almacenamiento all-flash que proporciona un rendimiento de baja latencia, protección de datos integrada, compatibilidad multiprotocolo y operaciones no disruptivas. Con la tecnología del software para la gestión de datos ONTAP de NetApp, AFF de NetApp garantiza operaciones no disruptivas, desde el mantenimiento a las actualizaciones hasta la sustitución completa de su sistema de almacenamiento. 
+---
+= Descripción general de la solución
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../../media/
+
+
+
+
+== ONTAP de NetApp en AFF/FAS de NetApp
+
+AFF de NetApp es una sólida plataforma de almacenamiento all-flash que proporciona un rendimiento de baja latencia, protección de datos integrada, compatibilidad multiprotocolo y operaciones no disruptivas. Con la tecnología del software para la gestión de datos ONTAP de NetApp, AFF de NetApp garantiza operaciones no disruptivas, desde el mantenimiento a las actualizaciones hasta la sustitución completa de su sistema de almacenamiento.
+
+ONTAP de NetApp es una potente herramienta de software de almacenamiento con funcionalidades como una interfaz gráfica de usuario intuitiva, API DE REST con integración de la automatización, análisis predictivos con inteligencia artificial y acción correctiva, actualizaciones de hardware no disruptivas e importación entre almacenamiento.
+
+ONTAP ofrece las siguientes funciones:
+
+* Un sistema de almacenamiento unificado con acceso simultáneo a datos y gestión de NFS, CIFS, iSCSI, FC, FCoE, Y los protocolos FC-NVMe.
+* Los diferentes modelos de puesta en marcha incluyen configuraciones locales de hardware all-flash, híbrido y all-HDD; plataformas de almacenamiento basadas en máquinas virtuales en un hipervisor compatible, como ONTAP Select; y en el cloud como Cloud Volumes ONTAP.
+* Eficiencia del almacenamiento de datos aumentada en los sistemas de ONTAP con compatibilidad para niveles de datos automáticos, compresión de datos inline, deduplicación y compactación.
+* Almacenamiento basado en cargas de trabajo controlado por la calidad de servicio.
+* Integración fluida con un cloud público para la organización en niveles y protección de los datos. ONTAP también proporciona funcionalidades de protección de datos sólidas que lo diferencian en cualquier entorno:
++
+** *Copias Snapshot de NetApp.* una copia de seguridad rápida y puntual de los datos con una cantidad mínima de espacio en disco sin sobrecarga adicional del rendimiento.
+** *SnapMirror de NetApp.* duplica las copias Snapshot de los datos de un sistema de almacenamiento a otro. ONTAP también admite el mirroring de datos en otras plataformas físicas y servicios nativos del cloud.
+** *SnapLock de NetApp.* Administración eficaz de datos no regrabables escribiéndolos en volúmenes especiales que no se puedan sobrescribir ni borrar durante un periodo determinado.
+** *SnapVault de NetApp.* realiza un backup de datos de varios sistemas de almacenamiento en una copia snapshot central que sirve de respaldo a todos los sistemas designados.
+** *SyncMirror de NetApp.* proporciona mirroring de datos a nivel de RAID en tiempo real a dos complejos de discos diferentes que están conectados físicamente a la misma controladora.
+** *SnapRestore de NetApp.* proporciona una rápida restauración de los datos de backup bajo demanda a partir de copias snapshot.
+** *FlexClone de NetApp* proporciona el aprovisionamiento instantáneo de una copia totalmente legible y modificable de un volumen NetApp en función de una copia snapshot. Para obtener más información acerca de ONTAP, consulte https://docs.netapp.com/ontap-9/index.jsp["Centro de documentación de ONTAP 9"^].
+
+
+
+
+ONTAP de NetApp está disponible en las instalaciones, virtualizado o en el cloud.
+
+image:bmanthos_image1.png["Error: Falta la imagen gráfica"]
+
+
+
+== Astra Trident de NetApp
+
+Astra Trident de NetApp es un orquestador de almacenamiento de código abierto y totalmente compatible para contenedores y distribuciones de Kubernetes, incluido Google Cloud Anthos. Funciona con toda la cartera de almacenamiento de NetApp, incluido el software ONTAP de NetApp. Trident es totalmente compatible con CSI y acelera el flujo de trabajo de DevOps al permitirle aprovisionar y gestionar el almacenamiento de sus sistemas de almacenamiento de NetApp sin que sea necesaria la intervención de un administrador de almacenamiento. Trident se pone en marcha como operador que se comunica directamente con el extremo de la API de Kubernetes para atender solicitudes de almacenamiento de contenedores en forma de reclamaciones de volúmenes persistentes (RVP) mediante la creación y la gestión de volúmenes en el sistema de almacenamiento de NetApp.
+
+Los volúmenes persistentes (VP) se aprovisionan en función de las clases de almacenamiento definidas en el entorno de Kubernetes. Utilizan back-ends de almacenamiento creados por un administrador de almacenamiento (que se puede personalizar en función de las necesidades de los proyectos) y modelos de sistema de almacenamiento para permitir cualquier número de funciones de almacenamiento avanzadas, como compresión, tipos de disco específicos o niveles de calidad de servicio que garantizan el rendimiento.
+
+Si quiere más información sobre Astra Trident de NetApp, consulte https://netapp-trident.readthedocs.io/en/stable-v20.10/["Trident"^] página.
+
+Trident orquesta el almacenamiento de cada sistema y servicio de la cartera de NetApp.
+
+image:bmanthos_image2.png["Error: Falta la imagen gráfica"]
+
+
+
+== Anthos de Google Cloud
+
+Anthos de Google Cloud es una solución de centro de datos de Kubernetes basada en cloud que permite a las organizaciones crear y gestionar infraestructuras de cloud híbrido modernas a la vez que adoptan flujos de trabajo ágiles centrados en el desarrollo de aplicaciones. Anthos en bare metal amplía la funcionalidad de Anthos para ejecutarse directamente en las instalaciones en servidores físicos sin una capa de hipervisor e interopera con los clústeres Anthos GKE en Google Cloud.
+
+Adoptar contenedores, malla de servicios y otras tecnologías para la transformación permiten a las organizaciones experimentar ciclos de desarrollo de aplicaciones consistentes y cargas de trabajo preparadas para la producción en entornos locales y basados en cloud.
+
+Anthos ofrece las siguientes características:
+
+* *La gestión de la configuración de Anthos* automatiza la política y la seguridad de las implementaciones de Kubernetes híbridas.
+* * Malla de servicio Anthos.* mejora la capacidad de observación, seguridad y control de aplicaciones con una malla de servicio impulsada por Istio.
+* *Google Cloud Marketplace para aplicaciones Kubernetes.* un catálogo de aplicaciones de contenedor curadas disponible para una fácil implementación.
+* *Migración para Anthos.* migración automática de servicios físicos y máquinas virtuales de las instalaciones al cloud. En la figura 3 se muestra la solución Anthos y cómo una puesta en marcha en una interconexión del centro de datos local con la infraestructura en el cloud.
+
+
+Para obtener más información sobre Anthos, consulte https://cloud.google.com/anthos/["Sitio web de Anthos"^].
+
+La siguiente figura presenta la arquitectura Anthos de Google Cloud.
+
+image:bmanthos_image3.png["Error: Falta la imagen gráfica"]
+
+
+
+=== Anthos en bare metal
+
+Anthos en bare metal es una extensión de GKE que se implementa en el centro de datos privado de un cliente. Una organización puede poner en marcha las mismas aplicaciones diseñadas para ejecutarse en contenedores en Google Cloud en clústeres Anthos en las instalaciones. Anthos se ejecuta directamente en servidores físicos con el sistema operativo subyacente Linux que el usuario elija y proporciona a los clientes un entorno de cloud híbrido completo con la capacidad de funcionar en el núcleo o la periferia de sus centros de datos.
+
+Anthos en bare metal ofrece las siguientes ventajas:
+
+* *Agnóstico de hardware.* los clientes pueden ejecutar Anthos en su elección de plataforma de hardware optimizada en sus centros de datos existentes.
+* *Ahorro de costes.* puede obtener un ahorro significativo utilizando sus propios recursos físicos para implementaciones de aplicaciones en lugar de aprovisionar recursos en el entorno de Google Cloud.
+* *Desarrollar después publicar.* puede utilizar implementaciones locales mientras las aplicaciones están en desarrollo, lo que permite la prueba de aplicaciones en la privacidad de su centro de datos local antes de que estén disponibles públicamente en la nube.
+* *Mejor rendimiento.* las aplicaciones intensivas que requieren baja latencia y los niveles más altos de rendimiento pueden ejecutarse más cerca del hardware.
+* *Requisitos de seguridad.* los clientes con mayores problemas de seguridad o conjuntos de datos confidenciales que no se pueden almacenar en la nube pública pueden ejecutar sus aplicaciones desde la seguridad de sus propios centros de datos, cumpliendo así los requisitos de la organización.
+* *Gestión y operaciones.* Anthos en bare metal viene con una amplia gama de instalaciones que aumentan la eficiencia operativa, como redes integradas, gestión del ciclo de vida, diagnósticos, comprobaciones de estado, registro, y supervisión.
+
+
+link:bmanthos_solution_requirements.html["Siguiente: Requisitos de la solución."]

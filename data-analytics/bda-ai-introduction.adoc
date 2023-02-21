@@ -1,0 +1,72 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/bda-ai-introduction.html 
+keywords: tr-4732, tr4732, 4732, introduction, concepts, components 
+summary: Este documento proporciona directrices para trasladar datos de análisis de Big Data y datos de HPC a IA mediante NetApp XCP y NIPAM. También hablamos de las ventajas empresariales que supone trasladar datos de Big Data y de HPC a IA. 
+---
+= Informe técnico TR-4732: Big Data Analytics datos en inteligencia artificial
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+Karthikeyan Nagalingam, NetApp
+
+Este documento describe cómo trasladar los datos de análisis de Big Data y los datos de computación de alto rendimiento a IA. La IA procesa datos de NFS a través de exportaciones NFS, mientras que los clientes suelen tener sus datos de IA en una plataforma de análisis de Big Data, como HDFS, Blob o S3, así como plataformas HPC como GPFS. Este documento proporciona directrices para trasladar datos de análisis de Big Data y datos de HPC a IA mediante NetApp XCP y NIPAM. También hablamos de las ventajas empresariales que supone trasladar datos de Big Data y de HPC a IA.
+
+
+
+== Conceptos y componentes
+
+
+
+=== Almacenamiento de análisis de Big Data
+
+Los análisis de Big Data son el principal proveedor de almacenamiento para HDFS. Un cliente suele utilizar un sistema de archivos compatible con Hadoop (HCFS), como almacenamiento blob de Windows Azure, MapR File System (MapR-FS) y almacenamiento de objetos S3.
+
+
+
+=== Sistema de archivos paralelos general
+
+GPFS de IBM es un sistema de archivos empresariales que ofrece una alternativa a HDFS. GPFS proporciona flexibilidad para que las aplicaciones decidan el tamaño del bloque y el diseño de replicación, lo que proporciona un buen rendimiento y eficiencia.
+
+
+
+=== Módulo de análisis in situ de NetApp
+
+El módulo de análisis in situ (NIPAM, in situ) de NetApp sirve como controlador para que los clústeres de Hadoop accedan a datos NFS. Consta de cuatro componentes: Un pool de conexión, un InputStream NFS, una caché de gestión de archivos y un OutputStream NFS. Para obtener más información, consulte https://www.netapp.com/us/media/tr-4382.pdf["TR-4382: Módulo de análisis in situ de NetApp."^]
+
+
+
+=== Copia distribuida de Hadoop
+
+La copia distribuida de Hadoop (DistCp) es una herramienta de copia distribuida que se usa para las tareas de adaptación entre clústeres y dentro de clústeres de gran tamaño. Esta herramienta utiliza MapReduce para la distribución de datos, el manejo de errores y los informes. Amplía la lista de archivos y directorios e introduce las tareas de asignación para copiar los datos de la lista de origen. La siguiente imagen muestra la operación DistCp en HDFS y no HDFS.
+
+image:bda-ai-image1.png["Error: Falta la imagen gráfica"]
+
+Hadoop DistCp mueve datos entre los dos sistemas HDFS sin necesidad de utilizar un controlador adicional. NetApp proporciona el controlador para sistemas que no son HDFS. En un destino NFS, NIPAM proporciona el controlador para copiar datos que Hadoop DistCp utiliza para comunicarse con destinos NFS al copiar datos.
+
+
+
+== Cloud Volumes Service de NetApp
+
+Cloud Volumes Service de NetApp es un servicio de archivos nativo del cloud con un rendimiento extremo. Este servicio ayuda a sus clientes a acelerar el plazo de comercialización mediante el rápido aumento y reducción de los recursos, así como el uso de las funciones de NetApp para mejorar la productividad y reducir el tiempo de inactividad del personal. Cloud Volumes Service es la alternativa adecuada para la recuperación ante desastres y sus backups en el cloud, ya que reduce el espacio global del centro de datos y consume menos almacenamiento en cloud público nativo.
+
+
+
+== XCP de NetApp
+
+NetApp XCP es un software cliente que permite una migración de datos de cualquiera a NetApp y de NetApp a NetApp rápida y fiable. Esta herramienta está diseñada para copiar una gran cantidad de datos NAS no estructurados de cualquier sistema NAS a una controladora de almacenamiento de NetApp. La herramienta de migración XCP utiliza un motor de transmisión de E/S multicanal y de varios canales que puede procesar muchas solicitudes en paralelo, como la migración de datos, listas de archivos o directorios y la creación de informes de espacio. Esta es la herramienta de migración de datos de NetApp predeterminada. Puede utilizar XCP para copiar datos de un clúster de Hadoop y de una HPC al almacenamiento NFS de NetApp. El siguiente diagrama muestra la transferencia de datos de un clúster Hadoop y HPC a un volumen NFS de NetApp mediante XCP.
+
+image:bda-ai-image2.png["Error: Falta la imagen gráfica"]
+
+
+
+== Cloud Sync de NetApp
+
+Cloud Sync de NetApp es un software como servicio de replicación de datos híbrida que transfiere y sincroniza datos NFS, S3 y CIFS de forma continua y segura entre el almacenamiento en las instalaciones y el almacenamiento en cloud. Este software se utiliza para migración de datos, archivado, colaboración, análisis, etc. Una vez transferidos los datos, Cloud Sync sincroniza continuamente los datos entre el origen y el destino. De cara al futuro, luego transfiere el delta. También protege los datos dentro de su propia red, en el cloud o en las instalaciones. Este software se basa en el modelo de pago por uso, que ofrece una solución rentable y ofrece capacidades de supervisión y generación de informes para su transferencia de datos.
+
+link:bda-ai-customer-challenges.html["Siguiente: Los retos de los clientes."]

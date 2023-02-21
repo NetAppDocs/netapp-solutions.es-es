@@ -1,0 +1,44 @@
+---
+sidebar: sidebar 
+permalink: containers/rh-os-n_use_case_advanced_cluster_management_features_cluster_lcm.html 
+keywords: OpenShift, OCP, Astra Trident, NetApp ONTAP, ONTAP, Trident, Red Hat OpenShift, Advanced Cluster Management, Advanced Cluster Management for Kubernetes 
+summary: Advanced Cluster Management para Kubernetes en Red Hat OpenShift con NetApp 
+---
+= Funciones: Advanced Cluster Management para Kubernetes en Red Hat OpenShift con NetApp
+:allow-uri-read: 
+
+
+
+
+== Gestión del ciclo de vida del clúster
+
+Para administrar distintos clústeres de OpenShift, puede crearlos o importarlos a Advanced Cluster Management.
+
+. Primero vaya a automatizar infraestructuras > Clusters.
+. Para crear un nuevo clúster de OpenShift, realice los siguientes pasos:
++
+.. Crear una conexión de proveedor: Desplácese a conexiones de proveedor y haga clic en Agregar una conexión, proporcione todos los detalles correspondientes al tipo de proveedor seleccionado y haga clic en Agregar.
++
+image::redhat_openshift_image75.jpg[Agregue la conexión del proveedor]
+
+.. Para crear un nuevo clúster, desplácese hasta Clusters y haga clic en Add a Cluster > Create a Cluster. Proporcione los detalles del clúster y del proveedor correspondiente y haga clic en Create.
++
+image::redhat_openshift_image76.jpg[Añadir clústeres]
+
+.. Una vez creado el clúster, este aparece en la lista de clústeres con el estado Ready.
+
+
+. Para importar un clúster existente, complete los siguientes pasos:
++
+.. Desplácese hasta Clusters y haga clic en Add a Cluster > Import an Existing Cluster.
+.. Introduzca el nombre del clúster y haga clic en Save Import and Generate Code. Se muestra un comando para añadir el clúster existente.
+.. Haga clic en Copy Command y ejecute el comando en el clúster que se va a añadir al clúster de concentrador. Esto inicia la instalación de los agentes necesarios en el clúster y, una vez completado este proceso, el clúster aparece en la lista de clústeres con el estado Ready.
++
+image::redhat_openshift_image77.jpg[Importe el clúster existente]
+
+
+
+. Después de crear e importar varios clústeres, puede supervisarlos y gestionarlos desde una sola consola.
+
+
+link:rh-os-n_use_case_advanced_cluster_management_features_application_lcm.html["Siguiente: Características - Gestión del ciclo de vida de la aplicación."]

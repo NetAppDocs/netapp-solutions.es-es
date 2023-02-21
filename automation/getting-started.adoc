@@ -1,0 +1,237 @@
+---
+sidebar: sidebar 
+permalink: automation/getting-started.html 
+summary: La automatización de las soluciones de NetApp permite al cliente automatizar la puesta en marcha, configuración y ejecución de muchas tareas comunes de infraestructura y aplicaciones. 
+keywords: netapp, awx, tower, ansible tower, solutions, automation, ansible, getting, started 
+---
+= Primeros pasos con la automatización de soluciones de NetApp
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:table-stripes: odd
+:imagesdir: ./../media/
+
+
+[role="lead"]
+La automatización de soluciones de NetApp proporciona simplicidad y repetibilidad para muchas de las tareas comunes utilizadas por las soluciones de NetApp.
+
+Antes de ejecutar la automatización de cualquier solución, debe configurarse el entorno para ejecutar la automatización. Existen opciones para ejecutar la automatización desde la línea de comandos o a través de una herramienta como AWX o Tower.
+
+En las siguientes secciones se describen los pasos necesarios para configurar el entorno para cada uno de los entornos especificados.
+
+.Configure el nodo de control de Ansible para las puestas en marcha de la CLI en RHEL/CentOS
+[%collapsible]
+====
+. Requisitos para el nodo de control de Ansible,:
++
+.. Una máquina RHEL/CentOS con los siguientes paquetes instalados:
++
+... Python3
+... PIP3
+... Ansible (versión superior a 2.10.0)
+... Git
+
+
+
+
+
+
+Si tiene instalada una máquina RHEL/CentOS nueva sin los requisitos anteriores, siga los pasos que se indican a continuación para configurar esa máquina como nodo de control de Ansible:
+
+. Habilite el repositorio de Ansible para RHEL-8/RHEL-7
++
+.. Para RHEL-8 (ejecute el comando siguiente como raíz)
++
+[source, cli]
+----
+subscription-manager repos --enable ansible-2.9-for-rhel-8-x86_64-rpms
+----
+.. Para RHEL-7 (ejecute el comando siguiente como raíz)
++
+[source, cli]
+----
+subscription-manager repos --enable rhel-7-server-ansible-2.9-rpms
+----
+
+
+. Cree un archivo .sh
++
+[source, cli]
+----
+vi setup.sh
+----
+. Pegue el contenido siguiente en el archivo
++
+[source, cli]
+----
+#!/bin/bash
+echo "Installing Python ------>"
+sudo yum -y install python3 >/dev/null
+echo "Installing Python Pip ------>"
+sudo yum -y install python3-pip >/dev/null
+echo "Installing Ansible ------>"
+python3 -W ignore -m pip --disable-pip-version-check install ansible >/dev/null
+echo "Installing git ------>"
+sudo yum -y install git >/dev/null
+----
+. Haga que el archivo sea ejecutable
++
+[source, cli]
+----
+chmod +x setup.sh
+----
+. Ejecutar el script (como root)
++
+[source, cli]
+----
+./setup.sh
+----
+
+
+====
+.Configure el nodo de control de Ansible para las puestas en marcha de la CLI en Ubuntu/Debian
+[%collapsible]
+====
+. Requisitos para el nodo de control de Ansible,:
++
+.. Una máquina Ubuntu/Debian con los siguientes paquetes instalados:
++
+... Python3
+... PIP3
+... Ansible (versión superior a 2.10.0)
+... Git
+
+
+
+
+
+
+Si tiene instalada una máquina nueva de Ubuntu/Debian sin los requisitos anteriores, siga los pasos que se indican a continuación para configurar esa máquina como nodo de control de Ansible:
+
+. Cree un archivo .sh
++
+[source, cli]
+----
+vi setup.sh
+----
+. Pegue el contenido siguiente en el archivo
++
+[source, cli]
+----
+#!/bin/bash
+echo "Installing Python ------>"
+sudo apt-get -y install python3 >/dev/null
+echo "Installing Python Pip ------>"
+sudo apt-get -y install python3-pip >/dev/null
+echo "Installing Ansible ------>"
+python3 -W ignore -m pip --disable-pip-version-check install ansible >/dev/null
+echo "Installing git ------>"
+sudo apt-get -y install git >/dev/null
+----
+. Haga que el archivo sea ejecutable
++
+[source, cli]
+----
+chmod +x setup.sh
+----
+. Ejecutar el script (como root)
++
+[source, cli]
+----
+./setup.sh
+----
+
+
+====
+.Configure la torre Ansible o AWX para las puestas en marcha de la torre/AWX
+[%collapsible]
+====
+En esta sección se describen los pasos necesarios para configurar los parámetros en AWX/Ansible Tower que preparan el entorno para consumir soluciones automatizadas de NetApp.
+
+. Configure el inventario.
++
+.. Desplácese hasta Recursos → inventarios → Agregar y haga clic en Agregar inventario.
+.. Escriba el nombre y los detalles de la organización y haga clic en Guardar.
+.. En la página inventarios, haga clic en los recursos de inventario que acaba de crear.
+.. Si hay alguna variable de inventario, péguela en el campo variables.
+.. Vaya al submenú grupos y haga clic en Agregar.
+.. Introduzca el nombre del grupo, copie las variables de grupo (si es necesario) y haga clic en Guardar.
+.. Haga clic en el grupo creado, vaya al submenú hosts y haga clic en Add New Host.
+.. Proporcione el nombre de host y la dirección IP del host, pegue las variables del host (si es necesario) y haga clic en Save.
+
+
+. Crear tipos de credenciales. Para las soluciones que implican ONTAP, Element, VMware o cualquier otra conexión de transporte basada en HTTPS, debe configurar el tipo de credencial para que coincida con las entradas de nombre de usuario y contraseña.
++
+.. Desplácese hasta Administration → Credential Types y haga clic en Add.
+.. Escriba el nombre y la descripción.
+.. Pegue el siguiente contenido en la configuración de entrada:
+
+
+
+
+[listing]
+----
+fields:
+- id: username
+type: string
+label: Username
+- id: password
+type: string
+label: Password
+secret: true
+- id: vsadmin_password
+type: string
+label: vsadmin_password
+secret: true
+----
+. Pegue el siguiente contenido en la configuración del inyector:
+
+
+[listing]
+----
+extra_vars:
+password: '{{ password }}'
+username: '{{ username }}'
+vsadmin_password: '{{ vsadmin_password }}'
+----
+. Configurar credenciales.
++
+.. Desplácese hasta Resources → Credentials y haga clic en Add.
+.. Introduzca el nombre y los detalles de la organización.
+.. Seleccione el tipo de credencial correcto; si tiene intención de utilizar el inicio de sesión SSH estándar, seleccione el tipo máquina o, como alternativa, seleccione el tipo de credencial personalizada que ha creado.
+.. Introduzca los otros detalles correspondientes y haga clic en Guardar.
+
+
+. Configure el proyecto.
++
+.. Desplácese hasta Recursos → proyectos y haga clic en Agregar.
+.. Introduzca el nombre y los detalles de la organización.
+.. Seleccione Git para el Tipo de credencial de control de origen.
+.. Pegue la URL de control de origen (o la URL del clon git) que corresponda a la solución específica.
+.. De manera opcional, si la URL de Git está controlada por el acceso, cree y adjunte la credencial correspondiente en la credencial de control de origen.
+.. Haga clic en Guardar.
+
+
+. Configure la plantilla de trabajo.
++
+.. Desplácese hasta Recursos → Plantillas → Agregar y haga clic en Agregar plantilla de trabajo.
+.. Introduzca el nombre y la descripción.
+.. Seleccione el tipo de trabajo; Run configura el sistema basado en una tableta playbook y Check realiza una ejecución seca de la tableta playbook sin configurar realmente el sistema.
+.. Seleccione el inventario, el proyecto y las credenciales correspondientes para el libro de estrategia.
+.. Seleccione el libro de estrategia que desea ejecutar como parte de la plantilla de trabajo.
+.. Normalmente las variables se pegan durante el tiempo de ejecución. Por lo tanto, para obtener la solicitud de que se rellenen las variables durante el tiempo de ejecución, asegúrese de marcar la casilla de verificación en Iniciar correspondiente al campo variable.
+.. Introduzca los demás detalles necesarios y haga clic en Guardar.
+
+
+. Inicie la plantilla de trabajo.
++
+.. Desplácese hasta Recursos → Plantillas.
+.. Haga clic en la plantilla deseada y, a continuación, en Iniciar.
+.. Rellene las variables si se le solicita en el inicio y haga clic de nuevo en Iniciar.
+
+
+
+
+====

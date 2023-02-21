@@ -1,0 +1,47 @@
+---
+sidebar: sidebar 
+permalink: containers/tanzu_with_netapp/vtwn_overview_tkgs.html 
+keywords: VMware Tanzu, Tanzu, Tanzu Kubernetes Grid Service, vSphere with Tanzu, DevOps, Netapp, Astra Trident, Astra Control, Astra 
+summary: 'El servicio Grid de VMware Tanzu Kubernetes (también conocido como vSphere con Tanzu) le permite crear y operar clústeres de Kubernetes tanzu de forma nativa en vSphere, además de ejecutar algunas cargas de trabajo de menor tamaño directamente en los hosts ESXi.' 
+---
+= Descripción general del servicio Red de Kubernetes de VMware Tanzu (TKGS)
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../../media/
+
+
+El servicio Grid de VMware Tanzu Kubernetes (también conocido como vSphere con Tanzu) le permite crear y operar clústeres de Kubernetes tanzu de forma nativa en vSphere, además de ejecutar algunas cargas de trabajo de menor tamaño directamente en los hosts ESXi. Le permite transformar vSphere en una plataforma para ejecutar cargas de trabajo en contenedores de forma nativa en la capa del hipervisor. El servicio Grid de Tanzania Kubernetes pone en marcha un clúster de supervisor en vSphere cuando esta opción está habilitada, que implementa y usa los clústeres necesarios para las cargas de trabajo. Se integra de forma nativa con vSphere 7 y aprovecha muchas funciones fiables de vSphere, como vCenter SSO, Content Library, vSphere networking, vSphere Storage, vSphere ha y DRS, y seguridad vSphere para una experiencia de Kubernetes más fluida.
+
+VSphere con Tanzu ofrece una única plataforma para entornos de aplicaciones híbridas donde los componentes de aplicaciones se pueden ejecutar en contenedores o máquinas virtuales, lo que proporciona una mejor visibilidad y facilidad de operaciones para desarrolladores, ingenieros de DevOps y administradores de vSphere. VMware TKGS solo se admite con entornos vSphere 7 y es la única oferta en la cartera de operaciones tanzu Kubernetes que permite ejecutar pods directamente en hosts ESXi.
+
+image::vtwn_image03.png[Servicio Kubernetes de VMware Tanzania]
+
+Para obtener más información sobre el servicio de cuadrícula de Tanzania Kubernetes, siga la documentación link:https://docs.vmware.com/en/VMware-vSphere/7.0/vmware-vsphere-with-tanzu/GUID-152BE7D2-E227-4DAA-B527-557B564D9718.html["aquí"^].
+
+Hay muchas consideraciones sobre la arquitectura relativas a conjuntos de funciones, redes, etc. Dependiendo de la arquitectura elegida, son distintos los requisitos previos y el proceso de puesta en marcha del servicio Grid tanzu Kubernetes. Para implementar y configurar el servicio de Grid tanzu Kubernetes en su entorno, siga la guía link:https://docs.vmware.com/en/VMware-vSphere/7.0/vmware-vsphere-with-tanzu/GUID-74EC2571-4352-4E15-838E-5F56C8C68D15.html["aquí"^]. Además, para conectarse a los nodos del clúster de Kubernetes tanzu puestos en marcha a través de TKGS, siga el procedimiento descrito en este documento https://docs.vmware.com/en/VMware-vSphere/7.0/vmware-vsphere-with-tanzu/GUID-37DC1DF2-119B-4E9E-8CA6-C194F39DDEDA.html["enlace"^].
+
+NetApp recomienda que todos los entornos de producción se pongan en marcha en distintas puestas en marcha maestras para detectar fallos con la opción de configuración de los nodos de trabajo elegida a fin de satisfacer los requisitos de las cargas de trabajo previstas. Por tanto, una clase de equipo virtual recomendada para una carga de trabajo altamente intensiva tendría al menos cuatro vCPU y 12 GB de RAM.
+
+Cuando se crean clústeres de Kubernetes tanzu en un espacio de nombres, los usuarios con `owner` o. `edit` el permiso puede crear pods directamente en cualquier espacio de nombres mediante la cuenta de usuario. Esto se debe a que los usuarios con `owner` o. `edit` los permisos se asignan al rol de administrador del clúster. Sin embargo, al crear implementaciones, conjuntos de daemon, conjuntos de estado u otros en cualquier espacio de nombres, debe asignar una función con los permisos necesarios a las cuentas de servicio correspondientes. Esto es necesario porque las implementaciones o los conjuntos de daemon utilizan cuentas de servicio para poner en marcha los POD.
+
+Consulte el siguiente ejemplo de ClusterRoleBinding para asignar la función de administrador del clúster a todas las cuentas de servicio del clúster:
+
+[listing]
+----
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: all_sa_ca
+subjects:
+- kind: Group
+  name: system:serviceaccounts
+  namespace: default
+roleRef:
+  kind: ClusterRole
+  name: psp:vmware-system-privileged
+  apiGroup: rbac.authorization.k8s.io
+----
+link:vtwn_overview_netapp.html["Siguiente: Información general sobre los sistemas de almacenamiento de NetApp."]

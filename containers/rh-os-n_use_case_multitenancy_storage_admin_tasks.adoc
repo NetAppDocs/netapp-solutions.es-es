@@ -1,0 +1,85 @@
+---
+sidebar: sidebar 
+permalink: containers/rh-os-n_use_case_multitenancy_storage_admin_tasks.html 
+keywords: OpenShift, OCP, Astra Trident, NetApp ONTAP, Red Hat OpenShift, Multitenancy, Multi-tenancy 
+summary: Configuración de Multitenancy en Red Hat OpenShift con NetApp 
+---
+= Configuration: Tareas del administrador del almacenamiento
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+Un administrador de almacenamiento debe configurar los siguientes recursos:
+
+. Inicie sesión en el clúster de ONTAP de NetApp como administrador.
+. Vaya a almacenamiento > Storage VMs y haga clic en Add. Cree dos SVM, una para el proyecto-1 y otra para el proyecto-2, proporcionando los detalles necesarios. Además, cree una cuenta de vsadmin para gestionar la SVM y sus recursos.
+
+
+image::redhat_openshift_image41.jpg[Creación de SVM en ONTAP]
+
+. Inicie sesión en el clúster de Red Hat OpenShift como administrador de almacenamiento.
+. Cree el back-end para el proyecto-1 y asígnelo a la SVM dedicada al proyecto. NetApp recomienda utilizar la cuenta vsadmin de la SVM para conectar el back-end a SVM en lugar de utilizar el administrador del clúster de ONTAP.
++
+[source, console]
+----
+cat << EOF | tridentctl -n trident create backend -f
+{
+    "version": 1,
+    "storageDriverName": "ontap-nas",
+    "backendName": "nfs_project_1",
+    "managementLIF": "172.21.224.210",
+    "dataLIF": "10.61.181.224",
+    "svm": "project-1-svm",
+    "username": "vsadmin",
+    "password": "NetApp123"
+}
+EOF
+----
+
+
+
+NOTE: En este ejemplo, estamos usando el controlador ontap-nas. Utilice el controlador adecuado al crear el backend según el caso de uso.
+
+
+NOTE: Asumimos que Trident se instala en el proyecto trident.
+
+. De forma similar, cree el back-end de Trident para el proyecto-2 y asígnelo al proyecto 2 dedicado.
+. A continuación, cree las clases de almacenamiento. Cree la clase de almacenamiento para el proyecto-1 y configúrela para que utilice los pools de almacenamiento desde back-end dedicado al proyecto-1 mediante la configuración del parámetro storagePools.
++
+[source, console]
+----
+cat << EOF | oc create -f -
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: project-1-sc
+provisioner: csi.trident.netapp.io
+parameters:
+  backendType: ontap-nas
+  storagePools: "nfs_project_1:.*"
+EOF
+----
+. Del mismo modo, cree una clase de almacenamiento para el proyecto 2 y configúrela para que utilice los pools de almacenamiento desde back-end dedicado al proyecto 2.
+. Cree un ResourceQuota para restringir los recursos del proyecto-1 solicitando el almacenamiento de storagegrid dedicado a otros proyectos.
++
+[source, console]
+----
+cat << EOF | oc create -f -
+kind: ResourceQuota
+apiVersion: v1
+metadata:
+  name: project-1-sc-rq
+  namespace: project-1
+spec:
+  hard:
+    project-2-sc.storageclass.storage.k8s.io/persistentvolumeclaims: 0
+EOF
+----
+. Del mismo modo, cree un ResourceQuota para restringir los recursos del proyecto 2 solicitando almacenamiento de storagegrid dedicado a otros proyectos.
+
+
+link:rh-os-n_use_case_multitenancy_validation.html["Siguiente: Validación."]

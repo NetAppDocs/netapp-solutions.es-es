@@ -1,0 +1,53 @@
+---
+sidebar: sidebar 
+permalink: containers/devops_with_netapp/dwn_overview_devops.html 
+keywords: DevOps, Netapp, Astra Trident, Astra Control, Astra 
+summary: Descripción general de devops y casos de uso potenciales en este informe técnico. 
+---
+= Información general de DevOps
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../../media/
+:k8s_distribution_name: Red Hat OpenShift, VMware Tanzu, Anthos by Google Cloud etc.
+
+
+A lo largo de los últimos años, las organizaciones que crean software han ido adoptando los conceptos de DevOps. Las prácticas de DevOps eliminan las barreras de la organización y acercan a los equipos de desarrollo y operaciones. Las prácticas de DevOps también permiten a los equipos acelerar la entrega, aumentar la disponibilidad y lograr que los servicios y las aplicaciones sean más estables; de este modo, se mejora la productividad del equipo. Además, la adopción de un marco de automatización también es una característica clave del éxito: Desde la creación, la prueba y el funcionamiento de aplicaciones a escala o la gestión de una plataforma o una pila de infraestructura completamente automatizada. A continuación comentamos algunos casos prácticos principales de DevOps en los que se pueden implementar las soluciones de NetApp para ayudar a mejorar las experiencias que los profesionales de DevOps encuentran durante su práctica diaria.
+
+
+
+== Casos de uso de DevOps
+
+Aunque DevOps no tiene una definición única y universalmente aceptada, las soluciones para los practicantes de DevOps suelen contener construcciones o ideologías similares que permiten una implementación, repetición y gestión sencillas a escala. En las siguientes secciones se describen posibles casos de uso para los flujos de trabajo de DevOps que ofrecen las soluciones de NetApp.
+
+
+
+=== Integración continua, entrega continua e implementación continua (CI/CD)
+
+Integración continua, entrega continua e implementación continua (CI/CD) es una filosofía de codificación que anima a los desarrolladores a implementar y transformar sus prácticas de codificación mediante el establecimiento de un método mediante el cual pueden actualizar, probar e implementar su código de manera automatizada y coherente. El método más popular por el que se implementa CI/CD en la mayoría de los flujos de trabajo de DevOps es el de la canalización de CI/CD y existen varias aplicaciones de software de terceros que pueden ayudar a conseguirlo.
+
+image::dwn_image_16.png[Imagen de CI/CD]
+
+Consulte los siguientes ejemplos de aplicaciones conocidas que pueden ayudar con los flujos de trabajo de tipo CI/CD:
+
+https://argoproj.github.io/cd/["ArgoCD"]
+https://jenkins.io["Jenkins"]
+https://tekton.dev["Tekton"]
+
+Algunos de los casos de uso incluidos más adelante en este informe técnico se han demostrado en Jenkins, pero los principios fundamentales de CI/CD pueden aplicarse a cualquier herramienta que una organización haya implementado en sus propias prácticas.
+
+
+
+=== Infraestructura como código
+
+La infraestructura como código ayuda a aprovisionar y gestionar recursos TECNOLÓGICOS mediante comandos automatizados, API y kits de desarrollo de software (SDK). Este concepto mejora considerablemente la experiencia de DevOps al eliminar las limitaciones de recursos o centros de datos físicos que podrían impedir que los desarrolladores cumplieran sus objetivos.
+
+image::dwn_image_17.png[Infraestructura como imagen de código]
+
+Los usuarios finales suelen utilizar lenguajes de programación como https://www.python.org/["Python"] o herramientas de automatización como https://www.ansible.com/["Ansible"] o. https://puppet.com/["Puppet"] para crear acciones de escalado de infraestructura automatizadas y repetibles que pueden llamar los desarrolladores cuando sea necesario.
+
+Tanto ONTAP de NetApp como Astra Control contienen API que se enfrentan al público y módulos de Ansible o kits de herramientas de desarrollo de software que facilitan la automatización de las operaciones y la integración en los procesos de DevOps.
+
+link:dwn_overview_netapp.html["Siguiente: Descripción general de los sistemas de almacenamiento de NetApp."]

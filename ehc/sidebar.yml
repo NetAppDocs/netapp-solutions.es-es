@@ -1,0 +1,135 @@
+---
+section: ehc
+title: Multicloud híbrido de NetApp con VMware
+url: "/ehc/index.html"
+entries:
+- title: VMware para el cloud público
+  entries:
+  - title: Descripción general
+    url: "/ehc/ehc-overview.html"
+  - title: VMware Cloud en clouds de proveedores a hiperescala
+    url: "/ehc/ehc-hyperscalers.html"
+  - title: Configuraciones compatibles
+    url: "/ehc/ehc-support-configs.html"
+  - title: VMware en la configuración de proveedores a hiperescala
+    url: "/ehc/ehc-config-vmware-intro.html"
+    entries:
+    - title: Configurar VMC para AWS
+      url: "/ehc/aws/aws-setup.html"
+    - title: Configure AVS para Azure
+      url: "/ehc/azure/azure-setup.html"
+    - title: Configurar GCVE para GCP
+      url: "/ehc/gcp/gcp-setup.html"
+  - title: Almacenamiento NetApp en clouds de proveedores a hiperescala
+    url: "/ehc/ehc-datastore-intro.html"
+    entries:
+    - title: Almacén de datos NFS complementario para VMC
+      url: "/ehc/aws/aws-native-overview.html"
+    - title: Almacenamiento conectado como invitado para VMC
+      url: "/ehc/aws/aws-guest.html"
+    - title: Almacén de datos NFS complementario para AVS
+      url: "/ehc/azure/azure-native-overview.html"
+    - title: Almacenamiento conectado invitado para AVS
+      url: "/ehc/azure/azure-guest.html"
+    - title: Almacenamiento conectado como invitado para GCVE
+      url: "/ehc/gcp/gcp-guest.html"
+    - title: Compatibilidad de regiones para almacenes de datos NFS
+      url: "/ehc/ehc-regions.html"
+  - title: Resumen y conclusión
+    url: "/ehc/ehc-summary.html"
+- title: Casos de uso de cloud híbrido de VMware
+  entries:
+  - title: Descripción general de casos de uso
+    url: "/ehc/ehc-use-cases.html"
+  - title: De NetApp para AWS / VMC
+    url: "/ehc/aws/aws-solutions.html"
+  - title: De NetApp para Azure / AVS
+    url: "/ehc/azure/azure-solutions.html"
+  - title: Soluciones para GCP/GCVE
+    url: "/ehc/gcp/gcp-solutions.html"
+- title: NetApp para AWS / VMC
+  url: "/ehc/aws/index.html"
+  entries:
+  - title: Proteger cargas de trabajo
+    entries:
+    - title: Recuperación ante desastres con VMC en AWS (invitado conectado)
+      url: "/ehc/aws/aws-guest-dr-solution-overview.html"
+    - title: Recuperación ante desastres (DRO) con FSX para ONTAP y VMC
+      url: "/ehc/dro/dro-overview.html"
+  - title: Migración de cargas de trabajo
+    entries:
+    - title: Migrar cargas de trabajo a FSX para el almacén de datos ONTAP mediante
+        VMware HCX
+      url: "/ehc/aws/aws-migrate-vmware-hcx.html"
+  - title: Compatibilidad de regiones para almacenes de datos NFS
+    url: "/ehc/aws/aws-regions.html"
+- title: NetApp para Azure / AVS
+  url: "/ehc/azure/index.html"
+  entries:
+  - title: Proteger cargas de trabajo
+    entries:
+    - title: Recuperación ante desastres con ANF y JetStream (almacén de datos NFS
+        complementario)
+      url: "/ehc/azure/azure-native-dr-jetstream.html"
+    - title: Recuperación ante desastres con ANF y CVO (almacenamiento conectado de
+        invitado)
+      url: "/ehc/azure/azure-guest-dr-cvo.html"
+  - title: Migración de cargas de trabajo
+    entries:
+    - title: Migrar cargas de trabajo al almacén de datos ANF mediante VMware HCX
+      url: "/ehc/azure/azure-migrate-vmware-hcx.html"
+  - title: Compatibilidad de regiones para almacenes de datos NFS
+    url: "/ehc/azure/azure-regions.html"
+- title: NetApp para GCP/GCVE
+  url: "/ehc/gcp/index.html"
+  entries:
+  - title: Recuperación ante desastres de aplicaciones con replicación de SnapCenter,
+      CVO y Veeam
+    url: "/ehc/gcp/gcp-app-dr-sc-cvo-veeam.html"
+  - title: 'Descripción general de la seguridad: Cloud Volumes Service de NetApp (CVS)
+      en Google Cloud'
+    type: solutions
+    entries:
+    - title: Descripción general
+      url: "/ehc/ncvs/ncvs-gc-overview.html"
+    - title: Cómo Cloud Volumes Service en Google Cloud protege sus datos
+      url: "/ehc/ncvs/ncvs-gc-how-cloud-volumes-service-in-google-cloud-secures-your-data.html"
+    - title: Consideraciones de seguridad y superficies de ataque
+      url: "/ehc/ncvs/ncvs-gc-security-considerations-and-attack-surfaces.html"
+    - title: Arquitectura
+      entries:
+      - title: Información general de la arquitectura
+        url: "/ehc/ncvs/ncvs-gc-architecture_overview.html"
+      - title: Arquitectura Cloud Volumes Service
+        url: "/ehc/ncvs/ncvs-gc-cloud-volumes-service-architecture.html"
+      - title: Arquitectura del plano de control
+        url: "/ehc/ncvs/ncvs-gc-control-plane-architecture.html"
+      - title: Arquitectura de plano de datos
+        url: "/ehc/ncvs/ncvs-gc-data-plane-architecture.html"
+      - title: Cifrado de datos en tránsito
+        url: "/ehc/ncvs/ncvs-gc-data-encryption-in-transit.html"
+      - title: Cifrado de datos en reposo
+        url: "/ehc/ncvs/ncvs-gc-data-encryption-at-rest.html"
+      - title: Servidor de seguridad
+        url: "/ehc/ncvs/ncvs-gc-firewall.html"
+    - title: Protocolos NAS
+      entries:
+      - title: Información general sobre los protocolos NAS
+        url: "/ehc/ncvs/ncvs-gc-nas-protocols_overview.html"
+      - title: Conceptos básicos de los protocolos NAS
+        url: "/ehc/ncvs/ncvs-gc-basics-of-nas-protocols.html"
+      - title: NFS
+        url: "/ehc/ncvs/ncvs-gc-nfs.html"
+      - title: SMB
+        url: "/ehc/ncvs/ncvs-gc-smb.html"
+      - title: Protocolo doble/multiprotocolo
+        url: "/ehc/ncvs/ncvs-gc-dual-protocol-multiprotocol.html"
+      - title: Consideraciones para crear conexiones de Active Directory
+        url: "/ehc/ncvs/ncvs-gc-considerations-creating-active-directory-connections.html"
+      - title: Otras dependencias de servicios de infraestructura NAS (KDC, LDAP,
+          DNS)
+        url: "/ehc/ncvs/ncvs-gc-other-nas-infrastructure-service-dependencies.html"
+    - title: Operación de servicio
+      url: "/ehc/ncvs/ncvs-gc-service-operation.html"
+    - title: Información adicional
+      url: "/ehc/ncvs/ncvs-gc-additional-information.html"

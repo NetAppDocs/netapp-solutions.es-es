@@ -1,0 +1,153 @@
+---
+sidebar: sidebar 
+permalink: containers/anthos-with-netapp/a-w-n_overview_astra.html 
+keywords: NetApp Astra Control, Astra Control Center, Application, Trident, Astra Trident, Helm, Operator, ONTAP, OpenShift, Kubernetes, Red Hat OpenShift 
+summary: Astra Control Center de NetApp ofrece un amplio conjunto de servicios de gestión de datos para aplicaciones y almacenamiento para cargas de trabajo con estado de Kubernetes, implementados en un entorno en las instalaciones, impulsadas por la tecnología de protección de datos de confianza de NetApp. 
+---
+= Descripción general de Astra Control Center de NetApp
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../../media/
+
+
+Astra Control Center de NetApp ofrece un amplio conjunto de servicios de gestión de datos para aplicaciones y almacenamiento para cargas de trabajo con estado de Kubernetes puestas en marcha en un entorno local con la tecnología de protección de datos de NetApp.
+
+image:redhat_openshift_image44.png["Error: Falta la imagen gráfica"]
+
+NetApp Astra Control Center se puede instalar en un clúster de Red Hat OpenShift que tiene el orquestador de almacenamiento Astra Trident puesto en marcha y configurado con clases de almacenamiento y back-ends de almacenamiento en sistemas de almacenamiento ONTAP de NetApp.
+
+Para obtener información sobre la instalación y configuración de Astra Trident y su compatibilidad con Astra Control Center, consulte link:rh-os-n_overview_trident.html["este documento"^].
+
+En un entorno conectado a la nube, Astra Control Center utiliza Cloud Insights para proporcionar supervisión y telemetría avanzadas. Ante la ausencia de una conexión con Cloud Insights, la supervisión y la telemetría limitadas (valor equivalente a 7 días de métricas) están disponibles y se exportan a herramientas de supervisión nativas de Kubernetes (Prometheus y Grafana) mediante extremos de métricas abiertos.
+
+Astra Control Center está totalmente integrado en el ecosistema de AutoSupport y Active IQ de NetApp para proporcionar soporte a los usuarios y proporcionar asistencia para la solución de problemas y mostrar las estadísticas de uso.
+
+Además de la versión de pago de Astra Control Center, hay disponible una licencia de evaluación de 90 días. La versión de evaluación se admite a través del correo electrónico y el canal de Slack de la comunidad. Los clientes tienen acceso a estos recursos, a otros artículos de la base de conocimientos y a la documentación disponible en la consola de soporte del producto.
+
+Para empezar a utilizar Astra Control Center de NetApp, visite link:https://cloud.netapp.com/astra["Sitio web de Astra"^].
+
+
+
+== Requisitos previos de instalación de Astra Control Center
+
+. Uno o más clústeres de Red Hat OpenShift. Actualmente se admiten las versiones 4.6 EUS y 4.7.
+. Astra Trident ya debe estar instalado y configurado en cada clúster de Red Hat OpenShift.
+. Uno o más sistemas de almacenamiento ONTAP de NetApp que ejecutan ONTAP 9.5 o superior.
++
+
+NOTE: Se trata de una práctica recomendada para cada instalación de OpenShift en un sitio a fin de tener una SVM dedicada para el almacenamiento persistente. Las puestas en marcha de varios sitios requieren sistemas de almacenamiento adicionales.
+
+. Debe configurarse un back-end de almacenamiento de Trident en cada clúster de OpenShift con una SVM respaldada por un clúster de ONTAP.
+. Un StorageClass predeterminado configurado en cada clúster OpenShift con Astra Trident como aprovisionador de almacenamiento.
+. Se debe instalar y configurar un equilibrador de carga en cada clúster de OpenShift para que pueda equilibrarse la carga y exponer los servicios de OpenShift.
++
+
+NOTE: Consulte el enlace link:rh-os-n_load_balancers.html["aquí"] para obtener información sobre balanceadores de carga que se han validado para este propósito.
+
+. Debe configurarse un registro de imagen privada para alojar las imágenes de Astra Control Center de NetApp.
++
+
+NOTE: Consulte el enlace link:rh-os-n_private_registry.html["aquí"] Para instalar y configurar un registro privado de OpenShift con este fin.
+
+. Debe tener acceso de administrador de clúster al clúster de Red Hat OpenShift.
+. Debe tener acceso de administrador a los clústeres de ONTAP de NetApp.
+. Una estación de trabajo de administración con docker o podman, trimentctl y las herramientas OC o kudectl instaladas y agregadas a su $PATH.
++
+
+NOTE: Las instalaciones de Docker deben tener una versión de docker superior a 20.10, y las instalaciones de Podman deben tener una versión de podman superior a 3.0.
+
+
+
+
+
+== Instalar Astra Control Center
+
+[role="tabbed-block"]
+====
+.Uso de OperatorHub
+--
+Directiva no resuelta en <stdin> - incluir::Containers/rh-os-n_overview_astra_cc_install_manual.adoc[]
+
+--
+.[Ansible] automatizado
+--
+Directiva no resuelta en <stdin> - incluir::Containers/rh-os-n_overview_astra_cc_install_ansible.adoc[]
+
+--
+====
+
+
+=== Pasos posteriores a la instalación
+
+. La instalación puede tardar varios minutos en completarse. Verifique que todos los pods y servicios del `netapp-astra-cc` el espacio de nombres está activo y en funcionamiento.
++
+[listing]
+----
+[netapp-user@rhel7 ~]$ oc get all -n netapp-astra-cc
+----
+. Compruebe la `acc-operator-controller-manager` registros para verificar que la instalación se ha completado.
++
+[listing]
+----
+[netapp-user@rhel7 ~]$ oc logs deploy/acc-operator-controller-manager -n netapp-acc-operator -c manager -f
+----
++
+
+NOTE: El siguiente mensaje indica que la instalación de Astra Control Center se ha realizado correctamente.
+
++
+[listing]
+----
+{"level":"info","ts":1624054318.029971,"logger":"controllers.AstraControlCenter","msg":"Successfully Reconciled AstraControlCenter in [seconds]s","AstraControlCenter":"netapp-astra-cc/astra","ae.Version":"[21.12.60]"}
+----
+. El nombre de usuario para iniciar sesión en Astra Control Center es la dirección de correo electrónico del administrador que se proporciona en el archivo CRD y la contraseña es una cadena `ACC-` Se adjunta al UUID del Centro de control de Astra. Ejecute el siguiente comando:
++
+[listing]
+----
+[netapp-user@rhel7 ~]$ oc get astracontrolcenters -n netapp-astra-cc
+NAME    UUID
+astra   345c55a5-bf2e-21f0-84b8-b6f2bce5e95f
+----
++
+
+NOTE: En este ejemplo, la contraseña es `ACC-345c55a5-bf2e-21f0-84b8-b6f2bce5e95f`.
+
+. Obtenga la IP del equilibrador de carga del servicio de Traefik.
++
+[listing]
+----
+[netapp-user@rhel7 ~]$ oc get svc -n netapp-astra-cc | egrep 'EXTERNAL|traefik'
+
+NAME                                       TYPE           CLUSTER-IP       EXTERNAL-IP     PORT(S)                                                                   AGE
+traefik                                    LoadBalancer   172.30.99.142    10.61.186.181   80:30343/TCP,443:30060/TCP                                                16m
+----
+. Agregue una entrada en el servidor DNS apuntando al FQDN que se proporciona en el archivo CRD de Astra Control Center al `EXTERNAL-IP` del servicio de trafik.
++
+image:redhat_openshift_image122.jpg["Agregar entrada DNS para GUI ACC"]
+
+. Inicie sesión en la GUI de Astra Control Center navegando por su FQDN.
++
+image:redhat_openshift_image87.jpg["Inicio de sesión en Astra Control Center"]
+
+. Cuando inicie sesión en la GUI de Astra Control Center por primera vez con la dirección de correo electrónico de administrador proporcionada en CRD, deberá cambiar la contraseña.
++
+image:redhat_openshift_image88.jpg["Cambio obligatorio de contraseña en Astra Control Center"]
+
+. Si desea agregar un usuario a Astra Control Center, desplácese a cuenta > usuarios, haga clic en Agregar, introduzca los detalles del usuario y haga clic en Agregar.
++
+image:redhat_openshift_image89.jpg["Astra Control Center crea un usuario"]
+
+. Astra Control Center requiere una licencia para que funcionen todas las funciones de TI. Para añadir una licencia, vaya a cuenta > Licencia, haga clic en Añadir licencia y cargue el archivo de licencia.
++
+image:redhat_openshift_image90.jpg["Astra Control Center añade licencia"]
+
++
+
+NOTE: Si tiene problemas con la instalación o la configuración de NetApp Astra Control Center, está disponible la base de conocimientos sobre problemas conocidos https://kb.netapp.com/Advice_and_Troubleshooting/Cloud_Services/Astra["aquí"].
+
+
+
+link:rh-os-n_astra_register.html["Siguiente: Registre sus Red Hat OpenShift Clusters."]

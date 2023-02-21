@@ -1,0 +1,63 @@
+---
+sidebar: sidebar 
+permalink: ai/ai-protopia-inferencing-accuracy-comparison.html 
+keywords: faceboxes, alpha value, accuracy, comparison 
+summary: Para esta validación, realizamos la inferencia para un caso de uso de detección de imágenes mediante un conjunto de imágenes en bruto. A continuación, realizamos la misma tarea de inferencia en el mismo conjunto de imágenes con la ofuscación Protopía agregada antes de la inferencia. Repetimos la tarea usando diferentes valores DE ALFA para el componente de ofuscación de Protopia. 
+---
+= Comparación de precisión de inferencia
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:ai-protopia-test-procedure.html["Anterior: Procedimiento de prueba."]
+
+Para esta validación, realizamos la inferencia para un caso de uso de detección de imágenes mediante un conjunto de imágenes en bruto. A continuación, realizamos la misma tarea de inferencia en el mismo conjunto de imágenes con la ofuscación Protopía agregada antes de la inferencia. Repetimos la tarea usando diferentes valores DE ALFA para el componente de ofuscación de Protopia. En el contexto de la ofuscación de Protopia, el valor ALFA representa la cantidad de ofuscación que se aplica, con un valor ALFA más alto que representa un nivel más alto de ofuscación. A continuación, comparamos la precisión de la inferencia en estas carreras diferentes.
+
+En las dos tablas siguientes se ofrecen detalles sobre nuestro caso de uso y se resumen los resultados.
+
+Protopia trabaja directamente con los clientes para determinar el valor ALFA adecuado para un caso de uso específico.
+
+|===
+| Componente | Detalles 
+
+
+| Modelo | FaceBoxes (PyTorch) - 
+
+
+| Conjunto de datos | Conjunto de datos FDDB 
+|===
+|===
+| Ofuscación Protopia | ALFA | Precisión 
+
+
+| No | N.A. | 0.9337148153739079 
+
+
+| Sí | 0.05 | 0.9028766627325002 
+
+
+| Sí | 0.1 | 0.9024301009661478 
+
+
+| Sí | 0.2 | 0.9081836283186224 
+
+
+| Sí | 0.4 | 0.9073066107482036 
+
+
+| Sí | 0.6 | 0.8847816568680239 
+
+
+| Sí | 0.8 | 0.8841195749171925 
+
+
+| Sí | 0.9 | 0.8455427675252052 
+
+
+| Sí | 0.95 | 0.8455427675252052 
+|===
+link:ai-protopia-obfuscation-speed.html["Siguiente: Velocidad de ofuscación."]

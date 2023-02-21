@@ -1,0 +1,93 @@
+---
+sidebar: sidebar 
+permalink: virtualization/vsphere_ontap_auto_block_fcoe.html 
+keywords: vSphere, datastore, VMFS, FCoE, ONTAP tools, zone, network interface 
+summary: Esta página proporciona los pasos para implementar un almacén de datos VMFS FCoE en un entorno de VMware vSphere en un almacenamiento ONTAP de NetApp. 
+---
+= Almacén de datos VMFS de vSphere: Protocolo de almacenamiento Fibre Channel sobre Ethernet con ONTAP
+:allow-uri-read: 
+
+
+
+
+== Acerca de esta tarea
+
+En esta sección se describe la creación de un almacén de datos VMFS con el protocolo de transporte Fibre Channel over Ethernet (FCoE) al almacenamiento de ONTAP.
+
+Para el aprovisionamiento automatizado, utilice uno de los siguientes scripts: <<PowerShell>>, <<Ansible>>, o. <<Terraform>>.
+
+
+
+== Lo que necesita
+
+* Las habilidades básicas necesarias para gestionar un entorno de vSphere y ONTAP
+* Un sistema de almacenamiento ONTAP (FAS/AFF/CVO/ONTAP Select) que ejecuta {ontap_version}
+* Credenciales de ONTAP (nombre de SVM, ID de usuario y contraseña)
+* link:++https://docs.netapp.com/ontap-9/topic/com.netapp.doc.dot-cm-sanconf/GUID-CE5218C0-2572-4E12-9C72-BF04D5CE222A.html++["Una combinación de FCoE compatible"]
+* link:++https://docs.netapp.com/ontap-9/topic/com.netapp.doc.exp-fc-esx-cpg/GUID-429C4DDD-5EC0-4DBD-8EA8-76082AB7ADEC.html++["Una hoja de datos de configuración completada"]
+* Credenciales de vCenter Server
+* Información sobre los hosts de vSphere
++
+** {vsphere_version}
+
+
+* Switch(es) de estructura
++
+** Con los puertos de datos FC de ONTAP o los hosts de vSphere conectados
+** Con la función de virtualización N_Port ID (NPIV) habilitada
+** Cree una zona de destino única de iniciador.
+** link:++https://docs.netapp.com/ontap-9/topic/com.netapp.doc.dot-cm-sanconf/GUID-374F3D38-43B3-423E-A710-2E2ABAC90D1A.html++["Se ha configurado la división en zonas de FC/FCoE"]
+
+
+* Switches de red
++
+** Compatibilidad con FCoE
+** Compatibilidad con DCB
+** link:++https://docs.netapp.com/ontap-9/topic/com.netapp.doc.dot-cm-sanag/GUID-16DEF659-E9C8-42B0-9B94-E5C5E2FEFF9C.html++["Tramas gigantes para FCoE"]
+
+
+* Herramienta ONTAP para VMware vSphere puesta en marcha, configurada y lista para usar
+
+
+
+
+== Aprovisione un almacén de datos de VMFS
+
+* Compruebe la compatibilidad con https://mysupport.netapp.com/matrix["Herramienta de matriz de interoperabilidad (IMT)"].
+* link:++https://docs.netapp.com/ontap-9/topic/com.netapp.doc.exp-fc-esx-cpg/GUID-7D444A0D-02CE-4A21-8017-CB1DC99EFD9A.html++["Compruebe que la configuración de FCoE es compatible"].
+
+
+
+
+== Tareas de ONTAP
+
+. link:++https://docs.netapp.com/ontap-9/topic/com.netapp.doc.dot-cm-cmpr-980/system__license__show.html++["Comprobar la licencia de ONTAP para FCP."]
++
+.. Utilice la `system license show` Comando para verificar que el FCP aparece.
+.. Uso `license add -license-code <license code>` para añadir una licencia.
+
+
+. Compruebe que el protocolo FCP esté habilitado en la SVM.
++
+.. link:++https://docs.netapp.com/ontap-9/topic/com.netapp.doc.exp-fc-esx-cpg/GUID-1C31DF2B-8453-4ED0-952A-DF68C3D8B76F.html++["Comprobar el FCP en una SVM existente."]
+.. link:++https://docs.netapp.com/ontap-9/topic/com.netapp.doc.exp-fc-esx-cpg/GUID-D322649F-0334-4AD7-9700-2A4494544CB9.html++["Configure el FCP en una SVM existente."]
+.. link:++https://docs.netapp.com/ontap-9/topic/com.netapp.doc.exp-fc-esx-cpg/GUID-0FCB46AA-DA18-417B-A9EF-B6A665DB77FC.html++["Cree una nueva SVM con el FCP."]
+
+
+. Comprobar que las interfaces lógicas FCP están disponibles en la SVM.
++
+.. Uso `Network Interface show` Para comprobar el adaptador FCP.
+.. Cuando se crea la SVM con la interfaz gráfica de usuario, las interfaces lógicas forman parte de ese proceso.
+.. Para cambiar el nombre de la interfaz de red, utilice `Network Interface modify`.
+
+
+. link:++https://docs.netapp.com/ontap-9/topic/com.netapp.doc.dot-cm-sanag/GUID-D4DAC7DB-A6B0-4696-B972-7327EE99FD72.html++["Cree y asigne una LUN"]; Omita este paso si utiliza las herramientas de ONTAP para VMware vSphere.
+
+
+
+
+== Tareas de VMware vSphere
+
+. Compruebe que los controladores HBA están instalados. Los HBA compatibles con VMware tienen controladores instalados de fábrica y deben estar visibles en la link:++https://docs.vmware.com/en/VMware-vSphere/7.0/com.vmware.vsphere.storage.doc/GUID-ED20B7BE-0D1C-4BF7-85C9-631D45D96FEC.html++["información del adaptador de almacenamiento"].
+. link:++https://docs.netapp.com/vapp-98/topic/com.netapp.doc.vsc-iag/GUID-D7CAD8AF-E722-40C2-A4CB-5B4089A14B00.html++["Aprovisione un almacén de datos VMFS con herramientas de ONTAP"].
+

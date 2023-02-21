@@ -1,0 +1,557 @@
+---
+sidebar: sidebar 
+permalink: databases/hybrid_dbops_snapcenter_getting_started_onprem.html 
+summary: 'La herramienta NetApp SnapCenter utiliza el control de acceso basado en roles (RBAC) para gestionar el acceso a recursos de usuario y las concesiones de permisos, y la instalación de SnapCenter crea roles predefinidos. También puede crear funciones personalizadas según sus necesidades o aplicaciones.' 
+keywords: workflow, on premises, rbac, roles, permissions 
+---
+= Introducción a las instalaciones
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:table-stripes: odd
+:imagesdir: ./../media/
+
+
+link:hybrid_dbops_snapcenter_getting_started.html["Anterior: Introducción."]
+
+
+
+== En el entorno local
+
+
+
+=== 1. Configurar el usuario administrador de la base de datos en SnapCenter
+
+La herramienta NetApp SnapCenter utiliza el control de acceso basado en roles (RBAC) para gestionar el acceso a recursos de usuario y permisos, y la instalación de SnapCenter crea roles predefinidos. También puede crear funciones personalizadas según sus necesidades o aplicaciones. Tiene sentido tener un ID de usuario administrador dedicado para cada plataforma de base de datos compatible con SnapCenter para backup, restauración y/o recuperación ante desastres de bases de datos. También es posible usar un ID único para gestionar todas las bases de datos. En nuestros casos de prueba y demostración, creamos un usuario de administrador dedicado para Oracle y SQL Server, respectivamente.
+
+Ciertos recursos de SnapCenter solo pueden aprovisionarse con el rol de administrador de SnapCenter. Los recursos se pueden asignar a otros ID de usuario para tener acceso.
+
+En un entorno SnapCenter local preinstalado y configurado, es posible que las siguientes tareas ya se hayan completado. De lo contrario, los siguientes pasos crean un usuario administrador de base de datos:
+
+. Agregue el usuario admin a Windows Active Directory.
+. Inicie sesión en SnapCenter con un ID que cuenta con el rol de administrador de SnapCenter.
+. Vaya a la ficha Access en Configuración y usuarios y haga clic en Agregar para agregar un nuevo usuario. El nuevo ID de usuario está vinculado al usuario administrador creado en Windows Active Directory en el paso 1. . Asigne el rol adecuado al usuario según sea necesario. Asigne recursos al usuario administrador según corresponda.
+
+
+image:snapctr_admin_users.PNG["Error: Falta la imagen gráfica"]
+
+
+
+=== 2. Requisitos previos de instalación del complemento SnapCenter
+
+SnapCenter realiza funciones de backup, restauración, clonado y otras mediante un agente de complementos que se ejecuta en los hosts de la base de datos. Se conecta al host de la base de datos y a la base de datos mediante credenciales configuradas en la pestaña Setting and Credentials para la instalación del plugin y otras funciones de administración. Existen requisitos de privilegios específicos según el tipo de host de destino, como Linux o Windows, así como el tipo de base de datos.
+
+Las credenciales de los hosts DE la BASE de DATOS deben configurarse antes de instalar el plugin de SnapCenter. Generalmente, desea utilizar cuentas de usuario de administrador en el host de la base de datos como credenciales de conexión de host para la instalación del plugin. También puede otorgar el mismo ID de usuario para el acceso a la base de datos mediante la autenticación basada en el sistema operativo. Por otro lado, también puede utilizar la autenticación de la base de datos con distintos ID de usuario de la base de datos para el acceso a la administración de la base de datos. Si decide utilizar la autenticación basada en el sistema operativo, debe concederse acceso a la base de datos al ID de usuario administrador del sistema operativo. Para la instalación de SQL Server basada en dominios de Windows, se puede utilizar una cuenta de administrador de dominio para administrar todos los servidores SQL Server dentro del dominio.
+
+Host Windows para SQL Server:
+
+. Si utiliza credenciales de Windows para la autenticación, debe configurar la credencial para poder instalar plugins.
+. Si utiliza una instancia de SQL Server para la autenticación, debe añadir las credenciales después de instalar plugins.
+. Si habilitó la autenticación por SQL durante la configuración de las credenciales, la instancia o la base de datos detectadas se mostrarán con un icono de candado rojo. Si se muestra el icono de candado, es necesario especificar las credenciales de la instancia o la base de datos para añadir correctamente la instancia o la base de datos al grupo de recursos.
+. Debe asignar la credencial a un usuario de RBAC sin acceso de administrador del sistema cuando se cumplan las siguientes condiciones:
++
+** La credencial se asigna a una instancia de SQL.
+** La instancia o el host de SQL se asignan a un usuario de RBAC.
+** El usuario administrador de la base de datos de RBAC debe tener privilegios de backup y grupo de recursos.
+
+
+
+
+Host UNIX para Oracle:
+
+. Debe haber habilitado la conexión SSH basada en contraseña para el usuario raíz o no raíz editando sshd.conf y reiniciando el servicio sshd. La autenticación SSH basada en contraseña en la instancia de AWS está desactivada de forma predeterminada.
+. Configure los privilegios sudo para el usuario que no sea raíz para instalar e iniciar el proceso del plugin. Después de instalar el plugin, los procesos se ejecutan como un usuario root efectivo.
+. Cree credenciales con el modo de autenticación de Linux para el usuario de instalación.
+. Debe instalar Java 1.8.x (64 bits) en el host Linux.
+. La instalación del complemento Oracle Database también instala el complemento SnapCenter para Unix.
+
+
+
+
+=== 3. Instalación del complemento de host de SnapCenter
+
+
+NOTE: Antes de intentar instalar los plugins de SnapCenter en instancias de servidor de la base de datos en la nube, asegúrese de que todos los pasos de configuración se han completado como se indica en la sección pertinente de la nube para la implementación de la instancia de computación.
+
+Los siguientes pasos ilustran cómo se añade un host de base de datos a SnapCenter mientras se instala un plugin de SnapCenter en el host. El procedimiento aplica a añadir hosts en las instalaciones y hosts de cloud. La siguiente demostración añade un host de Windows o Linux que reside en AWS.
+
+
+
+==== Configuración de los ajustes globales de VMware de SnapCenter
+
+Vaya a Configuración > Configuración global. Seleccione "VMs have iSCSI direct attached disks or NFS for all the hosts" en Hypervisor Settings y haga clic en Update.
+
+image:snapctr_vmware_global.PNG["Error: Falta la imagen gráfica"]
+
+
+
+==== Añada el host de Windows y la instalación del plugin en el host
+
+. Inicie sesión en SnapCenter con un ID de usuario con privilegios de administrador de SnapCenter.
+. Haga clic en la ficha hosts del menú de la izquierda y, a continuación, haga clic en Agregar para abrir el flujo de trabajo Agregar host.
+. Elija Windows para Tipo de host; el nombre de host puede ser un nombre de host o una dirección IP. El nombre de host debe solucionarse con la dirección IP de host correcta desde el host SnapCenter. Seleccione las credenciales de host creadas en el paso 2. Elija Microsoft Windows y Microsoft SQL Server como los paquetes de complementos que se van a instalar.
++
+image:snapctr_add_windows_host_01.PNG["Error: Falta la imagen gráfica"]
+
+. Una vez instalado el plugin en un host de Windows, su estado general se muestra como "Configure log directory".
++
+image:snapctr_add_windows_host_02.PNG["Error: Falta la imagen gráfica"]
+
+. Haga clic en Nombre de host para abrir la configuración del directorio de registro de SQL Server.
++
+image:snapctr_add_windows_host_03.PNG["Error: Falta la imagen gráfica"]
+
+. Haga clic en "Configure log directory" para abrir "Configure Plug-in for SQL Server".
++
+image:snapctr_add_windows_host_04.PNG["Error: Falta la imagen gráfica"]
+
+. Haga clic en examinar para detectar el almacenamiento de NetApp de manera que se pueda configurar un directorio de registro; SnapCenter utiliza este directorio de registro para revertir los archivos de registro de transacciones de SQL Server. A continuación, haga clic en Guardar.
++
+image:snapctr_add_windows_host_05.PNG["Error: Falta la imagen gráfica"]
+
++
+
+NOTE: Para que el almacenamiento de NetApp aprovisionado a un host de base de datos se detecte, es necesario añadir el almacenamiento (local o CVO) a SnapCenter, como se muestra en el paso 6 para CVO como ejemplo.
+
+. Una vez configurado el directorio de registro, el estado general del plugin del host de Windows cambia a Running.
++
+image:snapctr_add_windows_host_06.PNG["Error: Falta la imagen gráfica"]
+
+. Para asignar el host al ID de usuario de administración de base de datos, desplácese a la ficha Access en Configuración y usuarios, haga clic en el ID de usuario de administración de la base de datos (en nuestro caso, la sqldba a la que se debe asignar el host) y haga clic en Save para completar la asignación de recursos del host.
++
+image:snapctr_add_windows_host_07.PNG["Error: Falta la imagen gráfica"]
+
++
+image:snapctr_add_windows_host_08.PNG["Error: Falta la imagen gráfica"]
+
+
+
+
+
+==== Agregar el host Unix y la instalación del plugin en el host
+
+. Inicie sesión en SnapCenter con un ID de usuario con privilegios de administrador de SnapCenter.
+. Haga clic en la ficha hosts del menú de la izquierda y haga clic en Agregar para abrir el flujo de trabajo Agregar host.
+. Elija Linux como el tipo de host. El nombre del host puede ser el nombre de host o una dirección IP. Sin embargo, se debe resolver el nombre de host para corregir la dirección IP del host desde el host SnapCenter. Seleccione las credenciales de host creadas en el paso 2. Las credenciales del host requieren privilegios sudo. Compruebe Oracle Database como el plugin que se va a instalar, que instala complementos de host de Oracle y Linux.
++
+image:snapctr_add_linux_host_01.PNG["Error: Falta la imagen gráfica"]
+
+. Haga clic en más opciones y seleccione "Omitir comprobaciones previas a la instalación". Se le pedirá que confirme la omisión de la comprobación de preinstalación. Haga clic en Yes y, a continuación, Save.
++
+image:snapctr_add_linux_host_02.PNG["Error: Falta la imagen gráfica"]
+
+. Haga clic en Enviar para iniciar la instalación del complemento. Se le pedirá que confirme la huella dactilar, tal como se muestra a continuación.
++
+image:snapctr_add_linux_host_03.PNG["Error: Falta la imagen gráfica"]
+
+. SnapCenter realiza la validación y el registro del host y, a continuación, se instala el plugin en el host Linux. El estado cambia de Installing Plugin a Running.
++
+image:snapctr_add_linux_host_04.PNG["Error: Falta la imagen gráfica"]
+
+. Asigne el host recién añadido al ID de usuario de administración de base de datos adecuado (en nuestro caso, oradba).
++
+image:snapctr_add_linux_host_05.PNG["Error: Falta la imagen gráfica"]
+
++
+image:snapctr_add_linux_host_06.PNG["Error: Falta la imagen gráfica"]
+
+
+
+
+
+=== 4. Detección de recursos de base de datos
+
+Cuando el plugin se instala correctamente, los recursos de la base de datos en el host se pueden detectar de inmediato. Haga clic en la ficha Recursos del menú de la izquierda. En función del tipo de plataforma de base de datos, hay disponibles varias vistas, como la base de datos, el grupo de recursos, etc. Puede ser necesario hacer clic en la pestaña Refresh Resources si no se detectan y se muestran los recursos en el host.
+
+image:snapctr_resources_ora.PNG["Error: Falta la imagen gráfica"]
+
+Cuando se detecta inicialmente la base de datos, el estado general se muestra como "no protegido". La captura de pantalla anterior muestra que una base de datos Oracle aún no está protegida por una política de backup.
+
+Cuando se configura una política o configuración de backup y se ejecuta un backup, el estado general de la base de datos muestra el estado de backup como "Backup succeeded" y la Marca temporal del último backup. La siguiente captura de pantalla muestra el estado de la copia de seguridad de una base de datos de usuario de SQL Server.
+
+image:snapctr_resources_sql.PNG["Error: Falta la imagen gráfica"]
+
+Si las credenciales de acceso a la base de datos no están configuradas correctamente, un botón de bloqueo rojo indica que no se puede acceder a la base de datos. Por ejemplo, si las credenciales de Windows no tienen acceso de administrador del sistema a una instancia de base de datos, las credenciales de la base de datos deben volver a configurarse para desbloquear el bloqueo rojo.
+
+image:snapctr_add_windows_host_09.PNG["Error: Falta la imagen gráfica"]
+
+image:snapctr_add_windows_host_10.PNG["Error: Falta la imagen gráfica"]
+
+Una vez configuradas las credenciales adecuadas en el nivel de Windows o en la base de datos, desaparece el bloqueo rojo y se recopila y revisa la información de SQL Server Type.
+
+image:snapctr_add_windows_host_11.PNG["Error: Falta la imagen gráfica"]
+
+
+
+=== 5. Configurar la conexión entre clústeres de almacenamiento y la replicación de volúmenes de base de datos
+
+Para proteger los datos de sus bases de datos locales mediante un cloud público como destino, los volúmenes de base de datos de clúster ONTAP en las instalaciones se replican en el cloud CVO mediante la tecnología SnapMirror de NetApp. A continuación, los volúmenes de destino replicados se pueden clonar para ACTIVIDADES DE DESARROLLO y operaciones, o bien para la recuperación ante desastres. Los siguientes pasos de alto nivel le permiten configurar la replicación entre iguales de clústeres y volúmenes de base de datos.
+
+. Configure las LIF de interconexión de clústeres para la agrupación de clústeres en el clúster local y en la instancia de clúster de CVO. Este paso se puede llevar a cabo con ONTAP System Manager. Una puesta en marcha predeterminada de CVO tiene LIF entre clústeres configurados automáticamente.
++
+Clúster en las instalaciones:
+
++
+image:snapctr_cluster_replication_01.PNG["Error: Falta la imagen gráfica"]
+
++
+Clúster de CVO de destino:
+
++
+image:snapctr_cluster_replication_02.PNG["Error: Falta la imagen gráfica"]
+
+. Con las LIF de interconexión de clústeres configuradas, la interconexión de clústeres entre iguales y la replicación de volúmenes se pueden configurar mediante el método de arrastrar y soltar en Cloud Manager de NetApp. Consulte link:hybrid_dbops_snapcenter_getting_started_aws.html#aws-public-cloud["Introducción: Cloud público de AWS"] para obtener más detalles.
++
+Como alternativa, se puede llevar a cabo la paridad de clústeres y la replicación de volúmenes de base de datos mediante System Manager de ONTAP de la siguiente manera:
+
+. Inicie sesión en el Administrador del sistema de ONTAP. Acceda a Cluster > Settings y haga clic en Peer Cluster para configurar Cluster peering con la instancia de CVO en el cloud.
++
+image:snapctr_vol_snapmirror_00.PNG["Error: Falta la imagen gráfica"]
+
+. Vaya a la pestaña Volumes. Seleccione el volumen de la base de datos que se va a replicar y haga clic en Protect.
++
+image:snapctr_vol_snapmirror_01.PNG["Error: Falta la imagen gráfica"]
+
+. Establezca la directiva de protección en Asynchronous. Seleccione el clúster de destino y la SVM de almacenamiento.
++
+image:snapctr_vol_snapmirror_02.PNG["Error: Falta la imagen gráfica"]
+
+. Compruebe que el volumen esté sincronizado entre el origen y el destino y que la relación de replicación sea correcta.
++
+image:snapctr_vol_snapmirror_03.PNG["Error: Falta la imagen gráfica"]
+
+
+
+
+
+=== 6. Añada SVM de almacenamiento de base de datos de CVO a SnapCenter
+
+. Inicie sesión en SnapCenter con un ID de usuario con privilegios de administrador de SnapCenter.
+. Haga clic en la pestaña Storage System del menú y, a continuación, haga clic en New para añadir una SVM de almacenamiento CVO que aloja volúmenes de base de datos de destino replicados a SnapCenter. Introduzca la IP de gestión del clúster en el campo Storage System e introduzca el nombre de usuario y la contraseña correspondientes.
++
+image:snapctr_add_cvo_svm_01.PNG["Error: Falta la imagen gráfica"]
+
+. Haga clic en más opciones para abrir opciones de configuración de almacenamiento adicional. En el campo Plataforma, seleccione Cloud Volumes ONTAP, seleccione secundario y haga clic en Guardar.
++
+image:snapctr_add_cvo_svm_02.PNG["Error: Falta la imagen gráfica"]
+
+. Asigne los sistemas de almacenamiento a los ID de usuario de administración de bases de datos SnapCenter tal y como se muestra en <<3. Instalación del complemento de host de SnapCenter>>.
++
+image:snapctr_add_cvo_svm_03.PNG["Error: Falta la imagen gráfica"]
+
+
+
+
+
+=== 7. Configuración de la política de copia de seguridad de la base de datos en SnapCenter
+
+En los siguientes procedimientos se muestra cómo crear una base de datos completa o una política de backup de archivos de registro. Luego, la política puede implementarse para proteger los recursos de las bases de datos. El objetivo de punto de recuperación (RPO) o el objetivo de tiempo de recuperación (RTO) determina la frecuencia de los backups de la base de datos o de registros.
+
+
+
+==== Cree una política de backup de base de datos completa para Oracle
+
+. Inicie sesión en SnapCenter como identificador de usuario de administración de bases de datos, haga clic en Configuración y, a continuación, en políticas.
++
+image:snapctr_ora_policy_data_01.PNG["Error: Falta la imagen gráfica"]
+
+. Haga clic en New para iniciar un nuevo flujo de trabajo de creación de políticas de backup o seleccione una política existente para modificarla.
++
+image:snapctr_ora_policy_data_02.PNG["Error: Falta la imagen gráfica"]
+
+. Seleccione el tipo de backup y la frecuencia de programación.
++
+image:snapctr_ora_policy_data_03.PNG["Error: Falta la imagen gráfica"]
+
+. Establezca el valor de retención de copias de seguridad. Esto define cuántas copias de backup de base de datos completas se deben conservar.
++
+image:snapctr_ora_policy_data_04.PNG["Error: Falta la imagen gráfica"]
+
+. Seleccione las opciones de replicación secundaria para insertar los backups de las snapshots primarias locales que se van a replicar en una ubicación secundaria en el cloud.
++
+image:snapctr_ora_policy_data_05.PNG["Error: Falta la imagen gráfica"]
+
+. Especifique cualquier script opcional antes y después de la ejecución de un backup.
++
+image:snapctr_ora_policy_data_06.PNG["Error: Falta la imagen gráfica"]
+
+. Ejecute la verificación del backup si lo desea.
++
+image:snapctr_ora_policy_data_07.PNG["Error: Falta la imagen gráfica"]
+
+. Resumen.
++
+image:snapctr_ora_policy_data_08.PNG["Error: Falta la imagen gráfica"]
+
+
+
+
+
+==== Cree una política de backup del registro de la base de datos para Oracle
+
+. Inicie sesión en SnapCenter con un ID de usuario de administración de bases de datos, haga clic en Configuración y, a continuación, en políticas.
+. Haga clic en New para iniciar un nuevo flujo de trabajo de creación de políticas de backup o seleccione una política existente para modificarla.
++
+image:snapctr_ora_policy_log_01.PNG["Error: Falta la imagen gráfica"]
+
+. Seleccione el tipo de backup y la frecuencia de programación.
++
+image:snapctr_ora_policy_log_02.PNG["Error: Falta la imagen gráfica"]
+
+. Configure el período de retención del registro.
++
+image:snapctr_ora_policy_log_03.PNG["Error: Falta la imagen gráfica"]
+
+. Habilite la replicación en una ubicación secundaria en el cloud público.
++
+image:snapctr_ora_policy_log_04.PNG["Error: Falta la imagen gráfica"]
+
+. Especifique cualquier script opcional para ejecutar antes y después del backup de registros.
++
+image:snapctr_ora_policy_log_05.PNG["Error: Falta la imagen gráfica"]
+
+. Especifique cualquier script de verificación de backup.
++
+image:snapctr_ora_policy_log_06.PNG["Error: Falta la imagen gráfica"]
+
+. Resumen.
++
+image:snapctr_ora_policy_log_07.PNG["Error: Falta la imagen gráfica"]
+
+
+
+
+
+==== Cree una política de backup de base de datos completa para SQL
+
+. Inicie sesión en SnapCenter con un ID de usuario de administración de bases de datos, haga clic en Configuración y, a continuación, en políticas.
++
+image:snapctr_sql_policy_data_01.PNG["Error: Falta la imagen gráfica"]
+
+. Haga clic en New para iniciar un nuevo flujo de trabajo de creación de políticas de backup o seleccione una política existente para modificarla.
++
+image:snapctr_sql_policy_data_02.PNG["Error: Falta la imagen gráfica"]
+
+. Defina las opciones de backup y la frecuencia de programación. Para SQL Server configurado con un grupo de disponibilidad, es posible establecer una réplica de backup preferida.
++
+image:snapctr_sql_policy_data_03.PNG["Error: Falta la imagen gráfica"]
+
+. Establezca el período de retención de las copias de seguridad.
++
+image:snapctr_sql_policy_data_04.PNG["Error: Falta la imagen gráfica"]
+
+. Habilite la replicación de copias de backup en una ubicación secundaria en el cloud.
++
+image:snapctr_sql_policy_data_05.PNG["Error: Falta la imagen gráfica"]
+
+. Especifique cualquier script opcional que se ejecute antes o después de un trabajo de backup.
++
+image:snapctr_sql_policy_data_06.PNG["Error: Falta la imagen gráfica"]
+
+. Especifique las opciones para ejecutar la verificación de backup.
++
+image:snapctr_sql_policy_data_07.PNG["Error: Falta la imagen gráfica"]
+
+. Resumen.
++
+image:snapctr_sql_policy_data_08.PNG["Error: Falta la imagen gráfica"]
+
+
+
+
+
+==== Crear una política de backup del registro de la base de datos para SQL.
+
+. Inicie sesión en SnapCenter con un ID de usuario de administración de bases de datos, haga clic en Configuración > políticas y, a continuación, en Nuevo para iniciar un nuevo flujo de trabajo de creación de directivas.
++
+image:snapctr_sql_policy_log_01.PNG["Error: Falta la imagen gráfica"]
+
+. Defina las opciones de backup de registros y la frecuencia de programación. Para SQL Server configurado con un grupo de disponibilidad, se puede establecer una réplica de backup preferida.
++
+image:snapctr_sql_policy_log_02.PNG["Error: Falta la imagen gráfica"]
+
+. La política de backup de datos de SQL Server define la retención de backup de registros; acepte los valores predeterminados aquí.
++
+image:snapctr_sql_policy_log_03.PNG["Error: Falta la imagen gráfica"]
+
+. Habilite la replicación de backups de registros en almacenamiento secundario en el cloud.
++
+image:snapctr_sql_policy_log_04.PNG["Error: Falta la imagen gráfica"]
+
+. Especifique cualquier script opcional que se ejecute antes o después de un trabajo de backup.
++
+image:snapctr_sql_policy_log_05.PNG["Error: Falta la imagen gráfica"]
+
+. Resumen.
++
+image:snapctr_sql_policy_log_06.PNG["Error: Falta la imagen gráfica"]
+
+
+
+
+
+=== 8. Implementar la política de copia de seguridad para proteger la base de datos
+
+SnapCenter utiliza un grupo de recursos para realizar el backup de una base de datos en una agrupación lógica de recursos de base de datos, como varias bases de datos alojadas en un servidor, una base de datos que comparte los mismos volúmenes de almacenamiento, varias bases de datos que admiten una aplicación empresarial, etc. Proteger una sola base de datos crea un grupo de recursos propio. Los siguientes procedimientos muestran cómo implementar una política de backup creada en la sección 7 para proteger las bases de datos de Oracle y SQL Server.
+
+
+
+==== Cree un grupo de recursos para un backup completo de Oracle
+
+. Inicie sesión en SnapCenter con un ID de usuario de gestión de bases de datos y vaya a la pestaña Resources. En la lista desplegable View, seleccione Database o Resource Group para iniciar el flujo de trabajo de creación de grupos de recursos.
++
+image:snapctr_ora_rgroup_full_01.PNG["Error: Falta la imagen gráfica"]
+
+. Proporcione un nombre y etiquetas para el grupo de recursos. Puede definir un formato de nomenclatura para la copia Snapshot y omitir el destino de registro de archivos redundante, si se ha configurado.
++
+image:snapctr_ora_rgroup_full_02.PNG["Error: Falta la imagen gráfica"]
+
+. Añada los recursos de la base de datos al grupo de recursos.
++
+image:snapctr_ora_rgroup_full_03.PNG["Error: Falta la imagen gráfica"]
+
+. Seleccione una política de backup completa creada en la sección 7 de la lista desplegable.
++
+image:snapctr_ora_rgroup_full_04.PNG["Error: Falta la imagen gráfica"]
+
+. Haga clic en el signo (+) para configurar la programación de copia de seguridad deseada.
++
+image:snapctr_ora_rgroup_full_05.PNG["Error: Falta la imagen gráfica"]
+
+. Haga clic en Load Locators para cargar el volumen de origen y destino.
++
+image:snapctr_ora_rgroup_full_06.PNG["Error: Falta la imagen gráfica"]
+
+. Configure el servidor SMTP para la notificación por correo electrónico si lo desea.
++
+image:snapctr_ora_rgroup_full_07.PNG["Error: Falta la imagen gráfica"]
+
+. Resumen.
++
+image:snapctr_ora_rgroup_full_08.PNG["Error: Falta la imagen gráfica"]
+
+
+
+
+
+==== Cree un grupo de recursos para el backup de registros de Oracle
+
+. Inicie sesión en SnapCenter con un ID de usuario de gestión de bases de datos y vaya a la pestaña Resources. En la lista desplegable View, seleccione Database o Resource Group para iniciar el flujo de trabajo de creación de grupos de recursos.
++
+image:snapctr_ora_rgroup_log_01.PNG["Error: Falta la imagen gráfica"]
+
+. Proporcione un nombre y etiquetas para el grupo de recursos. Puede definir un formato de nomenclatura para la copia Snapshot y omitir el destino de registro de archivos redundante, si se ha configurado.
++
+image:snapctr_ora_rgroup_log_02.PNG["Error: Falta la imagen gráfica"]
+
+. Añada los recursos de la base de datos al grupo de recursos.
++
+image:snapctr_ora_rgroup_log_03.PNG["Error: Falta la imagen gráfica"]
+
+. Seleccione una política de backup de registros creada en la sección 7 de la lista desplegable.
++
+image:snapctr_ora_rgroup_log_04.PNG["Error: Falta la imagen gráfica"]
+
+. Haga clic en el signo (+) para configurar la programación de copia de seguridad deseada.
++
+image:snapctr_ora_rgroup_log_05.PNG["Error: Falta la imagen gráfica"]
+
+. Si la verificación del backup está configurada, se muestra aquí.
++
+image:snapctr_ora_rgroup_log_06.PNG["Error: Falta la imagen gráfica"]
+
+. Configure un servidor SMTP para la notificación por correo electrónico si lo desea.
++
+image:snapctr_ora_rgroup_log_07.PNG["Error: Falta la imagen gráfica"]
+
+. Resumen.
++
+image:snapctr_ora_rgroup_log_08.PNG["Error: Falta la imagen gráfica"]
+
+
+
+
+
+==== Cree un grupo de recursos para backup completo de SQL Server
+
+. Inicie sesión en SnapCenter con un ID de usuario de gestión de bases de datos y vaya a la pestaña Resources. En la lista desplegable View, seleccione una base de datos o un grupo de recursos para iniciar el flujo de trabajo de creación de grupo de recursos. Proporcione un nombre y etiquetas para el grupo de recursos. Puede definir un formato de nomenclatura para la copia Snapshot.
++
+image:snapctr_sql_rgroup_full_01.PNG["Error: Falta la imagen gráfica"]
+
+. Seleccione los recursos de la base de datos que desea incluir en el backup.
++
+image:snapctr_sql_rgroup_full_02.PNG["Error: Falta la imagen gráfica"]
+
+. Seleccione una política de backup de SQL completa creada en la sección 7.
++
+image:snapctr_sql_rgroup_full_03.PNG["Error: Falta la imagen gráfica"]
+
+. Añada una hora exacta para backups y la frecuencia.
++
+image:snapctr_sql_rgroup_full_04.PNG["Error: Falta la imagen gráfica"]
+
+. Seleccione el servidor de verificación para el backup en secundario si desea realizar la verificación de backup. Haga clic en Load Locator para rellenar la ubicación de almacenamiento secundario.
++
+image:snapctr_sql_rgroup_full_05.PNG["Error: Falta la imagen gráfica"]
+
+. Configure el servidor SMTP para la notificación por correo electrónico si lo desea.
++
+image:snapctr_sql_rgroup_full_06.PNG["Error: Falta la imagen gráfica"]
+
+. Resumen.
++
+image:snapctr_sql_rgroup_full_07.PNG["Error: Falta la imagen gráfica"]
+
+
+
+
+
+==== Crear un grupo de recursos para backup de registros de SQL Server
+
+. Inicie sesión en SnapCenter con un ID de usuario de gestión de bases de datos y vaya a la pestaña Resources. En la lista desplegable View, seleccione una base de datos o un grupo de recursos para iniciar el flujo de trabajo de creación de grupo de recursos. Proporcione el nombre y las etiquetas del grupo de recursos. Puede definir un formato de nomenclatura para la copia Snapshot.
++
+image:snapctr_sql_rgroup_log_01.PNG["Error: Falta la imagen gráfica"]
+
+. Seleccione los recursos de la base de datos que desea incluir en el backup.
++
+image:snapctr_sql_rgroup_log_02.PNG["Error: Falta la imagen gráfica"]
+
+. Seleccione una política de backup de registro SQL creada en la sección 7.
++
+image:snapctr_sql_rgroup_log_03.PNG["Error: Falta la imagen gráfica"]
+
+. Añada la hora exacta para la copia de seguridad así como la frecuencia.
++
+image:snapctr_sql_rgroup_log_04.PNG["Error: Falta la imagen gráfica"]
+
+. Seleccione el servidor de verificación para el backup en secundario si desea realizar la verificación de backup. Haga clic en Load Locator para rellenar la ubicación de almacenamiento secundario.
++
+image:snapctr_sql_rgroup_log_05.PNG["Error: Falta la imagen gráfica"]
+
+. Configure el servidor SMTP para la notificación por correo electrónico si lo desea.
++
+image:snapctr_sql_rgroup_log_06.PNG["Error: Falta la imagen gráfica"]
+
+. Resumen.
++
+image:snapctr_sql_rgroup_log_07.PNG["Error: Falta la imagen gráfica"]
+
+
+
+
+
+=== 9. Validar el backup
+
+Después de crear grupos de recursos de backup de bases de datos para proteger los recursos de las bases de datos, las tareas de backup se ejecutan según la programación predefinida. Compruebe el estado de ejecución del trabajo en la pestaña Monitor.
+
+image:snapctr_job_status_sql.PNG["Error: Falta la imagen gráfica"]
+
+Vaya a la pestaña Resources, haga clic en el nombre de la base de datos para ver los detalles del backup de la base de datos, y cambie entre copias locales y copias de mirroring para verificar que los backups de Snapshot se replican en una ubicación secundaria en el cloud público.
+
+image:snapctr_job_status_ora.PNG["Error: Falta la imagen gráfica"]
+
+En este momento, las copias de backup de base de datos en el cloud están listas para clonar para ejecutar los procesos de desarrollo y pruebas o para la recuperación ante desastres en caso de un fallo principal.
+
+link:hybrid_dbops_snapcenter_getting_started_aws.html["Siguiente: Introducción al cloud público de AWS."]

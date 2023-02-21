@@ -1,0 +1,247 @@
+---
+sidebar: sidebar 
+permalink: ai/ai-sent-architecture.html 
+keywords: technology, architectural diagram, hardware requirements, NVIDIA RIVA, NVIDIA TAO Toolkit, Flash storage system, Cloud Sync 
+summary: La arquitectura de esta solución de centro de soporte se basa en las herramientas prediseñadas de NVIDIA y el kit de herramientas Data OPS de NetApp. Las herramientas de NVIDIA se utilizan para poner en marcha rápidamente soluciones de IA de alto rendimiento utilizando modelos y canalizaciones prediseñados. El kit de herramientas DataOPS de NetApp simplifica diversas tareas de gestión de datos para acelerar el desarrollo. 
+---
+= Arquitectura
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:ai-sent-use-cases.html["Anterior: Casos de uso."]
+
+La arquitectura de esta solución de centro de soporte se basa en las herramientas prediseñadas de NVIDIA y el kit de herramientas Data OPS de NetApp. Las herramientas de NVIDIA se utilizan para poner en marcha rápidamente soluciones de IA de alto rendimiento utilizando modelos y canalizaciones prediseñados. El kit de herramientas DataOPS de NetApp simplifica diversas tareas de gestión de datos para acelerar el desarrollo.
+
+
+
+== Tecnología de soluciones
+
+link:https://developer.nvidia.com/riva["RIVA DE NVIDIA"^] Es un SDK acelerado por GPU para crear aplicaciones de IA conversacionales multimodales que ofrecen rendimiento en tiempo real en las GPU. El kit de herramientas NVIDIA Train, Adapt y Optimize (TAO) proporciona un método más rápido y sencillo para acelerar la formación y crear rápidamente modelos de IA específicos para dominios con un alto rendimiento y precisión.
+
+El kit de herramientas NetApp DataOPS es una biblioteca Python que facilita a los desarrolladores, científicos de datos, ingenieros de DevOps e ingenieros de datos la tarea de realizar varias tareas de gestión de datos. Esto incluye el aprovisionamiento casi instantáneo de un nuevo volumen de datos o espacio de trabajo JupyterLab, el clonado casi instantáneo de un volumen de datos o un espacio de trabajo JupyterLab y la creación casi instantánea de copias Snapshot de un volumen de datos o de un espacio de trabajo JupyterLab para su seguimiento y línea de base.
+
+
+
+== Diagrama arquitectónico
+
+El siguiente diagrama muestra la arquitectura de la solución. Existen tres categorías de entorno principales: El cloud, el núcleo y el perímetro. Cada una de las categorías puede estar geográficamente dispersa. Por ejemplo, el cloud contiene almacenes de objetos con archivos de audio en buckets en diferentes regiones, mientras que el núcleo puede contener centros de datos vinculados a través de una red de alta velocidad o Cloud Sync de NetApp. Los nodos EDGE denotan las plataformas de trabajo diario del agente humano individual, en las que hay disponibles micrófonos y herramientas de panel interactivas para visualizar la opinión y recopilar datos de audio de conversaciones con los clientes.
+
+En los centros de datos acelerados por GPU, las empresas pueden utilizar NVIDIA https://docs.nvidia.com/deeplearning/riva/user-guide/docs/index.html["RIVA"^] Marco para crear aplicaciones de IA conversacionales, con las que el https://developer.nvidia.com/tao["Kit de herramientas Tao"^] Se conecta para la finetunización de modelos y el reciclaje mediante técnicas de aprendizaje en L de transferencia. Estas aplicaciones y flujos de trabajo de computación funcionan con la https://github.com/NetApp/netapp-dataops-toolkit["Kit de herramientas de operaciones de datos de NetApp"^], Activación de las mejores capacidades de administración de datos que ONTAP tiene para ofrecer. El kit de herramientas permite a los equipos de datos corporativos realizar rápidamente prototipos de sus modelos con datos estructurados y no estructurados asociados a través de copias Snapshot y clones para llevar a cabo seguimientos, crear versiones, realizar pruebas A/B, proporcionando así seguridad, gobernabilidad, y cumplimiento de las normativas. Consulte la sección link:ai-sent-design-considerations.html#storage-design["Diseño del almacenamiento"] para obtener más detalles.
+
+Esta solución muestra los pasos detallados del procesamiento de archivos de audio, el entrenamiento de modelos NLP, el aprendizaje de transferencias y la administración de datos. La canalización integral resultante genera un resumen de sentimiento que se muestra en tiempo real en los paneles de control de los agentes de apoyo humano.
+
+image:ai-sent-image4.png["Error: Falta la imagen gráfica"]
+
+
+
+=== Requisitos de hardware
+
+En la siguiente tabla se enumeran los componentes de hardware necesarios para implementar la solución. Los componentes de hardware que se usan en cualquier implementación particular de la solución pueden variar en función de las necesidades del cliente.
+
+|===
+| Pruebas de latencia de respuesta | Tiempo (milisegundos) 
+
+
+| Procesamiento de datos | 10 
+
+
+| Inferencia | 10 
+|===
+Estas pruebas de tiempo de respuesta se realizaron en más de 50,000 archivos de audio en 560 conversaciones. Cada archivo de audio tenía un tamaño de ~100 KB como MP3 y de ~1 MB cuando se convirtió a WAV. El paso de procesamiento de datos convierte MP3s en archivos WAV. Los pasos de inferencia convierten los archivos de audio en texto y extraen un sentimiento del texto. Estos pasos son todos independientes entre sí y pueden ser paralelizados para acelerar el proceso.
+
+Teniendo en cuenta la latencia de transferencia de datos entre almacenes, los administradores deben poder ver actualizaciones del análisis de opinión en tiempo real en un segundo del final de la frase.
+
+
+
+==== Hardware NVIDIA RIVA
+
+|===
+| Hardware subyacente | Requisitos 
+
+
+| SO | Linux x86_64 
+
+
+| Memoria GPU (ASR) | Modelos de streaming: Aprox. 5600 MB modelos sin secuencias: Aprox. 3100 MB 
+
+
+| Memoria GPU (NLP) | ~500 MB por modelo BERT 
+|===
+
+
+==== Hardware del kit de herramientas TAO de NVIDIA
+
+|===
+| Hardware subyacente | Requisitos 
+
+
+| RAM del sistema | 32 GB 
+
+
+| RAM DE GPU | 32 GB 
+
+
+| CPU | 8 núcleos 
+
+
+| GPU | NVIDIA (A100, V100 y RTX 30x0) 
+
+
+| SSD | 100 GB 
+|===
+
+
+=== Sistema de almacenamiento flash
+
+
+
+==== ONTAP 9 de NetApp
+
+ONTAP 9.9, la última generación del software de gestión del almacenamiento de NetApp, permite a las empresas modernizar su infraestructura y realizar la transición a un centro de datos preparado para el cloud. ONTAP ofrece las mejores capacidades de gestión de datos y permite la gestión y protección de los datos con un solo conjunto de herramientas, sin importar dónde residan. También puede mover los datos libremente a donde sea necesario: El perímetro, el núcleo o el cloud. ONTAP 9.9 incluye numerosas funciones que simplifican la gestión de datos, aceleran y protegen los datos esenciales y permiten disfrutar de funcionalidades de infraestructura de nueva generación en arquitecturas de cloud híbrido.
+
+
+
+==== Cloud Sync de NetApp
+
+https://docs.netapp.com/us-en/occm/concept_cloud_sync.html["Cloud Sync"^] Es un servicio de NetApp que ofrece una sincronización de datos rápida y segura que permite transferir archivos entre recursos compartidos de archivos NFS o SMB en las instalaciones a cualquiera de los siguientes destinos:
+
+* StorageGRID de NetApp
+* ONTAP S3 de NetApp
+* Cloud Volumes Service de NetApp
+* Azure NetApp Files
+* Simple Storage Service (Amazon S3)
+* Sistema de archivos Elastic de Amazon (Amazon EFS)
+* Azure Blob
+* Google Cloud Storage
+* Almacenamiento de objetos en cloud de IBM
+
+
+Cloud Sync mueve los archivos donde los necesite de una forma rápida y segura. Una vez transferidos los datos, estarán completamente disponibles para su uso tanto en el origen como en el destino. Cloud Sync sincroniza continuamente los datos, en función de su programación predefinida, moviendo solo los deltas, de modo que se minimiza el tiempo y el dinero invertidos en la replicación de datos. Cloud Sync es una herramienta de software como servicio (SaaS) fácil de configurar y usar. Las transferencias de datos que Cloud Sync activa son llevadas a cabo por agentes de datos. Puede poner en marcha agentes de datos de Cloud Sync en AWS, Azure, Google Cloud Platform o en las instalaciones.
+
+
+
+==== StorageGRID de NetApp
+
+La suite de almacenamiento de objetos definida por software StorageGRID admite una amplia gama de casos de uso en entornos multicloud públicos, privados e híbridos sin problemas. Con innovaciones líderes del sector, StorageGRID de NetApp almacena, protege y preserva datos no estructurados para usos múltiples, incluida la gestión automatizada del ciclo de vida durante largos periodos de tiempo. Para obtener más información, consulte https://www.netapp.com/data-storage/storagegrid/documentation/["StorageGRID de NetApp"^] sitio.
+
+
+
+=== Requisitos de software
+
+En la siguiente tabla se enumeran los componentes de software necesarios para implementar esta solución. Los componentes que se usan en cualquier implementación particular de la solución pueden variar en función de las necesidades del cliente.
+
+|===
+| Máquina host | Requisitos 
+
+
+| RIVA (anteriormente JARVIS) | 1.4.0 
+
+
+| TAO Toolkit (antes Transfer Learning Toolkit) | 3.0 
+
+
+| ONTAP | 9.9.1 
+
+
+| SO DGX | 5.1 
+
+
+| DOTK | 2.0.0 
+|===
+
+
+==== Software NVIDIA RIVA
+
+|===
+| De NetApp | Requisitos 
+
+
+| Docker | >19.02 (con nvidia-docker instalado)>=19.03 si no se utiliza DGX 
+
+
+| Controlador NVIDIA | Más de 465.19.01 418.40+, 440.33+, 450.51+ y 460.27+ para las GPU del centro de datos 
+
+
+| So del contenedor | Ubuntu 20.04 
+
+
+| CUDA | 11.3.0 
+
+
+| CuBLAS | 11.5.1.101 
+
+
+| CuDNN | 8.2.0.41 
+
+
+| NCCL | 2.9.6 
+
+
+| TensorRT | 7.2.3.4 
+
+
+| Servidor de inferencia Triton | 2.9.0 
+|===
+
+
+==== Software NVIDIA TAO Toolkit
+
+|===
+| De NetApp | Requisitos 
+
+
+| Sistema operativo Ubuntu 18.04 LTS | 18.04 
+
+
+| python | >=3.6.9 
+
+
+| docker-ce | >19.03.5 
+
+
+| docker-API | 1.40 
+
+
+| kit de herramientas de nvidia-container | >1.3.0-1 
+
+
+| nvidia-container-runtime | 3.4.0-1 
+
+
+| nvidia-docker2 | 2.5.0-1 
+
+
+| controlador nvidia | >455 
+
+
+| python-pip | >21.06 
+
+
+| nvidia-pyindex | Última versión 
+|===
+
+
+=== Detalles de casos de uso
+
+Esta solución se aplica a los siguientes casos de uso:
+
+* Voz a texto
+* Análisis de la confianza
+
+
+image:ai-sent-image6.png["Error: Falta la imagen gráfica"]
+
+El caso práctico de voz a texto comienza ingiriendo archivos de audio para los centros de soporte. Este audio se procesa entonces para ajustarse a la estructura requerida por RIVA. Si los archivos de audio aún no se han dividido en sus unidades de análisis, esto se debe hacer antes de pasar el audio a RIVA. Una vez procesado el archivo de audio, se pasa al servidor RIVA como una llamada API. El servidor emplea uno de los muchos modelos que aloja y devuelve una respuesta. Este mensaje de voz a texto (parte del reconocimiento automático de voz) devuelve una representación de texto del audio. A partir de ahí, la canalización pasa a la parte del análisis de confianza.
+
+Para el análisis de confianza, la salida de texto del reconocimiento automático de voz sirve como entrada a la clasificación de texto. Text Classification es el componente NVIDIA para clasificar el texto en cualquier número de categorías. Las categorías de sentimiento varían de positivo a negativo para las conversaciones del centro de apoyo. El rendimiento de los modelos se puede evaluar utilizando un conjunto de holdout para determinar el éxito del paso de ajuste fino.
+
+image:ai-sent-image8.png["Error: Falta la imagen gráfica"]
+
+Una canalización similar se utiliza tanto para el análisis de voz a texto como para el análisis de sentimiento dentro del TAO Toolkit. La principal diferencia es el uso de etiquetas que se requieren para la afinación de los modelos. La canalización del kit de herramientas TAO comienza con el procesamiento de los archivos de datos. A continuación, los modelos preformados (procedentes de https://ngc.nvidia.com/catalog["Catálogo de NVIDIA NGC"^]) se ajustan con precisión mediante los datos del centro de soporte. Los modelos ajustados con precisión se evalúan en función de sus mediciones de rendimiento correspondientes y, si tienen un rendimiento superior al de los modelos preformados, se implementan en EL servidor RIVA.
+
+link:ai-sent-design-considerations.html["Siguiente: Consideraciones de diseño."]

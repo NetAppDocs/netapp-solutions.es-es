@@ -1,0 +1,24 @@
+---
+sidebar: sidebar 
+permalink: ai/aks-anf_jupyter_notebooks.html 
+keywords: jupyter, notebook, reference 
+summary: Esta sección enlaza con dos cuadernos Juppyter relevantes para este informe técnico. 
+---
+= Portátiles Juppyter para referencias
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:aks-anf_dataset_and_model_versioning_using_netapp_dataops_toolkit.html["Anterior: Versiones de conjuntos de datos y modelos con el kit de herramientas de operaciones de datos de NetApp."]
+
+Existen dos cuadernos Juppyter asociados a este informe técnico:
+
+* link:https://nbviewer.jupyter.org/github/NetAppDocs/netapp-solutions/blob/main/media/CTR-PandasRF-collated.ipynb["*CTR-PandasRF-collated.ipynb.*"] Este cuaderno carga el día 15 desde el conjunto de datos de registros Criteo Terabyte Click, procesa y formatea datos en un DataFrame de Pandas, entrena un modelo de bosque aleatorio Scikit-Learn, realiza predicción y calcula la precisión.
+* link:https://nbviewer.jupyter.org/github/NetAppDocs/netapp-solutions/blob/main/media/criteo_dask_RF.ipynb["*criteo_dask_RF.ipynb.*"] Este cuaderno carga el día 15 desde el conjunto de datos de registros Criteo Terabyte Click, procesa y formatea datos en un CuDF DASK, entrena un modelo de bosque aleatorio DASK cuML, realiza predicción y calcula la precisión. Al aprovechar varios nodos de trabajo con GPU, este método de procesamiento y entrenamiento de datos distribuidos y modelos es altamente eficiente. Cuantos más datos procese, mayor será el ahorro de tiempo que se consigue con el método DE ML convencional. Puede implementar este portátil en el cloud, en las instalaciones o en un entorno híbrido en el que el clúster de Kubernetes contenga recursos informáticos y de almacenamiento en diferentes ubicaciones, siempre y cuando su configuración de red permita el movimiento libre de datos y la distribución de modelos.
+
+
+link:aks-anf_conclusion.html["Siguiente: Conclusión."]

@@ -1,0 +1,90 @@
+---
+sidebar: sidebar 
+permalink: ai/mlrun_software_and_hardware_requirements.html 
+keywords: NetApp, Software, Hardware, Network, Requirements 
+summary:  
+---
+= Requisitos de software y hardware
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+
+
+== Configuración de red
+
+A continuación, se muestra el requisito de configuración de red para configurar en el cloud:
+
+* El clúster de Iguazio y los volúmenes cloud de NetApp deben estar en el mismo cloud privado virtual.
+* El administrador de la nube debe tener acceso al puerto 6443 en los nodos de la aplicación Iguazio.
+* Utilizamos Amazon Web Services en este informe técnico. Sin embargo, los usuarios tienen la opción de poner en marcha la solución en cualquier proveedor de cloud.para las pruebas en las instalaciones en IA de ONTAP con NVIDIA DGX-1, hemos utilizado el servicio DNS alojado en Iguazio para mayor comodidad.
+
+
+Los clientes deben poder acceder a los dominios DNS creados de forma dinámica. Los clientes pueden utilizar su propio DNS si lo desean.
+
+
+
+== Requisitos de hardware
+
+Puede instalar Iguazio en sus instalaciones en su propio clúster. Hemos verificado la solución en ONTAP AI de NetApp con un sistema NVIDIA DGX-1. La siguiente tabla enumera el hardware utilizado para probar esta solución.
+
+|===
+| Hardware subyacente | Cantidad 
+
+
+| Sistemas DGX-1 | 1 
+
+
+| Sistema AFF A800 de NetApp | 1 pareja de alta disponibilidad (ha), incluye 2 controladoras y 48 SSD NVMe (3,8 TB o superior) 
+
+
+| Switches de red Cisco Nexus 3232C | 2 
+|===
+En la siguiente tabla se enumeran los componentes de software necesarios para las pruebas in situ:
+
+|===
+| De NetApp | Versión u otra información 
+
+
+| Software de gestión de datos ONTAP de NetApp | 9.7 
+
+
+| Firmware de switch Cisco NX-OS | 7.0(3)I6(1) 
+
+
+| SO DGX DE NVIDIA | 4.4 - Ubuntu 18.04 LTS 
+
+
+| Plataforma contenedora Docker | 19.03.5 
+
+
+| Versión del contenedor | 20.01-tf1-py2 
+
+
+| Marco de aprendizaje automático | TensorFlow 1.15.0 
+
+
+| Iguazio | La versión es 2.8 o posterior 
+
+
+| Servidor ESX | 6.5 
+|===
+Esta solución se ha probado totalmente con Iguazio versión 2.5 y NetApp Cloud Volumes ONTAP para AWS. El clúster de Iguazio y el software de NetApp se ejecutan en AWS.
+
+|===
+| De NetApp | Versión o tipo 
+
+
+| Iguazio | La versión es 2.8 o posterior 
+
+
+| Nodo de aplicación | M5.4xgrande 
+
+
+| Nodo de datos | I3.4xgrande 
+|===
+link:mlrun_network_device_failure_prediction_use_case_summary.html["Siguiente: Resumen de casos de uso de predicción de fallos de dispositivo de red"]

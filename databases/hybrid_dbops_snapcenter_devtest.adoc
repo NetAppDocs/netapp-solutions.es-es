@@ -1,0 +1,161 @@
+---
+sidebar: sidebar 
+permalink: databases/hybrid_dbops_snapcenter_devtest.html 
+summary: La agilidad del cloud público, la rentabilidad de la inversión, la reducción de costes son propuestas de valor significativas para que las empresas adopten el cloud público para el esfuerzo de desarrollo y pruebas de aplicaciones de bases de datos. No hay mejor herramienta que SnapCenter para hacer de esto una realidad con prisa. SnapCenter no solo puede proteger su base de datos de producción en las instalaciones, sino que también puede clonar rápidamente una copia para desarrollo de aplicaciones o pruebas de código en el cloud público a la vez que consume muy poco almacenamiento adicional. A continuación se detallan los procesos paso a paso utilizando la herramienta. 
+keywords: hybrid cloud, database, solutions, dev/test, workflow 
+---
+= Flujo de trabajo para la descarga de pruebas y desarrollo en el cloud
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:table-stripes: odd
+:imagesdir: ./../media/
+
+
+link:hybrid_dbops_snapcenter_getting_started_aws.html["Anterior: Introducción al cloud público de AWS."]
+
+La agilidad del cloud público, la rentabilidad de la inversión y la reducción de los costes son propuestas de valor significativas para empresas que adoptan el cloud público para el esfuerzo de desarrollo y pruebas de aplicaciones de bases de datos. No hay mejor herramienta que SnapCenter para hacer esto una realidad. SnapCenter no solo puede proteger su base de datos de producción localmente, sino que también puede clonar rápidamente una copia para desarrollar o probar código en el cloud público mientras consume muy poco almacenamiento adicional. A continuación se detallan los procesos paso a paso para utilizar esta herramienta.
+
+
+
+== Clonar una base de datos de Oracle para desarrollo y pruebas a partir de un backup de Snapshot replicado
+
+. Inicie sesión en SnapCenter con un ID de usuario de administración de bases de datos para Oracle. Desplácese hasta la pestaña Resources, donde se muestran las bases de datos de Oracle que está protegida por SnapCenter.
++
+image:snapctr_ora_clone_01.PNG["Error: Falta la imagen gráfica"]
+
+. Haga clic en el nombre de la base de datos en las instalaciones indicado para la topología de backup y la vista detallada. Si se habilita una ubicación de replicación secundaria, se muestran backups de reflejos vinculados.
++
+image:snapctr_ora_clone_02.PNG["Error: Falta la imagen gráfica"]
+
+. Para alternar la vista de backups reflejados, haga clic en backups reflejados. Luego, se muestran los backups de reflejos secundarios.
++
+image:snapctr_ora_clone_03.PNG["Error: Falta la imagen gráfica"]
+
+. Elija una copia de backup de base de datos secundaria reflejada que se clonará y determine un punto de recuperación por tiempo y número de cambio de sistema o por SCN. Por lo general, el punto de recuperación debe contener el tiempo de backup completo de la base de datos o el SCN que se va a clonar. Una vez decidido un punto de recuperación, es necesario montar el backup de archivo de registro necesario para la recuperación. El backup del archivo de registro debe montarse en el servidor de la base de datos de destino donde se va a alojar la base de datos del clon.
++
+image:snapctr_ora_clone_04.PNG["Error: Falta la imagen gráfica"]
+
++
+image:snapctr_ora_clone_05.PNG["Error: Falta la imagen gráfica"]
+
++
+
+NOTE: Si se habilita la eliminación de registros y el punto de recuperación se amplía más allá de la última eliminación de registros, es posible que sea necesario montar varios backups de registros de archivo.
+
+. Destaque la copia de backup completa de la base de datos que se va a clonar y haga clic en el botón clonar para iniciar el flujo de trabajo de clonado de base de datos.
++
+image:snapctr_ora_clone_06.PNG["Error: Falta la imagen gráfica"]
+
+. Elija un SID de base de datos del clon adecuado para una base de datos completa del contenedor o un clon de la CDB.
++
+image:snapctr_ora_clone_07.PNG["Error: Falta la imagen gráfica"]
+
+. Seleccione el host del clon objetivo en el cloud y el flujo de trabajo del clon creará el archivo de datos, el archivo de control y los directorios de registro de recuperación.
++
+image:snapctr_ora_clone_08.PNG["Error: Falta la imagen gráfica"]
+
+. El nombre de la credencial None se utiliza para la autenticación basada en el sistema operativo, lo que hace que el puerto de la base de datos sea irrelevante. Rellene el directorio inicial de Oracle, el usuario del sistema operativo Oracle y el grupo del sistema operativo Oracle que se hayan configurado en el servidor de la base de datos del clon de destino.
++
+image:snapctr_ora_clone_09.PNG["Error: Falta la imagen gráfica"]
+
+. Especifique los scripts que se ejecutarán antes de la operación de clonado. Lo que es más importante, el parámetro de instancia de base de datos se puede ajustar o definir aquí.
++
+image:snapctr_ora_clone_10.PNG["Error: Falta la imagen gráfica"]
+
+. Especifique el punto de recuperación por fecha y hora o SCN. Until Cancel recupera la base de datos hasta los registros de archivo disponibles. Especifique la ubicación del registro de archivos externo desde el host de destino donde se monta el volumen de registro de archivos. Si el propietario de Oracle del servidor de destino es diferente del servidor de producción local, compruebe que el propietario de Oracle del servidor de destino puede leer el directorio de registro de archivado.
++
+image:snapctr_ora_clone_11.PNG["Error: Falta la imagen gráfica"]
+
++
+image:snapctr_ora_clone_12.PNG["Error: Falta la imagen gráfica"]
+
+. Configure el servidor SMTP para la notificación por correo electrónico si lo desea.
++
+image:snapctr_ora_clone_13.PNG["Error: Falta la imagen gráfica"]
+
+. Resumen de clones.
++
+image:snapctr_ora_clone_14.PNG["Error: Falta la imagen gráfica"]
+
+. Debe validar después de la clonación para asegurarse de que la base de datos clonada funcione. Algunas tareas adicionales, como iniciar el listener o desactivar el modo de archivo de registro de DB, se pueden realizar en la base de datos de prueba/desarrollo.
++
+image:snapctr_ora_clone_15.PNG["Error: Falta la imagen gráfica"]
+
+
+
+
+
+== Clonar una base de datos de SQL para desarrollo y pruebas a partir de un backup de Snapshot replicado
+
+. Inicie sesión en SnapCenter con un ID de usuario de administración de bases de datos para SQL Server. Desplácese hasta la pestaña Resources, donde se muestran las bases de datos de usuario SQL Server protegidas por SnapCenter y una instancia de SQL en espera de destino en la nube pública.
++
+image:snapctr_sql_clone_01.PNG["Error: Falta la imagen gráfica"]
+
+. Haga clic en el nombre previsto de la base de datos de usuario de SQL Server en las instalaciones para obtener la topología y la vista detallada de las copias de seguridad. Si se habilita una ubicación de replicación secundaria, se muestran backups de reflejos vinculados.
++
+image:snapctr_sql_clone_02.PNG["Error: Falta la imagen gráfica"]
+
+. Para alternar a la vista Mirrored backups, haga clic en Mirrored backups. Luego, se mostrarán los backups de reflejo secundarios. Dado que SnapCenter realiza un backup del registro de transacciones de SQL Server en una unidad dedicada para la recuperación, solo se muestran aquí backups completos de la base de datos.
++
+image:snapctr_sql_clone_03.PNG["Error: Falta la imagen gráfica"]
+
+. Seleccione una copia de backup y, a continuación, haga clic en el botón Clone para iniciar el flujo de trabajo Clone desde Backup.
++
+image:snapctr_sql_clone_04_1.PNG["Error: Falta la imagen gráfica"]
+
++
+image:snapctr_sql_clone_04.PNG["Error: Falta la imagen gráfica"]
+
+. Seleccione un servidor en cloud como el servidor de clonado de destino, el nombre de la instancia de clon y el nombre de la base de datos de clonado. Seleccione un punto de montaje de asignación automática o una ruta de punto de montaje definida por el usuario.
++
+image:snapctr_sql_clone_05.PNG["Error: Falta la imagen gráfica"]
+
+. Determine un punto de recuperación por hora de backup del registro o por una fecha y hora específicas.
++
+image:snapctr_sql_clone_06.PNG["Error: Falta la imagen gráfica"]
+
+. Especifique scripts opcionales que ejecutar antes y después de la operación de clonado.
++
+image:snapctr_sql_clone_07.PNG["Error: Falta la imagen gráfica"]
+
+. Configure un servidor SMTP si se desea recibir una notificación por correo electrónico.
++
+image:snapctr_sql_clone_08.PNG["Error: Falta la imagen gráfica"]
+
+. Resumen de clones.
++
+image:snapctr_sql_clone_09.PNG["Error: Falta la imagen gráfica"]
+
+. Supervise el estado del trabajo y valide que la base de datos de usuario prevista se ha adjuntado a una instancia de SQL de destino en el servidor de clones en cloud.
++
+image:snapctr_sql_clone_10.PNG["Error: Falta la imagen gráfica"]
+
+
+
+
+
+== Configuración posterior al clon
+
+. Normalmente, una base de datos de producción de Oracle en las instalaciones se ejecuta en modo de archivado de registros. Este modo no es necesario para una base de datos de desarrollo o prueba. Para desactivar el modo de archivo de registro, inicie sesión en la base de datos Oracle como sysdba, ejecute un comando de cambio de modo de registro e inicie la base de datos para obtener acceso.
+. Configurar un listener de Oracle o registrar la base de datos que se acaba de clonar con un listener existente para que el usuario pueda acceder a ella.
+. En SQL Server, cambie el modo de registro de Full a Easy para que el archivo de registro de prueba/desarrollo de SQL Server se pueda reducir fácilmente al llenar el volumen de registro.
+
+
+
+
+== Actualice el clon de la base de datos
+
+. Borre las bases de datos clonadas y borre el entorno del servidor de bases de datos de cloud. A continuación, siga los procedimientos anteriores para clonar una nueva base de datos con datos nuevos. Solo se tarda unos minutos en clonar una nueva base de datos.
+. Apague la base de datos de clonado, ejecute un comando de actualización de clonado mediante la CLI. Consulte la siguiente documentación de SnapCenter para obtener detalles: link:https://docs.netapp.com/us-en/snapcenter/protect-sco/task_refresh_a_clone.html["Actualizar un clon"^].
+
+
+
+
+== ¿Dónde obtener ayuda?
+
+Si necesita ayuda con esta solución y los casos de uso, únase al link:https://netapppub.slack.com/archives/C021R4WC0LC["La comunidad de automatización de soluciones de NetApp admite el canal de Slack"] y busque el canal de automatización de soluciones para publicar sus preguntas o preguntas.
+
+link:hybrid_dbops_snapcenter_dr.html["Siguiente: Flujo de trabajo de recuperación ante desastres."]

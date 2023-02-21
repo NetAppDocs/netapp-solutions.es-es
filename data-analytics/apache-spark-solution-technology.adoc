@@ -1,0 +1,37 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/apache-spark-solution-technology.html 
+keywords: standalone, apache mesos, hadoop yarn, resilient distributed dataset, rdd, dataframe, hadoop distributed file system, hdfs 
+summary: En esta sección se describen la naturaleza y los componentes de Apache Spark y cómo contribuyen a esta solución. 
+---
+= Tecnología de soluciones
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:apache-spark-target-audience.html["Anterior: Público objetivo."]
+
+Apache Spark es un popular marco de programación para escribir aplicaciones de Hadoop que funciona directamente con el sistema de archivos distribuidos de Hadoop (HDFS). Spark está lista para la producción, admite el procesamiento de datos en streaming y es más rápida que MapReduce. Spark cuenta con un almacenamiento en caché de datos en memoria configurable para una iteración eficiente y la shell Spark es interactiva para aprender y explorar datos. Con Spark puede crear aplicaciones en Python, Scala o Java. Las aplicaciones SPARK consisten en uno o más trabajos que tienen una o más tareas.
+
+Cada aplicación Spark tiene un controlador Spark. En el modo YARN-Client, el controlador se ejecuta en el cliente localmente. En el modo HILADO-Cluster, el controlador se ejecuta en el clúster en el maestro de aplicaciones. En el modo de clúster, la aplicación continúa ejecutándose incluso si el cliente se desconecta.
+
+image:apache-spark-image3.png["Error: Falta la imagen gráfica"]
+
+Hay tres administradores de clústeres:
+
+* *Independiente.* este administrador forma parte de Spark, lo que facilita la configuración de un clúster.
+* * Apache Mesos.* este es un gestor general de clusters que también ejecuta MapReduce y otras aplicaciones.
+* *Hadoop YARN.* esto es un gestor de recursos en Hadoop 3.
+
+
+El conjunto de datos distribuido resiliente (RDD) es el componente principal de Spark. RDD recrea los datos perdidos y que faltan de los datos almacenados en la memoria del clúster y almacena los datos iniciales que provienen de un archivo o que se crean mediante programación. Los RDD se crean a partir de archivos, datos en memoria u otro RDD. La programación SPARK realiza dos operaciones: Transformación y acciones. La transformación crea una RDD nueva basada en una existente. Las acciones devuelven un valor de un RDD.
+
+Las transformaciones y acciones también se aplican a los conjuntos de datos de Spark y DataFrames. Un conjunto de datos es una colección distribuida de datos que proporciona las ventajas de los RDD (escritura sólida, uso de funciones lambda) con las ventajas del motor de ejecución optimizado de Spark SQL. Un conjunto de datos se puede construir a partir de objetos JVM y, a continuación, manipular mediante transformaciones funcionales (mapa, mapa plano, filtro, etc.). Un DataFrame es un conjunto de datos organizado en columnas con nombre. Es conceptualmente equivalente a una tabla de una base de datos relacional o un marco de datos de R/Python. Los DataFrames pueden construirse a partir de una amplia variedad de orígenes como archivos de datos estructurados, tablas en Hive/HBase, bases de datos externas en las instalaciones o en el cloud, o RDDs existentes.
+
+Las aplicaciones SPARK incluyen uno o más trabajos de Spark. Los trabajos ejecutan tareas en los ejecutores y los ejecutores se ejecutan en contenedores DE HILADOS. Cada ejecutor se ejecuta en un único contenedor, y existen ejecutores a lo largo de la vida de una aplicación. Un ejecutor se fija después de que se inicia la aplicación, Y EL HILADO no cambia el tamaño del contenedor ya asignado. Un ejecutor puede ejecutar tareas de forma simultánea en los datos de la memoria.
+
+link:apache-spark-netapp-spark-solutions-overview.html["Siguiente: Información general de las soluciones Spark de NetApp."]

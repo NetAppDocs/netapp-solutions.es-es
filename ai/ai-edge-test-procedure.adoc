@@ -1,0 +1,65 @@
+---
+sidebar: sidebar 
+permalink: ai/ai-edge-test-procedure.html 
+keywords: procedure, operating system, ubuntu, nvidia, docker, criteo, brats 
+summary: Este apartado describe los procedimientos de prueba utilizados para validar esta solución. 
+---
+= Procedimiento de prueba
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:ai-edge-test-configuration.html["Anterior: Configuración de prueba."]
+
+Hemos utilizado el siguiente procedimiento de prueba en esta validación.
+
+
+
+== Configuración de inferencia de IA y sistema operativo
+
+Para AFF C190, utilizamos Ubuntu 18.04 con controladores NVIDIA y docker con soporte para GPU de NVIDIA y usamos MLPerf https://github.com/mlperf/inference_results_v0.7/tree/master/closed/Lenovo["codificación"^] Disponible como parte de la presentación de Lenovo a la inferencia MLPerf v0.7.
+
+Para EF280, utilizamos Ubuntu 20.04 con controladores NVIDIA y docker con soporte para las GPU de NVIDIA y MLPerf https://github.com/mlcommons/inference_results_v1.1/tree/main/closed/Lenovo["codificación"^] Disponible como parte de la presentación de Lenovo a la inferencia MLPerf v1.1.
+
+Para configurar la inferencia de IA, siga estos pasos:
+
+. Descargue los conjuntos de datos que requieren registro, el conjunto de datos ImageNET 2012 Validation, el conjunto de datos Criteo Terabyte y el conjunto de entrenamiento Brats 2019 y, a continuación, descomprima los archivos.
+. Cree un directorio de trabajo con al menos 1 TB y defina una variable ambiental `MLPERF_SCRATCH_PATH` referencia al directorio.
++
+Debe compartir este directorio en el almacenamiento compartido para el caso de uso del almacenamiento de red o en el disco local cuando realice pruebas con datos locales.
+
+. Ejecute la Marca `prebuild` comando, que crea e inicia el contenedor docker para las tareas de inferencia necesarias.
++
+
+NOTE: Los siguientes comandos se ejecutan desde el contenedor docker en ejecución:
+
++
+** Descargue modelos de IA preformados para tareas de inferencia de MLPerf: `make download_model`
+** Descargue conjuntos de datos adicionales que se pueden descargar gratuitamente: `make download_data`
+** Preprocesar los datos: Make `preprocess_data`
+** Ejecución: `make build`.
+** Cree motores de inferencia optimizados para la GPU en servidores informáticos: `make generate_engines`
+** Para ejecutar cargas de trabajo de inferencia, ejecute el siguiente (un comando):
+
+
+
+
+....
+make run_harness RUN_ARGS="--benchmarks=<BENCHMARKS> --scenarios=<SCENARIOS>"
+....
+
+
+== Se ejecuta la inferencia de IA
+
+Se ejecutaron tres tipos de ejecuciones:
+
+* Inferencia de IA de un único servidor con almacenamiento local
+* Inferencia de IA de un único servidor con el almacenamiento en red
+* Inferencia de la IA en varios servidores con el almacenamiento en red
+
+
+link:ai-edge-test-results.html["Siguiente: Resultados de las pruebas."]

@@ -1,0 +1,63 @@
+---
+sidebar: sidebar 
+permalink: ai/mlrun_introduction.html 
+keywords: NetApp, MLRun, Introduction, Audience, Solution 
+summary:  
+---
+= TR-4834: NetApp e Iguazio para el suministro de MLRun
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+Rick Huang, David Arnette, NetApp Marcelo Litovsky, Iguazio
+
+Este documento contiene los detalles de la canalización MLRun usando NetApp ONTAP AI, el plano de control de IA de NetApp, el software Cloud Volumes de NetApp y la plataforma de ciencia de datos de Iguazio. Utilizamos la función Nuclio serverless, volúmenes persistentes de Kubernetes, volúmenes Cloud de NetApp, copias Snapshot de NetApp, consola Grafana, Y otros servicios en la plataforma Iguazio para crear una canalización de datos de extremo a extremo para la simulación de la detección de fallos de red. Hemos integrado las tecnologías de Iguazio y NetApp para permitir una rápida puesta en marcha de modelos, replicación de datos y supervisión de la producción tanto en las instalaciones como en el cloud.
+
+El trabajo de un científico de datos debe centrarse en el entrenamiento y el ajuste de los modelos de aprendizaje automático y de inteligencia artificial (IA). Sin embargo, según una investigación realizada por Google, los científicos de datos gastan aproximadamente un 80 % de su tiempo en averiguar cómo hacer que sus modelos funcionen con aplicaciones empresariales y se ejecutan a escala, como se muestra en la siguiente imagen, en la que se ilustra el desarrollo de modelos en el flujo de trabajo de IA/ML.
+
+image:mlrun_image1.png["Error: Falta la imagen gráfica"]
+
+Para gestionar proyectos de IA y ML integrales, se necesita una comprensión más amplia de los componentes empresariales. Aunque DevOps ha retomado la definición, la integración y la puesta en marcha de estos tipos de componentes, las operaciones de aprendizaje automático siguen un flujo similar que incluye proyectos de IA/ML. Para hacerse una idea de lo que puede tocar una canalización de IA/ML integral en la empresa, consulte la siguiente lista de componentes requeridos:
+
+* Reducida
+* Redes
+* Oracle
+* Sistemas de ficheros
+* Contenedores
+* Integración continua y canalización de puesta en marcha continua (CI/CD)
+* Entorno de desarrollo integrado (IDE)
+* Seguridad
+* Políticas de acceso a los datos
+* Hardware subyacente
+* Cloud
+* Virtualización
+* Conjuntos de herramientas y bibliotecas de ciencia de datos
+
+
+En este artículo mostramos cómo la asociación entre NetApp y Iguazio simplifica drásticamente el desarrollo de una canalización completa de IA/ML. Esta simplificación acelera el plazo de comercialización de todas sus aplicaciones de IA/ML.
+
+
+
+== Público objetivo
+
+El mundo de la ciencia de datos tiene múltiples disciplinas de tecnología de la información y negocio.
+
+* El científico de datos necesita la flexibilidad para poder usar las herramientas y las bibliotecas de elección.
+* El ingeniero de datos necesita saber cómo fluyen los datos y dónde residen.
+* Un ingeniero de DevOps necesita herramientas para integrar nuevas aplicaciones de IA/ML en sus canalizaciones de CI/CD.
+* Los usuarios empresariales quieren tener acceso a aplicaciones de IA/ML. Describimos cómo NetApp y Iguazio ayudan a cada una de estas funciones a aportar valor empresarial con nuestras plataformas.
+
+
+
+
+== Descripción general de la solución
+
+Esta solución sigue el ciclo de vida de una aplicación de IA/ML. Empezamos con la labor de los científicos de datos para definir los diferentes pasos necesarios para preparar datos y entrenar y poner en marcha modelos. Seguimos con el trabajo necesario para crear una canalización completa con la capacidad de realizar un seguimiento de los artefactos, experimentar con la ejecución y desplegar en Kubeflow. Para completar el ciclo completo, integramos la canalización con NetApp Cloud Volumes para permitir el versionado de datos, tal y como se puede ver en la siguiente imagen.
+
+image:mlrun_image2.png["Error: Falta la imagen gráfica"]
+
+link:mlrun_technology_overview.html["Siguiente: Visión general de la tecnología"]

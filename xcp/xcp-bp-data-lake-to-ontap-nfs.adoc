@@ -1,0 +1,45 @@
+---
+sidebar: sidebar 
+permalink: xcp/xcp-bp-data-lake-to-ontap-nfs.html 
+keywords: requirements, proof of concept, AI, data mover, mapr 
+summary: 'Este caso de uso se basa en la mayor prueba de concepto financiera de cliente (CPOC, por sus siglas en inglés) que hemos realizado. Históricamente, hemos utilizado EL módulo de análisis in situ de NetApp (NIPAM, "In-Place Analytics Module") para mover datos de análisis a ONTAP AI de NetApp. No obstante, gracias a las recientes mejoras y al mejor rendimiento de XCP de NetApp, así como al enfoque exclusivo de la solución de movimiento de datos de NetApp, hemos publicado de nuevo la migración de datos mediante XCP de NetApp.' 
+---
+= Lago de datos a NFS de ONTAP
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:xcp-bp-customer-scenarios-overview.html["Anterior: Casos de clientes."]
+
+Este caso de uso se basa en la mayor prueba de concepto financiera de cliente (CPOC, por sus siglas en inglés) que hemos realizado. Históricamente, hemos utilizado EL módulo de análisis in situ de NetApp (NIPAM, "In-Place Analytics Module") para mover datos de análisis a ONTAP AI de NetApp. No obstante, gracias a las recientes mejoras y al mejor rendimiento de XCP de NetApp, así como al enfoque exclusivo de la solución de movimiento de datos de NetApp, hemos publicado de nuevo la migración de datos mediante XCP de NetApp.
+
+
+
+== Retos y requisitos del cliente
+
+Entre los retos y requisitos del cliente que deben mencionarse se incluyen los siguientes:
+
+* Los clientes tienen diferentes tipos de datos, como datos estructurados, no estructurados y semiestructurados, registros y datos entre equipos en lagos de datos. Los sistemas de IA requieren que se procesen todos estos tipos de datos para operaciones de predicción. Cuando los datos se encuentran en un sistema de archivos nativo del lago de datos, resulta difícil procesarlos.
+* La arquitectura de IA del cliente no puede acceder a los datos desde el sistema de archivos distribuidos de Hadoop (HDFS) y el sistema de archivos compatible con Hadoop (HCFS), de modo que los datos no estén disponibles para las operaciones de IA. La IA requiere los datos en un formato de sistema de archivos comprensible como NFS.
+* Son necesarios algunos procesos especiales para mover datos desde el lago de datos debido a la gran cantidad de datos y alto rendimiento; se requiere un método rentable para mover los datos al sistema de IA.
+
+
+
+
+== Solución de movimiento de datos
+
+En esta solución, MapR (MapR-FS) se crea a partir de discos locales en el clúster de MapR. La puerta de enlace NFS de MapR está configurada en cada nodo de datos con IP virtuales. El servicio de servidor de archivos almacena y gestiona los datos de MapR-FS. La puerta de enlace NFS hace que los datos de Map-FS sean accesibles desde el cliente NFS a través de la IP virtual. Se ejecuta una instancia de XCP en cada nodo de datos de MapR para transferir los datos de la puerta de enlace Map NFS a NFS de ONTAP de NetApp. Cada instancia de XCP transfiere un conjunto específico de carpetas de origen a la ubicación de destino.
+
+La siguiente figura ilustra la solución de movimiento de datos de NetApp para el clúster de MapR con XCP.
+
+image:xcp-bp_image30.png["Error: Falta la imagen gráfica"]
+
+Para ver más casos de uso de clientes, demostraciones grabadas y resultados de pruebas, consulte https://blog.netapp.com/data-migration-xcp["Uso de XCP para mover datos desde un lago de datos y la informática de alto rendimiento a NFS de ONTAP"^] blog.
+
+Si quiere ver pasos detallados sobre el movimiento de datos de MapR-FS a NFS de ONTAP con NetApp XCP, consulte el apéndice B de https://www.netapp.com/pdf.html?item=/media/17082-tr4732pdf.pdf&ntap-no-cache["TR-4732: Análisis de Big Data en la inteligencia artificial"^].
+
+link:xcp-bp-high-performance-computing-to-ontap-nfs.html["Siguiente: Informática de alto rendimiento para NFS de ONTAP."]

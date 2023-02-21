@@ -1,0 +1,83 @@
+---
+sidebar: sidebar 
+permalink: vdi-vds/hcvdivds_single_server_load_test_with_login_vsi.html 
+keywords: VDS, Cloud Insights, monitoring, logfile 
+summary: Con VDS de NetApp, los administradores pueden delegar tareas a otras. Pueden conectarse a servidores implementados para solucionar problemas, ver registros y ejecutar informes de auditoría. Mientras ayuda a los clientes, al servicio de asistencia técnica o a los técnicos de nivel 3, puede remedar sesiones de usuarios, ver listas de procesos y matar procesos si es necesario. 
+---
+= Prueba de carga de servidor único con Login VSI
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+Virtual Desktop Service de NetApp utiliza el protocolo de Microsoft Remote Desktop para acceder a aplicaciones y sesiones de puestos de trabajo virtuales, y la herramienta Login VSI determina el número máximo de usuarios que pueden alojarse en un modelo de servidor específico. Login VSI simula el inicio de sesión de usuario a intervalos específicos y realiza operaciones de usuario como abrir documentos, leer y redactar correos electrónicos, trabajar con Excel y PowerPoint, imprimir documentos, comprimir archivos y efectuar pausas aleatorias. Luego mide los tiempos de respuesta. El tiempo de respuesta del usuario es bajo cuando el uso del servidor es bajo y aumenta cuando se añaden más sesiones de usuario. Login VSI determina la línea de base en función de las sesiones iniciales de inicio de sesión de usuario e informa de la sesión de usuario máxima cuando la respuesta del usuario supera los 2 segundos de la línea de base.
+
+El servicio de puestos de trabajo virtuales de NetApp utiliza el protocolo de Microsoft Remote Desktop para acceder a las aplicaciones y sesiones de puestos de trabajo virtuales. Para determinar el número máximo de usuarios que se pueden alojar en un modelo de servidor específico, utilizamos la herramienta Login VSI. Login VSI simula el inicio de sesión de usuario a intervalos específicos y realiza operaciones de usuario como abrir documentos, leer y redactar correos electrónicos, trabajar con Excel y PowerPoint, imprimir documentos, comprimir archivos, tomar pausas aleatorias, etc. También mide los tiempos de respuesta. El tiempo de respuesta del usuario es bajo cuando el uso del servidor es bajo y aumenta cuando se añaden más sesiones de usuario. Login VSI determina la línea de base en función de las sesiones iniciales de inicio de sesión de usuario e informa de la cantidad máxima de sesiones de usuario cuando la respuesta del usuario supera los 2 segundos de la línea de base.
+
+La siguiente tabla contiene el hardware utilizado para esta validación.
+
+[cols="33,33,33"]
+|===
+| Modelo | Cuente | Descripción 
+
+
+| NetApp HCI H610C | 4 | Tres de un clúster para lanzadores, AD, DHCP, etc. Un servidor para la prueba de carga. 
+
+
+| NetApp HCI H615C | 1 | 2 x Intel Xeon Gold 24C 6282 a 2,1 GHz. 1,5 TB DE RAM. 
+|===
+La siguiente tabla contiene el software utilizado para esta validación.
+
+[cols="50,50"]
+|===
+| producto | Descripción 
+
+
+| VDS 5.4 de NetApp | Coordinación 
+
+
+| Ventanas de plantilla de equipo virtual 2019 1809 | Sistema operativo del servidor PARA RDSH 
+
+
+| Login VSI | 4.1.32.1 
+
+
+| VMware vSphere 6.7 Update 3 | Hipervisor 
+
+
+| VMware vCenter 6.7 Update 3f | Herramienta de gestión de VMware 
+|===
+Los resultados de la prueba Login VSI son los siguientes:
+
+[cols="25,25,25,25"]
+|===
+| Modelo | Configuración de las máquinas virtuales | Línea de base de inicio de sesión VSI | Inicio de sesión VSI Max 
+
+
+| H610C | 8 vCPU, 48 GB de RAM, disco de 75 GB, perfil de vGPU 8Q | 799 | 178 
+
+
+| H615C | 12 vCPU, 128 GB de RAM, 75 GB de disco | 763 | 272 
+|===
+Teniendo en cuenta los límites e hiperprocesos de NUMA, los ocho equipos virtuales elegidos para la prueba y la configuración de equipos virtuales dependen de los núcleos disponibles en el host.
+
+Utilizamos 10 equipos virtuales de inicio en H610C, la cual utilizó el protocolo RDP para conectarse a la sesión de usuario. En la siguiente figura se muestra la información de conexión de Login VSI.
+
+image:hcvdivds_image22.png["Error: Falta la imagen gráfica"]
+
+En la siguiente figura, se muestra el tiempo de respuesta de Login VSI frente a las sesiones activas para H610C.
+
+image:hcvdivds_image23.png["Error: Falta la imagen gráfica"]
+
+En la siguiente figura, se muestra el tiempo de respuesta de Login VSI con las sesiones activas para H615C.
+
+image:hcvdivds_image24.png["Error: Falta la imagen gráfica"]
+
+En la siguiente figura, se muestran las métricas de rendimiento de Cloud Insights durante la prueba de H615C Login VSI al host de vSphere y las máquinas virtuales.
+
+image:hcvdivds_image25.png["Error: Falta la imagen gráfica"]
+
+link:hcvdivds_management_portal.html["Siguiente: Portal de gestión"]

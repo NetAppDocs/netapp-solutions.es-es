@@ -1,0 +1,63 @@
+---
+sidebar: sidebar 
+permalink: ai/hcaios_hardware_and_software_requirements.html 
+keywords: Hardware, Software, Requirements, NVIDIA, Kubernetes, cnvrg.io, ONTAP 
+summary:  
+---
+= Requisitos de hardware y software
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+En esta sección se tratan los requisitos tecnológicos de la solución de IA de ONTAP.
+
+
+
+== Requisitos de hardware
+
+Aunque los requisitos de hardware dependen de cargas de trabajo específicas de los clientes, es posible poner en marcha IA de ONTAP a cualquier escala para la ingeniería de datos, el entrenamiento de modelos y la inferencia de producción desde una única GPU hasta configuraciones a escala de rack para operaciones DE APRENDIZAJE AUTOMÁTICO o aprendizaje profundo a gran escala. Si quiere más información sobre ONTAP AI, consulte https://www.netapp.com/us/products/ontap-ai.aspx["Sitio web de IA de ONTAP"^].
+
+Esta solución se validó utilizando un sistema DGX-1 para computación, un sistema de almacenamiento AFF A800 de NetApp y Cisco Nexus 3232C para conectividad de red. El AFF A800 utilizado en esta validación puede admitir hasta 10 sistemas DGX-1 para la mayoría de cargas de trabajo DE ML/DL. En la siguiente figura se muestra la topología ONTAP AI utilizada para entrenar el modelo en esta validación.
+
+image:hcaios_image6.png["Error: Falta la imagen gráfica"]
+
+Para ampliar esta solución a un cloud público, Cloud Volumes ONTAP puede ponerse en marcha junto con los recursos informáticos de la GPU del cloud e integrarse en un tejido de datos del cloud híbrido que permita a los clientes utilizar los recursos que sean apropiados para una carga de trabajo en concreto.
+
+
+
+== Requisitos de software
+
+En la siguiente tabla se muestran las versiones de software específicas que se utilizan en la validación de esta solución.
+
+|===
+| Componente | Versión 
+
+
+| Ubuntu | 18.04.4 LTS 
+
+
+| SO DGX DE NVIDIA | 4.4.0 
+
+
+| DeepOps de NVIDIA | 20.02.1 
+
+
+| Kubernetes | 1.15 
+
+
+| Timón | 3.1.0 
+
+
+| cnvrg.io | 3.0.0 
+
+
+| ONTAP de NetApp | 9.6P4 
+|===
+Para esta validación de soluciones, se puso en marcha Kubernetes como un clúster de un solo nodo en el sistema DGX-1. Para las puestas en marcha a gran escala, se deben poner en marcha nodos maestros de Kubernetes independientes para proporcionar una alta disponibilidad de los servicios de gestión y reservar valiosos recursos DGX para las cargas de trabajo DE APRENDIZAJE AUTOMÁTICO y aprendizaje profundo.
+
+link:hcaios_solution_deployment_and_validation_details.html["Siguiente: Detalles de implementación y validación de la solución"]

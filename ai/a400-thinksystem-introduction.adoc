@@ -1,0 +1,51 @@
+---
+sidebar: sidebar 
+permalink: ai/a400-thinksystem-introduction.html 
+keywords: tr4810, 4810, introduction, cluster architecture, lenovo, ai 
+summary: 'Esta solución se centra tanto en arquitectura de clúster de gama básica como media usando almacenamiento de NetApp y servidores Lenovo optimizados para cargas de trabajo de inteligencia artificial. Está destinado a equipos pequeños y medianos para los que la mayoría de tareas informáticas sean de un solo nodo (una única o varias GPU) o se distribuyan entre varios nodos computacionales. Esta no es una limitación importante, ya que la mayoría de los trabajos de entrenamiento de IA diarios son un solo nodo.' 
+---
+= TR-4810: NetApp AFF A400 con Lenovo ThinkSystem SR670 V2 para formación de modelos AI y ML
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+Sathish Thyagarajan, David Arnette, NetApp Mircea Troaca, Lenovo
+
+[role="lead"]
+Esta solución presenta una arquitectura de clúster de gama media con almacenamiento de NetApp y servidores Lenovo optimizados para cargas de trabajo de inteligencia artificial (IA). Está destinado a empresas pequeñas y medianas para las que la mayoría de tareas informáticas sean de un único nodo (una única o varias GPU) o distribuidas en varios nodos informáticos. Esta solución se alinea con la mayoría de los trabajos de formación de IA diarios para muchas empresas.
+
+En este documento se tratan las pruebas y la validación de una configuración de computación y almacenamiento compuesta por ocho servidores Lenovo SR670V2 de la GPU, un sistema de almacenamiento AFF A400 de NetApp de gama media y un switch de interconexión de 100 GbE. Para medir el rendimiento, utilizamos ResNet50 con el conjunto de datos ImageNET, un tamaño de lote de 408, media precisión, CUDA y cuDNN. Esta arquitectura proporciona una solución eficiente y rentable para organizaciones pequeñas y medianas con el inicio de iniciativas de IA que requieren las funcionalidades de clase empresarial del almacenamiento de datos conectado al cloud ONTAP de NetApp.
+
+
+
+== Público objetivo
+
+Este documento está dirigido a los siguientes destinatarios:
+
+* Científicos de datos, ingenieros de datos, administradores de datos y desarrolladores de sistemas de IA
+* Arquitectos empresariales que diseñan soluciones para el desarrollo de modelos de IA
+* Científicos e ingenieros de datos que buscan formas eficientes de alcanzar objetivos de desarrollo DE aprendizaje profundo (DL) y aprendizaje automático (ML)
+* Líderes empresariales y responsables DE la toma de decisiones de OT/TECNOLOGÍA que desean conseguir el plazo de comercialización más rápido posible para iniciativas de IA
+
+
+
+
+== Arquitectura de la solución
+
+Esta solución con los servidores Lenovo ThinkSystem y el sistema ONTAP de NetApp con almacenamiento AFF ha sido diseñado para gestionar el entrenamiento de IA en grandes conjuntos de datos utilizando la potencia de procesamiento de GPU junto con CPU tradicionales. Esta validación demuestra un alto rendimiento y una gestión de datos óptima con una arquitectura de escalado horizontal que utiliza uno, dos o cuatro servidores Lenovo SR670 V2 junto con un único sistema de almacenamiento AFF A400 de NetApp. En la siguiente figura, se proporciona una descripción general de la arquitectura.
+
+image:a400-thinksystem-image2.png["Esta imagen muestra un switch Ethernet rodeado por el servidor de gestión, cuatro SR670 V2s con ocho GPU cada uno y un sistema de almacenamiento ONTAP de NetApp."]
+
+Esta solución de NetApp y Lenovo ofrece las siguientes ventajas clave:
+
+* Rendimiento muy eficaz y rentable al ejecutar varias tareas de formación en paralelo
+* Rendimiento escalable basado en diferentes números de servidores Lenovo y diferentes modelos de controladoras de almacenamiento de NetApp
+* Protección de datos sólida para cumplir con los objetivos de punto de recuperación (RPO) y los objetivos de tiempo de recuperación (RTO) bajos sin pérdida de datos
+* Gestión de datos optimizada con copias Snapshot y clones para optimizar los flujos de trabajo de desarrollo
+
+
+link:a400-thinksystem-technology-overview.html["Siguiente: Información general de la tecnología."]

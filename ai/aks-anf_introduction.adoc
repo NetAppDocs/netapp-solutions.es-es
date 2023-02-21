@@ -1,0 +1,62 @@
+---
+sidebar: sidebar 
+permalink: ai/aks-anf_introduction.html 
+keywords: introduction, tr-4904, 4904, tr4904, kubernetes, azure, anf, rapids, dask, ml, ai, machine learning, artificial intelligence, 
+summary: 'Esta solución sigue el ciclo de vida de una aplicación de IA/ML. Empezamos con la labor de los científicos de datos para definir los diferentes pasos necesarios para preparar datos y entrenar modelos. Al aprovechar RAPIDS on Dink, realizamos formación distribuida en el clúster de Azure Kubernetes Service (AKS) para reducir drásticamente el tiempo de entrenamiento en comparación con el método convencional de aprendizaje del kit de ciencias de Python. Para completar el ciclo completo, integramos la canalización con Azure NetApp Files.' 
+---
+= TR-4904: Formación distribuida en Azure - predicción de frecuencias mediante clic
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+Rick Huang, Verron Martina, Muneer Ahmad, NetApp
+
+El trabajo de un científico de datos debe centrarse en el entrenamiento y el ajuste de los modelos de aprendizaje automático y de inteligencia artificial (IA). Sin embargo, según una investigación de Google, los científicos de datos dedican aproximadamente el 80 % de su tiempo a averiguar cómo hacer que sus modelos funcionen con aplicaciones empresariales y se ejecuten a escala.
+
+Para gestionar proyectos de IA y ML integrales, se necesita una comprensión más amplia de los componentes empresariales. Aunque DevOps ha retomado la definición, la integración y la puesta en marcha, estos tipos de componentes, LAS operaciones ML siguen un flujo similar que incluye proyectos de IA/ML. Para hacerse una idea de lo que puede tocar una canalización de IA/ML integral en la empresa, consulte la siguiente lista de componentes requeridos:
+
+* Reducida
+* Redes
+* Oracle
+* Sistemas de ficheros
+* Contenedores
+* Integración continua y canalización de puesta en marcha continua (CI/CD)
+* Entorno de desarrollo integrado (IDE)
+* Seguridad
+* Políticas de acceso a los datos
+* Hardware subyacente
+* Cloud
+* Virtualización
+* Conjuntos de herramientas y bibliotecas de ciencia de datos
+
+
+
+
+== Público objetivo
+
+El mundo de la ciencia de datos tiene múltiples disciplinas DE TECNOLOGÍA y negocio:
+
+* El científico de datos necesita la flexibilidad para poder usar las herramientas y las bibliotecas de elección.
+* El ingeniero de datos necesita saber cómo fluyen los datos y dónde residen.
+* Un ingeniero de DevOps necesita herramientas para integrar nuevas aplicaciones de IA/ML en sus canalizaciones de CI/CD.
+* Los administradores de cloud y arquitectos tienen que poder configurar y gestionar recursos de Azure.
+* Los usuarios empresariales quieren tener acceso a aplicaciones de IA/ML.
+
+
+En este informe técnico describimos cómo Azure NetApp Files, RAPIDS AI, Dink y Azure ayudan a cada uno de estos roles a aportar valor empresarial.
+
+
+
+== Descripción general de la solución
+
+Esta solución sigue el ciclo de vida de una aplicación de IA/ML. Empezamos con la labor de los científicos de datos para definir los diferentes pasos necesarios para preparar datos y entrenar modelos. Al aprovechar RAPIDS on Dink, realizamos formación distribuida en el clúster de Azure Kubernetes Service (AKS) para reducir drásticamente el tiempo de entrenamiento en comparación con el método convencional de aprendizaje del kit de ciencias de Python. Para completar el ciclo completo, integramos la canalización con Azure NetApp Files.
+
+Azure NetApp Files ofrece varios niveles de rendimiento. Los clientes pueden comenzar con un nivel estándar y escalar horizontalmente y verticalmente a un nivel de alto rendimiento de forma no disruptiva y sin necesidad de mover datos. Esta funcionalidad permite a los científicos de datos entrenar modelos a escala sin problemas de rendimiento y evitar silos de datos en el clúster, como se muestra en la siguiente figura.
+
+image:aks-anf_image1.png["Error: Falta la imagen gráfica"]
+
+link:aks-anf_technology_overview.html["Siguiente: Información general de la tecnología."]

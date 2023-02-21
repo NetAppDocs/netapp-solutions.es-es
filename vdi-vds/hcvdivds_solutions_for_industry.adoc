@@ -1,0 +1,65 @@
+---
+sidebar: sidebar 
+permalink: vdi-vds/hcvdivds_solutions_for_industry.html 
+keywords: GPU, Azure, NVIDIA, Tesla M60, 
+summary: Las estaciones de trabajo gráficas suelen utilizarse en sectores como la fabricación, la sanidad, la energía, los medios de comunicación y el entretenimiento, la educación, y así sucesivamente. La movilidad suele ser limitada a aplicaciones que hacen un uso intensivo de los gráficos. 
+---
+= Soluciones para el sector
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+Las estaciones de trabajo gráficas suelen utilizarse en sectores como la fabricación, la sanidad, la energía, los medios de comunicación y el entretenimiento, la educación, y así sucesivamente. La movilidad suele ser limitada a aplicaciones que hacen un uso intensivo de los gráficos.
+
+Para abordar el problema de la movilidad, Virtual Desktop Services proporciona un entorno de escritorio para todo tipo de trabajadores, desde trabajadores de tareas a usuarios expertos, utilizando recursos de hardware en el cloud o con NetApp HCI, incluidas opciones para configuraciones de GPU flexibles. VDS permite a los usuarios acceder a su entorno de trabajo desde cualquier lugar con portátiles, tablets y otros dispositivos móviles.
+
+Para ejecutar cargas de trabajo de fabricación con software como ANSYS Fluent, ANSYS Mechanical, Autodesk AutoCAD, Autodesk Inventor, Autodesk 3ds Max, Dassault Systèmes SOLIDWORKS, Dassault Systèmes CATIA, PTC Creo, Siemens PLM NX, etc. En la siguiente tabla figuran las GPU disponibles en varios clouds (a fecha de enero de 2021).
+
+[cols="20,20,20,20,20"]
+|===
+| Modelo GPU | Microsoft Azure | Google Compute (GCP) | Amazon Web Services (AWS) | En las instalaciones (NetApp HCI) 
+
+
+| NVIDIA M60 | Sí | Sí | Sí | No 
+
+
+| NVIDIA T4 | No | Sí | Sí | Sí 
+
+
+| P100 DE NVIDIA | No | Sí | No | No 
+
+
+| NVIDIA P4 | No | Sí | No | No 
+|===
+También están disponibles sesiones de escritorio compartidas con otros usuarios y escritorios personales dedicados. Los escritorios virtuales pueden tener de una a cuatro GPU o pueden utilizar GPU parciales con NetApp HCI. NVIDIA T4 es una tarjeta GPU versátil que puede hacer frente a las demandas de una amplia gama de cargas de trabajo de usuarios. Cada tarjeta GPU de NetApp HCI H615C tiene 16 GB de memoria de búfer de trama y tres tarjetas por servidor. El número de usuarios que se puede alojar en un único servidor H615C depende de la carga de trabajo del usuario.
+
+[cols="25,25,25,25"]
+|===
+| Usuarios/servidor | Luz (4 GB) | Medio (8 GB) | Pesado (16 GB) 
+
+
+| H615C | 12 | 6 | 3 
+|===
+Para determinar el tipo de usuario, ejecute la herramienta de perfilador de GPU mientras los usuarios trabajan con aplicaciones que realizan tareas típicas. El perfilador de GPU captura las demandas de memoria, el número de pantallas y la resolución que los usuarios necesitan. A continuación, puede elegir el perfil vGPU que satisfaga sus necesidades.
+
+Los puestos de trabajo virtuales con GPU pueden admitir una resolución de visualización de hasta 8K y la utilidad nView puede dividir un único monitor en regiones para trabajar con diferentes conjuntos de datos.
+
+Con el almacenamiento de archivos de ONTAP, puede obtener las siguientes ventajas:
+
+* Un espacio de nombres único que puede aumentar hasta 20 PB de almacenamiento con 400 000 millones de archivos sin necesidad de mucha intervención administrativa
+* Un espacio de nombres que puede extenderse por todo el mundo con una caché global de archivos
+* Multi-tenancy seguro con almacenamiento gestionado de NetApp
+* La migración de datos inactivos a almacenes de objetos con FabricPool de NetApp
+* Rápida estadística de archivos con análisis del sistema de archivos
+* Escalar un clúster de almacenamiento hasta 24 nodos aumentando la capacidad y el rendimiento
+* La capacidad de controlar el espacio de almacenamiento usando cuotas y un rendimiento garantizado con límites de calidad de servicio
+* Proteja los datos mediante el cifrado
+* Cumplimiento de una amplia gama de requisitos de protección de datos y cumplimiento de normativas
+* Ofrecer opciones flexibles de continuidad empresarial
+
+
+link:vdi-vds/hcvdivds_conclusion.html["Siguiente: Conclusión"]

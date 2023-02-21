@@ -1,0 +1,40 @@
+---
+sidebar: sidebar 
+permalink: containers/baremetal-anthos/bmanthos_solution_validation.html 
+keywords: validation, google cloud, nginx 
+summary: La puesta en marcha actual de esta solución se realizó mediante dos rigurosos procesos de validación mediante herramientas proporcionadas por el equipo de Google Cloud. 
+---
+= Validación de la solución
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../../media/
+
+
+La puesta en marcha actual de esta solución se realizó mediante dos rigurosos procesos de validación mediante herramientas proporcionadas por el equipo de Google Cloud. Estas validaciones incluyen un subconjunto de las siguientes pruebas:
+
+* Validación por parte del partner de la plataforma lista para Anthos:
++
+** Confirme que todos los servicios de Anthos en plataformas con configuración básica están instalados y en funcionamiento.
+** Escale el Anthos físico en un clúster de configuración básica de cuatro nodos de trabajo a tres y, a continuación, vuelva a cuatro.
+** Crear y eliminar un espacio de nombres personalizado.
+** Cree una implementación del servidor web Nginx, escalando dicha implementación aumentando el número de réplicas.
+** Cree una entrada para la aplicación Nginx y verifique la conectividad mediante el curling index.html.
+** Limpiar correctamente todas las actividades del conjunto de pruebas y devolver el clúster a un estado de prueba previa.
+
+
+* Validación por parte del partner del almacenamiento preparado para Anthos:
++
+** Cree una implementación con una reclamación de volumen persistente.
+** Utilice Astra Trident de NetApp para aprovisionar y adjuntar el volumen persistente solicitado de ONTAP de NetApp.
+** Valide la capacidad de desvincular y volver a asociar volúmenes persistentes.
+** Validar el acceso para múltiples conexiones y solo lectura de volúmenes persistentes desde otros pods del nodo.
+** Validar la operación de cambio de tamaño de volumen sin conexión.
+** Compruebe que el volumen persistente sobrevive a una operación de escalado de clúster.
+
+
+
+
+link:bmanthos_conclusion.html["Siguiente: Conclusión."]

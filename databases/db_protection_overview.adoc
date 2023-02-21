@@ -1,0 +1,71 @@
+---
+sidebar: sidebar 
+permalink: databases/db_protection_overview.html 
+keywords: Linux, RHEL Oracle19c, NFS, ONTAP, Ansible 
+summary: Esta página describe el método automatizado para poner en marcha Oracle19c en el almacenamiento ONTAP de NetApp. 
+---
+= Descripción general de la solución
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+
+
+== Protección de datos automatizada para bases de datos de Oracle
+
+Las organizaciones están automatizando sus entornos para conseguir eficiencias, acelerar las puestas en marcha y reducir el esfuerzo manual. Se están utilizando herramientas de gestión de configuraciones como Ansible para optimizar las operaciones de las bases de datos empresariales. En esta solución, demostramos cómo puede usar Ansible para automatizar la protección de datos de Oracle con ONTAP de NetApp. Al permitir que los administradores de almacenamiento, los administradores de sistemas y los administradores de bases de datos configuran de forma constante y rápida la replicación de datos en un centro de datos externo o en un cloud público, puede disfrutar de las siguientes ventajas:
+
+* Elimine las complejidades de diseño y los errores humanos e implemente una puesta en marcha consistente y mejores prácticas repetibles
+* Reducir el tiempo de configuración de la replicación entre clústeres, la creación de instancias de CVO y la recuperación de las bases de datos Oracle
+* Aumente la productividad de los administradores de bases de datos, de sistemas y de almacenamiento
+* Proporciona un flujo de trabajo de recuperación de bases de datos para probar con facilidad un supuesto de recuperación ante desastres.
+
+
+NetApp proporciona a los clientes módulos y funciones Ansible validados para acelerar la puesta en marcha, la configuración y la gestión del ciclo de vida de su entorno de base de datos de Oracle. Esta solución proporciona instrucciones y el código del libro de estrategia de Ansible, para ayudarle a:
+
+
+
+=== De las instalaciones a la replicación en las instalaciones
+
+* Crear LIF de interconexión de clústeres en el origen y el destino
+* Establecimiento de agrupación en cluster y Vserver
+* Crear e inicializar SnapMirror de volúmenes de Oracle
+* Cree un programa de replicación a través de AWX/Tower para archivos binarios, bases de datos y registros de Oracle
+* Restaure la base de datos de Oracle en el destino y coloque la base de datos en línea
+
+
+
+
+=== De forma local a CVO en AWS
+
+* Cree el conector AWS
+* Cree una instancia de CVO en AWS
+* Agregue clúster local a Cloud Manager
+* Crear LIF de interconexión de clústeres en el origen
+* Establecimiento de agrupación en cluster y Vserver
+* Crear e inicializar SnapMirror de volúmenes de Oracle
+* Cree un programa de replicación a través de AWX/Tower para archivos binarios, bases de datos y registros de Oracle
+* Restaure la base de datos de Oracle en el destino y coloque la base de datos en línea
+
+
+Para obtener más información o para empezar, consulte los vídeos de resumen que aparecen a continuación.
+
+
+
+=== Implementaciones de AWX/Tower
+
+* Parte 1: Por determinar
++
+vídeo::
+
+
+* Parte 2: Por determinar
++
+vídeo:: Una vez que esté listo, haga clic en link:db_protection_getting_started.html["aquí para empezar con la solución"].
+
+
+

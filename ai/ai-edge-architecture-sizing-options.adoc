@@ -1,0 +1,34 @@
+---
+sidebar: sidebar 
+permalink: ai/ai-edge-architecture-sizing-options.html 
+keywords: architecture, sizing, computer server, shared storage 
+summary: Puede ajustar la configuración utilizada para la validación y adaptarla a otros casos prácticos. 
+---
+= Opciones de ajuste de tamaño de arquitectura
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:ai-edge-test-results.html["Anterior: Resultados de la prueba."]
+
+Puede ajustar la configuración utilizada para la validación y adaptarla a otros casos prácticos.
+
+
+
+== Servidor de computación
+
+Utilizamos una CPU Intel Xeon D-2123IT, que es el nivel más bajo de CPU compatible con SE350, con cuatro núcleos físicos y 60 W TDP. Aunque el servidor no admite la sustitución de CPU, se puede pedir con una CPU más potente. La CPU más alta admitida es Intel Xeon D-2183IT con 16 núcleos, 100 W con 2,20 GHz. Esto aumenta considerablemente la capacidad computacional de la CPU. Mientras que la CPU no era un cuello de botella para ejecutar las cargas de trabajo de inferencia en sí, ayuda con el procesamiento de datos y otras tareas relacionadas con la inferencia. Actualmente, NVIDIA T4 es la única GPU disponible para casos de uso periféricos; por lo tanto, actualmente, no es posible actualizar o degradar el GPU.
+
+
+
+== Almacenamiento compartido
+
+Para las pruebas y la validación, se utilizó el sistema AFF C190 de NetApp, que tiene una capacidad de almacenamiento máxima de 50,5 TB, una rendimiento de 4,4 GB/s para lecturas secuenciales y 230 000 IOPS para pequeñas lecturas aleatorias, con los fines de este documento y se ha demostrado ser apto para cargas de trabajo de inferencia periférica.
+
+No obstante, si se requiere más capacidad de almacenamiento o velocidades de red más rápidas, deberá utilizar el o el sistema AFF A220 de NetApp https://tv.netapp.com/detail/video/6211798209001/netapp-aff-a250-virtual-tour-and-demo["AFF A250 de NetApp"^] sistemas de almacenamiento. Además, el sistema EF280 de NetApp, que tiene una capacidad máxima de 1,5 PB, 10 Gbps de ancho de banda, también se utilizó para la validación de esta solución. Si prefiere más capacidad de almacenamiento con un mayor ancho de banda, https://www.netapp.com/pdf.html?item=/media/19339-DS-4082.pdf&v=2021691654["EF300 de NetApp"^] puede utilizarse.
+
+link:ai-edge-conclusion.html["Siguiente: Conclusión."]

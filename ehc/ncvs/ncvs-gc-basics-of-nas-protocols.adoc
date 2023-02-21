@@ -1,0 +1,28 @@
+---
+sidebar: sidebar 
+permalink: ehc/ncvs/ncvs-gc-basics-of-nas-protocols.html 
+keywords: nas, basics, gcp, nfs, smb 
+summary: Los protocolos NAS representan formas en las que varios clientes de una red pueden acceder a los mismos datos en un sistema de almacenamiento, como Cloud Volumes Service en GCP. NFS y SMB son los protocolos NAS definidos y funcionan cliente/servidor donde Cloud Volumes Service actúa como servidor. 
+---
+= Conceptos básicos de los protocolos NAS
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../../media/
+
+
+link:ncvs-gc-nas-protocols_overview.html["Anterior: Descripción general de los protocolos NAS."]
+
+Los protocolos NAS representan formas en las que varios clientes de una red pueden acceder a los mismos datos en un sistema de almacenamiento, como Cloud Volumes Service en GCP. NFS y SMB son los protocolos NAS definidos y funcionan cliente/servidor donde Cloud Volumes Service actúa como servidor. Los clientes envían solicitudes de acceso, lectura y escritura al servidor y éste es responsable de coordinar los mecanismos de bloqueo de archivos, de almacenar permisos y de gestionar las solicitudes de identidad y autenticación.
+
+Por ejemplo, se sigue el siguiente proceso general si un cliente NAS desea crear un nuevo archivo en una carpeta.
+
+. El cliente solicita al servidor información sobre el directorio (permisos, propietario, grupo, ID de archivo, espacio disponible, y así sucesivamente); el servidor responde con la información si el cliente y el usuario solicitante tienen los permisos necesarios en la carpeta principal.
+. Si los permisos del directorio permiten el acceso, el cliente le preguntará al servidor si el nombre de archivo que se está creando ya existe en el sistema de archivos. Si el nombre del archivo ya está en uso, se produce un error en la creación. Si el nombre del archivo no existe, el servidor hace saber al cliente que puede continuar.
+. El cliente realiza una llamada al servidor para crear el archivo con el identificador de directorio y el nombre de archivo y establece el acceso y las horas modificadas. El servidor emite un ID de archivo único al archivo para asegurarse de que no se crean otros archivos con el mismo ID de archivo.
+. El cliente envía una llamada para comprobar los atributos del archivo antes de la operación DE ESCRITURA. Si los permisos lo permiten, el cliente escribe el nuevo archivo. Si el protocolo/aplicación utiliza el bloqueo, el cliente solicita al servidor un bloqueo para evitar que otros clientes accedan al archivo mientras está bloqueado para evitar que se dañen los datos.
+
+
+link:ncvs-gc-nfs.html["Siguiente: NFS."]

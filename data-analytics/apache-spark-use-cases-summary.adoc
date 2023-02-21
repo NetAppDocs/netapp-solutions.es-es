@@ -1,0 +1,76 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/apache-spark-use-cases-summary.html 
+keywords: streaming data, machine learning, deep learning, interactive analysis, recommender system, natural language processing, 
+summary: Esta página describe las diferentes áreas en las que se puede utilizar esta solución. 
+---
+= Resumen de casos de uso
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:apache-spark-netapp-spark-solutions-overview.html["Anterior: Información general de las soluciones Spark de NetApp."]
+
+
+
+== Transmisión de datos
+
+Apache Spark puede procesar datos en streaming, que se utilizan para extraer, transformar y cargar en streaming procesos (ETL); enriquecimiento de datos; activación de la detección de eventos; y análisis de sesiones complejas:
+
+* *Streaming ETL.* los datos se limpian y se agregan continuamente antes de que se insertan en almacenes de datos. Netflix usa las secuencias de Kafka y Spark para crear una solución en línea de recomendación de películas y supervisión de datos en tiempo real que puede procesar miles de millones de eventos al día de diferentes fuentes de datos. Sin embargo, las ETL tradicionales para el procesamiento por lotes se tratan de forma distinta. Estos datos se leen primero, y luego se convierten en un formato de base de datos antes de ser escritos en la base de datos.
+* *Enriquecimiento de datos.* la transmisión de Spark enriquece los datos en directo con datos estáticos para permitir un análisis de datos en tiempo real más completo. Por ejemplo, los anunciantes en línea pueden entregar anuncios personalizados y orientados dirigidos por información sobre el comportamiento del cliente.
+* *Detección de sucesos de disparo.* la transmisión de Spark le permite detectar y responder rápidamente a comportamientos inusuales que podrían indicar problemas potencialmente graves. Por ejemplo, las instituciones financieras utilizan desencadenantes para detectar y detener las transacciones de fraude, y los hospitales utilizan desencadenadores para detectar cambios sanitarios peligrosos detectados en los signos vitales de un paciente.
+* *Análisis complejo de sesiones.* Spark Streaming recopila eventos como la actividad del usuario después de iniciar sesión en un sitio web o aplicación, que se agrupan y analizan a continuación. Por ejemplo, Netflix utiliza esta funcionalidad para proporcionar recomendaciones de películas en tiempo real.
+
+
+Para obtener más información sobre la configuración de los datos en streaming, la verificación de Confluent Kafka y las pruebas de rendimiento, consulte https://docs.netapp.com/us-en/netapp-solutions/data-analytics/confluent-kafka-introduction.html["TR-4912: Directrices de mejores prácticas para el almacenamiento por niveles de Confluent Kafka con NetApp"^].
+
+
+
+== Aprendizaje automático
+
+El marco integrado de Spark le ayuda a ejecutar consultas repetidas en conjuntos de datos mediante la biblioteca de aprendizaje automático (MLlib). MLlib se utiliza en áreas tales como agrupación en clúster, clasificación y reducción de la dimensionalidad para algunas funciones comunes de big data como inteligencia predictiva, segmentación del cliente para fines de marketing y análisis de sentimiento. MLlib se utiliza en la seguridad de la red para realizar inspecciones en tiempo real de los paquetes de datos en busca de indicaciones de actividad maliciosa. Ayuda a los proveedores de seguridad a conocer las nuevas amenazas y a mantenerse por delante de los hackers mientras protegen a sus clientes en tiempo real.
+
+
+
+== Aprendizaje profundo
+
+TensorFlow es un marco de aprendizaje profundo más popular que se utiliza en el sector. TensorFlow admite el entrenamiento distribuido en un clúster de CPU o GPU. Este entrenamiento distribuido permite a los usuarios ejecutarlo en una gran cantidad de datos con muchas capas profundas.
+
+Hasta hace poco, si queríamos utilizar TensorFlow con Apache Spark, teníamos que realizar todas las operaciones ETL necesarias para TensorFlow en PySpark y luego escribir datos en el almacenamiento intermedio. Esos datos se cargarán en el clúster TensorFlow para el proceso de entrenamiento real. Este flujo de trabajo requería que el usuario mantuviera dos clústeres diferentes: Uno para ETL y otro para el entrenamiento distribuido de TensorFlow. Ejecutar y mantener varios clústeres era normalmente tedioso y laborioso.
+
+DataFrames y RDD en versiones anteriores de Spark no estaban bien adaptados para el aprendizaje profundo debido a que el acceso aleatorio era limitado. En Spark 3.0 con hidrógeno del proyecto, se añade soporte nativo a los marcos de aprendizaje profundo. Este enfoque permite la programación basada en MapReduce en el clúster de Spark.
+
+
+
+== Análisis interactivo
+
+Apache Spark es lo suficientemente rápido como para realizar consultas exploratorias sin necesidad de muestreo con idiomas de desarrollo distintos de Spark, incluidas SQL, R y Python. Spark utiliza herramientas de visualización para procesar datos complejos y visualizarlos de forma interactiva. Spark with Structured streaming realiza consultas interactivas contra datos en directo en análisis web que le permiten ejecutar consultas interactivas en la sesión actual de un visitante web.
+
+
+
+== Sistema de recomendación
+
+Con el paso de los años, los sistemas de recomendación han traído consigo enormes cambios a nuestras vidas, ya que las empresas y los consumidores han respondido a los cambios drásticos en las compras en línea, el entretenimiento en línea y muchos otros sectores. De hecho, estos sistemas se encuentran entre los casos de éxito más evidentes de la IA en la producción. En muchos casos de uso práctico, los sistemas de recomendación se combinan con IA conversacional o bots conversacionales interpuestos con un back-end NLP para obtener información relevante y producir inferencias útiles.
+
+Hoy en día, muchos minoristas están adoptando nuevos modelos de negocios como comprar en línea y recoger en la tienda, recoger en la acera, hacer el autocheck-out, escanear y llevar, entre otros. Estos modelos se han convertido en algo más destacado durante la pandemia del COVID-19, al hacer que las compras sean más seguras y convenientes para los consumidores. La IA es crucial para estas tendencias digitales en aumento, que están influenciadas por el comportamiento de los consumidores y viceversa. Para satisfacer las crecientes demandas de los consumidores, con el fin de aumentar la experiencia del cliente, mejorar la eficiencia operativa y aumentar los ingresos, NetApp ayuda a sus clientes empresariales y empresas a usar algoritmos de aprendizaje automático y aprendizaje profundo para diseñar sistemas de recomendación más rápidos y precisos.
+
+Existen varias técnicas utilizadas para ofrecer recomendaciones, como el filtrado colaborativo, los sistemas basados en contenido, el modelo de recomendación de aprendizaje profundo (DLRM) y las técnicas híbridas. Anteriormente, los clientes utilizaban PySpark para implementar un filtrado colaborativo para crear sistemas de recomendación. Spark MLlib implementa cuadrados alternos mínimos (ALS) para el filtrado colaborativo, un algoritmo muy popular entre las empresas antes del ascenso de DLRM.
+
+
+
+== Procesamiento de lenguaje natural
+
+La IA conversacional, posible gracias al procesamiento del lenguaje natural (NLP), es la rama de la IA que ayuda a los ordenadores a comunicarse con los seres humanos. NLP tiene una gran prevalencia en todos los sectores verticales y en muchos casos de uso, desde asistentes inteligentes y bots conversacionales hasta búsquedas en Google y texto predictivo. Según a https://www.forbes.com/sites/forbestechcouncil/2021/05/07/nice-chatbot-ing-with-you/?sh=7011eff571f4["Informe de Gartner"^] Predicción, para 2022, el 70 % de las personas interactuará con plataformas de IA conversacionales diariamente. Para mantener una conversación de alta calidad entre un ser humano y una máquina, las respuestas deben ser rápidas, inteligentes y naturales.
+
+Los clientes necesitan una gran cantidad de datos para procesar y entrenar sus modelos NLP y de reconocimiento automático de voz (ASR). También necesitan mover datos en el perímetro, el núcleo y el cloud, y necesitan poder realizar inferencia en milisegundos para establecer una comunicación natural con las personas. NetApp AI y Apache Spark es una combinación ideal de computación, almacenamiento, procesamiento de datos, entrenamiento de modelos, ajuste preciso e implementación.
+
+El análisis de sentimiento es un campo de estudio dentro de las BPL en el que se extraen sentimientos positivos, negativos o neutrales del texto. El análisis de confianza tiene una variedad de casos de uso, desde determinar el rendimiento del empleado del centro de soporte en conversaciones con personas que llaman hasta proporcionar respuestas automatizadas apropiadas al bot conversacional. También se ha utilizado para predecir el precio de las acciones de una empresa en función de las interacciones entre representantes de la empresa y la audiencia en llamadas trimestrales sobre ganancias. Además, el análisis de confianza se puede utilizar para determinar la visión de un cliente sobre los productos, servicios o asistencia proporcionados por la Marca.
+
+Utilizamos la https://www.johnsnowlabs.com/spark-nlp/["Chispa NLP"^] biblioteca desde https://www.johnsnowlabs.com/["John Snow Labs"^] Cargar tuberías preentrenadas y Representaciones bidireccionales de Encoder desde los modelos Transformers (BERT) incluyendo https://nlp.johnsnowlabs.com/2021/11/11/classifierdl_bertwiki_finance_sentiment_pipeline_en.html["confianza en las noticias financieras"^] y.. https://nlp.johnsnowlabs.com/2021/11/03/bert_sequence_classifier_finbert_en.html["FinBERT"^], realizando tokenización, reconocimiento de entidades con nombre, entrenamiento modelo, ajuste y análisis de sentimiento a escala. Spark NLP es la única biblioteca de código abierto de NLP en producción que ofrece transformadores de última generación como BERT, ALBERT, ELECTRA, XLNet, DistilBERT, Roberta, DeBERTa, XLM- Roberta, Longexer, ELMO, Codificador universal de frases, Google T5, MarianMT y GPT2. La biblioteca funciona no sólo en Python y R, sino también en el ecosistema JVM (Java, Scala y Kotlin) a escala ampliando Apache Spark de forma nativa.
+
+link:apache-spark-major-ai,-ml,-and-dl-use-cases-and-architectures.html["Siguiente: Principales casos prácticos de IA, APRENDIZAJE AUTOMÁTICO y aprendizaje profundo."]

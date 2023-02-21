@@ -1,0 +1,75 @@
+---
+sidebar: sidebar 
+permalink: ai/a400-thinksystem-test-configuration.html 
+keywords: solution architecture, storage controller 
+summary: En este apartado se describen las configuraciones probadas, la infraestructura de red, el servidor SR670 V2 y los detalles de abastecimiento de almacenamiento. 
+---
+= Configuración de prueba
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:a400-thinksystem-test-results.html["Anterior: Resultados de la prueba."]
+
+[role="lead"]
+En este apartado se describen las configuraciones probadas, la infraestructura de red, el servidor SR670 V2 y los detalles sobre el aprovisionamiento de almacenamiento NetApp.
+
+
+
+== Arquitectura de la solución
+
+Hemos utilizado los componentes de la solución enumerados en la siguiente tabla para esta validación.
+
+|===
+| Componentes de la solución | Detalles 
+
+
+| Servidores Lenovo ThinkSystem  a| 
+* Dos servidores SR670 V2 cada uno con ocho tarjetas GPU NVIDIA A100 de 80 GB
+* Cada servidor contiene 2 CPU Intel Xeon Platinum 8360Y (28 núcleos físicos) y 1 TB de RAM
+
+
+
+
+| Linux (Ubuntu – 20.04 con CUDA 11.8) |  
+
+
+| Sistema de almacenamiento AFF de NetApp (pareja de alta disponibilidad)  a| 
+* Software ONTAP 9.10.1 de NetApp
+* 24 unidades SSD de 960 GB
+* Protocolo NFS
+* 1 grupo de interfaces (ifgrp) por controladora, con cuatro direcciones IP lógicas para los puntos de montaje
+
+
+|===
+En esta validación, utilizamos ResNet v2.0 con la base ImageNET establecida como lo especifica MLPerf v2.0. El conjunto de datos se almacena en un sistema de almacenamiento AFF de NetApp con el protocolo NFS. Los SR670 se conectaron al sistema de almacenamiento AFF A400 de NetApp a través de un switch de 100 GbE.
+
+ImageNET es un conjunto de datos de imágenes utilizado con frecuencia. Contiene casi 1.3 millones de imágenes por un tamaño de 144 GB. El tamaño medio de la imagen es de 108 KB.
+
+En la siguiente figura, se muestra la topología de red de la configuración probada.
+
+image:a400-thinksystem-image7.png["Este gráfico muestra la capa informática, un sistema de ThinkSystem SR670 V2 Lenovo, la capa de red, un switch Ethernet Lenovo y la capa de almacenamiento, una controladora de almacenamiento AFF A400 de NetApp. Se incluyen todas las conexiones de red."]
+
+
+
+== Controladora de almacenamiento
+
+La siguiente tabla enumera la configuración de almacenamiento.
+
+|===
+| Controladora | Agregado | Volumen FlexGroup | Tamaño del agregado | Tamaño del volumen | Punto de montaje del sistema operativo 
+
+
+| Control1 | Agr1 | /a400-100g | 9,9 TB | 19 TB | /a400-100g 
+
+
+| Control2 | Agr2 | /a400-100g | 9,9 TB |  | /a400-100g 
+|===
+
+NOTE: La carpeta /a400-100g contiene el conjunto de datos utilizado para la validación ResNet.
+
+link:a400-thinksystem-test-procedure-and-detailed-results.html["Siguiente: Procedimiento de prueba y resultados detallados."]

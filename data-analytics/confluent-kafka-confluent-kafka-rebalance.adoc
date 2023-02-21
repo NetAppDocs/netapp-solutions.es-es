@@ -1,0 +1,24 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/confluent-kafka-confluent-kafka-rebalance.html 
+keywords: rebalance, test, self balancing, brokers 
+summary: Esta prueba se basa en la función de clústeres de equilibrio automático, que automatiza el reequilibrio en función de cambios en la topología del clúster o carga desigual. 
+---
+= Clústeres de equilibrio automático confluente
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:confluent-kafka-kafka-s3-connector.html["Anterior: Conector Kafka s3."]
+
+Si ha gestionado antes un clúster Kafka, probablemente esté familiarizado con los retos que surgen con la reasignación manual de particiones a distintos agentes para garantizar que la carga de trabajo se equilibre a través del clúster. Para las organizaciones con grandes puestas en marcha de Kafka, cambiar grandes cantidades de datos puede ser abrumador, tedioso y arriesgado, especialmente si las aplicaciones vitales para el negocio se basan en el clúster. Sin embargo, incluso para los casos de uso más pequeños de Kafka, el proceso consume mucho tiempo y es propenso a errores humanos.
+
+En nuestro laboratorio, probamos la función de clústeres de equilibrio automático con fluidez, que automatiza el reequilibrado en función de cambios de topología de clúster o carga irregular. La prueba de reequilibrado fluido ayuda a medir el tiempo para agregar un nuevo intermediario cuando el fallo del nodo o el nodo de escalado requiere reequilibrar los datos entre los distintos intermediarios. En las configuraciones clásicas de Kafka, la cantidad de datos que se deben reequilibrar crece a medida que crece el clúster, pero, en almacenamiento por niveles, el reequilibrio se limita a una pequeña cantidad de datos. Según nuestra validación, el reequilibrio en el almacenamiento por niveles se demora segundos o minutos en una arquitectura Kafka clásica y crece de forma lineal a medida que crece el clúster.
+
+En los clústeres de equilibrio automático, los reequilibrios de las particiones están totalmente automatizados para optimizar el rendimiento de Kafka, acelerar el escalado de los intermediarios y reducir la carga operativa de ejecutar un gran clúster. En clústeres de estado constante, los clústeres de equilibrio automático supervisan el desfase de datos a través de los intermediarios y reasignan continuamente particiones para optimizar el rendimiento del clúster. Al escalar la plataforma de forma horizontal o vertical, los clústeres de equilibrio automático reconocen automáticamente la presencia de nuevos agentes o la eliminación de agentes antiguos y activan la reasignación posterior de particiones. Esto le permite añadir y retirar agentes fácilmente, lo que hace que sus clústeres Kafka sean mucho más elásticos. Estas ventajas se obtienen sin necesidad de intervención manual, matemáticas complejas o el riesgo de error humano que suelen implicar la reasignación de particiones. Como resultado, los reequilibrios de los datos se completan en mucho menos tiempo y puede centrarse en proyectos de streaming de eventos de mayor valor, en lugar de tener que supervisar constantemente los clústeres.
+
+link:confluent-kafka-best-practice-guidelines.html["Siguiente: Directrices de mejores prácticas."]

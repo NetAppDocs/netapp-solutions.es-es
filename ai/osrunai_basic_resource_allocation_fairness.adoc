@@ -1,0 +1,30 @@
+---
+sidebar: sidebar 
+permalink: ai/osrunai_basic_resource_allocation_fairness.html 
+keywords:  
+summary:  
+---
+= Equidad en la asignación de recursos básicos
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+En esta sección, lo mostramos cuando `team-d` Solicita más GPU (están por debajo de su cuota), el sistema coloca en pausa las cargas de trabajo de `team-b` y.. `team-c` y los mueve a un estado pendiente de manera equitativa.
+
+Para obtener información detallada, incluidos los envíos de trabajos, las imágenes contenedoras utilizadas y las secuencias de comandos ejecutadas, consulte la sección link:osrunai_testing_details_for_section_4.9.html["Detalles de las pruebas para la sección 4.9"].
+
+La siguiente figura muestra el uso resultante del clúster, las GPU asignadas por equipo y los trabajos pendientes debido al equilibrio de carga automático y a la programación preventiva. Podemos observar que cuando el número total de GPU solicitado por todas las cargas de trabajo de equipo supera el total de GPU disponibles en el clúster, el algoritmo de integridad interno de Run:AI pone en pausa un trabajo por cada una `team-b` y.. `team-c` porque han cumplido con su cuota de proyecto. Esto proporciona una utilización elevada del clúster global, mientras que los equipos de ciencia de datos siguen trabajando con las limitaciones de recursos definidas por un administrador.
+
+image:osrunai_image9.png["Error: Falta la imagen gráfica"]
+
+Los resultados de este escenario de prueba demuestran lo siguiente:
+
+* *Equilibrio de carga automático.* el sistema equilibra automáticamente la cuota de las GPU, de modo que cada equipo utiliza ahora su cuota. Las cargas de trabajo en pausa pertenecen a equipos que se encontraban por encima de su cuota.
+* *Pausa de uso compartido justo.* el sistema elige detener la carga de trabajo de un equipo que estaba por encima de su cuota y luego detener la carga de trabajo del otro equipo. Ejecutar:la IA tiene algoritmos internos de justicia.
+
+
+link:osrunai_over-quota_fairness.html["Siguiente: Equidad sobre las cuotas"]

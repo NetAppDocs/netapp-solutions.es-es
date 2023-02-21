@@ -1,0 +1,47 @@
+---
+sidebar: sidebar 
+permalink: databases/hybrid_dbops_snapcenter_usecases.html 
+summary: Esta solución proporciona a NetApp y a los clientes instrucciones y directrices para configurar, operar y migrar bases de datos a un entorno de cloud híbrido mediante la herramienta basada en la interfaz gráfica de usuario de SnapCenter de NetApp y CVO del servicio de almacenamiento de NetApp en clouds públicos. 
+keywords: tr-4908, tr4908, 4908, hybrid cloud, database, snapcenter, gui 
+---
+= TR-4908: Soluciones de bases de datos para el cloud híbrido con información general de SnapCenter
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:table-stripes: odd
+:imagesdir: ./../media/
+
+
+Alan Cao, Felix Melligan, NetApp
+
+Esta solución proporciona a NetApp y a los clientes instrucciones y directrices para configurar, operar y migrar bases de datos a un entorno de cloud híbrido mediante la herramienta basada en la interfaz gráfica de usuario de SnapCenter de NetApp y el servicio de almacenamiento de NetApp CVO en clouds públicos para los siguientes casos de uso:
+
+* Las operaciones de desarrollo y pruebas de bases de datos en el cloud híbrido
+* Recuperación ante desastres de bases de datos en el cloud híbrido
+
+
+En la actualidad, muchas bases de datos empresariales siguen residiendo en centros de datos corporativos privados por motivos de rendimiento, seguridad u otros motivos. Esta solución de bases de datos de cloud híbrido permite a las empresas operar sus bases de datos principales in situ mientras utilizan un cloud público para operaciones de bases de datos de desarrollo y pruebas, así como para recuperación ante desastres, con el fin de reducir los costes operativos y de licencias.
+
+Muchas bases de datos empresariales, como Oracle, SQL Server, SAP HANA, etc., lleve consigo elevados costes operativos y de licencias. Muchos clientes pagan una licencia única y los costes de soporte anuales en función del número de núcleos informáticos de su entorno de bases de datos, independientemente de si se utilizan núcleos para desarrollo, pruebas, producción o recuperación ante desastres. Es posible que muchos de estos entornos no se utilicen por completo a lo largo de todo el ciclo de vida de las aplicaciones.
+
+Las soluciones proporcionan a los clientes una opción para reducir potencialmente el número de núcleos con licencia mediante el movimiento de sus entornos de base de datos dedicados al desarrollo, la prueba o la recuperación ante desastres al cloud. Al usar el escalado de cloud público, la redundancia, la alta disponibilidad y un modelo de facturación basado en el consumo, el ahorro en costes de licencias y operaciones puede ser sustancial sin sacrificar la facilidad de uso o la disponibilidad de las aplicaciones.
+
+Más allá del posible ahorro en costes de licencias de bases de datos, el modelo de licencias de CVO basado en capacidad de NetApp permite a los clientes ahorrar costes de almacenamiento por GB al tiempo que les permite disfrutar de un alto nivel de capacidad de gestión de bases de datos que no se encuentra disponible con los servicios de almacenamiento de la competencia. El siguiente gráfico muestra una comparación de costes del almacenamiento de los servicios de almacenamiento populares disponibles en el cloud público.
+
+image:cvo_cloud_cost_comparision.png["Error: Falta la imagen gráfica"]
+
+Esta solución demuestra que, al utilizar la herramienta de software basada en interfaz gráfica de usuario de SnapCenter y la tecnología SnapMirror de NetApp, las operaciones de bases de datos del cloud híbrido se pueden configurar, implementar y utilizar fácilmente.
+
+Los siguientes vídeos demostrarán que SnapCenter está en acción:
+
+* https://www.youtube.com/watch?v=-8GPzwjX9CM&list=PLdXI3bZJEw7nofM6lN44eOe4aOSoryckg&index=35["Backup de una base de datos de Oracle en un cloud híbrido con SnapCenter"^]
+* https://www.youtube.com/watch?v=v3udynwJlpI["SnapCenter: Clone EL PROCESO DE DESARROLLO y PRUEBAS en AWS Cloud para una base de datos de Oracle"^]
+
+
+En particular, aunque las ilustraciones de este documento muestran CVO como una instancia de almacenamiento objetivo en el cloud público, la solución también está completamente validada para la nueva versión del motor de almacenamiento de ONTAP FSX para AWS.
+
+Para probar usted mismo la solución y los casos de uso, puede solicitarse un laboratorio de NetApp bajo demanda SL10680 en el siguiente enlace: https://labondemand.netapp.com/lod3/labtest/request?nodeid=68761&destination=lod3/testlabs[TL_AWS_004 HCoD: AWS - NW,SnapCenter(OnPrem)].
+
+link:hybrid_dbops_snapcenter_architecture.html["Siguiente: Arquitectura de las soluciones."]

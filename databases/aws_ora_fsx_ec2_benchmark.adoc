@@ -1,0 +1,107 @@
+---
+sidebar: sidebar 
+permalink: databases/aws_ora_fsx_ec2_benchmark.html 
+summary: Esta sección proporciona detalles sobre la validación del rendimiento y los resultados de las pruebas de rendimiento de una carga de trabajo OLTP simulada de Swingbench. 
+keywords: HA, DR, database, Oracle, RDS, AWS, SnapCenter 
+---
+= Validación del rendimiento y resultados de las pruebas de rendimiento
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:table-stripes: odd
+:imagesdir: ./../media/
+
+
+link:aws_ora_fsx_ec2_mgmt.html["Anterior: Gestión de bases de datos de Oracle."]
+
+El objetivo de esta validación del rendimiento no es establecer ninguna Marca. En su lugar, si sigue los procedimientos de implementación y las prácticas recomendadas como se indica en esta documentación, puede esperar disponer de métricas de rendimiento similares a la puesta en marcha de su base de datos de Oracle en un cloud público.
+
+Utilizamos un módulo de entrada de pedido de ventas (SOE) de Swingbench para simular una carga de trabajo de tipo OLTP y aplicamos la carga de trabajo en una base de datos de Oracle implementada en una instancia de EC2 M5 con volúmenes de almacenamiento FSX en el protocolo NFS. El perfil de E/S de Swingbench predeterminado está cerca de una división de lectura/escritura de 80/20, que está cerca de un perfil de carga de trabajo de Oracle OLTP real.
+
+La carga de trabajo aumenta aumentando el número de usuarios simultáneos en el cliente que realizan la entrada del pedido de ventas, la exploración, las consultas de inventario, etc. Las cifras analizadas fueron de 8, 16, 32, 64 y 128 usuarios simultáneos. El algoritmo que utiliza Swingbench es pesado en el lado del servidor para insertar volúmenes de transacciones razonables y probar los límites del servidor Oracle. Observamos que, con 128 usuarios simultáneos, la utilización de la CPU de la instancia de EC2 alcanzó un límite de capacidad aproximado del 80-90%.
+
+En las siguientes secciones se ofrecen detalles de los resultados de configuración y prueba.
+
+
+
+== Configuración del entorno de prueba
+
+
+
+=== Informática
+
+Implementamos una instancia EC2 M5 con 8vCPU, 32G RAM y 10Gps de ancho de banda de red.
+
+image:aws_ora_fsx_ec2_inst_10.PNG["Error: Falta la imagen gráfica"]
+
+
+
+=== Almacenamiento FSX
+
+Creamos tres volúmenes de base de datos y montó los volúmenes con NFS en una instancia de EC2 de la siguiente manera:
+
+* /U01 - binario de Oracle
+* /U02: Archivos de datos Oracle, archivo de control
+* /U03 - Archivos de registro de Oracle, archivo de control
+
+
+Guardamos dos copias de un archivo de control crítico para la redundancia.
+
+image:aws_ora_fsx_ec2_stor_15.PNG["Error: Falta la imagen gráfica"]
+
+El sistema de archivos FSX está configurado con una capacidad de 80,000 IOPS y un rendimiento de I/o de 2 GIB.
+
+
+
+=== Configuración de Oracle
+
+Instalamos la versión 19c de Oracle con el parche 19.8 de RU. DNFS se habilitó en el servidor.
+
+La base de datos se implementó como una base de datos en contenedor con tres PDB. Utilizamos una instancia de PDB para las pruebas de rendimiento. La siguiente figura muestra el ajuste de tamaño del almacenamiento Oracle en los puntos de montaje NFS.
+
+image:aws_ora_fsx_ec2_inst_11.PNG["Error: Falta la imagen gráfica"]
+
+
+
+=== Configuración de Swingbench
+
+Hemos implementado Swingbench 2.6 (la versión más reciente) en un host de Windows con 8vCPU y 32G RAM. Utilizamos la versión 2 del módulo de prueba SOE plsql para el análisis de referencia. El perfil de carga predeterminado proporciona una relación de lectura/escritura de 80/20 para simular la carga de trabajo de transacciones de OLTP en el mundo real.
+
+El factor de escala de esquema que utilizamos fue 50, que proporcionó un tamaño de carga de datos inicial de 160G y 30G de asignación de espacio temporal. En este factor de escala, el esquema de SOE proporcionó 1000 almacenes y 50 millones de clientes para la simulación del procesamiento de pedidos en línea.
+
+La siguiente captura de pantalla muestra el perfil de carga de trabajo y las métricas de ejecución transaccional típicas de la interfaz de usuario de Windows de Swingbench.
+
+image:aws_ora_fsx_ec2_swin_01.PNG["Error: Falta la imagen gráfica"]
+
+Como muestra este gráfico, el nivel de transacción se mantuvo al mismo nivel durante la ejecución de la prueba.
+
+
+
+== Análisis de los resultados de las pruebas
+
+Capturamos los resultados de Swingbench para cada ejecución de prueba y obtuvimos los correspondientes informes de Oracle AWR para análisis de rendimiento.
+
+Desde el punto de vista del usuario final, observamos métricas clave como el volumen de transacciones y el tiempo de respuesta del usuario. Ambas métricas muestran el número de transacciones que los usuarios pueden ejecutar desde el sistema de entrada de pedidos de venta, dado el número de usuarios simultáneos que inician sesión en el sistema, así como la rapidez con la que los usuarios pueden completar transacciones y recibir respuestas después de introducir su pedido.
+
+Desde el final del servidor Oracle, hemos analizado el informe de Oracle AWR para determinar los principales eventos de espera que podrían haber ralentizado las transacciones del usuario. Los 10 principales eventos de espera de Oracle indicaron que, durante las ejecuciones de pruebas de transacciones simuladas de Swingbench, el servidor de Oracle está principalmente vinculado a I/o hasta un 50-60 % del tiempo de la base de datos `db file sequential read`. `log file sync` También es un factor que contribuye porque los confirmaciones de transacción hacen que el proceso de registro de Oracle vacíe las E/S de registro de la caché de buffers al archivo de registro en el disco, aunque es un factor menor en el nivel de porcentaje de tiempo-base de datos.
+
+Se registraron el volumen de transacciones del usuario, el tiempo de respuesta del usuario y los eventos de espera principales de Oracle en relación con el número de usuarios simultáneos durante una ejecución de transacción. A continuación se muestran los resultados:
+
+image:aws_ora_fsx_ec2_swin_02.PNG["Error: Falta la imagen gráfica"]
+
+Este resultado indica que podríamos aumentar constantemente los volúmenes de transacciones de usuario con un mayor número de usuarios simultáneos, a la vez que se mantiene una latencia de I/o baja y el tiempo de respuesta del usuario, lo cual es un rendimiento adecuado para una aplicación de Oracle.
+
+La latencia de I/o y el tiempo de respuesta del usuario comenzaron a aumentar algo cuando llegamos a 10 128 usuarios simultáneos. Esto se espera porque la instancia de EC2 está cerca de la capacidad completa de los servidores, tal como se muestra en el siguiente diagrama:
+
+image:aws_ora_fsx_ec2_swin_03.PNG["Error: Falta la imagen gráfica"]
+
+De forma similar, el siguiente diagrama muestra la tasa de IOPS y el rendimiento de FSX correspondientes mientras se cumplen los volúmenes de transacciones del usuario en ese momento.
+
+image:aws_ora_fsx_ec2_swin_04.PNG["Error: Falta la imagen gráfica"]
+image:aws_ora_fsx_ec2_swin_05.PNG["Error: Falta la imagen gráfica"]
+
+No alcanzamos la capacidad de almacenamiento FSX aprovisionada en IOPS o rendimiento cuando la instancia de EC2 del servidor Oracle se convirtió en el factor limitante. Por lo tanto, debe dimensionar correctamente los recursos informáticos y de almacenamiento en función del volumen de transacciones por aplicaciones del usuario, tal y como mostramos en la sección link:aws_ora_fsx_ec2_factors.html["Factores que deben tenerse en cuenta para la instalación de bases de datos de Oracle."]
+
+link:aws_ora_fsx_ec2_migration.html["Siguiente: Migración de bases de datos."]

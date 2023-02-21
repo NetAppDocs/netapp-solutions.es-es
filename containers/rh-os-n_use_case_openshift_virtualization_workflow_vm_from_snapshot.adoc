@@ -1,0 +1,61 @@
+---
+sidebar: sidebar 
+permalink: containers/rh-os-n_use_case_openshift_virtualization_workflow_vm_from_snapshot.html 
+keywords: OpenShift, OCP, Astra Trident, NetApp ONTAP, Red Hat OpenShift, OpenShift Virtualization, CNV, Container Native Virtualization, Red Hat OpenShift Virtualization 
+summary: OpenShift Virtualization de Red Hat con ONTAP de NetApp 
+---
+= Flujos de trabajo: Virtualización de Red Hat OpenShift con ONTAP de NetApp
+:allow-uri-read: 
+
+
+
+
+== Crear una máquina virtual desde una snapshot
+
+Con Astra Trident y Red Hat OpenShift, los usuarios pueden hacer una copia Snapshot de un volumen persistente en las clases de almacenamiento que aprovisiona. Con esta función, los usuarios pueden tomar una copia de un momento específico de un volumen y usarla para crear un nuevo volumen o restaurar el mismo volumen de vuelta a un estado anterior. Esto permite o admite una serie de casos prácticos, desde la reversión a clones y la restauración de datos.
+
+Para las operaciones de Snapshot en OpenShift, se deben definir los recursos VolumeSnapshotClass, VolumeSnapshot y VolumeSnapshotContent.
+
+* Una copia de Snapshot de VolumeSnapshotContent es la copia de Snapshot real que se toma de un volumen del clúster. Es un recurso para todo el clúster análogo al volumen persistente para almacenamiento.
+* Una copia Snapshot de volumen es una solicitud para crear la copia Snapshot de un volumen. Es análogo a una reclamación de volumen persistente.
+* VolumeSnapshotClass permite que el administrador especifique diferentes atributos para una copia VolumeSnapshot. Permite tener distintos atributos para las diferentes copias Snapshot realizadas desde el mismo volumen.
+
+
+image::redhat_openshift_image60.jpg[Equipos virtuales desde la arquitectura de Snapshot]
+
+Para crear una instantánea de un equipo virtual, complete los siguientes pasos:
+
+. Cree una copia Snapshot de VolumeshotClass que puede utilizarse para crear una copia Snapshot de Volume. Vaya a almacenamiento > VolumeSnapshotClasses y haga clic en Create VolumeSnapshotClass.
+. Introduzca el nombre de la clase de Snapshot, introduzca csi.trident.netapp.io para el controlador y haga clic en Create.
++
+image::redhat_openshift_image61.JPG[Cree la clase Snapshot]
+
+. Identifique la RVP que está Unido a la máquina virtual de origen y, a continuación, cree una copia Snapshot de esa RVP. Vaya a. `Storage > VolumeSnapshots` Y haga clic en Create VolumeSnapshots.
+. Seleccione la RVP para la que desea crear la Snapshot, introduzca el nombre de la Snapshot o acepte el valor predeterminado y seleccione VolumeSnapshotClass adecuado. A continuación, haga clic en Crear.
++
+image::redhat_openshift_image62.JPG[Cree Snapshot]
+
+. Esto crea la snapshot de la RVP en ese momento específico.
+
+
+
+
+== Crear una nueva máquina virtual a partir de la copia de Snapshot
+
+. En primer lugar, restaure la snapshot en una nueva RVP. Desplácese hasta almacenamiento > VolumeSnapshots, haga clic en los tres puntos junto a la snapshot que desea restaurar y haga clic en Restore como nueva RVP.
+. Introduzca los detalles del nuevo PVC y haga clic en Restore. De este modo se crea una nueva RVP.
++
+image::redhat_openshift_image63.JPG[Restaurar snapshot en una nueva RVP]
+
+. A continuación, cree una nueva máquina virtual a partir de esta RVP. Desplácese hasta cargas de trabajo > virtualización > Máquinas virtuales y haga clic en Crear > con AYLMA.
+. En la sección Spec > template > Volumes, especifique la nueva RVP creada en Snapshot en lugar de en el disco de contenedor. Proporcione los demás detalles de la nueva VM de acuerdo con sus requisitos.
++
+[source, cli]
+----
+- name: rootdisk
+  persistentVolumeClaim:
+    claimName: rhel8-short-frog-rootdisk-28dvb-snapshot-restore
+----
+. Haga clic en Create para crear la nueva máquina virtual.
+. Una vez que la máquina virtual se haya creado correctamente, acceda y compruebe que la nueva máquina virtual tenga el mismo estado que la de la máquina virtual cuyo RVP se utilizó para crear la snapshot en el momento en que se creó la snapshot.
+

@@ -1,0 +1,59 @@
+---
+sidebar: sidebar 
+permalink: ai/hcaios_solution_overview.html 
+keywords: NetApp, Solution, Overview, ML 
+summary:  
+---
+= Descripción general de la solución
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+En esta sección se revisa una canalización de ciencia de datos convencional y sus inconvenientes. También presenta la arquitectura de la solución de almacenamiento en caché del conjunto de datos propuesta.
+
+
+
+== Canalización convencional de ciencia de datos e inconvenientes
+
+Una secuencia típica de desarrollo e implementación de modelos ML implica pasos iterativos que incluyen lo siguiente:
+
+* Ingestión de datos
+* Procesamiento previo de los datos (crear varias versiones de los conjuntos de datos)
+* Ejecución de múltiples experimentos que implican la optimización de hiperparámetros, diferentes modelos, etc.
+* Puesta en marcha
+* Monitoringcnvrg.io ha desarrollado una plataforma completa para automatizar todas las tareas, desde la investigación hasta la implementación. En la siguiente figura se muestra una pequeña muestra de capturas de pantalla del panel relativas a la canalización.
+
+
+image:hcaios_image2.png["Error: Falta la imagen gráfica"]
+
+Es muy común tener múltiples conjuntos de datos en juego desde los repositorios públicos y los datos privados. Además, es probable que cada conjunto de datos tenga varias versiones como resultado de la limpieza del conjunto de datos o la ingeniería de funciones. Se necesita un panel que proporcione un concentrador de conjuntos de datos y un concentrador de versiones para garantizar que las herramientas de colaboración y consistencia estén disponibles para el equipo, como se puede ver en la siguiente figura.
+
+image:hcaios_image3.png["Error: Falta la imagen gráfica"]
+
+El siguiente paso de la canalización es el entrenamiento, que requiere varias instancias paralelas de modelos de entrenamiento, cada uno asociado con un conjunto de datos y una determinada instancia de computación. La vinculación de un conjunto de datos con un cierto experimento con una determinada instancia informática es un reto, ya que es posible que algunos experimentos se realicen mediante instancias de GPU de Amazon Web Services (AWS), mientras que otras instancias de DGX-1 o DGX-2 se llevan a cabo en las instalaciones. Es posible que se ejecuten otros experimentos en servidores de CPU en GCP, mientras que la ubicación del conjunto de datos no está muy cerca de los recursos informáticos que realizan el entrenamiento. Una proximidad razonable tendría conectividad de 10 GbE completa o más baja latencia desde el almacenamiento del conjunto de datos a la instancia de computación.
+
+Es una práctica común que los científicos de datos descarguen el conjunto de datos a la instancia de computación que realice el entrenamiento y ejecute el experimento. Sin embargo, este enfoque presenta varios problemas posibles:
+
+* Cuando el científico de datos descarga el conjunto de datos en una instancia informática, no hay garantías de que el almacenamiento informático integrado tenga un alto rendimiento (un ejemplo de un sistema de alto rendimiento sería la solución NVMe A800 de ONTAP AFF).
+* Cuando el conjunto de datos descargado reside en un nodo de computación, el almacenamiento puede convertirse en un cuello de botella cuando se ejecutan los modelos distribuidos en varios nodos (a diferencia del almacenamiento distribuido de alto rendimiento de ONTAP de NetApp).
+* La siguiente iteración del experimento de entrenamiento podría realizarse en una instancia de computación diferente debido a conflictos de cola o prioridades, creando de nuevo una distancia significativa de la red desde el conjunto de datos hasta la ubicación de computación.
+* Otros miembros del equipo que ejecutan experimentos de entrenamiento en el mismo clúster informático no pueden compartir este conjunto de datos; cada uno realiza la descarga (costosa) del conjunto de datos desde una ubicación arbitraria.
+* Si se necesitan otros conjuntos de datos o versiones del mismo conjunto de datos para las siguientes tareas de entrenamiento, los científicos de datos deben volver a realizar la descarga (costosa) del conjunto de datos en la instancia informática que realiza la versión training.NetApp y cnvrg.io han creado una nueva solución de almacenamiento en caché de conjuntos de datos que elimina estos obstáculos. Esta solución crea una ejecución acelerada de la canalización DE ML mediante el almacenamiento en caché de conjuntos de datos activos en el sistema de almacenamiento de alto rendimiento de ONTAP. Con NFS de ONTAP, los conjuntos de datos se almacenan en caché una vez (y solo una) en una estructura de datos con tecnología de NetApp (como AFF A800), que se encuentra junto con el sistema informático. Dado que el almacenamiento de alta velocidad NFS de ONTAP de NetApp puede dar servicio a nodos de computación DE varios ML, el rendimiento de los modelos de entrenamiento se optimiza, lo que permite ahorrar costes, productividad y eficiencia operativa a la organización.
+
+
+
+
+== Arquitectura de la solución
+
+Esta solución de NetApp y cnvrg.io proporciona almacenamiento en caché de conjuntos de datos, como se muestra en la siguiente figura. El almacenamiento en caché de conjuntos de datos permite a los científicos de datos elegir la versión deseada de conjuntos de datos o conjuntos de datos y moverlos a la caché NFS de ONTAP, que se encuentra cerca del clúster de computación DE ML. Ahora, el científico de datos puede realizar varios experimentos sin incurrir en retrasos ni descargas. Además, todos los ingenieros de colaboración pueden utilizar el mismo conjunto de datos con el clúster de computación conectado (con la libertad de elegir cualquier nodo) sin descargar adicionales del lago de datos. A los científicos de datos se les ofrece un panel que realiza un seguimiento y supervisa todos los conjuntos de datos y versiones y ofrece una vista de los conjuntos de datos que se almacenan en caché.
+
+La plataforma cnvrg.io detecta automáticamente conjuntos de datos antiguos que no se han utilizado durante un cierto tiempo y los desaloja de la caché, por lo que mantiene un espacio libre de la caché NFS para conjuntos de datos utilizados con mayor frecuencia. Es importante tener en cuenta que el almacenamiento en caché del conjunto de datos con ONTAP funciona en el cloud y en las instalaciones, por lo que proporciona la máxima flexibilidad.
+
+image:hcaios_image4.png["Error: Falta la imagen gráfica"]
+
+link:hcaios_concepts_and_components.html["Siguiente: Conceptos y componentes"]

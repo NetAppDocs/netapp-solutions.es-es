@@ -1,0 +1,352 @@
+---
+sidebar: sidebar 
+permalink: ehc/azure/azure-native-nfs-datastore-option.html 
+keywords:  
+summary:  
+---
+= Opción complementaria de almacén de datos NFS en Azure
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../../media/
+
+
+[role="lead"]
+La compatibilidad con almacenes de datos NFS se introdujo con ESXi versión 3 en implementaciones locales, que amplió en gran medida las funcionalidades de almacenamiento de vSphere.
+
+Ejecutar vSphere en NFS es una opción ampliamente adoptada para puestas en marcha de virtualización en las instalaciones porque ofrece un gran rendimiento y estabilidad. Si tiene un almacenamiento conectado a la red (NAS) significativo en un centro de datos en las instalaciones, debería plantearse la puesta en marcha de una solución de VMware para Azure SDDC en Azure con almacenes de datos de archivo de NetApp para superar los retos de capacidad y rendimiento.
+
+Azure NetApp Files se basa en el software de gestión de datos ONTAP de NetApp, líder en el sector y altamente disponible. Los servicios de Microsoft Azure se agrupan en tres categorías: Fundamental, principal y especializado. Azure NetApp Files se encuentra en la categoría especializada y cuenta con el respaldo de un hardware ya implementado en muchas regiones. Con la característica de alta disponibilidad incorporada, Azure NetApp Files protege los datos de la mayoría de las interrupciones y ofrece un SLA líder del sector de https://azure.microsoft.com/support/legal/sla/netapp/v1_1/["99.99 %"^] siempre activo.
+
+Antes de la introducción de la funcionalidad de almacén de datos de Azure NetApp Files, la operación de escalado horizontal para clientes que planean alojar el rendimiento de host y cargas de trabajo con uso intensivo del almacenamiento necesitaba la ampliación de la computación y del almacenamiento.
+
+Se deben tener en cuenta los siguientes problemas:
+
+* No se recomienda equilibrar las configuraciones de clúster en un clúster SDDC. Por tanto, ampliar el almacenamiento significa añadir más hosts, lo que implica más TCO.
+* Solo es posible un entorno VSAN. Por lo tanto, todo el tráfico de almacenamiento compite directamente con las cargas de trabajo de producción.
+* No existe ninguna opción para proporcionar varios niveles de rendimiento con el fin de alinear los requisitos de las aplicaciones, el rendimiento y el coste.
+* Es fácil llegar a los límites de la capacidad de almacenamiento para VSAN que se basa en hosts de clúster.al integrar ofertas de plataforma como servicio (PaaS) nativa de Azure, como Azure NetApp Files como almacén de datos, Los clientes tienen la opción de escalar su almacenamiento de forma independiente y solo pueden añadir nodos informáticos al clúster SDDC según sea necesario. Esta capacidad supera los retos indicados anteriormente.
+
+
+Azure NetApp Files también permite poner en marcha varios almacenes de datos, lo cual ayuda a imitar un modelo de puesta en marcha en las instalaciones. Para ello, se deben colocar los equipos virtuales en el almacén de datos adecuado y asignar el nivel de servicio necesario para cumplir los requisitos de rendimiento de las cargas de trabajo. Gracias a la funcionalidad única de compatibilidad multiprotocolo, el almacenamiento «guest» es una opción adicional para las cargas de trabajo de base de datos como SQL y Oracle, al tiempo que utiliza la funcionalidad complementaria de almacén de datos NFS para alojar los VMDK restantes. Además de esto, la función nativa de copias Snapshot le permite realizar un backup rápido y restauraciones granulares.
+
+
+NOTE: Póngase en contacto con Azure y los arquitectos de soluciones de NetApp para planificar y ajustar el tamaño del almacenamiento y determinar el número necesario de hosts. NetApp recomienda identificar los requisitos de rendimiento del almacenamiento antes de finalizar la distribución del almacén de datos para las puestas en marcha de pruebas, pruebas de concepto y producción.
+
+
+
+== Arquitectura detallada
+
+Desde una perspectiva de alto nivel, esta arquitectura describe cómo lograr una conectividad con el cloud híbrido y portabilidad de aplicaciones entre entornos locales y Azure. También describe el uso de Azure NetApp Files como almacén de datos NFS complementario y como una opción de almacenamiento en invitado para máquinas virtuales invitadas alojadas en la solución VMware de Azure.
+
+image:vmware-dr-image1.png["Error: Falta la imagen gráfica"]
+
+
+
+== Ajuste de tamaño
+
+El aspecto más importante de la migración o la recuperación ante desastres es determinar el tamaño correcto para el entorno de destino. Es muy importante comprender cuántos nodos se necesitan para acomodar un ejercicio de ascensor y cambiar de las instalaciones a la solución VMware para Azure.
+
+Para ajustar el tamaño, utilice los datos históricos del entorno local con RVTools (opción preferida) u otras herramientas como Live Optics o Azure Migrate. RVTools es una herramienta ideal para capturar el vCPU, vmem, vDisk y toda la información necesaria, incluyendo los equipos virtuales encendidos o apagados, para caracterizar el entorno de destino.
+
+Para ejecutar RVtools, lleve a cabo los siguientes pasos:
+
+. Descargue e instale RVTools.
+. Ejecute RVTools, introduzca la información necesaria para conectarse al vCenter Server local y pulse Login.
+. Exportar el inventario a una hoja de cálculo de Excel.
+. Edite la hoja de datos y elimine los equipos virtuales que no sean candidatos idóneos de la pestaña vInfo. Este método proporciona un claro resultado sobre los requisitos de almacenamiento que se pueden utilizar para ajustar el tamaño del clúster de VMware SDDC de Azure con el número necesario de hosts.
+
+
+
+NOTE: Las máquinas virtuales «guest» utilizadas con el almacenamiento «en invitado» se deben calcular por separado. Sin embargo, Azure NetApp Files puede cubrir fácilmente la capacidad de almacenamiento adicional, por lo que mantiene el TCO general bajo.
+
+
+
+== Implementar y configurar la solución VMware para Azure
+
+Al igual que en las instalaciones, planificar una solución VMware para Azure es crucial para un entorno listo para la producción con éxito a la hora de crear máquinas virtuales y migraciones.
+
+En esta sección se describe cómo configurar y gestionar AVS para su uso en combinación con Azure NetApp Files como almacén de datos con almacenamiento en invitado también.
+
+El proceso de configuración se puede dividir en tres partes:
+
+* Registre el proveedor de recursos y cree un cloud privado.
+* Conéctese a una puerta de enlace de red virtual ExpressRoute nueva o existente.
+* Validar la conectividad de red y acceder al cloud privado. Consulte este apartado link:azure-avs.html["enlace"^] En un tutorial paso a paso del proceso de aprovisionamiento SDDC de la solución Azure VMware.
+
+
+
+
+== Configure Azure NetApp Files con la solución VMware para Azure
+
+La nueva integración entre Azure NetApp Files permite crear almacenes de datos NFS mediante las API del proveedor de recursos de la solución VMware para Azure/CLI con volúmenes Azure NetApp Files y montar los almacenes de datos en los clústeres de su elección en un cloud privado. Además de alojar el equipo virtual y los VMDK de aplicaciones, los volúmenes de archivos de Azure NetApp también se pueden montar a partir de máquinas virtuales creadas en el entorno SDDC de la solución para VMware Azure. Los volúmenes se pueden montar en el cliente Linux y asignar en un cliente Windows, ya que Azure NetApp Files admite los protocolos Server Message Block (SMB) y Network File System (NFS).
+
+
+NOTE: Para obtener un rendimiento óptimo, implemente Azure NetApp Files en la misma zona de disponibilidad que el cloud privado. Al colocar con la ruta rápida Express, se obtiene el mejor rendimiento con una latencia de red mínima.
+
+
+NOTE: Esta función se encuentra actualmente en vista previa pública.
+
+Para adjuntar un volumen de archivos Azure NetApp como almacén de datos VMware de un cloud privado de la solución VMware Azure, asegúrese de cumplir los siguientes requisitos previos.
+
+.Requisitos previos
+[%collapsible]
+====
+. Utilice el inicio de sesión de az y valide que la suscripción está registrada en la función CloudSanExperience del espacio de nombres Microsoft.AVS.
+
+
+....
+az login –tenant xcvxcvxc- vxcv- xcvx- cvxc- vxcvxcvxcv
+az feature show --name "CloudSanExperience" --namespace "Microsoft.AVS"
+....
+. Si no está registrado, regístrese.
+
+
+....
+az feature register --name "CloudSanExperience" --namespace "Microsoft.AVS"
+....
+
+NOTE: La inscripción puede tardar aproximadamente 15 minutos en completarse.
+
+. Para comprobar el estado del registro, ejecute el siguiente comando.
+
+
+....
+az feature show --name "CloudSanExperience" --namespace "Microsoft.AVS" --query properties.state
+....
+. Si el registro se bloquea en un estado intermedio durante más de 15 minutos, cancele el registro y vuelva a registrar el indicador.
+
+
+....
+az feature unregister --name "CloudSanExperience" --namespace "Microsoft.AVS"
+az feature register --name "CloudSanExperience" --namespace "Microsoft.AVS"
+....
+. Compruebe que la suscripción está registrada en la función AnfDatastoreExperience del espacio de nombres Microsoft.AVS.
+
+
+....
+az feature show --name "AnfDatastoreExperience" --namespace "Microsoft.AVS" --query properties.state
+....
+. Compruebe que la extensión vmware esté instalada.
+
+
+....
+az extension show --name vmware
+....
+. Si la extensión ya está instalada, compruebe que la versión es 3.0.0. Si se ha instalado una versión anterior, actualice la extensión.
+
+
+....
+az extension update --name vmware
+....
+. Si la extensión no está instalada, instálela.
+
+
+....
+az extension add --name vmware
+....
+====
+.Cree y monte volúmenes de Azure NetApp Files
+[%collapsible]
+====
+. Inicie sesión en el portal de Azure y acceda a Azure NetApp Files. Verifique el acceso al servicio Azure NetApp Files y registre el proveedor de recursos de Azure NetApp Files mediante la `az provider register` `--namespace Microsoft.NetApp –wait` comando. Después del registro, cree una cuenta de NetApp. Consulte este apartado https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-create-netapp-account["enlace"^] para conocer los pasos detallados.
+
+
+image:vmware-dr-image2.png["Error: Falta la imagen gráfica"]
+
+. Después de crear una cuenta de NetApp, configure pools de capacidad con el tamaño y el nivel de servicio requeridos. Si quiere más información, consulte este documento https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-set-up-capacity-pool["enlace"^].
+
+
+image:vmware-dr-image3.png["Error: Falta la imagen gráfica"]
+
+|===
+| Puntos que hay que recordar 
+
+
+ a| 
+* NFSv3 es compatible con los almacenes de datos en Azure NetApp Files.
+* Utilice el nivel Premium o Ultra para un rendimiento óptimo.
+
+
+|===
+. Configure una subred delegada para Azure NetApp Files y especifique esta subred al crear volúmenes. Si desea obtener información detallada sobre los pasos necesarios para crear una subred delegada, consulte esta sección https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-delegate-subnet["enlace"^].
+. Añada un volumen NFS para el almacén de datos mediante el blade de volúmenes bajo el blade de pools de capacidad.
+
+
+image:vmware-dr-image4.png["Error: Falta la imagen gráfica"]
+
+Para obtener más información acerca del rendimiento de Azure NetApp Files Volume por tamaño o cuota, consulte https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-performance-considerations["Consideraciones de rendimiento para Azure NetApp Files"^].
+
+====
+.Añada el almacén de datos Azure NetApp Files al cloud privado
+[%collapsible]
+====
+Para añadir un almacén de datos Azure NetApp Files a un cloud privado, complete los siguientes pasos:
+
+. Una vez registradas las funciones requeridas, conecte un almacén de datos NFS al clúster de cloud privado de la solución de VMware de Azure ejecutando el comando correspondiente.
+. Cree un almacén de datos con un volumen ANF existente en el clúster de cloud privado de Azure VMware Solution.
+
+
+....
+C:\Users\niyaz>az vmware datastore netapp-volume create --name ANFRecoDSU002 --resource-group anfavsval2 --cluster Cluster-1 --private-cloud ANFDataClus --volume-id /subscriptions/0efa2dfb-917c-4497-b56a-b3f4eadb8111/resourceGroups/anfavsval2/providers/Microsoft.NetApp/netAppAccounts/anfdatastoreacct/capacityPools/anfrecodsu/volumes/anfrecodsU002
+{
+  "diskPoolVolume": null,
+  "id": "/subscriptions/0efa2dfb-917c-4497-b56a-b3f4eadb8111/resourceGroups/anfavsval2/providers/Microsoft.AVS/privateClouds/ANFDataClus/clusters/Cluster-1/datastores/ANFRecoDSU002",
+  "name": "ANFRecoDSU002",
+  "netAppVolume": {
+    "id": "/subscriptions/0efa2dfb-917c-4497-b56a-b3f4eadb8111/resourceGroups/anfavsval2/providers/Microsoft.NetApp/netAppAccounts/anfdatastoreacct/capacityPools/anfrecodsu/volumes/anfrecodsU002",
+    "resourceGroup": "anfavsval2"
+  },
+  "provisioningState": "Succeeded",
+  "resourceGroup": "anfavsval2",
+  "type": "Microsoft.AVS/privateClouds/clusters/datastores"
+}
+
+. List all the datastores in a private cloud cluster.
+
+....
+C:\4497 2" Users\niyaz>baz vmware datastore list --resource-group anfavsval2 --cluster Cluster-1 --private-cloud ANFDataClus [ { "diskPoolVolume": Null, "NFáf2c"/regates: "Jave2b2bregs 4497"/regenjregates Microsoft.NetApp/netAppAccounts/anfdatastoreacct/capacityPools/anfrecods/volumes/ANFRecoDS001":"/3b2b2b2b2bregs/regiments:/regiments:/regiments:/regims/regenb2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2bregs/regenb2b2b2bregs/regims/regiments:/regiments:"/regiments:"/regenb3b2b2b2b2b2b2bregiments:/regiments:/regiments:/regenb3b3b3b3b3b3b3b3b3b3b2b2b2b3bregiments: { "Disk2 4497" Volume: Null, "id": "/subscriptions/0efa2dfb-917c-4497-b56a-b3f4eadb8111/ResourceGroups/anfavsval2/providers/Microsoft.AVS/privateClouds/ANNFDataClus/clusters/Cluster-1/datastores/Agregat2b2b Microsoft.NetApp/netAppAccounts/anfdatastoreacct/capacityPools/anfrecodsu/volumes/anfrecodsU002":/regena3b2b2b2b2b2b2b2b2b2b2b2bd/regimuns:", "regiments:"/regena3b3b3b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2bregiments:","/regiments:"/regiments:"/regiments:"/regenb3b3b3b3b3b3b3b3b3b2b2b2b2b2b2b
+
+. Una vez que se ha establecido la conectividad necesaria, los volúmenes se montan como almacén de datos.
+
+
+image:vmware-dr-image5.png["Error: Falta la imagen gráfica"]
+
+====
+
+
+== Optimización de tamaño y rendimiento
+
+Azure NetApp Files admite tres niveles de servicio: Estándar (16 Mbps por terabyte), Premium (64 Mb/s por terabyte) y Ultra (128 MB/s por terabyte). El aprovisionamiento de un tamaño de volumen adecuado es importante para un rendimiento óptimo de la carga de trabajo de la base de datos. Con Azure NetApp Files, el rendimiento de los volúmenes y el límite de rendimiento se determinan según los siguientes factores:
+
+* El nivel de servicio del pool de capacidad al que pertenece el volumen
+* La cuota asignada al volumen
+* El tipo de calidad de servicio (QoS) (automática o manual) del pool de capacidad
+
+
+image:vmware-dr-image6.png["Error: Falta la imagen gráfica"]
+
+Para obtener más información, consulte https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-service-levels["Niveles de servicio para Azure NetApp Files"^].
+
+|===
+| Puntos que hay que recordar 
+
+
+ a| 
+* Use el nivel Premium o Ultra para volúmenes de almacenes de datos con un rendimiento óptimo.
+* Para los requisitos de uso compartido de archivos para las máquinas virtuales invitados, use volúmenes de niveles Standard o Premium.
+
+
+|===
+
+
+== Consideraciones de rendimiento
+
+Es importante entender que, con NFS versión 3, solo hay un canal activo para la conexión entre el host ESXi y un único destino de almacenamiento. Esto significa que, aunque puede haber conexiones alternativas disponibles para recuperación tras fallos, el ancho de banda para un único almacén de datos y el almacenamiento subyacente se limita a lo que puede proporcionar una única conexión.
+
+Para aprovechar un ancho de banda más disponible con volúmenes Azure NetApp Files, un host ESXi debe tener varias conexiones a los destinos de almacenamiento. Para abordar este problema, es posible configurar varios almacenes de datos, con cada almacén de datos mediante conexiones independientes entre el host ESXi y el almacenamiento.
+
+Para un ancho de banda mayor, como práctica recomendada, cree varios almacenes de datos mediante varios volúmenes ANF, cree VMDK y secte los volúmenes lógicos entre VMDK.
+
+|===
+| Puntos que hay que recordar 
+
+
+ a| 
+* La solución Azure VMware permite ocho almacenes de datos NFS de forma predeterminada. Esto se puede aumentar mediante una solicitud de soporte.
+* Aproveche ER fastpath junto con Ultra SKU para un mayor ancho de banda y una menor latencia. Más información
+* Con las funciones de red "básicas" de Azure NetApp Files, la conectividad de la solución VMware de Azure está vinculada por el ancho de banda del circuito ExpressRoute y la puerta de enlace ExpressRoute.
+* Para volúmenes Azure NetApp Files con funciones de red "estándar" (actualmente en vista previa pública), es compatible ExpressRoute FastPath. Cuando se habilita esta opción, FastPath envía tráfico de red directamente a los volúmenes Azure NetApp Files, saltando la puerta de enlace, lo que proporciona un ancho de banda mayor y una latencia menor.
+
+
+|===
+
+
+== Optimización del rendimiento
+
+Si bien la cantidad recomendada de máquinas virtuales por almacén de datos NFS es subjetiva, hay muchos factores que determinan la cantidad óptima de máquinas virtuales que pueden colocarse en cada almacén de datos. Aunque la mayoría de los administradores solo consideran la capacidad, la cantidad de I/o simultáneas que se envían a los VMDK es uno de los factores más importantes para el rendimiento general. El host ESXi tiene muchos mecanismos para garantizar la justicia entre las máquinas virtuales que compiten por los recursos de almacenes de datos. Sin embargo, la forma más sencilla de controlar el rendimiento es regular cuántas máquinas virtuales se colocan en cada almacén de datos. Si los patrones de I/o simultáneos de las máquinas virtuales envían demasiado tráfico al almacén de datos, se llenan las colas de discos y se genera una latencia más alta.
+
+
+
+== Ajuste de tamaño de volúmenes y almacenes de datos
+
+Cuando se crea un volumen en Azure NetApp Files con fines de almacén de datos, la práctica recomendada es crear un volumen no mayor al necesario. Aunque el tamaño máximo de volumen puede ser de hasta 100 TB, NetApp recomienda comenzar con una capacidad de almacén de datos pequeña y aumentarla según se requiera. Los almacenes de datos con ajuste de tamaño adecuado evitan que se coloque de forma accidental demasiados equipos virtuales en el almacén de datos y reducen la probabilidad de que se produzca una contención de recursos. Dado que los tamaños de almacenes de datos y VMDK se pueden aumentar fácilmente si un equipo virtual necesita capacidad adicional, no es necesario crear almacenes de datos mayores de lo necesario. Para obtener un rendimiento óptimo, se recomienda aumentar el número de almacenes de datos en lugar de aumentar el tamaño.
+
+|===
+| Puntos que debe recordar 
+
+
+ a| 
+* Un buen tamaño para un almacén de datos ANF NFS es de 4 TB a 8 TB.
+* Coloque 15-20 equipos virtuales en un único almacén de datos. En función de los requisitos del equipo virtual, esto puede aumentarse a 35-40 equipos virtuales.
+* Para obtener el mejor rendimiento y capacidad de gestión, considere sistemas de archivos propiedad de invitado como sistemas de archivos NFS/SMB gestionados por los invitados para aplicaciones de alto I/o como bases de datos.
+
+
+|===
+
+
+== Aumentar el tamaño del almacén de datos
+
+El cambio de forma del volumen y los cambios dinámicos en el nivel de servicio son totalmente transparentes para el SDDC. En Azure NetApp Files, estas funciones ofrecen mejoras continuas de rendimiento, capacidad y costes. Aumente el tamaño de los almacenes de datos NFS cambiando el tamaño del volumen desde Azure Portal o mediante la interfaz de línea de comandos. Una vez que haya terminado, acceda a vCenter, vaya a la pestaña del almacén de datos, haga clic con el botón derecho en el almacén de datos adecuado y seleccione Refresh Capacity Information. Este método se puede utilizar para aumentar la capacidad del almacén de datos y para aumentar el rendimiento del almacén de datos de forma dinámica y sin tiempos de inactividad. Este proceso también es totalmente transparente para las aplicaciones.
+
+|===
+| Puntos que debe recordar 
+
+
+ a| 
+* La modificación del volumen y la funcionalidad de nivel de servicio dinámico le permiten optimizar los costes mediante el dimensionamiento para las cargas de trabajo de estado constante y, así, evitar el sobreaprovisionamiento.
+* Durante la vista previa pública, VAAI no se habilita.
+
+
+|===
+
+
+== Cargas de trabajo
+
+.Migración
+[%collapsible]
+====
+Uno de los casos de uso más comunes es la migración. Use VMware HCX o vMotion para mover máquinas virtuales en las instalaciones. Como alternativa, puede utilizar Rivermeadow para migrar máquinas virtuales a almacenes de datos de Azure NetApp Files.
+
+====
+.Protección de datos
+[%collapsible]
+====
+Realizar backups de equipos virtuales y recuperarlos rápidamente se encuentran entre los grandes puntos fuertes de los almacenes de datos de ANF. Utilice copias de Snapshot para realizar copias rápidas de su máquina virtual o su almacén de datos sin que esto afecte al rendimiento y, a continuación, envíelas al almacenamiento de Azure para protección de datos a largo plazo o a una región secundaria usando replicación entre regiones para fines de recuperación ante desastres. Este método minimiza el espacio de almacenamiento y el ancho de banda de red porque solo almacena la información modificada.
+
+Use copias Snapshot de Azure NetApp Files para protección general y use herramientas de aplicaciones para proteger datos transaccionales como SQL Server u Oracle que residen en las máquinas virtuales «guest». Estas copias Snapshot son distintas de las copias Snapshot de VMware (consistencia) y son adecuadas para la protección a largo plazo.
+
+
+NOTE: Con los almacenes de datos ANF, la opción Restore to New Volume puede utilizarse para clonar un volumen de almacén de datos completo, y el volumen restaurado se puede montar como otro almacén de datos en los hosts dentro de AVS SDDC. Tras montar un almacén de datos, los equipos virtuales del interior se pueden registrar, volver a configurar y personalizar como si se clonaran individualmente.
+
+.Cloud Backup para máquinas virtuales
+[%collapsible]
+=====
+Cloud Backup para máquinas virtuales ofrece una GUI de cliente web de vSphere en vCenter para proteger las máquinas virtuales y los almacenes de datos de Azure NetApp Files de la solución Azure VMware a través de políticas de backup. Estas políticas pueden definir programaciones, retención y otras funcionalidades. La funcionalidad Cloud Backup para máquinas virtuales se puede implementar con el comando Run.
+
+Las directivas de configuración y protección se pueden instalar siguiendo estos pasos:
+
+. Instale Cloud Backup para máquina virtual en el cloud privado de la solución VMware de Azure mediante el comando Run.
+. Añada credenciales de suscripción al cloud (valor de cliente y secreto) y, a continuación, añada una cuenta de suscripción al cloud (cuenta de NetApp y grupo de recursos asociado) que contenga los recursos que le gustaría proteger.
+. Cree una o varias políticas de backup que gestionen la retención, la frecuencia y otras configuraciones para los backups de grupos de recursos.
+. Cree un contenedor para añadir uno o varios recursos que deban protegerse con políticas de backup.
+. En caso de fallo, restaure toda la máquina virtual o VMDK individuales específicos en la misma ubicación.
+
+
+
+NOTE: Con la tecnología Snapshot de Azure NetApp Files, los backups y las restauraciones son muy rápidos.
+
+image:vmware-dr-image7.png["Error: Falta la imagen gráfica"]
+
+=====
+.Recuperación ante desastres con Azure NetApp Files, JetStream DR y solución VMware para Azure
+[%collapsible]
+=====
+La recuperación ante desastres en el cloud es un método resiliente y rentable de proteger las cargas de trabajo contra interrupciones del sitio y eventos dañados por los datos (por ejemplo, ransomware). Gracias al marco de trabajo VAIO de VMware, las cargas de trabajo de VMware locales se pueden replicar en el almacenamiento Azure Blob y recuperarse, lo que permite una pérdida de datos mínima o casi nula, y el objetivo de tiempo de recuperación casi nulo. JetStream DR se puede utilizar para recuperar sin problemas las cargas de trabajo replicadas de las instalaciones a AVS y específicamente a Azure NetApp Files. Permite una recuperación ante desastres rentable usando unos recursos mínimos en el sitio de recuperación ante desastres y un almacenamiento en cloud rentable. Jetstream DR automatiza la recuperación en almacenes de datos de ANF mediante el almacenamiento BLOB de Azure. JetStream DR recupera máquinas virtuales independientes o grupos de máquinas virtuales relacionadas en la infraestructura de sitio de recuperación según su asignación de red y proporciona recuperación de un momento específico para la protección de ransomware.
+
+link:azure-native-dr-jetstream.html["Solución DR con ANF, JetStream y AVS"].
+
+=====
+====

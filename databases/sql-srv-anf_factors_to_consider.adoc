@@ -1,0 +1,127 @@
+---
+sidebar: sidebar 
+permalink: databases/sql-srv-anf_factors_to_consider.html 
+keywords: performance, redundancy, high availability, storage configuration, continuously available shares, validation, 
+summary: En esta sección se describen los diferentes problemas que debe tener en cuenta cuando Azure NetApp Files con SQL Server en el cloud. 
+---
+= Factores a considerar
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+
+
+== Rendimiento de VM
+
+Seleccionar el tamaño correcto de máquina virtual es importante para optimizar el rendimiento de una base de datos relacional en un cloud público. Microsoft recomienda continuar utilizando las mismas opciones de ajuste del rendimiento de base de datos que se aplican a SQL Server en entornos de servidor locales. Uso https://docs.microsoft.com/en-us/azure/virtual-machines/sizes-memory["optimizada para la memoria"^] Tamaños de equipos virtuales para obtener el mejor rendimiento de las cargas de trabajo de SQL Server. Recopile los datos de rendimiento de la implementación existente para identificar el uso de la RAM y la CPU a la vez que elige las instancias adecuadas. La mayoría de puestas en marcha elige entre las series D, E o M.
+
+*Notas:*
+
+* Para obtener el mejor rendimiento de las cargas de trabajo de SQL Server, utilice tamaños de VM optimizados para memoria.
+* NetApp y Microsoft recomiendan identificar los requisitos de rendimiento del almacenamiento antes de elegir el tipo de instancia con la ratio de memoria a Vcore adecuada. Así mismo, también es posible seleccionar un tipo de instancia inferior con el ancho de banda de red adecuado para superar los límites de rendimiento del almacenamiento de la máquina virtual.
+
+
+
+
+== Redundancia de máquinas virtuales
+
+Para aumentar la redundancia y la alta disponibilidad, las máquinas virtuales de SQL Server deben estar en la misma https://docs.microsoft.com/en-us/azure/virtual-machines/availability-set-overview["conjunto de disponibilidad"^] o diferente https://docs.microsoft.com/en-us/azure/availability-zones/az-overview["zonas de disponibilidad"^]. Al crear máquinas virtuales de Azure, debe elegir entre configurar conjuntos de disponibilidad frente a las zonas de disponibilidad; una máquina virtual de Azure no puede participar en ambos.
+
+
+
+== Alta disponibilidad
+
+Para una alta disponibilidad, es la mejor opción configurar SQL Server AOAG o Always On Failover Cluster Instance (FCI, instancia de clúster de conmutación por error siempre activa). Para AOAG, implica varias instancias de SQL Server en máquinas virtuales de Azure en una red virtual. Si se requiere una alta disponibilidad en el nivel de base de datos, considere la configuración de grupos de disponibilidad SQL Server.
+
+
+
+== Configuración del almacenamiento
+
+Microsoft SQL Server se puede poner en marcha con un recurso compartido de archivos SMB como opción de almacenamiento. A partir de SQL Server 2012, bases de datos del sistema (master, model, msdb o tempdb), Y las bases de datos de usuario se pueden instalar con el servidor de archivos bloque de mensajes del servidor (SMB) como una opción de almacenamiento. Esto se aplica tanto a SQL Server independiente como a SQL Server FCI.
+
+
+NOTE: El almacenamiento de recursos compartidos de archivos para bases de datos de SQL Server debe admitir la propiedad continuamente disponible. Esto proporciona acceso ininterrumpido a los datos de recursos compartidos de archivos.
+
+Azure NetApp Files proporciona un almacenamiento de ficheros de alto rendimiento que satisface las exigentes cargas de trabajo; además, reduce el coste total de propiedad de SQL Server en comparación con las soluciones de almacenamiento basado en bloques. Con el almacenamiento en bloques, los equipos virtuales han impuesto límites de I/o y ancho de banda para las operaciones de disco; los límites de ancho de banda de red se aplican por sí solos a Azure NetApp Files. Es decir, no se aplican límites de I/o a nivel de máquina virtual a Azure NetApp Files. Sin estos límites de I/o, la ejecución de SQL Server en máquinas virtuales más pequeñas conectadas a Azure NetApp Files puede provocar el mismo rendimiento que la ejecución de SQL Server en máquinas virtuales mucho más grandes. Azure NetApp Files reduce los costes de implementación de SQL Server reduciendo los costes de licencias de software y computación. Para obtener información detallada sobre los análisis de costes y las ventajas de rendimiento del uso de Azure NetApp Files para la implantación de SQL Server, consulte https://docs.microsoft.com/en-us/azure/azure-netapp-files/solutions-benefits-azure-netapp-files-sql-server["Ventajas de utilizar Azure NetApp Files para la instalación de SQL Server"^].
+
+
+
+=== Beneficios
+
+Entre las ventajas de utilizar Azure NetApp Files para SQL Server se incluyen las siguientes:
+
+* El uso de Azure NetApp Files le permite utilizar instancias más pequeñas, lo que reduce los costes de computación.
+* Azure NetApp Files también reduce los costes de licencias de software, con lo que se reduce el TCO general.
+* La funcionalidad de este tipo de volúmenes se está remodelando y el nivel de servicio dinámico optimiza los costes ajustando el tamaño de las cargas de trabajo de estado constante y evitando el sobreaprovisionamiento.
+
+
+*Notas:*
+
+* Para aumentar la redundancia y la alta disponibilidad, las máquinas virtuales de SQL Server deben estar en la misma https://docs.microsoft.com/en-us/azure/virtual-machines/availability-set-overview["conjunto de disponibilidad"^] o en diferente https://docs.microsoft.com/en-us/azure/availability-zones/az-overview["zonas de disponibilidad"^]. Considere los requisitos de ruta de archivo si es necesario utilizar archivos de datos definidos por el usuario; en ese caso, seleccione SQL FCI over SQL AOAG.
+* Se admite la siguiente ruta UNC: file:///\\ANFSMB-b4ca.anf.test\SQLDB%20and%20\\ANFSMB-b4ca.anf.test\SQLDB\["\\ANFSMB-b4ca.anf.test\SQLDB y \\ANFSMB-b4ca.anf.test\SQLDB\"^].
+* No se admite la ruta de bucle de retroceso UNC.
+* Para realizar tareas de ajuste de tamaño, use datos históricos de su entorno local. En el caso de cargas de trabajo OLTP, haga coincidir la tasa de IOPS de destino con los requisitos de rendimiento utilizando cargas de trabajo a la media y los picos de actividad junto con las lecturas/s del disco y contadores de rendimiento de escrituras/s del disco. En el caso de cargas de trabajo que requieran informes y almacenes de datos, haga coincidir el rendimiento objetivo con las cargas de trabajo a la media y los picos de actividad, así como los bytes de lectura/s del disco y los bytes de escritura en disco/s. Los valores medios se pueden usar junto con las funcionalidades de nueva formulación de volúmenes.
+
+
+
+
+== Crear recursos compartidos constantemente disponibles
+
+Cree recursos compartidos constantemente disponibles con el portal de Azure o la interfaz de línea de comandos de Azure. En el portal, seleccione la opción de la propiedad Enable Continuous Availability (Activar disponibilidad continua). Para la CLI de Azure, especifique el recurso compartido como un recurso compartido disponible continuamente mediante el `az netappfiles volume create with the smb-continuously-avl` opción establecida en `$True`. Para obtener más información sobre la creación de un volumen nuevo con la función de disponibilidad continua, consulte https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-create-volumes-smb["Creación de un recurso compartido disponible de forma continua"^].
+
+*Notas:*
+
+* Habilite la disponibilidad continua para el volumen SMB como se muestra en la siguiente imagen.
+* Si se utiliza una cuenta de dominio que no es de administrador, asegúrese de que la cuenta tiene asignado el privilegio de seguridad requerido.
+* Establezca los permisos adecuados en el nivel de recurso compartido y los permisos de nivel de archivo adecuados.
+* No puede habilitarse una propiedad disponible de forma continua en volúmenes de SMB existentes. Para convertir un volumen existente para utilizar un recurso compartido disponible de forma continua, use la tecnología Snapshot de NetApp. Para obtener más información, consulte https://docs.microsoft.com/en-us/azure/azure-netapp-files/convert-smb-continuous-availability["Convierta los volúmenes de SMB existentes para utilizar disponibilidad continua"^].
+
+
+image:sql-srv-anf_image1.png["Error: Falta la imagen gráfica"]
+
+
+
+== Rendimiento
+
+Azure NetApp Files admite tres niveles de servicio: Estándar (16 Mbps por terabyte), Premium (64 Mb/s por terabyte) y Ultra (128 MB/s por terabyte). El aprovisionamiento de un tamaño de volumen adecuado es importante para un rendimiento óptimo de la carga de trabajo de la base de datos. Con Azure NetApp Files, el rendimiento de los volúmenes y el límite de rendimiento se basan en una combinación de los siguientes factores:
+
+* El nivel de servicio del pool de capacidad al que pertenece el volumen
+* La cuota asignada al volumen
+* El tipo de calidad de servicio (QoS) (automática o manual) del pool de capacidad
+
+
+Para obtener más información, consulte https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-service-levels["Niveles de servicio para Azure NetApp Files"^].
+
+image:sql-srv-anf_image2.png["Error: Falta la imagen gráfica"]
+
+
+
+== Validación del rendimiento
+
+Al igual que con cualquier puesta en marcha, probar la máquina virtual y el almacenamiento es vital. Para la validación del almacenamiento, herramientas como HammerDB, Apploader, el https://github.com/NetApp/SQL_Storage_Benchmark["Herramienta SB (Storage Benchmark) de SQL Server"^], O cualquier script personalizado o FIO con la mezcla de lectura/escritura apropiada debe ser utilizado. Tenga en cuenta, sin embargo, que la mayoría de las cargas de trabajo de SQL Server, incluso las cargas de trabajo OLTP con mucho tráfico, están más cerca de un 80 %–90 % de lectura y de un 10 %–20 % de escritura.
+
+Para demostrar el rendimiento, se realizó una prueba rápida en un volumen con niveles de servicio premium. En esta prueba, el tamaño del volumen aumentó de 100 GB a 2 TB sobre la marcha sin interrupciones en el acceso a las aplicaciones ni en la migración de datos cero.
+
+image:sql-srv-anf_image3.png["Error: Falta la imagen gráfica"]
+
+He aquí otro ejemplo de pruebas de rendimiento en tiempo real realizadas con HammerDB para la puesta en marcha que abarca este documento. Para esta prueba, utilizamos una pequeña instancia con ocho vCPU, una SSD Premium de 500 GB y un volumen Azure NetApp Files SMB de 500 GB. HammerDB se configuró con 80 almacenes y ocho usuarios.
+
+El siguiente gráfico muestra que Azure NetApp Files pudo proporcionar 2,6 veces más transacciones por minuto con una latencia 4 veces menor cuando se utiliza un volumen de tamaño comparable (500 GB).
+
+Se realizó una prueba adicional con el cambio de tamaño a una instancia más grande con 32 x vCPU y un volumen Azure NetApp Files de 16 TB. Hubo un aumento significativo en las transacciones por minuto con una latencia constante de 1 ms. HammerDB se configuró con 80 almacenes y 64 usuarios para esta prueba.
+
+image:sql-srv-anf_image4.png["Error: Falta la imagen gráfica"]
+
+
+
+== Optimización de costes
+
+Azure NetApp Files permite redimensionar los volúmenes sin interrupciones y transparente, y la capacidad de cambiar los niveles de servicio sin provocar ningún tiempo de inactividad y sin provocar ningún efecto en las aplicaciones. Esta es una función única que permite una gestión de costes dinámica que evita la necesidad de realizar ajustes de tamaño de bases de datos con métricas máximas. En su lugar, puede usar cargas de trabajo de estado constante, lo que evita costes iniciales. La modificación del volumen y el cambio dinámico a nivel de servicio le permiten ajustar el ancho de banda y el nivel de servicio de los volúmenes de Azure NetApp Files bajo demanda de forma casi instantánea sin interrumpir la actividad de I/o y conservar el acceso a los datos.
+
+Las ofertas de PaaS de Azure, como LogicApp o funciones, se pueden utilizar para cambiar fácilmente el tamaño del volumen en función de un determinado enlace web o activador de alertas, con el fin de satisfacer las demandas de las cargas de trabajo y gestionar dinámicamente el coste.
+
+Por ejemplo, piense en una base de datos que necesita 250 Mbps para un funcionamiento estable; sin embargo, también requiere un rendimiento máximo de 400 Mbps. En este caso, la puesta en marcha se debe realizar con un volumen de 4 TB dentro del nivel de servicio Premium para satisfacer los requisitos de rendimiento en estado constante. Para manejar las cargas de trabajo pico, aumente el tamaño del volumen usando las funciones de Azure hasta 7 TB para ese período específico y, a continuación, reduzca el tamaño del volumen para que la puesta en marcha sea rentable. Esta configuración evita el sobreaprovisionamiento del almacenamiento.

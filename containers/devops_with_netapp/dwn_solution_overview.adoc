@@ -1,0 +1,90 @@
+---
+sidebar: sidebar 
+permalink: containers/devops_with_netapp/dwn_solution_overview.html 
+keywords: DevOps, Netapp, Astra Trident, Astra Control, Astra 
+summary: Este informe técnico describe cómo NetApp hace que los casos prácticos de DevOps sean sencillos y eficientes en varios frentes, cuando se utilizan aplicaciones en contenedores. El primer paso es detallar los sistemas de almacenamiento de NetApp y su integración con las plataformas de Kubernetes por medio de la cartera Astra. Por último, se exploran y documentan una serie de validaciones de soluciones y casos de uso reales. 
+---
+= TR-4919: DevOps con NetApp Astra
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../../media/
+:k8s_distribution_name: Red Hat OpenShift, VMware Tanzu, Anthos by Google Cloud etc.
+
+
+Alan Cowles y Nikhil M Kulkarni, NetApp
+
+
+
+== Casos de uso
+
+La solución DevOps con NetApp Astra ha sido diseñada para ofrecer un valor excepcional a los clientes con los siguientes casos prácticos:
+
+* Es fácil de poner en marcha y gestionar entornos de aplicaciones y desarrollo implementados sobre las distribuciones de Kubernetes compatibles.
+* Discusión de casos prácticos reales para flujos de trabajo de DevOps y ejemplos de herramientas y métodos que puede proporcionar NetApp para facilitar la adopción y el uso de estos métodos.
+* Exploración de cómo se pueden usar las copias Snapshot, los backups y los clones coherentes con las aplicaciones para mejorar la experiencia de DevOps.
+
+
+
+
+== Valor empresarial
+
+Las empresas están adoptando cada vez más prácticas de DevOps para crear nuevos productos, acortar los ciclos de lanzamiento y agregar nuevas funciones con rapidez. Debido a su naturaleza ágil innata, los contenedores y microservicios tienen un papel crucial en el soporte de las prácticas de DevOps. Sin embargo, practicar DevOps a escala de producción en un entorno empresarial presenta sus propios retos e impone ciertos requisitos sobre la infraestructura subyacente, como los siguientes:
+
+* Alta disponibilidad en todas las capas de la pila, de forma que los flujos de trabajo nunca se interrumpen.
+* Facilidad de los procedimientos de puesta en marcha y gestión para el usuario final.
+* Infraestructura programable y condicionada por API para seguir el ritmo de los microservicios y la agilidad de los desarrolladores.
+* Capacidad de escalar la infraestructura de forma independiente y automatizada en función de las demandas de las cargas de trabajo.
+* La protección de aplicaciones junto con sus conjuntos de datos persistentes de backup para flujos de trabajo de DevOps acelera el plazo de comercialización al no tener que depender de la repuesta en marcha o de la copia manual de datos.
+
+
+Reconociendo estas funcionalidades y retos, este informe técnico describe el proceso de mejorar y simplificar los casos prácticos de DevOps para aplicaciones en contenedores utilizando la amplia cartera de productos de NetApp.
+
+
+
+== Información general de la tecnología
+
+DevOps con la solución NetApp consta de los siguientes componentes principales:
+
+
+
+=== Prácticas de DevOps
+
+Las prácticas de DevOps se centran en operaciones automatizadas, repetibles y fácilmente gestionables que mejoran el flujo de trabajo del desarrollo, al permitir al usuario final controlar el entorno en el que desarrolla su código. Esta solución proporciona varios ejemplos y casos de uso en los que la tecnología de NetApp puede ser de mayor beneficio para dichas operaciones.
+
+
+
+=== Orquestación de contenedores
+
+Actualmente, existen numerosas plataformas de orquestación de contenedores en uso. Aunque la mayoría de estas plataformas se basan en Kubernetes, cada una tiene un pros y contras. Por lo tanto, es importante comprender los conjuntos de funciones y las integraciones al seleccionar una plataforma de orquestación de contenedores para los flujos de trabajo de DevOps. Con la suite Astra de productos de NetApp, somos compatibles con las siguientes plataformas para los casos prácticos de DevOps completo:
+
+* https://www.redhat.com/en/technologies/cloud-computing/openshift["Red Hat OpenShift"] 4.6.8+
+* https://rancher.com/["Guardabosques"] 2.5 o posterior
+* https://kubernetes.io/["Kubernetes"] 1.20 o posterior
+* https://docs.vmware.com/en/VMware-Tanzu-Kubernetes-Grid/index.html["Grid de Kubernetes de VMware Tanzania"] 1.4 o posterior
+* https://docs.vmware.com/en/VMware-Tanzu-Kubernetes-Grid-Integrated-Edition/index.html["VMware Tanzu Kubernetes Grid Integrated Edition"] 1.12.2 o posterior
+
+
+
+
+=== Sistemas de almacenamiento NetApp
+
+NetApp cuenta con varios sistemas de almacenamiento perfectos para centros de datos empresariales y para puestas en marcha de cloud híbrido. La cartera de NetApp incluye sistemas de almacenamiento ONTAP, NetApp Element y E-Series de NetApp, todos los cuales pueden proporcionar almacenamiento persistente para aplicaciones en contenedores.
+
+Si quiere más información, visite el sitio web de NetApp https://www.netapp.com["aquí"].
+
+
+
+=== Integraciones de almacenamiento de NetApp
+
+Astra Control Center de NetApp ofrece un amplio conjunto de servicios de gestión de datos para aplicaciones y almacenamiento para cargas de trabajo con estado de Kubernetes puestas en marcha en un entorno local y con la tecnología de protección de datos de confianza de NetApp.
+
+Si quiere más información, visite el sitio web de Astra de NetApp https://cloud.netapp.com/astra["aquí"].
+
+Astra Trident es un orquestador de almacenamiento de código abierto y totalmente compatible para contenedores y distribuciones de Kubernetes como {k8s_distribution_name}.
+
+Si quiere más información, visite el sitio web de Astra Trident https://docs.netapp.com/us-en/trident/index.html["aquí"].
+
+link:dwn_overview_devops.html["Siguiente: Información general de DevOps."]

@@ -1,0 +1,115 @@
+---
+sidebar: sidebar 
+permalink: ai/osrunai_submitting_jobs_in_run_ai_cli.html 
+keywords:  
+summary:  
+---
+= Enviar trabajos en ejecución:AI CLI
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+En esta sección se ofrecen detalles sobre los comandos básicos Run:AI que puede utilizar para ejecutar cualquier trabajo con Kubernetes. Se divide en tres partes según el tipo de carga de trabajo. Las cargas de trabajo de IA/ML/AP se pueden dividir en dos tipos genéricos:
+
+* *Sesiones de formación desatendida*. Con estos tipos de cargas de trabajo, el científico de datos prepara una carga de trabajo de ejecución automática y la envía para su ejecución. Durante la ejecución, el cliente puede examinar los resultados. Este tipo de carga de trabajo se utiliza a menudo en la producción o cuando el desarrollo de modelos se encuentra en una etapa en la que no se requiere intervención humana.
+* *Sesiones interactivas de construcción*. Con este tipo de cargas de trabajo, el científico de datos abre una sesión interactiva con Bash, Juppyter Notebook, PyCharm remoto o IDE similares y accede directamente a los recursos de la GPU. Incluimos un tercer escenario para ejecutar cargas de trabajo interactivas con puertos conectados a fin de revelar un puerto interno al usuario del contenedor.
+
+
+
+
+== Cargas de trabajo de formación desatendida
+
+Después de configurar los proyectos y asignar GPU, puede ejecutar cualquier carga de trabajo de Kubernetes usando el siguiente comando en la línea de comandos:
+
+....
+$ runai project set team-a runai submit hyper1 -i gcr.io/run-ai-demo/quickstart -g 1
+....
+Este comando inicia un trabajo de entrenamiento desatendido para el equipo a con una asignación de una única GPU. El trabajo se basa en una imagen de docker de muestra, `gcr.io/run-ai-demo/quickstart`. Nosotros nombramos el trabajo `hyper1`. A continuación, puede supervisar el progreso del trabajo ejecutando el siguiente comando:
+
+....
+$ runai list
+....
+En la siguiente figura se muestra el resultado del `runai list` comando. Los Estados típicos que puede ver incluyen los siguientes:
+
+* `ContainerCreating`. El contenedor docker se está descargando del repositorio en la nube.
+* `Pending`. El trabajo está a la espera de ser programado.
+* `Running`. El trabajo se está ejecutando.
+
+
+image:osrunai_image5.png["Error: Falta la imagen gráfica"]
+
+Para obtener un estado adicional en su trabajo, ejecute el siguiente comando:
+
+....
+$ runai get hyper1
+....
+Para ver los registros del trabajo, ejecute el `runai logs <job-name>` comando:
+
+....
+$ runai logs hyper1
+....
+En este ejemplo, debería ver el registro de una sesión DL en ejecución, incluyendo la época de entrenamiento actual, ETA, valor de la función de pérdida, precisión y tiempo transcurrido para cada paso.
+
+Puede ver el estado del clúster en la interfaz de usuario Run:AI en https://app.run.ai/["https://app.run.ai/"^]. En Paneles > Descripción general, puede supervisar el uso de la GPU.
+
+Para detener esta carga de trabajo, ejecute el siguiente comando:
+
+....
+$ runai delte hyper1
+....
+Este comando detiene la carga de trabajo de entrenamiento. Puede verificar esta acción ejecutando `runai list` de nuevo. Para obtener información detallada, consulte https://docs.run.ai/Researcher/Walkthroughs/Walkthrough-Launch-Unattended-Training-Workloads-/["iniciar cargas de trabajo de formación sin supervisión"^].
+
+
+
+== Cargas de trabajo de compilación interactiva
+
+Después de configurar proyectos y asignar GPU, puede ejecutar una carga de trabajo de compilación interactiva utilizando el siguiente comando en la línea de comandos:
+
+....
+$ runai submit build1 -i python -g 1 --interactive --command sleep --args infinity
+....
+El trabajo se basa en un pitón de imagen de Docker de muestra. Nombramos el edificio de trabajo 1.
+
+
+NOTE: La `-- interactive` indicador significa que el trabajo no tiene inicio ni fin Es responsabilidad del investigador cerrar el trabajo. El administrador puede definir un límite de tiempo para los trabajos interactivos después de que el sistema los termine.
+
+La `--g 1` El indicador asigna una única GPU a este trabajo. El comando y el argumento proporcionados son `--command sleep -- args infinity`. Debe proporcionar un comando o el contenedor se inicia y, a continuación, sale inmediatamente.
+
+Los siguientes comandos funcionan de forma similar a los comandos descritos en <<Cargas de trabajo de formación desatendida>>:
+
+* `runai list`: Muestra el nombre, el estado, la edad, el nodo, la imagen, Proyecto, usuario y GPU para trabajos.
+* `runai get build1`: Muestra el estado adicional en la generación de trabajos 1.
+* `runai delete build1`: Detiene la carga de trabajo interactiva build1.para obtener un shell bash en el contenedor, el siguiente comando:
+
+
+....
+$ runai bash build1
+....
+Esto proporciona un shell directo en el equipo. A continuación, los científicos de datos pueden desarrollar o afinar sus modelos dentro del contenedor.
+
+Puede ver el estado del clúster en la interfaz de usuario Run:AI en https://app.run.ai["https://app.run.ai"^]. Para obtener información detallada, consulte https://docs.run.ai/Researcher/Walkthroughs/Walkthrough-Start-and-Use-Interactive-Build-Workloads-/["iniciar y utilizar cargas de trabajo de compilación interactivas"^].
+
+
+
+== Cargas de trabajo interactivas con puertos conectados
+
+Como extensión de las cargas de trabajo de compilación interactiva, puede revelar puertos internos al usuario del contenedor al iniciar un contenedor con la CLI Run:AI. Esto resulta útil para entornos cloud, trabajar con Juppyter Notebooks o conectarse a otros microservicios. https://kubernetes.io/docs/concepts/services-networking/ingress/["Entrada"^] Permite el acceso a los servicios de Kubernetes desde fuera del clúster de Kubernetes. Puede configurar el acceso mediante la creación de una colección de reglas que definan qué conexiones entrantes llegan a qué servicios.
+
+Para mejorar la gestión del acceso externo a los servicios de un clúster, sugerimos que instalen los administradores de clúster https://kubernetes.io/docs/concepts/services-networking/ingress/["Entrada"^] Y configurar LoadBalancer.
+
+Para utilizar Ingress como tipo de servicio, ejecute el siguiente comando para establecer el tipo de método y los puertos al enviar la carga de trabajo:
+
+....
+$ runai submit test-ingress -i jupyter/base-notebook -g 1 \
+  --interactive --service-type=ingress --port 8888 \
+  --args="--NotebookApp.base_url=test-ingress" --command=start-notebook.sh
+....
+Una vez que el contenedor se haya iniciado correctamente, ejecute `runai list` para ver la `SERVICE URL(S)` Con el que acceder al Cuaderno de Jupyter. La dirección URL está compuesta por el punto final de entrada, el nombre del trabajo y el puerto. Por ejemplo, consulte https://10.255.174.13/test-ingress-8888[].
+
+Para obtener información detallada, consulte https://docs.run.ai/Researcher/Walkthroughs/Walkthrough-Launch-an-Interactive-Build-Workload-with-Connected-Ports/["iniciar una carga de trabajo de compilación interactiva con puertos conectados"^].
+
+link:osrunai_achieving_high_cluster_utilization.html["Siguiente: Lograr un uso elevado del cluster"]

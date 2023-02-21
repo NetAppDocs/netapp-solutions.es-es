@@ -1,0 +1,69 @@
+= 
+:allow-uri-read: 
+
+
+. Requisitos para el nodo de control de Ansible,:
++
+.. Una máquina RHEL/CentOS con los siguientes paquetes instalados:
++
+... Python3
+... PIP3
+... Ansible (versión superior a 2.10.0)
+... Git
+
+
+
+
+
+
+Si tiene instalada una máquina RHEL/CentOS nueva sin los requisitos anteriores, siga los pasos que se indican a continuación para configurar esa máquina como nodo de control de Ansible:
+
+. Habilite el repositorio de Ansible para RHEL-8/RHEL-7
++
+.. Para RHEL-8 (ejecute el comando siguiente como raíz)
++
+[source, cli]
+----
+subscription-manager repos --enable ansible-2.9-for-rhel-8-x86_64-rpms
+----
+.. Para RHEL-7 (ejecute el comando siguiente como raíz)
++
+[source, cli]
+----
+subscription-manager repos --enable rhel-7-server-ansible-2.9-rpms
+----
+
+
+. Cree un archivo .sh
++
+[source, cli]
+----
+vi setup.sh
+----
+. Pegue el contenido siguiente en el archivo
++
+[source, cli]
+----
+#!/bin/bash
+echo "Installing Python ------>"
+sudo yum -y install python3 >/dev/null
+echo "Installing Python Pip ------>"
+sudo yum -y install python3-pip >/dev/null
+echo "Installing Ansible ------>"
+python3 -W ignore -m pip --disable-pip-version-check install ansible >/dev/null
+echo "Installing git ------>"
+sudo yum -y install git >/dev/null
+----
+. Haga que el archivo sea ejecutable
++
+[source, cli]
+----
+chmod +x setup.sh
+----
+. Ejecutar el script (como root)
++
+[source, cli]
+----
+./setup.sh
+----
+

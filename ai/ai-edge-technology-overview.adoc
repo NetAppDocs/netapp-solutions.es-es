@@ -1,0 +1,226 @@
+---
+sidebar: sidebar 
+permalink: ai/ai-edge-technology-overview.html 
+keywords: tech, technology, overview, aff, a220, a250, ef280, ef300, 
+summary: Esta sección describe la base tecnológica de esta solución de IA. 
+---
+= Información general de la tecnología
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:ai-edge-introduction.html["Anterior: Introducción."]
+
+
+
+== Sistemas AFF de NetApp
+
+Los sistemas de almacenamiento AFF de NetApp más innovadores permiten que las puestas en marcha de inferencia de IA en el perímetro satisfagan los requisitos de almacenamiento de la empresa con un rendimiento líder del sector, una flexibilidad superior, integración con el cloud y la mejor gestión de datos de su clase. Los sistemas AFF de NetApp han sido diseñados específicamente para flash y ayudan a acelerar, gestionar y proteger los datos esenciales para la empresa.
+
+* Los sistemas de almacenamiento AFF de NetApp de gama básica se basan en hardware FAS2750 y medios flash SSD
+* Dos controladoras en configuración de alta disponibilidad
+
+
+image:ai-edge-image5.png["Error: Falta la imagen gráfica"]
+
+Los sistemas de almacenamiento C190 de gama básica de AFF admiten las siguientes funciones:
+
+* Un número máximo de unidades de estado sólido de 960 GB
+* Dos configuraciones posibles:
++
+** Ethernet (10 GbE): 4 puertos 10GBASE-T (RJ-45)
+** Unificado (FC de 16 GB o 10 GbE): 4 puertos de adaptador de destino unificado 2 (UTA2)
+
+
+* Una capacidad efectiva máxima de 50,5 TB
++
+
+NOTE: En el caso de cargas de trabajo NAS, un único sistema AFF C190 de gama básica admite un rendimiento de 4,4 GB/s para lecturas secuenciales y 230 000 IOPS para lecturas aleatorias pequeñas con latencias de 1 ms o menos.
+
+
+
+
+
+== AFF A220 de NetApp
+
+NetApp también ofrece otros sistemas de almacenamiento de gama básica que proporcionan un mayor rendimiento y escalabilidad para las puestas en marcha a gran escala. En el caso de cargas de trabajo NAS, un único sistema AFF A220 de gama básica admite:
+
+* Rendimiento de 6,2 Gbps para lecturas secuenciales
+* 3375 000 IOPS para lecturas aleatorias pequeñas con latencias de 1 ms o menos
+* Recuento máximo de unidades de SSD 144 TB, 3,8 TB o 7,6 TB
+* AFF A220 es escalable a más de 1 PB de capacidad efectiva
+
+
+
+
+== AFF A250 de NetApp
+
+* La capacidad efectiva máxima es de 35 PB con el escalado horizontal máximo de 2-24 nodos (12 parejas de alta disponibilidad).
+* Ofrece un aumento del rendimiento de ≥ 45 % con respecto a AFF A220
+* 440 000 IOPS lecturas aleatorias a 1 ms
+* Basado en el último lanzamiento de ONTAP de NetApp: ONTAP 9.8
+* Aprovecha dos Ethernet de 25 GB para alta disponibilidad e interconexión de clúster
+
+
+
+
+== Sistemas E-Series EF de NetApp
+
+EF-Series es una familia de cabinas DE almacenamiento SAN all-flash de gama básica y media que pueden acelerar el acceso a sus datos y ayudarle a obtener valor de ella más rápido con el software SANtricity de NetApp. Estos sistemas ofrecen almacenamiento flash SAS y NVMe y le proporcionan IOPS asequibles hasta extremas, tiempos de respuesta inferiores a 100 microsegundos y un ancho de banda de hasta 44 Gbps, lo cual los convierte en ideales para cargas de trabajo mixtas y aplicaciones exigentes como la inferencia de IA y la computación de alto rendimiento (HPC).
+
+La siguiente figura muestra el sistema de almacenamiento EF280 de NetApp.
+
+image:ai-edge-image7.png["Error: Falta la imagen gráfica"]
+
+
+
+== EF280 de NetApp
+
+* Compatibilidad con FC de 32 GB/16 GB, iSCSI de 25 GB/10 GB y SAS de 12 GB
+* La capacidad efectiva máxima es 96 unidades que totalizan 1,5 PB
+* Rendimiento de 10 Gbps (lecturas secuenciales)
+* 300K IOPS (lectura aleatoria)
+* El sistema EF280 de NetApp es la cabina all-flash (AFA) más económica de la cartera de NetApp
+
+
+
+
+== EF300 de NetApp
+
+* 24 unidades SSD NVMe para una capacidad total de 367 TB
+* Opciones de expansión con un total de 240 HDD NL-SAS, 92 SSD SAS o una combinación de ambos
+* 100 GB NVMe/IB, NVMe/roce, Iser/IB y SRP/IB
+* NVME DE 32 GB/FC, FCP
+* ISCSI de 25 GB
+* 20 Gbps (lecturas secuenciales)
+* 670K IOPS (lecturas aleatorias)
+
+
+
+NOTE: Para obtener más información, consulte https://www.netapp.com/pdf.html?item=/media/19339-DS-4082.pdf["Especificaciones técnicas de las cabinas all-flash EF-Series de NetApp EF600, F300, EF570 y EF280"^].
+
+
+
+== ONTAP 9 de NetApp
+
+ONTAP 9.8.1, la última generación del software de gestión del almacenamiento de NetApp, permite a las empresas modernizar su infraestructura y realizar la transición a un centro de datos preparado para el cloud. ONTAP ofrece las mejores capacidades de gestión de datos y permite la gestión y protección de los datos con un solo conjunto de herramientas, sin importar dónde residan. También puede mover los datos libremente a donde sea necesario: El perímetro, el núcleo o el cloud. ONTAP 9.8.1 incluye numerosas funciones que simplifican la gestión de datos, aceleran y protegen los datos esenciales y permiten disfrutar de funcionalidades de infraestructura de nueva generación en arquitecturas de cloud híbrido.
+
+
+
+=== Simplificar la gestión de los datos
+
+La gestión de los datos es crucial para las operaciones TECNOLÓGICAS empresariales, de modo que se utilicen recursos apropiados para las aplicaciones y conjuntos de datos. ONTAP incluye las siguientes funciones para facilitar y simplificar las operaciones, y reducir el coste total de las operaciones:
+
+* *Compactación de datos inline y deduplicación expandida.* la compactación de datos reduce el espacio perdido dentro de los bloques de almacenamiento, y la deduplicación aumenta significativamente la capacidad efectiva. Esto es aplicable a los datos almacenados localmente y a los datos organizados en niveles en el cloud.
+* *Calidad de servicio (AQoS) mínima, máxima y adaptativa.* los controles de calidad de servicio (QoS) granulares ayudan a mantener los niveles de rendimiento para aplicaciones críticas en entornos altamente compartidos.
+* *FabricPool de NetApp.* esta función ofrece una organización automática por niveles de datos inactivos a opciones de almacenamiento en cloud privado o público, como la solución de almacenamiento Amazon Web Services (AWS), Azure y StorageGRID de NetApp. Para obtener más información sobre FabricPool, consulte link:https://www.netapp.com/pdf.html?item=/media/17239-tr4598pdf.pdf["TR-4598"^].
+
+
+
+
+=== Acelere y proteja sus datos
+
+ONTAP 9 ofrece niveles superiores de rendimiento y protección de datos, y amplía estas capacidades de las siguientes maneras:
+
+* *Rendimiento y menor latencia.* ONTAP ofrece el rendimiento más alto posible con la menor latencia posible.
+* *Protección de datos.* ONTAP ofrece capacidades integradas de protección de datos con administración común en todas las plataformas.
+* *Cifrado de volumen de NetApp (NVE).* ONTAP ofrece cifrado nativo a nivel de volumen con compatibilidad para gestión de claves incorporada y externa.
+* *Multitenancy y autenticación multifactor.* ONTAP permite compartir recursos de infraestructura con los niveles más altos de seguridad.
+
+
+
+
+=== Infraestructura preparada para futuros retos
+
+ONTAP 9 ayuda a satisfacer las exigentes y siempre cambiantes necesidades de la empresa con las siguientes funciones:
+
+* *Escalado sencillo y operaciones no disruptivas.* ONTAP admite la adición sin interrupciones de capacidad a las controladoras existentes y a los clústeres de escalado horizontal. Los clientes pueden empezar a utilizar tecnologías punteras como NVMe y FC 32 GB, sin necesidad de realizar costosas migraciones de datos y sin cortes.
+* *Conexión en cloud.* ONTAP es el software de gestión del almacenamiento con mejor conexión en cloud, con opciones de almacenamiento definido por software (ONTAP Select) e instancias nativas del cloud (Cloud Volumes Service de NetApp) en todos los clouds públicos.
+* *Integración con aplicaciones emergentes.* ONTAP ofrece servicios de datos de clase empresarial para plataformas y aplicaciones de última generación, como vehículos autónomos, ciudades inteligentes e Industria 4.0, utilizando la misma infraestructura que soporta las aplicaciones empresariales existentes.
+
+
+
+
+== SANtricity de NetApp
+
+SANtricity de NetApp está diseñado para ofrecer un rendimiento líder del sector, fiabilidad y simplicidad en las cabinas all-flash EF-Series y flash híbrido. Logre el máximo rendimiento y aprovechamiento de sus cabinas all-flash EF-Series y flash híbridas de E-Series para aplicaciones de cargas de trabajo pesadas, como análisis de datos, videovigilancia y backup y recuperación de datos. Con SANtricity, los ajustes de configuración, el mantenimiento, la expansión de la capacidad y otras tareas se pueden realizar mientras el almacenamiento sigue online. SANtricity también ofrece una protección de datos superior, supervisión proactiva y seguridad certificada: Todo accesible a través de la sencilla interfaz integrada de System Manager. Para obtener más información, consulte https://www.netapp.com/pdf.html?item=/media/7676-ds-3891.pdf["Especificaciones técnicas del software SANtricity para E-Series de NetApp"^].
+
+
+
+=== Rendimiento optimizado
+
+El software SANtricity optimizado para el rendimiento ofrece datos —con una alta tasa de IOPS, un alto rendimiento y una baja latencia— a todas sus aplicaciones de análisis de datos, videovigilancia y backup. Acelere el rendimiento en aplicaciones con baja latencia y una alta tasa de IOPS, y en aplicaciones con requisitos de amplio ancho de banda y un rendimiento alto.
+
+
+
+=== Maximice el tiempo de actividad
+
+Complete todas las tareas de gestión mientras el almacenamiento sigue en línea. Modifique las configuraciones, realice tareas de mantenimiento o amplíe la capacidad sin interrumpir el flujo de I/O. Proporcione los mayores niveles de fiabilidad posibles con funciones automatizadas, opciones de configuración en línea, la tecnología de pools de discos dinámicos (DPP) de vanguardia, entre otras.
+
+
+
+=== Esté tranquilo
+
+El software SANtricity ofrece una protección de datos superior, supervisión proactiva y seguridad certificada: Todo a través de la sencilla interfaz incluida de System Manager. Simplifique las tareas de gestión del almacenamiento. Obtenga la flexibilidad que necesita para realizar un mejor ajuste de todos los sistemas de almacenamiento E-Series. Gestione su sistema E-Series de NetApp en todo momento y en cualquier lugar. Nuestra interfaz integrada basada en web optimiza el flujo de trabajo de gestión.
+
+
+
+== Trident de NetApp
+
+https://netapp.io/persistent-storage-provisioner-for-kubernetes/["Trident"^] De NetApp es un orquestador de almacenamiento dinámico de código abierto para Docker y Kubernetes que simplifica la creación, la gestión y el consumo de almacenamiento persistente. Trident, una aplicación nativa de Kubernetes, se ejecuta directamente dentro de un clúster de Kubernetes. Trident permite que los clientes implementen sin problemas imágenes de contenedores de DL en el almacenamiento de NetApp y proporciona una experiencia de clase empresarial para implementaciones de contenedores de IA. Los usuarios de Kubernetes (como desarrolladores DE ML y científicos de datos) pueden crear, gestionar y automatizar la orquestación y el clonado para aprovechar las funcionalidades de gestión de datos avanzadas de NetApp, impulsadas por la tecnología de NetApp.
+
+
+
+== Cloud Sync de NetApp
+
+https://docs.netapp.com/us-en/occm/concept_cloud_sync.html["Cloud Sync"^] Es un servicio de NetApp que ofrece una sincronización de datos rápida y segura. Ya tenga que transferir archivos entre recursos compartidos de archivos NFS o SMB en las instalaciones, StorageGRID de NetApp, ONTAP S3 de NetApp, Cloud Volumes Service de NetApp, Azure NetApp Files, Amazon simple Storage Service (Amazon S3), Amazon Elastic File System (Amazon EFS), Azure Blob, Google Cloud Storage, O el almacenamiento de objetos en el cloud de IBM, Cloud Sync mueve los archivos donde los necesita de forma rápida y segura. Una vez transferidos los datos, estarán completamente disponibles para su uso tanto en origen como en destino. Cloud Sync sincroniza continuamente los datos, en función de su programación predefinida, moviendo solo los deltas, de modo que se minimiza el tiempo y el dinero invertidos en la replicación de datos. Cloud Sync es una herramienta de software como servicio (SaaS) extremadamente fácil de configurar y utilizar. Las transferencias de datos que Cloud Sync activa son llevadas a cabo por agentes de datos. Puede poner en marcha agentes de datos de Cloud Sync en AWS, Azure, Google Cloud Platform o en las instalaciones.
+
+
+
+=== Servidores Lenovo ThinkSystem
+
+Los servidores Lenovo ThinkSystem incluyen hardware, software y servicios innovadores que resuelven los desafíos actuales de los clientes y ofrecen un enfoque de diseño modular, evolutivo y adecuado para su propósito para afrontar los desafíos del futuro. Estos servidores se capitalizan en las mejores tecnologías estándar del sector, junto con innovaciones diferenciadas de Lenovo, para proporcionar la mayor flexibilidad posible en servidores x86.
+
+Las ventajas clave de la implementación de servidores Lenovo ThinkSystem incluyen:
+
+* Diseños modulares y altamente escalables que crecen a medida que lo hace su negocio
+* Resiliencia líder en el sector para ahorrar horas de costosos tiempos de inactividad no programados
+* Tecnologías flash rápidas para reducir las latencias, acelerar los tiempos de respuesta y gestionar los datos de forma más inteligente en tiempo real
+
+
+En el ámbito de la IA, Lenovo está adoptando un enfoque práctico para ayudar a las empresas a comprender y adoptar las ventajas DEL APRENDIZAJE AUTOMÁTICO y la IA para sus cargas de trabajo. Los clientes de Lenovo pueden explorar y evaluar las ofertas de IA de Lenovo en los centros de innovación de IA de Lenovo para comprender por completo el valor de su caso de uso en particular. Con el fin de mejorar la rentabilidad de la inversión, este enfoque centrado en el cliente proporciona a los clientes una prueba de concepto para las plataformas de desarrollo de soluciones que están listas para usar y optimizadas para la IA.
+
+
+
+=== Servidor Lenovo ThinkSystem SE350 Edge
+
+La computación perimetral permite analizar los datos de dispositivos de IoT en el extremo de la red antes de enviarlos al centro de datos o al cloud. El sistema ThinkSystem SE350 de Lenovo, como se muestra en la siguiente figura, está diseñado para los requisitos únicos de implementación en el perímetro, con un enfoque en flexibilidad, conectividad, seguridad y capacidad de gestión remota en un factor de forma compacto y reforzado con el medio ambiente.
+
+Con el procesador Intel Xeon D con la flexibilidad necesaria para admitir la aceleración de las cargas de trabajo de IA perimetral, el SE350 se ha diseñado específicamente para afrontar los retos de las implementaciones de servidores en una gran variedad de entornos fuera del centro de datos.
+
+image:ai-edge-image8.png["Error: Falta la imagen gráfica"]
+
+image:ai-edge-image9.png["Error: Falta la imagen gráfica"]
+
+
+
+==== Rendim. MLPerf
+
+MLPerf es el conjunto de pruebas de rendimiento líder del sector para evaluar el rendimiento de la IA. Cubre muchas áreas de IA aplicada, incluida la clasificación de imágenes, la detección de objetos, las imágenes médicas y el procesamiento del lenguaje natural (NLP). En esta validación, hemos utilizado cargas de trabajo de inferencia v0.7, que es la última iteración de la inferencia MLPerf al finalizar esta validación. La https://mlcommons.org/en/news/mlperf-inference-v07/["Inferencia del rendimiento ML0,7"^] la suite incluye cuatro nuevas pruebas de rendimiento para centros de datos y sistemas periféricos:
+
+* *BERT.* representación de encoder bidireccional de Transformers (BERT) ajustada para responder preguntas utilizando el conjunto de datos de escuadrón.
+* *DLRM.* el modelo de recomendación de aprendizaje profundo (DLRM) es un modelo de personalización y recomendación que se entrena para optimizar las tarifas de clic (CTR).
+* *3D U-Net.* la arquitectura 3D U-Net está entrenada en el conjunto de datos de segmentación del tumor cerebral (Brats).
+* *RNN-T.* el transductor de red neural recurrente (RNN-T) es un modelo de reconocimiento automático de voz (ASR) que se entrena en un subconjunto de LibriSpeech. Los resultados y el código de la inferencia de MLPerf están disponibles y se liberan públicamente bajo la licencia de Apache. La inferencia MLPerf tiene una división Edge, que admite los siguientes escenarios:
+* *Flujo único.* este escenario imita a los sistemas en los que la capacidad de respuesta es un factor crítico, como las consultas de IA sin conexión realizadas en smartphones. Las consultas individuales se envían al sistema y se registran los tiempos de respuesta. como resultado, se indica la latencia del percentil 90 de todas las respuestas.
+* *MultiStream.* este punto de referencia es para sistemas que procesan la entrada de varios sensores. Durante la prueba, las consultas se envían a un intervalo de tiempo fijo. Se impone una limitación de calidad de servicio (latencia máxima permitida). La prueba informa del número de flujos que el sistema puede procesar mientras cumple la restricción QoS.
+* *Fuera de línea.* este es el escenario más sencillo que cubre las aplicaciones de procesamiento por lotes y la métrica es el procesamiento en muestras por segundo. Todos los datos están disponibles para el sistema y el punto de referencia mide el tiempo que tarda en procesar todas las muestras.
+
+
+Lenovo ha publicado puntuaciones de inferencia MLPerf para SE350 con T4, el servidor utilizado en este documento. Consulte los resultados en https://mlperf.org/inference-results-0-7/["https://mlperf.org/inference-results-0-7/"] En la sección “Edge, Closed Division”, en la entrada #0.7-145.
+
+link:ai-edge-test-plan.html["Siguiente: Plan de pruebas."]

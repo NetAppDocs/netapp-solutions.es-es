@@ -1,0 +1,35 @@
+= 
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+Configuración de ONTAP y CVO
+
+*Configurar e iniciar la plantilla de trabajo.*
+
+. Cree la plantilla de trabajo.
++
+.. Desplácese hasta Recursos → Plantillas → Agregar y haga clic en Agregar plantilla de trabajo.
+.. Introduzca el nombre ONTAP/CVO Setup
+.. Seleccione el tipo de trabajo; Run configura el sistema en función de una tableta playbook.
+.. Seleccione el inventario, el proyecto, el libro de estrategia y las credenciales correspondientes.
+.. Seleccione el libro de estrategia ontap_setup.yml para un entorno en las instalaciones o seleccione cvo_setup.yml para replicar a una instancia de CVO.
+.. Pegue las variables globales copiadas del paso 4 en el campo variables de plantilla en la pestaña AYLMA.
+.. Haga clic en Guardar.
+
+
+. Inicie la plantilla de trabajo.
++
+.. Desplácese hasta Recursos → Plantillas.
+.. Haga clic en la plantilla deseada y, a continuación, en Iniciar.
++
+
+NOTE: Utilizaremos esta plantilla y la copiaremos para los otros libros de estrategia.
+
+
+
+

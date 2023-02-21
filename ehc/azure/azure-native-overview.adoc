@@ -1,0 +1,92 @@
+---
+sidebar: sidebar 
+permalink: ehc/azure/azure-native-overview.html 
+keywords:  
+summary:  
+---
+= Descripción general de las soluciones de almacenes de datos de ANF
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../../media/
+
+
+[role="lead"]
+Todas las organizaciones exitosas se encuentran en el camino de la transformación y la modernización. Como parte de este proceso, las empresas suelen utilizar sus inversiones existentes en VMware a la vez que aprovechan las ventajas de la nube y estudian cómo se pueden implementar procesos de migración, ráfaga, extensión y recuperación tras desastres de la manera más fluida posible. Los clientes que migran a la nube deben evaluar los problemas de elasticidad y ráfaga, salida del centro de datos, consolidación del centro de datos, escenarios de fin de vida, fusiones, adquisiciones, etc. El enfoque adoptado por cada organización puede variar en función de sus prioridades de negocio respectivas. A la hora de elegir las operaciones basadas en cloud, elegir un modelo de bajo coste con el rendimiento adecuado y un impedimento mínimo es uno de los objetivos cruciales. Además de elegir la plataforma adecuada, es especialmente importante coordinar el almacenamiento y el flujo de trabajo para liberar el poder de la puesta en marcha del cloud y la elasticidad.
+
+
+
+== Casos de uso
+
+Aunque la solución Azure VMware ofrece funcionalidades híbridas únicas a un cliente, las opciones de almacenamiento nativo limitadas han restringido su utilidad para las organizaciones con cargas de trabajo con un gran volumen de almacenamiento. Debido a que el almacenamiento está directamente ligado a los hosts, la única forma de escalar el almacenamiento es añadir más hosts, lo cual puede aumentar los costes entre un 35 % y un 40 % o más para cargas de trabajo con un uso intensivo del almacenamiento. Estas cargas de trabajo necesitan almacenamiento adicional, no una potencia adicional, pero esto implica pagar por hosts adicionales.
+
+Consideremos el siguiente escenario: Un cliente requiere seis hosts para la potencia (vCPU/vmem), pero también tienen un requisito fundamental para el almacenamiento. Tras su evaluación, necesitan 12 hosts para satisfacer los requisitos de almacenamiento. Esto aumenta el TCO general porque deben comprar toda la capacidad adicional cuando todo lo que realmente necesitan es más almacenamiento. Esto es aplicable en cualquier caso de uso, incluidos la migración, la recuperación ante desastres, bursting, prueba/desarrollo, y así sucesivamente.
+
+Otro caso de uso común para la solución VMware de Azure es la recuperación ante desastres (DR). La mayoría de las organizaciones no cuentan con una estrategia de recuperación ante desastres infalible o puede haber dificultades para justificar la ejecución de un centro de datos fantasma justo para la recuperación ante desastres. Los administradores podrían explorar opciones de recuperación ante desastres sin necesidad de espacio con un clúster sin piloto o un clúster bajo demanda. Entonces podrían escalar el almacenamiento sin añadir hosts adicionales, lo que podría ser una opción atractiva.
+
+De este modo, en resumen, los casos de uso se pueden clasificar de dos formas:
+
+* Escalar la capacidad de almacenamiento con almacenes de datos ANF
+* Uso de almacenes de datos ANF como objetivo de recuperación ante desastres para un flujo de trabajo de recuperación optimizado en coste desde las instalaciones o en regiones de Azure entre los centros de datos definidos por software (SDDC). Esta guía proporciona información sobre el uso de Azure NetApp Files para proporcionar almacenamiento optimizado para almacenes de datos (actualmente en vista previa pública) Junto con las mejores funcionalidades de recuperación ante desastres y protección de datos de su clase en una solución Azure VMware, que le permite descargar la capacidad de almacenamiento del almacenamiento VSAN.
+
+
+
+NOTE: La funcionalidad de almacén de datos de Azure NetApp Files se encuentra en la vista previa pública. Póngase en contacto con arquitectos de soluciones de NetApp o de Microsoft de su región para obtener información adicional.
+
+
+
+== Opciones de VMware Cloud en Azure
+
+
+
+=== Solución Azure VMware
+
+La solución VMware para Azure (AVS) es un servicio de cloud híbrido que proporciona centros de datos VMware completamente funcionales en un cloud público de Microsoft Azure. AVS es una solución de primera parte totalmente gestionada y compatible con Microsoft y verificada por VMware que utiliza infraestructura de Azure. Por lo tanto, los clientes obtienen VMware ESXi para virtualización informática, VSAN para almacenamiento hiperconvergente y NSX para redes y seguridad, todo ello al tiempo que aprovechan la presencia global de Microsoft Azure, instalaciones de centros de datos líderes en su clase y la proximidad al ecosistema enriquecido de servicios y soluciones nativos de Azure. Una combinación de un SDDC de la solución para Azure VMware y Azure NetApp Files proporciona el mejor rendimiento con una latencia de red mínima.
+
+Independientemente del cloud utilizado, cuando se pone en marcha un SDDC de VMware, el clúster inicial incluye los siguientes componentes:
+
+* Hosts VMware ESXi para virtualización informática con un dispositivo vCenter Server para gestión.
+* Almacenamiento hiperconvergente VSAN de VMware que incorpora los activos de almacenamiento físico de cada host ESXi.
+* NSX de VMware para redes virtuales y seguridad con un clúster de NSX Manager para la gestión.
+
+
+
+
+== Conclusión
+
+Tanto si su objetivo es adoptar un enfoque de todo el cloud como del cloud híbrido, Azure NetApp Files ofrece excelentes opciones para poner en marcha y gestionar las cargas de trabajo de las aplicaciones junto con servicios de archivos, a la vez que reduce el TCO permitiendo que los requisitos de datos se reduzcan a la capa de la aplicación. Independientemente del caso práctico, elija la solución VMware de Azure junto con Azure NetApp Files para comprender rápidamente las ventajas del cloud, una infraestructura consistente y operaciones en las instalaciones y varios clouds, portabilidad bidireccional de cargas de trabajo, y capacidad y rendimiento de nivel empresarial. Se trata del mismo proceso y procedimientos que ya conoce para conectar el almacenamiento. Recuerde que solo la posición de los datos ha cambiado con un nuevo nombre; las herramientas y los procesos siguen siendo los mismos y Azure NetApp Files ayuda a optimizar la implementación general.
+
+
+
+== Puntos
+
+Los puntos clave de este documento son:
+
+* Ahora puede usar Azure NetApp Files como almacén de datos en AVS SDDC.
+* Aumentar los tiempos de respuesta de las aplicaciones y ofrecer un mayor nivel de disponibilidad para proporcionar acceso a los datos de cargas de trabajo donde y cuando sea necesario.
+* Simplifique la complejidad general del almacenamiento VSAN con funciones de cambio de tamaño sencillas e instantáneas.
+* Rendimiento garantizado para cargas de trabajo críticas mediante una nueva formulación dinámica.
+* Si el cloud de la solución para VMware Azure es el destino, Azure NetApp Files es la solución de almacenamiento adecuada para la puesta en marcha optimizada.
+
+
+
+
+== Dónde encontrar información adicional
+
+Si quiere más información sobre la información descrita en este documento, consulte los siguientes enlaces a sitios web:
+
+* Documentación de la solución VMware de Azure
++
+https://docs.microsoft.com/en-us/azure/azure-vmware/["https://docs.microsoft.com/en-us/azure/azure-vmware/"^]
+
+* Documentación de Azure NetApp Files
++
+https://docs.microsoft.com/en-us/azure/azure-netapp-files/["https://docs.microsoft.com/en-us/azure/azure-netapp-files/"^]
+
+* Conectar almacenes de datos Azure NetApp Files a hosts de soluciones VMware Azure (avance)
++
+https://docs.microsoft.com/en-us/azure/azure-vmware/attach-azure-netapp-files-to-azure-vmware-solution-hosts?tabs=azure-portal/["https://docs.microsoft.com/en-us/azure/azure-vmware/attach-azure-netapp-files-to-azure-vmware-solution-hosts?tabs=azure-portal/"^]
+
+

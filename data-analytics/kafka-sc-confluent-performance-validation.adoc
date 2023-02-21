@@ -1,0 +1,101 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/kafka-sc-confluent-performance-validation.html 
+keywords: setup, verification results, Object store, correctness test, Tiering functionality, Tier fetch benchmark, Produce-consume, workload generator, Retention 
+summary: En esta página se describe la validación del rendimiento de Confluent dentro de los parámetros de esta solución. 
+---
+= Validación del rendimiento fluido
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:kafka-sc-technology-overview.html["Anterior: Información general de la tecnología."]
+
+Hemos realizado la verificación con la plataforma Confluent para el almacenamiento por niveles en ONTAP de NetApp. Los equipos de NetApp y Confluent trabajaron juntos en esta verificación y ejecutaron los casos de prueba necesarios para TI.
+
+
+
+== Configuración con fluidez
+
+Para la configuración, utilizamos tres zoookeepers, cinco brokers y cinco servidores de prueba con 256 GB de RAM y 16 CPU. En el almacenamiento de NetApp, utilizamos ONTAP con un par de alta disponibilidad A900 de AFF. El almacenamiento y los agentes se conectaron a través de conexiones de 100 GbE.
+
+La siguiente figura muestra la topología de red de la configuración utilizada para la verificación del almacenamiento por niveles.
+
+image:kafka-sc-image7.png["Este gráfico muestra la topología de red de la configuración utilizada para la verificación del almacenamiento por niveles."]
+
+Los servidores de herramientas actúan como clientes de aplicación que envían o reciben eventos desde o hacia los nodos Confluent.
+
+
+
+== Configuración de almacenamiento por niveles confluente
+
+Utilizamos los siguientes parámetros de prueba:
+
+....
+confluent.tier.fetcher.num.threads=80
+confluent.tier.archiver.num.threads=80
+confluent.tier.enable=true
+confluent.tier.feature=true
+confluent.tier.backend=S3
+confluent.tier.s3.bucket=kafkabucket1-1
+confluent.tier.s3.region=us-east-1
+confluent.tier.s3.cred.file.path=/data/kafka/.ssh/credentials
+confluent.tier.s3.aws.endpoint.override=http://wle-mendocino-07-08/
+confluent.tier.s3.force.path.style.access=true
+bootstrap.server=192.168.150.172:9092,192.168.150.120:9092,192.168.150.164:9092,192.168.150.198:9092,192.168.150.109:9092,192.168.150.165:9092,192.168.150.119:9092,192.168.150.133:9092debug=truejmx.port=7203
+num.partitions=80num.records=200000000#object PUT size - 512MB and fetch 100MB - netappsegment.bytes=536870912max.partition.fetch.bytes=1048576000#GET size is max.partition.fetch.bytes/num.partitionslength.key.value=2048trogdor.agent.nodes=node0,node1,node2,node3,node4trogdor.coordinator.hostname.port=192.168.150.155:8889num.producers=20num.head.consumers=20
+num.tail.consumers=1test.binary.task.max.heap.size=32Gtest.binary.task.timeout.sec=3600producer.timeout.sec=3600consumer.timeout.sec=3600
+....
+Para la verificación, utilizamos ONTAP con el protocolo HTTP, pero HTTPS también funcionó. La clave de acceso y la clave secreta se almacenan en el nombre de archivo que se proporciona en el `confluent.tier.s3.cred.file.path` parámetro.
+
+
+
+== Controladora de almacenamiento de NetApp: ONTAP
+
+Hemos configurado una configuración de par de alta disponibilidad único en ONTAP para su verificación.
+
+image:kafka-sc-image8.png["En este gráfico se muestra cómo se configuró el entorno como un único par de alta disponibilidad para la verificación."]
+
+
+
+== Resultados de verificación
+
+Completamos los cinco casos de prueba siguientes para la verificación. Las dos primeras fueron pruebas de funcionalidad y las tres restantes fueron pruebas de rendimiento.
+
+
+
+=== Prueba de corrección del almacén de objetos
+
+Esta prueba realiza operaciones básicas como Get, put y delete en el almacén de objetos utilizado para el almacenamiento organizado en niveles mediante llamadas API.
+
+
+
+=== Prueba de corrección de la funcionalidad de organización en niveles
+
+Esta prueba comprueba la funcionalidad integral del almacenamiento de objetos. Crea un tema, produce un flujo de eventos al tema recién creado, espera a que los agentes archiven los segmentos en el almacenamiento de objetos, consume la secuencia de eventos y valida la secuencia consumida coincide con la secuencia producida. Hemos realizado este test con y sin inyección de fallo del almacén de objetos. Simulamos el fallo del nodo deteniendo el servicio de gestor de servicios en uno de los nodos en ONTAP y validando que la funcionalidad integral funciona con almacenamiento de objetos.
+
+
+
+=== Punto de referencia de obtención de nivel
+
+En esta prueba se validó el rendimiento de lectura del almacenamiento de objetos por niveles y se comprueban las solicitudes de lectura de recuperación de rango bajo carga pesada de los segmentos generados por la prueba de rendimiento. En esta prueba, Confluent desarrolló clientes personalizados para atender las solicitudes de obtención de nivel.
+
+
+
+=== Generador de cargas de trabajo que consumen productos
+
+Esta prueba genera indirectamente la carga de trabajo de escritura en el almacén de objetos mediante el archivado de segmentos. La carga de trabajo de lectura (segmentos leídos) se generó desde el almacenamiento de objetos cuando los grupos de consumidores obtuvieron los segmentos. Esta carga de trabajo fue generada por un script TOCC. En esta prueba se verificó el rendimiento de lectura y escritura en el almacenamiento de objetos en subprocesos paralelos. Hemos probado con y sin inyección de fallo en el almacén de objetos como lo hicimos con la prueba de corrección de la funcionalidad de organización en niveles.
+
+
+
+=== Generador de cargas de trabajo de retención
+
+En esta prueba se comprobó el rendimiento de eliminación de un almacenamiento de objetos en una carga de trabajo con una gran retención de temas. La carga de trabajo de retención se generó mediante un script TOCC que produce muchos mensajes en paralelo a un tema de prueba. El tema de prueba se configuraba con una configuración de retención agresiva basada en tamaño y en tiempo que provocaba que la secuencia de eventos se purgaran continuamente del almacén de objetos. A continuación, se archivaron los segmentos. Esto provocó muchas eliminaciones en el almacenamiento de objetos por parte del agente y la colección del rendimiento de las operaciones de eliminación de almacén de objetos.
+
+Para obtener detalles de verificación, consulte https://docs.confluent.io/platform/current/kafka/tiered-storage.html["Confluente"^] sitio web.
+
+link:kafka-sc-performance-tests-with-produce-consume-workload-generator.html["Siguiente: Pruebas de rendimiento con generador de cargas de trabajo de producción-consumo."]

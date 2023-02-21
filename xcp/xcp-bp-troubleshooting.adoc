@@ -1,0 +1,61 @@
+---
+sidebar: sidebar 
+permalink: xcp/xcp-bp-troubleshooting.html 
+keywords: troubleshooting, problems, error 70, 
+summary: En esta sección se ofrece orientación sobre la solución de problemas para la migración de datos mediante NetApp XCP. 
+---
+= Resolución de problemas
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:xcp-bp-best-practice-guidelines-and-recommendations.html["Anterior: Recomendaciones y directrices de mejores prácticas."]
+
+
+
+== Error 1: Error XCP con nfs3 error 70: Error de controlador de archivo obsoleto en xcp.log
+
+*Razón y guía.*
+
+Monte la carpeta de origen y compruebe que la carpeta existe. Si no existe o si se ha eliminado, recibirá un `stale filehandle` error, en cuyo caso, puede ignorar el error.
+
+
+
+== Error 2: El volumen de destino NFS de NetApp tiene espacio, pero XCP falló con el error nfs3 28: No queda espacio en el dispositivo
+
+*Razón y guía.*
+
+. Compruebe el espacio del volumen de destino de NFS ejecutando el `df` o compruebe el almacenamiento.
++
+....
+root@workr-140: USER3# df -h /xcpdest
+Filesystem                 Size  Used Avail Use% Mounted on
+10.63.150.127:/xcpsrc_vol  4.3T  1.7T  2.6T  40% /xcpsrc_vol
+....
+. Compruebe los inodos en la controladora de almacenamiento.
++
+....
+A800-Node1-2::> volume show -volume xcpdest -fields files,files-used
+vserver        volume  files    files-used
+-------------- ------- -------- ----------
+A800-Node1_vs1 xcpdest 21251126 21251126
+A800-Node1-2::>
+....
+. Si se utiliza inodo, aumente el número de inodos ejecutando el siguiente comando:
++
+....
+A800-Node1-2::> volume modify -volume xcpdest -vserver A800-Node1_vs1 -files 40000000
+Volume modify successful on volume xcpdest of Vserver A800-Node1_vs1.
+A800-Node1-2::> volume show -volume xcpdest -fields files,files-used
+vserver        volume  files    files-used
+-------------- ------- -------- ----------
+A800-Node1_vs1 xcpdest 39999990 21251126
+A800-Node1-2::>
+....
+
+
+link:xcp-bp-where-to-find-additional-information.html["Siguiente: Dónde encontrar información adicional."]

@@ -1,0 +1,36 @@
+= 
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+Programación de la aplicación Log Replication PlayBook
+
+*Configurar e iniciar la plantilla de trabajo.*
+
+. Copie la plantilla de trabajo creada previamente.
++
+.. Desplácese hasta Recursos → Plantillas.
+.. Encuentre la plantilla de configuración de ONTAP/CVO y haga clic con el botón derecho del ratón en Copiar plantilla
+.. Haga clic en Editar plantilla en la plantilla copiada y cambie el nombre a Log Replication PlayBook.
+.. Mantenga el mismo inventario, proyecto y credenciales para la plantilla.
+.. Seleccione ora_replication_logs.yml como la tableta playbook que se va a ejecutar.
+.. Las variables seguirán siendo las mismas, pero se deberá establecer la dirección IP del clúster CVO en la variable dst_cluster_ip.
+.. Haga clic en Guardar.
+
+
+. Programar la plantilla de trabajo.
++
+.. Desplácese hasta Recursos → Plantillas.
+.. Haga clic en la plantilla Log Replication PlayBook y, a continuación, haga clic en programas en el conjunto superior de opciones.
+.. Haga clic en Add, Add Name Schedule for Log Replication, elija la fecha y la hora de inicio al principio de la hora, elija su zona horaria local y la frecuencia de ejecución. La frecuencia de ejecución se suele actualizar la replicación de SnapMirror.
+
+
++
+
+NOTE: Se recomienda establecer la programación del registro para que se actualice cada hora a fin de garantizar la recuperación de la última actualización por hora.
+
+

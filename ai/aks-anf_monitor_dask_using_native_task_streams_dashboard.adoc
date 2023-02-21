@@ -1,0 +1,32 @@
+---
+sidebar: sidebar 
+permalink: ai/aks-anf_monitor_dask_using_native_task_streams_dashboard.html 
+keywords: dashboard, progress bar, bytes stored, task stream, dataframe, criteo click log 
+summary: En esta página se describe cómo supervisar Dask mediante el panel de control de flujo de tareas nativo. 
+---
+= Supervisión de tarea mediante el panel de control de flujos de tareas nativo
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:aks-anf_load_day_15_in_dask_and_train_a_dask_cuml_random_forest_model.html["Anterior: Cargar día 15 en DASK y entrenar un modelo de bosque aleatorio cuML de DASK."]
+
+La https://docs.dask.org/en/latest/scheduling.html["Planificador distribuido DASK"^] proporciona comentarios en directo de dos formas:
+
+* Un panel interactivo que contiene muchos trazados y tablas con información en directo
+* Una barra de progreso adecuada para uso interactivo en consolas o portátiles
+
+
+En nuestro caso, la siguiente figura muestra cómo puede supervisar el progreso de la tarea, incluidos los bytes almacenados, el flujo de tareas con un desglose detallado del número de flujos y el progreso por los nombres de tareas con las funciones asociadas ejecutadas. En nuestro caso, debido a que tenemos tres nodos de trabajo, hay tres partes principales del flujo y los códigos de color denotan diferentes tareas dentro de cada flujo.
+
+image:aks-anf_image13.png["Error: Falta la imagen gráfica"]
+
+Tiene la opción de analizar tareas individuales y examinar el tiempo de ejecución en milisegundos o identificar cualquier obstáculo o impedimento. Por ejemplo, la siguiente figura muestra los flujos de tareas para la etapa de ajuste del modelo de bosque aleatorio. Se están ejecutando muchas más funciones, incluido el fragmento único para el procesamiento de DataFrame, _construct_rf para ajustar el bosque aleatorio, etc. La mayor parte del tiempo se ha empleado en operaciones DataFrame debido al gran tamaño (45GB) de un día de datos de los registros de clic de Criteo.
+
+image:aks-anf_image14.png["Error: Falta la imagen gráfica"]
+
+link:aks-anf_training_time_comparison.html["Siguiente: Comparación de tiempo de entrenamiento."]

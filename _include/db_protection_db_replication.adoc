@@ -1,0 +1,36 @@
+= 
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+Programación del libro de aplicaciones de replicación de bases de datos y binarios
+
+*Configurar e iniciar la plantilla de trabajo.*
+
+. Copie la plantilla de trabajo creada previamente.
++
+.. Desplácese hasta Recursos → Plantillas.
+.. Encuentre la plantilla de configuración de ONTAP/CVO y haga clic con el botón derecho del ratón en Copiar plantilla
+.. Haga clic en Editar plantilla en la plantilla copiada y cambie el nombre a Libro de aplicaciones de replicación de bases de datos y binarios.
+.. Mantenga el mismo inventario, proyecto y credenciales para la plantilla.
+.. Seleccione la ora_replication_cg.yml como la tableta playbook que se va a ejecutar.
+.. Las variables seguirán siendo las mismas, pero se deberá establecer la dirección IP del clúster CVO en la variable dst_cluster_ip.
+.. Haga clic en Guardar.
+
+
+. Programar la plantilla de trabajo.
++
+.. Desplácese hasta Recursos → Plantillas.
+.. Haga clic en la plantilla Binary and Database Replication PlayBook y, a continuación, haga clic en Schedules en el conjunto superior de opciones.
+.. Haga clic en Agregar, agregue el nombre Programación para la replicación binaria y de bases de datos, elija la fecha y hora de inicio al principio de la hora, elija su zona horaria local y frecuencia de ejecución. La frecuencia de ejecución se suele actualizar la replicación de SnapMirror.
++
+
+NOTE: Se creará una programación independiente para la replicación de volúmenes de registro, de modo que se pueda replicar con una cadencia más frecuente.
+
+
+
+

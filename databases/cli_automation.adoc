@@ -1,0 +1,208 @@
+---
+sidebar: sidebar 
+permalink: databases/cli_automation.html 
+keywords: Linux, RHEL Oracle19c, NFS, ONTAP 
+summary: Esta página describe el método automatizado para poner en marcha Oracle19c en el almacenamiento ONTAP de NetApp. 
+---
+= Procedimiento de puesta en marcha paso a paso
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+
+
+== Puesta en marcha de la interfaz de línea de comandos Oracle 19c Database
+
+En esta sección se tratan los pasos necesarios para preparar y poner en marcha la base de datos Oracle19c con la CLI. Asegúrese de haber revisado el link:getting_started_requirements.html["Introducción y sección requisitos"] y preparar su entorno de acuerdo con sus necesidades.
+
+
+
+=== Descargar Oracle19c repo
+
+
+[source, cli]
+----
+git clone https://github.com/NetApp-Automation/na_oracle19c_deploy.git
+----
+
+
+
+=== Edite el archivo hosts
+
+Complete lo siguiente antes de la implementación:
+
+. Edite el directorio na_oracle19c_deploy del archivo de host.
+. En [ONTAP], cambie la dirección IP a la IP de administración del clúster.
+. En el grupo [oracle], agregue los nombres de los hosts oracle. El nombre de host se debe resolver a su dirección IP a través de DNS o del archivo hosts, o bien debe especificarse en el host.
+. Después de completar estos pasos, guarde los cambios.
+
+
+En el ejemplo siguiente se muestra un archivo host:
+
+
+En este ejemplo se ejecuta el libro de aplicaciones y se implementa oracle 19c en dos servidores oracle DB simultáneamente. También puede realizar pruebas con un solo servidor de base de datos. En ese caso, sólo es necesario configurar un archivo de variable de host.
+
+
+NOTE: El libro de estrategia se ejecuta de la misma manera independientemente de la cantidad de hosts y bases de datos de Oracle que se implementen.
+
+
+
+=== Edite el archivo host_name.yml en host_var
+
+Cada host de Oracle tiene su archivo de variable de host identificado por su nombre de host que contiene variables específicas del host. Es posible especificar cualquier nombre para el host. Edite y copie el `host_vars` Desde la sección Host VARS Config y péguela en su deseado `host_name.yml` archivo.
+
+
+NOTE: Los elementos en azul deben cambiarse para que coincidan con su entorno.
+
+
+
+=== Host VARS Config
+
+
+
+
+=== Edite el archivo var.yml
+
+La `vars.yml` File consolida todas las variables específicas de un entorno (ONTAP, Linux u Oracle) para la puesta en marcha de Oracle.
+
+* Edite y copie las variables de la sección VARS y pegue estas variables en su `vars.yml` archivo.
+
+
+
+
+=== VAR
+
+
+
+
+=== Ejecute el libro de estrategia
+
+Después de completar los requisitos previos de entorno necesarios y copiar las variables en `vars.yml` y.. `your_host.yml`, ya está listo para implementar los libros de estrategia.
+
+
+NOTE: debe cambiarse <username> para adecuarse a su entorno.
+
+
+[source, cli]
+----
+ansible-playbook -i hosts all_playbook.yml -u username -k -K -t ontap_config -e @vars/vars.yml
+----
+
+[source, cli]
+----
+ansible-playbook -i hosts all_playbook.yml -u username -k -K -t linux_config -e @vars/vars.yml
+----
+
+[source, cli]
+----
+ansible-playbook -i hosts all_playbook.yml -u username -k -K -t oracle_config -e @vars/vars.yml
+----
+
+
+=== Ponga en marcha una base de datos adicional en el mismo host de Oracle
+
+La parte Oracle del playbook crea una única base de datos de contenedor Oracle en un servidor Oracle por ejecución. Para crear una base de datos de contenedores adicional en el mismo servidor, lleve a cabo los siguientes pasos:
+
+. Revise las variables host_var.
++
+.. Vuelva al paso 3 - edite el `host_name.yml` archivo debajo `host_vars`.
+.. Cambie el SID de Oracle a una cadena de nomenclatura diferente.
+.. Cambie el puerto de escucha a un número diferente.
+.. Si ha instalado EM Express, cambie el puerto de EM Express a otro número.
+.. Copie y pegue las variables de host revisadas en el archivo de variable de host Oracle en `host_vars`.
+
+
+. Ejecute el libro de estrategia con `oracle_config` etiquetar como se muestra arriba en la <<Ejecute el libro de estrategia>>.
+
+
+
+
+=== Validar la instalación de Oracle
+
+
+[source, cli]
+----
+ps -ef | grep ora
+----
+
+NOTE: Se enumerarán los procesos de oracle si la instalación se ha completado como se esperaba y oracle DB ha iniciado
+
+
+[source, cli]
+----
+sqlplus / as sysdba
+----
+[oracle@localhost ~]$ sqlplus / as sysdba
+
+SQL*Plus: Versión 19.0.0.0.0 - producción el Jue 6 12:52:51 2021 Versión 19.8.0.0.0
+
+Copyright (c) 1982, 2019, Oracle. Todos los derechos reservados.
+
+Conectado a: Base de datos Oracle 19c Enterprise Edition Versión 19.0.0.0.0 - Versión de producción 19.8.0.0.0
+
+SQL>
+
+[source, cli]
+----
+select name, log_mode from v$database;
+----
+SQL> SELECT name, log_mode from v$database; NAME LOG_MODE ----------- ------------- CDB2 ARCHIVELOG
+
+[source, cli]
+----
+show pdbs;
+----
+SQL> mostrar pdb
+
+....
+    CON_ID CON_NAME                       OPEN MODE  RESTRICTED
+---------- ------------------------------ ---------- ----------
+         2 PDB$SEED                       READ ONLY  NO
+         3 CDB2_PDB1                      READ WRITE NO
+         4 CDB2_PDB2                      READ WRITE NO
+         5 CDB2_PDB3                      READ WRITE NO
+....
+[source, cli]
+----
+col svrname form a30
+col dirname form a30
+select svrname, dirname, nfsversion from v$dnfs_servers;
+----
+SQL> col svrname form a30 SQL> col rname form a30 SQL> seleccione svrname, dirname, nfsversion de v$dnfs_Servers;
+
+NOMBRE DE DIRECTORIO DE SVRNAME NFSVERSION ----------------------------------------- ------------------------------------ --------------------- 172.21.126.200 /rhelora03_u02 NFSv3.0 172.21.126.200 /rhelora03_u03 NFSv3.0 172.21.126.200 /rhelora03_u01 NFSv3.0
+
+[listing]
+----
+This confirms that dNFS is working properly.
+----
+
+[source, cli]
+----
+sqlplus system@//localhost:1523/cdb2_pdb1.cie.netapp.com
+----
+[oracle@localhost ~]$ sqlplus system@//localhost:1523/cdb2_pdb1.cie.netapp.com
+
+SQL*Plus: Versión 19.0.0.0.0 - producción el Jue 6 13:19:57 2021 Versión 19.8.0.0.0
+
+Copyright (c) 1982, 2019, Oracle. Todos los derechos reservados.
+
+Introducir contraseña: Última hora de inicio de sesión correcta: Mié May 05 2021 17:11:11 -04:00
+
+Conectado a: Base de datos Oracle 19c Enterprise Edition Versión 19.0.0.0.0 - Versión de producción 19.8.0.0.0
+
+SQL> show user USER IS "SYSTEM" SQL> show con_name CON_NAME CDB2_PDB1
+
+[listing]
+----
+This confirms that Oracle listener is working properly.
+----
+
+
+=== ¿Dónde obtener ayuda?
+
+Si necesita ayuda con el kit de herramientas, por favor únase al link:https://netapppub.slack.com/archives/C021R4WC0LC["La comunidad de automatización de soluciones de NetApp admite el canal de Slack"] y busque el canal de automatización de soluciones para publicar sus preguntas o preguntas.

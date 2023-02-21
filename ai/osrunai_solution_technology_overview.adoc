@@ -1,0 +1,77 @@
+---
+sidebar: sidebar 
+permalink: ai/osrunai_solution_technology_overview.html 
+keywords:  
+summary:  
+---
+= Tecnología de soluciones
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+Esta solución se implementó con un sistema AFF A800 de NetApp, dos servidores DGX-1 y dos switches Cisco Nexus 3232C 100 GbE. Cada servidor DGX-1 está conectado a los switches Nexus mediante cuatro conexiones 100 GbE que se utilizan para las comunicaciones entre GPU. Para ello se utilizan accesos remotos directos a la memoria (RDMA) sobre Ethernet convergente (roce). En estos enlaces también se producen las comunicaciones IP tradicionales para el acceso al almacenamiento NFS. Cada controladora de almacenamiento está conectado a los switches de red mediante cuatro enlaces 100 GbE. En la siguiente figura se muestra la arquitectura de la solución de IA de ONTAP utilizada en este informe técnico para todos los escenarios de pruebas.
+
+image:osrunai_image2.png["Error: Falta la imagen gráfica"]
+
+
+
+== Hardware utilizado en esta solución
+
+Esta solución se validó con la arquitectura de referencia ONTAP AI dos nodos DGX-1 y un sistema de almacenamiento AFF A800. Consulte https://www.netapp.com/us/media/nva-1121-design.pdf["NVA-1121"^] para obtener más detalles sobre la infraestructura utilizada en esta validación.
+
+En la siguiente tabla se enumeran los componentes de hardware necesarios para implementar la solución según se ha probado.
+
+|===
+| Hardware subyacente | Cantidad 
+
+
+| Sistemas DGX-1 | 2 
+
+
+| A800 de AFF | 1 
+
+
+| Switches Nexus 3232C | 2 
+|===
+
+
+== Requisitos de software
+
+Esta solución se validó con una puesta en marcha de Kubernetes básica con el operador Run:AI instalado. Kubernetes se puso en marcha usando el https://github.com/NVIDIA/deepops["DeepOps de NVIDIA"^] motor de puesta en marcha, que implementa todos los componentes necesarios para un entorno listo para la producción. DeepOps ya se implementa automáticamente https://netapp.io/persistent-storage-provisioner-for-kubernetes/["Trident de NetApp"^] Para la integración del almacenamiento persistente con el entorno k8S, se crearon las clases de almacenamiento predeterminadas, de modo que los contenedores aprovechan el almacenamiento del sistema de almacenamiento A800 de AFF. Para obtener más información sobre Trident con Kubernetes en ONTAP AI, consulte https://www.netapp.com/us/media/tr-4798.pdf["TR-4798"^].
+
+En la siguiente tabla se enumeran los componentes de software necesarios para implementar la solución según se ha probado.
+
+|===
+| De NetApp | Versión u otra información 
+
+
+| Software de gestión de datos ONTAP de NetApp | 9.6p4 
+
+
+| Firmware de switch Cisco NX-OS | 7.0(3)I6(1) 
+
+
+| SO DGX DE NVIDIA | 4.0.4 - Ubuntu 18.04 LTS 
+
+
+| La versión de Kubernetes | 1.17 
+
+
+| Versión de Trident | 20.04.0 
+
+
+| Ejecución: CLI de IA | v2.1.13 
+
+
+| Ejecutar:versión del operador de Kubernetes de orquestación de IA | 1.0.39 
+
+
+| Plataforma contenedora Docker | 18.06.1-ce [e68fc7a] 
+|===
+Requisitos de software adicionales para la ejecución: Se puede encontrar IA en https://docs.run.ai/Administrator/Cluster-Setup/Run-AI-GPU-Cluster-Prerequisites/["Ejecutar:requisitos previos del clúster de GPU de IA"^].
+
+link:osrunai_optimal_cluster_and_gpu_utilization_with_run_ai_overview.html["Siguiente: Uso óptimo de la GPU y del clúster con Run AI"]

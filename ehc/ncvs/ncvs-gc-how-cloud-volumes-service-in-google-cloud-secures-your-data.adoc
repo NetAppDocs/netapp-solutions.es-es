@@ -1,0 +1,77 @@
+---
+sidebar: sidebar 
+permalink: ehc/ncvs/ncvs-gc-how-cloud-volumes-service-in-google-cloud-secures-your-data.html 
+keywords: secure, architecture, tenancy model, identity management, control plane, security hardening, encryption, zero trust, ransomware 
+summary: Cloud Volumes Service en Google Cloud ofrece múltiples formas de proteger sus datos de forma nativa. 
+---
+= Cómo Cloud Volumes Service en Google Cloud protege sus datos
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../../media/
+
+
+link:ncvs-gc-overview.html["Anterior: Descripción general."]
+
+Cloud Volumes Service en Google Cloud ofrece múltiples formas de proteger sus datos de forma nativa.
+
+
+
+== Arquitectura segura y modelo de multi-tenancy
+
+Cloud Volumes Service proporciona una arquitectura segura en Google Cloud al segmentar la gestión de servicios (plano de control) y el acceso a los datos (plano de datos) en diferentes extremos, de modo que ninguno de ellos puede afectar al otro (consulte la sección link:ncvs-gc-cloud-volumes-service-architecture.html["“Arquitectura Cloud Volumes Service”"]). Utiliza Google's. https://cloud.google.com/vpc/docs/private-services-access?hl=en_US["acceso a servicios privados"^] (PSA) marco para prestar el servicio. Este marco distingue entre el productor de servicios, que ofrece NetApp y está gestionado por este, y el consumidor de servicios, que es un cloud privado virtual (VPC) en un proyecto de cliente, alojando los clientes que deseen acceder a recursos compartidos de archivos de Cloud Volumes Service.
+
+En esta arquitectura, los clientes (consulte la sección link:ncvs-gc-cloud-volumes-service-architecture.html#tenancy-model["“Modelo de soporte”"]) Se definen como proyectos de Google Cloud que están completamente aislados entre sí a menos que el usuario lo conecte explícitamente. Los clientes permiten el aislamiento completo de volúmenes de datos, servicios de nombres externos y otras piezas esenciales de la solución de otros clientes con la plataforma de volúmenes de Cloud Volumes Service. Dado que la plataforma Cloud Volumes Service se conecta a través de la agrupación VPC, ese aislamiento también se aplica a ella. Para habilitar el uso compartido de volúmenes de Cloud Volumes Service entre varios proyectos, utilice un VPC compartido (consulte la sección link:ncvs-gc-cloud-volumes-service-architecture.html#tenancy-model#shared-vpcs["“VPC compartidos”"]). Puede aplicar controles de acceso a recursos compartidos de SMB y exportaciones de NFS para limitar quién o qué puede ver o modificar conjuntos de datos.
+
+
+
+== Gestión de identidades sólida para el plano de control
+
+En el plano de control en el que se lleva a cabo la configuración de Cloud Volumes Service, la gestión de identidades se gestiona mediante https://cloud.google.com/iam/docs/overview["Gestión de acceso a identidades (IAM)"^]. IAM es un servicio estándar que permite controlar la autenticación (inicios de sesión) y la autorización (permisos) de las instancias de proyectos de Google Cloud. Toda la configuración se realiza con las API de Cloud Volumes Service mediante un transporte HTTPS seguro con cifrado TLS 1.2 y la autenticación se realiza mediante tokens JWT para mayor seguridad. La interfaz de usuario de la consola de Google para Cloud Volumes Service convierte las entradas del usuario en llamadas a la API de Cloud Volumes Service.
+
+
+
+== Seguridad reforzada: Limitar las superficies de ataque
+
+Parte de la seguridad efectiva está limitando el número de superficies de ataque disponibles en un servicio. Las superficies de ataque pueden incluir diversas cosas, como datos en reposo, transferencias en tránsito, inicios de sesión y los propios conjuntos de datos.
+
+Un servicio gestionado elimina algunas de las superficies de ataque de forma inherente en su diseño. Gestión de infraestructuras, como se describe en la sección link:ncvs-gc-service-operation.html["“Funcionamiento de servicio”,"] es manejado por un equipo específico y es automatizado para reducir el número de veces que un ser humano realmente toca configuraciones, lo que ayuda a reducir el número de errores intencionales y no intencionales. La conexión de red está cerrada de modo que solo los servicios necesarios puedan acceder los unos a los otros. El cifrado se lleva a cabo en el almacenamiento de datos, y solo el plano de datos necesita atención de seguridad de los administradores de Cloud Volumes Service. Al ocultar la mayor parte de la gestión de una interfaz API, la seguridad se logra limitando las superficies de ataque.
+
+
+
+== Modelo de confianza cero
+
+Históricamente, la filosofía de seguridad DE TI ha sido confiar pero verificar, y se ha manifestado basándose únicamente en mecanismos externos (como firewalls y sistemas de detección de intrusiones) para mitigar las amenazas. Sin embargo, los ataques y las infracciones evolucionaron para evitar la verificación en entornos mediante el phishing, la ingeniería social, las amenazas internas y otros métodos que proporcionan la verificación para entrar en redes y causar estragos.
+
+Zero Trust se ha convertido en una nueva metodología en seguridad, con el mantra actual “confiar en nada mientras sigue verificando todo”. Por lo tanto, no se permite el acceso predeterminado a nada. Este mantra se aplica de diversas maneras, incluidos los cortafuegos estándar y los sistemas de detección de intrusiones (IDS) y también con los siguientes métodos:
+
+* Métodos de autenticación sólidos (como Kerberos con cifrado AES o tokens JWT)
+* Fuentes sólidas de identidades únicas (como Windows Active Directory, Lightweight Directory Access Protocol (LDAP) y Google IAM)
+* Segmentación de red y multi-tenancy seguro (solo se permite el acceso de forma predeterminada a los inquilinos)
+* Controles de acceso granular con políticas de acceso con privilegios mínimos
+* Listas exclusivas pequeñas de administradores dedicados y de confianza con auditorías digitales y pistas en papel
+
+
+La ejecución de Cloud Volumes Service en Google Cloud cumple con el modelo Zero Trust, al implementar la postura "no confiar en nada, verificar todo".
+
+
+
+== Cifrado
+
+Cifrar datos en reposo (consulte la sección link:ncvs-gc-data-encryption-at-rest.html["“Cifrado de datos en reposo”"]) Mediante el uso de cifrados XTS-AES-256 con el cifrado de volúmenes de NetApp (NVE) y en tránsito con link:ncvs-gc-data-encryption-in-transit.html#nas-protocols#smb-encryption["“Cifrado SMB”"] O soporte para NFS Kerberos 5p. Las transferencias de replicación entre regiones con REST sencilla están protegidas con cifrado TLS 1.2 (consulte la sección link:ncvs-gc-security-considerations-and-attack-surfaces.html#detection,-prevention-and-mitigation-of-ransomeware,-malware,-and-viruses#cross-region-replication["“Replicación entre regiones”"]). Además, Google Networking también proporciona comunicaciones cifradas (consulte la sección link:ncvs-gc-data-encryption-in-transit.html["“Cifrado de datos en tránsito”"]) para una capa adicional de protección contra ataques. Para obtener más información sobre el cifrado de transporte, consulte la sección link:ncvs-gc-data-encryption-in-transit.html#google-cloud-network["“Red de Google Cloud”"].
+
+
+
+== Protección de datos y backups
+
+La seguridad no se trata sólo de la prevención de ataques. También se trata de cómo recuperamos los ataques cuando se producen. Esta estrategia incluye protección de datos y backups. Cloud Volumes Service proporciona métodos para replicar en otras regiones en caso de interrupciones del servicio (consulte la sección link:ncvs-gc-security-considerations-and-attack-surfaces.html#detection,-prevention-and-mitigation-of-ransomeware,-malware,-and-viruses#cross-region-replication["“Replicación entre regiones”"]) o si un conjunto de datos se ve afectado por un ataque de ransomware. También puede realizar backups asíncronos de datos en ubicaciones externas a la instancia de Cloud Volumes Service mediante el uso de link:ncvs-gc-security-considerations-and-attack-surfaces.html#detection,-prevention-and-mitigation-of-ransomeware,-malware,-and-viruses#cloud-volumes-service-backup["Backup de Cloud Volumes Service"]. Con los backups periódicos, la mitigación de los eventos de seguridad puede llevar menos tiempo y ahorrar dinero y angustia para los administradores.
+
+
+
+== Mitigación de ransomware rápida con copias Snapshot líderes en el sector
+
+Además de la protección de datos y los backups, Cloud Volumes Service ofrece compatibilidad con copias Snapshot inalterables (consulte la sección link:ncvs-gc-security-considerations-and-attack-surfaces.html#detection,-prevention-and-mitigation-of-ransomeware,-malware,-and-viruses#immutable-snapshot-copies["“Copias Snapshot inmutables”"]) de volúmenes que permiten la recuperación de ataques de ransomware (consulte la sección link:ncvs-gc-service-operation.html["“Funcionamiento de servicio”"]) en cuestión de segundos de descubrir el problema y con una interrupción mínima. El tiempo y los efectos de la recuperación dependen de la programación de la copia Snapshot, pero puede crear copias de SnapVault que proporcionen deltas de solo una hora en ataques de ransomware. Las copias Snapshot afectan al rendimiento y al uso de la capacidad y son un enfoque de bajo riesgo y gran recompensa para proteger sus conjuntos de datos.
+
+link:ncvs-gc-security-considerations-and-attack-surfaces.html["Siguiente: Consideraciones de seguridad y superficies de ataque."]

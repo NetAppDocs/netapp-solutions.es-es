@@ -1,0 +1,34 @@
+---
+sidebar: sidebar 
+permalink: containers/baremetal-anthos/bmanthos_deployment_summary.html 
+keywords: Summary, World Wide Technology, ATC, WWT, Advanced Technology Center, bmctl tool, Cisco UCS B200M3, Cisco Nexus 5548, Red Hat Enterprise Linux 8.2, CentOS 8.2, Ubuntu 20.04 LTS, or Ubuntu 18.04 LTS 
+summary: 'Para la validación inicial de esta solución, NetApp se asoció con World Wide Technology (WWT) para establecer un entorno en Advanced Technology Center (ATC) de WWT. Anthos se puso en marcha en una infraestructura de configuración básica con la herramienta bmctl proporcionada por Google Cloud. La siguiente sección detalla la puesta en marcha utilizada para fines de validación.' 
+---
+= Resumen de la implementación
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../../media/
+
+
+Para la validación inicial de esta solución, NetApp se asoció con World Wide Technology (WWT) para establecer un entorno en Advanced Technology Center (ATC) de WWT. Anthos se puso en marcha en una infraestructura de configuración básica con la herramienta bmctl proporcionada por Google Cloud. La siguiente sección detalla la puesta en marcha utilizada para fines de validación.
+
+Anthos con la solución de reconstrucción completa de NetApp se ha creado como un clúster híbrido de alta disponibilidad con tres nodos de plano de control de Anthos y cuatro nodos de trabajo de Anthos.
+
+Los nodos de plano de control utilizados fueron servidores blade Cisco UCS B200M3 alojados en un chasis y configurados con una única tarjeta de interfaz de red virtual (VNIC) en cada uno, lo que permitió la recuperación tras fallos A/B en el nivel de plataforma Cisco UCS para la tolerancia a fallos. El chasis de Cisco UCS se conectó de forma ascendente a un par de interconexiones de estructura Cisco UCS 6248, lo que proporciona rutas dispares para la separación del tráfico a lo largo de la estructura A y la estructura B. Esas interconexiones de estructura se conectan antes de un par de switches de centros de datos Cisco Nexus 5548 que estaban conectados a la red principal de WWT.
+
+Los nodos de trabajo eran nodos HP ProLiant DL360, cada uno de los cuales ejecutaba una de las distribuciones de Linux compatibles para Anthos en metal desnudo: Red Hat Enterprise Linux 8.2, CentOS 8.2, Ubuntu 20.04 LTS o Ubuntu 18.04 LTS. Los nodos Red Hat Enterprise Linux 8 y CentOS 8 se configuraron con equipos NIC ejecutándose en modo LACP y se cablearon a dos switches Nexus 9k C93180YC-FX para tolerancia a fallos. Los servidores Ubuntu se configuraron para el enlace de red en modo LACP y se cableó a la misma pareja de switches Nexus 9k para la tolerancia a fallos.
+
+Se instaló y conectó físicamente el sistema de almacenamiento AFF A300 de NetApp con el software ONTAP 9.7 al mismo par de switches Nexus 9k que los nodos de trabajo Anthos. Estos enlaces ascendentes de redes se agregaron a un grupo de interfaces (a0a) y se etiquetó la VLAN de red de datos adecuada para permitir que los nodos de trabajo interactúen con el sistema de almacenamiento. Se creó una máquina virtual de almacenamiento (SVM) con LIF de datos que admiten el protocolo NFS y operaciones de almacenamiento dedicadas para Trident a fin de proporcionar almacenamiento persistente a los contenedores puestos en marcha en Anthos en un clúster de configuración básica. Estos volúmenes persistentes fueron proporcionados por Astra Trident 20.10 de NetApp, la versión más reciente del orquestador de almacenamiento de código abierto de NetApp para Kubernetes totalmente compatible.
+
+En la siguiente figura se muestra un diagrama de cableado físico de la solución a la parte superior de los switches de centros de datos en rack.
+
+image:bmanthos_image4.png["Error: Falta la imagen gráfica"]
+
+En la siguiente figura, se presenta una visión lógica de la solución tal como se pone en marcha y se valida en el hardware del laboratorio en el WWT, partner de NetApp.
+
+image:bmanthos_image5.png["Error: Falta la imagen gráfica"]
+
+link:bmanthos_solution_validation.html["Siguiente: Validación de la solución."]

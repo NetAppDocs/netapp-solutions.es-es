@@ -1,0 +1,40 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/apache-spark-hybrid-cloud-solution.html 
+keywords: hybrid cloud, operating model, netapp private storage, 
+summary: Un centro de datos empresarial moderno es un cloud híbrido que conecta varios entornos de infraestructura distribuidos a través de un plano de gestión de datos continua con un modelo operativo consistente, en las instalaciones o en varios clouds públicos. Para sacarle el máximo partido a un cloud híbrido, debe ser capaz de mover datos con fluidez entre sus entornos locales y varios cloud sin necesidad de realizar conversiones de datos o refactorizaciones de aplicaciones. 
+---
+= Solución de cloud híbrido
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:apache-spark-testing-results.html["Anterior: Resultados de las pruebas."]
+
+Un centro de datos empresarial moderno es un cloud híbrido que conecta varios entornos de infraestructura distribuidos a través de un plano de gestión de datos continua con un modelo operativo consistente, en las instalaciones o en varios clouds públicos. Para sacarle el máximo partido a un cloud híbrido, debe ser capaz de mover datos con fluidez entre sus entornos locales y varios cloud sin necesidad de realizar conversiones de datos o refactorizaciones de aplicaciones.
+
+Los clientes han indicado que inician su transición al cloud híbrido mediante el movimiento de almacenamiento secundario al cloud para casos de uso como la protección de datos o trasladando cargas de trabajo menos vitales para el negocio como el desarrollo de aplicaciones y DevOps al cloud. Después, se mueven a cargas de trabajo más críticas. El alojamiento web y de contenido, DevOps y el desarrollo de aplicaciones, bases de datos, análisis y aplicaciones en contenedores son algunas de las cargas de trabajo de cloud híbrido más populares. La complejidad, el coste y los riesgos de los proyectos de IA empresarial han dificultado históricamente la adopción de la IA desde la fase experimental hasta la producción.
+
+Con una solución de cloud híbrido de NetApp, los clientes se benefician de las herramientas integradas de seguridad, gobernanza de datos y cumplimiento de normativas, con un único panel de control para la gestión de datos y flujos de trabajo en entornos distribuidos, al tiempo que optimizan el coste total de propiedad en función de su consumo. La siguiente figura representa una solución de ejemplo de un partner de servicio de cloud que ha encargado de proporcionar conectividad multicloud para los datos de análisis de Big Data de los clientes.
+
+image:apache-spark-image14.png["Ejemplo de solución de un socio de servicios en nube."]
+
+En este escenario, los datos de IoT recibidos en AWS de diferentes orígenes se almacenan en una ubicación central en el almacenamiento privado de NetApp (NPS). El almacenamiento NPS está conectado a clústeres de Spark o Hadoop ubicados en AWS y Azure y permite que se ejecuten aplicaciones de análisis de Big Data en varios clouds accediendo a los mismos datos. Entre los principales requisitos y retos para este caso de uso se encuentran los siguientes:
+
+* Los clientes quieren ejecutar trabajos de análisis en los mismos datos utilizando varios clouds.
+* Los datos deben recibirse de diferentes fuentes, como los entornos locales y de cloud, mediante distintos sensores y concentradores.
+* La solución debe ser eficiente y rentable.
+* El principal reto consiste en crear una solución rentable y eficiente que ofrezca servicios de análisis híbridos entre diferentes entornos de cloud y locales.
+
+
+Nuestra solución de conectividad multicloud y protección de datos resuelve el problema de tener aplicaciones de análisis en cloud en múltiples proveedores a hiperescala. Como se muestra en la figura anterior, los datos de los sensores se transmiten y ingieren en el clúster de AWS Spark a través de Kafka. Los datos se almacenan en un recurso compartido de NFS que reside en NPS, que se encuentra fuera del proveedor de cloud en un centro de datos Equinix.
+
+Dado que el almacenamiento privado de NetApp se conecta con Amazon AWS y Microsoft Azure mediante las conexiones Direct Connect y Express Route respectivamente, los clientes pueden aprovechar el módulo de análisis in situ para acceder a los datos desde los clústeres de análisis de Amazon y AWS. Por lo tanto, dado que tanto el almacenamiento local como el NPS ejecutan el software ONTAP, https://docs.netapp.com/us-en/ontap/data-protection/snapmirror-replication-concept.html["SnapMirror"^] Puede reflejar los datos de NPS en el clúster en las instalaciones, lo que proporciona análisis en el cloud híbrido entre las instalaciones y varios clouds.
+
+Para obtener el mejor rendimiento, NetApp suele recomendar el uso de varias interfaces de red, así como una conexión directa o rutas exprés para acceder a los datos desde instancias del cloud. Tenemos otras soluciones de movimiento de datos, incluyendo https://mysupport.netapp.com/documentation/docweb/index.html?productID=63942&language=en-US["XCP"^] y.. https://cloud.netapp.com/cloud-sync-service["Cloud Sync"^] Para ayudar a los clientes a crear clústeres de Spark de cloud híbrido rentables, seguros y compatibles con aplicaciones.
+
+link:apache-spark-python-scripts-for-each-major-use-case.html["Siguiente: Scripts de Python para cada caso de uso principal."]

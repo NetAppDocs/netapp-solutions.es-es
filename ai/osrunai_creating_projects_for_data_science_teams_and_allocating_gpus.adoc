@@ -1,0 +1,33 @@
+---
+sidebar: sidebar 
+permalink: ai/osrunai_creating_projects_for_data_science_teams_and_allocating_gpus.html 
+keywords:  
+summary:  
+---
+= Creación de proyectos para equipos de ciencia de datos y asignación de GPU
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+Los investigadores pueden enviar cargas de trabajo a través de la CLI Run:AI, Kubeflow o procesos similares. Para agilizar la asignación de recursos y crear prioridades, Run:AI introduce el concepto de proyectos. Los proyectos son entidades de cuota que asocian un nombre de proyecto con la asignación y las preferencias de la GPU. Se trata de una forma sencilla y cómoda de gestionar varios equipos de ciencia de datos.
+
+Un investigador que presenta una carga de trabajo debe asociar un proyecto con una solicitud de carga de trabajo. El programador Run:AI compara la solicitud con las asignaciones actuales y el proyecto, y determina si la carga de trabajo puede asignarse recursos o si debe permanecer en estado pendiente.
+
+Como administrador del sistema, puede establecer los siguientes parámetros en la ficha Ejecutar:proyectos AI:
+
+* *Proyectos modelo.* establecer un proyecto por usuario, establecer un proyecto por equipo de usuarios y establecer un proyecto por proyecto de organización real.
+* * Cuotas del proyecto.* cada proyecto está asociado con una cuota de GPU que se pueden asignar para este proyecto al mismo tiempo. Se trata de una cuota garantizada en el sentido de que se garantiza que los investigadores que utilizan este proyecto obtengan este número de GPU, independientemente del estado del clúster. Por lo general, la suma de la asignación de proyectos debe ser igual al número de GPU del clúster. Más allá de eso, un usuario de este proyecto puede recibir un exceso de cuota. Mientras no se utilicen las GPU, un investigador que usa este proyecto puede obtener más GPU. Demostramos escenarios de prueba de exceso de cuota y consideraciones de equidad en https://osrunai_achieving_high_cluster_utilization_with_over-uota_gpu_allocation.adoc["Utilización óptima del clúster gracias a la asignación de GPU por encima de una cuota"], https://osrunai_basic_resource_allocation_fairness.html["Equidad en la asignación de recursos básicos"], y. https://osrunai_over-quota_fairness.html["Justicia por exceso de cuotas"].
+* Cree un proyecto nuevo, actualice un proyecto existente y elimine un proyecto existente.
+* *Limite los trabajos para que se ejecuten en grupos de nodos específicos*. Puede asignar proyectos específicos para que se ejecuten solo en nodos específicos. Esto resulta útil cuando el equipo de proyecto necesita hardware especializado, por ejemplo, con suficiente memoria. Como alternativa, un equipo de proyecto podría ser el propietario de hardware específico que se adquirió con un presupuesto especializado o cuando sea necesario dirigir las cargas de trabajo de creación o interactivas para trabajar en hardware más débil y dirigir la formación de mayor duración o las cargas de trabajo sin supervisión a nodos más rápidos. Para ver los comandos para agrupar nodos y establecer la afinidad de un proyecto específico, consulte  https://docs.run.ai/Administrator/Admin-User-Interface-Setup/Working-with-Projects/["Ejecute:Documentación de IA"^].
+* *Limitar la duración de los trabajos interactivos*. Los investigadores se olvidan frecuentemente de cerrar trabajos interactivos. Esto podría conducir a una pérdida de recursos. Algunas organizaciones prefieren limitar la duración de los trabajos interactivos y cerrarlos automáticamente.
+
+
+La siguiente figura muestra la vista proyectos con cuatro equipos creados. A cada equipo se le asigna un número diferente de GPU para dar cuenta de diferentes cargas de trabajo, con un número total de GPU igual al de las GPU disponibles totales en un clúster que consta de dos DGX-1s.
+
+image:osrunai_image4.png["Error: Falta la imagen gráfica"]
+
+link:osrunai_submitting_jobs_in_run_ai_cli.html["Siguiente: Envío de trabajos en la CLI de Run AI"]

@@ -1,0 +1,332 @@
+---
+sidebar: sidebar 
+permalink: databases/hybrid_dbops_snapcenter_getting_started_aws.html 
+summary: En esta sección se describe el proceso de puesta en marcha de Cloud Manager y Cloud Volumes ONTAP en AWS. 
+keywords: AWS, cloud volumes ontap, cloud manager, deploy 
+---
+= Introducción al cloud público de AWS
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:table-stripes: odd
+:imagesdir: ./../media/
+
+
+link:hybrid_dbops_snapcenter_getting_started_onprem.html["Anterior: Introducción a las instalaciones."]
+
+
+
+== Cloud público de AWS
+
+
+NOTE: Para facilitar el seguimiento de las cosas, hemos creado este documento a partir de una puesta en marcha en AWS. Sin embargo, el proceso es muy similar para Azure y GCP.
+
+
+
+=== 1. Control previo al vuelo
+
+Antes de la puesta en marcha, asegúrese de que se ha implementado la infraestructura para permitir la puesta en marcha en la siguiente etapa. Esto incluye lo siguiente:
+
+* Cuenta de AWS
+* VPC en su región de preferencia
+* Subred con acceso a Internet pública
+* Permisos para añadir roles IAM a la cuenta de AWS
+* Una clave secreta y una clave de acceso para el usuario de AWS
+
+
+
+
+=== 2. Pasos para poner en marcha Cloud Manager y Cloud Volumes ONTAP en AWS
+
+
+NOTE: Existen muchos métodos para poner en marcha Cloud Manager y Cloud Volumes ONTAP; este método es el más sencillo pero requiere el mayor número de permisos. Si este método no es adecuado para su entorno AWS, consulte https://docs.netapp.com/us-en/occm/task_creating_connectors_aws.html["Documentación sobre cloud de NetApp"^].
+
+
+
+==== Ponga en marcha el conector Cloud Manager
+
+. Vaya a. https://cloud.netapp.com/cloud-manager["Cloud Central de NetApp"^] e inicie sesión o regístrese.
++
+image:cloud_central_login_page.PNG["Error: Falta la imagen gráfica"]
+
+. Después de iniciar sesión, se le debe llevar al lienzo.
++
+image:cloud_central_canvas_page.PNG["Error: Falta la imagen gráfica"]
+
+. Haga clic en "Add Working Environment" y elija Cloud Volumes ONTAP en AWS. Aquí, también puede elegir si desea poner en marcha un sistema de nodo único o un par de alta disponibilidad. He decidido implementar un par de alta disponibilidad.
++
+image:cloud_central_add_we.PNG["Error: Falta la imagen gráfica"]
+
+. Si no se ha creado ningún conector, aparece una ventana emergente que le pide que cree un conector.
++
+image:cloud_central_add_conn_1.PNG["Error: Falta la imagen gráfica"]
+
+. Haga clic en lets Start y, a continuación, seleccione AWS.
++
+image:cloud_central_add_conn_3.PNG["Error: Falta la imagen gráfica"]
+
+. Introduzca la clave secreta y la clave de acceso. Asegúrese de que el usuario tiene los permisos correctos descritos en https://mysupport.netapp.com/site/info/cloud-manager-policies["Página de políticas de NetApp"^].
++
+image:cloud_central_add_conn_4.PNG["Error: Falta la imagen gráfica"]
+
+. Asigne al conector un nombre y utilice una función predefinida como se describe en https://mysupport.netapp.com/site/info/cloud-manager-policies["Página de políticas de NetApp"^] O pida a Cloud Manager que cree la función que usted desempeña.
++
+image:cloud_central_add_conn_5.PNG["Error: Falta la imagen gráfica"]
+
+. Proporcione la información de red necesaria para implementar el conector. Verifique que el acceso saliente a Internet esté habilitado por:
++
+.. Dar al conector una dirección IP pública
+.. Dar al conector un proxy a través del cual trabajar
+.. Dar al conector una ruta a Internet pública a través de una puerta de enlace de Internet
++
+image:cloud_central_add_conn_6.PNG["Error: Falta la imagen gráfica"]
+
+
+
+. Proporcione comunicación con el conector a través de SSH, HTTP y HTTPS ya sea proporcionando un grupo de seguridad o creando un nuevo grupo de seguridad. Sólo he habilitado el acceso al conector desde mi dirección IP.
++
+image:cloud_central_add_conn_7.PNG["Error: Falta la imagen gráfica"]
+
+. Revise la información de la página de resumen y haga clic en Agregar para implementar el conector.
++
+image:cloud_central_add_conn_8.PNG["Error: Falta la imagen gráfica"]
+
+. El conector ahora se pone en marcha utilizando una pila de formación de cloud. Puede supervisar su progreso desde Cloud Manager o a través de AWS.
++
+image:cloud_central_add_conn_9.PNG["Error: Falta la imagen gráfica"]
+
+. Una vez completada la implementación, aparece una página Success.
++
+image:cloud_central_add_conn_10.PNG["Error: Falta la imagen gráfica"]
+
+
+
+
+
+==== Ponga en marcha Cloud Volumes ONTAP
+
+. Seleccione AWS y el tipo de implementación según sus requisitos.
++
+image:cloud_central_add_we_1.PNG["Error: Falta la imagen gráfica"]
+
+. Si no se ha asignado ninguna suscripción y desea comprarla con PAYGO, seleccione Editar credenciales.
++
+image:cloud_central_add_we_2.PNG["Error: Falta la imagen gráfica"]
+
+. Seleccione Agregar suscripción.
++
+image:cloud_central_add_we_3.PNG["Error: Falta la imagen gráfica"]
+
+. Elija el tipo de contrato al que desea suscribirse. Elegí el pago por uso.
++
+image:cloud_central_add_we_4.PNG["Error: Falta la imagen gráfica"]
+
+. Se le redirigirá a AWS; elija continuar Suscribirse.
++
+image:cloud_central_add_we_5.PNG["Error: Falta la imagen gráfica"]
+
+. Suscríbase y se le redirigirá a Cloud Central de NetApp. Si ya se ha suscrito y no se redirecciona, elija el enlace "haga clic aquí".
++
+image:cloud_central_add_we_6.PNG["Error: Falta la imagen gráfica"]
+
+. Se le redirigirá a Cloud Central, donde debe dar un nombre a su suscripción y asignarla a su cuenta de Cloud Central.
++
+image:cloud_central_add_we_7.PNG["Error: Falta la imagen gráfica"]
+
+. Cuando se realiza correctamente, aparece una página de Marca de verificación. Vuelva a la pestaña Cloud Manager.
++
+image:cloud_central_add_we_8.PNG["Error: Falta la imagen gráfica"]
+
+. La suscripción aparece ahora en Cloud Central. Haga clic en aplicar para continuar.
++
+image:cloud_central_add_we_9.PNG["Error: Falta la imagen gráfica"]
+
+. Introduzca los detalles del entorno de trabajo como:
++
+.. Nombre del clúster
+.. Contraseña del clúster
+.. Etiquetas de AWS (opcional)
++
+image:cloud_central_add_we_10.PNG["Error: Falta la imagen gráfica"]
+
+
+
+. Elija los servicios adicionales que le gustaría poner en marcha. Para obtener más información sobre estos servicios, visite la https://cloud.netapp.com["Página de inicio de cloud de NetApp"^].
++
+image:cloud_central_add_we_11.PNG["Error: Falta la imagen gráfica"]
+
+. Elija si desea implementar en varias zonas de disponibilidad (reguarida tres subredes, cada una en una zona AZ diferente) o una única zona de disponibilidad. Elegí varios AZs.
++
+image:cloud_central_add_we_12.PNG["Error: Falta la imagen gráfica"]
+
+. Elija la región, VPC y grupo de seguridad del clúster en el que se pondrá en marcha. En esta sección, también se asignan las zonas de disponibilidad por nodo (y mediador), así como las subredes que ocupan.
++
+image:cloud_central_add_we_13.PNG["Error: Falta la imagen gráfica"]
+
+. Elija los métodos de conexión tanto para los nodos como para el mediador.
++
+image:cloud_central_add_we_14.PNG["Error: Falta la imagen gráfica"]
+
+
+
+
+TIP: El mediador requiere comunicación con las API de AWS. No se requiere una dirección IP pública mientras se pueda acceder a las API después de que se haya puesto en marcha la instancia del mediador EC2.
+
+. Las direcciones IP flotantes se usan para permitir el acceso a las diferentes direcciones IP que usa Cloud Volumes ONTAP, incluidas las IP de administración de clústeres y servicio de datos. Deben ser direcciones que no se puedan enrutar ya dentro de su red y que se agreguen a tablas de rutas en su entorno AWS. Estos son necesarios para habilitar direcciones IP constantes para un par de alta disponibilidad durante la conmutación por error. Puede encontrar más información acerca de las direcciones IP flotantes en el https://docs.netapp.com/us-en/occm/reference_networking_aws.html#requirements-for-ha-pairs-in-multiple-azs["Documentación en cloud de NetApp"^].
++
+image:cloud_central_add_we_15.PNG["Error: Falta la imagen gráfica"]
+
+. Seleccione a qué tablas de rutas se agregan las direcciones IP flotantes. Los clientes utilizan estas tablas de ruta para comunicarse con Cloud Volumes ONTAP.
++
+image:cloud_central_add_we_16.PNG["Error: Falta la imagen gráfica"]
+
+. Elija si habilitar el cifrado gestionado de AWS o AWS KMS para cifrar los discos raíz, de arranque y de datos de ONTAP.
++
+image:cloud_central_add_we_17.PNG["Error: Falta la imagen gráfica"]
+
+. Elija su modelo de licencias. Si no sabe qué elegir, póngase en contacto con su representante de NetApp.
++
+image:cloud_central_add_we_18.PNG["Error: Falta la imagen gráfica"]
+
+. Seleccione la configuración que mejor se ajuste a su caso de uso. Esto se relaciona con las consideraciones de tamaño que se tratan en la página de requisitos previos.
++
+image:cloud_central_add_we_19.PNG["Error: Falta la imagen gráfica"]
+
+. Opcionalmente, cree un volumen. Esto no es necesario, ya que los siguientes pasos utilizan SnapMirror, que nos crea los volúmenes.
++
+image:cloud_central_add_we_20.PNG["Error: Falta la imagen gráfica"]
+
+. Revise las selecciones que se han realizado y marque las casillas para verificar que entiende que Cloud Manager pone en marcha recursos en su entorno AWS. Al terminar, haga clic en Go.
++
+image:cloud_central_add_we_21.PNG["Error: Falta la imagen gráfica"]
+
+. Cloud Volumes ONTAP inicia ahora su proceso de puesta en marcha. Cloud Manager utiliza las API de AWS y las pilas de formación de cloud para poner en marcha Cloud Volumes ONTAP. A continuación, configura el sistema de acuerdo con sus especificaciones, lo que le proporciona un sistema listo para usar que se puede utilizar al instante. El tiempo de este proceso varía en función de las selecciones realizadas.
++
+image:cloud_central_add_we_22.PNG["Error: Falta la imagen gráfica"]
+
+. Puede supervisar el progreso navegando hasta la línea de tiempo.
++
+image:cloud_central_add_we_23.PNG["Error: Falta la imagen gráfica"]
+
+. La línea de tiempo actúa como una auditoría de todas las acciones realizadas en Cloud Manager. Puede ver todas las llamadas API que realiza Cloud Manager durante la configuración en AWS y en el clúster de ONTAP. Esto también se puede utilizar de manera eficaz para solucionar cualquier problema que tenga.
++
+image:cloud_central_add_we_24.PNG["Error: Falta la imagen gráfica"]
+
+. Una vez completada la implementación, aparece el clúster CVO en el lienzo, que es la capacidad actual. El clúster de ONTAP en su estado actual está totalmente configurado para permitir una experiencia realmente lista para usar.
++
+image:cloud_central_add_we_25.PNG["Error: Falta la imagen gráfica"]
+
+
+
+
+
+==== Configure SnapMirror de las instalaciones al cloud
+
+Ahora que tiene un sistema ONTAP de origen y un sistema ONTAP de destino implementados, puede replicar los volúmenes que contienen datos de base de datos en el cloud.
+
+Para obtener una guía sobre las versiones compatibles de ONTAP para SnapMirror, consulte https://docs.netapp.com/ontap-9/index.jsp?topic=%2Fcom.netapp.doc.pow-dap%2FGUID-0810D764-4CEA-4683-8280-032433B1886B.html["Matriz de compatibilidad de SnapMirror"^].
+
+. Haga clic en el sistema ONTAP de origen (en las instalaciones) y arrástrelo y colóquelo en el destino, seleccione replicación > Habilitar o seleccione replicación > Menú > replicar.
++
+image:cloud_central_replication_1.png["Error: Falta la imagen gráfica"]
+
++
+Seleccione Habilitar.
+
++
+image:cloud_central_replication_2.png["Error: Falta la imagen gráfica"]
+
++
+U Opciones.
+
++
+image:cloud_central_replication_3.png["Error: Falta la imagen gráfica"]
+
++
+Replicar.
+
++
+image:cloud_central_replication_4.png["Error: Falta la imagen gráfica"]
+
+. Si no ha arrastrado ni solado, elija el clúster de destino al que se va a replicar.
++
+image:cloud_central_replication_5.png["Error: Falta la imagen gráfica"]
+
+. Elija el volumen que desea replicar. Replicamos los datos y todos los volúmenes de registro.
++
+image:cloud_central_replication_6.png["Error: Falta la imagen gráfica"]
+
+. Elija el tipo de disco de destino y la política de organización en niveles. Para la recuperación ante desastres, recomendamos un SSD como tipo de disco y mantener la organización en niveles de los datos. Organización en niveles de datos ordena los datos duplicados en un almacenamiento de objetos de bajo coste y ahorra dinero en discos locales. Cuando se rompe la relación o se clona el volumen, los datos utilizan el almacenamiento local rápido.
++
+image:cloud_central_replication_7.png["Error: Falta la imagen gráfica"]
+
+. Seleccione el nombre del volumen de destino: Se ha elegido `[source_volume_name]_dr`.
++
+image:cloud_central_replication_8.png["Error: Falta la imagen gráfica"]
+
+. Seleccione la tasa de transferencia máxima para la replicación. Esto le permite ahorrar ancho de banda si dispone de una conexión de bajo ancho de banda a la nube, como una VPN.
++
+image:cloud_central_replication_9.png["Error: Falta la imagen gráfica"]
+
+. Defina la política de replicación. Elegimos un duplicado, que toma el conjunto de datos más reciente y lo replica en el volumen de destino. También puede elegir una política diferente en función de sus requisitos.
++
+image:cloud_central_replication_10.png["Error: Falta la imagen gráfica"]
+
+. Elija la programación para activar la replicación. NetApp recomienda establecer una programación "diaria" de para el volumen de datos y una programación "por hora" para los volúmenes de registro, aunque esto se puede modificar en función de los requisitos.
++
+image:cloud_central_replication_11.png["Error: Falta la imagen gráfica"]
+
+. Revise la información introducida, haga clic en Go para activar el par de clústeres y la SVM del mismo nivel (si esta es la primera vez que se replica entre los dos clústeres), y, a continuación, implemente e inicialice la relación de SnapMirror.
++
+image:cloud_central_replication_12.png["Error: Falta la imagen gráfica"]
+
+. Continúe este proceso para los volúmenes de datos y los volúmenes de registro.
+. Para comprobar todas sus relaciones, acceda a la pestaña Replication de Cloud Manager. Aquí puede gestionar sus relaciones y comprobar su estado.
++
+image:cloud_central_replication_13.png["Error: Falta la imagen gráfica"]
+
+. Una vez que se han replicado todos los volúmenes, tiene un estado constante y listo para pasar a los flujos de trabajo de recuperación ante desastres y de desarrollo y pruebas.
+
+
+
+
+=== 3. Implemente la instancia de computación de EC2 para las cargas de trabajo de bases de datos
+
+AWS ha preconfigurado instancias informáticas de EC2 para distintas cargas de trabajo. La elección del tipo de instancia determina el número de núcleos de CPU, la capacidad de memoria, el tipo de almacenamiento y la capacidad, y el rendimiento de la red. Para los casos de uso, con la excepción de la partición del sistema operativo, el almacenamiento principal para ejecutar la carga de trabajo de la base de datos se asigna desde CVO o el motor de almacenamiento FSX ONTAP. Por lo tanto, los principales factores que se deben tener en cuenta son la elección de los núcleos de CPU, la memoria y el nivel de rendimiento de la red. Aquí pueden encontrar los tipos de instancia típicos de AWS EC2: https://us-east-2.console.aws.amazon.com/ec2/v2/home?region=us-east-2#InstanceTypes:["Tipo de instancia de EC2"].
+
+
+
+==== Configurar el tamaño de la instancia de computación
+
+. Seleccione el tipo de instancia correcto en función de la carga de trabajo requerida. Entre los factores a tener en cuenta se incluye el número de transacciones de negocio que se deben admitir, el número de usuarios simultáneos, el tamaño de los conjuntos de datos, etc.
+. La implementación de instancias de EC2 se puede iniciar a través de la consola de EC2. Los procedimientos exactos de puesta en marcha superan el alcance de esta solución. Consulte https://aws.amazon.com/pm/ec2/?trk=ps_a134p000004f2ZGAAY&trkCampaign=acq_paid_search_brand&sc_channel=PS&sc_campaign=acquisition_US&sc_publisher=Google&sc_category=Cloud%20Computing&sc_country=US&sc_geo=NAMER&sc_outcome=acq&sc_detail=%2Bec2%20%2Bcloud&sc_content=EC2%20Cloud%20Compute_bmm&sc_matchtype=b&sc_segment=536455698896&sc_medium=ACQ-P|PS-GO|Brand|Desktop|SU|Cloud%20Computing|EC2|US|EN|Text&s_kwcid=AL!4422!3!536455698896!b!!g!!%2Bec2%20%2Bcloud&ef_id=EAIaIQobChMIua378M-p8wIVToFQBh0wfQhsEAMYASAAEgKTzvD_BwE:G:s&s_kwcid=AL!4422!3!536455698896!b!!g!!%2Bec2%20%2Bcloud["Amazon EC2"] para obtener más detalles.
+
+
+
+
+==== Configuración de instancias de Linux para carga de trabajo de Oracle
+
+Esta sección contiene pasos de configuración adicionales después de implementar una instancia de EC2 Linux.
+
+. Agregue una instancia de Oracle en espera al servidor DNS para la resolución de nombres dentro del dominio de administración de SnapCenter.
+. Añada un ID de usuario de gestión de Linux como las credenciales del sistema operativo SnapCenter con permisos sudo sin contraseña. Habilite el ID con la autenticación de contraseña de SSH en la instancia de EC2. (De forma predeterminada, la autenticación de contraseña SSH y sudo sin contraseñas está desactivada en instancias de EC2).
+. Configurar la instalación de Oracle de modo que coincida con la instalación de Oracle en las instalaciones, como los parches de sistema operativo, las versiones y parches de Oracle, etc.
+. Los roles de automatización de bases de datos de Ansible de NetApp pueden aprovecharse para configurar instancias de EC2 para casos de uso de desarrollo y pruebas de bases de datos y recuperación ante desastres. El código de automatización puede descargarse del sitio de GitHub público de NetApp: https://github.com/NetApp-Automation/na_oracle19c_deploy["Implementación automatizada de Oracle 19c"^]. El objetivo consiste en instalar y configurar una pila de software de base de datos en una instancia de EC2 para coincidir con las configuraciones de sistemas operativos y bases de datos locales.
+
+
+
+
+==== Configuración de instancias de Windows para carga de trabajo de SQL Server
+
+En esta sección se enumeran los pasos de configuración adicionales tras la implementación inicial de una instancia de EC2 de Windows.
+
+. Recupere la contraseña del administrador de Windows para iniciar sesión en una instancia mediante RDP.
+. Deshabilite el firewall de Windows, únase al host al dominio de Windows SnapCenter y agregue la instancia al servidor DNS para la resolución de nombres.
+. Aprovisionar un volumen de registro de SnapCenter para almacenar los archivos de registro de SQL Server.
+. Configure iSCSI en el host Windows para montar el volumen y formatear la unidad de disco.
+. De nuevo, muchas de las tareas anteriores se pueden automatizar con la solución de automatización de NetApp para SQL Server. Visite el sitio de GitHub público de automatización de NetApp para comprobar las funciones y soluciones recién publicadas: https://github.com/NetApp-Automation["Automatización de NetApp"^].
+
+
+link:hybrid_dbops_snapcenter_devtest.html["Siguiente: Flujo de trabajo para ráfagas de desarrollo y pruebas al cloud."]

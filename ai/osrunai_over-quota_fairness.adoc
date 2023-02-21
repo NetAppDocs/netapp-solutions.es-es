@@ -1,0 +1,60 @@
+---
+sidebar: sidebar 
+permalink: ai/osrunai_over-quota_fairness.html 
+keywords:  
+summary:  
+---
+= Justicia por exceso de cuotas
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+En esta sección, ampliamos el escenario en el que varios equipos envían cargas de trabajo y superan su cuota. De esta manera, mostramos cómo el algoritmo de equidad de Run:AI asigna recursos de clúster según la proporción de cuotas predefinidas.
+
+Objetivos de este escenario de prueba:
+
+* Muestra el mecanismo de cola cuando varios equipos solicitan GPU a través de su cuota.
+* Muestre cómo distribuye el sistema una cuota del clúster entre varios equipos que se encuentran por encima de su cuota en función de la proporción entre sus cuotas, de modo que el equipo con la cuota mayor obtenga una parte mayor de la capacidad de reserva.
+
+
+Al final de link:osrunai_basic_resource_allocation_fairness.html["Equidad en la asignación de recursos básicos"], hay dos cargas de trabajo en cola: una para `team-b` y uno para `team-c`. En esta sección, ponemos en cola las cargas de trabajo adicionales.
+
+Para obtener información detallada, incluidos los envíos de trabajos, las imágenes contenedoras utilizadas y las secuencias de comandos ejecutadas, consulte link:osrunai_testing_details_for_section_4.10.html["Detalles de la prueba para la sección 4.10"].
+
+Cuando todos los trabajos se someten según la sección link:osrunai_testing_details_for_section_4.10.html["Detalles de la prueba para la sección 4.10"], el panel del sistema muestra eso `team-a`, `team-b`, y. `team-c` Todos tienen más GPU que su cuota predefinida. `team-a` Ocupa cuatro GPU más que su cuota de software predefinida (cuatro), mientras que `team-b` y.. `team-c` Cada uno ocupa dos GPU más que su cuota blanda (dos). La proporción de GPU asignadas por encima de una cuota es igual a la de su cuota predefinida. Esto se debe a que el sistema utilizó la cuota preconfigurada como referencia de prioridad y se aprovisionó de manera acorde cuando varios equipos soliciten más GPU, por lo que superó su cuota. Este equilibrio de carga automático proporciona justicia y priorización cuando los equipos de ciencia de datos empresariales están involucrados activamente en el desarrollo y la producción de modelos de IA.
+
+image:osrunai_image10.png["Error: Falta la imagen gráfica"]
+
+Los resultados de este escenario de prueba muestran lo siguiente:
+
+* El sistema empieza a deponer las cargas de trabajo de otros equipos en cola.
+* El orden de la depuesta en cola se decide de acuerdo a los algoritmos de justicia, tal que `team-b` y.. `team-c` Obtenga la misma cantidad de GPU de cuota superior (ya que tienen una cuota similar) y. `team-a` Obtiene una cantidad doble de GPU, ya que su cuota es dos veces superior a la de `team-b` y.. `team-c`.
+* Toda la asignación se realiza automáticamente.
+
+
+Por lo tanto, el sistema debe estabilizarse en los siguientes estados:
+
+|===
+| Proyecto | GPU asignadas | Comentar 
+
+
+| equipo a | 8/4 | Cuatro GPU a lo largo de la cuota. Cola vacía. 
+
+
+| equipo-b | 4/2 | Dos GPU por encima de la cuota. Una carga de trabajo en cola. 
+
+
+| equipo-c | 4/2 | Dos GPU por encima de la cuota. Una carga de trabajo en cola. 
+
+
+| equipo d | 0/8 | No utiliza GPU en absoluto, sin cargas de trabajo en cola. 
+|===
+La siguiente figura muestra la asignación de GPU por proyecto a lo largo del tiempo en el panel Run:AI Analytics de las secciones link:osrunai_achieving_high_cluster_utilization_with_over-uota_gpu_allocation.html["Utilización óptima del clúster gracias a la asignación de GPU por encima de una cuota"], link:osrunai_basic_resource_allocation_fairness.html["Equidad en la asignación de recursos básicos"], y. link:osrunai_over-quota_fairness.html["Justicia por exceso de cuotas"]. Cada línea de la figura indica el número de GPU aprovisionadas para un equipo de ciencias de datos en cualquier momento. Podemos observar que el sistema asigna dinámicamente las GPU de acuerdo con las cargas de trabajo enviadas. Esto permite a los equipos revisar las cuotas cuando hay GPU disponibles en el clúster y, después, adelantarse a los trabajos según sea necesario, antes de alcanzar, por fin, un estado estable para los cuatro equipos.
+
+image:osrunai_image11.png["Error: Falta la imagen gráfica"]
+
+link:osrunai_saving_data_to_a_trident-provisioned_persistentvolume.html["Siguiente: Guardar datos en un volumen persistente aprovisionado por Trident"]

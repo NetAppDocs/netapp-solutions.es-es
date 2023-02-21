@@ -1,0 +1,43 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/bda-ai-hdfs-and-mapr-fs-to-ontap-nfs.html 
+keywords: hdfs, mapr-fs, nfs, ml, dl 
+summary: 'Para esta solución, NetApp validó la migración de datos de un lago de datos (HDFS) y datos de clúster de MapR a NFS de ONTAP. Los datos residían en MapR-FS y HDFS. XCP de NetApp presentó una nueva función que migra directamente los datos de un sistema de archivos distribuido como HDFS y MapR-FS a NFS de ONTAP.' 
+---
+= HDFS y MapR-FS para NFS de ONTAP
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:bda-ai-gpfs-to-netapp-ontap-nfs.html["Anterior: GPFS a ONTAP NFS de NetApp."]
+
+Para esta solución, NetApp validó la migración de datos de un lago de datos (HDFS) y datos de clúster de MapR a NFS de ONTAP. Los datos residían en MapR-FS y HDFS. XCP de NetApp presentó una nueva función que migra directamente los datos de un sistema de archivos distribuido como HDFS y MapR-FS a NFS de ONTAP. XCP utiliza subprocesos asíncronos y llamadas a la API C de HDFS para comunicar y transferir datos de MapR- FS y HDFS. La siguiente figura muestra la migración de datos del lago de datos (HDFS) y MapR-FS a NFS de ONTAP. Con esta nueva función, no es necesario exportar el origen como recurso compartido NFS.
+
+image:bda-ai-image6.png["Error: Falta la imagen gráfica"]
+
+
+
+== ¿Por qué los clientes cambian de HDFS y MapR-FS a NFS?
+
+La mayoría de las distribuciones de Hadoop como Cloudera y Hortonworks utilizan HDFS y las distribuciones de MapR utilizan su propio sistema de archivos denominado MAPR-FS para almacenar datos. Los datos de HDFS y MapR-FS proporcionan información valiosa a los científicos de datos que pueden aprovecharse en aprendizaje automático (ML) y aprendizaje profundo (DL). Los datos en HDFS y MapR-FS no son compartidos, lo que significa que otras aplicaciones no pueden usarla. Los clientes buscan datos compartidos, especialmente en el sector bancario, donde varias aplicaciones utilizan los datos confidenciales de los clientes. La última versión de Hadoop (3.x o posterior) admite un origen de datos NFS, al que se puede acceder sin necesidad de software adicional de terceros. Con la nueva función XCP de NetApp, los datos pueden moverse directamente desde HDFS y MapR-FS a NFS de NetApp para proporcionar acceso a varias aplicaciones
+
+Las pruebas se realizaron en Amazon Web Services (AWS) para transferir los datos de MapR-FS a NFS para la prueba de rendimiento inicial con 12 nodos MAPR y 4 servidores NFS.
+
+|===
+|  | Cantidad | Tamaño | VCPU | Memoria | Reducida | Red 
+
+
+| Servidor NFS | 4 | i3en.24xgrande | 96 | 488 GIB | 8 7500 SSD NVMe | 100 
+
+
+| Nodos MAPR | 12 | I3en.12xLarge | 48 | 384 GIB | 4x 7500 SSD NVMe | 50 
+|===
+Basándonos en la prueba inicial, obtuvimos un rendimiento de 20 Gbps y pudimos transferir 2 PB por día de datos.
+
+Para obtener más información acerca de la migración de datos HDFS sin exportar HDFS a NFS, consulte la sección «pasos de puesta en marcha: NAS» en https://docs.netapp.com/us-en/netapp-solutions/xcp/xcp-bp-deployment-steps.html["TR-4863: TR-4863: Directrices sobre las mejores prácticas para NetApp XCP: Movimiento de datos, migración de archivos y análisis"^].
+
+link:bda-ai-business-benefits.html["Siguiente: Ventajas empresariales."]

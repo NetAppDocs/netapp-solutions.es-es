@@ -1,0 +1,54 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/hdcs-sh-use-case-3--enabling-devtest-on-existing-hadoop-data.html 
+keywords: devtest, hadoop, spark, analytics data, reporting 
+summary: En este caso de uso, el requisito del cliente es crear de forma rápida y eficiente clústeres Hadoop/Spark basados en un clúster de Hadoop existente que contenga una gran cantidad de datos de análisis para DevTest y fines de generación de informes en el mismo centro de datos y en ubicaciones remotas. 
+---
+= Caso de uso 3: Activación de DevTest en datos de Hadoop existentes
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:hdcs-sh-use-case-2--backup-and-disaster-recovery-from-the-cloud-to-on-premises.html["Anterior: Caso de uso 2: Backup y recuperación ante desastres del cloud a las instalaciones."]
+
+En este caso de uso, el requisito del cliente es crear de forma rápida y eficiente clústeres Hadoop/Spark basados en un clúster de Hadoop existente que contenga una gran cantidad de datos de análisis para DevTest y fines de generación de informes en el mismo centro de datos y en ubicaciones remotas.
+
+
+
+== Situación
+
+En este escenario, se han creado varios clústeres de Spark/Hadoop a partir de una implementación de lagos de datos de Hadoop en las instalaciones y en ubicaciones de recuperación ante desastres.
+
+
+
+== Requisitos y retos
+
+Los principales requisitos y retos de este caso de uso son:
+
+* Cree varios clústeres de Hadoop para DevTest, QA o cualquier otro propósito que requiera el acceso a los mismos datos de producción. El reto que se plantea es clonar un clúster de Hadoop de gran tamaño varias veces al instante y con una gestión muy eficiente del espacio.
+* Sincronice los datos de Hadoop con los equipos de generación de informes y DevTest para obtener eficiencia operativa.
+* Distribuya los datos de Hadoop mediante las mismas credenciales en los clústeres de producción y nuevos.
+* Use directivas programadas para crear de forma eficaz clústeres de control de calidad sin que ello afecte al clúster de producción.
+
+
+
+
+== Solución
+
+La tecnología FlexClone se utiliza para responder a los requisitos que acabamos de describir. La tecnología FlexClone es la copia de lectura/escritura de una copia Snapshot. Lee los datos de la copia snapshot principal y consume únicamente espacio adicional para los bloques nuevos o modificados. Es rápida y permite ahorrar espacio.
+
+En primer lugar, se creó una copia Snapshot del clúster existente mediante un grupo de consistencia de NetApp.
+
+Las copias de Snapshot dentro de NetApp System Manager o del símbolo del sistema del administrador del almacenamiento. Las copias Snapshot del grupo de consistencia son copias Snapshot de grupos coherentes con las aplicaciones y el volumen FlexClone se crea en función de las copias Snapshot del grupo de consistencia. Vale la pena mencionar que un volumen FlexClone hereda la política de exportación NFS del volumen principal. Una vez creada la copia snapshot, debe instalarse un nuevo clúster de Hadoop con fines de DevTest y generación de informes, como se muestra en la siguiente figura. El módulo de análisis in situ accede al volumen NFS clonado desde el nuevo clúster de Hadoop a través de los usuarios del módulo de análisis in situ y de la autorización del grupo para los datos de NFS.
+
+Para tener acceso adecuado, el nuevo clúster debe tener el mismo UID y GUID para los usuarios configurados en los usuarios del módulo de análisis in situ y las configuraciones de grupo.
+
+Esta imagen muestra el clúster de Hadoop para DevTest.
+
+image:hdcs-sh-image11.png["Error: Falta la imagen gráfica"]
+
+link:hdcs-sh-use-case-4--data-protection-and-multicloud-connectivity.html["Siguiente: Caso práctico 4 - Protección de datos y conectividad multicloud."]

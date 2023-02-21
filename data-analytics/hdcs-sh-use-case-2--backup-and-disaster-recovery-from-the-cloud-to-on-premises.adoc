@@ -1,0 +1,53 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/hdcs-sh-use-case-2--backup-and-disaster-recovery-from-the-cloud-to-on-premises.html 
+keywords: cloud-based analytics, apache spark, hadoop, ebs, hdfs 
+summary: Este caso de uso se basa en un cliente de retransmisión que necesita realizar un backup de los datos de análisis basados en cloud en su centro de datos en las instalaciones. 
+---
+= Caso de uso 2: Backup y recuperación ante desastres del cloud a las instalaciones
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:hdcs-sh-use-case-1--backing-up-hadoop-data.html["Anterior: Caso de uso 1: Backup de datos de Hadoop."]
+
+Este caso de uso se basa en un cliente de retransmisión que necesita realizar backups de los datos de análisis basados en cloud en su centro de datos en las instalaciones, como se muestra en la siguiente figura.
+
+image:hdcs-sh-image9.png["Error: Falta la imagen gráfica"]
+
+
+
+== Situación
+
+En este escenario, los datos del sensor del IoT se ingieren en el cloud y se analizan mediante un clúster de código abierto Apache Spark dentro de AWS. El requisito es realizar backups de los datos procesados desde el cloud a las instalaciones.
+
+
+
+== Requisitos y retos
+
+Los principales requisitos y retos de este caso de uso son:
+
+* La habilitación de la protección de datos no debe provocar ningún efecto sobre el rendimiento en el clúster de producción de Spark/Hadoop en el cloud.
+* Los datos de los sensores del cloud necesitan moverse y protegerse a las instalaciones de una forma eficiente y segura.
+* Flexibilidad para transferir datos del cloud a las instalaciones en distintas condiciones, como bajo demanda, instantáneas y durante tiempos de carga en un clúster bajo.
+
+
+
+
+== Solución
+
+El cliente utiliza Elastic Block Store (EBS) de AWS para su almacenamiento HDFS con clúster Spark y recibir datos de sensores remotos a través de Kafka. Por lo tanto, el almacenamiento HDFS actúa como el origen de los datos de backup.
+
+Para cumplir estos requisitos, ONTAP Cloud de NetApp se pone en marcha en AWS y se crea un recurso compartido de NFS para que actúe como objetivo de backup para el clúster de Spark/Hadoop.
+
+Una vez creado el recurso compartido de NFS, se utiliza el módulo de análisis in situ para copiar los datos del almacenamiento EBS de HDFS a la unidad NFS de ONTAP. Después de que los datos residen en NFS en ONTAP Cloud, la tecnología SnapMirror puede utilizarse para reflejar los datos del cloud en un almacenamiento en las instalaciones según sea necesario de una forma segura y eficiente.
+
+Esta imagen muestra el backup y la recuperación ante desastres del cloud a la solución en las instalaciones.
+
+image:hdcs-sh-image10.png["Error: Falta la imagen gráfica"]
+
+link:hdcs-sh-use-case-3--enabling-devtest-on-existing-hadoop-data.html["Siguiente: Caso de uso 3 - activación de DevTest en datos de Hadoop existentes."]

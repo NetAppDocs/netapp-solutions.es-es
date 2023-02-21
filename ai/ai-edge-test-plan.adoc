@@ -1,0 +1,66 @@
+---
+sidebar: sidebar 
+permalink: ai/ai-edge-test-plan.html 
+keywords: test, plan, mlperf, inference, benchmarks 
+summary: Este documento sigue el código de inferencia MLPerf v0.7, el código y las reglas de inferencia MLPerf v1.1. Ejecutamos pruebas de rendimiento diseñadas para la inferencia en el perímetro, tal y como se definen en las tablas de esta sección. 
+---
+= Plan de pruebas
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:ai-edge-technology-overview.html["Anterior: Información general de la tecnología."]
+
+Este documento sigue a la inferencia MLPerf v0.7 https://github.com/mlperf/inference_results_v0.7/tree/master/closed/Lenovo["codificación"^], Inferencia MLPerf v1.1 https://github.com/mlcommons/inference_results_v1.1/tree/main/closed/Lenovo["codificación"^], y. https://github.com/mlcommons/inference_policies/blob/master/inference_rules.adoc["bases de datos"^]. Ejecutamos pruebas de rendimiento MLPerf diseñadas para la inferencia en el perímetro tal y como se definen en la tabla siguiente.
+
+|===
+| Zona | Tarea | Modelo | Conjunto de datos | Tamaño de QSL | Calidad | Limitación de latencia de múltiples flujos 
+
+
+| Visión | Clasificación de imágenes | Resnet50v1.5 | ImageNET (224 x 224) | 1024 | 99% del FP32 | 50 ms 
+
+
+| Visión | Detección de objetos (grande) | SSD- ResNet34 | COCO (1200x1200) | 64 | 99% del FP32 | 66 ms 
+
+
+| Visión | Detección de objetos (pequeño) | SSD- MobileNetsv1 | COCO (300 x 300) | 256 | 99% del FP32 | 50 ms 
+
+
+| Visión | Segmentación de imagen médica | UNET 3D | Brats 2019 (224x224x160) | 16 | 99% y 99.9% del FP32 | n.a. 
+
+
+| Voz | Voz a texto | RNNT | Llibrispeech dev-Clean | 2513 | 99% del FP32 | n.a. 
+
+
+| Idioma | Procesamiento de idiomas | BERT | Escuadra v1.1 | 10833 | 99% del FP32 | n.a. 
+|===
+En la siguiente tabla se presentan los escenarios de referencia de Edge.
+
+|===
+| Zona | Tarea | Escenarios 
+
+
+| Visión | Clasificación de imágenes | Flujo único, sin conexión, multisecuencia 
+
+
+| Visión | Detección de objetos (grande) | Flujo único, sin conexión, multisecuencia 
+
+
+| Visión | Detección de objetos (pequeño) | Flujo único, sin conexión, multisecuencia 
+
+
+| Visión | Segmentación de imagen médica | Flujo único, sin conexión 
+
+
+| Voz | Voz a texto | Flujo único, sin conexión 
+
+
+| Idioma | Procesamiento de idiomas | Flujo único, sin conexión 
+|===
+Realizamos estas pruebas de rendimiento utilizando la arquitectura de almacenamiento en red desarrollada en esta validación y comparamos los resultados de las ejecuciones locales en servidores perimetrales que antes se enviaban al MLPerf. La comparación consiste en determinar cuánto impacto tiene el almacenamiento compartido en el rendimiento de la inferencia.
+
+link:ai-edge-test-configuration.html["Siguiente: Prueba de la configuración."]

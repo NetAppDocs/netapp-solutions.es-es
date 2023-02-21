@@ -1,0 +1,153 @@
+---
+sidebar: sidebar 
+permalink: ai/a400-thinksystem-technology-overview.html 
+keywords: AFF, A400, tech overview, flexgroup, thinksystem, mlperf 
+summary: En esta sección se presentan con mayor detalle los principales componentes de esta solución. 
+---
+= Información general de la tecnología
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:a400-thinksystem-introduction.html["Anterior: Introducción."]
+
+
+
+== Sistemas AFF de NetApp
+
+Los sistemas de almacenamiento AFF de NetApp permiten a las empresas cumplir sus requisitos de almacenamiento con un rendimiento líder del sector, una flexibilidad superior, integración con el cloud y la mejor gestión de datos. Los sistemas AFF han sido diseñados específicamente para flash y ayudan a acelerar, gestionar y proteger los datos esenciales para la empresa.
+
+AFF A400 de NetApp es un sistema de almacenamiento flash NVMe de gama media basado en hardware FAS2650 y medios flash SSD.
+
+image:a400-thinksystem-image3.png["Este gráfico muestra el frente de la controladora de almacenamiento AFF A400 de NetApp."]
+
+image:a400-thinksystem-image4.png["Este gráfico muestra la parte posterior de la controladora de almacenamiento AFF A400 de NetApp."]
+
+Las funciones del sistema de almacenamiento de gama media AFF A400 de NetApp incluyen las siguientes:
+
+* Capacidad efectiva máxima: 702,7 PB
+* Escalado horizontal máximo: 2-24 nodos (12 parejas de alta disponibilidad)
+* Compatibilidad con host de FC de 25 GbE y 16 GB
+* Conectividad RDMA over Converged Ethernet (roce) de 100 GbE con bandejas de almacenamiento de ampliación NVMe
+* Los puertos roce de 100 GbE se pueden utilizar para la conexión adjunta de red de host si no se conectan las bandejas NVMe
+* Bandejas de ampliación de almacenamiento con conectividad SAS completa de 12 Gbps
+* Disponible en dos configuraciones:
++
+** Ethernet: 4 puertos Ethernet de 25 GB (SFP28)
+** Fibre Channel: 4 puertos FC de 16 GB (SFP+)
+
+
+* 100 % lectura aleatoria de 8 KB @,4 ms 400 k IOPS
+
+
+Las funciones AFF A250 de NetApp para puestas en marcha DE IA/ML de gama básica incluyen lo siguiente:
+
+* Capacidad efectiva máxima: 35 PB
+* Escalado horizontal máximo: 2-24 nodos (12 parejas de alta disponibilidad)
+* 440 000 IOPS lecturas aleatorias a 1 ms
+* Basado en la última versión de ONTAP de NetApp, ONTAP 9.8 o posterior
+* Dos puertos Ethernet de 25 GB para alta disponibilidad e interconexión de clúster
+
+
+NetApp también ofrece otros sistemas de almacenamiento, como A800 y AFF A700 de AFF, que proporcionan un mayor rendimiento y escalabilidad para puestas en marcha de IA/ML a gran escala.
+
+
+
+== ONTAP de NetApp
+
+ONTAP 9, la última generación del software de gestión del almacenamiento de NetApp, permite a las empresas modernizar su infraestructura y realizar la transición a un centro de datos preparado para el cloud. ONTAP ofrece las mejores capacidades de gestión de datos y permite la gestión y protección de los datos con un solo conjunto de herramientas, sin importar dónde residan. Los datos también pueden trasladarse libremente allí donde sea necesario: El perímetro, el núcleo o el cloud. ONTAP 9 incluye numerosas funciones que simplifican la gestión de datos, aceleran y protegen los datos esenciales y preparan su infraestructura para el futuro con arquitecturas de cloud híbrido.
+
+
+
+=== Simplificar la gestión de los datos
+
+La gestión de los datos es crucial para las operaciones TECNOLÓGICAS empresariales, de modo que se utilicen recursos apropiados para las aplicaciones y conjuntos de datos. ONTAP incluye las siguientes funciones para facilitar y simplificar las operaciones, y reducir el coste total de las operaciones:
+
+* *Compactación de datos inline y deduplicación expandida.* la compactación de datos reduce el espacio perdido dentro de los bloques de almacenamiento, y la deduplicación aumenta significativamente la capacidad efectiva. Esto es aplicable a los datos almacenados localmente y a los datos organizados en niveles en el cloud.
+* *Calidad de servicio (QoS) mínima, máxima y adaptativa.* los controles granulares de QoS ayudan a mantener los niveles de rendimiento para aplicaciones críticas en entornos altamente compartidos.
+* *ONTAP FabricPool*. Esta función organiza automáticamente en niveles los datos fríos en opciones de almacenamiento en cloud público y privado, incluido el almacenamiento de objetos Amazon Web Services (AWS), Azure y StorageGRID de NetApp.
+
+
+
+
+=== Acelere y proteja sus datos
+
+ONTAP no solo ofrece niveles de rendimiento y protección de datos superiores, sino que amplía estas capacidades de las siguientes maneras:
+
+* *Rendimiento y menor latencia.* ONTAP ofrece el rendimiento más alto posible con la menor latencia posible.
+* *Protección de datos.* ONTAP ofrece capacidades integradas de protección de datos con administración común en todas las plataformas.
+* *Cifrado de volumen de NetApp.* ONTAP ofrece cifrado nativo a nivel de volumen con compatibilidad para la gestión de claves incorporada y externa.
+
+
+
+
+=== Infraestructura preparada para futuros retos
+
+ONTAP 9 ayuda a satisfacer las exigentes y siempre cambiantes necesidades de su empresa:
+
+* *Escalado sencillo y operaciones no disruptivas.* ONTAP admite la adición sin interrupciones de capacidad a las controladoras existentes y a los clústeres de escalado horizontal. Los clientes pueden empezar a utilizar tecnologías punteras como NVMe y FC 32 GB, sin necesidad de realizar costosas migraciones de datos y sin cortes.
+* *Conexión en cloud.* ONTAP es el software de gestión del almacenamiento con mejor conexión en cloud, con opciones de almacenamiento definido por software (ONTAP Select) e instancias nativas del cloud (Cloud Volumes Service de NetApp) en todos los clouds públicos.
+* *Integración con aplicaciones emergentes.* ONTAP ofrece servicios de datos de clase empresarial para plataformas y aplicaciones de próxima generación como OpenStack, Hadoop y MongoDB usando la misma infraestructura que soporta las aplicaciones empresariales existentes.
+
+
+
+
+== FlexGroup Volumes de NetApp
+
+Los conjuntos de datos de entrenamiento suelen ser una colección de potencialmente miles de millones de archivos. Pueden ser archivos de texto, de audio, de vídeo o cualquier otra forma de datos no estructurados que deban almacenarse y procesarse para su lectura en paralelo. El sistema de almacenamiento debe almacenar muchos archivos pequeños y debe leerlos en paralelo, con una entrada y salida secuencial o aleatoria
+
+Un volumen FlexGroup (figura a continuación) es un espacio de nombres único compuesto por múltiples volúmenes constituyentes que se gestiona y actúa como un volumen FlexVol de NetApp entre los administradores de almacenamiento. Los archivos de un volumen de FlexGroup se asignan a volúmenes miembro individuales y no están repartidos en volúmenes o nodos. Ofrecen las siguientes capacidades:
+
+* Hasta 20 petabytes de capacidad y baja latencia predecible para cargas de trabajo con una gran cantidad de metadatos
+* Hasta 400 000 millones de archivos en un mismo espacio de nombres
+* Operaciones en paralelo para cargas de trabajo NAS entre varias CPU, nodos, agregados y volúmenes FlexVol constituyentes
+
+
+image:a400-thinksystem-image5.png["\"Esta imagen muestra un par de controladoras de almacenamiento de alta disponibilidad que contiene muchos volúmenes con archivos principales dentro de una FlexGroup."]"
+
+
+
+== Gama Lenovo ThinkSystem
+
+Los servidores Lenovo ThinkSystem incluyen hardware, software y servicios innovadores que resuelven los desafíos actuales de los clientes y ofrecen un enfoque de diseño modular, evolutivo y adecuado para su propósito para afrontar los desafíos del futuro. Estos servidores se capitalizan en las mejores tecnologías estándar del sector, junto con innovaciones diferenciadas de Lenovo, para proporcionar la mayor flexibilidad posible en servidores x86.
+
+Entre las ventajas clave de la implementación de servidores Lenovo ThinkSystem se incluyen las siguientes:
+
+* Diseños modulares y de gran escalabilidad que crecen con el negocio
+* Resiliencia líder en el sector para ahorrar horas de costosos tiempos de inactividad no programados
+* Tecnologías flash rápidas para reducir las latencias, acelerar los tiempos de respuesta y gestionar los datos de forma más inteligente en tiempo real
+
+
+En el ámbito de la IA, Lenovo está adoptando un enfoque práctico para ayudar a las empresas a comprender y adoptar las ventajas DEL APRENDIZAJE AUTOMÁTICO y la IA para sus cargas de trabajo. Los clientes de Lenovo pueden explorar y evaluar las ofertas de IA de Lenovo en los centros de innovación de IA de Lenovo para comprender por completo el valor de su caso de uso en particular. Con el fin de mejorar la rentabilidad de la inversión, este enfoque centrado en el cliente ofrece a los clientes pruebas de concepto para plataformas de desarrollo de soluciones listas para usar y optimizadas para la IA.
+
+
+
+=== Lenovo SR670 V2
+
+El servidor en rack Lenovo ThinkSystem SR670 V2 ofrece un rendimiento óptimo para una IA acelerada y una informática de alto rendimiento (HPC). Con soporte para hasta ocho GPU, la SR670 V2 es adecuada para los requisitos de cargas de trabajo informáticas intensivas DE ML, DL e inferencia.
+
+image:a400-thinksystem-image6.png["Esta imagen muestra tres configuraciones SR670. La primera muestra cuatro GPU SXM con ocho unidades HS de 2.5 pulgadas y 2 ranuras I/o PCIe. El segundo muestra cuatro ranuras GPU de ancho doble u ocho de ancho único y dos ranuras PCIe de I/o con ocho unidades HS de 2.5 o cuatro de 3.5 pulgadas. El tercero muestra ocho ranuras GPU de doble anchura con seis unidades EDSFF HS y dos ranuras PCIe I/O."]
+
+Con las CPU Intel Xeon más recientes y escalables que admiten GPU de gama alta (incluida la GPU 8x PCIe NVIDIA A100 de 80 GB), ThinkSystem SR670 V2 ofrece un rendimiento optimizado y acelerado para cargas de trabajo de IA y computación de alto rendimiento.
+
+Puesto que en más cargas de trabajo se utiliza el rendimiento de los aceleradores, ha aumentado la demanda de densidad de GPU. Sectores como el comercio minorista, los servicios financieros, la energía y la sanidad utilizan GPU para obtener una mayor información e impulsar la innovación con APRENDIZAJE AUTOMÁTICO, DL y técnicas de inferencia.
+
+ThinkSystem SR670 V2 es una solución empresarial optimizada para poner en marcha cargas de trabajo aceleradas de HPC e IA en la producción, maximizando el rendimiento del sistema a la vez que mantiene la densidad del centro de datos para los clústeres de supercomputación con plataformas de última generación.
+
+Entre otras funciones se incluyen las siguientes:
+
+* Compatibilidad con I/o RDMA directa de GPU en la que los adaptadores de red de alta velocidad están conectados directamente a las GPU para maximizar el rendimiento de I/O.
+* Compatibilidad con almacenamiento directo de GPU en el que las unidades NVMe están conectadas directamente a las GPU para maximizar el rendimiento del almacenamiento.
+
+
+
+
+== Rendim. MLPerf
+
+MLPerf es el conjunto de pruebas de rendimiento líder del sector para evaluar el rendimiento de la IA. En esta validación, utilizamos su punto de referencia de clasificación de imágenes con MXNet, uno de los marcos de IA más populares. El script de formación MXNet_Benchmark se utilizó para impulsar la formación de IA. El script contiene implementaciones de varios modelos convencionales populares y está diseñado para ser lo más rápido posible. Puede ejecutarse en una sola máquina o ejecutarse en modo distribuido entre varios hosts.
+
+link:a400-thinksystem-test-plan.html["Siguiente: Plan de pruebas."]

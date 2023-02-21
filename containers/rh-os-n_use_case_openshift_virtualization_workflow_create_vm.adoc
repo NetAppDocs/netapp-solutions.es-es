@@ -1,0 +1,38 @@
+---
+sidebar: sidebar 
+permalink: containers/rh-os-n_use_case_openshift_virtualization_workflow_create_vm.html 
+keywords: OpenShift, OCP, Astra Trident, NetApp ONTAP, Red Hat OpenShift, OpenShift Virtualization, CNV, Container Native Virtualization, Red Hat OpenShift Virtualization 
+summary: OpenShift Virtualization de Red Hat con ONTAP de NetApp 
+---
+= Flujos de trabajo: Virtualización de Red Hat OpenShift con ONTAP de NetApp
+:allow-uri-read: 
+
+
+
+
+== Crear una máquina virtual
+
+Las máquinas virtuales son implementaciones con estado que requieren volúmenes para alojar el sistema operativo y los datos. Con CNV, debido a que las máquinas virtuales se ejecutan como POD, las máquinas virtuales se encuentran respaldadas por VP alojado en ONTAP de NetApp por Trident. Estos volúmenes están conectados como discos y almacenan todo el sistema de archivos, incluido el origen de arranque de la máquina virtual.
+
+image::redhat_openshift_image52.jpg[Crear la arquitectura de VM]
+
+Para crear una máquina virtual en el clúster de OpenShift, lleve a cabo los siguientes pasos:
+
+. Desplácese hasta Workloads > Virtualization > Virtual Machines y haga clic en Create > with Wizard.
+. Seleccione el sistema operativo que desee y haga clic en Siguiente.
+. Si el sistema operativo seleccionado no tiene configurada ninguna fuente de inicio, debe configurarla. En origen de arranque, seleccione si desea importar la imagen del sistema operativo desde una dirección URL o desde un registro y proporcione los detalles correspondientes. Expanda Advanced y seleccione el tipo de almacenamiento con backup Trident. A continuación, haga clic en Siguiente.
++
+image::redhat_openshift_image53.JPG[Crear origen de arranque para máquina virtual]
+
+. Si el sistema operativo seleccionado ya tiene configurada una fuente de inicio, se puede omitir el paso anterior.
+. En el panel Review and Create, seleccione el proyecto en el que desea crear la máquina virtual y proporcione los detalles de la máquina virtual. Asegúrese de que el origen de arranque está seleccionado para que sea Clone y arranque desde CD-ROM con el PVC apropiado asignado al sistema operativo seleccionado.
++
+image::redhat_openshift_image54.JPG[Crear una máquina virtual]
+
+. Si desea personalizar la máquina virtual, haga clic en Personalizar máquina virtual y modifique los parámetros necesarios.
+. Haga clic en Crear máquina virtual para crear la máquina virtual; esto hace girar un pod correspondiente en segundo plano.
+
+
+Cuando se configura un origen de arranque para una plantilla o un sistema operativo a partir de una dirección URL o de un registro, crea un PVC en el `openshift-virtualization-os-images` Proyecta y descarga la imagen invitada de KVM en el PVC. Debe asegurarse de que las RVP de plantilla tienen suficiente espacio aprovisionado para acomodar la imagen invitada KVM para el SO correspondiente. Estos EVs se clonan y se adjuntan como rootdisks a máquinas virtuales cuando se crean utilizando las plantillas respectivas en cualquier proyecto.
+
+link:rh-os-n_use_case_openshift_virtualization_workflow_vm_live_migration.html["Siguiente: Flujos de trabajo: Migración en vivo de máquinas virtuales."]

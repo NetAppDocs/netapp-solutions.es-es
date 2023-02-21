@@ -1,0 +1,106 @@
+---
+sidebar: sidebar 
+permalink: ai/runai-ld_solution_overview.html 
+keywords: azure, lane, detection, architecture, ai, run, machine learning 
+summary: 'En esta arquitectura, lo primordial es la parte de cálculo más intensivo del proceso de formación distribuida de detección de carriles POR inteligencia artificial o aprendizaje automático (ML).' 
+---
+= Descripción general de la solución
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+En esta arquitectura, lo primordial es la parte de cálculo más intensivo del proceso de formación distribuida de detección de carriles POR inteligencia artificial o aprendizaje automático (ML). La detección de carriles es una de las tareas más importantes en la conducción autónoma, que ayuda a guiar los vehículos por la localización de las marcas de carril. Los componentes estáticos, como las marcas de carril, guían al vehículo a conducir por la carretera de forma interactiva y segura.
+
+Los enfoques basados en la red neuronal convolucional (CNN) han empujado la comprensión y segmentación de la escena a un nuevo nivel. Aunque no funciona bien para objetos con estructuras largas y regiones que podrían ser ocluidas (por ejemplo, postes, sombra en el carril, etc.). La Red neuronal convolucional Espacial (SCNN) generaliza la CNN a un rico nivel espacial. Permite la propagación de información entre neuronas en la misma capa, lo que lo hace más adecuado para objetos estructurados como carriles, polos o camiones con oclusiones. Esta compatibilidad se debe a que la información espacial se puede reforzar y conserva la suavidad y la continuidad.
+
+Es necesario inyectar miles de imágenes de escenas en el sistema para permitir que el modelo aprenda y distinga los diversos componentes del conjunto de datos. Estas imágenes incluyen el tiempo, día o noche, carreteras de varios carriles y otras condiciones de tráfico.
+
+Para la formación, es necesario disponer de buena calidad y cantidad de datos. Una única GPU o varias GPU pueden tardar entre días y semanas para completar el entrenamiento. El entrenamiento con distribución de datos puede acelerar el proceso mediante varias GPU de varios nodos. Horovod es uno de esos marcos que concede entrenamiento distribuido pero la lectura de datos en clústeres de GPU puede ser un obstáculo. Azure NetApp Files proporciona un rendimiento elevado y una latencia baja constante ultrarrápida que proporciona funcionalidades de escalado horizontal y escalado vertical, de tal modo que se utilicen las GPU en la mejor capacidad computacional. Nuestros experimentos verificaron que todas las GPU del clúster se utilizan de media más del 96 % para entrenar la detección de carriles con SCNN.
+
+
+
+== Público objetivo
+
+La ciencia de datos incorpora varias disciplinas EN TECNOLOGÍA y negocio, por lo que múltiples personas forman parte de nuestro público objetivo:
+
+* Los científicos de datos necesitan la flexibilidad necesaria para utilizar las herramientas y las bibliotecas que prefieran.
+* Los ingenieros de datos necesitan saber cómo fluyen los datos y dónde residen.
+* Expertos en casos de uso de conducción autónoma.
+* Administradores de cloud y arquitectos para configurar y gestionar recursos de cloud (Azure).
+* Un ingeniero de DevOps necesita herramientas para integrar nuevas aplicaciones de IA/ML en sus canalizaciones de integración continua y de puesta en marcha continua (CI/CD).
+* Los usuarios empresariales quieren tener acceso a aplicaciones de IA/ML.
+
+
+En este documento, describimos cómo Azure NetApp Files, EJECUTA: IA y Microsoft Azure ayudan a cada uno de estos roles a aportar valor empresarial.
+
+
+
+== Tecnología de soluciones
+
+Esta sección abarca los requisitos tecnológicos del caso práctico de detección de carriles al implementar una solución de formación distribuida a escala que se ejecuta completamente en el cloud de Azure. La siguiente figura muestra información general sobre la arquitectura de la solución.
+
+Los elementos utilizados en esta solución son:
+
+* Azure Kubernetes Service (AKS)
+* SKU de Azure Compute con GPU de NVIDIA
+* Azure NetApp Files
+* EJECUCIÓN: IA
+* Trident de NetApp
+
+
+Los vínculos a todos los elementos mencionados aquí se enumeran en el link:runai-ld_additional_information.html["Información adicional"] sección.
+
+image:runai-ld_image2.png["Error: Falta la imagen gráfica"]
+
+
+
+== Requisitos de servicios y recursos cloud
+
+En la siguiente tabla se enumeran los componentes de hardware necesarios para implementar la solución. Los componentes cloud que se usan en cualquier implementación de la solución pueden variar en función de las necesidades del cliente.
+
+|===
+| Cloud | Cantidad 
+
+
+| AKS | Un mínimo de tres nodos de sistema y tres nodos de trabajo de GPU 
+
+
+| Nodos del sistema de SKU de máquinas virtuales (VM) | Tres Standard_DS2_v2 
+
+
+| Nodos de trabajo de GPU de VM SKU | Tres Standard_NC63_v3 
+
+
+| Azure NetApp Files | Nivel estándar de 4 TB 
+|===
+
+
+== Requisitos de software
+
+En la siguiente tabla se enumeran los componentes de software necesarios para implementar la solución. Los componentes de software que se usan en cualquier implementación de la solución pueden variar en función de las necesidades del cliente.
+
+|===
+| De NetApp | Versión u otra información 
+
+
+| AKS - versión Kubernetes | 1.18.14 
+
+
+| EJECUCIÓN: CLI DE IA | v2.2.25 
+
+
+| EJECUTAR:versión del operador de Kubernetes de orquestación de IA | 1.0.109 
+
+
+| Horovod | 0.21.2 
+
+
+| Trident de NetApp | 20.01.1 
+
+
+| Timón | 3.0.0 
+|===

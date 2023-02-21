@@ -1,0 +1,27 @@
+---
+sidebar: sidebar 
+permalink: containers/rh-os-n_use_case_advanced_cluster_management_overview.html 
+keywords: OpenShift, OCP, Astra Trident, NetApp ONTAP, ONTAP, Trident, Red Hat OpenShift, Advanced Cluster Management, Advanced Cluster Management for Kubernetes 
+summary: Advanced Cluster Management para Kubernetes en Red Hat OpenShift con NetApp 
+---
+= Advanced Cluster Management para Kubernetes: Red Hat OpenShift con NetApp
+:allow-uri-read: 
+
+
+A medida que una aplicación en contenedor pasa de desarrollo a producción, muchas organizaciones necesitan varios clústeres de Red Hat OpenShift para poder realizar las pruebas y la implementación de dicha aplicación. En conjunto con esto, las organizaciones suelen alojar varias aplicaciones o cargas de trabajo en clústeres OpenShift. Por lo tanto, cada organización acaba de gestionar un conjunto de clústeres, y los administradores de OpenShift deben afrontar, pues, el reto añadido de gestionar y mantener varios clústeres en una variedad de entornos que abarquen varios centros de datos locales y clouds públicos. Para hacer frente a estos retos, Red Hat ha presentado Advanced Cluster Management for Kubernetes.
+
+Red Hat Advanced Cluster Management for Kubernetes le permite realizar las siguientes tareas:
+
+. Cree, importe y gestione varios clústeres en centros de datos y clouds públicos
+. Ponga en marcha y gestione aplicaciones o cargas de trabajo en varios clústeres desde una única consola
+. Supervisar y analizar el estado y el estado de diferentes recursos del clúster
+. Supervise e implemente el cumplimiento de normativas de seguridad en varios clústeres
+
+
+Red Hat Advanced Cluster Management for Kubernetes se instala como complemento de un clúster de Red Hat OpenShift y utiliza este clúster como controladora central para todas sus operaciones. Este clúster se conoce como clúster concentrador y expone un plano de administración para que los usuarios se conecten a la administración avanzada del clúster. Todos los demás clústeres de OpenShift que se importan o crean a través de la consola de Advanced Cluster Management son gestionados por el clúster de concentrador y se denominan clústeres administrados. Instala un agente llamado Klusterlet en los clústeres gestionados para conectarlos al clúster de concentradores y atender las solicitudes de diferentes actividades relacionadas con la gestión del ciclo de vida de los clústeres, la gestión del ciclo de vida de las aplicaciones, la capacidad de observación y el cumplimiento de la seguridad.
+
+image::redhat_openshift_image65.jpg[Arquitectura de ACM]
+
+Para obtener más información, consulte la documentación https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.2/["aquí"].
+
+link:rh-os-n_use_case_advanced_cluster_management_deployment_prerequisites.html["Siguiente: Requisitos previos de la implementación."]

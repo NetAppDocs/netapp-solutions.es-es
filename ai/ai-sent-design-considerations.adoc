@@ -1,0 +1,52 @@
+---
+sidebar: sidebar 
+permalink: ai/ai-sent-design-considerations.html 
+keywords: network, compute, design, storage, riva, best practices, 
+summary: En esta sección se describen las consideraciones de diseño para los distintos componentes de esta solución. 
+---
+= Consideraciones de diseño
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:ai-sent-architecture.html["Anterior: Arquitectura."]
+
+
+
+== Diseño informático y de red
+
+En función de las restricciones en la seguridad de los datos, todos los datos deben permanecer dentro de la infraestructura del cliente o en un entorno seguro.
+
+image:ai-sent-image9.png["Error: Falta la imagen gráfica"]
+
+
+
+== Diseño del almacenamiento
+
+El kit de herramientas Data OPS de NetApp sirve como servicio principal para gestionar los sistemas de almacenamiento. El kit de herramientas DataOps es una biblioteca Python que facilita a los desarrolladores, científicos de datos, ingenieros de DevOps e ingenieros de datos la tarea de gestión de datos realizar varias tareas de gestión de datos, como el aprovisionamiento casi instantáneo de un nuevo volumen de datos o un espacio de trabajo JJupyterLab, el clonado casi instantáneo de un volumen de datos o el espacio de trabajo JuppyterLab. Y una copia de Snapshot casi instantánea de un volumen de datos o un espacio de trabajo JupyterLab para poder seguir su seguimiento o crear una línea de base. Esta biblioteca de Python puede funcionar como una utilidad de línea de comandos o una biblioteca de funciones que se pueden importar a cualquier programa de Python o a cualquier ordenador portátil Jupyter.
+
+
+
+== Mejores prácticas de RIVA
+
+NVIDIA proporciona varias funciones generales https://docs.nvidia.com/deeplearning/riva/user-guide/docs/best-practices.html["mejores prácticas de datos"^] Para utilizar RIVA:
+
+* *Utilice formatos de audio sin pérdidas si es posible.* el uso de códecs con pérdida como MP3 puede reducir la calidad.
+* *Aumentar los datos de entrenamiento.* la adición de ruido de fondo a los datos de entrenamiento de audio puede inicialmente disminuir la precisión y, sin embargo, aumentar la solidez.
+* *Limite el tamaño del vocabulario si utiliza texto raspado.* muchas fuentes en línea contienen tipopos o pronombres auxiliares y palabras poco comunes. La eliminación de estos elementos puede mejorar el modelo de idioma.
+* *Utilice una frecuencia de muestreo mínima de 16 kHz si es posible.* sin embargo, trate de no resampling, ya que al hacerlo se reduce la calidad de audio.
+
+
+Además de estas mejores prácticas, los clientes deben priorizar la recopilación de un conjunto de datos de ejemplo representativo con etiquetas precisas para cada paso de la canalización. En otras palabras, el conjunto de datos de ejemplo debería reflejar proporcionalmente las características especificadas ejemplificadas en un conjunto de datos de destino. De forma similar, los anotadores del conjunto de datos tienen la responsabilidad de equilibrar la precisión y la velocidad del etiquetado, de modo que se maximice la calidad y la cantidad de los datos. Por ejemplo, esta solución de centro de soporte requiere archivos de audio, etiquetas de texto etiquetadas y etiquetas de sentimiento. La naturaleza secuencial de esta solución significa que los errores desde el principio de la canalización se propagan hasta el final Si los archivos de audio son de mala calidad, las transcripciones de texto y las etiquetas de sentimiento también serán.
+
+Esta propagación de errores también se aplica a los modelos entrenados en estos datos. Si las predicciones de sentimiento son 100% exactas pero el modelo de voz a texto tiene un rendimiento deficiente, entonces la canalización final está limitada por las transcripciones iniciales de audio a texto. Es esencial que los desarrolladores consideren el rendimiento de cada modelo individualmente y como un componente de una canalización mayor. En este caso en particular, el objetivo final es desarrollar una canalización que pueda predecir con precisión el sentimiento. Por lo tanto, la métrica general sobre la cual evaluar la canalización es la precisión de los sentimientos, que afecta directamente la transcripción del habla al texto.
+
+image:ai-sent-image10.png["Error: Falta la imagen gráfica"]
+
+El kit de herramientas DataOPS de NetApp complementa la canalización de comprobación de la calidad de los datos mediante su tecnología de clonado de datos casi instantánea. Cada archivo etiquetado debe evaluarse y compararse con los archivos etiquetados existentes. La distribución de estas comprobaciones de calidad a través de distintos sistemas de almacenamiento de datos garantiza una ejecución rápida y eficaz de estas comprobaciones.
+
+link:ai-sent-deploying-support-center-sentiment-analysis.html["Siguiente: Implementar el análisis de confianza del centro de soporte."]

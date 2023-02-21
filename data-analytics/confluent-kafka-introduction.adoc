@@ -1,0 +1,57 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/confluent-kafka-introduction.html 
+keywords: tr-4912, tr4912, 4912, introduction, best practices, Kafka, confluent 
+summary: Este documento describe las directrices de prácticas recomendadas para usar Kafka en una controladora de almacenamiento de NetApp. 
+---
+= TR-4912: Directrices de mejores prácticas para el almacenamiento por niveles de Confluent Kafka con NetApp
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+Karthikeyan Nagalingam, Joseph Kandatillparambil, NetApp Rankesh Kumar, Confluente
+
+Apache Kafka es una plataforma de transmisión de eventos distribuida por la comunidad capaz de gestionar billones de eventos al día. Inicialmente concebido como una cola de mensajería, Kafka se basa en la abstracción de un registro de confirmación distribuido. Desde que LinkedIn creó y obtuvo el código abierto en 2011, Kafka ha pasado de ser una cola de mensajes a una plataforma de transmisión de eventos completa. Con fluidez, entrega la distribución de Apache Kafka con la plataforma Confluent. La plataforma Confluent complementa a Kafka con otras funciones comerciales y comunitarias diseñadas para mejorar la experiencia en streaming de operadores y desarrolladores en producción a gran escala.
+
+Este documento describe las directrices de mejores prácticas sobre el uso de Confluent Tiered Storage en una oferta de almacenamiento de objetos de NetApp mediante el siguiente contenido:
+
+* Verificación fluida con el almacenamiento de objetos de NetApp – StorageGRID de NetApp
+* Pruebas de rendimiento del almacenamiento por niveles
+* Directrices de prácticas recomendadas para hablar con fluidez de los sistemas de almacenamiento de NetApp
+
+
+
+
+== ¿Por qué Confluent Tiered Storage?
+
+Confluent se ha convertido en la plataforma de streaming en tiempo real predeterminada para muchas aplicaciones, especialmente para cargas de trabajo de Big Data, análisis y streaming. El almacenamiento por niveles permite a los usuarios separar el procesamiento del almacenamiento en la plataforma Confluent. Hace que el almacenamiento de datos sea más rentable, le permite almacenar cantidades de datos virtualmente infinitas y escalar las cargas de trabajo cuanto antes (o incluso reduciendo) bajo demanda, además facilita las tareas administrativas como los datos y el reequilibrio de inquilinos. Los sistemas de almacenamiento compatibles con S3 pueden aprovechar todas estas funcionalidades para democratizar los datos con todos los eventos en un mismo lugar, eliminando la necesidad de realizar una ingeniería de datos compleja. Para obtener más información sobre por qué se debe usar el almacenamiento por niveles para Kafka, consulte link:https://docs.confluent.io/platform/current/kafka/tiered-storage.html#netapp-object-storage["Este artículo de Confluent"^].
+
+
+
+== ¿Por qué utilizar StorageGRID de NetApp para el almacenamiento por niveles?
+
+StorageGRID es una plataforma de almacenamiento de objetos líder en el sector por parte de NetApp. StorageGRID es una solución de almacenamiento basada en cloud definida por software compatible con las API de objetos estándares del sector, incluida la API de Amazon simple Storage Service (S3). StorageGRID almacena y gestiona datos no estructurados a escala para proporcionar un almacenamiento de objetos seguro y duradero. El contenido se sitúa en el lugar, en el momento y el nivel de almacenamiento adecuados, optimizando los flujos de trabajo y reduciendo los costes de la distribución global de medios enriquecidos.
+
+El mayor diferenciador de StorageGRID es su motor de políticas de gestión del ciclo de vida de la información (ILM) que posibilita la gestión del ciclo de vida de los datos condicionada por políticas. El motor de políticas puede utilizar metadatos para gestionar cómo se almacenan los datos a lo largo de su vida útil para optimizar inicialmente el rendimiento y optimizar automáticamente los costes y la durabilidad a medida que los datos envejecen.
+
+
+
+== Habilitar el almacenamiento multinivel fluido
+
+La idea básica del almacenamiento por niveles es separar las tareas del almacenamiento de datos del procesamiento de los datos. Con esta separación, resulta mucho más fácil que el nivel de almacenamiento de datos y el nivel de procesamiento de datos se escalen de forma independiente.
+
+Una solución de almacenamiento por niveles para Confluent debe enfrentarse a dos factores. En primer lugar, debe trabajar o evitar las propiedades comunes de consistencia y disponibilidad de los almacenes de objetos, como incoherencias en las operaciones de LISTA y falta de disponibilidad de objetos ocasionales. En segundo lugar, debe manejar correctamente la interacción entre el almacenamiento organizado por niveles y el modelo de tolerancia a fallos y replicación de Kafka, incluida la posibilidad de que los líderes zombis sigan manteniendo rangos de desviación de nivel. El almacenamiento de objetos de NetApp proporciona tanto la disponibilidad de objetos consistente como el modelo de alta disponibilidad hacen que el almacenamiento cansado esté disponible para gamas de compensación por nivel. El almacenamiento de objetos de NetApp proporciona disponibilidad de objetos coherente y un modelo de alta disponibilidad para que el almacenamiento cansado esté disponible para equidistancias de nivel.
+
+Con el almacenamiento por niveles, puede utilizar plataformas de alto rendimiento para lecturas y escrituras de baja latencia cerca del final de los datos en streaming. Además, puede utilizar almacenes de objetos más económicos y escalables como StorageGRID de NetApp para lecturas históricas de alto rendimiento. También disponemos de una solución técnica para Spark con la controladora de almacenamiento de netapp y nuestros detalles están aquí. La siguiente figura muestra cómo Kafka se adapta a una canalización de análisis en tiempo real.
+
+image:confluent-kafka-image2.png["Error: Falta la imagen gráfica"]
+
+La figura siguiente muestra cómo StorageGRID de NetApp se integra como nivel de almacenamiento de objetos de Confluent Kafka.
+
+image:confluent-kafka-image3.png["Error: Falta la imagen gráfica"]
+
+link:confluent-kafka-solution.html["Siguiente: Detalles de la arquitectura de la solución."]

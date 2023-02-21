@@ -1,0 +1,278 @@
+---
+sidebar: sidebar 
+permalink: databases/aws_ora_fsx_ec2_mgmt.html 
+summary: En esta sección se ofrecen detalles sobre cómo se gestionan los sistemas de almacenamiento personalizados de AWS para las bases de datos de Oracle mediante la interfaz de usuario de SnapCenter como complemento para la interfaz de usuario de la consola de AWS RDS. 
+keywords: HA, DR, database, Oracle, RDS, AWS, SnapCenter 
+---
+= Gestión de bases de datos Oracle EC2 y FSX
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:table-stripes: odd
+:imagesdir: ./../media/
+
+
+link:aws_ora_fsx_ec2_procedures.html["Anterior: Procedimientos de implantación."]
+
+Además de la consola de gestión de AWS EC2 y FSX, el nodo de control de Ansible y la herramienta de interfaz de usuario de SnapCenter se ponen en marcha para la gestión de bases de datos en este entorno de Oracle.
+
+Se puede usar un nodo de control de Ansible para gestionar la configuración de un entorno de Oracle, con actualizaciones paralelas que mantienen las instancias principales y en espera sincronizadas con las actualizaciones del kernel o de las revisiones. La conmutación al nodo de respaldo, la resincronización y la conmutación tras recuperación se pueden automatizar con el kit de herramientas de automatización de NetApp para archivar la disponibilidad y la recuperación rápidas de aplicaciones con Ansible. Algunas tareas de administración de bases de datos repetibles se pueden ejecutar utilizando un libro de aplicaciones para reducir los errores humanos.
+
+La herramienta de interfaz de usuario de SnapCenter puede realizar backup de snapshot de base de datos, recuperación de un momento específico, clonado de base de datos, etc. con el complemento de SnapCenter para bases de datos de Oracle. Para obtener más información sobre las características del complemento Oracle, consulte link:https://docs.netapp.com/ocsc-43/index.jsp?topic=%2Fcom.netapp.doc.ocsc-con%2FGUID-CF6B23A3-2B2B-426F-826B-490706880EE8.html["Información general sobre el plugin de SnapCenter para bases de datos de Oracle"^].
+
+En las siguientes secciones se ofrecen detalles sobre cómo se cumplen las funciones clave de la gestión de bases de datos de Oracle con la interfaz de usuario de SnapCenter:
+
+* Backups de snapshots de base de datos
+* Restauración a un momento específico de la base de datos
+* Creación de clones de base de datos
+
+
+La clonado de bases de datos crea una réplica de una base de datos primaria en un host EC2 independiente para la recuperación de datos en caso de errores o daños en los datos lógicos, y los clones también pueden utilizarse para pruebas de aplicaciones, depuración, validación de parches, etc.
+
+
+
+== Realizar una instantánea
+
+Se realiza una copia de seguridad periódica de una base de datos EC2/FSX a intervalos configurados por el usuario. Un usuario también puede realizar un backup de snapshot único en cualquier momento. Esto se aplica tanto a backups Snapshot de base de datos completa como a backups Snapshot de solo registros de archivo.
+
+
+
+=== Haciendo una instantánea completa de la base de datos
+
+Una instantánea completa de base de datos incluye todos los archivos de Oracle, incluidos los archivos de datos, los archivos de control y los archivos de registro de archivo.
+
+. Inicie sesión en la interfaz de usuario de SnapCenter y haga clic en Resources en el menú que aparece a la izquierda. En el menú desplegable View, cambie a la vista Resource Group.
++
+image:aws_rds_custom_deploy_snp_10.PNG["Error: Falta la imagen gráfica"]
+
+. Haga clic en el nombre completo del recurso de backup y luego en el icono Backup Now para iniciar un backup Add-hoc.
++
+image:aws_rds_custom_deploy_snp_11.PNG["Error: Falta la imagen gráfica"]
+
+. Haga clic en Backup y, a continuación, confirme el backup para iniciar un backup completo de la base de datos.
++
+image:aws_rds_custom_deploy_snp_12.PNG["Error: Falta la imagen gráfica"]
+
++
+En la vista Resource de la base de datos, abra la página Database Managed Backup Copies para comprobar que el backup inicial se ha realizado correctamente. Un backup de base de datos completo crea dos copias de Snapshot: Una para el volumen de datos y otra para el volumen de registro.
+
++
+image:aws_rds_custom_deploy_snp_13.PNG["Error: Falta la imagen gráfica"]
+
+
+
+
+
+=== Tomar una instantánea del registro de archivo
+
+Solo se toma una snapshot de registro de archivos para el volumen de registro de archivos de Oracle.
+
+. Inicie sesión en la interfaz de usuario de SnapCenter y haga clic en la pestaña Resources en la barra de menús de la izquierda. En el menú desplegable View, cambie a la vista Resource Group.
++
+image:aws_rds_custom_deploy_snp_10.PNG["Error: Falta la imagen gráfica"]
+
+. Haga clic en el nombre del recurso de backup de registro y, a continuación, en el icono Backup Now para iniciar un backup Add-hoc para los registros de archivos.
++
+image:aws_rds_custom_deploy_snp_14.PNG["Error: Falta la imagen gráfica"]
+
+. Haga clic en Backup y, a continuación, confirme el backup para iniciar el backup de los registros de archivos.
++
+image:aws_rds_custom_deploy_snp_15.PNG["Error: Falta la imagen gráfica"]
+
++
+En la vista Resource de la base de datos, abra la página Database Managed Backup Copies para verificar que el backup de registro de archivo único se haya completado correctamente. Un backup de registros de archivos crea una copia de Snapshot para el volumen de registro.
+
++
+image:aws_rds_custom_deploy_snp_16.PNG["Error: Falta la imagen gráfica"]
+
+
+
+
+
+== Restauración a un momento específico
+
+La restauración basada en SnapCenter a un momento específico se ejecuta en el mismo host de instancia de EC2. Complete los siguientes pasos para realizar la restauración:
+
+. En la pestaña SnapCenter Resources > Database, haga clic en el nombre de la base de datos para abrir el backup de la base de datos.
++
+image:aws_rds_custom_deploy_snp_17.PNG["Error: Falta la imagen gráfica"]
+
+. Seleccione la copia de backup de la base de datos y el momento específico que desea restaurar. Marque también el número SCN correspondiente para el punto en tiempo. La restauración a un momento específico se puede ejecutar mediante el tiempo o el SCN.
++
+image:aws_rds_custom_deploy_snp_18.PNG["Error: Falta la imagen gráfica"]
+
+. Destaque la copia de Snapshot del volumen de registro y haga clic en el botón Mount para montar el volumen.
++
+image:aws_rds_custom_deploy_snp_19.PNG["Error: Falta la imagen gráfica"]
+
+. Seleccione la instancia primaria de EC2 para montar el volumen de registro.
++
+image:aws_rds_custom_deploy_snp_20.PNG["Error: Falta la imagen gráfica"]
+
+. Compruebe que el trabajo de montaje se haya completado correctamente. Compruebe también el host de la instancia de EC2 para ver el volumen de registro montado y la ruta de punto de montaje.
++
+image:aws_rds_custom_deploy_snp_21_1.PNG["Error: Falta la imagen gráfica"]
+image:aws_rds_custom_deploy_snp_21_2.PNG["Error: Falta la imagen gráfica"]
+
+. Copie los registros de archivos del volumen de registro montado en el directorio actual de registro de archivos.
++
+[listing]
+----
+[ec2-user@ip-10-0-0-151 ~]$ cp /var/opt/snapcenter/sco/backup_mount/ip-10-0-0-151_03-25-2022_11.15.01.1503_1/ORCL/1/db/ORCL_A/arch/*.arc /ora_nfs_log/db/ORCL_A/arch/
+----
+. Vuelva a la página SnapCenter Resource tab > backup de base de datos, destaque la copia de Snapshot de datos y haga clic en el botón Restore para iniciar el flujo de trabajo de restauración de base de datos.
++
+image:aws_rds_custom_deploy_snp_22.PNG["Error: Falta la imagen gráfica"]
+
+. Marque "All Datafiles" y "Change database state if needed for restore and recovery", y haga clic en Next.
++
+image:aws_rds_custom_deploy_snp_23.PNG["Error: Falta la imagen gráfica"]
+
+. Elija el alcance de recuperación que desee mediante SCN o Time. En lugar de copiar los registros de archivo montados en el directorio de registro actual como se muestra en el paso 6, la ruta de acceso de registro de archivo montada puede aparecer en "Specify external archive log locations" para su recuperación.
++
+image:aws_rds_custom_deploy_snp_24_1.PNG["Error: Falta la imagen gráfica"]
+
+. Especifique un script previo opcional para ejecutarlo si es necesario.
++
+image:aws_rds_custom_deploy_snp_25.PNG["Error: Falta la imagen gráfica"]
+
+. Especifique un script posterior opcional para ejecutarlo si es necesario. Compruebe la base de datos abierta después de la recuperación.
++
+image:aws_rds_custom_deploy_snp_26.PNG["Error: Falta la imagen gráfica"]
+
+. Indique un servidor SMTP y una dirección de correo electrónico si se necesita una notificación de trabajo.
++
+image:aws_rds_custom_deploy_snp_27.PNG["Error: Falta la imagen gráfica"]
+
+. Restaure el resumen de trabajos. Haga clic en Finalizar para iniciar el trabajo de restauración.
++
+image:aws_rds_custom_deploy_snp_28.PNG["Error: Falta la imagen gráfica"]
+
+. Validar la restauración desde SnapCenter.
++
+image:aws_rds_custom_deploy_snp_29_1.PNG["Error: Falta la imagen gráfica"]
+
+. Validar la restauración desde el host de la instancia de EC2.
++
+image:aws_rds_custom_deploy_snp_29_2.PNG["Error: Falta la imagen gráfica"]
+
+. Para desmontar el volumen de registro de restauración, invierta los pasos del paso 4.
+
+
+
+
+== Creación de un clon de base de datos
+
+En la siguiente sección se muestra cómo utilizar el flujo de trabajo del clon de SnapCenter para crear un clon de la base de datos desde una base de datos principal a una instancia de EC2 en espera.
+
+. Haga un backup completo de Snapshot de la base de datos primaria de SnapCenter mediante el grupo de recursos de backup completo.
++
+image:aws_rds_custom_deploy_replica_02.PNG["Error: Falta la imagen gráfica"]
+
+. En la ficha recurso de SnapCenter > Vista base de datos, abra la página Gestión de copias de seguridad de la base de datos principal a partir de la cual se creará la réplica.
++
+image:aws_rds_custom_deploy_replica_04.PNG["Error: Falta la imagen gráfica"]
+
+. Monte la snapshot del volumen de registro tomada en el paso 4 en el host de la instancia de EC2 en espera.
++
+image:aws_rds_custom_deploy_replica_13.PNG["Error: Falta la imagen gráfica"]
+image:aws_rds_custom_deploy_replica_14.PNG["Error: Falta la imagen gráfica"]
+
+. Destaque la copia snapshot que se va a clonar para la réplica y haga clic en el botón Clonar para iniciar el procedimiento de clonación.
++
+image:aws_rds_custom_deploy_replica_05.PNG["Error: Falta la imagen gráfica"]
+
+. Cambie el nombre de la copia de réplica para que sea diferente del nombre de la base de datos principal. Haga clic en Siguiente.
++
+image:aws_rds_custom_deploy_replica_06.PNG["Error: Falta la imagen gráfica"]
+
+. Cambie el host del clon al host EC2 en espera, acepte el nombre predeterminado y haga clic en Siguiente.
++
+image:aws_rds_custom_deploy_replica_07.PNG["Error: Falta la imagen gráfica"]
+
+. Cambie la configuración inicial de Oracle para que coincida con la configurada para el host de destino del servidor Oracle y haga clic en Siguiente.
++
+image:aws_rds_custom_deploy_replica_08.PNG["Error: Falta la imagen gráfica"]
+
+. Especifique un punto de recuperación mediante Time o el SCN y la ruta de registro de archivos montada.
++
+image:aws_rds_custom_deploy_replica_15.PNG["Error: Falta la imagen gráfica"]
+
+. Envíe la configuración de correo electrónico SMTP si es necesario.
++
+image:aws_rds_custom_deploy_replica_11.PNG["Error: Falta la imagen gráfica"]
+
+. Clone el resumen de trabajos y haga clic en Finish para iniciar el trabajo de clonado.
++
+image:aws_rds_custom_deploy_replica_12.PNG["Error: Falta la imagen gráfica"]
+
+. Revise el registro de trabajos de clonado para validar el clon de la réplica.
++
+image:aws_rds_custom_deploy_replica_17.PNG["Error: Falta la imagen gráfica"]
+
++
+La base de datos clonada se registra de inmediato en SnapCenter.
+
++
+image:aws_rds_custom_deploy_replica_18.PNG["Error: Falta la imagen gráfica"]
+
+. Desactive el modo de registro de archivo de Oracle. Inicie sesión en la instancia de EC2 como usuario de oracle y ejecute el siguiente comando:
++
+[source, cli]
+----
+sqlplus / as sysdba
+----
++
+[source, cli]
+----
+shutdown immediate;
+----
++
+[source, cli]
+----
+startup mount;
+----
++
+[source, cli]
+----
+alter database noarchivelog;
+----
++
+[source, cli]
+----
+alter database open;
+----
+
+
+
+NOTE: En lugar de ello, las copias de backup primarias de Oracle también se puede crear un clon a partir de copias de backup secundarias replicadas en el clúster FSX de destino con los mismos procedimientos.
+
+
+
+== Conmutación al respaldo DE ALTA DISPONIBILIDAD para modo de espera y resincronización
+
+El clúster de alta disponibilidad de Oracle en espera proporciona una alta disponibilidad en caso de fallo en el sitio principal, ya sea en la capa informática o en la capa de almacenamiento. Un beneficio significativo de la solución es que un usuario puede probar y validar la infraestructura en cualquier momento o con cualquier frecuencia. La conmutación por error puede simularse por el usuario o desencadenarse por un fallo real. Los procesos de conmutación por error son idénticos y se pueden automatizar para una rápida recuperación de aplicaciones.
+
+Consulte la siguiente lista de procedimientos de conmutación por error:
+
+. En caso de una conmutación por error simulada, ejecute un backup de snapshot de registro para vaciar las transacciones más recientes en el sitio en espera, como se muestra en la sección <<Tomar una instantánea del registro de archivo>>. Para una recuperación tras fallos activada por un error real, los últimos datos recuperables se replican en el sitio en espera con el último backup de volumen de registro programado correcto.
+. Rompa la SnapMirror entre el clúster FSX principal y el en espera.
+. Montar los volúmenes de la base de datos en espera replicados en el host de la instancia de EC2 en espera.
+. Vuelva a enlazar el binario de Oracle si se utiliza el binario de Oracle replicado para la recuperación de Oracle.
+. Recupere la base de datos Oracle en espera en el último registro de archivo disponible.
+. Abra la base de datos Oracle en espera para acceder a aplicaciones y usuarios.
+. En el caso de un fallo real del sitio primario, la base de datos de Oracle en espera ahora asume la función del nuevo sitio principal y los volúmenes de base de datos se pueden usar para reconstruir la ubicación primaria en la que se ha producido el fallo como un nuevo sitio en espera con el método SnapMirror inverso.
+. En caso de un fallo simulado en el centro principal para realizar pruebas o validación, cierre la base de datos Oracle en espera después de finalizar los ejercicios de prueba. A continuación, desmonte los volúmenes de la base de datos en espera del host de la instancia de EC2 en espera y vuelva a sincronizar la replicación del sitio principal con el sitio en espera.
+
+
+Puede llevar a cabo estos procedimientos con el kit de herramientas de automatización de NetApp, que puede descargarse en el sitio público de GitHub de NetApp.
+
+[source, cli]
+----
+git clone https://github.com/NetApp-Automation/na_ora_hadr_failover_resync.git
+----
+Lea detenidamente la instrucción README antes de intentar la configuración y la prueba de conmutación por error.
+
+link:aws_ora_fsx_ec2_migration.html["Siguiente: Migración de bases de datos."]

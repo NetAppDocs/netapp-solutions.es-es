@@ -1,0 +1,44 @@
+---
+sidebar: sidebar 
+permalink: ai/aks-anf_training_time_comparison.html 
+keywords: training, time, comparison, pandas, dask, 
+summary: Esta página compara el tiempo de entrenamiento del modelo utilizando pandas convencionales en comparación con DASK. Para Pandas, cargamos una cantidad menor de datos debido a la naturaleza del tiempo de procesamiento más lento, para evitar que se desbordara la memoria. Por lo tanto, interpolamos los resultados para ofrecer una comparación justa. 
+---
+= Comparación del tiempo de entrenamiento
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:aks-anf_monitor_dask_using_native_task_streams_dashboard.html["Anterior: Supervisión de tarea mediante el panel de control de secuencias de tareas nativas."]
+
+Esta sección compara el tiempo de entrenamiento del modelo utilizando pandas convencionales en comparación con el DASK. Para Pandas, cargamos una cantidad menor de datos debido a la naturaleza del tiempo de procesamiento más lento, para evitar que se desbordara la memoria. Por lo tanto, interpolamos los resultados para ofrecer una comparación justa.
+
+La siguiente tabla muestra la comparación del tiempo de entrenamiento bruto cuando hay significativamente menos datos utilizados para el modelo de bosque aleatorio de pandas (50 millones de filas de 20 mil millones por día 15 del conjunto de datos). Esta muestra sólo utiliza menos del 0.25% de todos los datos disponibles. Mientras que para DASK-cuML entrenamos el modelo de bosque aleatorio en las 20 mil millones de filas disponibles. Los dos enfoques dieron lugar a un tiempo de capacitación comparable.
+
+|===
+| Enfoque | Tiempo de entrenamiento 
+
+
+| Scikit-Learn: Usando sólo 50 m de filas en el día 15 como datos de entrenamiento | 47 minutos y 21 segundos 
+
+
+| RAPIDS-Dask: Utilizando todas las filas 20B del día 15 como datos de entrenamiento | 1 hora, 12 minutos y 11 segundos 
+|===
+Si interpolamos los resultados del tiempo de entrenamiento linealmente, como se muestra en la siguiente tabla, hay una ventaja significativa a utilizar el entrenamiento distribuido con DASK. Tomaría el enfoque convencional de Pandas scikit-Learn 13 días para procesar y entrenar 45GB de datos para un solo día de registros tecleo, mientras que EL enfoque RAPIDS-DASk procesa la misma cantidad de datos 262.39 veces más rápido.
+
+|===
+| Enfoque | Tiempo de entrenamiento 
+
+
+| Scikit-Learn: Usando todas las filas 20B en el día15 como datos de entrenamiento | 13 días, 3 horas, 40 minutos y 11 segundos 
+
+
+| RAPIDS-Dask: Utilizando todas las filas 20B del día 15 como datos de entrenamiento | 1 hora, 12 minutos y 11 segundos 
+|===
+En la tabla anterior, puede ver que usando RAPIDS con Dink para distribuir el procesamiento de datos y el entrenamiento de modelos en varias instancias de GPU, el tiempo de ejecución es significativamente más corto en comparación con el procesamiento convencional de Pandas DataFrame con el entrenamiento de modelos scikit-Learn. Este marco permite un escalado vertical y horizontal en el cloud, así como en las instalaciones, en un clúster multinodo con varias GPU.
+
+link:aks-anf_monitor_dask_and_rapids_with_prometheus_and_grafana.html["Siguiente: Monitorizar a Dink y RAPIDS con Prometheus y Grafana."]

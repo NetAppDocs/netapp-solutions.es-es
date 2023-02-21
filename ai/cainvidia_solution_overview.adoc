@@ -1,0 +1,63 @@
+---
+sidebar: sidebar 
+permalink: ai/cainvidia_solution_overview.html 
+keywords: Solution Overview, ONTAP, AI, Cloud Sync, NVIDIA DGX, 
+summary:  
+---
+= Descripción general de la solución
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+
+
+== ONTAP AI de NetApp y Cloud Sync
+
+La arquitectura de ONTAP AI de NetApp, impulsada por los sistemas NVIDIA DGX y los sistemas de almacenamiento conectados al cloud de NetApp, fue desarrollada y verificada por NetApp y NVIDIA. Esta arquitectura de referencia proporciona a las organizaciones DE TI las siguientes ventajas:
+
+* Elimina las complejidades de diseño
+* Permite un escalado independiente de las capacidades de computación y almacenamiento
+* Permite a los clientes empezar con poco y escalar sin problemas
+* Ofrece una gama de opciones de almacenamiento para diferentes funcionalidades de rendimiento y rentabilidad.ONTAP AI integra a la perfección los sistemas de almacenamiento DGX y AFF A220 de NetApp con redes de vanguardia. Los sistemas ONTAP AI y DGX de NetApp simplifican las puestas en marcha de IA al eliminar complejidades y conjeturas en la fase de diseño. Los clientes pueden empezar poco a poco y aumentar sus sistemas de forma ininterrumpida, a la vez que gestionan de forma inteligente datos entre el perímetro, el núcleo y el cloud.
+
+
+Cloud Sync de NetApp le permite mover datos fácilmente a través de diversos protocolos, ya sea entre dos unidades NFS, dos unidades CIFS o una unidad de archivos y el almacenamiento de Amazon S3, Amazon Elastic File System (EFS) o Azure Blob. El funcionamiento activo-activo permite seguir trabajando tanto con el origen como con el objetivo al mismo tiempo, sincronizando de forma incremental los cambios de datos cuando sea necesario. Al permitirle mover y sincronizar datos de forma incremental entre cualquier sistema de origen y de destino, ya sea en las instalaciones o en el cloud, Cloud Sync ofrece una amplia variedad de nuevas formas de utilizar los datos. Es muy fácil llegar a la migración de datos entre sistemas locales, integración en el cloud y migración al cloud, o colaboración y análisis de datos. La siguiente figura muestra los orígenes y destinos disponibles.
+
+En sistemas de IA conversacionales, los desarrolladores pueden aprovechar Cloud Sync para archivar el historial de conversaciones desde el cloud a los centros de datos para hacer posible la formación sin conexión de los modelos de procesamiento de lenguaje natural (NLP). Gracias a los modelos de formación que permiten reconocer más intenciones, el sistema de IA conversacional estará mejor equipado para gestionar preguntas más complejas por parte de los usuarios finales.
+
+
+
+== NVIDIA Jarvis Multimodal Framework
+
+image:cainvidia_image2.png["Error: Falta la imagen gráfica"]
+
+https://devblogs.nvidia.com/introducing-jarvis-framework-for-gpu-accelerated-conversational-ai-apps/["NVIDIA Jarvis"^] Es un marco integral para crear servicios de IA que puedan conversación. Incluye los siguientes servicios optimizados para GPU:
+
+* Reconocimiento automático de voz (ASR)
+* Comprensión del lenguaje natural (NLU)
+* Integración con servicios logísticos específicos de dominio
+* Texto a voz (TTS)
+* Los servicios basados en Jarvis utilizan modelos de aprendizaje profundo de vanguardia para hacer frente a la compleja y desafiante tarea de IA conversacional en tiempo real. Para permitir la interacción natural y en tiempo real con un usuario final, los modelos deben completar el cálculo en menos de 300 milisegundos. Las interacciones naturales son difíciles, y requieren la integración sensorial multimodal. Los gasoductos son también complejos y requieren coordinación entre los servicios mencionados.
+
+
+Jarvis es un marco de aplicaciones totalmente acelerado para la creación de servicios de IA conversacionales multimodales que usan una canalización de aprendizaje profundo integral. El marco Jarvis incluye modelos de IA conversacionales, herramientas y servicios integrales optimizados para tareas de habla, visión y NLU. Además de los servicios de IA, Jarvis le permite fusionar simultáneamente la visión, el audio y otras entradas de sensores para proporcionar capacidades como conversaciones multiusuario y multicontexto en aplicaciones como asistentes virtuales, diarización multiusuario y asistentes de centros de llamadas.
+
+
+
+== NVIDIA Nemo
+
+https://developer.nvidia.com/nvidia-nemo["NVIDIA Nemo"^] Es un kit de herramientas Python de código abierto para crear, formar y ajustar modelos de IA de última generación acelerados por GPU y conversacionales que usan interfaces de programación de aplicaciones (API) fáciles de usar. Nemo ejecuta una computación de precisión mixta mediante núcleos tensores en GPU de NVIDIA y puede escalarse verticalmente hasta varias GPU fácilmente para ofrecer el máximo rendimiento de entrenamiento posible. Nemo se utiliza para crear modelos para aplicaciones ASR, NLP y TTS en tiempo real, como transcripciones de videollamadas, asistentes inteligentes de vídeo y soporte de centros de llamadas automatizados en diferentes sectores verticales, incluyendo servicios sanitarios, financieros, minoristas y telecomunicaciones.
+
+Utilizamos Nemo para entrenar modelos que reconocen intentos complejos de preguntas de usuario en el historial de conversaciones archivadas. Esta capacitación amplía las capacidades del asistente virtual al por menor más allá de lo que Jarvis apoya como se ofrece.
+
+
+
+== Resumen del caso de uso de venta al por menor
+
+Con NVIDIA Jarvis, creamos un asistente de venta al por menor virtual que acepta comentarios o comentarios y responde a preguntas sobre el tiempo, puntos de interés y precios de inventario. El sistema de IA conversacional puede recordar el flujo de conversaciones, por ejemplo, formular una pregunta de seguimiento si el usuario no especifica la ubicación para el clima o los puntos de interés. El sistema también reconoce entidades complejas como “comida tailandesa” o “memoria portátil”. Entiende preguntas de lenguaje natural como “¿lloverá la próxima semana en los Ángeles?” Una demostración del asistente virtual al por menor se puede encontrar en https://cainvidia_customize_states_and_flows_for_retail_use_case.html["Personalizar Estados y flujos para el caso de uso de comercio minorista"].
+
+link:cainvidia_solution_technology.html["Siguiente: Tecnología de la solución"]

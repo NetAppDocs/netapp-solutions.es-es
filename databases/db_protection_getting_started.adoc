@@ -1,0 +1,281 @@
+---
+sidebar: sidebar 
+permalink: databases/db_protection_getting_started.html 
+keywords: Linux, RHEL Oracle19c, NFS, ONTAP 
+summary: Esta página describe el método automatizado para implementar la protección de datos de Oracle en el almacenamiento ONTAP de NetApp. 
+---
+= Primeros pasos
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+Esta solución se ha diseñado para ejecutarse en un entorno AWX/Tower.
+
+
+
+== AWX/Tower
+
+En el caso de los entornos AWX/Tower, se le guiará a través de la creación de un inventario de la gestión del clúster de ONTAP y del servidor de Oracle (IP y nombres de host), lo que crea credenciales, configura un proyecto que extrae el código de Ansible de la cuenta de Automation Github y la plantilla de trabajo que inicia la automatización.
+
+. La solución se ha diseñado para ejecutarse en un escenario de cloud privado (desde las instalaciones hasta en las instalaciones) y cloud híbrido (desde las instalaciones hasta Cloud Volumes ONTAP de cloud público [CVO])
+. Rellene las variables específicas de su entorno y cópielas y péguelas en los campos más Vars de la plantilla de trabajo.
+. Cuando se hayan añadido los var adicionales a su plantilla de trabajo, podrá iniciar la automatización.
+. La automatización se ha establecido para ejecutarse tres fases (configuración, Replication Schedule para binarios de Oracle, base de datos, registros y Replication Schedule solo para registros) y una fase inicial para recuperar la base de datos en un centro de recuperación ante desastres.
+. Para obtener instrucciones detalladas sobre cómo obtener las claves y los tokens necesarios para la visita Protección de datos de CVO link:automation/authentication_tokens.html["Reunir los requisitos previos para las implementaciones de CVO y conector"]
+
+
+
+
+== Requisitos
+
+[role="tabbed-block"]
+====
+.<strong class="big"> de </strong> <strong>|</strong>
+--
+[cols="3, 9"]
+|===
+| Entorno Oracle | Requisitos 
+
+
+.4+| *Entorno Ansible* | AWX/Tower 
+
+
+| Ansible v.2.10 y superior 
+
+
+| Python 3 
+
+
+| Bibliotecas Python - netapp-lib - xmltodict - jmespath 
+
+
+.3+| *ONTAP* | ONTAP versión 9.8 + 
+
+
+| Dos agregados de datos 
+
+
+| se han creado nfs vlan e ifgrp 
+
+
+.5+| *Servidor(s) Oracle* | RHEL 7/8 
+
+
+| Oracle Linux 7/8 
+
+
+| Interfaces de red para NFS, público y gestión opcional 
+
+
+| Entorno de Oracle existente en origen y sistema operativo Linux equivalente en destino (sitio de recuperación ante desastres o cloud público) 
+|===
+--
+.<strong class="big"> </strong> de O
+--
+[cols="3, 9"]
+|===
+| Entorno Oracle | Requisitos 
+
+
+.4+| *Entorno Ansible* | AWX/Tower 
+
+
+| Ansible v.2.10 y superior 
+
+
+| Python 3 
+
+
+| Bibliotecas Python - netapp-lib - xmltodict - jmespath 
+
+
+.3+| *ONTAP* | ONTAP versión 9.8 + 
+
+
+| Dos agregados de datos 
+
+
+| se han creado nfs vlan e ifgrp 
+
+
+.6+| *Servidor(s) Oracle* |  
+
+
+| RHEL 7/8 
+
+
+| Oracle Linux 7/8 
+
+
+| Interfaces de red para NFS, público y gestión opcional 
+
+
+| Entorno de Oracle existente en origen y sistema operativo Linux equivalente en destino (sitio de recuperación ante desastres o cloud público) 
+
+
+| Establezca el espacio de intercambio adecuado en la instancia de Oracle EC2; de forma predeterminada, algunas instancias de EC2 se implementan con 0 swap 
+
+
+.3+| *Cloud Manager/AWS* | Acceso a AWS/clave secreta 
+
+
+| Cuenta de Cloud Manager de NetApp 
+
+
+| Token de actualización de Cloud Manager de NetApp 
+|===
+--
+====
+
+
+== Detalles de automatización
+
+[role="tabbed-block"]
+====
+.<strong class="big"> de </strong> <strong>|</strong>
+--
+Esta puesta en marcha automatizada se ha diseñado con un único libro de aplicaciones de Ansible que consiste en tres roles independientes. Los roles están destinados a configuraciones de ONTAP, Linux y Oracle. La siguiente tabla describe qué tareas se automatizan.
+
+[cols="3, 9"]
+|===
+| Libro de estrategia | Tareas 
+
+
+.5+| *ontap_setup* | Comprobación previa del entorno de ONTAP 
+
+
+| Creación de LIF de interconexión de clústeres en el clúster de origen (OPCIONAL) 
+
+
+| Creación de LIF de interconexión de clústeres en el clúster de destino (OPCIONAL) 
+
+
+| Creación de relaciones entre iguales de clústeres y SVM 
+
+
+| Creación de SnapMirror de destino e inicialización de volúmenes de Oracle designados 
+
+
+.4+| *ora_replication_cg* | Habilite el modo de backup para cada base de datos en /etc/oratab 
+
+
+| Snapshot tomada de volúmenes binarios y de bases de datos de Oracle 
+
+
+| SnapMirror actualizado 
+
+
+| Desactive el modo de backup para cada base de datos en /etc/oratab 
+
+
+.3+| *ora_replication_log* | Cambie el registro actual de cada base de datos en /etc/oratab 
+
+
+| Snapshot tomada del volumen de registro de Oracle 
+
+
+| SnapMirror actualizado 
+
+
+.5+| *ora_recuperación* | Rompa la SnapMirror 
+
+
+| Habilite NFS y cree una ruta de unión para los volúmenes de Oracle en el destino 
+
+
+| Configurar DR Oracle Host 
+
+
+| Montar y verificar volúmenes de Oracle 
+
+
+| Recuperar e iniciar la base de datos de Oracle 
+|===
+--
+.<strong class="big"> </strong> de O
+--
+Esta puesta en marcha automatizada se ha diseñado con un único libro de aplicaciones de Ansible que consiste en tres roles independientes. Los roles están destinados a configuraciones de ONTAP, Linux y Oracle. La siguiente tabla describe qué tareas se automatizan.
+
+[cols="4, 9"]
+|===
+| Libro de estrategia | Tareas 
+
+
+.7+| *cvo_setup* | Comprobación previa del entorno 
+
+
+| AWS Configure/AWS Access Key ID/Secret Key/Default Region 
+
+
+| Creación del rol de AWS 
+
+
+| Creación de la instancia del conector Cloud Manager de NetApp en AWS 
+
+
+| Creación de la instancia de Cloud Volumes ONTAP (CVO) en AWS 
+
+
+| Añada el clúster de ONTAP de origen en las instalaciones a Cloud Manager de NetApp 
+
+
+| Creación de SnapMirror de destino e inicialización de volúmenes de Oracle designados 
+
+
+.4+| *ora_replication_cg* | Habilite el modo de backup para cada base de datos en /etc/oratab 
+
+
+| Snapshot tomada de volúmenes binarios y de bases de datos de Oracle 
+
+
+| SnapMirror actualizado 
+
+
+| Desactive el modo de backup para cada base de datos en /etc/oratab 
+
+
+.3+| *ora_replication_log* | Cambie el registro actual de cada base de datos en /etc/oratab 
+
+
+| Snapshot tomada del volumen de registro de Oracle 
+
+
+| SnapMirror actualizado 
+
+
+.5+| *ora_recuperación* | Rompa la SnapMirror 
+
+
+| Habilite NFS y cree una ruta de unión para los volúmenes de Oracle en la CVO de destino 
+
+
+| Configurar DR Oracle Host 
+
+
+| Montar y verificar volúmenes de Oracle 
+
+
+| Recuperar e iniciar la base de datos de Oracle 
+|===
+--
+====
+
+
+== Parámetros predeterminados
+
+Para simplificar la automatización, hemos predefinido muchos parámetros de Oracle necesarios con valores predeterminados. Por lo general, no es necesario cambiar los parámetros predeterminados para la mayoría de las implementaciones. Un usuario más avanzado puede realizar cambios en los parámetros predeterminados con precaución. Los parámetros predeterminados se encuentran en cada carpeta de funciones en el directorio por defecto.
+
+
+
+== Licencia
+
+Debe leer la información de la licencia como se indica en el repositorio de Github. Al acceder, descargar, instalar o utilizar el contenido de este repositorio, acepta los términos de la licencia establecidos link:https://github.com/NetApp-Automation/na_oracle19c_deploy/blob/master/LICENSE.TXT["aquí"^].
+
+Tenga en cuenta que existen ciertas restricciones en la producción y/o uso compartido de cualquier trabajo derivado con el contenido de este repositorio. Asegúrese de leer los términos del link:https://github.com/NetApp-Automation/na_oracle19c_deploy/blob/master/LICENSE.TXT["Licencia"^] antes de utilizar el contenido. Si no acepta todos los términos, no acceda, descargue ni utilice el contenido de este repositorio.
+
+Una vez que esté listo, haga clic en link:db_protection_awx_automation.html["Aquí encontrará información detallada sobre los procedimientos de AWX/Tower"].

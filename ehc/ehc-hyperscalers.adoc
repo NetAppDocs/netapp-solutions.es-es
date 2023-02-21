@@ -1,0 +1,168 @@
+---
+sidebar: sidebar 
+permalink: ehc/ehc-hyperscalers.html 
+keywords: NetApp Solutions, hyperscalers, amazon, vmc, vmware managed cloud, microsoft, azure, avs, azure vmware solution, google cloud platform, gcp, google cloud virtualization engine, gcve, enterprise, hybrid, cloud, migrate, migration, disaster recovery, dr 
+summary:  
+---
+= Soluciones de NetApp para VMware en proveedores a hiperescala
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+Obtenga más información acerca de las funcionalidades que NetApp aporta a los tres (3) proveedores a hiperescala principales, desde NetApp como dispositivo de almacenamiento conectado a invitado o un almacén de datos NFS complementario, para la migración de flujos de trabajo, para ampliar o bursting al cloud, backup/restauración y recuperación ante desastres.
+
+Elija su cloud y deje que NetApp haga el resto.
+
+image:netapp-cloud.png[""]
+
+
+NOTE: Para ver las funcionalidades de un proveedor a hiperescala específico, haga clic en la pestaña adecuada para ese proveedor a hiperescala.
+
+Para ir a la sección del contenido deseado, seleccione una de las siguientes opciones:
+
+* link:#config["VMware en la configuración de proveedores a hiperescala"]
+* link:#datastore["Opciones de almacenamiento de NetApp"]
+* link:#solutions["Soluciones cloud de NetApp/VMware"]
+
+
+
+
+== VMware en la configuración de proveedores a hiperescala
+
+Al igual que en las instalaciones, la planificación de un entorno de virtualización basado en cloud es crucial para tener un entorno preparado para la producción con éxito a la hora de crear equipos virtuales y migración.
+
+[role="tabbed-block"]
+====
+.AWS/VMC
+--
+En esta sección se describe cómo configurar y gestionar VMware Cloud en AWS SDDC y utilizarlo en combinación con las opciones disponibles para conectar el almacenamiento de NetApp.
+
+
+NOTE: El almacenamiento invitado es el único método compatible para conectar Cloud Volumes ONTAP a VMC de AWS.
+
+El proceso de configuración puede dividirse en los siguientes pasos:
+
+* Poner en marcha y configurar VMware Cloud para AWS
+* Conecte VMware Cloud a FSX ONTAP
+
+
+Vea el detalles link:aws/aws-setup.html["Pasos de configuración para VMC"].
+
+--
+.Azure / AVS
+--
+En esta sección se describe cómo configurar y gestionar la solución VMware de Azure y utilizarla en combinación con las opciones disponibles para conectar el almacenamiento de NetApp.
+
+
+NOTE: El almacenamiento en invitado es el único método compatible para conectar Cloud Volumes ONTAP a la solución VMware Azure.
+
+El proceso de configuración puede dividirse en los siguientes pasos:
+
+* Registre el proveedor de recursos y cree un cloud privado
+* Conéctese a una puerta de enlace de red virtual ExpressRoute nueva o existente
+* Validar la conectividad de red y acceder al cloud privado
+
+
+Vea el detalles link:azure/azure-setup.html["Pasos de configuración para AVS"].
+
+--
+.GCP/GCVE
+--
+En esta sección se describe cómo configurar y gestionar GCVE y cómo utilizarlo junto con las opciones disponibles para conectar el almacenamiento de NetApp.
+
+
+NOTE: El almacenamiento invitado es el único método compatible para conectar Cloud Volumes ONTAP y Cloud Volumes Services a GCVE.
+
+El proceso de configuración puede dividirse en los siguientes pasos:
+
+* Implementar y configurar GCVE
+* Active el acceso privado a GCVE
+
+
+Vea el detalles link:gcp/gcp-setup.html["Pasos de configuración para GCVE"].
+
+--
+====
+
+
+== Opciones de almacenamiento de NetApp
+
+El almacenamiento de NetApp se puede utilizar de varias maneras, ya sea como almacenamiento de datos NFS supongo conectado o como un almacén de datos NFS complementario, en cada uno de los 3 principales proveedores a hiperescala.
+
+Visite link:ehc-support-configs.html["Opciones de almacenamiento de NetApp admitidas"] si quiere más información.
+
+[role="tabbed-block"]
+====
+.AWS/VMC
+--
+AWS admite almacenamiento de NetApp con las siguientes configuraciones:
+
+* FSX ONTAP como almacenamiento conectado como invitado
+* Cloud Volumes ONTAP (CVO) como almacenamiento conectado como invitado
+* FSX ONTAP como almacén de datos NFS complementario
+
+
+Vea el detalles link:aws/aws-guest.html["Opciones de almacenamiento de conexión para invitado para VMC"]. Vea el detalles link:aws/aws-native-nfs-datastore-option.html["Opciones suplementarias de almacén de datos de NFS para VMC"].
+
+--
+.Azure / AVS
+--
+Azure admite almacenamiento de NetApp en las siguientes configuraciones:
+
+* Azure NetApp Files (ANF) como almacenamiento conectado como invitado
+* Cloud Volumes ONTAP (CVO) como almacenamiento conectado como invitado
+* Azure NetApp Files (ANF) como almacén de datos NFS complementario
+
+
+Vea el detalles link:azure/azure-guest.html["Opciones de almacenamiento de Guest Connect para AVS"]. Vea el detalles link:azure/azure-native-nfs-datastore-option.html["Opciones complementarias de almacén de datos NFS para AVS"].
+
+--
+.GCP/GCVE
+--
+Google Cloud es compatible con almacenamiento de NetApp en las siguientes configuraciones:
+
+* Cloud Volumes ONTAP (CVO) como almacenamiento conectado como invitado
+* Cloud Volumes Service (CVS) como almacenamiento conectado como invitado
+* Cloud Volumes Service (CVS) como almacén de datos NFS complementario
+
+
+Vea el detalles link:gcp/gcp-guest.html["Opciones de almacenamiento de Guest Connect para GCVE"].
+
+Más información acerca de link:https://www.netapp.com/blog/cloud-volumes-service-google-cloud-vmware-engine/["Soporte de almacén de datos de Cloud Volumes Service de NetApp para Google Cloud VMware Engine (blog de NetApp)"^] o. link:https://cloud.google.com/blog/products/compute/how-to-use-netapp-cvs-as-datastores-with-vmware-engine["Cómo usar CVS de NetApp como almacenes de datos para Google Cloud VMware Engine (blog de Google)"^]
+
+--
+====
+
+
+== Soluciones cloud de NetApp/VMware
+
+Con las soluciones de cloud de NetApp y VMware, muchos casos de uso son fáciles de poner en marcha en el proveedor a hiperescala que elija. VMware define los casos de uso de cargas de trabajo en el cloud principal como:
+
+* Protect (incluye recuperación ante desastres y backup/restauración)
+* Migración
+* Extender
+
+
+[role="tabbed-block"]
+====
+.AWS/VMC
+--
+link:aws/aws-solutions.html["Examine las soluciones de NetApp para AWS/VMC"]
+
+--
+.Azure / AVS
+--
+link:azure/azure-solutions.html["Examine las soluciones de NetApp para Azure / AVS"]
+
+--
+.GCP/GCVE
+--
+link:gcp/gcp-solutions.html["Examine las soluciones de NetApp para Google Cloud Platform (GCP)/GCVE"]
+
+--
+====

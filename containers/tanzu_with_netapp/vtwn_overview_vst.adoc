@@ -1,0 +1,37 @@
+---
+sidebar: sidebar 
+permalink: containers/tanzu_with_netapp/vtwn_overview_vsk.html 
+keywords: VMware Tanzu, Tanzu, Tanzu Kubernetes Grid Service, vSphere with Kubernetes, vSphere Pods, DevOps 
+summary:  
+---
+= Información general sobre VMware vSphere con Tanzania
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../../media/
+
+
+VMware vSphere con Tanzu, también conocido como vSphere Pods, le permite utilizar los nodos de hipervisor ESXi en el entorno VMware vSphere como nodos de trabajo en un entorno Kubernetes con configuración básica.
+
+image::vtwn_image30.png[VMware vSphere con Kubernetes]
+
+Se habilita un entorno VMware vSphere con tanzu en Workload Management al igual que un clúster TKGS nativo.
+
+Se crea un clúster de supervisor virtualizado para proporcionar un plano de control de alta disponibilidad para Kubernetes y se crean espacios de nombres individuales para cada aplicación con el fin de garantizar el aislamiento de recursos para los usuarios.
+
+image::vtwn_image29.png[Clúster de supervisión]
+
+Cuando se habilita VMware vSphere con tanzu, cada uno de los hosts ESXi tiene la aplicación Spherelet instalada y configurada. De este modo, cada nodo puede actuar como trabajador en una puesta en marcha de Kubernetes y gestionar los pods puestos en marcha en cada nodo.
+
+image::vtwn_image28.png[Espacio de nombres]
+
+Actualmente, VMware vSphere con tanzu y vSphere Pods solo son compatibles con el controlador vSphere CSI local. Esto funciona porque los administradores crean políticas de almacenamiento en el cliente de vSphere que seleccionan los destinos de almacenamiento actualmente disponibles para utilizarse como almacenes de datos de vSphere. Estas políticas se utilizan para crear volúmenes persistentes para aplicaciones en contenedores.
+
+
+NOTE: Aunque actualmente no admite el controlador Astra Trident CSI de NetApp que permite una conectividad directa a cabinas de almacenamiento ONTAP y Element externas, estos sistemas de almacenamiento de NetApp suelen utilizarse para admitir el almacenamiento principal para el entorno vSphere, Y las herramientas avanzadas de gestión de datos y eficiencia del almacenamiento de NetApp se pueden utilizar de esta manera.
+
+Si desea obtener más información sobre VMware vSphere con tanzu, consulte la documentación link:https://docs.vmware.com/en/VMware-vSphere/7.0/vmware-vsphere-with-tanzu/GUID-152BE7D2-E227-4DAA-B527-557B564D9718.html["aquí"^].
+
+link:vtwn_overview_netapp.html["Siguiente: Información general sobre los sistemas de almacenamiento de NetApp."]

@@ -1,0 +1,30 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/confluent-kafka-performance-tests-with-scalability.html 
+keywords: performance, tests, scalability 
+summary: Realizamos las pruebas de almacenamiento por niveles con de tres a cuatro nodos para cargas de trabajo de producción y consumo con la configuración de StorageGRID de NetApp. 
+---
+= Pruebas de rendimiento con escalabilidad
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:confluent-kafka-confluent-kafka-certification.html["Anterior: Verificación confluente."]
+
+Realizamos las pruebas de almacenamiento por niveles con de tres a cuatro nodos para cargas de trabajo de producción y consumo con la configuración de StorageGRID de NetApp. Según nuestras pruebas, el tiempo hasta el final y los resultados del rendimiento eran directamente proporcionales al número de nodos StorageGRID. La configuración de StorageGRID requería un mínimo de tres nodos.
+
+* El tiempo para completar el funcionamiento del producto y del consumidor disminuyó linealmente cuando aumentó el número de nodos de almacenamiento.
+
+
+image:confluent-kafka-image9.png["Error: Falta la imagen gráfica"]
+
+* El rendimiento de la operación de recuperación de s3 aumentó de forma lineal en función del número de nodos StorageGRID. StorageGRID admite hasta 200 nodos StorageGRID.
+
+
+image:confluent-kafka-image10.png["Error: Falta la imagen gráfica"]
+
+link:confluent-kafka-kafka-s3-connector.html["Siguiente: Conector Confluent s3."]

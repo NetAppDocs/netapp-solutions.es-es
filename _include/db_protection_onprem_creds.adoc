@@ -1,0 +1,67 @@
+= 
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+. Configure las credenciales.
+. Cree tipos de credenciales. En el caso de las soluciones que implican ONTAP, debe configurar el tipo de credencial de modo que coincida con las entradas de nombre de usuario y contraseña.
++
+.. Desplácese hasta Administration → Credential Types y haga clic en Add.
+.. Escriba el nombre y la descripción.
+.. Pegue el siguiente contenido en Configuración de entrada:
++
+[source, cli]
+----
+fields:
+  - id: dst_cluster_username
+    type: string
+    label: Destination Cluster Username
+  - id: dst_cluster_password
+    type: string
+    label: Destination Cluster Password
+    secret: true
+  - id: src_cluster_username
+    type: string
+    label: Source Cluster Username
+  - id: src_cluster_password
+    type: string
+    label: Source Cluster Password
+    secret: true
+----
+.. Pegue el siguiente contenido en Configuración del inyector y, a continuación, haga clic en Guardar:
++
+[source, cli]
+----
+extra_vars:
+  dst_cluster_username: '{{ dst_cluster_username }}'
+  dst_cluster_password: '{{ dst_cluster_password }}'
+  src_cluster_username: '{{ src_cluster_username }}'
+  src_cluster_password: '{{ src_cluster_password }}'
+----
+
+
+. Crear credenciales para ONTAP
++
+.. Desplácese hasta Resources → Credentials y haga clic en Add.
+.. Introduzca los detalles de nombre y organización para los credenciales de ONTAP
+.. Seleccione el tipo de credencial que se creó en el paso anterior.
+.. En Type Details, introduzca el nombre de usuario y la contraseña para los clústeres de origen y destino.
+.. Haga clic en Guardar
+
+
+. Crear credenciales para Oracle
++
+.. Desplácese hasta Resources → Credentials y haga clic en Add.
+.. Introduzca el nombre y los detalles de la organización de Oracle
+.. Seleccione el tipo de credencial máquina.
+.. En Type Details, introduzca el nombre de usuario y la contraseña para los hosts de Oracle.
+.. Seleccione el método de escalamiento de privilegios correcto e introduzca el nombre de usuario y la contraseña.
+.. Haga clic en Guardar
+.. Repita el proceso si es necesario para una credencial diferente para el host dr_oracle.
+
+
+

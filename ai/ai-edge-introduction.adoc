@@ -1,0 +1,149 @@
+---
+sidebar: sidebar 
+permalink: ai/ai-edge-introduction.html 
+keywords: tr-4886, tr4886, 4886, introduction, netapp, ai, inferencing, lenovo, thinksystem, solution, design 
+summary: 'Este documento describe una arquitectura de computación y almacenamiento para poner en marcha la inferencia de inteligencia artificial (IA) basada en GPU en controladoras de almacenamiento de NetApp y servidores Lenovo ThinkSystem en un entorno perimetral que satisface los nuevos escenarios de aplicaciones.' 
+---
+= TR-4886: Inferencia de IA en el Edge - NetApp con Lenovo ThinkSystem - Diseño de la solución
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+Sathish Thyagarajan, NetApp Miroslav Hodak, Lenovo
+
+
+
+== Resumen
+
+Varios supuestos de aplicaciones emergentes, como los sistemas avanzados de asistencia al conductor (ADAS), el sector 4.0, las ciudades inteligentes y el Internet de las cosas (IoT), requieren el procesamiento de flujos de datos continuos con una latencia cercana a cero. Este documento describe una arquitectura de computación y almacenamiento para poner en marcha la inferencia de inteligencia artificial (IA) basada en GPU en controladoras de almacenamiento de NetApp y servidores Lenovo ThinkSystem en un entorno perimetral que satisface estos requisitos. Este documento también proporciona datos de rendimiento para las pruebas de rendimiento de inferencia MLPerf estándares del sector, por lo que evalúa diversas tareas de inferencia en servidores periféricos equipados con GPU T4 de NVIDIA. Investigamos el rendimiento de escenarios de inferencia multisecuencia, sin conexión y con múltiples flujos, y mostramos que la arquitectura con un sistema de almacenamiento en red compartido rentable tiene un alto rendimiento y proporciona un punto central para la gestión de modelos y datos en servidores periféricos múltiples.
+
+
+
+== Introducción
+
+Las empresas están generando cada vez más volúmenes masivos de datos en el extremo de la red. Con el fin de obtener el máximo valor a partir de sensores inteligentes y datos del Internet de las cosas, las organizaciones buscan una solución de transmisión de eventos en tiempo real que permita el uso de la informática perimetral. Así, pues, cada vez se realizan más tareas informáticas exigentes fuera del perímetro y fuera de los centros de datos. La inferencia de IA es uno de los motores de esta tendencia. Los servidores periféricos proporcionan suficiente potencia computacional para estas cargas de trabajo, sobre todo cuando se utilizan aceleradores, pero el almacenamiento limitado suele ser un problema, especialmente en entornos con varios servidores. En este documento mostramos cómo puede poner en marcha un sistema de almacenamiento compartido en un entorno perimetral y cómo beneficia a las cargas de trabajo de inferencia de IA sin perjudicar el rendimiento.
+
+Este documento describe una arquitectura de referencia para la inferencia de IA en el perímetro. Combina múltiples servidores Lenovo ThinkSystem Edge con un sistema de almacenamiento de NetApp para crear una solución fácil de poner en marcha y gestionar. Está previsto ser una guía de referencia para implementaciones prácticas en diversas situaciones, como la planta de fábrica con múltiples cámaras y sensores industriales, sistemas de punto de venta (POS) en transacciones de venta al por menor o sistemas de autoconducción completa (FSD) que identifican anomalías visuales en vehículos autónomos.
+
+Este documento recoge las pruebas y validación de una configuración de computación y almacenamiento que consta de Lenovo ThinkSystem SE350 Edge Server y un sistema de almacenamiento AFF y EF-Series de NetApp de gama básica. Las arquitecturas de referencia proporcionan una solución eficiente y rentable para puestas en marcha de IA, a la vez que proporcionan servicios de datos completos, protección de datos integrada, escalabilidad fluida y almacenamiento de datos conectado al cloud con ONTAP de NetApp y el software para la gestión de datos SANtricity de NetApp.
+
+
+
+=== Público objetivo
+
+Este documento está dirigido a los siguientes destinatarios:
+
+* Líderes de negocio y arquitectos empresariales que quieren aprovechar la IA en el perímetro.
+* Científicos de datos, ingenieros de datos, investigadores DE IA/aprendizaje automático y desarrolladores de sistemas de IA.
+* Arquitectos empresariales que diseñan soluciones para el desarrollo de modelos y aplicaciones de IA/ML.
+* Científicos e ingenieros de IA que buscan formas eficientes de poner en marcha modelos DE aprendizaje profundo (DL) Y ML.
+* Los administradores de dispositivos periféricos y los administradores de servidor perimetral son responsables de la puesta en marcha y la gestión de modelos de inferencia perimetrales.
+
+
+
+
+=== Arquitectura de la solución
+
+Este servidor Lenovo ThinkSystem y la solución de almacenamiento ONTAP o SANtricity de NetApp están diseñados para gestionar la inferencia de IA en grandes conjuntos de datos mediante la potencia de procesamiento de GPU junto con CPU tradicionales. Esta validación demuestra un alto rendimiento y una gestión de datos óptima con una arquitectura que utiliza uno o varios servidores de borde Lenovo SR350 interconectados con un único sistema de almacenamiento AFF de NetApp, como se muestra en las siguientes dos figuras.
+
+image:ai-edge-image2.jpg["Error: Falta la imagen gráfica"]
+
+image:ai-edge-image17.png["Error: Falta la imagen gráfica"]
+
+La descripción general de la arquitectura lógica de la siguiente figura muestra las funciones de los elementos de computación y almacenamiento de esta arquitectura. Específicamente, muestra lo siguiente:
+
+* Dispositivos de computación periféricos que realizan inferencia en los datos que recibe de cámaras, sensores, etc.
+* Un elemento de almacenamiento compartido que ofrece diversos objetivos:
++
+** Ofrece una ubicación central para los modelos de inferencia y otros datos que necesitan para realizar la inferencia. Los servidores informáticos acceden al almacenamiento directamente y utilizan los modelos de inferencia en toda la red sin necesidad de copiarlos de forma local.
+** Los modelos actualizados se empujan aquí.
+** Archiva los datos de entrada que los servidores perimetrales reciben para analizarlos posteriormente. Por ejemplo, si los dispositivos periféricos están conectados a las cámaras, el elemento de almacenamiento mantiene los vídeos capturados por las cámaras.
+
+
+
+
+image:ai-edge-image3.png["Error: Falta la imagen gráfica"]
+
+|===
+
+
+| rojo | azul 
+
+
+| Sistema de computación Lenovo | Sistema de almacenamiento AFF de NetApp 
+
+
+| Dispositivos periféricos que realizan inferencia en las entradas de cámaras, sensores, etc. | Almacenamiento compartido que mantiene los modelos de inferencia y los datos de los dispositivos periféricos para su posterior análisis. 
+|===
+Esta solución de NetApp y Lenovo ofrece las siguientes ventajas clave:
+
+* GPU acelera la computación en el extremo.
+* Implementación de varios servidores periféricos, respaldados y gestionado desde un almacenamiento compartido.
+* Protección de datos sólida para cumplir con los objetivos de punto de recuperación (RPO) y los objetivos de tiempo de recuperación (RTO) bajos sin pérdida de datos.
+* Gestión de datos optimizada con copias Snapshot y clones de NetApp para optimizar los flujos de trabajo de desarrollo.
+
+
+
+
+=== Cómo utilizar esta arquitectura
+
+Este documento valida el diseño y el rendimiento de la arquitectura propuesta. Sin embargo, no hemos probado ciertas piezas a nivel de software, como la gestión y sincronización de datos de contenedores, cargas de trabajo o modelos con cloud o centros de datos en las instalaciones, ya que son específicas de un escenario de puesta en marcha. Aquí existen varias opciones.
+
+En el nivel de gestión de contenedores, la gestión de contenedores de Kubernetes es una buena opción y es compatible con una versión totalmente ascendente (Canonical) o con una versión modificada adecuada para implementaciones empresariales (Red Hat). La link:https://docs.netapp.com/us-en/netapp-solutions/ai/aicp_introduction.html["Plano de control de IA de NetApp"^] Que utiliza Trident de NetApp y los recientemente añadidos https://github.com/NetApp/netapp-dataops-toolkit/releases/tag/v2.0.0["Kit de herramientas de operaciones de datos de NetApp"^] Proporciona trazabilidad, funciones de gestión de datos, interfaces y herramientas integradas para que los científicos e ingenieros de datos se integren con el sistema de almacenamiento de NetApp. Kubeflow, el kit DE herramientas ML para Kubernetes, proporciona funcionalidades de IA adicionales junto con compatibilidad para el control de versiones de modelos y KFServing en varias plataformas como TensorFlow Serving o NVIDIA Triton inferpensado Server. Otra opción es la plataforma NVIDIA EGX, que proporciona gestión de las cargas de trabajo junto con acceso a un catálogo de contenedores de inferencia de IA habilitados para GPU. Sin embargo, es posible que estas opciones requieran gran esfuerzo y experiencia para ponerlas en producción y es posible que requieran la ayuda de un proveedor de software independiente (ISV) o un asesor de terceros.
+
+
+
+=== Áreas de soluciones
+
+La ventaja clave de la inferencia de IA y la computación perimetral es la capacidad de que los dispositivos calculen, procesen y analicen datos con un alto nivel de calidad sin latencia. Hay demasiados ejemplos de casos de uso de computación perimetral que describir en este documento, pero aquí hay algunos ejemplos destacados:
+
+
+
+==== Automóviles: Vehículos autónomos
+
+La ilustración clásica de la informática avanzada se encuentra en los sistemas avanzados de asistencia al conductor (ADAS) en vehículos autónomos (AV). La IA en vehículos sin conductor debe procesar rápidamente una gran cantidad de datos procedentes de cámaras y sensores para garantizar su seguridad. Tomar demasiado tiempo para interpretar entre un objeto y un humano puede significar la vida o la muerte, por lo tanto poder procesar los datos lo más cerca posible del vehículo es crucial. En este caso, uno o varios servidores de computación periféricos se encarga de las entradas de cámaras, RADAR, LiDAR y otros sensores, mientras que el almacenamiento compartido contiene modelos de inferencia y almacena datos de entrada de los sensores.
+
+
+
+==== Atención sanitaria: Monitorización de pacientes
+
+Uno de los mayores impactos de la IA y la informática perimetral es su capacidad para mejorar la supervisión continua de pacientes para enfermedades crónicas, tanto en las unidades de cuidados intensivos como en las unidades de cuidados intensivos (UCI). Los datos de los dispositivos periféricos que supervisan los niveles de insulina, la respiración, la actividad neurológica, el ritmo cardíaco y las funciones gastrointestinales requieren un análisis instantáneo de los datos que deben ser objeto de acciones inmediatas porque hay poco tiempo para actuar y salvar la vida de alguien.
+
+
+
+==== Venta al por menor: Pago sin cajero
+
+La computación perimetral puede ayudar a los minoristas a reducir el tiempo de salida y aumentar el tráfico de pies. Los sistemas sin cajero admiten varios componentes, como los siguientes:
+
+* Autenticación y acceso. Conectar el comprador físico a una cuenta validada y permitir el acceso al espacio de venta al por menor.
+* Supervisión de inventario. Utilizar sensores, etiquetas RFID y sistemas de visión computarizada para confirmar la selección o deselección de artículos por parte de los compradores.
++
+Aquí, cada uno de los servidores perimetrales gestiona cada contador de retirada y el sistema de almacenamiento compartido sirve como punto de sincronización central.
+
+
+
+
+
+==== Servicios financieros: Seguridad humana en quioscos y prevención del fraude
+
+Las organizaciones bancarias utilizan la IA y la informática perimetral para innovar y crear experiencias bancarias personalizadas. Los quioscos interactivos, mediante el análisis de datos en tiempo real y la inferencia de IA, permiten ahora a los cajeros automáticos no sólo ayudar a los clientes a retirar el dinero, sino también supervisar de forma proactiva los quioscos a través de las imágenes capturadas con las cámaras para identificar el riesgo para la seguridad humana o el comportamiento fraudulento. En este escenario, los servidores periféricos informáticos y los sistemas de almacenamiento compartido se conectan a quioscos y cámaras interactivos para ayudar a los bancos a recopilar y procesar datos con modelos de inferencia de IA.
+
+
+
+==== Fabricación: Industria 4.0
+
+La cuarta revolución industrial (Industry 4.0) ha comenzado, junto con tendencias emergentes como Smart Factory e impresión 3D. Con el fin de prepararse para un futuro impulsado por los datos, la comunicación y el Internet de las cosas (M2M) a gran escala están integrados para una mayor automatización sin necesidad de intervención humana. La fabricación ya está altamente automatizada y añadir características de IA es una continuación natural de la tendencia a largo plazo. La IA permite automatizar operaciones que se pueden automatizar con la ayuda de la visión computarizada y otras funcionalidades de IA. Puede automatizar el control de calidad o las tareas que se basan en la visión humana o en la toma de decisiones para realizar análisis más rápidos de materiales en líneas de ensamblaje en plantas de fabricación para ayudar a las plantas de fabricación a cumplir con los estándares ISO requeridos de gestión de la seguridad y la calidad. Aquí, cada servidor perimetral informático está conectado a una matriz de sensores que supervisan el proceso de fabricación, y cuando es necesario, los modelos de inferencia actualizados se ven empujados al almacenamiento compartido.
+
+
+
+==== Telecomunicaciones: Detección de óxido, inspección de torre y optimización de la red
+
+La industria de las telecomunicaciones utiliza técnicas de IA y visión informática para procesar imágenes que detectan automáticamente el óxido e identifican las torres celulares que contienen corrosión y, por lo tanto, requieren una inspección adicional. El uso de imágenes con drones y modelos de IA para identificar regiones distintas de una torre para analizar la oxidación, las grietas superficiales y la corrosión ha aumentado en los últimos años. La demanda continúa creciendo para tecnologías de IA que permiten inspeccionar eficientemente la infraestructura de telecomunicaciones y las torres de células, evaluar periódicamente la degradación y reparar rápidamente cuando sea necesario.
+
+Además, otro caso de uso emergente en las telecomunicaciones es el uso de algoritmos de IA y ML para predecir patrones de tráfico de datos, detectar dispositivos compatibles con 5G y automatizar y aumentar la gestión energética de múltiples entradas y salidas múltiples (MIMO). El hardware de MIMO se utiliza en las torres de radio para aumentar la capacidad de la red; sin embargo, esto viene con costos de energía adicionales. Los modelos ML para “modo de suspensión MIMO” implementados en las zonas de células pueden predecir el uso eficiente de las radios y ayudar a reducir los costes de consumo de energía para los operadores de redes móviles (MNO). Las soluciones de computación avanzada y de inferencia de IA ayudan a las MNO a reducir la cantidad de datos transmitidos hacia los centros de datos, reducir su TCO, optimizar las operaciones de red y mejorar el rendimiento general de los usuarios finales.
+
+link:ai-edge-technology-overview.html["Siguiente: Información general de la tecnología."]

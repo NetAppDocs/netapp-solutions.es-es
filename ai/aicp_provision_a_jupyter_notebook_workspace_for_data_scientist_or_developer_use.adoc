@@ -1,0 +1,73 @@
+---
+sidebar: sidebar 
+permalink: ai/aicp_provision_a_jupyter_notebook_workspace_for_data_scientist_or_developer_use.html 
+keywords: Jupyter, Notebook, Workspace, Kubeflow 
+summary: Kubeflow es capaz de suministrar rápidamente nuevos servidores Jupyter Notebook para actuar como espacios de trabajo de científicos de datos. Para suministrar un nuevo servidor Juppyter Notebook con Kubeflow, realice las tareas enumeradas en esta página. 
+---
+= Aprovisione un espacio de trabajo para portátiles Juppyter para uso científico de datos o desarrollador
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+Kubeflow es capaz de suministrar rápidamente nuevos servidores Jupyter Notebook para actuar como espacios de trabajo de científicos de datos. Para aprovisionar un nuevo servidor Juppyter Notebook con Kubeflow, realice las siguientes tareas. Para obtener más información acerca de Jupyter Notebooks dentro del contexto de Kubeflow, consulte https://www.kubeflow.org/docs/components/notebooks/["Documentación oficial de Kubeflow"^].
+
+. Desde el panel central de Kubeflow, haga clic en Notebook Servers en el menú principal para acceder a la página de administración del servidor Jupyter Notebook.
++
+image:aicp_image9.png["Error: Falta la imagen gráfica"]
+
+. Haga clic en Nuevo servidor para aprovisionar un nuevo servidor Juppyter Notebook.
++
+image:aicp_image10.png["Error: Falta la imagen gráfica"]
+
+. Asigne un nombre a su nuevo servidor, elija la imagen de Docker en la que desea que se base su servidor y especifique la cantidad de CPU y RAM que debe reservar su servidor. Si el campo espacio de nombres está en blanco, utilice el menú Seleccionar espacio de nombres en el encabezado de la página para elegir un espacio de nombres. El campo de espacio de nombres se rellena automáticamente con el espacio de nombres elegido.
++
+En el siguiente ejemplo, la `kubeflow-anonymous` se elige espacio de nombres. Además, se aceptan los valores predeterminados de imagen Docker, CPU y RAM.
+
++
+image:aicp_image11.png["Error: Falta la imagen gráfica"]
+
+. Especifique los detalles del volumen del área de trabajo. Si decide crear un nuevo volumen, ese volumen o RVP se aprovisionan con el tipo de almacenamiento predeterminado. Dado que se designó un clase de almacenamiento con Trident como el clase de almacenamiento predeterminado de la sección link:aicp_kubeflow_deployment_overview.html["Despliegue de Kubeflow"], El volumen o PVC se aprovisiona con Trident. Este volumen se monta automáticamente como espacio de trabajo predeterminado dentro del contenedor servidor del portátil Jupyter. Los portátiles que cree un usuario en el servidor que no se guarden en un volumen de datos independiente se guardarán automáticamente en este volumen de área de trabajo. Por lo tanto, los portátiles se conservan entre reinicios.
++
+image:aicp_image12.png["Error: Falta la imagen gráfica"]
+
+. Añadir volúmenes de datos. En el siguiente ejemplo, se especifica un RVP existente llamado 'pb-fg-All' y acepta el punto de montaje predeterminado.
++
+image:aicp_image13.png["Error: Falta la imagen gráfica"]
+
+. *Opcional:* Solicite que se asigne el número deseado de GPU al servidor de su portátil. En el siguiente ejemplo, se solicita una GPU.
++
+image:aicp_image14.png["Error: Falta la imagen gráfica"]
+
+. Haga clic en Iniciar para aprovisionar su nuevo servidor de notebook.
+. Espere a que el servidor de su portátil esté completamente aprovisionado. Esto puede tardar varios minutos si nunca ha aprovisionado un servidor con la imagen Docker que ha especificado porque es necesario descargar la imagen. Una vez que el servidor ha sido completamente aprovisionado, verá una Marca de verificación verde en la columna Estado de la página de administración del servidor Jupyter Notebook.
++
+image:aicp_image15.png["Error: Falta la imagen gráfica"]
+
+. Haga clic en conectar para conectarse a la nueva interfaz web del servidor.
+. Confirme que el volumen del conjunto de datos especificado en el paso 6 está montado en el servidor. Tenga en cuenta que este volumen se monta en el espacio de trabajo predeterminado de forma predeterminada. Desde la perspectiva del usuario, ésta es sólo otra carpeta dentro del área de trabajo. El usuario, que es probable que un científico de datos y no sea un experto en infraestructura, no necesita tener experiencia en almacenamiento para utilizar este volumen.
++
+image:aicp_image16.png["Error: Falta la imagen gráfica"]
+
++
+image:aicp_image17.png["Error: Falta la imagen gráfica"]
+
+. Abra un terminal y, suponiendo que se haya solicitado un nuevo volumen en el paso 5, ejecute `df -h` Para confirmar que un nuevo volumen persistente aprovisionado por Trident se monta como espacio de trabajo predeterminado.
++
+El directorio de área de trabajo predeterminado es el directorio base con el que se presenta cuando se accede por primera vez a la interfaz web del servidor. Por lo tanto, cualquier artefacto que cree mediante la interfaz web se almacena en este volumen persistente aprovisionado por Trident.
+
++
+image:aicp_image18.png["Error: Falta la imagen gráfica"]
+
++
+image:aicp_image19.png["Error: Falta la imagen gráfica"]
+
+. Con el terminal, ejecute `nvidia-smi` Para confirmar que se ha asignado el número correcto de GPU al servidor del portátil. En el siguiente ejemplo, se ha asignado una GPU al servidor de portátiles como se solicitó en el paso 7.
+
+
+image:aicp_image20.png["Error: Falta la imagen gráfica"]
+
+link:aicp_example_notebooks_and_pipelines.html["Siguiente: Ejemplos de cuadernos y tuberías."]

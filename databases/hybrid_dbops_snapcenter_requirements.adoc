@@ -1,0 +1,81 @@
+---
+sidebar: sidebar 
+permalink: databases/hybrid_dbops_snapcenter_requirements.html 
+summary: Esta solución está diseñada en un entorno de cloud híbrido para admitir bases de datos de producción en las instalaciones que pueden usar en ráfagas en todos los clouds públicos populares para operaciones de desarrollo, pruebas y recuperación ante desastres. 
+keywords: requirements, virtualized, bare metal, versions, automation 
+---
+= Requisitos de SnapCenter
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:table-stripes: odd
+:imagesdir: ./../media/
+
+
+link:hybrid_dbops_snapcenter_architecture.html["Anterior: Arquitectura de la solución."]
+
+Esta solución está diseñada en un entorno de cloud híbrido para admitir bases de datos de producción en las instalaciones que pueden usar en ráfagas en todos los clouds públicos populares para operaciones de desarrollo, pruebas y recuperación ante desastres.
+
+Esta solución admite todas las bases de datos compatibles actualmente con SnapCenter, aunque solo se muestran aquí las bases de datos de Oracle y SQL Server. Esta solución se valida con cargas de trabajo de bases de datos virtualizadas, aunque también son compatibles las cargas de trabajo con configuración básica.
+
+Asumimos que los servidores de bases de datos de producción se alojan en las instalaciones con volúmenes de bases de datos presentados a los hosts de bases de datos de un clúster de almacenamiento de ONTAP. El software SnapCenter se instala en las instalaciones para realizar tareas de backup de bases de datos y replicación de datos en el cloud. Se recomienda utilizar una controladora de Ansible, pero no es necesario para la automatización de la puesta en marcha de la base de datos o para la sincronización de la configuración del kernel de sistema operativo y la base de datos con una instancia de recuperación ante desastres en espera o instancias de desarrollo y pruebas en el cloud público.
+
+
+
+== Requisitos
+
+[cols="3, 9"]
+|===
+| Entorno Oracle | Requisitos 
+
+
+.7+| *En el local* | Cualquier base de datos y versiones que SnapCenter admita 
+
+
+| SnapCenter v4.4 o superior 
+
+
+| Ansible v2.09 o superior 
+
+
+| Clúster de ONTAP 9.x. 
+
+
+| LIF de interconexión de clústeres configuradas 
+
+
+| Conectividad desde las instalaciones a un VPC de cloud (VPN, interconexión, etc.) 
+
+
+| Puertos de red abiertos - ssh 22 - tcp 8145, 8146, 10000, 11104, 11105 
+
+
+.3+| *Cloud: AWS* | https://docs.netapp.com/us-en/occm/task_creating_connectors_aws.html["Conector de Cloud Manager"^] 
+
+
+| https://docs.netapp.com/us-en/occm/task_getting_started_aws.html["Cloud Volumes ONTAP"^] 
+
+
+| Coincidencia de instancias de EC2 del sistema operativo de la base de datos con las instalaciones 
+
+
+.3+| *Cloud - Azure* | https://docs.netapp.com/us-en/occm/task_creating_connectors_azure.html["Conector de Cloud Manager"^] 
+
+
+| https://docs.netapp.com/us-en/occm/task_getting_started_azure.html["Cloud Volumes ONTAP"^] 
+
+
+| Comparación de máquinas virtuales de Azure con sistema operativo de base de datos a las instalaciones 
+
+
+.3+| *Cloud - GCP* | https://docs.netapp.com/us-en/occm/task_creating_connectors_gcp.html["Conector de Cloud Manager"^] 
+
+
+| https://docs.netapp.com/us-en/occm/task_getting_started_gcp.html["Cloud Volumes ONTAP"^] 
+
+
+| Emparejamiento de instancias de Google Compute Engine del sistema operativo de base de datos a las instalaciones 
+|===
+link:hybrid_dbops_snapcenter_prerequisite.html["Siguiente: Requisitos previos de la configuración."]

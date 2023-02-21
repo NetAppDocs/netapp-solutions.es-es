@@ -1,0 +1,73 @@
+---
+sidebar: sidebar 
+permalink: databases/hybrid_dbops_snapcenter_prereq_cloud.html 
+summary: Antes de instalar el conector de Cloud Manager y Cloud Volumes ONTAP y configurar SnapMirror, debemos preparar algo para nuestro entorno de cloud. Esta página describe el trabajo que se debe realizar así como las consideraciones que se deben tener en cuenta al implementar Cloud Volumes ONTAP. 
+keywords: prerequisites, aws, azure, gcp, cloud central, cloud volumes ontap 
+---
+= Requisitos previos para el cloud público
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:table-stripes: odd
+:imagesdir: ./../media/
+
+
+link:hybrid_dbops_snapcenter_prereq_onprem.html["Anterior: Requisitos previos en las instalaciones."]
+
+Antes de instalar el conector de Cloud Manager y Cloud Volumes ONTAP y configurar SnapMirror, debemos preparar algo para nuestro entorno de cloud. Esta página describe el trabajo que se debe realizar así como las consideraciones que se deben tener en cuenta al implementar Cloud Volumes ONTAP.
+
+
+
+== Lista de comprobación de requisitos previos de puesta en marcha de Cloud Manager y Cloud Volumes ONTAP
+
+* Un inicio de sesión en Cloud Central de NetApp
+* Acceso a la red desde un explorador Web hasta varios puntos finales
+* Una ubicación de red para un conector
+* Permisos del proveedor de cloud
+* Creación de redes para servicios individuales
+
+
+Para obtener más información sobre lo que necesita para empezar, visite nuestra https://docs.netapp.com/us-en/occm/reference_checklist_cm.html["documentación sobre cloud"^].
+
+
+
+== Consideraciones
+
+
+
+=== 1. ¿Qué es un conector de Cloud Manager?
+
+En la mayoría de los casos, un administrador de cuenta de Cloud Central debe poner en marcha un conector en la red local o en el cloud. El conector permite a Cloud Manager gestionar recursos y procesos dentro de su entorno de cloud público.
+
+Para obtener más información sobre conectores, visite nuestra https://docs.netapp.com/us-en/occm/concept_connectors.html["documentación sobre cloud"^].
+
+
+
+=== 2. Ajuste de tamaño y arquitectura de Cloud Volumes ONTAP
+
+Al implementar Cloud Volumes ONTAP, se ofrece la opción de un paquete predefinido o de la creación de su propia configuración. A pesar de que muchos de estos valores se pueden cambiar más adelante de forma no disruptiva, existen algunas decisiones clave que deben tomarse antes de la puesta en marcha en función de las cargas de trabajo que se van a poner en marcha en el cloud.
+
+Cada proveedor de cloud tiene diferentes opciones de puesta en marcha y casi todas las cargas de trabajo tienen sus propias propiedades únicas. NetApp tiene una https://cloud.netapp.com/cvo-sizer["Herramienta de ajuste de tamaño CVO"^] esto puede ayudar a dimensionar correctamente las puestas en marcha en función de la capacidad y el rendimiento, pero se ha desarrollado a partir de algunos conceptos básicos que vale la pena considerar:
+
+* Capacidad requerida
+* Capacidad de red de la máquina virtual de cloud
+* Características de rendimiento del almacenamiento en cloud
+
+
+La clave está en planificar una configuración que satisfaga no solo los requisitos de capacidad y rendimiento actuales, sino que también tenga en cuenta el crecimiento futuro. Esto suele denominarse margen adicional de capacidad y margen adicional de rendimiento.
+
+Si desea obtener más información, lea la documentación acerca de la planificación correcta para https://docs.netapp.com/us-en/occm/task_planning_your_config.html["AWS"^], https://docs.netapp.com/us-en/occm/task_planning_your_config_azure.html["Azure"^], y. https://docs.netapp.com/us-en/occm/task_planning_your_config_gcp.html["GCP"^].
+
+
+
+=== 3. ¿Nodo único o alta disponibilidad?
+
+En todos los clouds, existe la opción de poner en marcha CVO tanto en un único nodo como en un par de alta disponibilidad en clúster con dos nodos. En función del caso de uso, puede que desee poner en marcha un solo nodo para ahorrar costes o un par de alta disponibilidad para proporcionar mayor disponibilidad y redundancia.
+
+En un caso de uso de recuperación ante desastres o durante el aumento del almacenamiento temporal para las fases de desarrollo y pruebas, los nodos individuales son habituales, ya que el impacto de una interrupción repentina del servicio de la infraestructura es menor. Sin embargo, en cualquier caso de uso de producción, si los datos solo se encuentran en una única ubicación o si el conjunto de datos debe tener más redundancia y disponibilidad, se recomienda una alta disponibilidad.
+
+Para obtener más información sobre la arquitectura de la alta disponibilidad de cada versión cloud, visite la documentación de https://docs.netapp.com/us-en/occm/concept_ha.html["AWS"^], https://docs.netapp.com/us-en/occm/concept_ha_azure.html["Azure"^] y.. https://docs.netapp.com/us-en/occm/concept_ha_google_cloud.html["GCP"^].
+
+link:hybrid_dbops_snapcenter_getting_started.html["Siguiente: Información general del comienzo."]

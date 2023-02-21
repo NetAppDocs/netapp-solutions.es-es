@@ -1,0 +1,85 @@
+---
+sidebar: sidebar 
+permalink: databases/aws_ora_fsx_ec2_migration.html 
+summary: En esta sección, se proporcionan detalles sobre los factores que se deben tener en cuenta al migrar la base de datos de Oracle de las instalaciones a la instancia de AWS EC2 y al almacenamiento FSX. 
+keywords: HA, DR, database, Oracle, RDS, AWS, SnapCenter 
+---
+= Migración de bases de datos de las instalaciones al cloud público
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:table-stripes: odd
+:imagesdir: ./../media/
+
+
+link:aws_ora_fsx_ec2_mgmt.html["Anterior: Gestión de bases de datos."]
+
+La migración de bases de datos es una tarea difícil de cualquier modo. Migrar una base de datos de Oracle de las instalaciones al cloud no es una excepción.
+
+Las siguientes secciones proporcionan factores clave que se deben tener en cuenta a la hora de migrar bases de datos de Oracle al cloud público de AWS con la computación EC2 de AWS y la plataforma de almacenamiento FSX.
+
+
+
+== El almacenamiento de ONTAP está disponible en las instalaciones
+
+Si la base de datos de Oracle local se encuentra en una cabina de almacenamiento ONTAP, resulta más fácil configurar la replicación para la migración de bases de datos mediante la tecnología SnapMirror de NetApp integrada en el almacenamiento ONTAP FSX de AWS. El proceso de migración puede orquestarse mediante la consola BlueXP de NetApp.
+
+. Cree una instancia de EC2 de computación de destino que coincida con la instancia local.
+. Aprovisionamiento de volúmenes de base de datos de igual tamaño desde la consola FSX.
+. Montar los volúmenes de la base de datos FSX en la instancia de EC2.
+. Configure la replicación de SnapMirror entre los volúmenes de base de datos locales en los volúmenes de base de datos FSX de destino. Es posible que la sincronización inicial tarde un poco en mover los datos de origen primarios, pero cualquier actualización incremental posterior es mucho más rápida.
+. En el momento de la conmutación, cierre la aplicación principal para detener todas las transacciones. Desde la interfaz de línea de comandos de Oracle sqlplus, ejecutar un switch de registro en línea de Oracle y permitir que la sincronización SnapMirror mueva el último registro archivado al volumen de destino.
+. Rompa los volúmenes reflejados, ejecute la recuperación de Oracle en el destino y cree la base de datos para su servicio.
+. Dirija sus aplicaciones a la base de datos de Oracle en el cloud.
+
+
+En el siguiente vídeo se muestra cómo migrar una base de datos de Oracle de las instalaciones a AWS FSX/EC2 mediante la consola BlueXP de NetApp y la replicación de SnapMirror.
+
+link:https://docs.netapp.com/us-en/netapp-solutions/media/oracle-aws-fsx-part2b-migration-snapmirror_callout.mp4["Migración de bases de datos Oracle de las instalaciones a FSX/EC2 a través de SnapMirror y BlueXP"^]
+
+
+
+== El almacenamiento ONTAP no está disponible en las instalaciones
+
+Si la base de datos de Oracle local se aloja en un almacenamiento de terceros distinto a ONTAP, la migración de bases de datos se basa en la restauración de una copia de backup de base de datos de Oracle. Debe reproducir el archivo de registro para que esté actualizado antes de realizar la conmutación.
+
+AWS S3 se puede usar como área de almacenamiento provisional para el movimiento y la migración de bases de datos. Consulte los siguientes pasos de nivel alto para este método:
+
+. Aprovisione una instancia nueva de EC2 que coincida con la instancia de las instalaciones.
+. Aprovisionar volúmenes de base de datos iguales del almacenamiento FSX y montar los volúmenes en la instancia de EC2.
+. Cree una copia de backup de Oracle en el nivel de disco.
+. Mueva la copia de backup al almacenamiento AWS S3.
+. Vuelva a crear el archivo de control de Oracle, restaure y recupere la base de datos. Para ello, extrae datos y el registro de archivos del almacenamiento S3.
+. Sincronice la base de datos de Oracle de destino con la base de datos de origen en las instalaciones.
+. Al efectuar la conmutación, cierre la aplicación y la base de datos Oracle de origen. Copie los últimos registros de archivo y aplíquelos a la base de datos Oracle de destino para ponerlos al día.
+. Inicie la base de datos de destino para el acceso del usuario.
+. Redirigir la aplicación a la base de datos de destino para completar la conmutación.
+
+
+
+
+== Migración de bases de datos de Oracle locales a AWS FSX/EC2 mediante la reubicación de PDB con la máxima disponibilidad
+
+Este método de migración es más adecuado para las bases de datos de Oracle que ya se ponen en marcha en el modelo multi-tenant de PDB/CDB y el almacenamiento de ONTAP no está disponible en las instalaciones. El método de reubicación de PDB utiliza la tecnología de clonado activo de PDB de Oracle para mover PDB entre una CDB de origen y una CDB de destino al mismo tiempo que minimiza la interrupción del servicio.
+
+En primer lugar, cree una CDB en el AWS FSX/EC2 con almacenamiento suficiente para migrar las PDB de host desde las instalaciones. Es posible reubicar varios PDB en las instalaciones de uno en uno.
+
+. Si la base de datos en las instalaciones se implementa en una sola instancia en lugar de en el modelo de PDB/CDB multitenant, siga las instrucciones de link:https://docs.netapp.com/us-en/netapp-solutions/databases/azure_ora_nfile_migration.html#converting-a-single-instance-non-cdb-to-a-pdb-in-a-multitenant-cdb["Convertir una sola instancia que no es una CDB en una PDB en una CDB multitenant"^] Para convertir la instancia única en PDB/CDB multitenant. A continuación, siga el siguiente paso para migrar la PDB convertida a CDB en AWS FSX/EC2.
+. Si la base de datos en las instalaciones ya está implementada en el modelo multi-tenant PDB/CDB, siga las instrucciones de link:https://docs.netapp.com/us-en/netapp-solutions/databases/azure_ora_nfile_migration.html#migrate-on-premises-oracle-databases-to-azure-with-pdb-relocation["Migre bases de datos de Oracle locales al cloud con la reubicación de PDB"^] para realizar la migración.
+
+
+En el siguiente vídeo se muestra cómo se puede migrar una base de datos de Oracle (PDB) a FSX/EC2 mediante la reubicación de PDB con la disponibilidad máxima.
+
+link:https://www.netapp.tv/insight/details/29998?playlist_id=0&mcid=85384745435828386870393606008847491796["Migre la PDB de Oracle local a la CDB AWS con la máxima disponibilidad"^]
+
+
+NOTE: Aunque las instrucciones del paso 1 y 2 se ilustran en el contexto del cloud público de Azure, los procedimientos se pueden aplicar al cloud AWS sin cambios.
+
+El equipo de automatización de soluciones de NetApp proporciona un kit de herramientas de migración que puede facilitar la migración de bases de datos de Oracle de las instalaciones al cloud de AWS. Utilice este comando para descargar el kit de herramientas de migración de bases de datos de Oracle para la reubicación de PDB.
+
+[source, cli]
+----
+git clone https://github.com/NetApp-Automation/na_ora_aws_migration.git
+----

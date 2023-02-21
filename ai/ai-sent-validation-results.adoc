@@ -1,0 +1,53 @@
+---
+sidebar: sidebar 
+permalink: ai/ai-sent-validation-results.html 
+keywords: validation, errors, metrics, score, recall, precision 
+summary: Tal como se ha mencionado en la sección anterior, los errores se propagan por la canalización siempre que haya dos o más modelos de aprendizaje automático ejecutándose de forma secuencial. Para esta solución, el sentimiento de la frase es el factor más importante a la hora de medir el nivel de riesgo de las acciones de la empresa. El modelo de voz a texto, aunque esencial para la canalización, sirve como unidad de preprocesamiento antes de que se puedan predecir los sentimientos. 
+---
+= Resultados de validación
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:ai-sent-deploying-support-center-sentiment-analysis.html["Anterior: Puesta en marcha del análisis de opinión del centro de soporte."]
+
+Tal como se ha mencionado en la sección anterior, los errores se propagan por la canalización siempre que haya dos o más modelos de aprendizaje automático ejecutándose de forma secuencial. Para esta solución, el sentimiento de la frase es el factor más importante a la hora de medir el nivel de riesgo de las acciones de la empresa. El modelo de voz a texto, aunque esencial para la canalización, sirve como unidad de preprocesamiento antes de que se puedan predecir los sentimientos. Lo que realmente importa es la diferencia en el sentimiento entre las frases de la verdad en el terreno y las oraciones predichas. Esto sirve como proxy para la velocidad de error de la palabra (WER). La precisión de voz a texto es importante, pero el WER no se utiliza directamente en la métrica de canalización final.
+
+....
+PIPELINE_SENTIMENT_METRIC = MEAN(DIFF(GT_sentiment, ASR_sentiment))
+....
+Estas métricas de sentimiento se pueden calcular para la puntuación F1, la recuperación y la precisión de cada frase. Los resultados se pueden agregar y mostrar dentro de una matriz de confusión, junto con los intervalos de confianza de cada métrica.
+
+La ventaja de usar el aprendizaje de transferencia es un aumento en el rendimiento de los modelos por una fracción de los requisitos de datos, el tiempo de entrenamiento y el coste. Los modelos ajustados también deben compararse con sus versiones de referencia para garantizar que el aprendizaje de la transferencia mejore el rendimiento en lugar de deteriorarlo. En otras palabras, el modelo ajustado debería tener un mejor rendimiento en los datos del centro de soporte que el modelo preentrenado.
+
+
+
+== Evaluación de la canalización
+
+|===
+| Caso de prueba | Detalles 
+
+
+| Número de prueba | Métrica de sentimiento de canalización 
+
+
+| Probar los requisitos previos | Modelos ajustados para modelos de análisis de voz a texto y de sentimiento 
+
+
+| Resultado esperado | La métrica de sentimiento del modelo ajustado funciona mejor que el modelo preentrenado original. 
+|===
+
+
+== Métrica de sentimiento de canalización
+
+. Calcule la métrica de sentimiento para el modelo de referencia.
+. Calcule la métrica de sentimiento para el modelo ajustado.
+. Calcular la diferencia entre estas métricas.
+. Calcule la media de las diferencias entre todas las frases.
+
+
+link:ai-sent-videos-and-demos.html["Siguiente: Vídeos y demos."]

@@ -1,0 +1,41 @@
+---
+sidebar: sidebar 
+permalink: ai/ai-sent-videos-and-demos.html 
+keywords: video, demo, notebook 
+summary: En esta sección se enumeran los Cuadernos Jupyter y otros recursos útiles para esta solución. 
+---
+= Vídeos y demostraciones
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:ai-sent-validation-results.html["Anterior: Resultados de validación."]
+
+Existen dos portátiles que contienen la canalización de análisis de confianza: https://nbviewer.jupyter.org/github/NetAppDocs/netapp-solutions/blob/main/media/Support-Center-Model-Transfer-Learning-and-Fine-Tuning.ipynb["“Support-Center-Model-Transfer-Learning-and-Fine-Tuning.ipynb”"] y.. link:https://nbviewer.jupyter.org/github/NetAppDocs/netapp-solutions/blob/main/media/Support-Center-Sentiment-Analysis-Pipeline.ipynb["“Support-Center-sentimiento-Analysis-Pipeline.ipynb”"]. Juntos, estos portátiles muestran cómo desarrollar una canalización para la incorporación de datos de centro de soporte y extraer sentimientos de cada frase mediante modelos de aprendizaje profundo de última generación ajustados a los datos del usuario.
+
+
+
+== Centro de apoyo - Análisis de confianza Pipeline.ipynb
+
+Este cuaderno contiene la canalización RIVA de inferencia para la incorporación de audio, la conversión a texto y la extracción de sentimientos para su uso en un panel externo. El conjunto de datos se descarga y procesa automáticamente si aún no se ha hecho. La primera sección del bloc de notas es la voz a texto que controla la conversión de archivos de audio a texto. A continuación se muestra la sección Análisis de sentimientos que extrae sentimientos para cada frase de texto y muestra dichos resultados en un formato similar al panel propuesto.
+
+
+NOTE: Este portátil debe ejecutarse antes del entrenamiento del modelo y del ajuste preciso porque el conjunto de datos MP3 debe descargarse y convertirse al formato correcto.
+
+image:ai-sent-image12.png["Error: Falta la imagen gráfica"]
+
+
+
+== Centro de soporte - formación de modelos y afinación.ipynb
+
+El entorno virtual del kit de herramientas de TAO debe configurarse antes de ejecutar el cuaderno (consulte la sección del kit de herramientas de TAO en la descripción general de comandos para obtener instrucciones de instalación).
+
+Este cuaderno confía en el kit de herramientas TAO para ajustar los modelos de aprendizaje profundo en los datos de los clientes. Al igual que en el cuaderno anterior, este se separa en dos secciones para los componentes de análisis de opinión y voz. Cada sección abarca el procesamiento de datos, la formación de modelos y el ajuste preciso, la evaluación de los resultados y la exportación de modelos. Por último, existe una sección final para implementar tanto sus modelos ajustados para su uso en RIVA.
+
+image:ai-sent-image13.png["Error: Falta la imagen gráfica"]
+
+link:ai-sent-conclusion.html["Siguiente: Conclusión."]
