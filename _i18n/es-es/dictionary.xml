@@ -14905,7 +14905,6 @@
   <block id="2515fbef39d57544723402c683215c64" category="doc">Descripción general de integración del almacenamiento de NetApp</block>
   <block id="5b9abd64aa4865a31820ebec932e54f2" category="section-title">Programa para partners de almacenamiento Anthos Ready.</block>
   <block id="7a8b9d74335d44fbaaf7f5d5aebf0cfd" category="paragraph">Google Cloud solicita periódicamente una validación actualizada de las integraciones de almacenamiento de partners con los nuevos lanzamientos de Anthos a través de su programa para partners de almacenamiento Anthos Ready. Encontrará una lista de las soluciones de almacenamiento validadas actualmente, los controladores CSI, las funciones disponibles y las versiones de Anthos admitidas<block ref="0ccc93736ba595a77f031ff105798de0" category="inline-link-rx"></block>.</block>
-  <block id="ea3b8c601657928fee815e0d16908cf1" category="paragraph">NetApp ha mantenido un cumplimiento regular trimestralmente con solicitudes para validar el orquestador de almacenamiento compatible con CSI de Astra Trident y nuestros sistemas de almacenamiento ONTAP y Element con versiones de Anthos.</block>
   <block id="d9c9cc94777c7797db966b663b32ce4d" category="paragraph">La siguiente tabla contiene las versiones de Anthos que han probado los ingenieros de partners de NetApp y de NetApp para validar los controladores y los conjuntos de funciones Astra Trident de NetApp como parte del programa para partners de almacenamiento Anthos:</block>
   <block id="02046ad0e82ff27f6e1774aa588fd853" category="cell">Tipo de puesta en marcha</block>
   <block id="1552eec8291d257c4b855dcfa425d802" category="cell">Sistema de almacenamiento</block>
@@ -14918,7 +14917,6 @@
   <block id="e5db66c80967b6fa50a1eede0ce50e2f" category="cell">Multiwriter, expansión de volumen, instantáneas</block>
   <block id="62a0282d39568be094470486eaf70c4f" category="cell">SAN</block>
   <block id="4c606f506efd3b3bef3499e3342b5933" category="cell">Bloque bruto, expansión de volumen, snapshots</block>
-  <block id="231afe47f3f37d3808096b36c28b4ded" category="cell">Elemento</block>
   <block id="a2da3c930443e5d1421caec9ee18a376" category="cell">nativo</block>
   <block id="bdca6efb043178ef172612dd1e173dde" category="cell">1.10</block>
   <block id="955ddf0f7e289ee80cdea4b5324b620d" category="cell">22.01</block>
@@ -14929,7 +14927,6 @@
   <block id="ee33055a07370e6d1e33ad7480a57a7b" category="paragraph"><block ref="ee33055a07370e6d1e33ad7480a57a7b" category="inline-link-macro-rx"></block></block>
   <block id="ee1514b17e642c9cd1384a20cec220e3" category="summary">El vídeo vinculado a de esta página muestra algunas de las capacidades que se documentan en este documento.</block>
   <block id="17c3771ed0b6c1ae15740eff715e9922" category="doc">Vídeos y demostraciones</block>
-  <block id="63e2e4c63022a2ca3a58778bd242195b" category="paragraph">En el siguiente vídeo se muestran algunas de las funcionalidades documentadas en este documento:</block>
   <block id="1adda60fb6ef5adf0c35c53442bdd87d" category="inline-link-macro">Vídeo: Puesta en marcha de Anthos en configuraciones básicas</block>
   <block id="81082fb0b2db5311a27c6cd75db69481" category="paragraph"><block ref="81082fb0b2db5311a27c6cd75db69481" category="inline-link-macro-rx"></block></block>
   <block id="eec34a14279b64231b91793978a204da" category="paragraph"><block ref="eec34a14279b64231b91793978a204da" category="inline-link-macro-rx"></block></block>
@@ -14962,7 +14959,6 @@
   <block id="3cd74a54f5924b896bf9cb97397e8b35" category="list-text">*Clúster de administración.* el clúster inicial puesto en marcha al configurar los clústeres de Anthos en VMware. Este clúster gestiona todas las acciones subordinadas del clúster de usuario, incluidas la puesta en marcha, el escalado y la actualización.</block>
   <block id="11b774f9c0d1531100a341b6da7d98fa" category="list-text">*Clúster de usuarios.* cada clúster de usuarios se implementa con su propia instancia o partición de equilibrador de carga, lo que le permite actuar como clúster de Kubernetes independiente para usuarios o grupos individuales, lo que ayuda a lograr una multi-tenancy completa.</block>
   <block id="b4dfd3f706cb0162d524cf7c36093e7c" category="paragraph">El siguiente gráfico es una descripción de una puesta en marcha de Anthos-Clusters-on-VMware.</block>
-  <block id="d17685a3ddd89e969b430984ce944772" category="paragraph"><block ref="d17685a3ddd89e969b430984ce944772" category="inline-image-macro-rx" type="image"></block></block>
   <block id="348ed6380fe1c4753877d1f13d95d39a" category="paragraph">Los clústeres de Anthos en VMware ofrecen las siguientes ventajas:</block>
   <block id="cf97925041bebbd35543bc4fc24fa499" category="list-text">*Multitenancy avanzado.* a cada usuario final se le puede asignar su propio clúster de usuarios, implementado con los recursos virtuales necesarios para su propio entorno de desarrollo.</block>
   <block id="f34111b15d3f3387462dd512dde1392f" category="list-text">*Ahorro de costes.* los usuarios finales pueden obtener un ahorro significativo al implementar varios clústeres de usuarios en el mismo entorno físico y utilizar sus propios recursos físicos para sus implementaciones de aplicaciones en lugar de aprovisionar recursos en su entorno de Google Cloud o en grandes clústeres con configuración básica.</block>
@@ -14976,16 +14972,11 @@
   <block id="4418ae814387892bd88d45091a182234" category="list-text">*Alta disponibilidad de vSphere.* para evitar interrupciones en caso de fallos de host, VMware vSphere permite agrupar y configurar los hosts para alta disponibilidad. Las máquinas virtuales que son interrumpidas por un error de host se reinician en breve en otros hosts del clúster, restaurando los servicios.</block>
   <block id="46b35ead34118cb2c50327c71e4aa640" category="list-text">*Distributed Resource Scheduler (DRS).* se puede configurar un clúster de VMware vSphere para equilibrar la carga de las necesidades de recursos de los equipos virtuales que aloja. Las máquinas virtuales con referencias de recursos pueden migrarse en caliente a otros nodos del clúster para garantizar que haya suficientes recursos disponibles.</block>
   <block id="2c912ca37607e38556f15eebae425241" category="paragraph">Google Cloud solicita periódicamente una validación actualizada de las plataformas de servidor de partners con las nuevas versiones de Anthos a través de su programa para partners de plataformas Anthos Ready. Puede encontrar una lista de las plataformas de servidor validadas actualmente y las versiones de Anthos admitidas<block ref="3b2369e07f297fb9367d6c18ca70e2ac" category="inline-link-rx"></block>.</block>
-  <block id="44da02789c784d2615f858b0e9007c1d" category="inline-link">FlexPod de NetApp</block>
-  <block id="08edd2123939d5309dced149763a50ee" category="inline-link">NetApp HCI</block>
-  <block id="58d64ca3570be3edd23e4165a8c0d9ee" category="paragraph">La siguiente tabla contiene plataformas de servidores que han sido probadas por ingenieros de partners de NetApp y NetApp para validar los clústeres de Anthos en puestas en marcha de VMware. Entre ellos se incluyen soluciones como el<block ref="5ea2f6a45afb6a8f064f7631dd737389" category="inline-link-rx"></block> Con los servidores Cisco UCS y el<block ref="3ff4d1b07fc6ed14e7fcf7636d0ad5aa" category="inline-link-rx"></block> plataforma de infraestructura de cloud híbrido.</block>
   <block id="c0bd7654d5b278e65f21cf4e9153fdb4" category="cell">Fabricante</block>
   <block id="529a05ca6c1263aab080ec4f20754411" category="cell">Marca</block>
   <block id="7b1d1185b835814de783483f686e9825" category="cell">Cisco</block>
   <block id="21f20abdc637c3f2ef02355079dac15d" category="cell">UCS</block>
   <block id="8746d13b8a20e92a40041de84ef0df6f" category="cell">B200 M5</block>
-  <block id="bcb24d33d2a22de9b0c3e9f38becc496" category="cell">HCI</block>
-  <block id="9f80c25863c6e1e85d8d5492b437cb64" category="cell">C410</block>
   <block id="696c660ff8d9323e55146a6dbd4e4088" category="section-title">De NetApp</block>
   <block id="69da39b403ff0537d2282cb291d4397c" category="paragraph">Los clústeres de Anthos en VMware pueden ponerse en marcha tanto en entornos vSphere 6 como 7, según la elección del cliente, para que pueda ajustarse a su infraestructura de centro de datos actual.</block>
   <block id="e7a811d106a4076d6c6992a7b97734a0" category="paragraph">La siguiente tabla incluye una lista de las versiones de vSphere que han utilizado NetApp y nuestros partners para validar la solución.</block>
@@ -14997,18 +14988,10 @@
   <block id="9e5fa7e53550abb6c768c926e7888df7" category="paragraph">En la siguiente tabla se incluye información sobre estos componentes de infraestructura adicionales.</block>
   <block id="b763f3ad097c7d9beb9849be170a627a" category="cell">Nombre del hardware</block>
   <block id="fe02a8fc8838381700e175498b8e1db0" category="cell">Mellanox</block>
-  <block id="92666505ce75444ee14be2ebc2f10a60" category="cell">N.O DE SERIE</block>
-  <block id="d7a84628c025d30f7b2c52c958767e76" category="cell">2010</block>
   <block id="c8984126713ed072b9cb0a44a162be4d" category="cell">AFF</block>
-  <block id="2f72e4f4112efeb63b9fb0ed1eefd1c9" category="cell">A250</block>
-  <block id="bf07aaec06ff922b8a11ef624141bfdb" category="cell">S410</block>
   <block id="8bb152d8bbc90b878b63c05b6b953334" category="section-title">Software adicional</block>
   <block id="dd4a9a41d8672c9659041812469e1df2" category="paragraph">En la siguiente tabla se incluye una lista de las versiones de software puestas en marcha en el entorno de validación.</block>
   <block id="da0d53141f6343167596fe8598964773" category="cell">Nombre del software</block>
-  <block id="3c537b8d673e06e2107129b600143391" category="cell">4.1(3e)</block>
-  <block id="f932bed2d12442d21507b51d22b88dd7" category="cell">1.8</block>
-  <block id="c1770c414b5c19c253a48e36fa2da50f" category="paragraph">Durante la validación de la plataforma Anthos Ready realizada por NetApp, el entorno de laboratorio se creó en función del siguiente diagrama, lo que nos permitió probar varios clústeres de usuarios puestos en marcha junto con varios sistemas de almacenamiento de NetApp y back-ends de almacenamiento.</block>
-  <block id="c1c59b2c25178eb5f3956ae189dc384b" category="paragraph"><block ref="c1c59b2c25178eb5f3956ae189dc384b" category="inline-image-macro-rx" type="image"></block></block>
   <block id="13d18f8604b3585f7ab88b87766a8d38" category="paragraph">Debe haber la siguiente infraestructura antes de la puesta en marcha de Anthos:</block>
   <block id="9335616a8b7dc0e6f94fd0c6aa720efe" category="list-text">Al menos un servidor DNS que proporciona una resolución de nombre de host completa a la que se puede acceder desde la red de gestión en banda y la red de VM.</block>
   <block id="905a394004d9055ec4708e53880cac66" category="list-text">Al menos un servidor NTP al que se puede acceder desde la red de gestión en banda y la red de máquinas virtuales.</block>
@@ -15123,7 +15106,6 @@
   <block id="42b9bde28896d6478a324770641ac301" category="admonition">El archivo anterior<block ref="14eaa229cb5cb8abd16cee04a7cdc20c" prefix=" " category="inline-code"></block> Es la versión mínima de Astra Control Center CRD. Si desea crear el CRD con más control, como definir un storagegrid que no sea el predeterminado para crear RVP o proporcionar detalles SMTP para las notificaciones por correo, puede editar el archivo<block ref="70b058e54d2bda749060070a7f9c4e5c" prefix=" " category="inline-code"></block>, Introduzca los detalles necesarios y utilícela para crear el CRD.</block>
   <block id="957478b81604fc0a340d863f3b89a2da" category="summary">NetApp cuenta con varias plataformas de almacenamiento cualificadas con nuestro orquestador de almacenamiento Trident para aprovisionar almacenamiento para las aplicaciones puestas en marcha en Anthos.</block>
   <block id="77caa49b32b4fc8ce3276158f57f9229" category="doc">Información general sobre el almacenamiento de NetApp</block>
-  <block id="f623f7fc1ffb9cfc3afddcf52e2fec23" category="paragraph">NetApp cuenta con varias plataformas de almacenamiento cualificadas con nuestro orquestador de almacenamiento Astra Trident para aprovisionar almacenamiento para las aplicaciones puestas en marcha en Anthos.</block>
   <block id="0c5e049b7be7649501696f84472d6820" category="paragraph"><block ref="0c5e049b7be7649501696f84472d6820" category="inline-image-macro-rx" type="image"></block></block>
   <block id="7cdcf7845d98f304186a5184cd2161ac" category="inline-link-macro">Siguiente: ONTAP de NetApp.</block>
   <block id="1a4c8966068ddb4b2fda6d5bc54054c3" category="paragraph"><block ref="1a4c8966068ddb4b2fda6d5bc54054c3" category="inline-link-macro-rx"></block></block>
@@ -15132,7 +15114,6 @@
   <block id="89ef90a5be38c2b656627392eee1a2a9" category="paragraph">Anthos con NetApp es una arquitectura de cloud híbrido verificada y con mejores prácticas para la puesta en marcha de un entorno Google Kubernetes Engine (GKE) en las instalaciones de una forma fiable y fiable. Este documento de referencia de arquitectura verificada de NetApp sirve como guía de diseño y como validación de la puesta en marcha de la solución Anthos con NetApp puesta en marcha en entornos virtuales y de configuración básica. La arquitectura descrita en este documento ha sido validada por expertos en la materia de NetApp y Google Cloud para proporcionar las ventajas de poner a Anthos en su entorno de centro de datos empresarial.</block>
   <block id="72efb373513d77a08aa5dd7e375a418f" category="section-title">Anthos</block>
   <block id="5b1a0b45a2d6518143a0c9b299e736b4" category="paragraph">Anthos es una solución de centro de datos de Kubernetes para cloud híbrido que permite a las organizaciones crear y gestionar infraestructuras de cloud híbrido modernas, al tiempo que adopta flujos de trabajo ágiles centrados en el desarrollo de aplicaciones. Anthos en VMware, una solución desarrollada con tecnologías de código abierto, se ejecuta en las instalaciones en una infraestructura basada en vSphere de VMware, que puede conectarse e interoperar con Anthos GKE en Google Cloud. Adoptar contenedores, malla de servicios y otras tecnologías para la transformación permiten a las organizaciones experimentar ciclos de desarrollo de aplicaciones consistentes y cargas de trabajo preparadas para la producción en entornos locales y basados en cloud. En la siguiente figura se muestra la solución Anthos y cómo una implementación en una interconexión del centro de datos local con la infraestructura en el cloud.</block>
-  <block id="42fc2dc2813b6a8c6bbca7ebe6d3f51e" category="paragraph">Para obtener más información sobre Anthos, consulte el sitio web de Anthos que se encuentra<block ref="bcfc39c80df16a8beb60f78ea034be9d" category="inline-link-rx"></block>.</block>
   <block id="ea2625d89edeb5ba9cb41ca58df54e93" category="paragraph">Anthos ofrece las siguientes características:</block>
   <block id="c10e0a21a04a29dfca9609b3ec4bab76" category="list-text">*La gestión de la configuración de Anthos* automatiza la política y la seguridad de las implementaciones de Kubernetes híbridas.</block>
   <block id="e8c4d5cbaf3932ffa3fa7a097bff923e" category="list-text">* Malla de servicio Anthos.* mejora la capacidad de observación, seguridad y control de aplicaciones con una malla de servicio impulsada por Istio.</block>
@@ -15233,33 +15214,20 @@
   <block id="884a92818052da7764b1c5b7589bd458" category="paragraph"><block ref="884a92818052da7764b1c5b7589bd458" category="inline-link-macro-rx"></block></block>
   <block id="2f0792348007b672e999da06f311bd6f" category="summary">Astra Trident es un orquestador de almacenamiento de código abierto y totalmente compatible para contenedores y distribuciones de Kubernetes, incluido Anthos.</block>
   <block id="f79c612e785ac74789a25e8dda9e8731" category="doc">Descripción general de Astra Trident</block>
-  <block id="c91efa18f13fad38864e99107352d0c5" category="paragraph">Astra Trident es un orquestador de almacenamiento de código abierto y totalmente compatible para contenedores y distribuciones de Kubernetes, incluido Anthos. Trident funciona con toda la cartera de almacenamiento de NetApp, incluidos los sistemas de almacenamiento ONTAP y Element de NetApp, y también admite conexiones NFS e iSCSI. Trident acelera el flujo de trabajo de DevOps al permitir que los usuarios finales aprovisionen y gestionen el almacenamiento desde sus sistemas de almacenamiento de NetApp sin necesidad de intervención del administrador de almacenamiento.</block>
   <block id="e16f8b7c3b79f3d80b3d5b5862b4481a" category="paragraph">Un administrador puede configurar varios back-ends de almacenamiento a partir de necesidades de proyectos y modelos de sistema de almacenamiento que permiten funciones de almacenamiento avanzadas, como compresión, tipos de disco específicos y niveles de calidad de servicio que garantizan un cierto nivel de rendimiento. Una vez definidas estos back-ends pueden ser utilizados por los desarrolladores en sus proyectos para crear reclamaciones de volumen persistente (RVP) y conectar almacenamiento persistente a sus contenedores bajo demanda.</block>
-  <block id="fbc20d9fb2c2f042edf73e3b39b3278a" category="paragraph"><block ref="fbc20d9fb2c2f042edf73e3b39b3278a" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="239c66c0132fd8324d609e4f1ce89f79" category="paragraph">La última versión de Astra Trident, 22.04, se lanzó en abril de 2022. Existe una matriz de compatibilidad con la versión de Trident probada en la que se puede encontrar la distribución de Kubernetes<block ref="34562000b9988739736848a0014e5230" category="inline-link-rx"></block>.</block>
   <block id="1efa4d2f8950cdd5154a6c130953c9f2" category="paragraph">Con la versión 22.04, se puso a disposición un gráfico Helm para facilitar la instalación del operador Trident.</block>
   <block id="52d012c119e8e080d08f6a1592f8f9ec" category="section-title">Instale el operador Trident con Helm</block>
-  <block id="27bed77b9cf648bc4592d40c2806fb43" category="paragraph">Para usar Helm para automatizar la instalación de Trident en el clúster de usuarios implementado y aprovisionar un volumen persistente, complete los siguientes pasos:</block>
-  <block id="c9c8f06cd5f25063dedfc6eea2b08fa7" category="inline-link">Página de instalación del timón</block>
-  <block id="c49053fbce1331670d3c2e81d9625fec" category="admonition">El timón no se instala de manera predeterminada en la estación de trabajo GKE-Admin. Puede ser descargado en un formato binario que funciona con Ubuntu desde el<block ref="3d578643c15f985f07ca6d975ab0e791" category="inline-link-rx"></block>.</block>
   <block id="1315b42a551dafb715ab654d8eb5af40" category="list-text">Primero, establezca la ubicación del clúster de usuarios<block ref="deabc6332aa53495b56c51d2e3eca54f" prefix=" " category="inline-code"></block> Archivo como variable de entorno para no tener que referirla, porque Trident no tiene opción para pasar este archivo.</block>
-  <block id="43eba64dcd06763432addbcf8db2d367" category="list-text">Añada el repositorio Helm de Trident:</block>
   <block id="449774824d889f1d6ebc0bbcc4920493" category="list-text">Ejecute el comando Helm para instalar al operador Trident desde el tarball en el directorio helm mientras crea el espacio de nombres de trident en su clúster de usuarios.</block>
   <block id="64e437a845e5de3c8e50925ebdfce295" category="list-text">Puede verificar que Trident se haya instalado correctamente comprobando los pods que se ejecutan en el espacio de nombres o mediante el binario trimentctl para comprobar la versión instalada.</block>
   <block id="3ce67d5de6974f67e0048e6fdbf89498" category="admonition">En algunos casos, los entornos del cliente pueden requerir la personalización de la puesta en marcha de Trident. En estos casos, también es posible instalar manualmente el operador Trident y actualizar los manifiestos incluidos para personalizar la implementación.</block>
   <block id="8bd534d3b6bc8d2541df052e053ed65d" category="section-title">Instale manualmente el operador de Trident</block>
-  <block id="6a05a869c72ac896a6f7473fba5c9b1e" category="paragraph">Para instalar manualmente Trident en el clúster de usuarios implementado y aprovisionar un volumen persistente, complete los siguientes pasos:</block>
-  <block id="79273cfc4ab66c2763755b11b14fedb9" category="list-text">Descargue el archivo de instalación en la estación de trabajo de administración y extraiga el contenido. La versión actual de Trident es la 22.04, que se puede descargar<block ref="c7e04c62da3fb5014b467863172d941c" category="inline-link-rx"></block>.</block>
   <block id="422269f9bb560b76869cbd586b8370d5" category="list-text">Extraiga la instalación de Trident del paquete descargado.</block>
-  <block id="f0d8974fd014601f60573d339d525772" category="list-text">Establezca la ubicación del clúster de usuarios<block ref="deabc6332aa53495b56c51d2e3eca54f" prefix=" " category="inline-code"></block> Archivo como variable de entorno para no tener que referirla, porque Trident no tiene opción para pasar este archivo.</block>
   <block id="5d710ec7d521df428edd75c1885ee89b" category="list-text">La<block ref="c84ef67352bb6783ff2881f9f2821c2a" prefix=" " category="inline-code"></block> el directorio contiene manifiestos para definir todos los recursos necesarios. Con los manifiestos adecuados, cree la<block ref="ae61bf6af1a7406b62c72a4bef1ab62d" prefix=" " category="inline-code"></block> definición de recursos personalizados.</block>
   <block id="0ac11186fb38b2e9d4acd38d03f61b5c" category="list-text">Si no existe ninguno, cree un espacio de nombres Trident en el clúster mediante el manifiesto proporcionado.</block>
   <block id="004c51fe71b5c654f88a31270ec6c8e9" category="list-text">Cree los recursos necesarios para la puesta en marcha del operador Trident, como, por ejemplo, la<block ref="5c24ffd6438853b537bd99b3fccd3340" prefix=" " category="inline-code"></block> para el operador, un<block ref="d7d354d0f9d0780e168c895c92a32c24" prefix=" " category="inline-code"></block> y..<block ref="e866afd8290d5c73cda6260e04e6eef0" prefix=" " category="inline-code"></block> para la<block ref="5c24ffd6438853b537bd99b3fccd3340" prefix=" " category="inline-code"></block>, un dedicado<block ref="316707d12484dd3afede08839dee49bc" prefix=" " category="inline-code"></block>o el propio operador.</block>
   <block id="f7b9c678b684e969a3ee5ac971514f48" category="list-text">Puede comprobar el estado del operador después de desplegarlo con los siguientes comandos:</block>
   <block id="b34dd67c198ad4cf0088bd29c7ef4658" category="list-text">Con el operador puesto en marcha, ahora podemos utilizarlo para instalar Trident. Esto requiere crear un<block ref="ae61bf6af1a7406b62c72a4bef1ab62d" prefix=" " category="inline-code"></block>.</block>
-  <block id="deae9c61cc109057bffb21d54fd54cdc" category="paragraph">Una vez finalizada la instalación del operador de Astra Trident, debe configurar el back-end para la plataforma de almacenamiento específica de NetApp que esté usando. Siga el siguiente enlace para continuar con la instalación y configuración de Astra Trident.</block>
-  <block id="6ed9d9e6160cedf6c16c9fa74e9d08aa" category="inline-link-macro">Siguiente: ONTAP NFS de NetApp.</block>
-  <block id="86beb69e1e89df92a89baa0d004b08b8" category="paragraph"><block ref="86beb69e1e89df92a89baa0d004b08b8" category="inline-link-macro-rx"></block></block>
   <block id="8921c6e9843ba7487c77f4dce1467111" category="summary">El software NetApp Element ofrece un rendimiento modular y escalable con cada nodo de almacenamiento que ofrece capacidad y rendimiento garantizados para el entorno. Los sistemas NetApp Element pueden escalarse de 4 a 100 nodos en un único clúster y ofrecen una serie de funciones avanzadas de gestión del almacenamiento.</block>
   <block id="53c583e55a36ad49234df678a2dbcf45" category="paragraph">El software NetApp Element ofrece un rendimiento modular y escalable con cada nodo de almacenamiento que ofrece capacidad y rendimiento garantizados para el entorno. Los sistemas NetApp Element pueden escalarse de 4 a 100 nodos en un único clúster y ofrecen diversas funciones avanzadas de gestión del almacenamiento.</block>
   <block id="10a641cf7647f6970bad748b52bb253b" category="paragraph"><block ref="10a641cf7647f6970bad748b52bb253b" category="inline-image-macro-rx" type="image"></block></block>
@@ -15294,7 +15262,6 @@
   <block id="941b2b9e397e77b597402b51e7ef131d" category="paragraph"><block ref="941b2b9e397e77b597402b51e7ef131d" category="inline-link-macro-rx"></block></block>
   <block id="d46a5e1e10f8a4a33306d0696cef14f5" category="summary">Este documento de referencia proporciona la validación de la puesta en marcha de la solución Anthos con NetApp y está puesto en marcha en entornos de centros de datos múltiples validados por NetApp y nuestros partners de ingeniería.</block>
   <block id="9d171bf7d3d65afb2e7e56d43b4b9ed5" category="doc">NVA-1165: Anthos con NetApp</block>
-  <block id="e961a4cbc5c7e2be5e3f72a578aeb4da" category="paragraph">Alan Cowles y Nikhil Kulkarni, NetApp</block>
   <block id="28eb5fe5f641c3ffa32f2488fa166a36" category="paragraph">Este documento de referencia proporciona la validación de la puesta en marcha de la solución Anthos con NetApp y nuestros partners de ingeniería cuando se pone en marcha en varios entornos de centros de datos. Además, se detalla la integración del almacenamiento con los sistemas de almacenamiento de NetApp, mediante el orquestador de almacenamiento Astra Trident, con el fin de gestionar el almacenamiento persistente. Por último, exploramos y documentamos una serie de validaciones de soluciones y casos de uso reales.</block>
   <block id="9b3053daf2ec8e22b4a577982f08f107" category="paragraph">La solución Anthos con NetApp está diseñada para ofrecer un valor excepcional a los clientes con los siguientes casos prácticos:</block>
   <block id="0d3aabd1c9ad032e07b543d0aff99cb1" category="list-text">Es fácil poner en marcha y gestionar el entorno de Anthos puesto en marcha utilizando el proporcionado<block ref="f9d1b8d1854865b695167e2c5829f633" prefix=" " category="inline-code"></block> de metal desnudo o de<block ref="fb87177c7509d5723aa1bbc241ec2f7b" prefix=" " category="inline-code"></block> Herramienta en VMware vSphere.</block>
@@ -15313,14 +15280,11 @@
   <block id="bd4a2d19c5168aa8c2b89b4affba2402" category="cell">9.8, 9.9.1</block>
   <block id="601712ded7a71b0842984ad41b6aad39" category="cell">12.3</block>
   <block id="7cf4fea896dee61293d729d9985621d7" category="cell">Orquestación de contenedores</block>
-  <block id="eb5d694ff9583283fe6d0190a39d5f7a" category="cell">6.7U3, 7.0U3</block>
   <block id="ff870d33a6cd8a05e92781267ae2d76c" category="inline-link-macro">Siguiente: Información general de Anthos.</block>
   <block id="c3d162eb5f173883de1167105528ba0b" category="paragraph"><block ref="c3d162eb5f173883de1167105528ba0b" category="inline-link-macro-rx"></block></block>
   <block id="3ca99f0e09d3b1ea097a113dd72c9317" category="list-text">Hay archivos de fondo de ejemplo disponibles en el archivo de instalación descargado en<block ref="75e4a0ceb294a9d74374c938e4e8ddc8" prefix=" " category="inline-code"></block> jerarquía de carpetas. Para los sistemas ONTAP de NetApp que proporcionan servicio iSCSI, copie el<block ref="684351d8ace6c8daa15d6a5ec881647e" prefix=" " category="inline-code"></block> archivar en el directorio de trabajo y editar el archivo.</block>
   <block id="fa346018b8222fdc195d0b73016cf5a0" category="list-text">Edite los valores managementLIF, dataLIF, svm, username y password de este archivo.</block>
   <block id="da0289d58f35e36d18325d6e8038b226" category="admonition">Hay un campo opcional llamado<block ref="7cfbb6f07899c8071ff38e69dca190e2" prefix=" " category="inline-code"></block> que se define en este archivo. En los back-ends iSCSI, este valor se puede establecer en un tipo de sistema de archivos Linux específico (XFS, ext4, etc.), o se puede eliminar para permitir que el sistema operativo del nodo de trabajo decida qué sistema de ficheros utilizar.</block>
-  <block id="06a9f54df07db88477918bd7c3f597de" category="inline-link-macro">Siguiente: ISCSI de NetApp Element.</block>
-  <block id="dd8532ad7059feaef43031ffa5970de1" category="paragraph"><block ref="dd8532ad7059feaef43031ffa5970de1" category="inline-link-macro-rx"></block></block>
   <block id="bbdfa4f0841eb6d317a11ae76992b8b8" category="summary">Esta sección se dedica a analizar las opciones de equilibrador de carga para los usuarios que desean personalizar su Anthos con la puesta en marcha de NetApp.</block>
   <block id="288c554e356764c1144e77f0d78f97bf" category="doc">Exploración de las opciones de equilibrador de carga</block>
   <block id="807a04fd6be3315608f66b00ab708987" category="paragraph">Una aplicación implementada en Anthos está expuesta al mundo por un servicio que ofrece un equilibrador de carga implementado en el entorno local de Anthos.</block>
@@ -15443,12 +15407,9 @@
   <block id="60bae26bb7c1e8711f1e39a45fc7b6c7" category="paragraph"><block ref="60bae26bb7c1e8711f1e39a45fc7b6c7" category="inline-image-macro-rx" type="image"></block></block>
   <block id="13a74472f5a5018f40319d30a728d03e" category="paragraph">ONTAP de NetApp es una potente herramienta de software de almacenamiento con funcionalidades como una interfaz gráfica de usuario intuitiva, API DE REST con integración de la automatización, análisis predictivos con inteligencia artificial y acción correctiva, actualizaciones de hardware no disruptivas e importación entre almacenamiento.</block>
   <block id="f1bcd982a417f561201a3262b52a84d7" category="list-text">*SnapLock de NetApp.* Administración eficaz de datos que no se pueden sobrescribir escribiéndolos en volúmenes especiales que no se puedan sobrescribir ni borrar durante un periodo determinado.</block>
-  <block id="99634a0c579c45d299cfbb8b818c51bb" category="paragraph"><block ref="99634a0c579c45d299cfbb8b818c51bb" category="inline-image-macro-rx" type="image"></block></block>
   <block id="678cbe37bb872d145128736b4650ef68" category="paragraph">NetApp proporciona plataformas de almacenamiento sólidas all-flash (AFF) y híbridas de escalado horizontal (FAS) diseñadas a medida con un rendimiento de baja latencia, protección de datos integrada y compatibilidad con varios protocolos.</block>
   <block id="a150469d40f75f1df1e87a9558f50769" category="paragraph">Ambos sistemas cuentan con el software de gestión de datos ONTAP de NetApp, el software de gestión de datos más avanzado del sector para una gestión del almacenamiento simplificada, integrada en el cloud y de alta disponibilidad, con el fin de proporcionar la velocidad, la eficiencia y la seguridad empresariales que necesita su Data Fabric.</block>
   <block id="a9b90f3200d3b94ea47e85db3a435816" category="paragraph">Para obtener más información sobre las plataformas FAS y AFF de NETAPP, haga clic en<block ref="629508ef5a91b5835f70894f34eed424" category="inline-link-rx"></block>.</block>
-  <block id="0a180196354cfbb6ec70b20db067fa6b" category="inline-link-macro">Siguiente: NetApp Element.</block>
-  <block id="73978739caea0775c3c807ecfc27f0c0" category="paragraph"><block ref="73978739caea0775c3c807ecfc27f0c0" category="inline-link-macro-rx"></block></block>
   <block id="de3b8bd79707b5ac064727a07d81d808" category="summary">Las funcionalidades que no dependen del hardware de Anthos en configuraciones básicas le permiten seleccionar una plataforma informática optimizada para su caso de uso personalizado y también proporcionan muchas ventajas adicionales.</block>
   <block id="a5fcf88905522eca0a7500198fc13ea9" category="paragraph">Entre los ejemplos se incluyen los siguientes:</block>
   <block id="b872ec62b57abae84b75461c58e0a0a7" category="list-text">*Traiga su propio servidor.* puede utilizar servidores que coincidan con su infraestructura existente para reducir gastos de capital y costos de administración.</block>
@@ -15517,8 +15478,6 @@
   <block id="b74877ef96b7f6ef3d913a0c3ebca5e8" category="inline-link"><block ref="b74877ef96b7f6ef3d913a0c3ebca5e8" category="inline-link-rx"></block></block>
   <block id="086fce5f74cc93b0516aadec33636e09" category="paragraph"><block ref="086fce5f74cc93b0516aadec33636e09" category="inline-link-rx"></block></block>
   <block id="7cfc9495aac39bbaa5defc76b7f4e8db" category="list-text">Anthos Clusters en documentación de VMware</block>
-  <block id="f5266df5a7db89637cf0d7391221b756" category="inline-link"><block ref="f5266df5a7db89637cf0d7391221b756" category="inline-link-rx"></block></block>
-  <block id="1bdc624c553dda22bc7a529bda2dd06b" category="paragraph"><block ref="1bdc624c553dda22bc7a529bda2dd06b" category="inline-link-rx"></block></block>
   <block id="9ee8ef3c59727b8b17070caf87743214" category="list-text">Anthos en documentación de configuración básica</block>
   <block id="bc10096da41c680de98ecf3f1def7d17" category="inline-link"><block ref="bc10096da41c680de98ecf3f1def7d17" category="inline-link-rx"></block></block>
   <block id="d642746f7d7a37b7cb340d9a62d751a5" category="paragraph"><block ref="d642746f7d7a37b7cb340d9a62d751a5" category="inline-link-rx"></block></block>
@@ -16952,4 +16911,54 @@
   <block id="16844b6a71b4ccf3790079518b5286c4" category="sidebar">Migre cargas de trabajo al almacén de datos NFS de Cloud Volume Service de NetApp mediante VMware HCX</block>
   <block id="204c2f72244c7b6bb96fa507fcbfdde0" category="sidebar">Migrar cargas de trabajo al almacén de datos NFS de Cloud Volume Service mediante VMware HCX</block>
   <block id="fbaad71632f1f86a6aec0eb25bf981d7" category="list-text">Para obtener un rendimiento óptimo del almacenamiento, aprovisione una capacidad del sistema de archivos de hasta 1,35 veces mayor que el tamaño del uso total de la base de datos.</block>
+  <block id="697ac904ffe5f281c2b20466e99a46ec" category="paragraph"><block ref="697ac904ffe5f281c2b20466e99a46ec" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="9ea2cbade31de8af1dca89093e681575" category="paragraph">En el siguiente vídeo se muestran algunas de las funcionalidades descritas en este documento:</block>
+  <block id="f1633856fe511230f9c635e7a1c53316" category="inline-link-macro">Vídeo: Puesta en marcha de Trident en el clúster Anthos 1.14</block>
+  <block id="cf1f8100313c03361151f9caa6715bac" category="paragraph"><block ref="cf1f8100313c03361151f9caa6715bac" category="inline-link-macro-rx"></block></block>
+  <block id="1780877562a197bb240c255e7ebc64a6" category="paragraph"><block ref="1780877562a197bb240c255e7ebc64a6" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="9f281f23fa0eaa9fab3de640f4c4ed29" category="cell">1.14</block>
+  <block id="b2311a2cf7a04db2bfe860c3fa17635c" category="cell">Componente de hardware</block>
+  <block id="7b42b4827c459034b51ee8ce9f497ca3" category="cell">switch (red de datos)</block>
+  <block id="d5cbf018e46e897c3774dc4576d35dbe" category="cell">switch (red de gestión)</block>
+  <block id="4c6ba3c2ecfdab7b2b5151a4715c51c0" category="cell">Sistema de almacenamiento AFF</block>
+  <block id="eba1f3287bdc33dfa25c084b5e15a4c5" category="cell">9.12.1</block>
+  <block id="8dfda84fc7f59655e20a770603bf9231" category="cell">23.01</block>
+  <block id="a6eee2bc9df13513ff08680b88b5140c" category="paragraph">Durante la validación de la plataforma Anthos Ready realizada por NetApp, el entorno de laboratorio se creó en función del siguiente diagrama, lo que nos permitió probar varios escenarios utilizando varios back-ends de almacenamiento de ONTAP de NetApp.</block>
+  <block id="ba18949144254244b0c22a4dda957809" category="paragraph"><block ref="ba18949144254244b0c22a4dda957809" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="3001330ca359a25f2bb0fb3a80b81f98" category="inline-link"><block ref="3001330ca359a25f2bb0fb3a80b81f98" category="inline-link-rx"></block></block>
+  <block id="ce31d50048cf83e159c11cdf9571f300" category="paragraph"><block ref="ce31d50048cf83e159c11cdf9571f300" category="inline-link-rx"></block></block>
+  <block id="e961adb60321df286b916effec21c9d5" category="paragraph">NetApp cuenta con varias plataformas de almacenamiento cualificadas con nuestro orquestador de almacenamiento Astra Trident para aprovisionar almacenamiento para las aplicaciones puestas en marcha como contenedores.</block>
+  <block id="82dc86caf99045e3dfd059ffe973d587" category="list-text">NetApp Cloud Volumes Service (GCP) y Azure NetApp Files proporcionan almacenamiento basado en archivos en el cloud.</block>
+  <block id="e0219edd422866b0cdb0aaa5f2b9352e" category="list-text">Amazon FSX para ONTAP de NetApp es un servicio totalmente gestionado en AWS que proporciona almacenamiento para casos prácticos basados en archivos.</block>
+  <block id="8490bfef5919608f9d8461a6bb270666" category="paragraph">NetApp ha mantenido un cumplimiento regular trimestralmente con solicitudes para validar el orquestador de almacenamiento compatible con CSI de Astra Trident y nuestro sistema de almacenamiento ONTAP con versiones de Anthos.</block>
+  <block id="594e1ec3daa27e540baa061f731f028f" category="cell">ONTAP 9.12.1</block>
+  <block id="7f7813d8ff1a7fae9bca0ef452fb1346" category="cell">Multiwriter, expansión de volumen, instantáneas, PVCDataSource</block>
+  <block id="8c56d327dfefc3dfd3c4c4fbe25a8bd1" category="cell">Bloque sin procesar, expansión de volumen, instantáneas, PVCDataSource</block>
+  <block id="9fe6d7d50b2c6958117a19834e038c82" category="cell">1.13</block>
+  <block id="775d4bb28d257a6aa23992563a82c458" category="cell">22.10</block>
+  <block id="74eb178224c5fa701fbcd96998feaafe" category="cell">ONTAP 9.9.1</block>
+  <block id="e0076fd5294e757abc41b2328ed8c57d" category="cell">Elemento 12.3</block>
+  <block id="7f35d44665a62879611c82424828f0fd" category="inline-link-macro">Siguiente: Opciones de configuraciones avanzadas para Anthos.</block>
+  <block id="bff5cad56bec414a2d44f250d8a8ad3d" category="paragraph"><block ref="bff5cad56bec414a2d44f250d8a8ad3d" category="inline-link-macro-rx"></block></block>
+  <block id="001a38f118eab6df015a51079735d9c9" category="paragraph">Para obtener más información sobre Anthos, consulte el sitio web de Anthos que se encuentra<block ref="984918f1ee4e70aa6181e0564d0768e7" category="inline-link-rx"></block>.</block>
+  <block id="dbadbc59fa29afd33e371d5285fde4cf" category="paragraph">Banu Sundhar y Suresh Thoppay, NetApp</block>
+  <block id="94806f6a6daed15d3a6ea4f0146cf8ee" category="paragraph">NetApp cuenta con varios sistemas de almacenamiento perfectos para centros de datos empresariales y para puestas en marcha de cloud híbrido. La cartera de NetApp incluye ONTAP, Cloud Volumes ONTAP, Cloud Volumes Service, Azure NetApp Files y FSxN de NetApp para los sistemas de almacenamiento ONTAP de NetApp, todos los cuales pueden proporcionar almacenamiento persistente para aplicaciones en contenedores.</block>
+  <block id="57f64c5c85667657a2c67b472c545e5a" category="paragraph">Consulte<block ref="0c665fc00d0d39d9ca9d157ca926b271" category="inline-link-rx"></block> para conocer la matriz de soporte de versiones validadas.</block>
+  <block id="8986a7e5e5d0b79b5251a648f9f67ef6" category="paragraph">Astra Trident es un orquestador de almacenamiento de código abierto y totalmente compatible para contenedores y distribuciones de Kubernetes, incluido Anthos. Trident funciona con toda la cartera de almacenamiento de NetApp, incluido ONTAP de NetApp, y también admite conexiones NFS e iSCSI. Trident acelera el flujo de trabajo de DevOps al permitir que los usuarios finales aprovisionen y gestionen el almacenamiento desde sus sistemas de almacenamiento de NetApp sin necesidad de intervención del administrador de almacenamiento.</block>
+  <block id="5be08e29583206baf8c89778e711c743" category="paragraph"><block ref="5be08e29583206baf8c89778e711c743" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="e79464fd5ecc0abac7a7f768780ea0f4" category="paragraph">Encontrará la documentación de la última versión de Astra Trident<block ref="845024b96ab150d9f628b33995c60669" category="inline-link-rx"></block>. Existe una matriz de compatibilidad con la versión de Trident probada en la que se puede encontrar la distribución de Kubernetes<block ref="34562000b9988739736848a0014e5230" category="inline-link-rx"></block>.</block>
+  <block id="dee50dd9c6fd0b4d11789e8a074455c0" category="paragraph">Para obtener más información sobre la instalación de Astra Trident, consulte<block ref="df28848dc0c60e349970187bfd75a0df" category="inline-link-rx"></block>.</block>
+  <block id="6cfca408e9e3b476e6440302dbe3a550" category="section-title">Cree un back-end de sistema de almacenamiento</block>
+  <block id="6d82ca16bfbce249e1f9ea541bff13ff" category="inline-link-macro">Cree un back-end.</block>
+  <block id="1e449644660ede384d0f8370105c8852" category="paragraph">Una vez finalizada la instalación del operador de Astra Trident, debe configurar el back-end para la plataforma de almacenamiento específica de NetApp que esté usando. Siga el siguiente enlace para continuar con la instalación y configuración de Astra Trident.<block ref="0510ad325b52db9e306380d77ace3c72" category="inline-link-macro-rx"></block></block>
+  <block id="14f4c7abe09c4481722f1fa6563f2604" category="section-title">Cree una clase de almacenamiento</block>
+  <block id="69dd4ff02a34defa6f31ed5f8bb209f6" category="paragraph">Después de crear el back-end, debe crear una clase de almacenamiento que los usuarios de Kubernetes especifiquen cuando quieran un volumen. Los usuarios de Kubernetes aprovisionan volúmenes mediante reclamaciones de volumen persistente (RVP) que especifican una clase de almacenamiento por nombre. Siga el enlace siguiente para crear una clase de almacenamiento.<block ref="034759ff187a64d8fb38f587d14777c0" category="inline-link-macro-rx"></block></block>
+  <block id="50cbd0d28725f746b370915ee052232c" category="section-title">Aprovisione un volumen de forma dinámica</block>
+  <block id="72407fd74e9ce26b706ed85bc90bd124" category="inline-link-macro">Cree una RVP</block>
+  <block id="35a0b000c0ba5920cef3268fee2323b4" category="paragraph">Debe crear un objeto de solicitud de volumen persistente (RVP) de Kubernetes mediante la clase de almacenamiento para aprovisionar dinámicamente un volumen. Siga el siguiente vínculo para crear un objeto de PVC.<block ref="0af94896212bb2843496226f6871904c" category="inline-link-macro-rx"></block></block>
+  <block id="279865aaa331ec925a99c3272eb45478" category="section-title">Utilice el volumen</block>
+  <block id="fed9c63a200801110024280f08877e16" category="inline-link-macro">Monte el volumen en un pod</block>
+  <block id="d822bbb4d6960be49b781e594679db64" category="paragraph">El volumen aprovisionado en el paso anterior puede ser utilizado por una aplicación montando el volumen en el pod.el enlace siguiente muestra un ejemplo.<block ref="48fadb04c46cf19aa1b5e274dd9b5da9" category="inline-link-macro-rx"></block></block>
+  <block id="7a11d367cfedc152ce1db261fb8f21fd" category="inline-link-macro">Siguiente: Opciones de configuración avanzada para Anthos.</block>
+  <block id="fca5cd0af87c3fa0c3d74ee21a3d346f" category="paragraph"><block ref="fca5cd0af87c3fa0c3d74ee21a3d346f" category="inline-link-macro-rx"></block></block>
 </blocks>
