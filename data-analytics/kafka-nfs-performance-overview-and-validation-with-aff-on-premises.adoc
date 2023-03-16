@@ -1,0 +1,193 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/kafka-nfs-performance-overview-and-validation-with-aff-on-premises.html 
+keywords: storage configuration, client tuning, kafka broker tuning, workload ganerator, steady state, performance, extreme performance 
+summary: En las instalaciones, utilizamos la controladora de almacenamiento AFF A900 de NetApp con ONTAP 9.12.1RC1 para validar el rendimiento y el escalado de un clúster Kafka. Utilizamos el mismo banco de pruebas que en nuestras prácticas recomendadas de almacenamiento por niveles anteriores con ONTAP y AFF. 
+---
+= Descripción general y validación del rendimiento con AFF A900 en las instalaciones
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:kafka-nfs-performance-overview-and-validation-in-aws.html["Anterior: Información general y validación del rendimiento en AWS."]
+
+[role="lead"]
+En las instalaciones, utilizamos la controladora de almacenamiento AFF A900 de NetApp con ONTAP 9.12.1RC1 para validar el rendimiento y el escalado de un clúster Kafka. Utilizamos el mismo banco de pruebas que en nuestras prácticas recomendadas de almacenamiento por niveles anteriores con ONTAP y AFF.
+
+Utilizamos Confluent Kafka 6.2.0 para evaluar el AFF A900. El clúster dispone de ocho nodos de broker y tres nodos de zomantenimiento. Para realizar pruebas de rendimiento, utilizamos cinco nodos de trabajo OMB.
+
+image:kafka-nfs-image32.png["Error: Falta la imagen gráfica"]
+
+
+
+== Configuración del almacenamiento
+
+Hemos utilizado instancias de NetApp FlexGroups para proporcionar un espacio de nombres único para directorios de registro, lo que simplifica la recuperación y la configuración. Hemos utilizado NFSv4.1 y pNFS para proporcionar acceso directo de ruta a los datos del segmento de registro.
+
+
+
+== Ajuste del cliente
+
+Cada cliente montó la instancia de FlexGroup con el siguiente comando.
+
+....
+mount -t nfs -o vers=4.1,nconnect=16 172.30.0.121:/kafka_vol01 /data/kafka_vol01
+....
+Además, aumentamos la `max_session_slots`` del valor predeterminado `64` para `180`. Esto coincide con el límite de ranuras de sesión predeterminado en ONTAP.
+
+
+
+== Ajuste de broker Kafka
+
+Para maximizar el rendimiento en el sistema que se está probando, hemos aumentado de forma significativa los parámetros predeterminados para determinados grupos de subprocesos clave. Recomendamos seguir las prácticas recomendadas de Confluent Kafka para la mayoría de las configuraciones. Este ajuste se utilizó para maximizar la concurrencia de I/o excepcionales en el almacenamiento. Estos parámetros se pueden ajustar para ajustarse a los recursos informáticos y atributos de almacenamiento de su intermediario.
+
+....
+num.io.threads=96
+num.network.threads=96
+background.threads=20
+num.replica.alter.log.dirs.threads=40
+num.replica.fetchers=20
+queued.max.requests=2000
+....
+
+
+== Metodología de pruebas del generador de cargas de trabajo
+
+Utilizamos las mismas configuraciones de OMB que para las pruebas en la nube para el controlador de rendimiento y la configuración de temas.
+
+. Se aprovisionó una instancia de FlexGroup con Ansible en un clúster de AFF.
++
+....
+---
+- name: Set up kafka broker processes
+  hosts: localhost
+  vars:
+    ntap_hostname: ‘hostname’
+    ntap_username: 'user'
+    ntap_password: 'password'
+    size: 10
+    size_unit: tb
+    vserver: vs1
+    state: present
+    https: true
+    export_policy: default
+    volumes:
+      - name: kafka_fg_vol01
+        aggr: ["aggr1_a", "aggr2_a", “aggr1_b”, “aggr2_b”]
+        path: /kafka_fg_vol01
+  tasks:
+    - name: Edit volumes
+      netapp.ontap.na_ontap_volume:
+        state: "{{ state }}"
+        name: "{{ item.name }}"
+        aggr_list: "{{ item.aggr }}"
+        aggr_list_multiplier: 8
+        size: "{{ size }}"
+        size_unit: "{{ size_unit }}"
+        vserver: "{{ vserver }}"
+        snapshot_policy: none
+        export_policy: default
+        junction_path: "{{ item.path }}"
+        qos_policy_group: none
+        wait_for_completion: True
+        hostname: "{{ ntap_hostname }}"
+        username: "{{ ntap_username }}"
+        password: "{{ ntap_password }}"
+        https: "{{ https }}"
+        validate_certs: false
+      connection: local
+      with_items: "{{ volumes }}"
+....
+. PNFs se habilitó en la SVM de ONTAP.
++
+....
+vserver modify -vserver vs1 -v4.1-pnfs enabled -tcp-max-xfer-size 262144
+....
+. La carga de trabajo se activó con el controlador de rendimiento utilizando la misma configuración de carga de trabajo que para Cloud Volumes ONTAP. Consulte la sección “<<Rendimiento en estado constante>>” más abajo. La carga de trabajo utilizó un factor de replicación de 3, lo que significa que se mantuvieron tres copias de segmentos de registro en NFS.
++
+....
+sudo bin/benchmark --drivers driver-kafka/kafka-throughput.yaml workloads/1-topic-100-partitions-1kb.yaml
+....
+. Por último, hemos completado las mediciones con un pedido atrasado para medir la capacidad de los consumidores para ponerse al día con los últimos mensajes. OMB construye un atraso al pausar a los consumidores durante el comienzo de una medición. Esto produce tres fases distintas: Creación de acumulación (tráfico sólo para productores), drenaje de acumulación (una fase de consumo pesado en la que los consumidores se quedan al tanto de los eventos perdidos en un tema) y el estado estable. Consulte la sección “<<Extreme performance,análisis de los límites de almacenamiento>>” para más información.
+
+
+
+
+=== Rendimiento en estado constante
+
+Evaluamos la plataforma AFF A900 utilizando la prueba de rendimiento de OpenMessaging para ofrecer una comparación similar a la de Cloud Volumes ONTAP en AWS y DAS en AWS. Todos los valores de rendimiento representan el rendimiento de Kafka-cluster a nivel de productor y consumidor.
+
+El rendimiento constante con Confluent Kafka y AFF A900 logró un rendimiento medio de 3,4 Gbps tanto para el productor como para el consumidor. Esto es más de 3.4 millones de mensajes en el cluster Kafka. Al visualizar el rendimiento sostenido en bytes por segundo para BrokerTopicMetrics, observamos el excelente rendimiento en estado constante y el tráfico apoyado por la AFF A900.
+
+image:kafka-nfs-image33.png["En este gráfico se muestra el rendimiento de la red de Broker."]
+
+Esto se alinea correctamente con la vista de los mensajes entregados por tema. El siguiente gráfico proporciona un desglose por tema. En la configuración probada, hemos visto unos 900 mensajes por tema en cuatro temas.
+
+image:kafka-nfs-image34.png["En este gráfico se muestra el rendimiento de la red de Broker."]
+
+
+
+== Rendimiento extremo y exploración de los límites de almacenamiento
+
+Para AFF, también hemos probado con OMB mediante la función de acumulación. La función de acumulación detiene las suscripciones de consumidores mientras se crea una acumulación de eventos en el clúster Kafka. Durante esta fase, sólo se produce el tráfico de producción, que genera eventos que están comprometidos con los registros. De este modo, se emulan de forma más estrecha el procesamiento por lotes o los flujos de trabajo de análisis sin conexión; en estos flujos de trabajo, se inician las suscripciones de consumidores y se deben leer datos históricos que ya se han expulsado de la memoria caché de intermediarios.
+
+Para comprender las limitaciones del almacenamiento en el rendimiento de consumo en esta configuración, medimos la fase de solo producción para comprender cuánto tráfico de escritura podría absorber A900. Consulte la siguiente sección “<<Orientación para la configuración>>” para comprender cómo aprovechar estos datos.
+
+Durante la parte sólo para el productor de esta medición, observamos un alto rendimiento máximo que ha elevado los límites del rendimiento de A900 (cuando otros recursos de broker no estaban saturados al servicio del tráfico de productores y consumidores).
+
+image:kafka-nfs-image35.png["Error: Falta la imagen gráfica"]
+
+
+NOTE: Hemos aumentado el tamaño del mensaje a 16 k para esta medición para limitar la sobrecarga por mensaje y maximizar la capacidad de almacenamiento a los puntos de montaje NFS.
+
+....
+messageSize: 16384
+consumerBacklogSizeGB: 4096
+....
+El clúster Confluent Kafka logró un rendimiento máximo del productor de 4,03 Gbps.
+
+....
+18:12:23.833 [main] INFO WorkloadGenerator - Pub rate 257759.2 msg/s / 4027.5 MB/s | Pub err     0.0 err/s …
+....
+Una vez que OMB completó la acumulación de eventos, se reinició el tráfico de consumo. Durante las mediciones con drenaje de pedidos atrasados, observamos un rendimiento de consumo máximo de más de 20 Gbps en todos los temas. El rendimiento combinado que se aproximaba al volumen NFS donde se almacenaban los datos de registro de OMB era de unos 30 Gbps.
+
+
+
+== Orientación para la configuración
+
+Amazon Web Services ofrece un https://aws.amazon.com/blogs/big-data/best-practices-for-right-sizing-your-apache-kafka-clusters-to-optimize-performance-and-cost/["guía de tamaños"^] Para el ajuste de tamaño y el escalado de clústeres de Kafka.
+
+Este ajuste de tamaño proporciona una fórmula útil para determinar los requisitos de rendimiento del almacenamiento para el clúster Kafka:
+
+Para un rendimiento agregado producido en el clúster de tcluster con un factor de replicación de r, el rendimiento recibido por el almacenamiento de broker es el siguiente:
+
+....
+t[storage] = t[cluster]/#brokers + t[cluster]/#brokers * (r-1)
+          = t[cluster]/#brokers * r
+....
+Esto se puede simplificar aún más:
+
+....
+max(t[cluster]) <= max(t[storage]) * #brokers/r
+....
+Con esta fórmula se puede seleccionar la plataforma ONTAP adecuada para las necesidades del nivel de sobrecarga Kafka.
+
+En la siguiente tabla se explica el rendimiento previsto del productor para el A900 con diferentes factores de replicación:
+
+|===
+| Factor de replicación | Producción (GPPS) 
+
+
+| 3 (medidas) | 3.4 
+
+
+| 2 | 5.1 
+
+
+| 1 | 10.2 
+|===
+link:kafka-nfs-conclusion.html["Siguiente: Conclusión."]

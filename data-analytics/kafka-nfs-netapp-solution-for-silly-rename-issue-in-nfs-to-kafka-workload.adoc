@@ -1,0 +1,31 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/kafka-nfs-netapp-solution-for-silly-rename-issue-in-nfs-to-kafka-workload.html 
+keywords: solution, posix, xfs, ext4, rebalancing 
+summary: En esta sección se describe el problema del nombre más tonto y los cambios necesarios para que el servidor NFS y el cliente NFS aborden el problema. 
+---
+= Solución de NetApp para el problema del cambio de nombre más tonto de las cargas de trabajo de NFS a Kafka
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:kafka-nfs-introduction.html["Anterior: Introducción."]
+
+[role="lead"]
+Kafka se construye con la suposición de que el sistema de ficheros subyacente es compatible con POSIX: Por ejemplo, XFS o Ext4. El reequilibrio de recursos de Kafka elimina los archivos mientras la aplicación se sigue utilizando. Un sistema de archivos compatible con POSIX permite que se realice la desvinculación. Sin embargo, sólo quita el archivo una vez que todas las referencias al archivo hayan desaparecido. Si el sistema de archivos subyacente está conectado a la red, el cliente NFS intercepta las llamadas de desenlace y administra el flujo de trabajo. Dado que hay abiertos pendientes en el archivo que se está desvinculando, el cliente NFS envía una solicitud de cambio de nombre al servidor NFS y, en el último cierre del archivo sin vincular, emite una operación de eliminación en el archivo cuyo nombre ha cambiado. Este comportamiento se conoce comúnmente como nombre tonto de NFS y está orquestado por el cliente NFS.
+
+Cualquier agente de Kafka que utilice almacenamiento de un servidor NFSv3 se ejecuta en problemas debido a este comportamiento. Sin embargo, el protocolo NFSv4.x tiene funciones para solucionar este problema permitiendo al servidor asumir la responsabilidad de los archivos abiertos sin vínculos. Los servidores NFS que admiten esta función opcional comunican la capacidad de propiedad al cliente NFS en el momento de abrir un archivo. A continuación, el cliente NFS detiene la gestión de desenlace cuando hay pendientes y permite que el servidor gestione el flujo. Aunque la especificación NFSv4 proporciona directrices para la implementación, hasta ahora no hubo ninguna implementación conocida de servidores NFS que admita esta función opcional.
+
+Para que el servidor NFS y el cliente NFS aborden el problema del cambio de nombre más tonto, son necesarios los siguientes cambios:
+
+* *Cambios en el cliente NFS (Linux).* al abrir el archivo, el servidor NFS responde con un indicador, indicando la capacidad de manejar la desvinculación de los archivos abiertos. Los cambios en el cliente NFS permiten que el servidor NFS gestione el desvínculo en presencia del indicador. NetApp ha actualizado el cliente Linux NFS de código abierto con estos cambios. El cliente NFS actualizado ahora está disponible en general en RHEL8.7 y RHEL9.1.
+* *Cambios en el servidor NFS.* el servidor NFS realiza un seguimiento de los abiertos. El servidor gestiona ahora la desvinculación de un archivo abierto existente para que coincida con la semántica POSIX. Cuando se cierra la última apertura, el servidor NFS inicia entonces la eliminación real del archivo y evita así el tonto proceso de cambio de nombre. El servidor NFS de ONTAP ha implementado esta funcionalidad en su última versión, ONTAP 9.12.1.
+
+
+Con los cambios anteriores en el cliente y el servidor NFS, Kafka puede obtener de forma segura todas las ventajas del almacenamiento NFS conectado a la red.
+
+link:kafka-nfs-functional-validation-silly-rename-fix.html["Siguiente: Validación funcional - arreglo Silly rename."]
