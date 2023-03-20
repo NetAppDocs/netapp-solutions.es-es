@@ -63,6 +63,12 @@ Se seleccionaron las propiedades predeterminadas de Kafka para todos los servido
 
 == Metodología de las pruebas
 
+. Actualizar `-is-preserve-unlink-enabled true` al volumen de kafka, como sigue:
++
+....
+aws-shantanclastrecall-aws::*> volume create -vserver kafka_svm -volume kafka_fg_vol01 -aggregate kafka_aggr -size 3500GB -state online -policy kafka_policy -security-style unix -unix-permissions 0777 -junction-path /kafka_fg_vol01 -type RW -is-preserve-unlink-enabled true
+[Job 32] Job succeeded: Successful
+....
 . Se crearon dos clústeres Kafka similares con la siguiente diferencia:
 +
 ** *Cluster 1.* el servidor NFS v4.1 back-end con ONTAP versión 9.12.1 listo para producción estaba alojado en una instancia de CVO de NetApp. RHEL 8.7/RHEL 9.1 se han instalado en los intermediarios.
