@@ -22,7 +22,7 @@ Author(s): Dhruv Tyagi, Niyaz Mohamed
 
 FSX para ONTAP es un servicio de almacenamiento en cloud empresarial de primera clase disponible en AWS que proporciona un almacenamiento de archivos altamente fiable, escalable, de alto rendimiento y con numerosas funciones, integrado en el popular sistema de archivos ONTAP de NetApp.
 
-FSX para ONTAP proporciona una experiencia de puesta en marcha y gestión fluida. No se necesita experiencia en almacenamiento para comenzar. Para simplificar la supervisión, se puede utilizar una función de lamdba de AWS (para automatizar el redimensionamiento de la capacidad de almacenamiento total, el tamaño de volumen o el tamaño de LUN en función del umbral). Este documento proporciona una guía paso a paso para crear una configuración automatizada que monitoriza el FSX para ONTAP a intervalos regulares, notifica y cambia el tamaño cuando se cruza un umbral especificado por el usuario y notifica al administrador la actividad de cambio de tamaño.
+FSX para ONTAP proporciona una experiencia de puesta en marcha y gestión fluida. No se necesita experiencia en almacenamiento para comenzar. Para simplificar la supervisión, se puede utilizar una función lambda de AWS (para automatizar el redimensionamiento de la capacidad de almacenamiento total, el tamaño de volumen o el tamaño de LUN en función del umbral). Este documento proporciona una guía paso a paso para crear una configuración automatizada que monitoriza el FSX para ONTAP a intervalos regulares, notifica y cambia el tamaño cuando se cruza un umbral especificado por el usuario y notifica al administrador la actividad de cambio de tamaño.
 
 .Funciones
 [%collapsible]
@@ -40,7 +40,9 @@ La solución ofrece las siguientes funciones:
 * Mecanismo de alertas para recibir notificaciones de advertencia de uso y redimensionamiento por correo electrónico
 * Capacidad para eliminar copias Snapshot con más antigüedad que el umbral definido por el usuario
 * Capacidad de obtener una lista de volúmenes FlexClone y copias Snapshot asociadas
-* Capacidad de ejecutar las comprobaciones a intervalos regulares
+* Capacidad para supervisar las comprobaciones a intervalos regulares
+* Posibilidad de utilizar la solución con o sin acceso a Internet
+* Capacidad para implementar manualmente o usar la plantilla de AWS CloudFormation
 
 
 ====
@@ -50,8 +52,7 @@ La solución ofrece las siguientes funciones:
 Antes de empezar, compruebe que se cumplan los siguientes requisitos previos:
 
 * Se pone en marcha FSX para ONTAP
-* La función lambda requiere una subred privada con una puerta de enlace NAT conectada para la conectividad a Internet
-* La subred privada también debe tener conectividad con FSX para ONTAP
+* Subred privada con conectividad a FSx para ONTAP
 * Se ha establecido la contraseña "fsxadmin" para FSX para ONTAP
 
 
@@ -62,6 +63,7 @@ Antes de empezar, compruebe que se cumplan los siguientes requisitos previos:
 * La función AWS Lambda hace que las llamadas API se realice a FSX para ONTAP a fin de recuperar y actualizar el tamaño de la capacidad de almacenamiento, volúmenes y LUN.
 * Contraseña "fsxadmin" almacenada como cadena segura en el almacén de parámetros SSM de AWS para una mayor capa de seguridad.
 * Se utiliza el servicio de correo electrónico simple (SES) de AWS para notificar a los usuarios finales cuando se produce un evento de cambio de tamaño.
+* Si implementa la solución en una VPC sin acceso a Internet, los extremos de VPC para AWS SSM, FSx y SES están configurados para permitir que Lambda llegue a estos servicios a través de la red interna de AWS.
 
 
 image:fsxn-monitoring-resizing-architecture.png["Esta imagen muestra la arquitectura de alto nivel utilizada en esta solución."]
@@ -71,21 +73,132 @@ image:fsxn-monitoring-resizing-architecture.png["Esta imagen muestra la arquitec
 
 == Puesta en marcha de la solución
 
-Siga la serie de pasos para completar la implementación de esta solución:
+
+
+=== Puesta en marcha automatizada
+
+[%collapsible]
+====
+Siga la serie de pasos para completar la implementación automatizada de esta solución:
 
 .Paso 1: Clone el repositorio de GitHub
 [%collapsible]
-====
+=====
 Clone el repositorio de GitHub en el sistema local:
 
 [listing]
 ----
 git clone https://github.com/NetApp-Automation/fsxn-monitoring-auto-resizing.git
 ----
+=====
+.Paso 2: Configurar un bucket de AWS S3
+[%collapsible]
+=====
+. Vaya a AWS Console > *S3* y haga clic en *Crear bucket*. Cree el bloque con la configuración predeterminada.
+. Una vez dentro del depósito, haz clic en *Upload* > *Add files* y selecciona *Paramiko.zip* y *requests.zip* del repositorio clonado de GitHub en tu sistema.
++
+image:fsxn-monitoring-resizing-s3-upload-zip-files.png["Esta imagen muestra la ventana S3 con los archivos zip que se cargan"]
+
+
+
+=====
+.Paso 3: Configuración SMTP de AWS SES (necesaria si no hay acceso a Internet disponible)
+[%collapsible]
+=====
+Siga este paso si desea implementar la solución sin acceso a Internet (Nota: Se agregarán costos asociados debido a la configuración de los endpoints de VPC).
+
+. Vaya a AWS Console > *AWS Simple Email Service (SES)* > Configuración SMTP y haga clic en *Crear credenciales SMTP*
+. Introduzca un nombre de usuario de IAM o déjelo en el valor predeterminado y haga clic en Crear. Guarde el nombre de usuario y la contraseña para seguir utilizándolo.
++
+
+NOTE: Omita este paso si la configuración SMTP de SES ya está en su lugar.
+
++
+image:fsxn-monitoring-resizing-ses-smtp-creds-addition.png["Esta imagen muestra la ventana Crear Credenciales SMTP en AWS SES"]
+
+
+
+=====
+.Paso 4: Implementación de AWS CloudFormation
+[%collapsible]
+=====
+. Vaya a AWS Console > *CloudFormation* > Crear pila > Con nuevos recursos (estándar).
++
+[listing]
+----
+Prepare template: Template is ready
+Specify template: Upload a template file
+Choose file: Browse to the cloned GitHub repo and select fsxn-monitoring-solution.yaml
+----
++
+image:fsxn-monitoring-resizing-create-cft-1.png["Esta imagen muestra la ventana de creación de pila de AWS CloudFormation"]
+
++
+Haga clic en Siguiente
+
+. Introduzca los detalles de la pila. Haga clic en Siguiente y marque la casilla de verificación “Reconozco que AWS CloudFormation podría crear recursos de IAM” y haga clic en Enviar.
++
+
+NOTE: Si «¿El VPC tiene acceso a Internet?» Se establece en Falso, se requiere el nombre de usuario SMTP para AWS SES y la contraseña SMTP para AWS SES. De lo contrario, se pueden dejar vacíos.
+
++
+image:fsxn-monitoring-resizing-cft-stack-details-1.png["Esta imagen muestra la ventana Detalles de la pila de AWS CloudFormation"]
+
++
+image:fsxn-monitoring-resizing-cft-stack-details-2.png["Esta imagen muestra la ventana Detalles de la pila de AWS CloudFormation"]
+
++
+image:fsxn-monitoring-resizing-cft-stack-details-3.png["Esta imagen muestra la ventana Detalles de la pila de AWS CloudFormation"]
+
++
+image:fsxn-monitoring-resizing-cft-stack-details-4.png["Esta imagen muestra la ventana Detalles de la pila de AWS CloudFormation"]
+
+. Una vez que se inicie la implementación de CloudFormation, el ID de correo electrónico mencionado en el “ID de correo electrónico del remitente” recibirá un correo electrónico pidiéndoles que autoricen el uso de la dirección de correo electrónico con AWS SES. Haga clic en el enlace para verificar la dirección de correo electrónico.
+. Una vez que se complete la implementación de la pila de CloudFormation, si hay advertencias/notificaciones, se enviará un correo electrónico al ID de correo electrónico del destinatario con los detalles de la notificación.
++
+image:fsxn-monitoring-resizing-email-1.png["Esta imagen muestra la notificación por correo electrónico recibida cuando las notificaciones están disponibles"]
+
++
+image:fsxn-monitoring-resizing-email-2.png["Esta imagen muestra la notificación por correo electrónico recibida cuando las notificaciones están disponibles"]
+
+
+
+=====
 ====
-.Paso 2: Crear el parámetro SSM para la contraseña fsxadmin
+
+
+=== Puesta en marcha manual
+
 [%collapsible]
 ====
+Siga la serie de pasos para completar la implementación manual de esta solución:
+
+.Paso 1: Clone el repositorio de GitHub
+[%collapsible]
+=====
+Clone el repositorio de GitHub en el sistema local:
+
+[listing]
+----
+git clone https://github.com/NetApp-Automation/fsxn-monitoring-auto-resizing.git
+----
+=====
+.Paso 2: Configuración SMTP de AWS SES (necesaria si no hay acceso a Internet disponible)
+[%collapsible]
+=====
+Siga este paso si desea implementar la solución sin acceso a Internet (Nota: Se agregarán costos asociados debido a la configuración de los endpoints de VPC).
+
+. Vaya a AWS Console > *AWS Simple Email Service (SES)* > Configuración SMTP y haga clic en *Crear credenciales SMTP*
+. Introduzca un nombre de usuario de IAM o déjelo en el valor predeterminado y haga clic en Crear. Guarde el nombre de usuario y la contraseña para seguir utilizándolo.
++
+image:fsxn-monitoring-resizing-ses-smtp-creds-addition.png["Esta imagen muestra la ventana Crear Credenciales SMTP en AWS SES"]
+
+
+
+=====
+.Paso 3: Crear el parámetro SSM para la contraseña fsxadmin
+[%collapsible]
+=====
 Navegue hasta la Consola de AWS > *Parameter Store* y haga clic en *Create parameter*.
 
 [listing]
@@ -101,10 +214,12 @@ Haga clic en *Crear parámetro*.
 
 image:fsxn-monitoring-resizing-ssm-parameter.png["Esta imagen muestra la ventana de creación de parámetros SSM en la consola de AWS."]
 
-====
-.Paso 3: Configurar el servicio de correo electrónico
+Realice los mismos pasos para almacenar el nombre de usuario smtp y la contraseña smtp si implementa la solución sin acceso a Internet. De lo contrario, omita la adición de estos 2 parámetros.
+
+=====
+.Paso 4: Configurar el servicio de correo electrónico
 [%collapsible]
-====
+=====
 Navegue hasta la Consola de AWS > *simple Email Service (SES)* y haga clic en *Crear identidad*.
 
 [listing]
@@ -114,12 +229,45 @@ Email address: <Enter an email address to be used for sending resizing notificat
 ----
 Haga clic en *Crear identidad*
 
+El ID de correo electrónico mencionado en el “ID de correo electrónico del remitente” recibirá un correo electrónico solicitando al propietario que autorice el uso de la dirección de correo electrónico con AWS SES. Haga clic en el enlace para verificar la dirección de correo electrónico.
+
 image:fsxn-monitoring-resizing-ses.png["Esta imagen muestra la ventana SES Identity Creation de la consola de AWS."]
 
-====
-.Paso 4: Creación y configuración de la función AWS Lambda
+=====
+.Paso 5: Configurar los extremos de VPC (necesario si no hay acceso a Internet disponible)
 [%collapsible]
-====
+=====
+
+NOTE: Solo es necesario si se implementa sin acceso a Internet. Habrá costes adicionales asociados debido a los puntos finales de VPC.
+
+. Vaya a AWS Console > *VPC* > *Endpoints* y haga clic en *Create Endpoint* e introduzca los siguientes detalles:
++
+[listing]
+----
+Name: <Any name for the vpc endpoint>
+Service category: AWS Services
+Services: com.amazonaws.<region>.fsx
+vpc: <select the vpc where lambda will be deployed>
+subnets: <select the subnets where lambda will be deployed>
+Security groups: <select the security group>
+Policy: <Either choose Full access or set your own custom policy>
+----
++
+Haga clic en Crear punto final.
+
++
+image:fsxn-monitoring-resizing-vpc-endpoint-create-1.png["Esta imagen muestra la ventana de creación de punto final de VPC"]
+
++
+image:fsxn-monitoring-resizing-vpc-endpoint-create-2.png["Esta imagen muestra la ventana de creación de punto final de VPC"]
+
+. Siga el mismo proceso para crear puntos finales de VPC SES y SSM. Todos los parámetros son los mismos que los anteriores, excepto los Servicios que corresponden a *com.amazonaws.<region>.smtp* y *com.amazonaws.<region>.ssm* respectivamente.
+
+
+=====
+.Paso 6: Crear y configurar la función AWS Lambda
+[%collapsible]
+=====
 . Navegue hasta la Consola de AWS > *AWS Lambda* y haga clic en *Crear función* en la misma región que FSX para ONTAP
 . Utilice el *Autor predeterminado desde cero* y actualice los siguientes campos:
 +
@@ -198,13 +346,25 @@ image:fsxn-monitoring-resizing-layers-added.png["Esta imagen muestra las capas a
 | *fsx_password_ssm_parameter* | Cadena | (Obligatorio) Introduzca el nombre de ruta utilizado en el almacén de parámetros de AWS para almacenar la contraseña "fsxadmin". 
 
 
-| *advertir_notificación* | Bool | (Obligatorio) establezca esta diferencia en True para recibir la notificación cuando el uso de la capacidad de almacenamiento/volumen/LUN supere el 75 % pero sea inferior al umbral. 
+| *advertir_notificación* | Bool | (Obligatorio) Establezca esta variable en True para recibir una notificación cuando el uso de capacidad de almacenamiento/volumen/LUN supere el 75%, pero sea menor que el umbral. 
 
 
 | *enable_snapshot_deletion* | Bool | (Obligatorio) establezca esta variable en True para habilitar la eliminación de snapshots a nivel de volumen en las snapshots de más antiguo que el valor especificado en "Snapshot_age_threshold_in_Days". 
 
 
 | *instantánea_age_threshold_in_days* | Entero | (Obligatorio) Introduzca el número de días de copias de Snapshot de nivel de volumen que desea conservar. Se eliminarán todas las instantáneas que tengan un valor superior al proporcionado y se notificará por correo electrónico lo mismo. 
+
+
+| *internet_access* | Bool | (Requerido) Establece esta variable en True si el acceso a Internet está disponible desde la subred donde se despliega este lambda. De lo contrario, establézcalo en Falso. 
+
+
+| *smtp_region* | Cadena | (Opcional) Si la variable “INTERNET_ACCESS” está establecida en False, introduzca la región en la que se despliega lambda. Por ejemplo, US-east-1 (en este formato) 
+
+
+| *smtp_username_ssm_parameter* | Cadena | (Opcional) Si la variable “INTERNET_ACCESS” se establece en False, introduzca el nombre de ruta utilizado en AWS Parameter Store para almacenar el nombre de usuario SMTP. 
+
+
+| *smtp_password_ssm_parameter* | Cadena | (Opcional) Si la variable “INTERNET_ACCESS” se establece en False, introduzca el nombre de la ruta de acceso utilizado en AWS Parameter Store para almacenar la contraseña SMTP. 
 |===
 +
 image:fsxn-monitoring-resizing-lambda-code.png["Esta imagen muestra el código lambda en la consola de funciones de AWS Lambda."]
@@ -228,6 +388,7 @@ image:fsxn-monitoring-resizing-eventbridge.png["Esta imagen muestra la ventana d
 
 
 
+=====
 ====
 
 
