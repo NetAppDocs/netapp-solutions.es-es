@@ -15,6 +15,7 @@ summary: En esta sección se presentan las lecciones aprendidas en esta certific
 
 link:confluent-kafka-confluent-kafka-rebalance.html["Anterior: Clústeres de autoreequilibrio confluentes."]
 
+[role="lead"]
 * Basado en nuestra validación, el almacenamiento de objetos S3 es la mejor opción para Confluent mantener los datos.
 * Podemos usar SAN de alto rendimiento (específicamente FC) para mantener el intermediario de datos activos o el disco local, ya que, en la configuración de almacenamiento por niveles fluido, el tamaño de los datos contenidos en el directorio de datos del brokers se basa en el tamaño del segmento y el tiempo de retención en el que se mueven los datos al almacenamiento de objetos.
 * Los almacenes de objetos proporcionan un mejor rendimiento cuando el segmento.bytes es mayor; probamos 512 MB.
