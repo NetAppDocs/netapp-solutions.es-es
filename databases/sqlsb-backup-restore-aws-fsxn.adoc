@@ -1,0 +1,621 @@
+---
+sidebar: sidebar 
+permalink: databases/sqlsb-backup-and-restore-aws-fsxn.html 
+keywords: SQL server, SQL, backup, recover, AWS, aws, sql 
+summary:  
+---
+= TR-4951: Backup y recuperación de datos para Microsoft SQL Server en AWS FSx para ONTAP
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+Autor(es): Niyaz Mohammed, Carine Ngwekwe, NetApp Solutions Engineering
+
+Este documento aborda los pasos necesarios para realizar el backup y la recuperación de datos para Microsoft SQL Server en AWS FSx para ONTAP con SnapCenter. Esto incluye la siguiente información:
+
+* Configuración de SnapCenter
+* Operaciones de backup de SnapCenter
+* Operación de copia de seguridad para una base de datos FCI
+* Operación de backup para varias bases de datos
+* Restauración y recuperación
+
+
+
+
+== Configuración de SnapCenter
+
+Se deben realizar los siguientes pasos en relación con la configuración de SnapCenter y la protección de los recursos de Microsoft SQL Server. Cada uno de los siguientes pasos se detalla en las siguientes secciones.
+
+. Configure las credenciales de sysadmin para el usuario de backup y restauración de SQL Server.
+. Configure los ajustes de almacenamiento. Proporcionar una credencial de gestión de Amazon Web Services (AWS) para acceder a las máquinas virtuales de almacenamiento (SVM) de Amazon FSx para ONTAP de NetApp desde SnapCenter.
+. Añada un host de SQL Server a SnapCenter. Ponga en marcha e instale los complementos de SnapCenter necesarios.
+. Configurar políticas. Defina el tipo de operación de backup, la retención y la replicación de backup de Snapshot opcional.
+. Configurar y proteger la base de datos de Microsoft SQL Server.
+
+
+
+
+== Interfaz de usuario de SnapCenter recién instalada
+
+Configure las credenciales para la copia de seguridad de SQL Server y restaure al usuario con derechos de administrador del sistema.
+
+image:sqlsb-aws-image1.png["Error: Falta la imagen gráfica"]
+
+NetApp recomienda usar el control de acceso basado en roles (RBAC) para delegar las funcionalidades de protección de datos y gestión a usuarios individuales en los hosts de SnapCenter y Windows. El usuario debe tener acceso a SQL Server que aloja la base de datos. En el caso de varios hosts, el nombre de usuario y la contraseña deben ser los mismos en los distintos hosts. Además, para permitir que SnapCenter implemente el plugin requerido en los hosts de SQL Server, es necesario registrar la información del dominio para que SnapCenter valide las credenciales y los hosts.
+
+Expanda las siguientes secciones para ver las instrucciones detalladas sobre cómo completar cada paso.
+
+.Añada las credenciales
+[%collapsible]
+====
+Vaya a *Configuración*, seleccione *Credenciales* y haga clic en (*+*).
+
+image:sqlsb-aws-image2.png["Error: Falta la imagen gráfica"]
+
+El nuevo usuario debe tener derechos de administrador en el host de SQL Server.
+
+image:sqlsb-aws-image3.png["Error: Falta la imagen gráfica"]
+
+====
+.Configurar el almacenamiento
+[%collapsible]
+====
+Para configurar el almacenamiento en SnapCenter, complete los siguientes pasos:
+
+. En la interfaz de usuario de SnapCenter, seleccione *Sistemas de almacenamiento*. Hay dos tipos de almacenamiento, *ONTAP SVM* y *ONTAP Cluster*. Por defecto, el tipo de almacenamiento es *ONTAP SVM*.
+. Haga clic en (*+*) para añadir la información del sistema de almacenamiento.
++
+image:sqlsb-aws-image4.png["Error: Falta la imagen gráfica"]
+
+. Proporcione el punto final *FSX para la gestión de ONTAP*.
++
+image:sqlsb-aws-image5.png["Error: Falta la imagen gráfica"]
+
+. La SVM ahora está configurada en SnapCenter.
++
+image:sqlsb-aws-image6.png["Error: Falta la imagen gráfica"]
+
+
+
+====
+.Añada un host de SQL Server a SnapCenter
+[%collapsible]
+====
+Para agregar un host de SQL Server, complete los siguientes pasos:
+
+. En la pestaña Host, haga clic en (*+*) para agregar el host de Microsoft SQL Server.
++
+image:sqlsb-aws-image7.png["Error: Falta la imagen gráfica"]
+
+. Proporcione el nombre de dominio completo (FQDN) o la dirección IP del host remoto.
++
+
+NOTE: Las credenciales se rellenan por defecto.
+
+. Seleccione la opción para Microsoft Windows y Microsoft SQL Server y, a continuación, enviar.
++
+image:sqlsb-aws-image8.png["Error: Falta la imagen gráfica"]
+
+
+
+Los paquetes de SQL Server están instalados.
+
+image:sqlsb-aws-image9.png["Error: Falta la imagen gráfica"]
+
+. Una vez completada la instalación, vaya a la pestaña *Recurso* para verificar si todos los volúmenes iSCSI de FSx para ONTAP están presentes.
++
+image:sqlsb-aws-image10.png["Error: Falta la imagen gráfica"]
+
+
+
+====
+.Configure el directorio de registro
+[%collapsible]
+====
+Para configurar un directorio de registro de host, complete los siguientes pasos:
+
+. Haga clic en la casilla de verificación. Se abrirá una nueva pestaña.
++
+image:sqlsb-aws-image11.png["Error: Falta la imagen gráfica"]
+
+. Haga clic en el enlace *configure log directory*.
++
+image:sqlsb-aws-image12.png["Error: Falta la imagen gráfica"]
+
+. Seleccione la unidad para el directorio de registro de host y el directorio de registro de instancia de FCI. Haga clic en *Guardar*. Repita el mismo proceso para el segundo nodo del clúster. Cierre la ventana.
++
+image:sqlsb-aws-image13.png["Error: Falta la imagen gráfica"]
+
+
+
+El host ahora está en estado en ejecución.
+
+image:sqlsb-aws-image14.png["Error: Falta la imagen gráfica"]
+
+. Desde la pestaña *Recursos*, tenemos todos los servidores y bases de datos.
++
+image:sqlsb-aws-image15.png["Error: Falta la imagen gráfica"]
+
+
+
+====
+
+
+== Configure una política de backup
+
+Una política de backup es un conjunto de reglas que rigen cómo gestionar, programar y retener el backup. Ayuda en el tipo y la frecuencia de backup según el acuerdo de nivel de servicio de su empresa.
+
+Expanda las siguientes secciones para ver las instrucciones detalladas sobre cómo completar cada paso.
+
+.Configurar la operación de copia de seguridad para una base de datos FCI
+[%collapsible]
+====
+Para configurar una política de copia de seguridad para una base de datos FCI, realice los siguientes pasos:
+
+. Ve a *Ajustes* y selecciona *Políticas* en la parte superior izquierda. Luego haga clic en *Nuevo*.
++
+image:sqlsb-aws-image16.png["Error: Falta la imagen gráfica"]
+
+. Introduzca el nombre de la política y una descripción. Haga clic en *Siguiente*.
++
+image:sqlsb-aws-image17.png["Error: Falta la imagen gráfica"]
+
+. Seleccione *Copia de seguridad completa* como tipo de copia de seguridad.
++
+image:sqlsb-aws-image18.png["Error: Falta la imagen gráfica"]
+
+. Seleccione la frecuencia del programa (esto se basa en el SLA de la empresa). Haga clic en *Siguiente*.
++
+image:sqlsb-aws-image19.png["Error: Falta la imagen gráfica"]
+
+. Configure los ajustes de retención para el backup.
++
+image:sqlsb-aws-image20.png["Error: Falta la imagen gráfica"]
+
+. Configure las opciones de replicación.
++
+image:sqlsb-aws-image21.png["Error: Falta la imagen gráfica"]
+
+. Especifique un script de ejecución antes y después de ejecutar un trabajo de copia de seguridad (si lo hubiera).
++
+image:sqlsb-aws-image22.png["Error: Falta la imagen gráfica"]
+
+. Ejecute la verificación basada en la programación de backups.
++
+image:sqlsb-aws-image23.png["Error: Falta la imagen gráfica"]
+
+. La página *Summary* proporciona detalles de la política de copia de seguridad. Los errores se pueden corregir aquí.
++
+image:sqlsb-aws-image24.png["Error: Falta la imagen gráfica"]
+
+
+
+====
+
+
+== Configurar y proteger la base de datos de MSSQL Server
+
+. Configure la fecha de inicio y de vencimiento de la política de backup.
++
+image:sqlsb-aws-image25.png["Error: Falta la imagen gráfica"]
+
+. Defina la programación para la copia de seguridad. Para ello, haga clic en (*+*) para configurar una programación. Introduzca la *Fecha de inicio* y *Fecha de caducidad*. Establecer la hora en función del SLA de la empresa.
++
+image:sqlsb-aws-image26.png["Error: Falta la imagen gráfica"]
+
+. Configure el servidor de verificación. En el menú desplegable, seleccione el servidor.
++
+image:sqlsb-aws-image27.png["Error: Falta la imagen gráfica"]
+
+. Confirme la programación configurada haciendo clic en el signo más y confirme.
+. Proporcione información para la notificación por correo electrónico. Haga clic en *Siguiente*.
++
+image:sqlsb-aws-image28.png["Error: Falta la imagen gráfica"]
+
+
+
+El resumen de la política de backup para la base de datos de SQL Server ahora está configurado.
+
+image:sqlsb-aws-image29.png["Error: Falta la imagen gráfica"]
+
+
+
+== Operaciones de backup de SnapCenter
+
+Para crear copias de seguridad de SQL Server a petición, lleve a cabo los siguientes pasos:
+
+. Desde la vista *Recurso*, selecciona el recurso y selecciona *Hacer una copia de seguridad ahora*.
++
+image:sqlsb-aws-image30.png["Error: Falta la imagen gráfica"]
+
+. En el cuadro de diálogo *Copia de seguridad*, haga clic en *Copia de seguridad*.
++
+image:sqlsb-aws-image31.png["Error: Falta la imagen gráfica"]
+
+. Aparece una pantalla de confirmación. Haga clic en *Sí* para confirmar.
++
+image:sqlsb-aws-image32.png["Error: Falta la imagen gráfica"]
+
+
+
+
+
+== Supervise la tarea de backup
+
+. En la pestaña *Monitor*, haga clic en el trabajo y seleccione *Detalles* a la derecha para ver los trabajos.
++
+image:sqlsb-aws-image33.png["Error: Falta la imagen gráfica"]
+
++
+image:sqlsb-aws-image34.png["Error: Falta la imagen gráfica"]
+
+
+
+Cuando se completa la copia de seguridad, se muestra una nueva entrada en la vista Topology.
+
+
+
+== Operación de backup para varias bases de datos
+
+Para configurar una política de backup para varias bases de datos de SQL Server, cree políticas de grupos de recursos completando los siguientes pasos:
+
+. En la pestaña *Recursos* del menú *Ver*, cambie a un grupo de recursos usando el menú desplegable.
++
+image:sqlsb-aws-image35.png["Error: Falta la imagen gráfica"]
+
+. Haga clic en (*+*) para obtener un nuevo grupo de recursos.
++
+image:sqlsb-aws-image36.png["Error: Falta la imagen gráfica"]
+
+. Proporcione un nombre y una etiqueta. Haga clic en *Siguiente*.
++
+image:sqlsb-aws-image37.png["Error: Falta la imagen gráfica"]
+
+. Añada recursos al grupo de recursos:
++
+** *Host.* Seleccione el servidor en el menú desplegable que aloja la base de datos.
+** *Tipo de recurso.* En el menú desplegable, selecciona *Base de datos*.
+** *Instancia de SQL Server.* Seleccione el servidor.
++
+image:sqlsb-aws-image38.png["Error: Falta la imagen gráfica"]
+
++
+La opción *Opción* Auto selecciona todos los recursos del mismo volumen de almacenamiento* está seleccionada de forma predeterminada. Desactive la opción y seleccione solo las bases de datos que necesita agregar al grupo de recursos, haga clic en la flecha para agregar y haga clic en *Siguiente*.
+
++
+image:sqlsb-aws-image39.png["Error: Falta la imagen gráfica"]
+
+
+
+. En las políticas, haga clic en (*+*).
++
+image:sqlsb-aws-image40.png["Error: Falta la imagen gráfica"]
+
+. Escriba el nombre de la política del grupo de recursos.
++
+image:sqlsb-aws-image41.png["Error: Falta la imagen gráfica"]
+
+. Seleccione *Copia de seguridad completa* y la frecuencia de programación según el SLA de su empresa.
++
+image:sqlsb-aws-image42.png["Error: Falta la imagen gráfica"]
+
+. Configure los ajustes de retención.
++
+image:sqlsb-aws-image43.png["Error: Falta la imagen gráfica"]
+
+. Configure las opciones de replicación.
++
+image:sqlsb-aws-image44.png["Error: Falta la imagen gráfica"]
+
+. Configure los scripts que se ejecutarán antes de realizar una copia de seguridad. Haga clic en *Siguiente*.
++
+image:sqlsb-aws-image45.png["Error: Falta la imagen gráfica"]
+
+. Confirme la verificación de las siguientes programaciones de backup.
++
+image:sqlsb-aws-image46.png["Error: Falta la imagen gráfica"]
+
+. En la página *Resumen*, verifique la información y haga clic en *Finalizar*.
++
+image:sqlsb-aws-image47.png["Error: Falta la imagen gráfica"]
+
+
+
+
+
+== Configurar y proteger varias bases de datos de SQL Server
+
+. Haga clic en el signo (*+*) para configurar la fecha de inicio y la fecha de caducidad.
++
+image:sqlsb-aws-image48.png["Error: Falta la imagen gráfica"]
+
+. Ajuste la hora.
++
+image:sqlsb-aws-image49.png["Error: Falta la imagen gráfica"]
+
++
+image:sqlsb-aws-image50.png["Error: Falta la imagen gráfica"]
+
+. En la pestaña *Verificación*, seleccione el servidor, configure la programación y haga clic en *Siguiente*.
++
+image:sqlsb-aws-image51.png["Error: Falta la imagen gráfica"]
+
+. Configure las notificaciones para enviar un correo electrónico.
++
+image:sqlsb-aws-image52.png["Error: Falta la imagen gráfica"]
+
+
+
+La política ahora está configurada para realizar backup de varias bases de datos de SQL Server.
+
+image:sqlsb-aws-image53.png["Error: Falta la imagen gráfica"]
+
+
+
+== Active el backup bajo demanda para varias bases de datos de SQL Server
+
+. En la pestaña *Recurso*, selecciona Ver. En el menú desplegable, selecciona *Grupo de recursos*.
++
+image:sqlsb-aws-image54.png["Error: Falta la imagen gráfica"]
+
+. Seleccione el nombre del grupo de recursos.
+. Haga clic en *Copia de seguridad ahora* en la parte superior derecha.
++
+image:sqlsb-aws-image55.png["Error: Falta la imagen gráfica"]
+
+. Se abrirá una nueva ventana. Haga clic en la casilla de verificación *Verificar después de copia de seguridad* y luego haga clic en Copia de seguridad.
++
+image:sqlsb-aws-image56.png["Error: Falta la imagen gráfica"]
+
+. Se muestra un mensaje de confirmación. Haga clic en *Sí*.
++
+image:sqlsb-aws-image57.png["Error: Falta la imagen gráfica"]
+
+
+
+
+
+== Supervise trabajos de backup de varias bases de datos
+
+En la barra de navegación izquierda, haga clic en *Monitor*, seleccione el trabajo de respaldo y haga clic en *Detalles* para ver el progreso del trabajo.
+
+image:sqlsb-aws-image58.png["Error: Falta la imagen gráfica"]
+
+Haga clic en la pestaña *Recurso* para ver el tiempo que tarda la copia de seguridad en completarse.
+
+image:sqlsb-aws-image59.png["Error: Falta la imagen gráfica"]
+
+
+
+== Backup de registros de transacciones para un backup de varias bases de datos
+
+SnapCenter es compatible con los modelos de recuperación completa, registrada en volumen y sencilla. El modo de recuperación simple no admite el backup de registro transaccional.
+
+Para realizar una copia de seguridad del registro de transacciones, complete los siguientes pasos:
+
+. Desde la pestaña *Recursos*, cambie el menú de visualización de *Base de datos* a *Grupo de recursos*.
++
+image:sqlsb-aws-image60.png["Error: Falta la imagen gráfica"]
+
+. Seleccione la política de backup del grupo de recursos creada.
+. Seleccione *Modificar grupo de recursos* en la parte superior derecha.
++
+image:sqlsb-aws-image61.png["Error: Falta la imagen gráfica"]
+
+. La sección *Name* se establece por defecto en el nombre y la etiqueta de la política de copia de seguridad. Haga clic en *Siguiente*.
++
+La pestaña *Recursos* resalta las bases en las que se va a configurar la política de copia de seguridad de transacciones.
+
++
+image:sqlsb-aws-image62.png["Error: Falta la imagen gráfica"]
+
+. Introduzca el nombre de la política.
++
+image:sqlsb-aws-image63.png["Error: Falta la imagen gráfica"]
+
+. Seleccione las opciones de backup de SQL Server.
+. Seleccione log backup.
+. Establezca la frecuencia de programación en función del objetivo de tiempo de recuperación de su empresa. Haga clic en *Siguiente*.
++
+image:sqlsb-aws-image64.png["Error: Falta la imagen gráfica"]
+
+. Configure las opciones de retención de backups de registros. Haga clic en *Siguiente*.
++
+image:sqlsb-aws-image65.png["Error: Falta la imagen gráfica"]
+
+. (Opcional) Configure las opciones de replicación.
++
+image:sqlsb-aws-image66.png["Error: Falta la imagen gráfica"]
+
+. (Opcional) Configure cualquier script que se ejecute antes de realizar un trabajo de backup.
++
+image:sqlsb-aws-image67.png["Error: Falta la imagen gráfica"]
+
+. (Opcional) Configurar verificación de copia de seguridad.
++
+image:sqlsb-aws-image68.png["Error: Falta la imagen gráfica"]
+
+. En la página *Resumen*, haz clic en *Finalizar*.
++
+image:sqlsb-aws-image69.png["Error: Falta la imagen gráfica"]
+
+
+
+
+
+== Configurar y proteger varias bases de datos de MSSQL Server
+
+. Haga clic en la política de backup de registro de transacciones recién creada.
++
+image:sqlsb-aws-image70.png["Error: Falta la imagen gráfica"]
+
+. Establece la *Fecha de inicio* y *Fecha de caducidad*.
+. Introduzca la frecuencia de la política de backup de registros según el acuerdo de nivel de servicio, RTP y RPO. Haga clic en Aceptar.
++
+image:sqlsb-aws-image71.png["Error: Falta la imagen gráfica"]
+
+. Puede ver ambas políticas. Haga clic en *Siguiente*.
++
+image:sqlsb-aws-image72.png["Error: Falta la imagen gráfica"]
+
+. Configure el servidor de verificación.
++
+image:sqlsb-aws-image73.png["Error: Falta la imagen gráfica"]
+
+. Configure la notificación por correo electrónico.
++
+image:sqlsb-aws-image74.png["Error: Falta la imagen gráfica"]
+
+. En la página *Resumen*, haz clic en *Finalizar*.
++
+image:sqlsb-aws-image75.png["Error: Falta la imagen gráfica"]
+
+
+
+
+
+== Activación de un backup de registro de transacciones bajo demanda para varias bases de datos de SQL Server
+
+Para activar una copia de seguridad a petición del log transaccional para varias bases de datos de SQL Server, realice los siguientes pasos:
+
+. En la página de políticas recién creada, seleccione *Copia de seguridad ahora* en la parte superior derecha de la página.
++
+image:sqlsb-aws-image76.png["Error: Falta la imagen gráfica"]
+
+. Desde la ventana emergente de la pestaña *Política*, seleccione el menú desplegable, seleccione la política de copia de seguridad y configure la copia de seguridad del registro de transacciones.
++
+image:sqlsb-aws-image77.png["Error: Falta la imagen gráfica"]
+
+. Haga clic en *copia de seguridad*. Aparecerá una nueva ventana.
+. Haga clic en *Sí* para confirmar la política de copia de seguridad.
++
+image:sqlsb-aws-image78.png["Error: Falta la imagen gráfica"]
+
+
+
+
+
+== Supervisión
+
+Vaya a la pestaña *Monitoring* y supervise el progreso del trabajo de copia de seguridad.
+
+image:sqlsb-aws-image79.png["Error: Falta la imagen gráfica"]
+
+
+
+== Restauración y recuperación
+
+Consulte los siguientes requisitos previos necesarios para restaurar una base de datos de SQL Server en SnapCenter.
+
+* La instancia de destino debe estar en línea y en ejecución antes de que se complete el trabajo de restauración.
+* Las operaciones de SnapCenter que están programadas para ejecutarse en la base de datos de SQL Server deben deshabilitarse, lo que incluye cualquier trabajo programado en servidores de gestión remota o de verificación remota.
+* Si va a restaurar backups de directorio de registro personalizado en un host alternativo, el servidor SnapCenter y el host del plugin deben tener la misma versión de SnapCenter instaladas.
+* Puede restaurar la base de datos del sistema en un host alternativo.
+* SnapCenter puede restaurar una base de datos en un clúster de Windows sin que el grupo de clústeres de SQL Server quede sin conexión.
+
+
+
+
+== Restauración de tablas eliminadas en una base de datos de SQL Server a un punto en el tiempo
+
+Para restaurar una base de datos de SQL Server a un punto en el tiempo, lleve a cabo los siguientes pasos:
+
+. La siguiente captura de pantalla muestra el estado inicial de la base de datos de SQL Server antes de las tablas eliminadas.
++
+image:sqlsb-aws-image80.png["Error: Falta la imagen gráfica"]
+
++
+La captura de pantalla muestra que se han eliminado 20 filas de la tabla.
+
++
+image:sqlsb-aws-image81.png["Error: Falta la imagen gráfica"]
+
+. Inicie sesión en el servidor SnapCenter. En la pestaña *Recursos*, seleccione la base de datos.
++
+image:sqlsb-aws-image82.png["Error: Falta la imagen gráfica"]
+
+. Seleccione el backup más reciente.
+. A la derecha, selecciona *Restaurar*.
++
+image:sqlsb-aws-image83.png["Error: Falta la imagen gráfica"]
+
+. Aparecerá una nueva ventana. Seleccione la opción *Restaurar*.
+. Restaure la base de datos en el mismo host donde se creó el backup. Haga clic en *Siguiente*.
++
+image:sqlsb-aws-image84.png["Error: Falta la imagen gráfica"]
+
+. Para el *Tipo de recuperación*, selecciona *All log backups*. Haga clic en *Siguiente*.
++
+image:sqlsb-aws-image85.png["Error: Falta la imagen gráfica"]
+
++
+image:sqlsb-aws-image86.png["Error: Falta la imagen gráfica"]
+
+
+
+*Opciones de pre-restauración:*
+
+. Seleccione la opción *Sobrescribir la base de datos con el mismo nombre durante la restauración*. Haga clic en *Siguiente*.
++
+image:sqlsb-aws-image87.png["Error: Falta la imagen gráfica"]
+
+
+
+*Opciones post-restauración:*
+
+. Seleccione la opción *Operativo, pero no disponible para restaurar registros de transacciones adicionales*. Haga clic en *Siguiente*.
++
+image:sqlsb-aws-image88.png["Error: Falta la imagen gráfica"]
+
+. Proporcione la configuración del correo electrónico. Haga clic en *Siguiente*.
++
+image:sqlsb-aws-image89.png["Error: Falta la imagen gráfica"]
+
+. En la página *Resumen*, haz clic en *Finalizar*.
++
+image:sqlsb-aws-image90.png["Error: Falta la imagen gráfica"]
+
+
+
+
+
+== Supervise el progreso de la restauración
+
+. En la pestaña *Monitoring*, haga clic en los detalles del trabajo de restauración para ver el progreso del trabajo de restauración.
++
+image:sqlsb-aws-image91.png["Error: Falta la imagen gráfica"]
+
+. Restaurar los detalles del trabajo.
++
+image:sqlsb-aws-image92.png["Error: Falta la imagen gráfica"]
+
+. Volver al host de SQL Server > base de datos > tabla están presentes.
++
+image:sqlsb-aws-image93.png["Error: Falta la imagen gráfica"]
+
+
+
+
+
+== Dónde encontrar información adicional
+
+Si quiere más información sobre el contenido de este documento, consulte los siguientes documentos o sitios web:
+
+* https://www.netapp.com/pdf.html?item=/media/12400-tr4714pdf.pdf["TR-4714: Guía de prácticas recomendadas para Microsoft SQL Server con SnapCenter de NetApp"^]
++
+https://www.netapp.com/pdf.html?item=/media/12400-tr4714pdf.pdf["https://www.netapp.com/pdf.html?item=/media/12400-tr4714pdf.pdf"^]
+
+* https://docs.netapp.com/us-en/snapcenter-45/protect-scsql/concept_requirements_for_restoring_a_database.html["Requisitos para restaurar una base de datos"^]
++
+https://docs.netapp.com/us-en/snapcenter-45/protect-scsql/concept_requirements_for_restoring_a_database.html["https://docs.netapp.com/us-en/snapcenter-45/protect-scsql/concept_requirements_for_restoring_a_database.html"^]
+
+* Ciclos de vida de bases de datos clonados
++
+https://library.netapp.com/ecmdocs/ECMP1217281/html/GUID-4631AFF4-64FE-4190-931E-690FCADA5963.html["https://library.netapp.com/ecmdocs/ECMP1217281/html/GUID-4631AFF4-64FE-4190-931E-690FCADA5963.html"^]
+
+
