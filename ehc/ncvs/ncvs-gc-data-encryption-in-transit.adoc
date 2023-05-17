@@ -22,11 +22,11 @@ Los datos en tránsito pueden cifrarse en la capa de protocolo NAS, y la propia 
 
 == Red de Google Cloud
 
-Google Cloud cifra el tráfico en el nivel de la red, tal y como se describe en https://cloud.google.com/security/encryption-in-transit["Cifrado en tránsito"^] En la documentación de Google. Como se mencionó en la sección "Arquitectura de Cloud Volumes Services", Cloud Volumes Service se ofrece desde un proyecto de productor de PSA controlado por NetApp.
+Google Cloud cifra el tráfico en el nivel de la red, tal y como se describe en https://["Cifrado en tránsito"^] En la documentación de Google. Como se mencionó en la sección "Arquitectura de Cloud Volumes Services", Cloud Volumes Service se ofrece desde un proyecto de productor de PSA controlado por NetApp.
 
 En caso de CVS-SW, el inquilino productor ejecuta las VM de Google para ofrecer el servicio. Google cifra automáticamente el tráfico entre los equipos virtuales del usuario y los equipos virtuales de Cloud Volumes Service.
 
-Aunque la ruta de datos para CVS-Performance no está completamente cifrada en la capa de red, NetApp y Google usan una combinación de ambos https://1.ieee802.org/security/802-1ae/["De cifrado IEEE 802.1AE (MACSec)"^], https://datatracker.ietf.org/doc/html/rfc2003["encapsulación"^] (Cifrado de datos) y redes con limitaciones físicas para proteger los datos en tránsito entre el tipo de servicio CVS-Performance de Cloud Volumes Service y Google Cloud.
+Aunque la ruta de datos para CVS-Performance no está completamente cifrada en la capa de red, NetApp y Google usan una combinación de ambos https://["De cifrado IEEE 802.1AE (MACSec)"^], https://["encapsulación"^] (Cifrado de datos) y redes con limitaciones físicas para proteger los datos en tránsito entre el tipo de servicio CVS-Performance de Cloud Volumes Service y Google Cloud.
 
 
 
@@ -38,7 +38,7 @@ Los protocolos NFS y SMB NAS proporcionan un cifrado de transporte opcional en l
 
 === Cifrado SMB
 
-https://docs.microsoft.com/en-us/windows-server/storage/file-server/smb-security["Cifrado SMB"^] Proporciona cifrado integral de datos SMB y protege los datos de espionaje en redes que no son de confianza. Puede habilitar el cifrado tanto para la conexión de datos de cliente/servidor (solo disponible para clientes compatibles con SMB3.x) como para la autenticación de la controladora de servidor/dominio.
+https://["Cifrado SMB"^] Proporciona cifrado integral de datos SMB y protege los datos de espionaje en redes que no son de confianza. Puede habilitar el cifrado tanto para la conexión de datos de cliente/servidor (solo disponible para clientes compatibles con SMB3.x) como para la autenticación de la controladora de servidor/dominio.
 
 Cuando el cifrado SMB está habilitado, los clientes que no admiten el cifrado no pueden acceder al recurso compartido.
 
@@ -48,13 +48,13 @@ Cloud Volumes Service admite cifrados de seguridad RC4-HMAC, AES-128-CTS-HMAC-SH
 
 === NFSv4.1 Kerberos
 
-Para NFSv4.1, CVS-Performance ofrece autenticación de Kerberos, tal como se describe en https://datatracker.ietf.org/doc/html/rfc7530["RFC7530"^]. Puede activar Kerberos por volumen.
+Para NFSv4.1, CVS-Performance ofrece autenticación de Kerberos, tal como se describe en https://["RFC7530"^]. Puede activar Kerberos por volumen.
 
 El tipo de cifrado disponible más actual para Kerberos es AES-256-CTS-HMAC-SHA1. Cloud Volumes Service de NetApp es compatible con AES-256-CTS-HMAC-SHA1, AES-128-CTS-HMAC-SHA1, DES3 y DES para NFS. También admite ARCFOUR-HMAC (RC4) para el tráfico CIFS/SMB, pero no para NFS.
 
 Kerberos proporciona tres niveles de seguridad distintos para montajes NFS que ofrecen opciones para la solidez de la seguridad de Kerberos.
 
-Según RedHat’s https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/storage_administration_guide/s1-nfs-client-config-options["Opciones de montaje comunes"^] documentación:
+Según RedHat’s https://["Opciones de montaje comunes"^] documentación:
 
 ....
 sec=krb5 uses Kerberos V5 instead of local UNIX UIDs and GIDs to authenticate users.

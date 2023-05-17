@@ -24,9 +24,9 @@ summary: OpenShift Virtualization de Red Hat con ONTAP de NetApp
 * Una estación de trabajo de administración con herramientas trimentctl y oc instaladas y agregadas a $PATH
 
 
-Puesto que OpenShift Virtualization es gestionado por un operador instalado en el clúster OpenShift, impone gastos adicionales en memoria, CPU y almacenamiento, que se deben tener en cuenta al planificar los requisitos de hardware para el clúster. Consulte la documentación https://docs.openshift.com/container-platform/4.7/virt/install/preparing-cluster-for-virt.html#virt-cluster-resource-requirements_preparing-cluster-for-virt["aquí"] para obtener más detalles.
+Puesto que OpenShift Virtualization es gestionado por un operador instalado en el clúster OpenShift, impone gastos adicionales en memoria, CPU y almacenamiento, que se deben tener en cuenta al planificar los requisitos de hardware para el clúster. Consulte la documentación https://["aquí"] para obtener más detalles.
 
-Opcionalmente, también puede especificar un subconjunto de los nodos del clúster de OpenShift para alojar los operadores, controladores y equipos virtuales de OpenShift mediante la configuración de reglas de colocación de nodos. Para configurar reglas de colocación de nodos para OpenShift Virtualization, siga la documentación https://docs.openshift.com/container-platform/4.7/virt/install/virt-specifying-nodes-for-virtualization-components.html["aquí"].
+Opcionalmente, también puede especificar un subconjunto de los nodos del clúster de OpenShift para alojar los operadores, controladores y equipos virtuales de OpenShift mediante la configuración de reglas de colocación de nodos. Para configurar reglas de colocación de nodos para OpenShift Virtualization, siga la documentación https://["aquí"].
 
 En el caso del backup de almacenamiento que ofrece OpenShift Virtualization, NetApp recomienda tener un tipo de almacenamiento dedicado que solicite almacenamiento desde un back-end de Trident concreto, el cual, a su vez, se encuentra respaldado por una SVM dedicada. Esto mantiene un nivel de multi-tenancy con respecto a los datos que se sirven para cargas de trabajo basadas en equipos virtuales en el clúster OpenShift.
 

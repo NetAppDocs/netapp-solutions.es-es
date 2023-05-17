@@ -41,13 +41,13 @@ image:aks-anf_image11.png["Error: Falta la imagen gráfica"]
 
 Existen las siguientes opciones para automatizar los cambios en el nivel de rendimiento:
 
-* El cambio de nivel de servicio dinámico sigue en la vista previa pública en este momento y no está activado de forma predeterminada. Para habilitar esta función en la suscripción a Azure, consulte esta documentación sobre cómo https://docs.microsoft.com/azure/azure-netapp-files/dynamic-change-volume-service-level["Cambie dinámicamente el nivel de servicio de un volumen"^].
-* Se proporcionan comandos de cambio de pool de volúmenes de la interfaz de línea de comandos de Azure en https://docs.microsoft.com/en-us/cli/azure/netappfiles/volume?view=azure-cli-latest&viewFallbackFrom=azure-cli-latest%20-%20az_netappfiles_volume_pool_change["documentación de cambio de pool de volúmenes"^] y en el ejemplo siguiente:
+* El cambio de nivel de servicio dinámico sigue en la vista previa pública en este momento y no está activado de forma predeterminada. Para habilitar esta función en la suscripción a Azure, consulte esta documentación sobre cómo https://["Cambie dinámicamente el nivel de servicio de un volumen"^].
+* Se proporcionan comandos de cambio de pool de volúmenes de la interfaz de línea de comandos de Azure en https://["documentación de cambio de pool de volúmenes"^] y en el ejemplo siguiente:
 +
 ....
 az netappfiles volume pool-change -g mygroup --account-name myaccname --pool-name mypoolname --name myvolname --new-pool-resource-id mynewresourceid
 ....
-* PowerShell: El https://docs.microsoft.com/powershell/module/az.netappfiles/set-aznetappfilesvolumepool?view=azps-5.8.0["Set-AzNetAppFilesVolumePool"^] Cambia el pool de un volumen Azure NetApp Files y se muestra en el ejemplo siguiente:
+* PowerShell: El https://["Set-AzNetAppFilesVolumePool"^] Cambia el pool de un volumen Azure NetApp Files y se muestra en el ejemplo siguiente:
 +
 ....
 Set-AzNetAppFilesVolumePool

@@ -26,12 +26,12 @@ Para ejecutar las tareas descritas en esta sección, debe tener acceso a un host
 
 * Kubectl (se configura para acceder a un clúster de Kubernetes existente)
 +
-** Se pueden encontrar instrucciones de instalación y configuración https://kubernetes.io/docs/tasks/tools/["aquí"^].
+** Se pueden encontrar instrucciones de instalación y configuración https://["aquí"^].
 
 
 * Kit de herramientas Data OPS de NetApp para Kubernetes
 +
-** Se pueden encontrar instrucciones de instalación https://github.com/NetApp/netapp-dataops-toolkit/tree/main/netapp_dataops_k8s["aquí"^].
+** Se pueden encontrar instrucciones de instalación https://["aquí"^].
 
 
 
@@ -125,7 +125,7 @@ Volume successfully created and bound to PersistentVolumeClaim (PVC) 'inference-
 ....
 . Rellene el nuevo volumen persistente con los datos en los que realizará la inferencia.
 +
-Existen varios métodos para cargar datos en un PVC. Si actualmente sus datos están almacenados en una plataforma de almacenamiento de objetos compatible con S3, como StorageGRID de NetApp o Amazon S3, podrá utilizar https://github.com/NetApp/netapp-dataops-toolkit/blob/main/netapp_dataops_k8s/docs/data_movement.md["Funcionalidades de NetApp DataOPS Toolkit S3 Data mover"^]. Otro método simple es crear un espacio de trabajo JJupyterLab y cargar archivos a continuación a través de la interfaz web JJupyterLab, como se indica en los pasos 3 a 5 de la sección “<<Escenario 1 – inferencia bajo demanda en JuppyterLab>>.”
+Existen varios métodos para cargar datos en un PVC. Si actualmente sus datos están almacenados en una plataforma de almacenamiento de objetos compatible con S3, como StorageGRID de NetApp o Amazon S3, podrá utilizar https://["Funcionalidades de NetApp DataOPS Toolkit S3 Data mover"^]. Otro método simple es crear un espacio de trabajo JJupyterLab y cargar archivos a continuación a través de la interfaz web JJupyterLab, como se indica en los pasos 3 a 5 de la sección “<<Escenario 1 – inferencia bajo demanda en JuppyterLab>>.”
 
 . Cree un trabajo de Kubernetes para la tarea de inferencia de lotes. El siguiente ejemplo muestra un trabajo de inferencia en lote para un caso de uso de detección de imagen. Este trabajo realiza la inferencia en cada imagen de un conjunto de imágenes y escribe métricas de precisión de inferencia para su colocación.
 +
@@ -271,7 +271,7 @@ Creating PersistentVolumeClaim (PVC) 'triton-model-repo' in namespace 'inference
 PersistentVolumeClaim (PVC) 'triton-model-repo' created. Waiting for Kubernetes to bind volume to PVC.
 Volume successfully created and bound to PersistentVolumeClaim (PVC) 'triton-model-repo' in namespace 'inference'.
 ....
-. Almacene su modelo en el nuevo volumen persistente en un https://github.com/triton-inference-server/server/blob/main/docs/model_repository.md["formato"^] Reconocida por el servidor de inferencia NVIDIA Triton.
+. Almacene su modelo en el nuevo volumen persistente en un https://["formato"^] Reconocida por el servidor de inferencia NVIDIA Triton.
 +
 Existen varios métodos para cargar datos en un PVC. Un método simple es crear un espacio de trabajo JupyterLab y luego cargar archivos a través de la interfaz web JupyterLab, como se describe en los pasos 3 a 5 en “<<Escenario 1 – inferencia bajo demanda en JuppyterLab>>. ”
 

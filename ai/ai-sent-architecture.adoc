@@ -32,7 +32,7 @@ El kit de herramientas NetApp DataOPS es una biblioteca Python que facilita a lo
 
 El siguiente diagrama muestra la arquitectura de la solución. Existen tres categorías de entorno principales: El cloud, el núcleo y el perímetro. Cada una de las categorías puede estar geográficamente dispersa. Por ejemplo, el cloud contiene almacenes de objetos con archivos de audio en buckets en diferentes regiones, mientras que el núcleo puede contener centros de datos vinculados a través de una red de alta velocidad o Cloud Sync de NetApp. Los nodos EDGE denotan las plataformas de trabajo diario del agente humano individual, en las que hay disponibles micrófonos y herramientas de panel interactivas para visualizar la opinión y recopilar datos de audio de conversaciones con los clientes.
 
-En los centros de datos acelerados por GPU, las empresas pueden utilizar NVIDIA https://docs.nvidia.com/deeplearning/riva/user-guide/docs/index.html["RIVA"^] Marco para crear aplicaciones de IA conversacionales, con las que el https://developer.nvidia.com/tao["Kit de herramientas Tao"^] Se conecta para la finetunización de modelos y el reciclaje mediante técnicas de aprendizaje en L de transferencia. Estas aplicaciones y flujos de trabajo de computación funcionan con la https://github.com/NetApp/netapp-dataops-toolkit["Kit de herramientas de operaciones de datos de NetApp"^], Activación de las mejores capacidades de administración de datos que ONTAP tiene para ofrecer. El kit de herramientas permite a los equipos de datos corporativos realizar rápidamente prototipos de sus modelos con datos estructurados y no estructurados asociados a través de copias Snapshot y clones para llevar a cabo seguimientos, crear versiones, realizar pruebas A/B, proporcionando así seguridad, gobernabilidad, y cumplimiento de las normativas. Consulte la sección link:ai-sent-design-considerations.html#storage-design["Diseño del almacenamiento"] para obtener más detalles.
+En los centros de datos acelerados por GPU, las empresas pueden utilizar NVIDIA https://["RIVA"^] Marco para crear aplicaciones de IA conversacionales, con las que el https://["Kit de herramientas Tao"^] Se conecta para la finetunización de modelos y el reciclaje mediante técnicas de aprendizaje en L de transferencia. Estas aplicaciones y flujos de trabajo de computación funcionan con la https://["Kit de herramientas de operaciones de datos de NetApp"^], Activación de las mejores capacidades de administración de datos que ONTAP tiene para ofrecer. El kit de herramientas permite a los equipos de datos corporativos realizar rápidamente prototipos de sus modelos con datos estructurados y no estructurados asociados a través de copias Snapshot y clones para llevar a cabo seguimientos, crear versiones, realizar pruebas A/B, proporcionando así seguridad, gobernabilidad, y cumplimiento de las normativas. Consulte la sección link:ai-sent-design-considerations.html#storage-design["Diseño del almacenamiento"] para obtener más detalles.
 
 Esta solución muestra los pasos detallados del procesamiento de archivos de audio, el entrenamiento de modelos NLP, el aprendizaje de transferencias y la administración de datos. La canalización integral resultante genera un resumen de sentimiento que se muestra en tiempo real en los paneles de control de los agentes de apoyo humano.
 
@@ -109,7 +109,7 @@ ONTAP 9.9, la última generación del software de gestión del almacenamiento de
 
 ==== Cloud Sync de NetApp
 
-https://docs.netapp.com/us-en/occm/concept_cloud_sync.html["Cloud Sync"^] Es un servicio de NetApp que ofrece una sincronización de datos rápida y segura que permite transferir archivos entre recursos compartidos de archivos NFS o SMB en las instalaciones a cualquiera de los siguientes destinos:
+https://["Cloud Sync"^] Es un servicio de NetApp que ofrece una sincronización de datos rápida y segura que permite transferir archivos entre recursos compartidos de archivos NFS o SMB en las instalaciones a cualquiera de los siguientes destinos:
 
 * StorageGRID de NetApp
 * ONTAP S3 de NetApp
@@ -128,7 +128,7 @@ Cloud Sync mueve los archivos donde los necesite de una forma rápida y segura. 
 
 ==== StorageGRID de NetApp
 
-La suite de almacenamiento de objetos definida por software StorageGRID admite una amplia gama de casos de uso en entornos multicloud públicos, privados e híbridos sin problemas. Con innovaciones líderes del sector, StorageGRID de NetApp almacena, protege y preserva datos no estructurados para usos múltiples, incluida la gestión automatizada del ciclo de vida durante largos periodos de tiempo. Para obtener más información, consulte https://www.netapp.com/data-storage/storagegrid/documentation/["StorageGRID de NetApp"^] sitio.
+La suite de almacenamiento de objetos definida por software StorageGRID admite una amplia gama de casos de uso en entornos multicloud públicos, privados e híbridos sin problemas. Con innovaciones líderes del sector, StorageGRID de NetApp almacena, protege y preserva datos no estructurados para usos múltiples, incluida la gestión automatizada del ciclo de vida durante largos periodos de tiempo. Para obtener más información, consulte https://["StorageGRID de NetApp"^] sitio.
 
 
 
@@ -243,6 +243,6 @@ Para el análisis de confianza, la salida de texto del reconocimiento automátic
 
 image:ai-sent-image8.png["Error: Falta la imagen gráfica"]
 
-Una canalización similar se utiliza tanto para el análisis de voz a texto como para el análisis de sentimiento dentro del TAO Toolkit. La principal diferencia es el uso de etiquetas que se requieren para la afinación de los modelos. La canalización del kit de herramientas TAO comienza con el procesamiento de los archivos de datos. A continuación, los modelos preformados (procedentes de https://ngc.nvidia.com/catalog["Catálogo de NVIDIA NGC"^]) se ajustan con precisión mediante los datos del centro de soporte. Los modelos ajustados con precisión se evalúan en función de sus mediciones de rendimiento correspondientes y, si tienen un rendimiento superior al de los modelos preformados, se implementan en EL servidor RIVA.
+Una canalización similar se utiliza tanto para el análisis de voz a texto como para el análisis de sentimiento dentro del TAO Toolkit. La principal diferencia es el uso de etiquetas que se requieren para la afinación de los modelos. La canalización del kit de herramientas TAO comienza con el procesamiento de los archivos de datos. A continuación, los modelos preformados (procedentes de https://["Catálogo de NVIDIA NGC"^]) se ajustan con precisión mediante los datos del centro de soporte. Los modelos ajustados con precisión se evalúan en función de sus mediciones de rendimiento correspondientes y, si tienen un rendimiento superior al de los modelos preformados, se implementan en EL servidor RIVA.
 
 link:ai-sent-design-considerations.html["Siguiente: Consideraciones de diseño."]

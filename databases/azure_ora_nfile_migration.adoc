@@ -87,21 +87,9 @@ NOTE: Si no hay espacio suficiente en el host, el `NOCOPY` Se puede usar la opci
 [source, cli]
 ----
 sqlplus / as sysdba;
-----
-+
-[source, cli]
-----
-alter session set container=ncdb;
-----
-+
-[source, cli]
-----
+alter session set container=ncdb
 alter pluggable database open upgrade;
 exit;
-----
-+
-[source, cli]
-----
 dbupgrade -c ncdb -l /home/oracle
 ----
 +
@@ -112,16 +100,8 @@ Revise el archivo de registro de actualización en la `/home/oracle` directorio.
 [source, cli]
 ----
 alter pluggable database ncdb open;
-----
-+
-[source, cli]
-----
 alter session set container=ncdb;
 select message from pdb_plug_in_violations where type like '%ERR%' and status <> 'RESOLVED';
-----
-+
-[source, cli]
-----
 $ORACLE_HOME/perl/bin/perl $ORACLE_HOME/rdbms/admin/catcon.pl -n 1 -c 'ncdb' -e -b utlrp -d $ORACLE_HOME/rdbms/admin utlrp.sql
 ----
 . Ejecución `noncdb_to_pdb.sql` para actualizar el diccionario de datos.
@@ -129,10 +109,6 @@ $ORACLE_HOME/perl/bin/perl $ORACLE_HOME/rdbms/admin/catcon.pl -n 1 -c 'ncdb' -e 
 [source, cli]
 ----
 sqlplus / as sysdba
-----
-+
-[source, cli]
-----
 alter session set container=ncdb;
 @$ORACLE_HOME/rdbms/admin/noncdb_to_pdb.sql;
 ----
@@ -179,10 +155,11 @@ NOTE: El usuario admin es el usuario de gestión en el host del servidor Oracle 
 ----
 ansible-playbook -i hosts ora_pdb_relocate.yml -u azureuser --private-key db1.pem -t ora_pdb_relo_primary
 ----
-
-
++
 
 NOTE: La controladora de Ansible puede ubicarse tanto en las instalaciones como en el cloud de Azure. La controladora necesita conectividad al host del servidor de Oracle local y al host de Oracle VM de Azure. El puerto de la base de datos de Oracle (como 1521) está abierto entre el host del servidor de Oracle local y el host de Oracle VM de Azure.
+
+
 
 
 

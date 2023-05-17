@@ -32,7 +32,7 @@ NetApp Snapshot se integra dentro del código de entrenamiento y captura el esta
 
 == Instalación e instalación de AKS
 
-Para la configuración e instalación del clúster de AKS, vaya a. https://docs.microsoft.com/azure/aks/kubernetes-walkthrough-portal["Cree un clúster de AKS"^]. A continuación, siga estos pasos:
+Para la configuración e instalación del clúster de AKS, vaya a. https://["Cree un clúster de AKS"^]. A continuación, siga estos pasos:
 
 . Al seleccionar el tipo de nodos (ya sean nodos del sistema (CPU) o de trabajadores (GPU), seleccione lo siguiente:
 +
@@ -47,8 +47,8 @@ NOTE: La implementación tarda entre 5 y 10 minutos.
 
 
 
-. Una vez completada la implementación, haga clic en Connect to Cluster. Para conectarse al clúster AKS recién creado, instale la herramienta de línea de comandos Kubernetes desde su entorno local (portátil/PC). Visite https://kubernetes.io/docs/tasks/tools/install-kubectl/["Instalar herramientas"^] Para instalarlo según el sistema operativo.
-. https://docs.microsoft.com/cli/azure/install-azure-cli["Instale el CLI de Azure en su entorno local"^].
+. Una vez completada la implementación, haga clic en Connect to Cluster. Para conectarse al clúster AKS recién creado, instale la herramienta de línea de comandos Kubernetes desde su entorno local (portátil/PC). Visite https://["Instalar herramientas"^] Para instalarlo según el sistema operativo.
+. https://["Instale el CLI de Azure en su entorno local"^].
 . Para acceder al clúster AKS desde el terminal, primero introduzca `az login` y coloque las credenciales.
 . Ejecute los dos comandos siguientes:
 +
@@ -103,13 +103,13 @@ Los usuarios de servicios pueden consumir almacenamiento desde la plataforma de 
 
 == Configuración de Azure NetApp Files
 
-Para completar la configuración de Azure NetApp Files, primero debe configurarlo como se describe en https://docs.microsoft.com/azure/azure-netapp-files/azure-netapp-files-quickstart-set-up-account-create-volumes["Inicio rápido: Configure Azure NetApp Files y cree un volumen NFS"^].
+Para completar la configuración de Azure NetApp Files, primero debe configurarlo como se describe en https://["Inicio rápido: Configure Azure NetApp Files y cree un volumen NFS"^].
 
 Sin embargo, puede omitir los pasos para crear un volumen NFS para Azure NetApp Files a medida que creará volúmenes a través de Trident. Antes de continuar, asegúrese de que dispone de:
 
-. https://docs.microsoft.com/azure/azure-netapp-files/azure-netapp-files-register["Registrado para Azure NetApp Files y el proveedor de recursos de NetApp (a través de Azure Cloud Shell)"^].
-. https://docs.microsoft.com/azure/azure-netapp-files/azure-netapp-files-create-netapp-account["Se creó una cuenta en Azure NetApp Files"^].
-. https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-set-up-capacity-pool["Configure un pool de capacidad"^] (Como mínimo, 4 TIB Standard o Premium, según sus necesidades).
+. https://["Registrado para Azure NetApp Files y el proveedor de recursos de NetApp (a través de Azure Cloud Shell)"^].
+. https://["Se creó una cuenta en Azure NetApp Files"^].
+. https://["Configure un pool de capacidad"^] (Como mínimo, 4 TIB Standard o Premium, según sus necesidades).
 
 
 
@@ -141,7 +141,7 @@ NOTE: Deje todas las secciones que no sean asteriscos por defecto
 . Haga clic en AGREGAR o en Aceptar para agregar la conexión a la red virtual.
 
 
-Si desea más información, visite https://docs.microsoft.com/azure/virtual-network/tutorial-connect-virtual-networks-portal["Crear, cambiar o eliminar una conexión de red virtual entre iguales"^].
+Si desea más información, visite https://["Crear, cambiar o eliminar una conexión de red virtual entre iguales"^].
 
 
 
@@ -157,7 +157,7 @@ Trident de NetApp permite una integración sin problemas con K8S mediante la cre
 
 Para instalar el software Trident, realice los pasos siguientes:
 
-. https://helm.sh/docs/intro/install/["Primero instale el timón"^].
+. https://["Primero instale el timón"^].
 . Descargue y extraiga el instalador de Trident 21.01.1.
 +
 ....
@@ -207,7 +207,7 @@ Para configurar el back-end de Azure NetApp Files y la clase de almacenamiento, 
 ....
 cd ~
 ....
-. Clone el https://github.com/dedmari/lane-detection-SCNN-horovod.git["repositorio de proyectos"^] `lane-detection-SCNN-horovod`.
+. Clone el https://["repositorio de proyectos"^] `lane-detection-SCNN-horovod`.
 . Vaya a la `trident-config` directorio.
 +
 ....
@@ -321,7 +321,7 @@ kubectl create -f https://raw.githubusercontent.com/kubernetes-csi/external-snap
 kubectl apply -f https://raw.githubusercontent.com/kubernetes-csi/external-snapshotter/release-3.0/deploy/kubernetes/snapshot-controller/rbac-snapshot-controller.yaml
 kubectl apply -f https://raw.githubusercontent.com/kubernetes-csi/external-snapshotter/release-3.0/deploy/kubernetes/snapshot-controller/setup-snapshot-controller.yaml
 ....
-. Configurar K8s `volumesnapshotclass`: Antes de crear una instantánea de volumen, a. https://netapp-trident.readthedocs.io/en/stable-v20.01/kubernetes/concepts/objects.html["clase de snapshot de volumen"^] debe estar configurado. Cree una clase de copia Snapshot de volumen para Azure NetApp Files y utilícela para crear versiones ML con la tecnología Snapshot de NetApp. Cree `volumesnapshotclass netapp-csi-snapclass` y configúrelo como predeterminado "volumesnapshotclass "como tal:
+. Configurar K8s `volumesnapshotclass`: Antes de crear una instantánea de volumen, a. https://["clase de snapshot de volumen"^] debe estar configurado. Cree una clase de copia Snapshot de volumen para Azure NetApp Files y utilícela para crear versiones ML con la tecnología Snapshot de NetApp. Cree `volumesnapshotclass netapp-csi-snapclass` y configúrelo como predeterminado "volumesnapshotclass "como tal:
 +
 ....
 kubectl create -f netapp-volume-snapshot-class.yaml
@@ -351,12 +351,12 @@ image:runai-ld_image10.png["Error: Falta la imagen gráfica"]
 
 Para instalar RUN:AI, realice los siguientes pasos:
 
-. https://docs.run.ai/Administrator/Cluster-Setup/cluster-install/["Instalar EJECUTAR:clúster AI en AKS"^].
+. https://["Instalar EJECUTAR:clúster AI en AKS"^].
 . Vaya a app.runai.ai, haga clic en Crear nuevo proyecto y asigne un nombre a la detección de carriles. Creará un espacio de nombres en un clúster K8s a partir de `runai`- seguido del nombre del proyecto. En este caso, el espacio de nombres creado sería la detección de pistas en ejecución.
 +
 image:runai-ld_image11.png["Error: Falta la imagen gráfica"]
 
-. https://docs.run.ai/Administrator/Cluster-Setup/cluster-install/["INSTALAR RUN:AI CLI"^].
+. https://["INSTALAR RUN:AI CLI"^].
 . En el terminal, establezca la detección de carriles como UNA EJECUCIÓN predeterminada: Proyecto de IA mediante el siguiente comando:
 +
 ....
@@ -740,7 +740,7 @@ image:runai-ld_image38.png["Error: Falta la imagen gráfica"]
 
 == Niveles de servicio de Azure NetApp Files
 
-Es posible cambiar el nivel de servicio de un volumen existente si se mueve el volumen a otro pool de capacidad que utiliza https://docs.microsoft.com/azure/azure-netapp-files/azure-netapp-files-service-levels["nivel de servicio"^] se desea para el volumen. Este cambio de nivel de servicio existente del volumen no requiere la migración de los datos. Además, no afecta el acceso al volumen.
+Es posible cambiar el nivel de servicio de un volumen existente si se mueve el volumen a otro pool de capacidad que utiliza https://["nivel de servicio"^] se desea para el volumen. Este cambio de nivel de servicio existente del volumen no requiere la migración de los datos. Además, no afecta el acceso al volumen.
 
 
 
@@ -762,9 +762,9 @@ image:runai-ld_image40.png["Error: Falta la imagen gráfica"]
 
 === Automatizar el cambio de nivel de servicio
 
-El cambio de nivel de servicio dinámico se encuentra actualmente en la vista previa pública, pero no está habilitado de forma predeterminada. Para activar esta función en la suscripción a Azure, siga estos pasos proporcionados en el documento “ file:///C:\Users\crich\Downloads\•%09https:\docs.microsoft.com\azure\azure-netapp-files\dynamic-change-volume-service-level["Cambie dinámicamente el nivel de servicio de un volumen"^].”
+El cambio de nivel de servicio dinámico se encuentra actualmente en la vista previa pública, pero no está habilitado de forma predeterminada. Para activar esta función en la suscripción a Azure, siga estos pasos proporcionados en el documento “ file://["Cambie dinámicamente el nivel de servicio de un volumen"^].”
 
-* También puede utilizar los siguientes comandos para Azure: CLI. Para obtener más información sobre cómo cambiar el tamaño del pool de Azure NetApp Files, visite https://docs.microsoft.com/cli/azure/netappfiles/volume?view=azure-cli-latest-az_netappfiles_volume_pool_change["volumen de archivos de az netapparchivo: Gestione los recursos de volúmenes del Azure NetApp Files (ANF)"^].
+* También puede utilizar los siguientes comandos para Azure: CLI. Para obtener más información sobre cómo cambiar el tamaño del pool de Azure NetApp Files, visite https://["volumen de archivos de az netapparchivo: Gestione los recursos de volúmenes del Azure NetApp Files (ANF)"^].
 +
 ....
 az netappfiles volume pool-change -g mygroup
@@ -773,7 +773,7 @@ az netappfiles volume pool-change -g mygroup
 --name myvolname
 --new-pool-resource-id mynewresourceid
 ....
-* La `set- aznetappfilesvolumepool` El cmdlet que se muestra aquí puede cambiar el pool de un volumen Azure NetApp Files. Para obtener más información sobre el cambio del tamaño del pool de volúmenes y Azure PowerShell, visite https://docs.microsoft.com/powershell/module/az.netappfiles/set-aznetappfilesvolumepool?view=azps-5.8.0["Cambiar el pool de un volumen Azure NetApp Files"^].
+* La `set- aznetappfilesvolumepool` El cmdlet que se muestra aquí puede cambiar el pool de un volumen Azure NetApp Files. Para obtener más información sobre el cambio del tamaño del pool de volúmenes y Azure PowerShell, visite https://["Cambiar el pool de un volumen Azure NetApp Files"^].
 +
 ....
 Set-AzNetAppFilesVolumePool

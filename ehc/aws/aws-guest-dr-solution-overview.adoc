@@ -57,7 +57,7 @@ Los sistemas ONTAP de origen y de destino deben estar en redes con una relación
 Se requieren los siguientes pasos para configurar las relaciones de SnapMirror entre un sistema ONTAP en las instalaciones y FSX ONTAP:
 
 
-NOTE: Consulte la https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/ONTAPGuide.pdf["Guía del usuario de FSX para ONTAP – ONTAP"^] Para obtener más información sobre la creación de relaciones de SnapMirror con FSX.
+NOTE: Consulte la https://["Guía del usuario de FSX para ONTAP – ONTAP"^] Para obtener más información sobre la creación de relaciones de SnapMirror con FSX.
 
 .Registre las interfaces lógicas de interconexión de clústeres de origen y destino
 [%collapsible]
@@ -160,7 +160,7 @@ El siguiente ejemplo muestra una etiqueta de SnapMirror presente en todas las co
 
 image:dr-vmc-aws-image17.png["Error: Falta la imagen gráfica"]
 
-Para obtener más información sobre la creación de políticas de SnapCenter para una base de datos de SQL Server, consulte https://docs.netapp.com/us-en/snapcenter/protect-scsql/task_create_backup_policies_for_sql_server_databases.html["Documentación de SnapCenter"^].
+Para obtener más información sobre la creación de políticas de SnapCenter para una base de datos de SQL Server, consulte https://["Documentación de SnapCenter"^].
 
 Primero debe crear una política de SnapMirror con reglas que exijan el número de copias de snapshot que se retendrán.
 
@@ -226,9 +226,9 @@ FSx-Dest::> volume create -vserver DestSVM -volume DestVolName -aggregate DestAg
 ====
 Esta solución utiliza SnapCenter de NetApp para realizar backups coherentes con las aplicaciones de bases de datos de SQL Server y Oracle. Junto con Veeam Backup & Replication para realizar backups de VMDK de máquinas virtuales, esto ofrece una completa solución de recuperación ante desastres para centros de datos en las instalaciones y basados en cloud.
 
-El software SnapCenter está disponible en el sitio de soporte de NetApp y se puede instalar en sistemas Microsoft Windows que residan en un dominio o un grupo de trabajo. Encontrará una guía de planificación detallada e instrucciones de instalación en la https://docs.netapp.com/us-en/snapcenter/install/install_workflow.html["Centro de documentación de NetApp"^].
+El software SnapCenter está disponible en el sitio de soporte de NetApp y se puede instalar en sistemas Microsoft Windows que residan en un dominio o un grupo de trabajo. Encontrará una guía de planificación detallada e instrucciones de instalación en la https://["Centro de documentación de NetApp"^].
 
-El software SnapCenter puede obtenerse en https://mysupport.netapp.com["este enlace"^].
+El software SnapCenter puede obtenerse en https://["este enlace"^].
 
 Una vez instalado, puede acceder a la consola SnapCenter desde un explorador Web utilizando _\https://Virtual_Cluster_IP_or_FQDN:8146_.
 
@@ -254,7 +254,7 @@ image:dr-vmc-aws-image20.png["Error: Falta la imagen gráfica"]
 
 
 
-Para obtener más información relacionada con la adición de sistemas de almacenamiento a SnapCenter, consulte la documentación en https://docs.netapp.com/us-en/snapcenter/install/task_add_storage_systems.html["este enlace"^].
+Para obtener más información relacionada con la adición de sistemas de almacenamiento a SnapCenter, consulte la documentación en https://["este enlace"^].
 
 ====
 .Añada hosts a SnapCenter
@@ -283,9 +283,9 @@ Puede acceder a las políticas en la sección Configuración del cliente web de 
 
 image:dr-vmc-aws-image23.png["Error: Falta la imagen gráfica"]
 
-Para obtener información completa sobre la creación de políticas para backups de SQL Server, consulte https://docs.netapp.com/us-en/snapcenter/protect-scsql/task_create_backup_policies_for_sql_server_databases.html["Documentación de SnapCenter"^].
+Para obtener información completa sobre la creación de políticas para backups de SQL Server, consulte https://["Documentación de SnapCenter"^].
 
-Para obtener toda la información sobre la creación de políticas para backups de Oracle, consulte https://docs.netapp.com/us-en/snapcenter/protect-sco/task_create_backup_policies_for_oracle_database.html["Documentación de SnapCenter"^].
+Para obtener toda la información sobre la creación de políticas para backups de Oracle, consulte https://["Documentación de SnapCenter"^].
 
 *Notas:*
 
@@ -312,16 +312,16 @@ image:dr-vmc-aws-image25.png["Error: Falta la imagen gráfica"]
 
 La documentación de SnapCenter recoge detalles paso a paso para crear grupos de recursos para bases de datos de SQL Server y Oracle.
 
-Para realizar backups de recursos de SQL, siga https://docs.netapp.com/us-en/snapcenter/protect-scsql/task_back_up_sql_resources.html["este enlace"^].
+Para realizar backups de recursos de SQL, siga https://["este enlace"^].
 
-Para realizar backups de recursos de Oracle, siga https://docs.netapp.com/us-en/snapcenter/protect-sco/task_back_up_oracle_resources.html["este enlace"^].
+Para realizar backups de recursos de Oracle, siga https://["este enlace"^].
 
 ====
 
 
 === Ponga en marcha y configure Veeam Backup Server
 
-La solución utiliza el software Veeam Backup & Replication para realizar backups de nuestros equipos virtuales de aplicaciones y archivar una copia de los backups en un bloque de Amazon S3 mediante un repositorio de backup de escalado horizontal (SOBR) de Veeam. Veeam se pone en marcha en servidores Windows como parte de esta solución. Para obtener directrices específicas sobre la puesta en marcha de Veeam, consulte https://www.veeam.com/documentation-guides-datasheets.html["Documentación técnica del centro de ayuda de Veeam"^].
+La solución utiliza el software Veeam Backup & Replication para realizar backups de nuestros equipos virtuales de aplicaciones y archivar una copia de los backups en un bloque de Amazon S3 mediante un repositorio de backup de escalado horizontal (SOBR) de Veeam. Veeam se pone en marcha en servidores Windows como parte de esta solución. Para obtener directrices específicas sobre la puesta en marcha de Veeam, consulte https://["Documentación técnica del centro de ayuda de Veeam"^].
 
 .Configurar el repositorio de backup de escalado horizontal de Veeam
 [%collapsible]
@@ -364,7 +364,7 @@ image:dr-vmc-aws-image30.png["Error: Falta la imagen gráfica"]
 +
 image:dr-vmc-aws-image31.png["Error: Falta la imagen gráfica"]
 
-. Siga todos los pasos del Asistente para crear un repositorio de copia de seguridad nuevo para crear el repositorio. Para obtener información detallada sobre la creación de repositorios de Veeam Backup, consulte https://www.veeam.com/documentation-guides-datasheets.html["Documentación de Veeam"^].
+. Siga todos los pasos del Asistente para crear un repositorio de copia de seguridad nuevo para crear el repositorio. Para obtener información detallada sobre la creación de repositorios de Veeam Backup, consulte https://["Documentación de Veeam"^].
 +
 image:dr-vmc-aws-image32.png["Error: Falta la imagen gráfica"]
 
@@ -419,7 +419,7 @@ image:dr-vmc-aws-image39.png["Error: Falta la imagen gráfica"]
 .Crear las tareas del repositorio de backup de escalado horizontal
 [%collapsible]
 =====
-El paso final para configurar Veeam es crear tareas de backup utilizando el SOBR recién creado como destino del backup. La creación de empleos de respaldo es una parte normal del repertorio de cualquier administrador de almacenamiento y no cubrimos los pasos detallados aquí. Si desea obtener más información acerca de la creación de trabajos de backup en Veeam, consulte https://www.veeam.com/documentation-guides-datasheets.html["Documentación técnica del centro de ayuda de Veeam"^].
+El paso final para configurar Veeam es crear tareas de backup utilizando el SOBR recién creado como destino del backup. La creación de empleos de respaldo es una parte normal del repertorio de cualquier administrador de almacenamiento y no cubrimos los pasos detallados aquí. Si desea obtener más información acerca de la creación de trabajos de backup en Veeam, consulte https://["Documentación técnica del centro de ayuda de Veeam"^].
 
 =====
 ====
@@ -430,13 +430,13 @@ El paso final para configurar Veeam es crear tareas de backup utilizando el SOBR
 Para llevar a cabo una conmutación al nodo de respaldo de los equipos virtuales de aplicación y los volúmenes de base de datos en los servicios de VMware Cloud Volume que se ejecutan en AWS, debe instalar y configurar una instancia en ejecución tanto de SnapCenter Server como de Veeam Backup and Replication Server. Una vez finalizada la conmutación al respaldo, también debe configurar estas herramientas para reanudar las operaciones de backup normales hasta que se haya planificado y ejecutado una conmutación tras recuperación al centro de datos en las instalaciones.
 
 .Implemente un servidor SnapCenter secundario de Windows
-[%collapsible]
+[#deploy-secondary-snapcenter%collapsible]
 ====
 El servidor SnapCenter se pone en marcha en VMware Cloud SDDC o se instala en una instancia EC2 que reside en un VPC con conectividad de red al entorno cloud de VMware.
 
-El software SnapCenter está disponible en el sitio de soporte de NetApp y se puede instalar en sistemas Microsoft Windows que residan en un dominio o un grupo de trabajo. Encontrará una guía de planificación detallada e instrucciones de instalación en la https://docs.netapp.com/us-en/snapcenter/install/install_workflow.html["Centro de documentación de NetApp"^].
+El software SnapCenter está disponible en el sitio de soporte de NetApp y se puede instalar en sistemas Microsoft Windows que residan en un dominio o un grupo de trabajo. Encontrará una guía de planificación detallada e instrucciones de instalación en la https://["Centro de documentación de NetApp"^].
 
-Puede encontrar el software de SnapCenter en https://mysupport.netapp.com["este enlace"^].
+Puede encontrar el software de SnapCenter en https://["este enlace"^].
 
 ====
 .Configurar servidor SnapCenter secundario de Windows
@@ -457,9 +457,9 @@ Para obtener más información sobre cómo completar estos pasos, consulte la se
 
 ====
 .Ponga en marcha el servidor de replicación de & de Veeam secundario
-[%collapsible]
+[#deploy-secondary-veeam%collapsible]
 ====
-Puede instalar el servidor de Veeam Backup & Replication en un servidor de Windows en el cloud de VMware en AWS o en una instancia de EC2. Para obtener instrucciones detalladas sobre la implementación, consulte https://www.veeam.com/documentation-guides-datasheets.html["Documentación técnica del centro de ayuda de Veeam"^].
+Puede instalar el servidor de Veeam Backup & Replication en un servidor de Windows en el cloud de VMware en AWS o en una instancia de EC2. Para obtener instrucciones detalladas sobre la implementación, consulte https://["Documentación técnica del centro de ayuda de Veeam"^].
 
 ====
 .Configurar el servidor de replicación secundario de Veeam Backup &
@@ -475,14 +475,14 @@ Para realizar este proceso, deben completarse los siguientes elementos:
 . Después de restaurar la máquina virtual, establezca nuevas tareas de backup para proteger las máquinas virtuales de SQL y Oracle.
 
 
-Si desea obtener más información sobre la restauración de máquinas virtuales mediante Veeam, consulte la sección link:aws-guest-dr-restore-veeam-full.html["Restaure equipos virtuales de aplicación con Veeam Full Restore"].
+Si desea obtener más información sobre la restauración de máquinas virtuales mediante Veeam, consulte la sección link:#restore-veeam-full["Restaure equipos virtuales de aplicación con Veeam Full Restore"].
 
 ====
 
 
 === Backup de la base de datos de SnapCenter para recuperación ante desastres
 
-SnapCenter permite realizar las tareas de backup y recuperación de sus datos de configuración y base de datos MySQL subyacentes con el fin de recuperar el servidor SnapCenter en caso de desastre. Para nuestra solución, recuperamos la base de datos y la configuración de SnapCenter en una instancia de EC2 de AWS que reside en nuestro VPC. Para obtener más información sobre este paso, consulte https://docs.netapp.com/us-en/snapcenter/sc-automation/rest_api_workflows_disaster_recovery_of_snapcenter_server.html["este enlace"^].
+SnapCenter permite realizar las tareas de backup y recuperación de sus datos de configuración y base de datos MySQL subyacentes con el fin de recuperar el servidor SnapCenter en caso de desastre. Para nuestra solución, recuperamos la base de datos y la configuración de SnapCenter en una instancia de EC2 de AWS que reside en nuestro VPC. Para obtener más información sobre este paso, consulte https://["este enlace"^].
 
 .Requisitos previos de backup de SnapCenter
 [%collapsible]
@@ -497,7 +497,7 @@ Se requieren los siguientes requisitos previos para el backup de SnapCenter:
 
 ====
 .Resumen del proceso de backup y restauración de SnapCenter
-[%collapsible]
+[#snapcenter-backup-and-restore-process-summary%collapsible]
 ====
 * Cree un volumen en el sistema ONTAP local para alojar la base de datos de copia de seguridad y los archivos de configuración.
 * Configuración de una relación de SnapMirror entre on-premises y FSX/CVO.
@@ -515,7 +515,7 @@ Se requieren los siguientes requisitos previos para el backup de SnapCenter:
 .Realice un backup de la base de datos de SnapCenter y la configuración
 [%collapsible]
 ====
-SnapCenter proporciona una interfaz de cliente web para ejecutar comandos de la API DE REST. Para obtener información sobre cómo acceder a las API DE REST a través de Swagger, consulte la documentación de SnapCenter en https://docs.netapp.com/us-en/snapcenter/sc-automation/overview_rest_apis.html["este enlace"^].
+SnapCenter proporciona una interfaz de cliente web para ejecutar comandos de la API DE REST. Para obtener información sobre cómo acceder a las API DE REST a través de Swagger, consulte la documentación de SnapCenter en https://["este enlace"^].
 
 .Inicie sesión en Swagger y obtenga el token de autorización
 [%collapsible]
@@ -755,7 +755,7 @@ El siguiente proceso proporciona instrucciones sobre cómo recuperar un servidor
 Se asume que los siguientes requisitos previos están completos para continuar con los pasos de recuperación:
 
 . La máquina virtual de Windows Server se ha restaurado en el cloud SDDC de VMware mediante Veeam Full Restore.
-. Se ha establecido un servidor SnapCenter secundario y se ha completado la restauración y configuración de bases de datos SnapCenter siguiendo los pasos descritos en la sección link:aws-guest-dr-snapcenter-db-backup.html#snapcenter-backup-and-restore-process-summary["Resumen del proceso de backup y restauración de SnapCenter."]
+. Se ha establecido un servidor SnapCenter secundario y se ha completado la restauración y configuración de bases de datos SnapCenter siguiendo los pasos descritos en la sección link:#snapcenter-backup-and-restore-process-summary["Resumen del proceso de backup y restauración de SnapCenter."]
 
 
 .VM: Configuración posterior a la restauración para máquina virtual de SQL Server
@@ -870,7 +870,7 @@ El siguiente proceso proporciona instrucciones sobre cómo recuperar los datos d
 Complete los siguientes requisitos previos para continuar con los pasos de recuperación:
 
 . La máquina virtual del servidor Oracle Linux se ha restaurado en el VMware Cloud SDDC con Veeam Full Restore.
-. Se ha establecido un servidor SnapCenter secundario y se han restaurado los archivos de base de datos y configuración de SnapCenter siguiendo los pasos descritos en esta sección link:aws-guest-dr-snapcenter-db-backup.html#snapcenter-backup-and-restore-process-summary["Resumen del proceso de backup y restauración de SnapCenter."]
+. Se ha establecido un servidor SnapCenter secundario y se han restaurado los archivos de base de datos y configuración de SnapCenter siguiendo los pasos descritos en esta sección link:#snapcenter-backup-and-restore-process-summary["Resumen del proceso de backup y restauración de SnapCenter."]
 
 
 .Configurar FSX para la restauración de Oracle – rompa la relación de SnapMirror
@@ -966,9 +966,9 @@ Si quiere más información sobre el contenido de este documento, consulte los s
 
 * Enlaces a la documentación de la solución
 +
-https://docs.netapp.com/us-en/netapp-solutions/ehc/index.html["Multicloud híbrido de NetApp con soluciones de VMware"]
+https://["Multicloud híbrido de NetApp con soluciones de VMware"]
 
 +
-https://docs.netapp.com/us-en/netapp-solutions/index.html["Soluciones NetApp"]
+https://["Soluciones NetApp"]
 
 

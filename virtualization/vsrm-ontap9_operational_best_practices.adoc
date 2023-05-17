@@ -32,7 +32,7 @@ ONTAP 9 de NetApp se puede configurar para eliminar automáticamente copias snap
 ....
 snap autodelete modify –volume -commitment try
 ....
-el ajuste de tamaño automático de volumen debe estar establecido en `grow` Para volúmenes que contienen almacenes de datos SAN y `grow_shrink` Para almacenes de datos NFS. Consulte la https://docs.netapp.com/ontap-9/index.jsp?topic=%2Fcom.netapp.doc.dot-cm-cmpr-910%2Fvolume__autosize.html["Centro de documentación de ONTAP 9"^] para una sintaxis específica.
+el ajuste de tamaño automático de volumen debe estar establecido en `grow` Para volúmenes que contienen almacenes de datos SAN y `grow_shrink` Para almacenes de datos NFS. Consulte la https://["Centro de documentación de ONTAP 9"^] para una sintaxis específica.
 
 
 
@@ -122,11 +122,11 @@ Hay otros factores que se deben tener en cuenta a la hora de conmutar por error 
 
 Un problema que puede tener que lidiar es las diferencias de redes entre sitios. Es posible que algunos entornos puedan usar las mismas direcciones IP de red en el sitio primario y en el sitio de recuperación tras desastres. Esta capacidad se conoce como una configuración de red LAN virtual (VLAN) ampliada o extendida. Es posible que otros entornos tengan que utilizar diferentes direcciones IP de red (por ejemplo, diferentes VLAN) en el sitio principal con respecto al sitio de recuperación ante desastres.
 
-VMware ofrece varias formas de resolver este problema. En primer lugar, las tecnologías de virtualización de redes como el centro de datos NSX-T de VMware abstraen toda la pila de redes de las capas 2 a 7 del entorno operativo, permitiendo soluciones más portátiles. Puede obtener más información acerca de las opciones de NSX-T con SRM https://docs.vmware.com/en/Site-Recovery-Manager/8.4/com.vmware.srm.admin.doc/GUID-89402F1B-1AFB-42CD-B7D5-9535AF32435D.html["aquí"^].
+VMware ofrece varias formas de resolver este problema. En primer lugar, las tecnologías de virtualización de redes como el centro de datos NSX-T de VMware abstraen toda la pila de redes de las capas 2 a 7 del entorno operativo, permitiendo soluciones más portátiles. Puede obtener más información acerca de las opciones de NSX-T con SRM https://["aquí"^].
 
 SRM también le permite cambiar la configuración de red de un equipo virtual mientras se recupera. Esta reconfiguración incluye la configuración como direcciones IP, dirección de puerta de enlace y configuración del servidor DNS. Se pueden especificar diferentes configuraciones de red, que se aplican a las VM individuales a medida que se recuperan, en la configuración de la propiedad de una VM en el plan de recuperación.
 
-Para configurar SRM de modo que aplique diferentes ajustes de red a varios equipos virtuales sin tener que editar las propiedades de cada uno del plan de recuperación, VMware ofrece una herramienta llamada DR-ip-customizer. Para obtener información sobre cómo utilizar esta utilidad, consulte la documentación de VMware https://docs.vmware.com/en/Site-Recovery-Manager/8.4/com.vmware.srm.admin.doc/GUID-2B7E2B25-2B82-4BC4-876B-2FE0A3D71B84.html["aquí"^].
+Para configurar SRM de modo que aplique diferentes ajustes de red a varios equipos virtuales sin tener que editar las propiedades de cada uno del plan de recuperación, VMware ofrece una herramienta llamada DR-ip-customizer. Para obtener información sobre cómo utilizar esta utilidad, consulte la documentación de VMware https://["aquí"^].
 
 
 

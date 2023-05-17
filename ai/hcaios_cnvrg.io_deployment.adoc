@@ -64,7 +64,7 @@ cnvrg-app-69fbb9df98-6xrgf              1/1     Running     0          2m cnvrg-
 
 == Formación de modelos de visión computarizada con ResNet50 y el conjunto de datos de rayos X torácicos
 
-Cnvrg.io AI OS se puso en marcha en una configuración de Kubernetes en una arquitectura de IA ONTAP de NetApp basada en el sistema NVIDIA DGX. Para la validación, se utilizó el conjunto de datos de radiografía de tórax de los NIH que consistía en imágenes desidentificadas de radiografías de tórax. Las imágenes estaban en formato PNG. Los datos fueron proporcionados por el Centro clínico de los NIH y están disponibles a través del https://nihcc.app.box.com/v/ChestXray-NIHCC["Sitio de descarga de NIH"^]. Utilizamos una muestra de 250 GB de los datos con 627, 615 imágenes en 15 clases.
+Cnvrg.io AI OS se puso en marcha en una configuración de Kubernetes en una arquitectura de IA ONTAP de NetApp basada en el sistema NVIDIA DGX. Para la validación, se utilizó el conjunto de datos de radiografía de tórax de los NIH que consistía en imágenes desidentificadas de radiografías de tórax. Las imágenes estaban en formato PNG. Los datos fueron proporcionados por el Centro clínico de los NIH y están disponibles a través del https://["Sitio de descarga de NIH"^]. Utilizamos una muestra de 250 GB de los datos con 627, 615 imágenes en 15 clases.
 
 El conjunto de datos se cargó en la plataforma cnvrg y se almacenó en caché en una exportación NFS desde el sistema de almacenamiento AFF A800 de NetApp.
 
@@ -84,7 +84,7 @@ Para cargar datos en la plataforma cnvrg, puede utilizar la interfaz gráfica de
 
 Para cargar datos, realice los siguientes pasos:
 
-. Descargue el https://app.cnvrg.io/docs/cli/install.html["CLI de cnvrg"^].
+. Descargue el https://["CLI de cnvrg"^].
 . desplácese hasta el directorio de rayos x.
 . Inicialice el conjunto de datos en la plataforma con el `cnvrg data init` comando.
 . Cargue todo el contenido del directorio en el lago de datos central con el `cnvrg data sync` Command.una vez que los datos se cargan en el almacén de objetos central (StorageGRID, S3 u otros), puede navegar por la GUI. La siguiente figura muestra un archivo PNG cargado de imagen de fibrosis torácica. Además, cnvrg introduce los datos de modo que cualquier modelo que cree pueda reproducirse en la versión de los datos.
