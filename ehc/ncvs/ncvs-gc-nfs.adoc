@@ -56,7 +56,7 @@ NOTE: Cuando se utiliza NFSv4.1, el usuario raíz podría mostrarse como nadie c
 
 En Linux, la cuenta raíz tiene acceso a todos los comandos, archivos y carpetas de un sistema de archivos basado en Linux. Debido a la eficacia de esta cuenta, las prácticas recomendadas de seguridad a menudo requieren que el usuario raíz se desactive o se restrinja de alguna manera. En las exportaciones NFS, la potencia que tienen los usuarios raíz sobre los archivos y carpetas se puede controlar en Cloud Volumes Service mediante las normas y políticas de exportación, y un concepto denominado squash raíz.
 
-La función de ocupación de raíz garantiza que el usuario root que accede a un montaje NFS esté almacenado en la base del usuario numérico anónimo 65534 (consulte la sección “<<El usuario anónimo>>”) y actualmente sólo está disponible cuando se utiliza CVS-Performance seleccionando Off para acceso raíz durante la creación de reglas de política de exportación. Si el usuario root está almacenado en el nombre del usuario anónimo, ya no tiene acceso a ejecutar chown o. https://["comandos setuid/setgid (el bit de pegado)"^] En los archivos o carpetas del montaje NFS, y los archivos o carpetas creados por el usuario raíz muestran el UID anon como el propietario/grupo. Además, el usuario raíz no puede modificar las ACL de NFSv4. Sin embargo, el usuario raíz todavía tiene acceso a chmod y archivos eliminados para los que no tiene permisos explícitos. Si desea limitar el acceso a los permisos de archivos y carpetas de un usuario raíz, considere la posibilidad de usar un volumen con ACL NTFS, creando un usuario de Windows con el nombre `root`y aplicar los permisos deseados a los archivos o carpetas.
+La función de ocupación de raíz garantiza que el usuario root que accede a un montaje NFS esté almacenado en la base del usuario numérico anónimo 65534 (consulte la sección “<<El usuario anónimo>>”) y actualmente sólo está disponible cuando se utiliza CVS-Performance seleccionando Off para acceso raíz durante la creación de reglas de política de exportación. Si el usuario root está almacenado en el nombre del usuario anónimo, ya no tiene acceso a ejecutar chown o. https://en.wikipedia.org/wiki/Setuid["comandos setuid/setgid (el bit de pegado)"^] En los archivos o carpetas del montaje NFS, y los archivos o carpetas creados por el usuario raíz muestran el UID anon como el propietario/grupo. Además, el usuario raíz no puede modificar las ACL de NFSv4. Sin embargo, el usuario raíz todavía tiene acceso a chmod y archivos eliminados para los que no tiene permisos explícitos. Si desea limitar el acceso a los permisos de archivos y carpetas de un usuario raíz, considere la posibilidad de usar un volumen con ACL NTFS, creando un usuario de Windows con el nombre `root`y aplicar los permisos deseados a los archivos o carpetas.
 
 
 
@@ -111,7 +111,7 @@ Los permisos de bit de modo solo cubren al propietario, al grupo y a todos los d
 
 Ambos métodos requieren una conexión LDAP para la administración de identidades de UNIX y una información de grupo y usuario de UNIX válida rellenada (consulte la sección link:ncvs-gc-other-nas-infrastructure-service-dependencies.html#ldap["“LDAP”"]) Y sólo están disponibles con las instancias CVS-Performance. Para utilizar volúmenes de estilo de seguridad NTFS con NFS, debe utilizar el protocolo dual (SMB y NFSv3) o el protocolo doble (SMB y NFSv4.1), incluso si no se realiza ninguna conexión SMB. Para utilizar las ACL de NFSv4.1 con montajes NFSv3, debe seleccionar `Both (NFSv3/NFSv4.1)` como tipo de protocolo.
 
-Los bits del modo UNIX normal no proporcionan el mismo nivel de granularidad en permisos que proporcionan las ACL de NTFS o NFSv4.x. En la siguiente tabla, se compara la granularidad de permisos entre bits del modo NFSv3 y ACL de NFSv4.1. Para obtener más información sobre las ACL de NFSv4.1, consulte https://["Nfs4_acl - Listas de control de acceso de NFSv4"^].
+Los bits del modo UNIX normal no proporcionan el mismo nivel de granularidad en permisos que proporcionan las ACL de NTFS o NFSv4.x. En la siguiente tabla, se compara la granularidad de permisos entre bits del modo NFSv3 y ACL de NFSv4.1. Para obtener más información sobre las ACL de NFSv4.1, consulte https://linux.die.net/man/5/nfs4_acl["Nfs4_acl - Listas de control de acceso de NFSv4"^].
 
 |===
 | Bits del modo NFSv3 | ACL de NFSv4.1 
@@ -139,7 +139,7 @@ Permisos * datos de lectura (archivos) / directorio de lista (directorios) * esc
 |===
 Por último, la pertenencia a grupos de NFS (tanto en NFSv3 COMO EN NFSV4.x) está limitada a un máximo predeterminado de 16 para AUTH_SYS según los límites de paquetes RPC. NFS Kerberos proporciona hasta 32 grupos y las ACL de NFSv4 eliminan la limitación a través de ACL granulares de usuarios y grupos (hasta 1024 entradas por ACE).
 
-Además, Cloud Volumes Service ofrece compatibilidad ampliada con grupos para ampliar el número máximo de grupos admitidos hasta 32. Esto requiere una conexión LDAP a un servidor LDAP que contenga identidades de grupo y de usuario UNIX válidas. Para obtener más información acerca de cómo configurar esto, consulte https://["Crear y gestionar volúmenes de NFS"^] En la documentación de Google.
+Además, Cloud Volumes Service ofrece compatibilidad ampliada con grupos para ampliar el número máximo de grupos admitidos hasta 32. Esto requiere una conexión LDAP a un servidor LDAP que contenga identidades de grupo y de usuario UNIX válidas. Para obtener más información acerca de cómo configurar esto, consulte https://cloud.google.com/architecture/partners/netapp-cloud-volumes/creating-nfs-volumes?hl=en_US["Crear y gestionar volúmenes de NFS"^] En la documentación de Google.
 
 
 
@@ -220,7 +220,7 @@ Un descriptor de seguridad consiste en una ACL de seguridad (SACL) y una ACL dis
 
 Si es un básico `chmod` Se ejecuta en un archivo o carpeta con conjuntos de ACL de NFSv4.1, se conservan las ACL de usuario y grupo existentes, pero se modifican las ACL de PROPIETARIO@, GRUPO@ y TODOS@ predeterminadas.
 
-Un cliente que utilice las ACL de NFSv4.1 puede definir y ver ACL de archivos y directorios en el sistema. Cuando se crea un archivo o subdirectorio nuevo en un directorio que tiene una ACL, ese objeto hereda todos los ACE de la ACL que se han etiquetado con el correspondiente http://["indicadores de herencia"^].
+Un cliente que utilice las ACL de NFSv4.1 puede definir y ver ACL de archivos y directorios en el sistema. Cuando se crea un archivo o subdirectorio nuevo en un directorio que tiene una ACL, ese objeto hereda todos los ACE de la ACL que se han etiquetado con el correspondiente http://linux.die.net/man/5/nfs4_acl["indicadores de herencia"^].
 
 Si un archivo o directorio tiene una ACL de NFSv4.1, esa ACL se utiliza para controlar el acceso, independientemente de qué protocolo se utilice para acceder al archivo o directorio.
 
@@ -238,15 +238,15 @@ Cuando se crea un archivo o directorio como resultado de una solicitud de NFSv4,
 
 === Permisos ACE
 
-Los permisos de ACL de NFSv4.1 utilizan una serie de valores de letras mayúsculas y minúsculas (como `rxtncy`) para controlar el acceso. Para obtener más información acerca de estos valores de letra, consulte https://["CÓMO: Utilizar NFSv4 ACL"^].
+Los permisos de ACL de NFSv4.1 utilizan una serie de valores de letras mayúsculas y minúsculas (como `rxtncy`) para controlar el acceso. Para obtener más información acerca de estos valores de letra, consulte https://www.osc.edu/book/export/html/4523["CÓMO: Utilizar NFSv4 ACL"^].
 
 
 
 === Comportamiento de ACL de NFSv4.1 con herencia umask y ACL
 
-http://["Las ACL de NFSv4 proporcionan la capacidad de ofrecer herencia de ACL"^]. La herencia de ACL significa que los archivos o carpetas creados debajo de los objetos con conjuntos de ACL de NFSv4.1 pueden heredar las ACL según la configuración de http://["Indicador de herencia de ACL"^].
+http://linux.die.net/man/5/nfs4_acl["Las ACL de NFSv4 proporcionan la capacidad de ofrecer herencia de ACL"^]. La herencia de ACL significa que los archivos o carpetas creados debajo de los objetos con conjuntos de ACL de NFSv4.1 pueden heredar las ACL según la configuración de http://linux.die.net/man/5/nfs4_acl["Indicador de herencia de ACL"^].
 
-https://["Umask"^] se utiliza para controlar el nivel de permisos en el que se crean archivos y carpetas en un directorio sin interacción del administrador. De forma predeterminada, Cloud Volumes Service permite a umask reemplazar las ACL heredadas, que es el comportamiento esperado según https://["RFC 5661"^].
+https://man7.org/linux/man-pages/man2/umask.2.html["Umask"^] se utiliza para controlar el nivel de permisos en el que se crean archivos y carpetas en un directorio sin interacción del administrador. De forma predeterminada, Cloud Volumes Service permite a umask reemplazar las ACL heredadas, que es el comportamiento esperado según https://datatracker.ietf.org/doc/html/rfc5661["RFC 5661"^].
 
 
 
@@ -262,7 +262,7 @@ El ejemplo anterior sigue las directrices de formato ACL de:
 ....
 type:flags:principal:permissions
 ....
-Tipo de `A` significa “permitir”. Los indicadores heredar no se establecen en este caso, porque el principal no es un grupo y no incluye la herencia. Además, como ACE no es una entrada DE AUDITORÍA, no es necesario establecer los indicadores de auditoría. Para obtener más información sobre las ACL de NFSv4.1, consulte http://["http://linux.die.net/man/5/nfs4_acl"^].
+Tipo de `A` significa “permitir”. Los indicadores heredar no se establecen en este caso, porque el principal no es un grupo y no incluye la herencia. Además, como ACE no es una entrada DE AUDITORÍA, no es necesario establecer los indicadores de auditoría. Para obtener más información sobre las ACL de NFSv4.1, consulte http://linux.die.net/man/5/nfs4_acl["http://linux.die.net/man/5/nfs4_acl"^].
 
 Si la ACL de NFSv4.1 no se establece correctamente (o el cliente y el servidor no pueden resolver una cadena de nombre), es posible que la ACL no se comporte como se espera o que el cambio de ACL no se pueda aplicar y generar un error.
 
@@ -428,7 +428,7 @@ En casi todos los casos, si ve `nobody` En las listas de usuarios y grupos de cl
 
 Si utiliza NFSv4.1, hay una asignación de cadena de nombre que se realiza durante las operaciones de NFS, como se ha descrito anteriormente.
 
-Además de utilizar `/var/log/messages` Para encontrar un problema con los ID de NFSv4, puede utilizar la https://["nfsidmap -l"^] Comando en el cliente NFS para ver los nombres de usuario que se han asignado correctamente al dominio de NFSv4.
+Además de utilizar `/var/log/messages` Para encontrar un problema con los ID de NFSv4, puede utilizar la https://man7.org/linux/man-pages/man5/nfsidmap.5.html["nfsidmap -l"^] Comando en el cliente NFS para ver los nombres de usuario que se han asignado correctamente al dominio de NFSv4.
 
 Por ejemplo, se trata del resultado del comando después de que un usuario que puede encontrar el cliente y Cloud Volumes Service accede a un montaje NFSv4.x:
 

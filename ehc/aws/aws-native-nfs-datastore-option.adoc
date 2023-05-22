@@ -16,7 +16,7 @@ summary:
 [role="lead"]
 Después de que VMware Cloud esté listo y conectado a AWS VPC, debe implementar Amazon FSX para ONTAP de NetApp en un VPC recién designado en lugar de al VPC original conectado o existente.
 
-Para empezar, implemente un VPC adicional en la misma región y zona de disponibilidad donde reside SDDC y, a continuación, implemente Amazon FSX para ONTAP de NetApp en el nuevo VPC. https://["Configuración de un grupo SDDC en VMware Cloud"^] La consola permite las opciones de configuración de redes necesarias para conectarse al VPC recién designado, donde se pondrá en marcha FSX para ONTAP.
+Para empezar, implemente un VPC adicional en la misma región y zona de disponibilidad donde reside SDDC y, a continuación, implemente Amazon FSX para ONTAP de NetApp en el nuevo VPC. https://docs.vmware.com/en/VMware-Cloud-on-AWS/services/com.vmware.vmc-aws-operations/GUID-6B20CA3B-ABCD-4939-9176-BCEA44473C2B.html["Configuración de un grupo SDDC en VMware Cloud"^] La consola permite las opciones de configuración de redes necesarias para conectarse al VPC recién designado, donde se pondrá en marcha FSX para ONTAP.
 
 
 NOTE: Implemente FSX para ONTAP en la misma zona de disponibilidad que VMware Cloud en AWS SDDC.
@@ -145,7 +145,7 @@ NOTE: Repita los pasos anteriores para crear más máquinas virtuales de almacen
 
 
 
-Para obtener más información sobre el rendimiento de Amazon FSX para ONTAP, consulte https://["Rendimiento de Amazon FSX para ONTAP de NetApp"^].
+Para obtener más información sobre el rendimiento de Amazon FSX para ONTAP, consulte https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/performance.html["Rendimiento de Amazon FSX para ONTAP de NetApp"^].
 
 ====
 .Paso 2: Creación de un grupo SDDC
@@ -170,7 +170,7 @@ image:fsx-nfs-image13.png["Error: Falta la imagen gráfica"]
 .Paso 3: Configurar VMware Transit Connect
 [%collapsible]
 ====
-. Conecte el VPC designado recientemente creado al grupo de SDDC. Seleccione la ficha *VPC externo* y siga la https://["Instrucciones para asociar un VPC externo al grupo"^]. El proceso puede tardar 10-15 minutos en completarse.
+. Conecte el VPC designado recientemente creado al grupo de SDDC. Seleccione la ficha *VPC externo* y siga la https://docs.vmware.com/en/VMware-Cloud-on-AWS/services/com.vmware.vmc-aws-operations/GUID-A3D03968-350E-4A34-A53E-C0097F5F26A9.html["Instrucciones para asociar un VPC externo al grupo"^]. El proceso puede tardar 10-15 minutos en completarse.
 +
 image:fsx-nfs-image14.png["Error: Falta la imagen gráfica"]
 

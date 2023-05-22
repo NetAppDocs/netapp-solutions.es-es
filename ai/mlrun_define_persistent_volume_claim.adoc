@@ -39,11 +39,11 @@ Kubectl -n default-tenant apply -f <your yaml file>
 
 == Adjunte el volumen de NetApp al ordenador portátil Jupyter
 
-Iguazio ofrece varios servicios gestionados para proporcionar a los científicos de datos una pila completa para el desarrollo y la puesta en marcha de aplicaciones de IA/ML. Puede obtener más información sobre estos componentes en la https://["Visión General de Iguazio de Servicios y Herramientas de aplicación"^].
+Iguazio ofrece varios servicios gestionados para proporcionar a los científicos de datos una pila completa para el desarrollo y la puesta en marcha de aplicaciones de IA/ML. Puede obtener más información sobre estos componentes en la https://www.iguazio.com/docs/intro/latest-release/ecosystem/app-services/["Visión General de Iguazio de Servicios y Herramientas de aplicación"^].
 
 Uno de los servicios gestionados es el portátil Jupyter. Cada desarrollador obtiene su propia implementación de un contenedor de portátiles con los recursos que necesitan para el desarrollo. Para darles acceso a Cloud Volume de NetApp, puede asignar el volumen a su contenedor y la asignación de recursos, la configuración de usuario en ejecución y la variable de entorno para las reclamaciones de volumen persistente se presentan en la siguiente imagen.
 
-Para obtener información sobre una configuración en las instalaciones, puede consultar https://["TR-4798"^] En la configuración de Trident para habilitar las funcionalidades de gestión de datos de ONTAP de NetApp, como realizar copias Snapshot de sus datos o modelos para el control de versiones. Añada la siguiente línea en su archivo de configuración de back-end de Trident para que sean visibles los directorios de Snapshot:
+Para obtener información sobre una configuración en las instalaciones, puede consultar https://www.netapp.com/us/media/tr-4798.pdf["TR-4798"^] En la configuración de Trident para habilitar las funcionalidades de gestión de datos de ONTAP de NetApp, como realizar copias Snapshot de sus datos o modelos para el control de versiones. Añada la siguiente línea en su archivo de configuración de back-end de Trident para que sean visibles los directorios de Snapshot:
 
 ....
 {
@@ -53,7 +53,7 @@ Para obtener información sobre una configuración en las instalaciones, puede c
     }
 }
 ....
-Debe crear un archivo de configuración back-end de Trident en formato JSON y, a continuación, ejecutar lo siguiente https://["Comando Trident"^] como referencia:
+Debe crear un archivo de configuración back-end de Trident en formato JSON y, a continuación, ejecutar lo siguiente https://netapp-trident.readthedocs.io/en/stable-v18.07/kubernetes/operations/tasks/backends.html["Comando Trident"^] como referencia:
 
 ....
 tridentctl create backend -f <backend-file>

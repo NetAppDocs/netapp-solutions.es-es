@@ -48,16 +48,16 @@ Esta lista contiene los pasos de alto nivel necesarios para emparejar y migrar l
 .Requisitos previos
 [%collapsible]
 ====
-Antes de empezar, asegúrese de que se cumplan los siguientes requisitos previos. Para obtener más información, consulte este tema https://["enlace"^]. Una vez que se hayan establecido los requisitos previos, incluida la conectividad, descargue la clave de licencia de HCX del portal Google Cloud VMware Engine. Después de descargar el instalador de OVA, continúe con el proceso de instalación como se describe a continuación.
+Antes de empezar, asegúrese de que se cumplan los siguientes requisitos previos. Para obtener más información, consulte este tema https://cloud.google.com/vmware-engine/docs/workloads/howto-migrate-vms-using-hcx["enlace"^]. Una vez que se hayan establecido los requisitos previos, incluida la conectividad, descargue la clave de licencia de HCX del portal Google Cloud VMware Engine. Después de descargar el instalador de OVA, continúe con el proceso de instalación como se describe a continuación.
 
 
-NOTE: HCX Advanced es la opción predeterminada y VMware HCX Enterprise Edition también está disponible a través de un ticket de soporte y se admite sin coste adicional. Consulte https://["este enlace"^]
+NOTE: HCX Advanced es la opción predeterminada y VMware HCX Enterprise Edition también está disponible a través de un ticket de soporte y se admite sin coste adicional. Consulte https://cloud.google.com/blog/products/compute/whats-new-with-google-cloud-vmware-engine["este enlace"^]
 
-* Utilice un centro de datos definido por software (SDDC) de Google Cloud VMware Engine o cree un cloud privado utilizando este método https://["Enlace a NetApp"^] o esto https://["Vínculo de Google"^].
-* La migración de equipos virtuales y datos asociados desde el centro de datos integrado con VMware vSphere en las instalaciones requiere conectividad de red del centro de datos al entorno SDDC. Antes de migrar cargas de trabajo, https://["Configure una conexión de Cloud VPN o de Cloud Interconnect"^] entre el entorno local y el cloud privado correspondiente.
+* Utilice un centro de datos definido por software (SDDC) de Google Cloud VMware Engine o cree un cloud privado utilizando este método https://docs.netapp.com/us-en/netapp-solutions/ehc/gcp/gcp-setup.html["Enlace a NetApp"^] o esto https://cloud.google.com/vmware-engine/docs/create-private-cloud["Vínculo de Google"^].
+* La migración de equipos virtuales y datos asociados desde el centro de datos integrado con VMware vSphere en las instalaciones requiere conectividad de red del centro de datos al entorno SDDC. Antes de migrar cargas de trabajo, https://cloud.google.com/vmware-engine/docs/networking/howto-connect-to-onpremises["Configure una conexión de Cloud VPN o de Cloud Interconnect"^] entre el entorno local y el cloud privado correspondiente.
 * La ruta de red desde el entorno local de VMware vCenter Server al cloud privado de Google Cloud VMware Engine debe admitir la migración de las máquinas virtuales mediante vMotion.
-* Asegúrese de que es necesario https://["reglas y puertos del firewall"^] Se permiten para el tráfico de vMotion entre la instancia local de vCenter Server y SDDC vCenter.
-* El volumen de NFS de Cloud Volume Service debe montarse como un almacén de datos en Google Cloud VMware Engine. Siga los pasos detallados en este documento https://["enlace"^] Para conectar almacenes de datos de Cloud Volume Service a los hosts de Google Cloud VMware Engines.
+* Asegúrese de que es necesario https://ports.esp.vmware.com/home/VMware-HCX["reglas y puertos del firewall"^] Se permiten para el tráfico de vMotion entre la instancia local de vCenter Server y SDDC vCenter.
+* El volumen de NFS de Cloud Volume Service debe montarse como un almacén de datos en Google Cloud VMware Engine. Siga los pasos detallados en este documento https://cloud.google.com/vmware-engine/docs/vmware-ecosystem/howto-cloud-volumes-service-datastores["enlace"^] Para conectar almacenes de datos de Cloud Volume Service a los hosts de Google Cloud VMware Engines.
 
 
 ====
@@ -68,7 +68,7 @@ Para realizar las pruebas, el entorno de laboratorio de las instalaciones que se
 
 image:gcpd-hcx-image1.png["Esta imagen muestra la arquitectura de alto nivel utilizada en esta solución."]
 
-Para obtener un diagrama más detallado del HCX, consulte https://["Enlace de VMware"^]
+Para obtener un diagrama más detallado del HCX, consulte https://www.vmware.com/content/dam/digitalmarketing/vmware/en/pdf/products/vmw-google-cloud-vmware-engine-logical-design-poster-for-workload-mobility.pdf["Enlace de VMware"^]
 
 ====
 
@@ -111,7 +111,7 @@ NOTE: Encienda el dispositivo virtual manualmente.
 
 
 
-Para obtener instrucciones paso a paso, consulte https://["Guía del usuario de VMware HCX"^].
+Para obtener instrucciones paso a paso, consulte https://docs.vmware.com/en/VMware-HCX/4.5/hcx-user-guide/GUID-47774FEA-6BDA-48E5-9D5F-ABEAD64FDDF7.html["Guía del usuario de VMware HCX"^].
 
 ====
 .Paso 3: Active el conector HCX con la clave de licencia
@@ -120,7 +120,7 @@ Para obtener instrucciones paso a paso, consulte https://["Guía del usuario de 
 Después de implementar el OVA del conector HCX de VMware en las instalaciones e iniciar el dispositivo, lleve a cabo los siguientes pasos para activar el conector HCX. Genere la clave de licencia desde el portal Google Cloud VMware Engine y actívela en VMware HCX Manager.
 
 . En el portal VMware Engine, haga clic en Resources, seleccione la nube privada y *haga clic en el icono de descarga en HCX Manager Cloud Version*.image:gcpd-hcx-image6.png["Descargar la licencia HCX"]Abra el archivo descargado y copie la cadena de claves de licencia.
-. Inicie sesión en el VMware HCX Manager local en https://["https://hcxmanagerIP:9443"^] uso de las credenciales de administrador.
+. Inicie sesión en el VMware HCX Manager local en https://hcxmanagerIP:9443["https://hcxmanagerIP:9443"^] uso de las credenciales de administrador.
 +
 
 NOTE: Utilice hcxmanagerIP y la contraseña definidos durante la implementación de OVA.
@@ -230,7 +230,7 @@ image:gcpd-hcx-image14.png["Captura de pantalla de los dispositivos HCX en la p�
 ====
 Las cargas de trabajo se pueden migrar de manera bidireccional entre los centros de datos de GCVE y sus instalaciones mediante diversas tecnologías de migración de VMware HCX. Los equipos virtuales se pueden mover hacia y desde entidades activadas por HCX de VMware mediante varias tecnologías de migración, como la migración masiva de HCX, HCX vMotion, migración en frío de HCX, el asistente de replicación de HCX vMotion (disponible con la edición de HCX Enterprise) y la migración asistida por SO HCX (disponible con la edición de HCX Enterprise).
 
-Para obtener más información sobre varios mecanismos de migración de HCX, consulte https://["Tipos de migración HCX de VMware"^].
+Para obtener más información sobre varios mecanismos de migración de HCX, consulte https://docs.vmware.com/en/VMware-HCX/4.5/hcx-user-guide/GUID-8A31731C-AA28-4714-9C23-D9E924DBB666.html["Tipos de migración HCX de VMware"^].
 
 El dispositivo HCX-IX utiliza el servicio de agente de movilidad para realizar migraciones vMotion, de frío y de replicación asistida (RAV).
 
@@ -259,7 +259,7 @@ image:gcpd-hcx-image17.png["Error: Falta la imagen gráfica"]
 . Una vez finalizadas las comprobaciones de validación, haga clic en Ir para iniciar la migración.
 +
 
-NOTE: La transferencia de vMotion captura la memoria activa de la máquina virtual, su estado de ejecución, su dirección IP y su dirección MAC. Para obtener más información sobre los requisitos y las limitaciones de HCX vMotion, consulte https://["Comprender vMotion y la migración de datos fríos de VMware HCX"^].
+NOTE: La transferencia de vMotion captura la memoria activa de la máquina virtual, su estado de ejecución, su dirección IP y su dirección MAC. Para obtener más información sobre los requisitos y las limitaciones de HCX vMotion, consulte https://docs.vmware.com/en/VMware-HCX/4.5/hcx-user-guide/GUID-517866F6-AF06-4EFC-8FAE-DA067418D584.html["Comprender vMotion y la migración de datos fríos de VMware HCX"^].
 
 . Es posible supervisar el progreso y la finalización de vMotion desde el panel HCX > Migration.
 +
@@ -318,14 +318,14 @@ Si quiere más información sobre la información descrita en este documento, co
 
 * Documentación de Google Cloud VMware Engine
 +
-https://["https://cloud.google.com/vmware-engine/docs/overview"^]
+https://cloud.google.com/vmware-engine/docs/overview/["https://cloud.google.com/vmware-engine/docs/overview"^]
 
 * Documentación de Cloud Volume Service
 +
-https://["https://cloud.google.com/architecture/partners/netapp-cloud-volumes"^]
+https://cloud.google.com/architecture/partners/netapp-cloud-volumes["https://cloud.google.com/architecture/partners/netapp-cloud-volumes"^]
 
 * Guía del usuario de VMware HCX
 +
-https://["https://docs.vmware.com/en/VMware-HCX/index.html"^]
+https://docs.vmware.com/en/VMware-HCX/index.html["https://docs.vmware.com/en/VMware-HCX/index.html"^]
 
 

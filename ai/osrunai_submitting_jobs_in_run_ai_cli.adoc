@@ -55,14 +55,14 @@ $ runai logs hyper1
 ....
 En este ejemplo, debería ver el registro de una sesión DL en ejecución, incluyendo la época de entrenamiento actual, ETA, valor de la función de pérdida, precisión y tiempo transcurrido para cada paso.
 
-Puede ver el estado del clúster en la interfaz de usuario Run:AI en https://["https://app.run.ai/"^]. En Paneles > Descripción general, puede supervisar el uso de la GPU.
+Puede ver el estado del clúster en la interfaz de usuario Run:AI en https://app.run.ai/["https://app.run.ai/"^]. En Paneles > Descripción general, puede supervisar el uso de la GPU.
 
 Para detener esta carga de trabajo, ejecute el siguiente comando:
 
 ....
 $ runai delte hyper1
 ....
-Este comando detiene la carga de trabajo de entrenamiento. Puede verificar esta acción ejecutando `runai list` de nuevo. Para obtener información detallada, consulte https://["iniciar cargas de trabajo de formación sin supervisión"^].
+Este comando detiene la carga de trabajo de entrenamiento. Puede verificar esta acción ejecutando `runai list` de nuevo. Para obtener información detallada, consulte https://docs.run.ai/Researcher/Walkthroughs/Walkthrough-Launch-Unattended-Training-Workloads-/["iniciar cargas de trabajo de formación sin supervisión"^].
 
 
 
@@ -92,15 +92,15 @@ $ runai bash build1
 ....
 Esto proporciona un shell directo en el equipo. A continuación, los científicos de datos pueden desarrollar o afinar sus modelos dentro del contenedor.
 
-Puede ver el estado del clúster en la interfaz de usuario Run:AI en https://["https://app.run.ai"^]. Para obtener información detallada, consulte https://["iniciar y utilizar cargas de trabajo de compilación interactivas"^].
+Puede ver el estado del clúster en la interfaz de usuario Run:AI en https://app.run.ai["https://app.run.ai"^]. Para obtener información detallada, consulte https://docs.run.ai/Researcher/Walkthroughs/Walkthrough-Start-and-Use-Interactive-Build-Workloads-/["iniciar y utilizar cargas de trabajo de compilación interactivas"^].
 
 
 
 == Cargas de trabajo interactivas con puertos conectados
 
-Como extensión de las cargas de trabajo de compilación interactiva, puede revelar puertos internos al usuario del contenedor al iniciar un contenedor con la CLI Run:AI. Esto resulta útil para entornos cloud, trabajar con Juppyter Notebooks o conectarse a otros microservicios. https://["Entrada"^] Permite el acceso a los servicios de Kubernetes desde fuera del clúster de Kubernetes. Puede configurar el acceso mediante la creación de una colección de reglas que definan qué conexiones entrantes llegan a qué servicios.
+Como extensión de las cargas de trabajo de compilación interactiva, puede revelar puertos internos al usuario del contenedor al iniciar un contenedor con la CLI Run:AI. Esto resulta útil para entornos cloud, trabajar con Juppyter Notebooks o conectarse a otros microservicios. https://kubernetes.io/docs/concepts/services-networking/ingress/["Entrada"^] Permite el acceso a los servicios de Kubernetes desde fuera del clúster de Kubernetes. Puede configurar el acceso mediante la creación de una colección de reglas que definan qué conexiones entrantes llegan a qué servicios.
 
-Para mejorar la gestión del acceso externo a los servicios de un clúster, sugerimos que instalen los administradores de clúster https://["Entrada"^] Y configurar LoadBalancer.
+Para mejorar la gestión del acceso externo a los servicios de un clúster, sugerimos que instalen los administradores de clúster https://kubernetes.io/docs/concepts/services-networking/ingress/["Entrada"^] Y configurar LoadBalancer.
 
 Para utilizar Ingress como tipo de servicio, ejecute el siguiente comando para establecer el tipo de método y los puertos al enviar la carga de trabajo:
 
@@ -109,8 +109,8 @@ $ runai submit test-ingress -i jupyter/base-notebook -g 1 \
   --interactive --service-type=ingress --port 8888 \
   --args="--NotebookApp.base_url=test-ingress" --command=start-notebook.sh
 ....
-Una vez que el contenedor se haya iniciado correctamente, ejecute `runai list` para ver la `SERVICE URL(S)` Con el que acceder al Cuaderno de Jupyter. La dirección URL está compuesta por el punto final de entrada, el nombre del trabajo y el puerto. Por ejemplo, consulte https://[].
+Una vez que el contenedor se haya iniciado correctamente, ejecute `runai list` para ver la `SERVICE URL(S)` Con el que acceder al Cuaderno de Jupyter. La dirección URL está compuesta por el punto final de entrada, el nombre del trabajo y el puerto. Por ejemplo, consulte https://10.255.174.13/test-ingress-8888[].
 
-Para obtener información detallada, consulte https://["iniciar una carga de trabajo de compilación interactiva con puertos conectados"^].
+Para obtener información detallada, consulte https://docs.run.ai/Researcher/Walkthroughs/Walkthrough-Launch-an-Interactive-Build-Workload-with-Connected-Ports/["iniciar una carga de trabajo de compilación interactiva con puertos conectados"^].
 
 link:osrunai_achieving_high_cluster_utilization.html["Siguiente: Lograr un uso elevado del cluster"]

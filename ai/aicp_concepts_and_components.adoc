@@ -32,7 +32,7 @@ La formación de IA moderna y las cargas de trabajo de inferencia requieren de f
 
 Los contenedores son instancias aisladas del espacio de usuario que se ejecutan sobre un kernel de sistema operativo host compartido. La adopción de contenedores aumenta rápidamente. Los contenedores ofrecen muchos de los mismos beneficios de uso de pruebas de espacio que las máquinas virtuales (VM). Sin embargo, debido a que se eliminan las capas de hipervisor y de sistema operativo «guest» de las que dependen las máquinas virtuales, los contenedores son mucho más ligeros. En la siguiente figura, se muestra una visualización de las máquinas virtuales en comparación con los contenedores.
 
-Los contenedores también permiten el paquete eficiente de dependencias de aplicaciones, tiempos de ejecución, etc., directamente con una aplicación. El formato de embalaje de contenedor más utilizado es el contenedor Docker. Una aplicación que se haya contenedor en el formato de contenedor Docker se puede ejecutar en cualquier máquina que pueda ejecutar contenedores Docker. Esto es cierto incluso si las dependencias de la aplicación no están presentes en la máquina porque todas las dependencias están empaquetadas en el propio contenedor. Para obtener más información, visite la https://["Sitio web de Docker"^].
+Los contenedores también permiten el paquete eficiente de dependencias de aplicaciones, tiempos de ejecución, etc., directamente con una aplicación. El formato de embalaje de contenedor más utilizado es el contenedor Docker. Una aplicación que se haya contenedor en el formato de contenedor Docker se puede ejecutar en cualquier máquina que pueda ejecutar contenedores Docker. Esto es cierto incluso si las dependencias de la aplicación no están presentes en la máquina porque todas las dependencias están empaquetadas en el propio contenedor. Para obtener más información, visite la https://www.docker.com["Sitio web de Docker"^].
 
 image:aicp_image2.png["Error: Falta la imagen gráfica"]
 
@@ -40,25 +40,25 @@ image:aicp_image2.png["Error: Falta la imagen gráfica"]
 
 == Kubernetes
 
-Kubernetes es una plataforma de orquestación de contenedores distribuida de código abierto que originalmente diseñada por Google y que ahora se mantiene mediante Cloud Native Computing Foundation (CNCF). Kubernetes permite automatizar las funciones de puesta en marcha, gestión y escalado para aplicaciones en contenedores. En los últimos años, Kubernetes se ha convertido en la plataforma de orquestación de contenedores dominante. Aunque son compatibles con otros formatos de empaquetado y tiempos de ejecución, Kubernetes se utiliza con más frecuencia como un sistema de orquestación para contenedores Docker. Para obtener más información, visite la https://["Sitio web de Kubernetes"^].
+Kubernetes es una plataforma de orquestación de contenedores distribuida de código abierto que originalmente diseñada por Google y que ahora se mantiene mediante Cloud Native Computing Foundation (CNCF). Kubernetes permite automatizar las funciones de puesta en marcha, gestión y escalado para aplicaciones en contenedores. En los últimos años, Kubernetes se ha convertido en la plataforma de orquestación de contenedores dominante. Aunque son compatibles con otros formatos de empaquetado y tiempos de ejecución, Kubernetes se utiliza con más frecuencia como un sistema de orquestación para contenedores Docker. Para obtener más información, visite la https://kubernetes.io["Sitio web de Kubernetes"^].
 
 
 
 == Trident de NetApp
 
-Trident es un orquestador de almacenamiento de código abierto desarrollado y mantenido por NetApp que simplifica en gran medida la creación, la gestión y el consumo de almacenamiento persistente para cargas de trabajo de Kubernetes. Trident, en sí misma una aplicación nativa de Kubernetes, se ejecuta directamente en un clúster de Kubernetes. Con Trident, los usuarios de Kubernetes (desarrolladores, científicos de datos, administradores de Kubernetes, etc.) pueden crear, gestionar e interactuar con volúmenes de almacenamiento persistente en el formato Kubernetes estándar, con el que ya están familiarizados. Al mismo tiempo, pueden aprovechar las funciones avanzadas de gestión de datos de NetApp y un Data Fabric con tecnología de NetApp. Trident elimina las complejidades del almacenamiento persistente y facilita el consumo. Para obtener más información, visite la https://["Sitio web de Trident"^].
+Trident es un orquestador de almacenamiento de código abierto desarrollado y mantenido por NetApp que simplifica en gran medida la creación, la gestión y el consumo de almacenamiento persistente para cargas de trabajo de Kubernetes. Trident, en sí misma una aplicación nativa de Kubernetes, se ejecuta directamente en un clúster de Kubernetes. Con Trident, los usuarios de Kubernetes (desarrolladores, científicos de datos, administradores de Kubernetes, etc.) pueden crear, gestionar e interactuar con volúmenes de almacenamiento persistente en el formato Kubernetes estándar, con el que ya están familiarizados. Al mismo tiempo, pueden aprovechar las funciones avanzadas de gestión de datos de NetApp y un Data Fabric con tecnología de NetApp. Trident elimina las complejidades del almacenamiento persistente y facilita el consumo. Para obtener más información, visite la https://netapp.io/persistent-storage-provisioner-for-kubernetes/["Sitio web de Trident"^].
 
 
 
 == DeepOps de NVIDIA
 
-DeepOps es un proyecto de código abierto de NVIDIA que, con Ansible, automatiza la puesta en marcha de clústeres de servidores de GPU de acuerdo con las prácticas recomendadas. DeepOps es modular y se puede utilizar para realizar varias tareas de puesta en marcha. En este documento y en el ejercicio de validación descrito, DeepOps se utiliza para poner en marcha un clúster de Kubernetes que consta de nodos de trabajo de servidor GPU. Para obtener más información, visite la https://["Sitio web DeepOps"^].
+DeepOps es un proyecto de código abierto de NVIDIA que, con Ansible, automatiza la puesta en marcha de clústeres de servidores de GPU de acuerdo con las prácticas recomendadas. DeepOps es modular y se puede utilizar para realizar varias tareas de puesta en marcha. En este documento y en el ejercicio de validación descrito, DeepOps se utiliza para poner en marcha un clúster de Kubernetes que consta de nodos de trabajo de servidor GPU. Para obtener más información, visite la https://github.com/NVIDIA/deepops["Sitio web DeepOps"^].
 
 
 
 == Kubeflow
 
-Kubeflow es un kit de herramientas DE IA Y ML de código abierto para Kubernetes que fue desarrollado originalmente por Google. El proyecto Kubeflow hace que la puesta en marcha de flujos de trabajo de IA y ML en Kubernetes sea sencilla, portátil y escalable. ―Kubeflow elimina las complejidades de Kubernetes, lo que permite a los científicos de datos centrarse en lo que saben más ciencia de datos. Consulte la siguiente figura para ver una visualización. Kubeflow ha ido ganando terreno a medida que los departamentos DE TI de las empresas se han estandarizado cada vez más en Kubernetes. Para obtener más información, visite la http://["Sitio web de Kubeflow"^].
+Kubeflow es un kit de herramientas DE IA Y ML de código abierto para Kubernetes que fue desarrollado originalmente por Google. El proyecto Kubeflow hace que la puesta en marcha de flujos de trabajo de IA y ML en Kubernetes sea sencilla, portátil y escalable. ―Kubeflow elimina las complejidades de Kubernetes, lo que permite a los científicos de datos centrarse en lo que saben más ciencia de datos. Consulte la siguiente figura para ver una visualización. Kubeflow ha ido ganando terreno a medida que los departamentos DE TI de las empresas se han estandarizado cada vez más en Kubernetes. Para obtener más información, visite la http://www.kubeflow.org/["Sitio web de Kubeflow"^].
 
 image:aicp_image3.png["Error: Falta la imagen gráfica"]
 
@@ -66,13 +66,13 @@ image:aicp_image3.png["Error: Falta la imagen gráfica"]
 
 === Tuberías de Kubeflow
 
-Los oleoductos de Kubeflow son un componente clave de Kubeflow. Las canalizaciones de Kubeflow son una plataforma y un estándar para definir y poner en marcha flujos de trabajo DE IA Y ML escalables y portátiles. Para obtener más información, consulte https://["Documentación oficial de Kubeflow"^].
+Los oleoductos de Kubeflow son un componente clave de Kubeflow. Las canalizaciones de Kubeflow son una plataforma y un estándar para definir y poner en marcha flujos de trabajo DE IA Y ML escalables y portátiles. Para obtener más información, consulte https://www.kubeflow.org/docs/components/pipelines/pipelines/["Documentación oficial de Kubeflow"^].
 
 
 
 === Servidor de portátiles Juppyter
 
-Un servidor Juppyter Notebook es una aplicación web de código abierto que permite a los científicos de datos crear documentos similares a wiki llamados portátiles Juppyter que contienen código en vivo así como pruebas descriptivas. Los portátiles Juppyter se utilizan ampliamente en la comunidad de AI Y ML como medio para documentar, almacenar y compartir proyectos de IA y ML. Kubeflow simplifica el aprovisionamiento y la puesta en marcha de servidores para portátiles Juppyter en Kubernetes. Para obtener más información sobre los Cuadernos Jupyter, visite http://["Sitio Web de Juppyter"^]. Para obtener más información acerca de Jupyter Notebooks en el contexto de Kubeflow, consulte https://["Documentación oficial de Kubeflow"^].
+Un servidor Juppyter Notebook es una aplicación web de código abierto que permite a los científicos de datos crear documentos similares a wiki llamados portátiles Juppyter que contienen código en vivo así como pruebas descriptivas. Los portátiles Juppyter se utilizan ampliamente en la comunidad de AI Y ML como medio para documentar, almacenar y compartir proyectos de IA y ML. Kubeflow simplifica el aprovisionamiento y la puesta en marcha de servidores para portátiles Juppyter en Kubernetes. Para obtener más información sobre los Cuadernos Jupyter, visite http://www.jupyter.org/["Sitio Web de Juppyter"^]. Para obtener más información acerca de Jupyter Notebooks en el contexto de Kubeflow, consulte https://www.kubeflow.org/docs/components/notebooks/overview/["Documentación oficial de Kubeflow"^].
 
 
 

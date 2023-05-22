@@ -36,7 +36,7 @@ En la siguiente figura, se muestran varias variaciones de la familia de solucion
 
 image:ai-protopia-image2.png["Error: Falta la imagen gráfica"]
 
-Para obtener más información sobre ONTAP AI, consulte https://["NVA-1153: ONTAP AI de NetApp con sistemas NVIDIA DGX A100 y switches Mellanox Spectrum Ethernet."^]
+Para obtener más información sobre ONTAP AI, consulte https://www.netapp.com/pdf.html?item=/media/21793-nva-1153-design.pdf["NVA-1153: ONTAP AI de NetApp con sistemas NVIDIA DGX A100 y switches Mellanox Spectrum Ethernet."^]
 
 
 
@@ -60,7 +60,7 @@ El servidor de inferencia de NVIDIA Triton es un software de servicio de inferen
 
 == PyTorch
 
-https://["PyTorch"^] Es un marco DE APRENDIZAJE AUTOMÁTICO de código abierto. Se trata de una biblioteca tensora optimizada para el aprendizaje profundo que utiliza GPU y CPU. El paquete PyTorch contiene estructuras de datos para tensores multidimensionales que proporcionan muchas utilidades para serializar eficazmente los tensores entre otras utilidades útiles. También tiene un par CUDA que permite ejecutar los cálculos tensores en una GPU de NVIDIA con capacidad de computación. En esta validación, utilizamos la biblioteca de OpenCV-Python (cv2) para validar nuestro modelo y aprovechar los conceptos de visión computarizada más intuitivos de Python.
+https://pytorch.org/["PyTorch"^] Es un marco DE APRENDIZAJE AUTOMÁTICO de código abierto. Se trata de una biblioteca tensora optimizada para el aprendizaje profundo que utiliza GPU y CPU. El paquete PyTorch contiene estructuras de datos para tensores multidimensionales que proporcionan muchas utilidades para serializar eficazmente los tensores entre otras utilidades útiles. También tiene un par CUDA que permite ejecutar los cálculos tensores en una GPU de NVIDIA con capacidad de computación. En esta validación, utilizamos la biblioteca de OpenCV-Python (cv2) para validar nuestro modelo y aprovechar los conceptos de visión computarizada más intuitivos de Python.
 
 
 
@@ -72,7 +72,7 @@ El software para la gestión de datos ONTAP incluye las siguientes funciones par
 
 * Compactación de datos inline y deduplicación expandida. La compactación de datos reduce el espacio perdido dentro de los bloques de almacenamiento, mientras que la deduplicación aumenta la capacidad efectiva de forma significativa. Esto es aplicable a los datos almacenados localmente y a los datos organizados en niveles en el cloud.
 * Calidad de servicio (AQoS) mínima, máxima y adaptativa. Los controles granulares de calidad de servicio (QoS) ayudan a mantener los niveles de rendimiento para aplicaciones críticas en entornos altamente compartidos.
-* FabricPool de NetApp. Proporciona la organización automática en niveles de datos fríos en opciones de almacenamiento en cloud privado como Amazon Web Services (AWS), Azure y la solución de almacenamiento StorageGRID de NetApp. Para obtener más información sobre FabricPool, consulte https://["TR-4598: Prácticas recomendadas de FabricPool"^].
+* FabricPool de NetApp. Proporciona la organización automática en niveles de datos fríos en opciones de almacenamiento en cloud privado como Amazon Web Services (AWS), Azure y la solución de almacenamiento StorageGRID de NetApp. Para obtener más información sobre FabricPool, consulte https://www.netapp.com/pdf.html?item=/media/17239-tr4598pdf.pdf["TR-4598: Prácticas recomendadas de FabricPool"^].
 
 
 
@@ -102,24 +102,24 @@ ONTAP ayuda a satisfacer las exigentes y siempre cambiantes necesidades de su em
 
 == Control Astra de NetApp
 
-La familia de productos Astra de NetApp ofrece servicios de gestión de datos para aplicaciones y almacenamiento para aplicaciones de Kubernetes en las instalaciones y en el cloud público, con la tecnología de gestión de datos y almacenamiento de NetApp. Le permite realizar fácilmente backups de aplicaciones Kubernetes, migrar datos a un clúster diferente y crear, de forma instantánea, clones de aplicaciones de trabajo. Si necesita gestionar aplicaciones de Kubernetes que se ejecutan en un cloud público, consulte la documentación de https://["Servicio de control Astra"^]. Astra Control Service es un servicio gestionado por NetApp que proporciona gestión de datos para aplicaciones de clústeres de Kubernetes en Google Kubernetes Engine (GKE) y Azure Kubernetes Service (AKS).
+La familia de productos Astra de NetApp ofrece servicios de gestión de datos para aplicaciones y almacenamiento para aplicaciones de Kubernetes en las instalaciones y en el cloud público, con la tecnología de gestión de datos y almacenamiento de NetApp. Le permite realizar fácilmente backups de aplicaciones Kubernetes, migrar datos a un clúster diferente y crear, de forma instantánea, clones de aplicaciones de trabajo. Si necesita gestionar aplicaciones de Kubernetes que se ejecutan en un cloud público, consulte la documentación de https://docs.netapp.com/us-en/astra-control-service/index.html["Servicio de control Astra"^]. Astra Control Service es un servicio gestionado por NetApp que proporciona gestión de datos para aplicaciones de clústeres de Kubernetes en Google Kubernetes Engine (GKE) y Azure Kubernetes Service (AKS).
 
 
 
 == Astra Trident de NetApp
 
-Astra https://["Trident"^] De NetApp es un orquestador de almacenamiento dinámico de código abierto para Docker y Kubernetes que simplifica la creación, la gestión y el consumo de almacenamiento persistente. Trident, una aplicación nativa de Kubernetes, se ejecuta directamente dentro de un clúster de Kubernetes. Trident permite que los clientes implementen sin problemas imágenes de contenedores de DL en el almacenamiento de NetApp y proporciona una experiencia de clase empresarial para implementaciones de contenedores de IA. Los usuarios de Kubernetes (desarrolladores DE ML, científicos de datos, etc.) pueden crear, gestionar y automatizar la orquestación y el clonado para aprovechar las funcionalidades avanzadas de gestión de datos que se ofrecen con la tecnología de NetApp.
+Astra https://netapp.io/persistent-storage-provisioner-for-kubernetes/["Trident"^] De NetApp es un orquestador de almacenamiento dinámico de código abierto para Docker y Kubernetes que simplifica la creación, la gestión y el consumo de almacenamiento persistente. Trident, una aplicación nativa de Kubernetes, se ejecuta directamente dentro de un clúster de Kubernetes. Trident permite que los clientes implementen sin problemas imágenes de contenedores de DL en el almacenamiento de NetApp y proporciona una experiencia de clase empresarial para implementaciones de contenedores de IA. Los usuarios de Kubernetes (desarrolladores DE ML, científicos de datos, etc.) pueden crear, gestionar y automatizar la orquestación y el clonado para aprovechar las funcionalidades avanzadas de gestión de datos que se ofrecen con la tecnología de NetApp.
 
 
 
 == Cloud Sync de NetApp
 
-https://["Cloud Sync"^] Es un servicio de NetApp que ofrece una sincronización de datos rápida y segura. Ya tenga que transferir archivos entre recursos compartidos de archivos NFS o SMB en las instalaciones, StorageGRID de NetApp, ONTAP S3 de NetApp, Cloud Volumes Service de NetApp, Azure NetApp Files, Amazon simple Storage Service (Amazon S3), Amazon Elastic File System (Amazon EFS), Azure Blob, Google Cloud Storage, O el almacenamiento de objetos en el cloud de IBM, Cloud Sync mueve los archivos donde los necesita de forma rápida y segura. Una vez transferidos los datos, estarán completamente disponibles para su uso tanto en origen como en destino. Cloud Sync sincroniza continuamente los datos en función de su programación predefinida, al mover solo los deltas, de modo que se minimiza el tiempo y el dinero invertidos en la replicación de datos. Cloud Sync es una herramienta de software como servicio (SaaS) extremadamente fácil de configurar y utilizar. Las transferencias de datos que Cloud Sync activa son llevadas a cabo por agentes de datos. Puede poner en marcha agentes de datos de Cloud Sync en AWS, Azure, Google Cloud Platform o en las instalaciones.
+https://docs.netapp.com/us-en/occm/concept_cloud_sync.html["Cloud Sync"^] Es un servicio de NetApp que ofrece una sincronización de datos rápida y segura. Ya tenga que transferir archivos entre recursos compartidos de archivos NFS o SMB en las instalaciones, StorageGRID de NetApp, ONTAP S3 de NetApp, Cloud Volumes Service de NetApp, Azure NetApp Files, Amazon simple Storage Service (Amazon S3), Amazon Elastic File System (Amazon EFS), Azure Blob, Google Cloud Storage, O el almacenamiento de objetos en el cloud de IBM, Cloud Sync mueve los archivos donde los necesita de forma rápida y segura. Una vez transferidos los datos, estarán completamente disponibles para su uso tanto en origen como en destino. Cloud Sync sincroniza continuamente los datos en función de su programación predefinida, al mover solo los deltas, de modo que se minimiza el tiempo y el dinero invertidos en la replicación de datos. Cloud Sync es una herramienta de software como servicio (SaaS) extremadamente fácil de configurar y utilizar. Las transferencias de datos que Cloud Sync activa son llevadas a cabo por agentes de datos. Puede poner en marcha agentes de datos de Cloud Sync en AWS, Azure, Google Cloud Platform o en las instalaciones.
 
 
 
 == Cloud Data Sense de NetApp
 
-Impulsado por potentes algoritmos de IA,  https://["Cloud Data Sense de NetApp"^] proporciona controles automatizados y control de datos en todos sus datos. Puede localizar con facilidad el ahorro de costes, identificar problemas relacionados con el cumplimiento de normativas y la privacidad, y buscar oportunidades de optimización. El panel Cloud Data Sense le ofrece la información necesaria para identificar datos duplicados y eliminar la redundancia, asignar datos personales, no personales y confidenciales, así como activar alertas de datos confidenciales y anomalías.
+Impulsado por potentes algoritmos de IA,  https://cloud.netapp.com/netapp-cloud-data-sense["Cloud Data Sense de NetApp"^] proporciona controles automatizados y control de datos en todos sus datos. Puede localizar con facilidad el ahorro de costes, identificar problemas relacionados con el cumplimiento de normativas y la privacidad, y buscar oportunidades de optimización. El panel Cloud Data Sense le ofrece la información necesaria para identificar datos duplicados y eliminar la redundancia, asignar datos personales, no personales y confidenciales, así como activar alertas de datos confidenciales y anomalías.
 
 link:ai-protopia-test-and-validation-plan.html["Siguiente: Plan de pruebas y validación."]

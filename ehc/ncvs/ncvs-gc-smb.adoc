@@ -16,7 +16,7 @@ summary: SMB es un protocolo de uso compartido de archivos de red desarrollado p
 link:ncvs-gc-nfs.html["Anterior: NFS."]
 
 [role="lead"]
-https://["SMB"^] Es un protocolo de uso compartido de archivos de red desarrollado por Microsoft que proporciona autenticación centralizada de usuarios/grupos, permisos, bloqueo y uso compartido de archivos a varios clientes SMB a través de una red Ethernet. Los archivos y carpetas se presentan a los clientes mediante recursos compartidos, que pueden configurarse con diversas propiedades de recursos compartidos y ofrecen control de acceso mediante permisos de nivel de recursos compartidos. SMB puede presentarse a cualquier cliente que ofrezca compatibilidad con el protocolo, incluidos clientes de Windows, Apple y Linux.
+https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/hh831795(v=ws.11)["SMB"^] Es un protocolo de uso compartido de archivos de red desarrollado por Microsoft que proporciona autenticación centralizada de usuarios/grupos, permisos, bloqueo y uso compartido de archivos a varios clientes SMB a través de una red Ethernet. Los archivos y carpetas se presentan a los clientes mediante recursos compartidos, que pueden configurarse con diversas propiedades de recursos compartidos y ofrecen control de acceso mediante permisos de nivel de recursos compartidos. SMB puede presentarse a cualquier cliente que ofrezca compatibilidad con el protocolo, incluidos clientes de Windows, Apple y Linux.
 
 Cloud Volumes Service es compatible con las versiones SMB 2.1 y 3.x del protocolo.
 
@@ -97,7 +97,7 @@ image:ncvs-gc-image9.png["Error: Falta la imagen gráfica"]
 
 === Dialectos de autenticación SMB
 
-Cloud Volumes Service admite lo siguiente https://["dialectos"^] Para la autenticación SMB:
+Cloud Volumes Service admite lo siguiente https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-smb2/8df1a501-ce4e-4287-8848-5f1d4733e280["dialectos"^] Para la autenticación SMB:
 
 * LM
 * NTLM
@@ -109,7 +109,7 @@ La autenticación Kerberos para acceso a recursos compartidos SMB es el nivel de
 
 Cloud Volumes Service también admite compatibilidad con versiones anteriores de la autenticación LM y NTLM. Cuando Kerberos está mal configurado (como al crear alias SMB), el acceso al recurso compartido vuelve a los métodos de autenticación más débiles (como NTLMv2). Debido a que estos mecanismos son menos seguros, se desactivan en algunos entornos de Active Directory. Si los métodos de autenticación más débiles están desactivados y Kerberos no está configurado correctamente, el acceso al recurso compartido falla porque no hay ningún método de autenticación válido al que recurrir.
 
-Para obtener información acerca de cómo configurar o ver los niveles de autenticación compatibles en Active Directory, consulte https://["Seguridad de red: Nivel de autenticación de LAN Manager"^].
+Para obtener información acerca de cómo configurar o ver los niveles de autenticación compatibles en Active Directory, consulte https://docs.microsoft.com/en-us/windows/security/threat-protection/security-policy-settings/network-security-lan-manager-authentication-level["Seguridad de red: Nivel de autenticación de LAN Manager"^].
 
 
 
@@ -160,7 +160,7 @@ Para obtener los mejores resultados de seguridad, haga lo siguiente:
 * Utilice grupos para controlar el acceso en lugar de usuarios individuales con el fin de facilitar la gestión y agilizar la incorporación/eliminación de usuarios para compartir ACL a través de la gestión de grupos.
 * Permita un acceso compartido menos restrictivo y más general a los ACE en los permisos de uso compartido y bloquee el acceso a los usuarios y grupos con permisos de archivos para obtener un control de acceso más granular.
 * Evite el uso general de ACL de denegación explícita, ya que anulan permitir ACL. Limitar el uso de ACL de denegación explícita para usuarios o grupos que deben restringirse rápidamente del acceso a un sistema de archivos.
-* Asegúrese de prestar atención al https://["Herencia de ACL"^] configuración al modificar los permisos; establecer el indicador de herencia en el nivel superior de un directorio o volumen con altos recuentos de archivos significa que cada archivo debajo de ese directorio o volumen ha heredado permisos que se le han agregado, que puede crear comportamientos no deseados como acceso no intencionado/denegación y pérdida prolongada de modificación de permisos a medida que se ajusta cada archivo.
+* Asegúrese de prestar atención al https://www.varonis.com/blog/permission-propagation/["Herencia de ACL"^] configuración al modificar los permisos; establecer el indicador de herencia en el nivel superior de un directorio o volumen con altos recuentos de archivos significa que cada archivo debajo de ese directorio o volumen ha heredado permisos que se le han agregado, que puede crear comportamientos no deseados como acceso no intencionado/denegación y pérdida prolongada de modificación de permisos a medida que se ajusta cada archivo.
 
 
 
@@ -180,17 +180,17 @@ Ocultar copias Snapshot de usuarios finales puede ser conveniente por motivos de
 
 * *Activar cifrado SMB (disponible tanto para CVS-Performance como para CVS-SW).* el cifrado SMB está desactivado en el recurso compartido SMB de forma predeterminada (sin seleccionar). Al activar la casilla se habilita el cifrado SMB, lo que significa que el tráfico entre el cliente SMB y el servidor se cifra en tránsito con los niveles de cifrado más altos admitidos negociados. Cloud Volumes Service admite hasta el cifrado AES-256 para SMB. La habilitación del cifrado SMB supone un detrimento del rendimiento que puede o no ser perceptible para sus clientes de SMB, aproximadamente en el rango de 10-20 %. NetApp recomienda encarecidamente realizar pruebas para ver si esa penalización en el rendimiento es aceptable.
 * *Ocultar recurso compartido SMB (disponible tanto para CVS-Performance como para CVS-SW).* al establecer esta opción se oculta la ruta de acceso compartido SMB de la navegación normal. Esto significa que los clientes que no conocen la ruta de acceso al recurso compartido no pueden ver los recursos compartidos al acceder a la ruta UNC predeterminada (por ejemplo `\\CVS-SMB`). Cuando se selecciona la casilla de verificación, solo los clientes que conozcan explícitamente la ruta de acceso compartido SMB o que tengan la ruta de acceso de recurso compartido definida por un objeto de directiva de grupo pueden tener acceso a ella (seguridad mediante ocultación).
-* *Activar enumeración basada en acceso (ABE) (sólo CVS-SW).* esto es similar a ocultar el recurso compartido SMB, excepto que los recursos compartidos o archivos sólo están ocultos de usuarios o grupos que no tienen permisos para acceder a los objetos. Por ejemplo, si el usuario de Windows `joe` No se permite al menos acceso de lectura a través de los permisos, entonces el usuario de Windows `joe` No se pueden ver los archivos o recursos compartidos de SMB en absoluto. Esta opción está deshabilitada de forma predeterminada y puede habilitarla mediante la selección de la casilla de verificación. Para obtener más información sobre ABE, consulte el artículo de la base de conocimientos de NetApp https://["¿Cómo funciona la enumeración basada en acceso (ABE)?"^]
-* *Activar soporte compartido de disponibilidad continua (CA) (CVS-Performance solamente).* https://["Recursos compartidos de SMB disponibles de forma continua"^] Proporcionar una forma de minimizar las interrupciones de aplicaciones durante eventos de conmutación por error mediante la replicación de estados de bloqueo entre nodos del sistema de entorno de administración de Cloud Volumes Service. Esta no es una función de seguridad, pero sí ofrece una mejor resiliencia general. Actualmente, sólo se admiten las aplicaciones SQL Server y FSLogix para esta funcionalidad.
+* *Activar enumeración basada en acceso (ABE) (sólo CVS-SW).* esto es similar a ocultar el recurso compartido SMB, excepto que los recursos compartidos o archivos sólo están ocultos de usuarios o grupos que no tienen permisos para acceder a los objetos. Por ejemplo, si el usuario de Windows `joe` No se permite al menos acceso de lectura a través de los permisos, entonces el usuario de Windows `joe` No se pueden ver los archivos o recursos compartidos de SMB en absoluto. Esta opción está deshabilitada de forma predeterminada y puede habilitarla mediante la selección de la casilla de verificación. Para obtener más información sobre ABE, consulte el artículo de la base de conocimientos de NetApp https://kb.netapp.com/Advice_and_Troubleshooting/Data_Storage_Software/ONTAP_OS/How_does_Access_Based_Enumeration_(ABE)_work["¿Cómo funciona la enumeración basada en acceso (ABE)?"^]
+* *Activar soporte compartido de disponibilidad continua (CA) (CVS-Performance solamente).* https://kb.netapp.com/Advice_and_Troubleshooting/Data_Storage_Software/ONTAP_OS/What_are_SMB_Continuously_Available_(CA)_Shares["Recursos compartidos de SMB disponibles de forma continua"^] Proporcionar una forma de minimizar las interrupciones de aplicaciones durante eventos de conmutación por error mediante la replicación de estados de bloqueo entre nodos del sistema de entorno de administración de Cloud Volumes Service. Esta no es una función de seguridad, pero sí ofrece una mejor resiliencia general. Actualmente, sólo se admiten las aplicaciones SQL Server y FSLogix para esta funcionalidad.
 
 
 
 
 == Recursos compartidos ocultos predeterminados
 
-Cuando se crea un servidor SMB en Cloud Volumes Service, existen https://["recursos compartidos administrativos ocultos"^] (Usa la convención de nomenclatura de $) que se crean además del recurso compartido de SMB del volumen de datos. Entre ellas se incluyen C$ (acceso al espacio de nombres) e IPC$ (uso compartido de canalizaciones con nombre para la comunicación entre programas, como las llamadas a procedimiento remoto (RPC) utilizadas para el acceso a Microsoft Management Console (MMC)).
+Cuando se crea un servidor SMB en Cloud Volumes Service, existen https://library.netapp.com/ecmdocs/ECMP1366834/html/GUID-5B56B12D-219C-4E23-B3F8-1CB1C4F619CE.html["recursos compartidos administrativos ocultos"^] (Usa la convención de nomenclatura de $) que se crean además del recurso compartido de SMB del volumen de datos. Entre ellas se incluyen C$ (acceso al espacio de nombres) e IPC$ (uso compartido de canalizaciones con nombre para la comunicación entre programas, como las llamadas a procedimiento remoto (RPC) utilizadas para el acceso a Microsoft Management Console (MMC)).
 
-El recurso compartido IPC$ no contiene ACL compartidos y no se puede modificar; se utiliza estrictamente para las llamadas RPC y. https://["Windows no permite el acceso anónimo a estos recursos compartidos de forma predeterminada"^].
+El recurso compartido IPC$ no contiene ACL compartidos y no se puede modificar; se utiliza estrictamente para las llamadas RPC y. https://docs.microsoft.com/en-us/troubleshoot/windows-server/networking/inter-process-communication-share-null-session["Windows no permite el acceso anónimo a estos recursos compartidos de forma predeterminada"^].
 
 El recurso compartido C$ permite el acceso BUILTIN/Administrators de forma predeterminada, pero la automatización Cloud Volumes Service elimina la ACL compartida y no permite el acceso a nadie porque el acceso al recurso compartido C$ permite la visibilidad de todos los volúmenes montados en los sistemas de archivos Cloud Volumes Service. Como resultado, intenta navegar a. `\\SERVER\C$` error.
 
@@ -200,9 +200,9 @@ El recurso compartido C$ permite el acceso BUILTIN/Administrators de forma prede
 
 Los servidores SMB de Cloud Volumes Service mantienen una funcionalidad similar a los servidores SMB de Windows regulares en el sentido de que hay grupos locales (como BUILTIN\Administrators) que aplican derechos de acceso a determinados usuarios y grupos de dominio.
 
-Cuando se especifica un usuario que se va a agregar a los usuarios de copia de seguridad, el usuario se agrega al grupo BUILTIN\operadores de copia de seguridad en la instancia de Cloud Volumes Service que utiliza esa conexión de Active Directory, que a continuación obtiene la https://["SeBackupPrivilege y SeRestorePrivilege"^].
+Cuando se especifica un usuario que se va a agregar a los usuarios de copia de seguridad, el usuario se agrega al grupo BUILTIN\operadores de copia de seguridad en la instancia de Cloud Volumes Service que utiliza esa conexión de Active Directory, que a continuación obtiene la https://docs.microsoft.com/en-us/windows-hardware/drivers/ifs/privileges["SeBackupPrivilege y SeRestorePrivilege"^].
 
-Cuando agrega un usuario a usuarios de privilegios de seguridad, se le da al usuario SeSecurityPrivilege, que es útil en algunos casos de uso de aplicaciones, como https://["SQL Server en recursos compartidos de SMB"^].
+Cuando agrega un usuario a usuarios de privilegios de seguridad, se le da al usuario SeSecurityPrivilege, que es útil en algunos casos de uso de aplicaciones, como https://docs.netapp.com/us-en/ontap/smb-hyper-v-sql/add-sesecurityprivilege-user-account-task.html["SQL Server en recursos compartidos de SMB"^].
 
 image:ncvs-gc-image13.png["Error: Falta la imagen gráfica"]
 

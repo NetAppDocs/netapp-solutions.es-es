@@ -59,7 +59,9 @@ Revise la link:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/performance.htm
 
 == Configuración de NFS
 
-Linux, el sistema operativo más común, incluye funcionalidades NFS nativas. Oracle ofrece el cliente NFS directo (dNFS) integrado de forma nativa en Oracle. Oracle tiene compatibilidad con NFSv3 durante más de 20 años y NFSv4 es compatible con Oracle 12.1.0.2 y versiones posteriores. La puesta en marcha automatizada de Oracle mediante el kit de herramientas de automatización de NetApp configura automáticamente dNFS en NFSv3.
+Linux, el sistema operativo más común, incluye funcionalidades NFS nativas. Oracle ofrece el cliente NFS directo (dNFS) integrado de forma nativa en Oracle. Oracle lleva más de 20 años soportando NFSv3. DNFS es compatible con NFSv3 con todas las versiones de Oracle. NFSv4 es compatible con todos los sistemas operativos que siguen el estándar NFSv4. El soporte de DNFS para NFSv4 requiere Oracle 12.1.0.2 o superior. NFSv4,1 requiere soporte específico de SO. Consulte la herramienta Matriz de Interoperabilidad de NetApp (IMT) para obtener información sobre los sistemas operativos admitidos. La compatibilidad con DNFS para NFSv4,1 requiere Oracle versión 19.3.0.0 o superior.
+
+La puesta en marcha automatizada de Oracle mediante el kit de herramientas de automatización de NetApp configura automáticamente dNFS en NFSv3.
 
 Otros factores a considerar:
 
@@ -79,7 +81,7 @@ image:aws_ora_fsx_ec2_nfs_01.PNG["Error: Falta la imagen gráfica"]
 
 
 
-NOTE: Antes de utilizar dNFS, compruebe que están instalados los parches descritos en Oracle Doc 1495104.1. A partir de Oracle 12c, DNFS incluye compatibilidad para NFSv3, NFSv4 y NFSv4.1. Las políticas de soporte de NetApp cubren v3 y v4 para todos los clientes; sin embargo, en el momento de la escritura, NFSv4.1 no es compatible para su uso con Oracle dNFS.
+NOTE: Antes de utilizar dNFS, compruebe que están instalados los parches descritos en Oracle Doc 1495104.1. La matriz de soporte de NetApp para NFSv3 y NFSv4 no incluye sistemas operativos específicos. Se admiten todos los sistemas operativos que obedecen a RFC. Al buscar en IMT en línea compatibilidad con NFSv3 o NFSv4, no seleccione un sistema operativo específico porque no se mostrarán dichas coincidencias. Todos los sistemas operativos están soportados implícitamente por la política general.
 
 
 

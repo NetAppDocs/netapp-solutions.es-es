@@ -72,11 +72,11 @@ NOTE: Existen múltiples opciones para conectar los centros de datos en las inst
 .Configurar CVO en Google Cloud y replicar volúmenes a CVO
 [%collapsible]
 ====
-El primer paso consiste en configurar Cloud Volumes ONTAP en Google Cloud (https://["cvo"^]) Y replicar los volúmenes deseados en Cloud Volumes ONTAP con las frecuencias y retentions de instantánea deseadas.
+El primer paso consiste en configurar Cloud Volumes ONTAP en Google Cloud (https://docs.netapp.com/us-en/netapp-solutions/ehc/gcp/gcp-guest.html["cvo"^]) Y replicar los volúmenes deseados en Cloud Volumes ONTAP con las frecuencias y retentions de instantánea deseadas.
 
 image:dr-cvo-gcve-image2.png["Error: Falta la imagen gráfica"]
 
-Para obtener instrucciones paso a paso de ejemplo sobre la configuración de SnapCenter y la replicación de datos, consulte https://["Configurar la replicación con SnapCenter"]
+Para obtener instrucciones paso a paso de ejemplo sobre la configuración de SnapCenter y la replicación de datos, consulte https://docs.netapp.com/us-en/netapp-solutions/ehc/aws/aws-guest-dr-overview.html#config-snapmirror["Configurar la replicación con SnapCenter"]
 
 video::dr-cvo-gcve-video2.mp4[Review of SQL VM protection with SnapCenter]
 ====
@@ -87,7 +87,7 @@ Dos factores importantes que se deben tener en cuenta al implementar un SDDC son
 
 Cloud Volumes ONTAP se puede implementar en cualquier VPC y GCVE debe tener una conexión privada a ese VPC para que la máquina virtual se conecte a los LUN de iSCSI.
 
-Para configurar GCVE SDDC, consulte https://["Poner en marcha y configurar el entorno de virtualización en Google Cloud Platform (GCP)"^]. Como requisito previo, compruebe que los equipos virtuales invitados que residen en los hosts GCVE pueden consumir datos de Cloud Volumes ONTAP una vez establecida la conectividad.
+Para configurar GCVE SDDC, consulte https://docs.netapp.com/us-en/netapp-solutions/ehc/gcp/gcp-setup.html["Poner en marcha y configurar el entorno de virtualización en Google Cloud Platform (GCP)"^]. Como requisito previo, compruebe que los equipos virtuales invitados que residen en los hosts GCVE pueden consumir datos de Cloud Volumes ONTAP una vez establecida la conectividad.
 
 Una vez que Cloud Volumes ONTAP y GCVE se hayan configurado correctamente, comience a configurar Veeam para automatizar la recuperación de las cargas de trabajo en las instalaciones en GCVE (máquinas virtuales con VMDK de aplicación y máquinas virtuales con almacenamiento en invitado) mediante la función Veeam Replication y aprovechando SnapMirror para las copias de los volúmenes de aplicación en Cloud Volumes ONTAP.
 
@@ -95,13 +95,13 @@ Una vez que Cloud Volumes ONTAP y GCVE se hayan configurado correctamente, comie
 .Instale Veeam Components
 [%collapsible]
 ====
-Según el escenario de implementación, se debe poner en marcha el servidor de backup de Veeam, el repositorio de backup y el proxy de backup. En este caso de uso, no es necesario poner en marcha el almacén de objetos para Veeam y tampoco se requiere ningún repositorio de escalado horizontal.https://["Consulte la documentación de Veeam para conocer el procedimiento de instalación"]
+Según el escenario de implementación, se debe poner en marcha el servidor de backup de Veeam, el repositorio de backup y el proxy de backup. En este caso de uso, no es necesario poner en marcha el almacén de objetos para Veeam y tampoco se requiere ningún repositorio de escalado horizontal.https://helpcenter.veeam.com/docs/backup/qsg_vsphere/deployment_scenarios.html["Consulte la documentación de Veeam para conocer el procedimiento de instalación"]
 
 ====
 .Configure la replicación de VM con Veeam
 [%collapsible]
 ====
-Tanto el vCenter en las instalaciones como el vCenter de GCVE deben registrarse con Veeam. https://["Configure el trabajo de replicación de máquina virtual de vSphere"] En el asistente Guest Processing, seleccione Desactivar el procesamiento de aplicaciones, ya que utilizará SnapCenter para los procesos de backup y recuperación con reconocimiento de aplicaciones.
+Tanto el vCenter en las instalaciones como el vCenter de GCVE deben registrarse con Veeam. https://helpcenter.veeam.com/docs/backup/qsg_vsphere/replication_job.html["Configure el trabajo de replicación de máquina virtual de vSphere"] En el asistente Guest Processing, seleccione Desactivar el procesamiento de aplicaciones, ya que utilizará SnapCenter para los procesos de backup y recuperación con reconocimiento de aplicaciones.
 
 video::dr-cvo-gcve-video1.mp4[Veeam Replication Job of SQL VM]
 ====

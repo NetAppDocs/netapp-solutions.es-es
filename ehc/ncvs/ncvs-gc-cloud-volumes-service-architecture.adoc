@@ -14,9 +14,9 @@ summary: 'De forma similar a otros servicios nativos de Google Cloud como CloudS
 
 
 [role="lead"]
-De forma similar a otros servicios nativos de Google Cloud como CloudSQL, Google Cloud VMware Engine (GCVE) y filestore, utiliza Cloud Volumes Service https://["Google PSA"^] para prestar el servicio. En PSA, los servicios se construyen dentro de un proyecto de productor de servicios, que utiliza https://["Agrupación de redes VPC"^] para conectarse con el consumidor de servicios. El productor de servicios lo proporciona y controla NetApp, y el consumidor de servicios es un VPC en un proyecto de cliente, que aloja a los clientes que desean acceder a recursos compartidos de archivos de Cloud Volumes Service.
+De forma similar a otros servicios nativos de Google Cloud como CloudSQL, Google Cloud VMware Engine (GCVE) y filestore, utiliza Cloud Volumes Service https://cloud.google.com/vpc/docs/private-services-access?hl=en_US["Google PSA"^] para prestar el servicio. En PSA, los servicios se construyen dentro de un proyecto de productor de servicios, que utiliza https://cloud.google.com/vpc/docs/vpc-peering?hl=en_US["Agrupación de redes VPC"^] para conectarse con el consumidor de servicios. El productor de servicios lo proporciona y controla NetApp, y el consumidor de servicios es un VPC en un proyecto de cliente, que aloja a los clientes que desean acceder a recursos compartidos de archivos de Cloud Volumes Service.
 
-La siguiente figura, a la que se hace referencia desde https://["sección de arquitectura"^] De la documentación de Cloud Volumes Service, muestra una vista de alto nivel.
+La siguiente figura, a la que se hace referencia desde https://cloud.google.com/architecture/partners/netapp-cloud-volumes/architecture?hl=en_US["sección de arquitectura"^] De la documentación de Cloud Volumes Service, muestra una vista de alto nivel.
 
 image:ncvs-gc-image1.png["Error: Falta la imagen gráfica"]
 
@@ -46,7 +46,7 @@ En otras palabras, en la capa de red, todos los proyectos conectados al VPC comp
 
 Los controles de servicio VPC establecen un perímetro de control de acceso alrededor de los servicios de Google Cloud que están conectados a Internet y son accesibles en todo el mundo. Estos servicios proporcionan control de acceso a través de identidades de usuario, pero no pueden restringir desde qué solicitudes de ubicación de red se originan. Los controles de servicio VPC cierran esa brecha introduciendo las funcionalidades para restringir el acceso a las redes definidas.
 
-El plano de datos Cloud Volumes Service no está conectado a Internet externo sino a ordenadores virtuales privados con límites de red bien definidos (perímetros). Dentro de esa red, cada volumen utiliza un control de acceso específico del protocolo. Los administradores de proyectos de Google Cloud crean explícitamente cualquier conectividad de red externa. Sin embargo, el plano de control no proporciona las mismas protecciones que el plano de datos y puede ser accesible por cualquier persona desde cualquier lugar con credenciales válidas ( https://["Fichas JWT"^]).
+El plano de datos Cloud Volumes Service no está conectado a Internet externo sino a ordenadores virtuales privados con límites de red bien definidos (perímetros). Dentro de esa red, cada volumen utiliza un control de acceso específico del protocolo. Los administradores de proyectos de Google Cloud crean explícitamente cualquier conectividad de red externa. Sin embargo, el plano de control no proporciona las mismas protecciones que el plano de datos y puede ser accesible por cualquier persona desde cualquier lugar con credenciales válidas ( https://datatracker.ietf.org/doc/html/rfc7519["Fichas JWT"^]).
 
 En resumen, el plano de datos Cloud Volumes Service proporciona la funcionalidad de control de acceso a la red, sin el requisito de admitir controles de servicio VPC y no utiliza de forma explícita los controles de servicio VPC.
 
@@ -73,7 +73,7 @@ image:ncvs-gc-image4.png["Error: Falta la imagen gráfica"]
 
 === Interfaces de red de equipos virtuales
 
-Un truco que los atacantes podrían intentar es agregar una nueva tarjeta de interfaz de red (NIC) a una VM en https://["modo promiscuo"^] (Duplicación de puertos) o habilite el modo promiscuo en una NIC existente para sniff todo el tráfico. En Google Cloud, agregar una nueva NIC requiere que una máquina virtual se cierre por completo, lo que crea alertas, por lo que los atacantes no pueden pasar por alto.
+Un truco que los atacantes podrían intentar es agregar una nueva tarjeta de interfaz de red (NIC) a una VM en https://en.wikipedia.org/wiki/Promiscuous_mode["modo promiscuo"^] (Duplicación de puertos) o habilite el modo promiscuo en una NIC existente para sniff todo el tráfico. En Google Cloud, agregar una nueva NIC requiere que una máquina virtual se cierre por completo, lo que crea alertas, por lo que los atacantes no pueden pasar por alto.
 
 Además, las NIC no se pueden establecer en modo promiscuo y activarán alertas en Google Cloud.
 

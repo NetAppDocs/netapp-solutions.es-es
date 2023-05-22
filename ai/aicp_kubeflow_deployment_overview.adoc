@@ -22,7 +22,7 @@ En esta sección se describen las tareas que debe completar para poner en marcha
 
 Antes de realizar el ejercicio de implementación descrito en esta sección, asumimos que ya ha realizado las siguientes tareas:
 
-. Ya tiene un clúster de Kubernetes en funcionamiento y ejecuta una versión de Kubernetes que admite ubeflow. Para obtener una lista de las versiones compatibles, consulte https://["Documentación oficial de Kubeflow"^].
+. Ya tiene un clúster de Kubernetes en funcionamiento y ejecuta una versión de Kubernetes que admite ubeflow. Para obtener una lista de las versiones compatibles, consulte https://www.kubeflow.org/docs/started/getting-started/["Documentación oficial de Kubeflow"^].
 . Ya ha instalado y configurado NetApp Trident en su clúster de Kubernetes, como se indica en link:aicp_netapp_trident_deployment_and_configuration_overview.html["Implementación y configuración de Trident"].
 
 
@@ -61,9 +61,9 @@ ontap-ai-flexvols-retain (default)   csi.trident.netapp.io   54s
 NetApp recomienda usar la herramienta de puesta en marcha de Kubeflow que proporciona NVIDIA DeepOps. Para poner en marcha Kubeflow en su clúster de Kubernetes con la herramienta de puesta en marcha DeepOps, siga estas tareas desde el host de salto de implementación.
 
 
-NOTE: Como alternativa, puede implementar Kubeflow manualmente siguiendo la https://["instrucciones de instalación"^] En la documentación oficial de Kubeflow
+NOTE: Como alternativa, puede implementar Kubeflow manualmente siguiendo la https://www.kubeflow.org/docs/started/getting-started/["instrucciones de instalación"^] En la documentación oficial de Kubeflow
 
-. Implemente Kubeflow en su clúster siguiendo el https://["Instrucciones de despliegue de Kubeflow"^] En el sitio de NVIDIA DeepOps GitHub.
+. Implemente Kubeflow en su clúster siguiendo el https://github.com/NVIDIA/deepops/blob/master/docs/k8s-cluster/kubeflow.md["Instrucciones de despliegue de Kubeflow"^] En el sitio de NVIDIA DeepOps GitHub.
 . Tenga en cuenta la URL del panel de Kubeflow que genera la herramienta de puesta en marcha de DeepOps Kubeflow.
 +
 ....
@@ -231,7 +231,7 @@ mysql-pv-claim   Bound    pvc-b2429afd-d028-11e9-9b9d-00505681a82d   20Gi       
 ....
 . En su navegador web, acceda al panel central de Kubeflow navegando hasta la URL que anotó en el paso 2.
 +
-El nombre de usuario predeterminado es `admin@kubeflow.org`, y la contraseña predeterminada es `12341234`. Para crear usuarios adicionales, siga las instrucciones de https://["Documentación oficial de Kubeflow"^].
+El nombre de usuario predeterminado es `admin@kubeflow.org`, y la contraseña predeterminada es `12341234`. Para crear usuarios adicionales, siga las instrucciones de https://www.kubeflow.org/docs/components/multi-tenancy/["Documentación oficial de Kubeflow"^].
 
 
 

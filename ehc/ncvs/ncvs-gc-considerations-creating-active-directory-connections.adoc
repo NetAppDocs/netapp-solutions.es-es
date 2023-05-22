@@ -18,7 +18,7 @@ link:ncvs-gc-dual-protocol-multiprotocol.html["Anterior: Protocolo dual/multipro
 [role="lead"]
 Cloud Volumes Service permite conectar la instancia de Cloud Volumes Service a un servidor de Active Directory externo para la gestión de identidades tanto para usuarios de SMB como UNIX. Se requiere crear una conexión de Active Directory para utilizar SMB en Cloud Volumes Service.
 
-La configuración para esto ofrece varias opciones que requieren cierta consideración para la seguridad. El servidor de Active Directory externo puede ser una instancia de las instalaciones o una nativa del cloud. Si utiliza un servidor de Active Directory en las instalaciones, no exponga el dominio a la red externa (como con una DMZ o una dirección IP externa). En su lugar, utilice túneles privados seguros o VPN, fideicomisos forestales de un solo sentido o conexiones de red dedicadas a las redes locales con https://["Acceso privado a Google"^]. Consulte la documentación de Google Cloud para obtener más información acerca de https://["Prácticas recomendadas con Active Directory en Google Cloud"^].
+La configuración para esto ofrece varias opciones que requieren cierta consideración para la seguridad. El servidor de Active Directory externo puede ser una instancia de las instalaciones o una nativa del cloud. Si utiliza un servidor de Active Directory en las instalaciones, no exponga el dominio a la red externa (como con una DMZ o una dirección IP externa). En su lugar, utilice túneles privados seguros o VPN, fideicomisos forestales de un solo sentido o conexiones de red dedicadas a las redes locales con https://cloud.google.com/vpc/docs/private-google-access["Acceso privado a Google"^]. Consulte la documentación de Google Cloud para obtener más información acerca de https://cloud.google.com/managed-microsoft-ad/docs/best-practices["Prácticas recomendadas con Active Directory en Google Cloud"^].
 
 
 NOTE: CVS-SW requiere que los servidores de Active Directory se encuentren en la misma región. Si se intenta una conexión de CC en CVS-SW a otra región, el intento falla. Cuando utilice CVS-SW, asegúrese de crear sitios de Active Directory que incluyan los DC de Active Directory y, a continuación, especifique los sitios en Cloud Volumes Service para evitar intentos de conexión de DC entre regiones.
@@ -35,7 +35,7 @@ En muchos casos, los grupos de seguridad no permiten el uso de una cuenta de adm
 
 === Permisos necesarios para crear cuentas de máquina SMB
 
-Para agregar objetos de máquina Cloud Volumes Service a un Active Directory, una cuenta que tenga derechos administrativos en el dominio o tiene https://["permisos delegados para crear y modificar objetos de cuenta de equipo"^] A una unidad organizativa especificada es necesaria. Puede hacerlo con el Asistente para delegación de control de Active Directory creando una tarea personalizada que proporcione a un usuario acceso a la creación o eliminación de objetos del equipo con los siguientes permisos de acceso proporcionados:
+Para agregar objetos de máquina Cloud Volumes Service a un Active Directory, una cuenta que tenga derechos administrativos en el dominio o tiene https://docs.microsoft.com/en-us/windows-server/identity/ad-ds/plan/delegating-administration-by-using-ou-objects["permisos delegados para crear y modificar objetos de cuenta de equipo"^] A una unidad organizativa especificada es necesaria. Puede hacerlo con el Asistente para delegación de control de Active Directory creando una tarea personalizada que proporcione a un usuario acceso a la creación o eliminación de objetos del equipo con los siguientes permisos de acceso proporcionados:
 
 * Lectura/Escritura
 * Crear/eliminar todos los objetos secundarios
@@ -52,11 +52,11 @@ NOTE: El nombre de usuario y la contraseña que se pasan al dominio de Active Di
 
 == Detalles de conexión de Active Directory
 
-La https://["Detalles de conexión de Active Directory"^] Proporcione campos para que los administradores proporcionen información específica del esquema de Active Directory para la colocación de la cuenta de la máquina, como los siguientes:
+La https://cloud.google.com/architecture/partners/netapp-cloud-volumes/creating-smb-volumes["Detalles de conexión de Active Directory"^] Proporcione campos para que los administradores proporcionen información específica del esquema de Active Directory para la colocación de la cuenta de la máquina, como los siguientes:
 
 * *Tipo de conexión de Active Directory.* se utiliza para especificar si la conexión de Active Directory en una región se utiliza para volúmenes de tipo de servicio Cloud Volumes Service o CVS-Performance. Si se establece de forma incorrecta en una conexión existente, es posible que no funcione correctamente cuando se utilice o edite.
 * *Dominio.* el nombre de dominio de Active Directory.
-* *Sitio.* limita los servidores de Active Directory a un sitio específico para seguridad y rendimiento https://["consideraciones"^]. Esto es necesario cuando varios servidores de Active Directory abarcan regiones porque Cloud Volumes Service no admite actualmente la activación de solicitudes de autenticación de Active Directory a servidores de Active Directory en una región diferente a la instancia de Cloud Volumes Service. (Por ejemplo, el controlador de dominio de Active Directory se encuentra en una región que sólo soporta CVS-Performance pero desea un recurso compartido SMB en una instancia CVS-SW.)
+* *Sitio.* limita los servidores de Active Directory a un sitio específico para seguridad y rendimiento https://cloud.google.com/architecture/partners/netapp-cloud-volumes/managing-active-directory-connections["consideraciones"^]. Esto es necesario cuando varios servidores de Active Directory abarcan regiones porque Cloud Volumes Service no admite actualmente la activación de solicitudes de autenticación de Active Directory a servidores de Active Directory en una región diferente a la instancia de Cloud Volumes Service. (Por ejemplo, el controlador de dominio de Active Directory se encuentra en una región que sólo soporta CVS-Performance pero desea un recurso compartido SMB en una instancia CVS-SW.)
 * *Servidores DNS.* servidores DNS para utilizar en búsquedas de nombre.
 * *Nombre NetBIOS (opcional).* Si lo desea, el nombre NetBIOS del servidor. Esto se utiliza cuando se crean cuentas de equipo nuevas mediante la conexión de Active Directory. Por ejemplo, si el nombre NetBIOS se establece en CVS-EAST, los nombres de la cuenta de la máquina serán CVS-EAST-{1234}. Consulte la sección link:ncvs-gc-considerations-creating-active-directory-connections.html#how-cloud-volumes-service-shows-up-in-active-directory["Cómo se muestra Cloud Volumes Service en Active Directory"] si quiere más información.
 * *Unidad organizativa (OU).* la unidad organizativa específica para crear la cuenta de equipo. Esto resulta útil si va a delegar el control a un usuario para las cuentas de equipo a una unidad organizativa específica.
@@ -88,7 +88,7 @@ Una región le permite especificar la ubicación donde reside la conexión de Ac
 
 == Usuarios de backup
 
-Esta opción permite especificar usuarios de Windows que tienen permisos de backup en el volumen de Cloud Volumes Service. Los privilegios de backup (SeBackupPrivilege) son necesarios para que algunas aplicaciones puedan realizar backups y restaurar correctamente los datos en los volúmenes NAS. Este usuario tiene un alto nivel de acceso a los datos del volumen, por lo que debe tenerse en cuenta https://["habilitar la auditoría del acceso de ese usuario"^]. Una vez habilitado, los eventos de auditoría aparecen en el Visor de sucesos > registros de Windows > Seguridad.
+Esta opción permite especificar usuarios de Windows que tienen permisos de backup en el volumen de Cloud Volumes Service. Los privilegios de backup (SeBackupPrivilege) son necesarios para que algunas aplicaciones puedan realizar backups y restaurar correctamente los datos en los volúmenes NAS. Este usuario tiene un alto nivel de acceso a los datos del volumen, por lo que debe tenerse en cuenta https://docs.microsoft.com/en-us/windows/security/threat-protection/security-policy-settings/audit-audit-the-use-of-backup-and-restore-privilege["habilitar la auditoría del acceso de ese usuario"^]. Una vez habilitado, los eventos de auditoría aparecen en el Visor de sucesos > registros de Windows > Seguridad.
 
 image:ncvs-gc-image19.png["Error: Falta la imagen gráfica"]
 
@@ -96,9 +96,9 @@ image:ncvs-gc-image19.png["Error: Falta la imagen gráfica"]
 
 == Usuarios con privilegios de seguridad
 
-Esta opción permite especificar usuarios de Windows que tienen permisos de modificación de seguridad en el volumen de Cloud Volumes Service. Los privilegios de seguridad (SeSecurityPrivilege) son necesarios para algunas aplicaciones (https://["Como SQL Server"^]) para establecer correctamente los permisos durante la instalación. Este privilegio se necesita para gestionar el registro de seguridad. Aunque este privilegio no es tan potente como SeBackupPrivilege, NetApp recomienda https://["auditar el acceso de los usuarios"^] con este nivel de privilegio, si es necesario.
+Esta opción permite especificar usuarios de Windows que tienen permisos de modificación de seguridad en el volumen de Cloud Volumes Service. Los privilegios de seguridad (SeSecurityPrivilege) son necesarios para algunas aplicaciones (https://docs.netapp.com/us-en/ontap/smb-hyper-v-sql/add-sesecurityprivilege-user-account-task.html["Como SQL Server"^]) para establecer correctamente los permisos durante la instalación. Este privilegio se necesita para gestionar el registro de seguridad. Aunque este privilegio no es tan potente como SeBackupPrivilege, NetApp recomienda https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/basic-audit-privilege-use["auditar el acceso de los usuarios"^] con este nivel de privilegio, si es necesario.
 
-Para obtener más información, consulte https://["Privilegios especiales asignados al nuevo inicio de sesión"^].
+Para obtener más información, consulte https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4672["Privilegios especiales asignados al nuevo inicio de sesión"^].
 
 
 
@@ -151,6 +151,6 @@ Si desea deshabilitar los tipos de cifrado Kerberos más débiles (enctype) en l
 |===
 Para habilitar el cifrado AES para cuentas de equipo SMB, haga clic en Activar cifrado AES para autenticación AD al crear la conexión de Active Directory.
 
-Para habilitar el cifrado AES para Kerberos de NFS, https://["Consulte la documentación de Cloud Volumes Service"^].
+Para habilitar el cifrado AES para Kerberos de NFS, https://cloud.google.com/architecture/partners/netapp-cloud-volumes/creating-nfs-volumes["Consulte la documentación de Cloud Volumes Service"^].
 
 link:ncvs-gc-other-nas-infrastructure-service-dependencies.html["Siguiente: Otras dependencias de servicios de infraestructura NAS (KDC, LDAP, DNS)."]

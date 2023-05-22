@@ -18,7 +18,7 @@ La compatibilidad con almacenes de datos NFS se introdujo con ESXi versión 3 en
 
 Ejecutar vSphere en NFS es una opción ampliamente adoptada para puestas en marcha de virtualización en las instalaciones porque ofrece un gran rendimiento y estabilidad. Si tiene un almacenamiento conectado a la red (NAS) significativo en un centro de datos en las instalaciones, debería plantearse la puesta en marcha de una solución de VMware para Azure SDDC en Azure con almacenes de datos de archivo de NetApp para superar los retos de capacidad y rendimiento.
 
-Azure NetApp Files se basa en el software de gestión de datos ONTAP de NetApp, líder en el sector y altamente disponible. Los servicios de Microsoft Azure se agrupan en tres categorías: Fundamental, principal y especializado. Azure NetApp Files se encuentra en la categoría especializada y cuenta con el respaldo de un hardware ya implementado en muchas regiones. Con la característica de alta disponibilidad incorporada, Azure NetApp Files protege los datos de la mayoría de las interrupciones y ofrece un SLA líder del sector de https://["99.99 %"^] siempre activo.
+Azure NetApp Files se basa en el software de gestión de datos ONTAP de NetApp, líder en el sector y altamente disponible. Los servicios de Microsoft Azure se agrupan en tres categorías: Fundamental, principal y especializado. Azure NetApp Files se encuentra en la categoría especializada y cuenta con el respaldo de un hardware ya implementado en muchas regiones. Con la característica de alta disponibilidad incorporada, Azure NetApp Files protege los datos de la mayoría de las interrupciones y ofrece un SLA líder del sector de https://azure.microsoft.com/support/legal/sla/netapp/v1_1/["99.99 %"^] siempre activo.
 
 Antes de la introducción de la funcionalidad de almacén de datos de Azure NetApp Files, la operación de escalado horizontal para clientes que planean alojar el rendimiento de host y cargas de trabajo con uso intensivo del almacenamiento necesitaba la ampliación de la computación y del almacenamiento.
 
@@ -148,12 +148,12 @@ az extension add --name vmware
 .Cree y monte volúmenes de Azure NetApp Files
 [%collapsible]
 ====
-. Inicie sesión en el portal de Azure y acceda a Azure NetApp Files. Verifique el acceso al servicio Azure NetApp Files y registre el proveedor de recursos de Azure NetApp Files mediante la `az provider register` `--namespace Microsoft.NetApp –wait` comando. Después del registro, cree una cuenta de NetApp. Consulte este apartado https://["enlace"^] para conocer los pasos detallados.
+. Inicie sesión en el portal de Azure y acceda a Azure NetApp Files. Verifique el acceso al servicio Azure NetApp Files y registre el proveedor de recursos de Azure NetApp Files mediante la `az provider register` `--namespace Microsoft.NetApp –wait` comando. Después del registro, cree una cuenta de NetApp. Consulte este apartado https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-create-netapp-account["enlace"^] para conocer los pasos detallados.
 
 
 image:vmware-dr-image2.png["Error: Falta la imagen gráfica"]
 
-. Después de crear una cuenta de NetApp, configure pools de capacidad con el tamaño y el nivel de servicio requeridos. Si quiere más información, consulte este documento https://["enlace"^].
+. Después de crear una cuenta de NetApp, configure pools de capacidad con el tamaño y el nivel de servicio requeridos. Si quiere más información, consulte este documento https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-set-up-capacity-pool["enlace"^].
 
 
 image:vmware-dr-image3.png["Error: Falta la imagen gráfica"]
@@ -168,7 +168,7 @@ image:vmware-dr-image3.png["Error: Falta la imagen gráfica"]
 
 
 |===
-. Configure una subred delegada para Azure NetApp Files y especifique esta subred al crear volúmenes. Si desea obtener información detallada sobre los pasos necesarios para crear una subred delegada, consulte esta sección https://["enlace"^].
+. Configure una subred delegada para Azure NetApp Files y especifique esta subred al crear volúmenes. Si desea obtener información detallada sobre los pasos necesarios para crear una subred delegada, consulte esta sección https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-delegate-subnet["enlace"^].
 . Añada un volumen NFS para el almacén de datos mediante el blade de volúmenes bajo el blade de pools de capacidad.
 
 
@@ -228,7 +228,7 @@ Azure NetApp Files admite tres niveles de servicio: Estándar (16 Mbps por terab
 
 image:vmware-dr-image6.png["Error: Falta la imagen gráfica"]
 
-Para obtener más información, consulte https://["Niveles de servicio para Azure NetApp Files"^].
+Para obtener más información, consulte https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-service-levels["Niveles de servicio para Azure NetApp Files"^].
 
 Consulte este apartado link:https://learn.microsoft.com/en-us/azure/azure-netapp-files/performance-benchmarks-azure-vmware-solution["Vínculo de Microsoft"] para obtener pruebas de rendimiento detalladas que pueden utilizarse durante un ejercicio de configuración.
 
