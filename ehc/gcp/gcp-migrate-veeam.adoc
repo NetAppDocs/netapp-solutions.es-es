@@ -1,0 +1,105 @@
+---
+sidebar: sidebar 
+permalink: ehc/gcp/gcp-migrate-veeam.html 
+keywords: gcp, gcve, cvs, migrate , dr, disaster recovery, veeam, replication, proxy, re-ip 
+summary: Los clientes que actualmente utilizan Veeam para sus requisitos de protección de datos continúan usando esa solución para migrar las cargas de trabajo a GCVE y disfrutar de las ventajas de los almacenes de datos NFS del servicio de volumen en la nube de NetApp. 
+---
+= Migración de máquinas virtuales a NetApp Cloud Volume Service NFS Datastore en Google Cloud VMware Engine mediante la función de replicación de Veeam
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../../media/
+
+
+
+
+== Descripción general
+
+Autores: Suresh Thoppay, NetApp
+
+Las cargas de trabajo de máquinas virtuales que se ejecutan en VMware vSphere se pueden migrar a Google Cloud VMware Engine (GCVE) mediante la función de replicación de Veeam.
+
+Este documento proporciona un enfoque paso a paso para configurar y realizar la migración de VM que utiliza el servicio Cloud Volume de NetApp, Veeam y el motor de VMware de Google Cloud (GCVE).
+
+image:gcp_migration_veeam_01.png["Arquitectura de replicación de Veeam VM"]
+
+
+
+== Supuestos
+
+En este documento se asume que tiene Google Cloud VPN o Cloud Interconnect u otra opción de red para establecer la conectividad de red desde los servidores vSphere existentes a Google Cloud VMware Engine.
+
+
+NOTE: Existen múltiples opciones para conectar los centros de datos en las instalaciones a Google Cloud, lo que nos impide esbozar un flujo de trabajo específico en este documento.
+Consulte la link:https://cloud.google.com/network-connectivity/docs/how-to/choose-product["Documentación de Google Cloud"] Para el método de conectividad de on-premises a Google adecuado.
+
+
+
+== Puesta en marcha de la solución de migración
+
+
+
+=== Descripción general de la puesta en marcha de soluciones
+
+. Asegúrese de que el almacén de datos NFS del servicio NetApp Cloud Volume esté montado en GCVE vCenter.
+. Compruebe que Veeam Backup Recovery se implementa en el entorno de VMware vSphere existente
+. Crear trabajo de replicación para iniciar la replicación de máquinas virtuales en la instancia de Google Cloud VMware Engine.
+. Realizar failover del trabajo de replicación de Veeam.
+. Realice failover permanente en Veeam.
+
+
+
+
+=== Detalles de la implementación
+
+
+
+==== Asegúrese de que el almacén de datos NFS del servicio NetApp Cloud Volume esté montado en GCVE vCenter
+
+Inicie sesión en GCVE vCenter y asegúrese de que el almacén de datos NFS tenga espacio suficiente disponible.
+Si no es así, consulte link:gcp-ncvs-datastore.html["Monte NetApp CVS como almacén de datos NFS en GCVE"]
+
+
+
+==== Compruebe que Veeam Backup Recovery se implementa en el entorno de VMware vSphere existente
+
+Consulte link:https://helpcenter.veeam.com/docs/backup/vsphere/replication_components.html?ver=120["Componentes de replicación de Veeam"] documentación para instalar los componentes requeridos.
+
+
+
+==== Crear trabajo de replicación para iniciar la replicación de máquinas virtuales en la instancia de Google Cloud VMware Engine.
+
+Tanto el vCenter en las instalaciones como el vCenter de GCVE deben registrarse con Veeam. link:https://helpcenter.veeam.com/docs/backup/vsphere/replica_job.html?ver=120["Configure el trabajo de replicación de máquina virtual de vSphere"]
+Aquí hay un video que explica cómo hacerlo
+link:https://youtu.be/uzmKXtv7EeY["Configurar trabajo de replicación"].
+
+
+NOTE: La VM de réplica puede tener una IP diferente a la VM de origen y también puede conectarse a un grupo de puertos diferente. Para obtener más detalles, consulte el vídeo de arriba.
+
+
+
+==== Realizar failover del trabajo de replicación de Veeam
+
+Para migrar máquinas virtuales, ejecute el link:https://helpcenter.veeam.com/docs/backup/vsphere/performing_failover.html?ver=120["Realice el failover"]
+
+
+
+==== Realice failover permanente en Veeam.
+
+Para tratar a GCVE como su nuevo entorno de origen, realice link:https://helpcenter.veeam.com/docs/backup/vsphere/permanent_failover.html?ver=120["Recuperación tras fallos permanente"]
+
+
+
+== Ventajas de esta solución
+
+* La infraestructura existente de backup de Veeam puede utilizarse para la migración.
+* Veeam Replication permite cambiar las direcciones IP de VM en el sitio de destino.
+* Tiene la capacidad de reasignar los datos existentes replicados fuera de Veeam (como los datos replicados de BlueXP)
+* Tiene capacidad para especificar diferentes grupos de puertos de red en el sitio de destino.
+* Puede especificar el orden de encendido de las máquinas virtuales.
+* Utiliza VMware Change Block Tracking para minimizar la cantidad de datos que se deben enviar a través de la WAN.
+* Capacidad para ejecutar scripts previos y posteriores para la replicación.
+* Capacidad para ejecutar scripts previos y posteriores para instantáneas.
+
