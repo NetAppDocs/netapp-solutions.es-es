@@ -370,4 +370,237 @@ Asegúrese de comprobar el rendimiento del almacenamiento al realizar el rendimi
 
 image:kafka-nfs-image31.png["Este gráfico muestra el rendimiento en la latencia, IOPS y rendimiento."]
 
+
+
+== Apache Kafka en AWS FSxN
+
+
+
+=== Descripción general
+
+Network File System (NFS) es un sistema de archivos de red ampliamente utilizado para almacenar grandes cantidades de datos. En la mayoría de las organizaciones, los datos se generan cada vez más a partir de aplicaciones de streaming como Apache Kafka. Estas cargas de trabajo requieren escalabilidad, baja latencia y una arquitectura de ingesta de datos sólida con funcionalidades de almacenamiento modernas. Para permitir el análisis en tiempo real y proporcionar información procesable, es necesaria una infraestructura bien diseñada y de alto rendimiento.
+
+Kafka by design funciona con un sistema de archivos compatible con POSIX y se basa en el sistema de archivos para gestionar las operaciones de archivos, pero al almacenar datos en un sistema de archivos NFSv3, el cliente NFS de Kafka Broker puede interpretar las operaciones de archivos de forma diferente a un sistema de archivos local como XFS o Ext4. Un ejemplo común es el nombre de NFS Silly, que causó que los agentes de Kafka fallaran al expandir clústeres y volver a asignar particiones. Para hacer frente a este reto, NetApp ha actualizado el cliente NFS de Linux de código abierto con cambios que ahora están disponibles de forma general en RHEL8,7, RHEL9,1, y son compatibles con el lanzamiento actual de FSx para ONTAP, ONTAP 9.12.1.
+
+Amazon FSx para NetApp ONTAP proporciona un sistema de archivos NFS en la nube totalmente gestionado, escalable y de alto rendimiento. Los datos de Kafka en FSx para NetApp pueden escalarse para manejar grandes cantidades de datos y garantizar la tolerancia a fallos. NFS proporciona una gestión de almacenamiento centralizada y protección de datos para conjuntos de datos críticos y confidenciales.
+
+Estas mejoras hacen posible que los clientes de AWS aprovechen FSx para ONTAP cuando ejecuten cargas de trabajo de Kafka en servicios de computación de AWS. Estos beneficios son:
+* Reducir el uso de la CPU para reducir el tiempo de espera de E/S.
+* Tiempo de recuperación de Kafka broker más rápido
+* Fiabilidad y eficiencia
+* Escalabilidad y rendimiento
+* Disponibilidad de la zona de multidisponibilidad
+* Protección de datos
+
+
+
+=== Información general sobre el rendimiento y validación en AWS FSxN
+
+En la FSxN de AWS se realizó una prueba de rendimiento de un clúster Kafka con la capa de almacenamiento montada en NFS de NetApp. Los ejemplos de pruebas comparativas se describen en las siguientes secciones.
+
+
+
+==== Kafka en AWS FSxN (Active Passive)
+
+Se realizó una prueba de rendimiento de un clúster Kafka con AWS FSxN en la nube de AWS. Esta evaluación comparativa se describe en las siguientes secciones.
+
+
+
+==== Configuración de la arquitectura
+
+La siguiente tabla muestra la configuración ambiental para un cluster Kafka usando AWS FSxN.
+
+|===
+| Componente de plataforma | Configuración del entorno 
+
+
+| Kafka 3.2.3  a| 
+* 3 zookeepers – t2.pequeño
+* 3 servidores de broker: i3en.2xlarge
+* 1 x Grafana – c5n.2xgrande
+* 4 x productor/consumidor -- c5n.2xgrande *
+
+
+
+
+| Sistema operativo en todos los nodos | RHEL8.6 
+
+
+| FSxN de AWS | Instancia activa pasiva con un rendimiento de 4GB MB/s y 160000 IPS 
+|===
+
+
+==== Configuración de FSxN de NetApp
+
+. Para nuestras pruebas iniciales, hemos creado un sistema de archivos FSx for NetApp ONTAP con 2TB GB y 40000 000 IOPS para un rendimiento de 2GB GB/s.
+. En FSx para NetApp ONTAP, el número máximo de iops que se puede alcanzar para un sistema de archivos con un rendimiento de 2GB gb/s en nuestra región de prueba (US-East-1) es 80.000 000 iops. El número máximo total de iops para un sistema de archivos FSx para NetApp ONTAP es de 160.000 000 iops que requiere una puesta en marcha de 4GB GB/s de rendimiento para lograrlo, lo que demostraremos más adelante en este documento
++
+....
+[root@ip-172-31-33-69 ~]# aws fsx create-file-system --region us-east-2  --storage-capacity 2048 --subnet-ids <desired subnet 1> subnet-<desired subnet 2> --file-system-type ONTAP --ontap-configuration DeploymentType=MULTI_AZ_HA_1,ThroughputCapacity=2048,PreferredSubnetId=<desired primary subnet>,FsxAdminPassword=<new password>,DiskIopsConfiguration="{Mode=USER_PROVISIONED,Iops=40000"}
+....
++
+La sintaxis detallada de la línea de comandos para FSX “create-file-system” se puede encontrar aquí: https://docs.aws.amazon.com/cli/latest/reference/fsx/create-file-system.html[]
+Por ejemplo, puede especificar una clave KMS específica en lugar de la clave maestra de FSX predeterminada que se utiliza cuando no se especifica ninguna clave KMS.
+
+. Espere hasta que el estado de “ciclo de vida” cambie a “DISPONIBLE” en su retorno JSON después de describir su sistema de archivos de la siguiente manera:
++
+....
+[root@ip-172-31-33-69 ~]# aws fsx describe-file-systems  --region us-east-1 --file-system-ids fs-02ff04bab5ce01c7c
+....
+. La contraseña para fsxadmin es la contraseña configurada cuando se crea el sistema de archivos por primera vez.
+. Valide las credenciales iniciando sesión en FsxN mediante fsxadmin
++
+....
+[root@ip-172-31-33-69 ~]# ssh fsxadmin@198.19.250.244
+The authenticity of host '198.19.250.244 (198.19.250.244)' can't be established.
+ED25519 key fingerprint is SHA256:mgCyRXJfWRc2d/jOjFbMBsUcYOWjxoIky0ltHvVDL/Y.
+This key is not known by any other names
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added '198.19.250.244' (ED25519) to the list of known hosts.
+(fsxadmin@198.19.250.244) Password:
+
+This is your first recorded login.
+....
+. Cree la máquina virtual de almacenamiento en FSxN
++
+....
+[root@ip-172-31-33-69 ~]# aws fsx --region us-east-1 create-storage-virtual-machine --name svmkafkatest --file-system-id fs-02ff04bab5ce01c7c
+....
+. SSH en el sistema de archivos recientemente creado FSX para NetApp ONTAP y crear volúmenes en la máquina virtual de almacenamiento usando el comando de ejemplo debajo y, de manera similar, creamos volúmenes 6 para esta validación. Según nuestra validación, mantener el componente predeterminado (8) o menos constituyentes proporciona un mejor rendimiento a kafka.
++
+....
+FsxId02ff04bab5ce01c7c::*> volume create -volume kafkafsxN1 -state online -policy default -unix-permissions ---rwxr-xr-x -junction-active true -type RW -snapshot-policy none  -junction-path /kafkafsxN1 -aggr-list aggr1
+....
+. Amplíe el tamaño del volumen a 2TB TB y monte en la ruta de unión.
++
+....
+FsxId02ff04bab5ce01c7c::*> volume size -volume kafkafsxN1 -new-size +2TB
+vol size: Volume "svmkafkatest:kafkafsxN1" size set to 2.10t.
+
+FsxId02ff04bab5ce01c7c::*> volume size -volume kafkafsxN2 -new-size +2TB
+vol size: Volume "svmkafkatest:kafkafsxN2" size set to 2.10t.
+
+FsxId02ff04bab5ce01c7c::*> volume size -volume kafkafsxN3 -new-size +2TB
+vol size: Volume "svmkafkatest:kafkafsxN3" size set to 2.10t.
+
+FsxId02ff04bab5ce01c7c::*> volume size -volume kafkafsxN4 -new-size +2TB
+vol size: Volume "svmkafkatest:kafkafsxN4" size set to 2.10t.
+
+FsxId02ff04bab5ce01c7c::*> volume size -volume kafkafsxN5 -new-size +2TB
+vol size: Volume "svmkafkatest:kafkafsxN5" size set to 2.10t.
+
+FsxId02ff04bab5ce01c7c::*> volume size -volume kafkafsxN6 -new-size +2TB
+vol size: Volume "svmkafkatest:kafkafsxN6" size set to 2.10t.
+
+FsxId02ff04bab5ce01c7c::*> volume show -vserver svmkafkatest -volume *
+Vserver   Volume       Aggregate    State      Type       Size  Available Used%
+--------- ------------ ------------ ---------- ---- ---------- ---------- -----
+svmkafkatest
+          kafkafsxN1   -            online     RW       2.10TB     1.99TB    0%
+svmkafkatest
+          kafkafsxN2   -            online     RW       2.10TB     1.99TB    0%
+svmkafkatest
+          kafkafsxN3   -            online     RW       2.10TB     1.99TB    0%
+svmkafkatest
+          kafkafsxN4   -            online     RW       2.10TB     1.99TB    0%
+svmkafkatest
+          kafkafsxN5   -            online     RW       2.10TB     1.99TB    0%
+svmkafkatest
+          kafkafsxN6   -            online     RW       2.10TB     1.99TB    0%
+svmkafkatest
+          svmkafkatest_root
+                       aggr1        online     RW          1GB    968.1MB    0%
+7 entries were displayed.
+
+FsxId02ff04bab5ce01c7c::*> volume mount -volume kafkafsxN1 -junction-path /kafkafsxN1
+
+FsxId02ff04bab5ce01c7c::*> volume mount -volume kafkafsxN2 -junction-path /kafkafsxN2
+
+FsxId02ff04bab5ce01c7c::*> volume mount -volume kafkafsxN3 -junction-path /kafkafsxN3
+
+FsxId02ff04bab5ce01c7c::*> volume mount -volume kafkafsxN4 -junction-path /kafkafsxN4
+
+FsxId02ff04bab5ce01c7c::*> volume mount -volume kafkafsxN5 -junction-path /kafkafsxN5
+
+FsxId02ff04bab5ce01c7c::*> volume mount -volume kafkafsxN6 -junction-path /kafkafsxN6
+....
+. Ampliamos la capacidad de rendimiento de FSxN de 2GB GB/s a 4GB GB/s e IOPS a 160000 GB
++
+....
+[root@ip-172-31-33-69 ~]# aws fsx update-file-system --region us-east-1  --storage-capacity 5120 --ontap-configuration 'ThroughputCapacity=4096,DiskIopsConfiguration={Mode=USER_PROVISIONED,Iops=160000}' --file-system-id fs-02ff04bab5ce01c7c
+....
++
+La sintaxis detallada de la línea de comandos para FSX “update-file-system” se puede encontrar aquí:
+https://docs.aws.amazon.com/cli/latest/reference/fsx/update-file-system.html[]
+
+. Los volúmenes FSxN se montan con Nconnect y opiones predeterminados en los brókeres kafkar
++
+image:aws-fsx-kafka-arch1.png["Esta imagen muestra la arquitectura de un clúster Kafka basado en FSxN."]
+
++
+** Informática. Utilizamos un clúster Kafka de tres nodos con un conjunto de zookeeper de tres nodos ejecutándose en servidores dedicados. Cada corredor tenía seis puntos de montaje NFS a seis volúmenes en la instancia de FSxN.
+** Supervisión. Utilizamos dos nodos para una combinación de Prometheus-Grafana. Para generar cargas de trabajo, utilizamos un clúster de tres nodos independiente que podía producir y consumir este clúster Kafka.
+** Reducida. Utilizamos una FSxN con seis volúmenes de 1TB montados. El volumen se exportó después al agente de Kafka con un montaje NFS.
+
+
+
+
+
+
+==== Configuraciones de OpenMessage Benchmarking.
+
+Utilizamos la misma configuración utilizada para la ONTAP para volúmenes de cloud de NetApp. Encontrará sus detalles aquí -
+https://docs.netapp.com/us-en/netapp-solutions/data-analytics/kafka-nfs-performance-overview-and-validation-in-aws.html#architectural-setup[]
+
+
+
+==== Metodología de las pruebas
+
+. Un clúster de Kafka fue aprovisionado según la especificación descrita anteriormente usando terraform y ansible. Terraform se utiliza para construir la infraestructura utilizando instancias de AWS para el clúster Kafka y ansible construye el clúster Kafka en ellos.
+. Se activó una carga de trabajo de OMB con la configuración de carga de trabajo descrita anteriormente y el controlador de sincronización.
++
+....
+sudo bin/benchmark –drivers driver-kafka/kafka-sync.yaml workloads/1-topic-100-partitions-1kb.yaml
+....
+. Se activó otra carga de trabajo con el controlador de rendimiento con la misma configuración de carga de trabajo.
++
+....
+sudo bin/benchmark –drivers driver-kafka/kafka-throughput.yaml workloads/1-topic-100-partitions-1kb.yaml
+....
+
+
+
+
+==== Observación
+
+Se utilizaron dos tipos distintos de controladores para generar cargas de trabajo con el fin de llevar a cabo una prueba de rendimiento de una instancia de Kafka que se ejecuta en NFS. La diferencia entre los controladores es la propiedad log flush.
+
+Para un factor de replicación kafka 1 y el FSxN:
+
+* Rendimiento total generado consistentemente por el controlador de sincronización: ~ 3218 Mbps y rendimiento máximo en ~ 3652 Mbps.
+* Rendimiento total generado consistentemente por el controlador de rendimiento: ~ 3679 Mbps y rendimiento máximo en ~ 3908 Mbps.
+
+
+Para kafka con factor de replicación 3 y FSxN :
+
+* Rendimiento total generado consistentemente por el controlador de sincronización: ~ 1252 Mbps y rendimiento máximo en ~ 1382 Mbps.
+* Rendimiento total generado consistentemente por el controlador de rendimiento: ~ 1218 Mbps y rendimiento máximo en ~ 1328 Mbps.
+
+
+En el factor de replicación Kafka 3, la operación de lectura y escritura se produjo tres veces en el FSxN, en el factor de replicación Kafka 1, la operación de lectura y escritura es una vez en el FSxN, por lo que en ambas validaciones, podemos alcanzar el rendimiento máximo de 4GB MB/seg.
+
+El controlador Sync puede generar un rendimiento constante a medida que los registros se vacíen en el disco al instante, mientras que el controlador de rendimiento genera ráfagas de rendimiento a medida que los registros se envían al disco de forma masiva.
+
+Estos números de rendimiento se generan para la configuración de AWS determinada. Para requisitos de rendimiento más altos, los tipos de instancias se pueden escalar verticalmente para mejorar los números de rendimiento. El rendimiento total o la tasa total es la combinación de la tasa de producción y del consumidor.
+
+image:aws-fsxn-performance-rf-1-rf-3.png["Esta imagen muestra el rendimiento de kafka con RF1 y RF3"]
+
+En el siguiente gráfico se muestra el rendimiento FSxn de 2GB MB/s y 4GB MB/s para el factor de replicación kafka 3. El factor de replicación 3 realiza la operación de lectura y escritura tres veces en el almacenamiento FSxN. La tasa total para el controlador de rendimiento es de 881 MB/s, que lee y escribe la operación kafka aproximadamente 2,64 GB/s en el sistema de archivos FSxN de 2GB MB/s y la tasa total para el controlador de rendimiento es de 1328 MB/s que lee y escribe la operación kafka aproximadamente 3,98 GB/s. El rendimiento de Kafka es lineal y escalable en función del rendimiento FSxN.
+
+image:aws-fsxn-2gb-4gb-scale.png["Esta imagen muestra el rendimiento de escalado horizontal de 2GB Gb/s y 4GB Gb/s."]
+
+El siguiente gráfico muestra el rendimiento entre la instancia EC2 y FSxN (factor de replicación Kafka: 3)
+
+image:aws-fsxn-ec2-fsxn-comparition.png["Esta imagen muestra la comparación de rendimiento de EC2 frente a FSxN en RF3."]
+
 link:kafka-nfs-performance-overview-and-validation-with-aff-on-premises.html["Siguiente: Información general y validación del rendimiento con AFF en las instalaciones."]
