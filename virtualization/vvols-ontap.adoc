@@ -103,6 +103,7 @@ En general, ONTAP admite los límites de vVols definidos por VMware (consulte la
 
 *ONTAP vVols Limits*
 
+[cols="40%, 30%, 30%"]
 |===
 | Capacidad/función | SAN (SCSI o NVMe-oF) | NFS 
 
@@ -161,7 +162,7 @@ Prácticas recomendadas para usar vVols con ONTAP.
 | *Zone su estructura Fibre Channel antes de usar NVMe/FC o FCP para vVols.* 
 
 
-| El proveedor de VASA de herramientas de ONTAP se encarga de gestionar iGroups FCP e iSCSI, así como subsistemas NVMe en ONTAP basado en iniciadores detectados de hosts ESXi gestionados. Sin embargo, no se integra con switches Fibre Channel para gestionar la división en zonas. La división en zonas debe realizarse siguiendo las mejores prácticas antes de realizar ningún aprovisionamiento. Consulte los siguientes documentos para obtener más prácticas recomendadas:https://www.netapp.com/media/10680-tr4080.pdf["_TR-4080 Mejores prácticas para ONTAP SAN moderno 9_"]
+| El proveedor de VASA de herramientas de ONTAP se encarga de gestionar iGroups FCP e iSCSI, así como subsistemas NVMe en ONTAP basado en iniciadores detectados de hosts ESXi gestionados. Sin embargo, no se integra con switches Fibre Channel para gestionar la división en zonas. La división en zonas debe realizarse siguiendo las mejores prácticas antes de realizar ningún aprovisionamiento. El siguiente es un ejemplo de división en zonas de un iniciador único en cuatro sistemas ONTAP: División en zonas de un iniciador único:image:vvols-image7.gif["La división en zonas de un único iniciador con cuatro nodos,400"]Consulte los siguientes documentos para obtener más prácticas recomendadas:https://www.netapp.com/media/10680-tr4080.pdf["_TR-4080 Mejores prácticas para ONTAP SAN moderno 9_"]
 
 https://www.netapp.com/pdf.html?item=/media/10681-tr4684.pdf["_TR-4684 Implementación y configuración de SAN modernas con NVMe-oF_"] 
 
@@ -193,5 +194,5 @@ https://www.netapp.com/pdf.html?item=/media/10681-tr4684.pdf["_TR-4684 Implement
 | *Siga todas las mejores prácticas del protocolo.* 
 
 
-| Consulte otras guías de prácticas recomendadas de NetApp y VMware específicas del protocolo que haya seleccionado. En general, no hay ningún cambio aparte de los ya mencionados.
+| Consulte otras guías de prácticas recomendadas de NetApp y VMware específicas del protocolo que haya seleccionado. En general, no hay ningún cambio aparte de los ya mencionados. Ejemplo de configuración de red mediante vVols con NFS v3:image:vvols-image8.png["Configuración de red mediante vVols mediante NFS v3.500"] 
 |===
