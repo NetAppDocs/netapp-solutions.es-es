@@ -11,6 +11,8 @@
 
 === Validar la instalación de Oracle
 
+. Conéctese a Oracle Server como usuario oracle y ejecute los siguientes comandos:
+
 
 [source, cli]
 ----
@@ -18,6 +20,8 @@ ps -ef | grep ora
 ----
 
 NOTE: Se enumerarán los procesos de oracle si la instalación se ha completado como se esperaba y oracle DB ha iniciado
+
+. Inicie sesión en la base de datos para comprobar los valores de configuración de la base de datos y las PDB creadas con los siguientes conjuntos de comandos.
 
 
 [source, cli]
@@ -68,6 +72,8 @@ NOMBRE DE DIRECTORIO DE SVRNAME NFSVERSION -------------------------------------
 ----
 This confirms that dNFS is working properly.
 ----
+. Conéctese a la base de datos a través del listener para comprobar la configuración del listener de Oracle con el siguiente comando. Cambie al puerto de listener y el nombre de servicio de base de datos adecuados.
+
 
 [source, cli]
 ----

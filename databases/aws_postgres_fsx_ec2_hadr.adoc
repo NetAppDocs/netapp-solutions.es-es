@@ -111,8 +111,10 @@ La puesta en marcha de esta solución se puede completar automáticamente con el
 
 . Lea las instrucciones del kit de herramientas de automatización readme.md link:https://github.com/NetApp-Automation/na_postgresql_aws_deploy_hadr["na_postgresql_aws_deploy_hadr"].
 . Vea el siguiente vídeo.
-+
-video::e479b91f-eacd-46bf-bfa1-b01200f0015a[panopto,width=360]
+
+
+.Implementación y protección automatizadas de PostgreSQL
+video::e479b91f-eacd-46bf-bfa1-b01200f0015a[panopto]
 . Configure los archivos de parámetros necesarios (`hosts`, `host_vars/host_name.yml`, `fsx_vars.yml`) introduciendo parámetros específicos del usuario en la plantilla en las secciones correspondientes. A continuación, use el botón Copy para copiar los archivos en el host de la controladora de Ansible.
 
 
@@ -128,18 +130,19 @@ La implementación requiere los siguientes requisitos previos.
 . Cree un equipo virtual CentOS de Linux para alojar la controladora de Ansible. La controladora de Ansible puede estar ubicada en las instalaciones o en el cloud de AWS. Si se encuentra en las instalaciones, debe tener conectividad SSH al VPC, a las instancias de Linux EC2 y a los clústeres de almacenamiento de FSX.
 . Configure la controladora de Ansible como se describe en la sección "Configuración del nodo de control de Ansible para las puestas en marcha de la CLI en RHEL/CentOS" desde el recurso link:https://docs.netapp.com/us-en/netapp-solutions/automation/getting-started.html["Primeros pasos con la automatización de soluciones de NetApp"].
 . Clone una copia del kit de herramientas de automatización del sitio público de GitHub de NetApp.
-+
+
+
 [source, cli]
 ----
 git clone https://github.com/NetApp-Automation/na_postgresql_aws_deploy_hadr.git
 ----
 . Desde el directorio raíz del kit de herramientas, ejecute los libros de estrategia de requisitos previos para instalar las colecciones y bibliotecas necesarias para el controlador de Ansible.
-+
+
+
 [source, cli]
 ----
 ansible-playbook -i hosts requirements.yml
 ----
-+
 [source, cli]
 ----
 ansible-galaxy collection install -r collections/requirements.yml --force --force-with-deps
@@ -176,16 +179,113 @@ psql_01s ansible_ssh_private_key_file=psql_01s.pem
 
 === Configure el archivo host_name.yml en la carpeta host_var
 
-Introduzca los parámetros apropiados para el sistema en los campos subrayados azules y, a continuación, copie y pegue las entradas en el `host_name.yml` Archivo en la controladora de Ansible `host_vars` carpeta.
+[source, shell]
+----
+# Add your AWS EC2 instance IP address for the respective PostgreSQL server host
+ansible_host: "10.61.180.15"
 
+# "{{groups.postgresql[0]}}" represents first PostgreSQL DB server as defined in PostgreSQL hosts group [postgresql]. For concurrent multiple PostgreSQL DB servers deployment, [0] will be incremented for each additional DB server. For example,  "{{groups.posgresql[1]}}" represents DB server 2, "{{groups.posgresql[2]}}" represents DB server 3 ... As a good practice and the default, two volumes are allocated to a PostgreSQL DB server with corresponding /pgdata, /pglogs mount points, which store PostgreSQL data, and PostgreSQL log files respectively. The number and naming of DB volumes allocated to a DB server must match with what is defined in global fsx_vars.yml file by src_db_vols, src_archivelog_vols parameters, which dictates how many volumes are to be created for each DB server. aggr_name is aggr1 by default. Do not change. lif address is the NFS IP address for the SVM where PostgreSQL server is expected to mount its database volumes. Primary site servers from primary SVM and standby servers from standby SVM.
+host_datastores_nfs:
+  - {vol_name: "{{groups.postgresql[0]}}_pgdata", aggr_name: "aggr1", lif: "172.21.94.200", size: "100"}
+  - {vol_name: "{{groups.postgresql[0]}}_pglogs", aggr_name: "aggr1", lif: "172.21.94.200", size: "100"}
 
+# Add swap space to EC2 instance, that is equal to size of RAM up to 16G max. Determine the number of blocks by dividing swap size in MB by 128.
+swap_blocks: "128"
+
+# Postgresql user configurable parameters
+psql_port: "5432"
+buffer_cache: "8192MB"
+archive_mode: "on"
+max_wal_size: "5GB"
+client_address: "172.30.15.0/24"
+----
 
 
 === Configure el archivo fsx_var.ydl global en la carpeta var
 
-Introduzca los parámetros apropiados para el sistema en los campos subrayados azules y, a continuación, copie y pegue las entradas en el `fsx_vars.yml` Archivo en el host de la controladora de Ansible.
+[source, shell]
+----
+########################################################################
+######  PostgreSQL HADR global user configuration variables       ######
+######  Consolidate all variables from FSx, Linux, and postgresql ######
+########################################################################
 
+###########################################
+### Ontap env specific config variables ###
+###########################################
 
+####################################################################################################
+# Variables for SnapMirror Peering
+####################################################################################################
+
+#Passphrase for cluster peering authentication
+passphrase: "xxxxxxx"
+
+#Please enter destination or standby FSx cluster name
+dst_cluster_name: "FsxId0cf8e0bccb14805e8"
+
+#Please enter destination or standby FSx cluster management IP
+dst_cluster_ip: "172.30.15.90"
+
+#Please enter destination or standby FSx cluster inter-cluster IP
+dst_inter_ip: "172.30.15.13"
+
+#Please enter destination or standby SVM name to create mirror relationship
+dst_vserver: "dr"
+
+#Please enter destination or standby SVM management IP
+dst_vserver_mgmt_lif: "172.30.15.88"
+
+#Please enter destination or standby SVM NFS lif
+dst_nfs_lif: "172.30.15.88"
+
+#Please enter source or primary FSx cluster name
+src_cluster_name: "FsxId0cf8e0bccb14805e8"
+
+#Please enter source or primary FSx cluster management IP
+src_cluster_ip: "172.30.15.20"
+
+#Please enter source or primary FSx cluster inter-cluster IP
+src_inter_ip: "172.30.15.5"
+
+#Please enter source or primary SVM name to create mirror relationship
+src_vserver: "prod"
+
+#Please enter source or primary SVM management IP
+src_vserver_mgmt_lif: "172.30.15.115"
+
+#####################################################################################################
+# Variable for PostgreSQL Volumes, lif - source or primary FSx NFS lif address
+#####################################################################################################
+
+src_db_vols:
+  - {vol_name: "{{groups.postgresql[0]}}_pgdata", aggr_name: "aggr1", lif: "172.21.94.200", size: "100"}
+
+src_archivelog_vols:
+  - {vol_name: "{{groups.postgresql[0]}}_pglogs", aggr_name: "aggr1", lif: "172.21.94.200", size: "100"}
+
+#Names of the Nodes in the ONTAP Cluster
+nfs_export_policy: "default"
+
+#####################################################################################################
+### Linux env specific config variables ###
+#####################################################################################################
+
+#NFS Mount points for PostgreSQL DB volumes
+mount_points:
+  - "/pgdata"
+  - "/pglogs"
+
+#RedHat subscription username and password
+redhat_sub_username: "xxxxx"
+redhat_sub_password: "xxxxx"
+
+####################################################
+### DB env specific install and config variables ###
+####################################################
+#The latest version of PostgreSQL RPM is pulled/installed and config file is deployed from a preconfigured template
+#Recovery type and point: default as all logs and promote and leave all PITR parameters blank
+----
 
 
 === Puesta en marcha de PostgreSQL y configuración de alta disponibilidad/recuperación ante desastres
@@ -225,13 +325,12 @@ ansible-playbook -i hosts postgresql_hadr_setup.yml -u ec2-user -e @vars/fsx_var
 psql_01ps ansible_ssh_private_key_file=psql_01ps.pem
 #psql_01ss ansible_ssh_private_key_file=psql_01ss.pem
 ----
-+
+
+
 [source, cli]
 ----
 ansible-playbook -i hosts postgresql_standby_setup.yml -u ec2-user --private-key psql_01ps.pem -e @vars/fsx_vars.yml
 ----
-
-
 
 
 === Copia de seguridad de instantánea de la base de datos PostgreSQL y replicación al sitio en espera
@@ -275,15 +374,16 @@ NetApp recomienda ejecutar la conmutación por error manual o utilizar una soluc
 Si quiere más información sobre el contenido de este documento, consulte los siguientes documentos o sitios web:
 
 * Amazon FSX para ONTAP de NetApp
-+
+
+
 link:https://aws.amazon.com/fsx/netapp-ontap/["https://aws.amazon.com/fsx/netapp-ontap/"^]
 
 * Amazon EC2
-+
+
+
 link:https://aws.amazon.com/pm/ec2/?trk=36c6da98-7b20-48fa-8225-4784bced9843&sc_channel=ps&s_kwcid=AL!4422!3!467723097970!e!!g!!aws%20ec2&ef_id=Cj0KCQiA54KfBhCKARIsAJzSrdqwQrghn6I71jiWzSeaT9Uh1-vY-VfhJixF-xnv5rWwn2S7RqZOTQ0aAh7eEALw_wcB:G:s&s_kwcid=AL!4422!3!467723097970!e!!g!!aws%20ec2["https://aws.amazon.com/pm/ec2/?trk=36c6da98-7b20-48fa-8225-4784bced9843&sc_channel=ps&s_kwcid=AL!4422!3!467723097970!e!!g!!aws%20ec2&ef_id=Cj0KCQiA54KfBhCKARIsAJzSrdqwQrghn6I71jiWzSeaT9Uh1-vY-VfhJixF-xnv5rWwn2S7RqZOTQ0aAh7eEALw_wcB:G:s&s_kwcid=AL!4422!3!467723097970!e!!g!!aws%20ec2"^]
 
 * Automatización de soluciones de NetApp
-+
+
+
 link:https://docs.netapp.com/us-en/netapp-solutions/automation/automation_introduction.html["https://docs.netapp.com/us-en/netapp-solutions/automation/automation_introduction.html"^]
-
-
