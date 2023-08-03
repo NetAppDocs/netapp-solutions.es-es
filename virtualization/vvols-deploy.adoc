@@ -67,6 +67,7 @@ NetApp ha simplificado las funcionalidades y la asignación desde VASA Provider 
 
 === Funcionalidades de perfil de funcionalidades del almacenamiento publicadas por las herramientas de ONTAP
 
+[cols="25%, 25%, 25%, 25%"]
 |===
 | *Capacidad SCP* | *Valores de capacidad* | *Lanzamiento soportado* | *Notas* 
 
@@ -74,16 +75,16 @@ NetApp ha simplificado las funcionalidades y la asignación desde VASA Provider 
 | *Compresión* | Sí, No, Cualquiera | Todo | Obligatorio para AFF en 7,2 y posteriores. 
 
 
-| *Deduplicación* | Sí, No, Cualquiera | Todo | M andatorio de AFF en 7,2 y versiones posteriores. 
+| *Deduplicación* | Sí, No, Cualquiera | Todo | Obligatorio para AFF en 7,2 y posteriores. 
 
 
-| *Cifrado* | Sí, No, Cualquiera | 7,2 y posterior | Selecciona/crea un volumen FlexVol cifrado. Se requiere una licencia de ONTAP. 
+| *Cifrado* | Sí, No, Cualquiera | 7,2 y posterior | Selecciona o crea un volumen de FlexVol cifrado. Se requiere una licencia de ONTAP. 
 
 
 | *Max IOPS* | <number> | 7,1 y más tarde, pero diferencias | Aparece en QoS Policy Group para 7,2 y versiones posteriores. Consulte la Tabla 4 para obtener más información. 
 
 
-| *Personalidad* | A FF, FAS | 7,2 y posterior | FAS también incluye otros sistemas que no son AFF, como ONTAP Select. AFF incluye a ASA. 
+| *Personalidad* | AFF, FAS | 7,2 y posterior | FAS también incluye otros sistemas que no son AFF, como ONTAP Select. AFF incluye a ASA. 
 
 
 | *Protocolo* | NFS, NFS 4,1, iSCSI, FCP, NVMe/FC, Cualquiera | 7,1 y anteriores, 9,10 y posteriores | 7,2-9,8 es efectivamente “cualquiera”. A partir de 9,10, donde se añadieron 4,1 y NVMe/FC a la lista original. 
@@ -92,7 +93,7 @@ NetApp ha simplificado las funcionalidades y la asignación desde VASA Provider 
 | *Reserva de espacio (Thin Provisioning)* | Fino, grueso, (cualquiera) | Todo, pero diferencias | Se llamaba Thin Provisioning en la versión 7,1 y versiones anteriores, lo que también permitía el valor de cualquier. Llamado Reserva Espacial en 7,2. Todas las versiones se establecen de forma predeterminada en Delgado. 
 
 
-| *Política de organización en niveles* | Cualquiera, Ninguna, Instantánea, Automático | 7,2 y posterior | Utilizado para FabricPool^®^ – Requiere AFF o ASA con ONTAP 9,4 o posterior. Solo se recomienda Snapshot a menos que se utilice una solución S3 en sus instalaciones como StorageGRID de NetApp. 
+| *Política de organización en niveles* | Cualquiera, Ninguna, Instantánea, Automático | 7,2 y posterior | Se usa para FabricPool; se requiere AFF o ASA con ONTAP 9,4 o posterior. Solo se recomienda Snapshot a menos que se utilice una solución S3 en sus instalaciones como StorageGRID de NetApp. 
 |===
 
 

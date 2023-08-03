@@ -62,15 +62,12 @@ Las API de VMware vSphere para Storage Awareness (VASA) facilitan que un adminis
 
 Hay dos elementos:
 
-[cols="20%, 80%"]
-|===
+. *Perfil de capacidad de almacenamiento (SCP)*
+Un perfil de funcionalidad de almacenamiento (SCP) es una forma de plantilla de almacenamiento que permite que el administrador de vCenter defina qué funciones de almacenamiento necesitan sin necesidad de comprender cómo gestionar esas funciones en ONTAP. Al adoptar el enfoque de estilo de plantilla, permite al administrador prestar servicios de almacenamiento de forma coherente y previsible. Las funcionalidades descritas en un SCP incluyen rendimiento, protocolo, eficiencia de almacenamiento y otras características. Las características específicas varían según la versión. Se crean mediante el menú de las herramientas de ONTAP para VMware vSphere dentro de la interfaz de usuario de vCenter. También puede utilizar las API REST para crear SCPs. Se pueden crear manualmente seleccionando funcionalidades individuales o se pueden generar automáticamente a partir de almacenes de datos existentes (tradicionales).
+. *VM Storage Policy*
+Las políticas de almacenamiento de máquinas virtuales se crean en vCenter en Políticas y perfiles. Para vVols, cree un conjunto de reglas mediante reglas del proveedor de tipo de almacenamiento de NetApp vVols. Las herramientas de ONTAP proporcionan un enfoque simplificado al permitirle simplemente seleccionar un SCP en lugar de obligarlo a especificar reglas individuales.
 
 
-| *Perfil de capacidad de almacenamiento (SCP)* | Un perfil de funcionalidad de almacenamiento (SCP) es una forma de plantilla de almacenamiento que permite que el administrador de vCenter defina qué funciones de almacenamiento necesitan sin necesidad de comprender cómo gestionar esas funciones en ONTAP. Al adoptar el enfoque de estilo de plantilla, permite al administrador prestar servicios de almacenamiento de forma coherente y previsible. Las funcionalidades descritas en un SCP incluyen rendimiento, protocolo, eficiencia de almacenamiento y otras características. Las características específicas varían según la versión. Se crean mediante el menú de las herramientas de ONTAP para VMware vSphere dentro de la interfaz de usuario de vCenter. También puede utilizar las API REST para crear SCPs. Se pueden crear manualmente seleccionando funcionalidades individuales o se pueden generar automáticamente a partir de almacenes de datos existentes (tradicionales). 
-
-
-| *VM Storage Policy* | Las políticas de almacenamiento de máquinas virtuales se crean en vCenter en Políticas y perfiles. Para vVols, cree un conjunto de reglas mediante reglas del proveedor de tipo de almacenamiento de NetApp vVols. Las herramientas de ONTAP proporcionan un enfoque simplificado al permitirle simplemente seleccionar un SCP en lugar de obligarlo a especificar reglas individuales. 
-|===
 Tal como se ha mencionado anteriormente, el uso de políticas puede ayudar a simplificar la tarea de aprovisionar un volumen. Solo tiene que seleccionar una política adecuada y el proveedor VASA mostrará los almacenes de datos de vVols compatibles con esa política y colocará el VVOL en un volumen FlexVol individual conforme a la normativa (figura 1).
 
 

@@ -104,50 +104,20 @@ Para obtener información sobre las API de REST del plugin de SnapCenter para VM
 
 Las siguientes mejores prácticas pueden ayudarle a sacar el máximo partido de la puesta en marcha de SnapCenter.
 
-|===
-
-
- a| 
-* SCV es compatible con el control de acceso basado en roles de vCenter Server y de ONTAP, e incluye roles predefinidos de vCenter que se crean automáticamente para usted cuando se registra el plugin. Es posible obtener más información sobre los tipos de RBAC admitidos https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/scpivs44_types_of_rbac_for_snapcenter_users.html["aquí."]
+. SCV es compatible con el control de acceso basado en roles de vCenter Server y de ONTAP, e incluye roles predefinidos de vCenter que se crean automáticamente para usted cuando se registra el plugin. Es posible obtener más información sobre los tipos de RBAC admitidos https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/scpivs44_types_of_rbac_for_snapcenter_users.html["aquí."]
 +
 ** Use la interfaz de usuario de vCenter para asignar acceso a cuentas con menos privilegios mediante los roles predefinidos descritos https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/scpivs44_predefined_roles_packaged_with_snapcenter.html["aquí"].
 ** Si utiliza SCV con SnapCenter Server, debe asignar el rol _SnapCenterAdmin_.
 ** El control de acceso basado en roles de ONTAP hace referencia a la cuenta de usuario que se utiliza para añadir y gestionar los sistemas de almacenamiento que utiliza SCV. El control de acceso basado en roles de ONTAP no se aplica a los backups basados en vVols. Obtenga más información sobre el control de acceso basado en roles de ONTAP y SCV https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/scpivs44_ontap_rbac_features_in_snapcenter.html["aquí"].
 
 
+. Replique sus conjuntos de datos de backups en un segundo sistema mediante SnapMirror para obtener réplicas completas de volúmenes de origen. Como ya se ha mencionado anteriormente, también puede utilizar políticas de mirror-vault para la retención a largo plazo de los datos de backup con independencia de la configuración de retención de copias Snapshot del volumen de origen. Ambos mecanismos son compatibles con vVols.
+. Dado que SCV también requiere las herramientas de ONTAP para la funcionalidad de VMware vSphere para vVols, compruebe siempre la compatibilidad de versiones específica de la Herramienta de Matriz de Interoperabilidad (IMT) de NetApp
+. Si usa la replicación de vVols con VMware SRM, tenga en cuenta el objetivo de punto de recuperación y la programación de backups de su política
+. Diseñe sus políticas de backup con ajustes de retención que cumplan los objetivos de punto de recuperación (RPO) definidos de su organización
+. Configure los ajustes de notificación en los grupos de recursos para que se notifique el estado cuando se ejecuten los backups (consulte la figura 10 a continuación).
 
 
-
-
- a| 
-* Replique sus conjuntos de datos de backups en un segundo sistema mediante SnapMirror para obtener réplicas completas de volúmenes de origen. Como ya se ha mencionado anteriormente, también puede utilizar políticas de mirror-vault para la retención a largo plazo de los datos de backup con independencia de la configuración de retención de copias Snapshot del volumen de origen. Ambos mecanismos son compatibles con vVols.
-
-
-
-
- a| 
-* Dado que SCV también requiere las herramientas de ONTAP para la funcionalidad de VMware vSphere para vVols, compruebe siempre la compatibilidad de versiones específica de la Herramienta de Matriz de Interoperabilidad (IMT) de NetApp
-
-
-
-
- a| 
-* Si usa la replicación de vVols con VMware SRM, tenga en cuenta el objetivo de punto de recuperación y la programación de backups de su política
-
-
-
-
- a| 
-* Diseñe sus políticas de backup con ajustes de retención que cumplan los objetivos de punto de recuperación (RPO) definidos de su organización
-
-
-
-
- a| 
-* Configure los ajustes de notificación en los grupos de recursos para que se notifique el estado cuando se ejecuten los backups (consulte la figura 10 a continuación).
-
-
-|===
 
 
 === Opciones de notificación para el grupo de recursos

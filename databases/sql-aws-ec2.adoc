@@ -123,17 +123,13 @@ NOTE: Las copias de Snapshot utilizadas para crear volúmenes FlexClone no se el
 
 NOTE: El exceso de compromiso de almacenamiento debe considerarse y gestionarse cuidadosamente para una aplicación esencial, como SQL Server, para la cual no se puede tolerar ninguna interrupción mínima. En este caso, lo mejor es supervisar las tendencias de consumo de almacenamiento para determinar cuánto, si corresponde, es aceptable un exceso de compromiso.
 
-|===
-| Mejores prácticas 
+*Mejores prácticas*
+
+. Para obtener un rendimiento óptimo del almacenamiento, aprovisione una capacidad del sistema de archivos de hasta 1,35 veces mayor que el tamaño del uso total de la base de datos.
+. Es necesaria una supervisión adecuada, acompañada de un plan de acción eficaz, cuando se usa el aprovisionamiento ligero para evitar tiempos de inactividad de las aplicaciones.
+. Asegúrese de configurar las alertas de Cloudwatch y otras herramientas de supervisión para que se pueda contactar con las personas con el tiempo suficiente para reaccionar a medida que se llena el almacenamiento.
 
 
- a| 
-* Para obtener un rendimiento óptimo del almacenamiento, aprovisione una capacidad del sistema de archivos de hasta 1,35 veces mayor que el tamaño del uso total de la base de datos.
-* Es necesaria una supervisión adecuada, acompañada de un plan de acción eficaz, cuando se usa el aprovisionamiento ligero para evitar tiempos de inactividad de las aplicaciones.
-* Asegúrese de configurar las alertas de Cloudwatch y otras herramientas de supervisión para que se pueda contactar con las personas con el tiempo suficiente para reaccionar a medida que se llena el almacenamiento.
-
-
-|===
 ====
 
 
@@ -161,20 +157,15 @@ image:sql-awsec2-image3.png["Error: Falta la imagen gráfica"]
 
 . Cree volúmenes mediante el paso que se indica en https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/creating-volumes.html["Creación de un volumen en FSX para ONTAP de NetApp"^].
 +
-|===
+*Mejores prácticas*
 
-
-| Mejores prácticas 
-
-
- a| 
++
 ** Deshabilite los programas de copia de Snapshot de almacenamiento y las políticas de retención. En su lugar, utilice SnapCenter de NetApp para coordinar las copias Snapshot de los volúmenes de registros y datos de SQL Server.
 ** Configure bases de datos en LUN individuales en volúmenes independientes para aprovechar la funcionalidad de restauración rápida y granular.
 ** Coloque los archivos de datos de usuario (.mdf) en volúmenes independientes debido a que son cargas de trabajo de lectura/escritura aleatorias. Es común crear backups de registros de transacciones con más frecuencia que los backups de bases de datos. Por este motivo, coloque los archivos de registro de transacciones (.ldf) en un volumen aparte de los archivos de datos para poder crear programaciones de backup independientes para cada uno de ellos. Esta separación también aísla la E/S de escritura secuencial de los archivos de registro de la E/S de lectura/escritura aleatoria de los archivos de datos y mejora significativamente el rendimiento de SQL Server.
 ** Tempdb es una base de datos del sistema utilizada por Microsoft SQL Server como espacio de trabajo temporal, especialmente para operaciones DBCC CHECKDB con un uso intensivo de E/S. Por lo tanto, coloque esta base de datos en un volumen dedicado. En entornos grandes en los que el número de volúmenes es un reto, puede consolidar tempdb en menos volúmenes y almacenarlo en el mismo volumen que otras bases de datos del sistema tras una planificación cuidadosa. La protección de datos para tempdb no es una prioridad alta porque esta base de datos se vuelve a crear cada vez que se reinicia Microsoft SQL Server.
 
 
-|===
 . Use el siguiente comando SSH para crear volúmenes:
 +
 ....
@@ -249,17 +240,14 @@ foreach ($TargetPortal in $TargetPortals) {New-IscsiTargetPortal -TargetPortalAd
 image:sql-awsec2-image10.png["Error: Falta la imagen gráfica"]
 
 +
-|===
-| Mejores prácticas 
+*Mejores prácticas*
 
-
- a| 
++
 ** Configure cinco sesiones iSCSI por interfaz de destino para conseguir un rendimiento óptimo.
 ** Configure una normativa por turnos para el mejor rendimiento iSCSI global.
 ** Asegúrese de que el tamaño de la unidad de asignación esté establecido en 64K para las particiones al formatear las LUN
 
 
-|===
 . Ejecute el siguiente comando de PowerShell para asegurarse de que la sesión iSCSI persiste.
 +
 ....
@@ -350,7 +338,6 @@ Espacio mínimo para la instalación: 10 GB espacio mínimo PARA el repositorio:
 
 |===
 Para obtener información detallada, consulte link:https://docs.netapp.com/us-en/snapcenter/install/reference_space_and_sizing_requirements.html["requisitos de espacio y de tamaño"].
-Para obtener información detallada, consulte link:https://docs.netapp.com/us-en/snapcenter/install/reference_space_and_sizing_requirements.html["requisitos de espacio y de tamaño"].
 
 Para obtener compatibilidad de versiones, consulte https://mysupport.netapp.com/matrix/["Herramienta de matriz de interoperabilidad de NetApp"^].
 
@@ -362,20 +349,16 @@ La figura siguiente muestra algunas consideraciones que se deben tener en cuenta
 
 image:sql-awsec2-image13.png["Error: Falta la imagen gráfica"]
 
-|===
-| Mejores prácticas 
+*Mejores prácticas*
+
+. Coloque bases de datos con consultas intensivas de I/o o o con un tamaño de base de datos grande (digamos 500 GB o más) en un volumen aparte para agilizar la recuperación. Este volumen también debe realizarse backup mediante trabajos independientes.
+. Consolide bases de datos de tamaño pequeño a mediano que son menos críticas o tienen menos requisitos de I/o en un único volumen. El backup de un gran número de bases de datos que residen en el mismo volumen da lugar a menos copias de Snapshot que es necesario mantener. También se recomienda consolidar las instancias de Microsoft SQL Server para utilizar los mismos volúmenes para controlar el número de copias de Snapshot de backup realizadas.
+. Cree LUN independientes para almacenar archivos de texto completo y archivos relacionados con streaming de archivos.
+. Asigne LUN independientes por host para almacenar backups de registros de Microsoft SQL Server.
+. Las bases de datos del sistema que almacenan la configuración de metadatos del servidor de bases de datos y los detalles del trabajo no se actualizan con frecuencia. Coloque las bases de datos del sistema/tempdb en unidades o LUN por separado. No coloque las bases de datos del sistema en el mismo volumen que las bases de datos del usuario. Las bases de datos de usuario tienen una política de backup diferente y la frecuencia del backup de la base de datos de usuario no es la misma para las bases de datos del sistema.
+. Para la configuración del grupo de disponibilidad de Microsoft SQL Server, coloque los archivos de datos y de registro de las réplicas en una estructura de carpetas idéntica en todos los nodos.
 
 
- a| 
-* Coloque bases de datos con consultas intensivas de I/o o o con un tamaño de base de datos grande (digamos 500 GB o más) en un volumen aparte para agilizar la recuperación. Este volumen también debe realizarse backup mediante trabajos independientes.
-* Consolide bases de datos de tamaño pequeño a mediano que son menos críticas o tienen menos requisitos de I/o en un único volumen. El backup de un gran número de bases de datos que residen en el mismo volumen da lugar a menos copias de Snapshot que es necesario mantener. También se recomienda consolidar las instancias de Microsoft SQL Server para utilizar los mismos volúmenes para controlar el número de copias de Snapshot de backup realizadas.
-* Cree LUN independientes para almacenar archivos de texto completo y archivos relacionados con streaming de archivos.
-* Asigne LUN independientes por host para almacenar backups de registros de Microsoft SQL Server.
-* Las bases de datos del sistema que almacenan la configuración de metadatos del servidor de bases de datos y los detalles del trabajo no se actualizan con frecuencia. Coloque las bases de datos del sistema/tempdb en unidades o LUN por separado. No coloque las bases de datos del sistema en el mismo volumen que las bases de datos del usuario. Las bases de datos de usuario tienen una política de backup diferente y la frecuencia del backup de la base de datos de usuario no es la misma para las bases de datos del sistema.
-* Para la configuración del grupo de disponibilidad de Microsoft SQL Server, coloque los archivos de datos y de registro de las réplicas en una estructura de carpetas idéntica en todos los nodos.
-
-
-|===
 Además de la ventaja en cuanto al rendimiento que supone separar el diseño de la base de datos del usuario en distintos volúmenes, la base de datos también afecta significativamente el tiempo necesario para las tareas de backup y restauración. La existencia de volúmenes separados para los archivos de datos y de registro mejora considerablemente el tiempo de restauración en comparación con un volumen que aloja varios archivos de datos de usuario. Del mismo modo, las bases de datos de usuario con una aplicación con un gran volumen de I/o son propensas a aumentar el tiempo de backup. Más adelante en este documento se ofrece una explicación más detallada sobre las prácticas de copia de seguridad y restauración.
 
 
@@ -438,53 +421,42 @@ Ahora está listo para realizar operaciones de backup, restauración y clonado p
 ====
 Después de colocar los archivos de base de datos y de registro en los LUN de ONTAP FSX, se puede usar SnapCenter para realizar backups de las bases de datos. Se utilizan los siguientes procesos para crear un backup completo.
 
-|===
+*Mejores prácticas*
 
-
-| Mejores prácticas 
-
-
- a| 
 * En términos de SnapCenter, el objetivo de punto de recuperación se puede identificar como la frecuencia de backup, por ejemplo, con la frecuencia con la que se desea programar el backup para que se pueda reducir la pérdida de datos hasta unos minutos. SnapCenter le permite programar backups con la frecuencia de cada cinco minutos. Sin embargo, puede haber algunas instancias en las que un backup puede no completarse en un plazo de cinco minutos durante los períodos de máxima transacción o cuando la tasa de cambio de los datos es más elevada en el tiempo determinado. Una práctica recomendada es programar backups frecuentes de registros de transacciones en lugar de backups completos.
 * Existen muchos métodos para gestionar el objetivo de punto de recuperación y el objetivo de tiempo de recuperación. Una alternativa a este método de backup es tener políticas de backup separadas para datos y registros con intervalos diferentes. Por ejemplo, desde SnapCenter, programar backups de registros en intervalos de 15 minutos y backups de datos en intervalos de 6 horas.
 * Use un grupo de recursos para llevar a cabo una configuración de backup para la optimización de Snapshot y la cantidad de trabajos que deben gestionarse.
-
-
-|===
-. Seleccione *Recursos* y, a continuación, seleccione *Microsoft SQL Server *en el menú desplegable de la parte superior izquierda. Seleccione *Actualizar recursos*.
++
+.. Seleccione *Recursos* y, a continuación, seleccione *Microsoft SQL Server *en el menú desplegable de la parte superior izquierda. Seleccione *Actualizar recursos*.
 +
 image:sql-awsec2-image19.png["Error: Falta la imagen gráfica"]
 
-. Seleccione la base de datos de la que desea realizar la copia de seguridad y, a continuación, seleccione *Siguiente* y (*+*) para agregar la directiva si no se ha creado una. Siga la *Nueva política de copia de seguridad de SQL Server* para crear una nueva directiva.
+.. Seleccione la base de datos de la que desea realizar la copia de seguridad y, a continuación, seleccione *Siguiente* y (*+*) para agregar la directiva si no se ha creado una. Siga la *Nueva política de copia de seguridad de SQL Server* para crear una nueva directiva.
 +
 image:sql-awsec2-image20.png["Error: Falta la imagen gráfica"]
 
-. Seleccione el servidor de verificación si es necesario. Este servidor es el servidor que SnapCenter ejecuta DBCC CHECKDB después de crear una copia de seguridad completa. Haga clic en *Siguiente* para la notificación y, a continuación, seleccione *Resumen* para revisar. Después de revisar, haga clic en *Finalizar*.
+.. Seleccione el servidor de verificación si es necesario. Este servidor es el servidor que SnapCenter ejecuta DBCC CHECKDB después de crear una copia de seguridad completa. Haga clic en *Siguiente* para la notificación y, a continuación, seleccione *Resumen* para revisar. Después de revisar, haga clic en *Finalizar*.
 +
 image:sql-awsec2-image21.png["Error: Falta la imagen gráfica"]
 
-. Haga clic en *copia de seguridad ahora* para probar la copia de seguridad. En las ventanas emergentes, seleccione *copia de seguridad*.
+.. Haga clic en *copia de seguridad ahora* para probar la copia de seguridad. En las ventanas emergentes, seleccione *copia de seguridad*.
 +
 image:sql-awsec2-image22.png["Error: Falta la imagen gráfica"]
 
-. Seleccione *Monitor* para comprobar que la copia de seguridad se ha completado.
+.. Seleccione *Monitor* para comprobar que la copia de seguridad se ha completado.
 +
 image:sql-awsec2-image23.png["Error: Falta la imagen gráfica"]
 
 
 
-|===
 
 
-| Mejores prácticas 
+*Mejores prácticas*
 
-
- a| 
 * Realizar una copia de seguridad del registro de transacciones desde SnapCenter para que, durante el proceso de restauración, SnapCenter pueda leer todos los archivos de copia de seguridad y restaurar automáticamente en secuencia.
 * Si se utilizan productos de terceros para el backup, seleccione Copy backup en SnapCenter para evitar problemas con la secuencia de registros y pruebe la funcionalidad de restauración antes de pasar a la producción.
 
 
-|===
 ====
 .Restaurar base de datos con SnapCenter
 [%collapsible]
@@ -523,25 +495,19 @@ Ejecutar las tres tareas de backup en paralelo realiza backups de 1,200 bases de
 
 Además del backup completo, NetApp recomienda configurar un backup de registros de transacciones para las bases de datos más importantes. Asegúrese de que la propiedad de base de datos está establecida en el modelo de recuperación completa.
 
-|===
+*Mejores prácticas*
+
+. No incluya la base de datos tempdb en una copia de seguridad porque los datos que contiene son temporales. Coloque tempdb en un LUN o un recurso compartido de SMB que se encuentra en un volumen del sistema de almacenamiento en el que no se crearán copias de Snapshot.
+. Una instancia de Microsoft SQL Server con una aplicación con una alta tasa de I/o debe aislarse en una tarea de backup diferente para reducir el tiempo general de respaldo de otros recursos.
+. Limite el conjunto de bases de datos que se incluirán en un backup simultáneo a 100 y configure el conjunto restante de backups de bases de datos para evitar un proceso simultáneo.
+. Utilice el nombre de la instancia de Microsoft SQL Server en el grupo de recursos en lugar de varias bases de datos porque cada vez que se crean bases de datos nuevas en la instancia de Microsoft SQL Server, SnapCenter considera automáticamente una nueva base de datos para el backup.
+. Si se modifica la configuración de la base de datos, como cambiar el modelo de recuperación de base de datos al modelo de recuperación completa, se debe ejecutar un backup de inmediato para permitir las operaciones de restauración de último minuto.
+. SnapCenter no puede restaurar los backups de registros de transacciones creados fuera de SnapCenter.
+. Al clonar volúmenes de FlexVol, asegúrese de tener suficiente espacio para los metadatos del clon.
+. Cuando se restaura una base de datos, se debe asegurarse de que haya espacio suficiente en el volumen.
+. Cree una política aparte para gestionar y realizar backup de bases de datos del sistema al menos una vez a la semana.
 
 
-| Mejores prácticas 
-
-
- a| 
-* No incluya la base de datos tempdb en una copia de seguridad porque los datos que contiene son temporales. Coloque tempdb en un LUN o un recurso compartido de SMB que se encuentra en un volumen del sistema de almacenamiento en el que no se crearán copias de Snapshot.
-* Una instancia de Microsoft SQL Server con una aplicación con una alta tasa de I/o debe aislarse en una tarea de backup diferente para reducir el tiempo general de respaldo de otros recursos.
-* Limite el conjunto de bases de datos que se incluirán en un backup simultáneo a 100 y configure el conjunto restante de backups de bases de datos para evitar un proceso simultáneo.
-* Utilice el nombre de la instancia de Microsoft SQL Server en el grupo de recursos en lugar de varias bases de datos porque cada vez que se crean bases de datos nuevas en la instancia de Microsoft SQL Server, SnapCenter considera automáticamente una nueva base de datos para el backup.
-* Si se modifica la configuración de la base de datos, como cambiar el modelo de recuperación de base de datos al modelo de recuperación completa, se debe ejecutar un backup de inmediato para permitir las operaciones de restauración de último minuto.
-* SnapCenter no puede restaurar los backups de registros de transacciones creados fuera de SnapCenter.
-* Al clonar volúmenes de FlexVol, asegúrese de tener suficiente espacio para los metadatos del clon.
-* Cuando se restaura una base de datos, se debe asegurarse de que haya espacio suficiente en el volumen.
-* Cree una política aparte para gestionar y realizar backup de bases de datos del sistema al menos una vez a la semana.
-
-
-|===
 ====
 .Clonado de bases de datos con SnapCenter
 [%collapsible]

@@ -24,12 +24,11 @@ Una sola máquina virtual no puede poseer datos, Virtual Machine Disk (VMDK) o R
 * Una SVM puede controlar los LUN y los volúmenes que abarcan varios nodos en un clúster.
 
 
-|===
-| Mejor práctica 
+* La mejor práctica*
+
+. Para determinar la compatibilidad, tenga presente esta regla: Para proteger una máquina virtual con el SRM y el SRA de NetApp, todas las partes de la máquina virtual deben existir en un solo SVM. Esta regla se aplica tanto al sitio protegido como al sitio de recuperación.
 
 
-| Para determinar la compatibilidad, tenga presente esta regla: Para proteger una máquina virtual con el SRM y el SRA de NetApp, todas las partes de la máquina virtual deben existir en un solo SVM. Esta regla se aplica tanto al sitio protegido como al sitio de recuperación. 
-|===
 
 
 == Distribuciones de SnapMirror compatibles
@@ -93,12 +92,11 @@ Un volumen de origen se puede crear en una configuración en cascada en la que s
 
 Para obtener la información más reciente sobre SnapMirror y SnapVault para ONTAP 9, consulte https://www.netapp.com/media/17229-tr4015.pdf?v=127202175503P["TR-4015 Guía de mejores prácticas para la configuración de SnapMirror para ONTAP 9."^]
 
-|===
-| Mejor práctica 
+* La mejor práctica*
+
+. Si se emplean SnapVault y SRM en el mismo entorno, NetApp recomienda utilizar una configuración en cascada de SnapMirror a SnapVault en la que los backups de SnapVault se realizan normalmente desde el destino de SnapMirror en el centro de recuperación ante desastres. En caso de desastre, esta configuración hace que el sitio primario sea inaccesible. Si se mantiene el destino de SnapVault en el centro de recuperación, los backups de SnapVault se pueden volver a configurar tras la conmutación por error para que los backups de SnapVault puedan continuar mientras estén en el centro de recuperación.
 
 
-| Si se emplean SnapVault y SRM en el mismo entorno, NetApp recomienda utilizar una configuración en cascada de SnapMirror a SnapVault en la que los backups de SnapVault se realizan normalmente desde el destino de SnapMirror en el centro de recuperación ante desastres. En caso de desastre, esta configuración hace que el sitio primario sea inaccesible. Si se mantiene el destino de SnapVault en el centro de recuperación, los backups de SnapVault se pueden volver a configurar tras la conmutación por error para que los backups de SnapVault puedan continuar mientras estén en el centro de recuperación. 
-|===
 En un entorno VMware, cada almacén de datos tiene un identificador único universal (UUID) y cada máquina virtual tiene un ID de objeto gestionado único (MOID). SRM no mantiene estos ID durante la conmutación por error o la conmutación tras recuperación. Dado que los UUID de almacenes de datos y los MOIDs de máquinas virtuales no se mantienen durante la conmutación por error por parte de SRM, cualquier aplicación que dependa de estos identificadores se debe volver a configurar tras la conmutación por error de SRM. Una aplicación de ejemplo es Active IQ Unified Manager de NetApp, que coordina la replicación de SnapVault con el entorno vSphere.
 
 La siguiente figura muestra la configuración en cascada de SnapMirror a SnapVault. Si el destino de SnapVault se encuentra en el centro de recuperación ante desastres o en un sitio terciario que no se ve afectado por una interrupción en el centro principal, es posible volver a configurar el entorno para que los backups continúen tras la conmutación por error.
@@ -125,9 +123,7 @@ Con los protocolos SAN compatibles (Fibre Channel, FCoE e iSCI), ONTAP 9 ofrece 
 
 El SRM de VMware y el SRA de NetApp admiten el uso del protocolo FC en un sitio y el protocolo iSCSI en el otro sitio. Sin embargo, no admite el hecho de haber una combinación de almacenes de datos conectados a FC y almacenes de datos conectados a iSCSI en el mismo host ESXi o en hosts diferentes en el mismo clúster. Esta configuración no es compatible con SRM porque, durante la conmutación por error de SRM o la conmutación por error de prueba, SRM incluye todos los iniciadores de FC e iSCSI de los hosts ESXi que están en la solicitud.
 
-|===
-| Mejor práctica 
+* La mejor práctica*
 
+. El SRM y el SRA admiten protocolos mixtos de FC e iSCSI entre los sitios protegidos y de recuperación. Sin embargo, cada sitio debe configurarse con un solo protocolo, ya sea FC o iSCSI, y no con ambos protocolos en el mismo sitio. Si existe un requisito de tener configurados tanto los protocolos FC como iSCSI en el mismo sitio, NetApp recomienda que algunos hosts utilicen iSCSI y otros hosts utilicen FC. En este caso, NetApp también recomienda configurar las asignaciones de recursos de SRM para que las máquinas virtuales se configuren para conmutar al nodo de respaldo en un grupo de hosts u otro.
 
-| El SRM y el SRA admiten protocolos mixtos de FC e iSCSI entre los sitios protegidos y de recuperación. Sin embargo, cada sitio debe configurarse con un solo protocolo, ya sea FC o iSCSI, y no con ambos protocolos en el mismo sitio. Si existe un requisito de tener configurados tanto los protocolos FC como iSCSI en el mismo sitio, NetApp recomienda que algunos hosts utilicen iSCSI y otros hosts utilicen FC. En este caso, NetApp también recomienda configurar las asignaciones de recursos de SRM para que las máquinas virtuales se configuren para conmutar al nodo de respaldo en un grupo de hosts u otro. 
-|===
