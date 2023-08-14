@@ -22,10 +22,10 @@ OpenShift on Bare Metal es similar a las implementaciones virtuales de OpenShift
 
 == OpenShift on Bare Metal ofrece las siguientes características:
 
-* *IPI o implementación asistida del instalador.* con un clúster OpenShift implementado por Installer provisioned Infrastructure (IPI) en servidores bare metal, los clientes pueden implementar un entorno OpenShift altamente versátil y fácilmente escalable directamente en servidores genéricos, sin necesidad de gestionar una capa de hipervisor.
-* *Diseño de clúster compacto.* para minimizar los requisitos de hardware, OpenShift con configuración básica permite a los usuarios implementar clústeres de sólo 3 nodos, al permitir que los nodos de plano de control de OpenShift actúen también como nodos de trabajo y contenedores de host.
-* *OpenShift Virtualization.* OpenShift puede ejecutar máquinas virtuales dentro de contenedores mediante OpenShift Virtualization. Esta virtualización nativa de contenedor ejecuta el hipervisor KVM dentro de un contenedor y conecta volúmenes persistentes para el almacenamiento de máquinas virtuales.
-* *Infraestructura optimizada para IA/ML.* implemente aplicaciones como Kubeflow para aplicaciones de aprendizaje automático incorporando nodos de trabajo basados en GPU en su entorno OpenShift y aprovechando OpenShift Advanced Scheduling.
+* *IPI o instalación asistida* Con un clúster OpenShift implementado por Installer Provisioned Infrastructure (IPI) en servidores bare metal, los clientes pueden implementar un entorno OpenShift altamente versátil y fácilmente escalable directamente en servidores de productos básicos, sin necesidad de administrar una capa de hipervisor.
+* *Diseño de clúster compacto* Para minimizar los requisitos de hardware, OpenShift en bare metal permite a los usuarios implementar clústeres de solo 3 nodos, al permitir que los nodos del plano de control de OpenShift también actúen como nodos de trabajo y contenedores host.
+* *OPENSHIFT VIRTUALIZATION* OPENSHIFT puede ejecutar máquinas virtuales dentro de contenedores mediante OpenShift Virtualization. Esta virtualización nativa de contenedor ejecuta el hipervisor KVM dentro de un contenedor y conecta volúmenes persistentes para el almacenamiento de máquinas virtuales.
+* *Infraestructura optimizada para IA/ML* Implementar aplicaciones como Kubeflow para aplicaciones de aprendizaje automático incorporando nodos de trabajo basados en GPU a su entorno OpenShift y aprovechando OpenShift Advanced Scheduling.
 
 
 
@@ -36,8 +36,8 @@ La solución Red Hat OpenShift en NetApp utiliza dos switches de datos para prop
 
 Para la implementación de IPI nativo de OpenShift, debe crear un nodo de aprovisionador, una máquina Red Hat Enterprise Linux 8 que debe tener interfaces de red conectadas a redes independientes.
 
-* *Red de aprovisionamiento.* esta red se utiliza para arrancar los nodos de configuración básica e instalar las imágenes y paquetes necesarios para implementar el clúster OpenShift.
-* *Red Bare-metal.* esta red se utiliza para la comunicación pública del clúster después de su implementación.
+* *Provisioning network* Esta red se utiliza para iniciar los nodos bare-metal e instalar las imágenes y paquetes necesarios para implementar el cluster OpenShift.
+* *Red bare-metal* Esta red se utiliza para la comunicación pública del clúster después de su implementación.
 
 
 Para la configuración del nodo de aprovisionamiento, el cliente crea interfaces de puente que permiten que el tráfico se dirija correctamente al nodo mismo y a la máquina virtual de inicio que se aprovisiona con fines de implementación. Una vez que se ha implementado el clúster, las direcciones API y VIP de entrada se migran del nodo bootstrap al clúster recién implementado.
@@ -54,9 +54,8 @@ image:redhat_openshift_image37.png["Error: Falta la imagen gráfica"]
 
 La solución Red Hat OpenShift con NetApp se ha diseñado para separar de forma lógica el tráfico de red para distintos fines mediante redes de área local virtual (VLAN).
 
+[cols="40%, 40%, 20%"]
 |===
-
-
 | VLAN | Específico | ID DE VLAN 
 
 

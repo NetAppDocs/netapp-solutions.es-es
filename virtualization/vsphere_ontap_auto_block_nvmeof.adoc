@@ -5,7 +5,21 @@ keywords: vSphere, datastore, VMFS, NVMeoF, ONTAP tools, zone, network interface
 summary: Esta página proporciona los pasos para implementar un almacenamiento ONTAP NVMe/FC de NetApp para un almacén de datos VMFS en un entorno de VMware vSphere. 
 ---
 = Almacén de datos VMFS de vSphere: NVMe/FC con ONTAP
+:hardbreaks:
 :allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+:scriptsdir: ./../scripts/
+:author: Suresh Thoppay, TME - Hybrid Cloud Solutions
+:ontap_version: ONTAP 9.8 or later
+:vsphere_version: vSphere 7.0 or later
+:firstname: Suresh
+:authorinitials: STT
+:middlename: Thoppay,
+:lastname: TME - Hybrid Cloud Solutions
+:authors: Suresh Thoppay, TME - Hybrid Cloud Solutions
 
 
 
@@ -22,12 +36,12 @@ Para el aprovisionamiento automatizado, utilice uno de los siguientes scripts: <
 
 * Se necesitan habilidades básicas para gestionar un entorno de vSphere y ONTAP.
 * link:++https://docs.vmware.com/en/VMware-vSphere/7.0/com.vmware.vsphere.storage.doc/GUID-059DDF49-2A0C-49F5-BB3B-907A21EC94D6.html++["Comprensión básica de NVMe/FC"].
-* Un sistema de almacenamiento ONTAP (FAS/AFF/CVO/ONTAP Select/ASA) que ejecuta {ontap_version}
+* Un sistema de almacenamiento de ONTAP (FAS/AFF/CVO/ONTAP Select/ASA) que ejecute ONTAP 9,8 o versiones posteriores
 * Credenciales de ONTAP (nombre de SVM, ID de usuario y contraseña)
 * WWPN de ONTAP para información sobre el host, el destino y las SVM y la LUN
 * link:++https://docs.netapp.com/ontap-9/topic/com.netapp.doc.exp-fc-esx-cpg/GUID-429C4DDD-5EC0-4DBD-8EA8-76082AB7ADEC.html++["Una hoja de datos de configuración de FC completada"]
 * VCenter Server
-* Información de hosts de vSphere ({vsphere_version})
+* Información de hosts de vSphere (vSphere 7,0 o posterior)
 * Switch(es) de estructura
 +
 ** Con los puertos de datos FC de ONTAP y los hosts de vSphere conectados.

@@ -5,20 +5,25 @@ keywords: OpenShift, VMware vSphere, ESXi
 summary: VMware vSphere es una plataforma de virtualización para gestionar de forma centralizada un gran número de servidores y redes virtualizados que se ejecutan en el hipervisor ESXi. 
 ---
 = OpenShift en VMware vSphere
+:hardbreaks:
 :allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
 
 
 [role="lead"]
 VMware vSphere es una plataforma de virtualización para gestionar de forma centralizada un gran número de servidores y redes virtualizados que se ejecutan en el hipervisor ESXi.
 
-Para obtener más información sobre VMware vSphere, consulte https://www.vmware.com/products/vsphere.html["Sitio web de VMware vSphere"^].
+Para obtener más información sobre VMware vSphere, consulte link:https://www.vmware.com/products/vsphere.html["Sitio web de VMware vSphere"^].
 
 VMware vSphere ofrece las siguientes funciones:
 
-* *VMware vCenter Server.* VMware vCenter Server proporciona una administración unificada de todos los hosts y equipos virtuales desde una única consola y agrega la supervisión del rendimiento de clústeres, hosts y equipos virtuales.
-* *VMware vSphere vMotion.* VMware vCenter le permite migrar en caliente equipos virtuales entre nodos del clúster a petición de forma no disruptiva.
-* *Alta disponibilidad de vSphere.* para evitar interrupciones en caso de fallos de host, VMware vSphere permite agrupar y configurar los hosts para alta disponibilidad. Las máquinas virtuales que son interrumpidas por un error de host se reinician en breve en otros hosts del clúster, restaurando los servicios.
-* *Distributed Resource Scheduler (DRS).* se puede configurar un clúster de VMware vSphere para equilibrar la carga de las necesidades de recursos de los equipos virtuales que aloja. Las máquinas virtuales con referencias de recursos pueden migrarse en caliente a otros nodos del clúster para garantizar que haya suficientes recursos disponibles.
+* *VMware vCenter Server* VMware vCenter Server proporciona una gestión unificada de todos los hosts y máquinas virtuales desde una única consola y agrega supervisión del rendimiento de clústeres, hosts y máquinas virtuales.
+* *VMware vSphere vMotion* VMware vCenter le permite migrar equipos virtuales entre nodos del clúster bajo solicitud de forma no disruptiva.
+* *VSphere High Availability* Para evitar interrupciones en caso de fallos del host, VMware vSphere permite que los hosts se agrupen en clústeres y se configuren para alta disponibilidad. Las máquinas virtuales que son interrumpidas por un error de host se reinician en breve en otros hosts del clúster, restaurando los servicios.
+* *Distributed Resource Scheduler (DRS)* Se puede configurar un clúster de VMware vSphere para equilibrar la carga de las necesidades de recursos de las VM que aloja. Las máquinas virtuales con referencias de recursos pueden migrarse en caliente a otros nodos del clúster para garantizar que haya suficientes recursos disponibles.
 
 
 image:redhat_openshift_image33.png["Error: Falta la imagen gráfica"]
@@ -35,6 +40,7 @@ La solución Red Hat OpenShift en NetApp utiliza dos switches de datos para prop
 
 Red Hat OpenShift en VMware vSphere se ha diseñado para separar de forma lógica el tráfico de red para distintos fines mediante redes de área local virtual (VLAN). Esta configuración se puede ampliar para satisfacer las demandas del cliente o para proporcionar un aislamiento adicional para servicios de red específicos. La siguiente tabla enumera las VLAN necesarias para implementar la solución mientras valida la solución en NetApp.
 
+[cols="40%, 40%, 20%"]
 |===
 | VLAN | Específico | ID DE VLAN 
 
@@ -92,7 +98,7 @@ Para garantizar la distribución de los maestros de OpenShift en varios nodos de
 
 La afinidad o anti-afinidad es una forma de definir reglas para un conjunto de máquinas virtuales y/o hosts que determinan si las VM se ejecutan en el mismo host o en el grupo o en hosts diferentes. Se aplica a los equipos virtuales mediante la creación de grupos de afinidad que constan de equipos virtuales y/o hosts con un conjunto de parámetros y condiciones idénticos. En función de si los equipos virtuales de un grupo de afinidad se ejecutan en el mismo host o hosts del grupo o por separado en hosts diferentes, los parámetros del grupo de afinidad pueden definir afinidad positiva o afinidad negativa.
 
-Para configurar grupos de afinidad, consulte https://docs.vmware.com/en/VMware-vSphere/6.7/com.vmware.vsphere.resmgmt.doc/GUID-FF28F29C-8B67-4EFF-A2EF-63B3537E6934.html["Documentación de vSphere 6.7: Uso de las reglas de afinidad de DRS"^].
+Para configurar grupos de afinidad, consulte link:https://docs.vmware.com/en/VMware-vSphere/6.7/com.vmware.vsphere.resmgmt.doc/GUID-FF28F29C-8B67-4EFF-A2EF-63B3537E6934.html["Documentación de vSphere 6.7: Uso de las reglas de afinidad de DRS"^].
 
 
 
@@ -100,6 +106,6 @@ Para configurar grupos de afinidad, consulte https://docs.vmware.com/en/VMware-v
 
 IPI facilita la implementación de los clústeres de OpenShift a través del asistente interactivo que se ha tratado anteriormente en este documento. Sin embargo, es posible que deba cambiar algunos valores predeterminados como parte de una implementación de clúster.
 
-En estas instancias, puede ejecutar y efectuar las tareas del asistente sin implementar inmediatamente un clúster, pero en su lugar, el asistente crea un archivo de configuración a partir del cual se puede implementar el clúster más adelante. Esto es muy útil si necesita cambiar cualquier valor predeterminado de IPI o si desea implementar varios clústeres idénticos en su entorno para otros usos como multi-tenancy. Para obtener más información acerca de cómo crear una configuración de instalación personalizada para OpenShift, consulte https://docs.openshift.com/container-platform/4.7/installing/installing_vsphere/installing-vsphere-installer-provisioned-customizations.html["Red Hat OpenShift instalación de un clúster en vSphere con personalizaciones"^].
+En estas instancias, puede ejecutar y efectuar las tareas del asistente sin implementar inmediatamente un clúster, pero en su lugar, el asistente crea un archivo de configuración a partir del cual se puede implementar el clúster más adelante. Esto es muy útil si necesita cambiar cualquier valor predeterminado de IPI o si desea implementar varios clústeres idénticos en su entorno para otros usos como multi-tenancy. Para obtener más información acerca de cómo crear una configuración de instalación personalizada para OpenShift, consulte link:https://docs.openshift.com/container-platform/4.7/installing/installing_vsphere/installing-vsphere-installer-provisioned-customizations.html["Red Hat OpenShift instalación de un clúster en vSphere con personalizaciones"^].
 
 link:rh-os-n_overview_netapp.html["Siguiente: Información general sobre el almacenamiento de NetApp."]

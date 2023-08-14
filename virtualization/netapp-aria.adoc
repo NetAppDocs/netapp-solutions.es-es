@@ -1,0 +1,51 @@
+---
+sidebar: sidebar 
+permalink: virtualization/netapp-aria.html 
+keywords: netapp, vmware, aria, getting, started 
+summary:  
+---
+= NetApp y VMware Aria
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+VMware Aria es una solución inteligente de gestión multi-nube, que consta de un conjunto de productos que le permiten implementar y operar constantemente sus aplicaciones, infraestructura y servicios de plataforma.
+
+VMware Aria permite a los administradores controlar su entorno en clouds privados, híbridos y varios desde una única plataforma y con un modelo de datos común. VMware Aria Automation permite realizar la automatización no solo durante el aprovisionamiento, sino también administrar el ciclo de vida completo de las aplicaciones de máquinas virtuales o las aplicaciones basadas en Kubernetes.
+
+image:netapp-aria-image01.png["Opción de integración VMware Aria con NetApp ONTAP"]
+
+VMware Aria proporciona varias opciones de integración que incluye el consumo con las API RESTful, Python, PowerShell, Node.js, Ansible, marioneta, Chef, Sal, Terraform, etc. En los flujos de trabajo de aprovisionamiento de almacenes de datos de vSphere, considere la posibilidad de usar la API RESTful de ONTAP Tools a medida que reduzca el número de tareas que deben ejecutarse.
+
+La mayoría de nuestros productos, como ONTAP, herramientas de ONTAP, complemento de SnapCenter para VMware vSphere, Astra control, etc., proporciona una API RESTful que se puede explorar mediante la interfaz de usuario de Swagger.
+Para usar la interfaz de usuario de Swagger, consulte las siguientes URL.
+link:https://docs.netapp.com/us-en/ontap-automation/reference/api_reference.html#access-the-ontap-api-documentation-page["ONTAP - ++https://<management ip>/docs/api/++"]
+link:https://docs.netapp.com/us-en/active-iq-unified-manager/api-automation/concept_api_url_and_categories.html#accessing-the-online-api-documentation-page["Active IQ Unified Manager - ++https://<management ip>/docs/api/++"]
+Herramientas de ONTAP: Siga el enlace en la sección Recursos en la página Descripción general del complemento de vCenter para herramientas de ONTAP. Con la versión de 9,12, tiene el formato ++https://<ONTAP Tools IP>:8143/api/rest/swagger-ui.html++
+link:https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/scpivs44_access_rest_apis_using_the_swagger_api_web_page.html["SnapCenter Plug-in for VMware vSphere - ++https://<SCV_IP>:8144/api/swagger-ui/index.html++"]
+Astra Control - Siga el enlace en la documentación de la API cuando se hace clic en el icono de usuario y se hace clic en API Access. Tiene el formato ++IP de control https://<Astra>/openapi/<accountID>/++
+
+A continuación se muestran algunos recursos adicionales disponibles para integrarse con VMware Aria.
+link:https://github.com/NetApp-Automation/ONTAP_Tools_Datastore_Management["Libro de estrategia de Ansible de muestra para gestionar el almacén de datos de vSphere con la API de herramientas de ONTAP"]
+link:https://galaxy.ansible.com/netapp["Módulos de NetApp para Ansible"]
+link:https://pypi.org/project/netapp-ontap/["Biblioteca cliente Python de ONTAP"]
+link:https://www.powershellgallery.com/packages/NetApp.ONTAP["Kit de herramientas de PowerShell para ONTAP"]
+link:https://services.cloud.netapp.com/developer-hub["Documentación de la API de BlueXP"]
+link:https://github.com/NetApp/netapp-astra-toolkits["SDK de Astra Control Python"]
+link:https://github.com/NetApp/terraform-provider-netapp-cloudmanager["Proveedor de Terraform para BlueXP"]
+link:https://github.com/NetApp/Verda["Scripts para llevar a cabo una protección de datos coherente con la aplicación con Astra Control"]
+link:https://github.com/NetApp/netapp-dataops-toolkit["Kit de herramientas de DataOps"]
+link:https://github.com/NetApp-Automation/DRO-AWS["Orquestador de recuperación ante desastres: AWS"]
+link:https://github.com/NetApp-Automation/DRO-Azure["Disaster Recovery Orchestrator: Azure"]
+link:https://github.com/NetApp-Automation/SnapCenter-Plug-in-for-VMware-vSphere["Puesta en marcha del complemento de SnapCenter para VMware vSphere con Ansible"]
+
+VMware Aria ayuda a los administradores con tareas relacionadas con las operaciones al proporcionar visibilidad en tiempo real de su infraestructura. El paquete de gestión de VMware Aria para FAS/AFF de NetApp es un adaptador integrado para operaciones de VMware Aria. Esta integración proporciona análisis e información actualizada sobre la infraestructura para que puedas identificar los problemas cuando surgen o potencialmente antes.
+
+* link:https://www.vmware.com/products/aria.html["Página de producto VMware Aria"]
+* link:https://docs.vmware.com/en/VMware-Aria-Operations-for-Integrations/4.2/Management-Pack-for-NetApp-FAS-AFF/GUID-9B9C2353-3975-403A-8803-EBF6CDB62D2C.html["Paquete de gestión de operaciones Aria de VMware para FAS/AFF de NetApp"]
+
