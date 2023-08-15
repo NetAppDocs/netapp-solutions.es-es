@@ -34,7 +34,7 @@ image:vvols-image5.png["Arquitectura del proveedor VASA de herramientas de ONTAP
 
 === Instalación del producto
 
-En el caso de nuevas instalaciones, implemente el dispositivo virtual en el entorno de vSphere. Las versiones actuales de las herramientas de ONTAP se registrarán automáticamente en el vCenter y se habilitarán el proveedor VASA de forma predeterminada. Además de la información del host ESXi y de vCenter Server, también necesitará los detalles de configuración de la dirección IP del dispositivo. Como se ha indicado anteriormente, el proveedor VASA requiere que la licencia de FlexClone de ONTAP ya esté instalada en todos los clústeres de ONTAP que se vayan a utilizar para vVols. El dispositivo cuenta con una vigilancia integrada para garantizar la disponibilidad y, como práctica recomendada, se debe configurar con las funciones de alta disponibilidad de VMware y, opcionalmente, tolerancia a fallos. Consulte la sección 4,1 para obtener más información. No instale ni mueva el dispositivo de herramientas ONTAP ni el dispositivo vCenter Server (VCSA) al almacenamiento vVols, ya que esto podría impedir que los dispositivos se reinicien.
+En el caso de nuevas instalaciones, implemente el dispositivo virtual en el entorno de vSphere. Las versiones actuales de las herramientas de ONTAP se registrarán automáticamente en el vCenter y se habilitarán el proveedor VASA de forma predeterminada. Además de la información del host ESXi y de vCenter Server, también necesitará los detalles de configuración de la dirección IP del dispositivo. Como se ha indicado anteriormente, el proveedor VASA requiere que la licencia de FlexClone de ONTAP ya esté instalada en todos los clústeres de ONTAP que se vayan a utilizar para vVols. El dispositivo cuenta con una vigilancia integrada para garantizar la disponibilidad y, como práctica recomendada, se debe configurar con las funciones de alta disponibilidad de VMware y, opcionalmente, tolerancia a fallos. No instale ni mueva el dispositivo de herramientas ONTAP ni el dispositivo vCenter Server (VCSA) al almacenamiento vVols, ya que esto podría impedir que los dispositivos se reinicien.
 
 Las actualizaciones in situ de las herramientas de ONTAP son compatibles con el archivo ISO de actualización que se puede descargar en el sitio de soporte de NetApp (NSS). Siga las instrucciones de la guía de puesta en marcha y configuración para actualizar el dispositivo.
 
@@ -170,7 +170,7 @@ Evite especificar capacidades que no sean necesarias al establecerlas en ninguna
 . *Utilice los SCPs predeterminados como plantillas de ejemplo para crear su propio.*
 Los SCPs incluidos son adecuados para la mayoría de usos generales, pero sus requisitos pueden ser diferentes.
 . *Considera usar Max IOPS para controlar VMs desconocidas o de prueba.*
-Por primera vez, disponible en VASA Provider 7,1, Max IOPS puede usarse para limitar las IOPS a un VVol específico para una carga de trabajo desconocida y así evitar el impacto en otras cargas de trabajo más críticas. Consulte la Tabla 4 para obtener más información sobre gestión del rendimiento.
+Por primera vez, disponible en VASA Provider 7,1, Max IOPS puede usarse para limitar las IOPS a un VVol específico para una carga de trabajo desconocida y así evitar el impacto en otras cargas de trabajo más críticas.
 . *Asegúrese de tener suficientes LIF de datos.*
 Cree al menos dos LIF por nodo por par de alta disponibilidad. Se puede requerir más en función de su carga de trabajo.
 . *Siga todas las mejores prácticas del protocolo.*
