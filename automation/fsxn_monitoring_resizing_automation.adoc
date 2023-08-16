@@ -13,9 +13,6 @@ summary: Esta página describe la automatización de la supervisión de FSxN de 
 :imagesdir: ./../media/
 
 
-[role="lead"]
-Author(s): Dhruv Tyagi, Niyaz Mohamed
-
 
 
 == Descripción general: Supervisión y cambio automático de tamaño de FSX para ONTAP mediante la función AWS Lambda
@@ -43,6 +40,7 @@ La solución ofrece las siguientes funciones:
 * Capacidad para supervisar las comprobaciones a intervalos regulares
 * Posibilidad de utilizar la solución con o sin acceso a Internet
 * Capacidad para implementar manualmente o usar la plantilla de AWS CloudFormation
+* Capacidad de supervisar varios sistemas de archivos FSx para ONTAP en un único VPC
 
 
 ====
@@ -77,6 +75,9 @@ image:fsxn-monitoring-resizing-architecture.png["Esta imagen muestra la arquitec
 
 === Puesta en marcha automatizada
 
+
+NOTE: Cubre un solo FSX para el sistema de archivos ONTAP.
+
 [%collapsible]
 ====
 Siga la serie de pasos para completar la implementación automatizada de esta solución:
@@ -95,7 +96,7 @@ git clone https://github.com/NetApp-Automation/fsxn-monitoring-auto-resizing.git
 [%collapsible]
 =====
 . Vaya a AWS Console > *S3* y haga clic en *Crear bucket*. Cree el bloque con la configuración predeterminada.
-. Una vez dentro del depósito, haz clic en *Upload* > *Add files* y selecciona *Paramiko.zip* y *requests.zip* del repositorio clonado de GitHub en tu sistema.
+. Una vez dentro del depósito, haz clic en *Upload* > *Add files* y selecciona *Utilities.zip* en el repositorio clonado de GitHub en tu sistema.
 +
 image:fsxn-monitoring-resizing-s3-upload-zip-files.png["Esta imagen muestra la ventana S3 con los archivos zip que se cargan"]
 
@@ -169,6 +170,9 @@ image:fsxn-monitoring-resizing-email-2.png["Esta imagen muestra la notificación
 
 === Puesta en marcha manual
 
+
+NOTE: Admite la supervisión de varios sistemas de archivos FSx para ONTAP en un único VPC.
+
 [%collapsible]
 ====
 Siga la serie de pasos para completar la implementación manual de esta solución:
@@ -211,6 +215,7 @@ KMS key source: My current account
 Value: <Enter the password for "fsxadmin" user configured on FSx for ONTAP>
 ----
 Haga clic en *Crear parámetro*.
+Repita los pasos anteriores para que se supervisen todos los sistemas de archivos FSX for ONTAP.
 
 image:fsxn-monitoring-resizing-ssm-parameter.png["Esta imagen muestra la ventana de creación de parámetros SSM en la consola de AWS."]
 
@@ -297,11 +302,11 @@ image:fsxn-monitoring-resizing-lambda-creation-2.png["Esta imagen muestra la ven
 image:fsxn-monitoring-resizing-add-layer-button.png["Esta imagen muestra el botón Add Layer de la consola de funciones Lambda de AWS."]
 
 . Haga clic en *Crear una nueva capa* bajo *Fuente de capa*
-. Cree 2 capas - 1 para solicitudes y 1 para archivos Paramiko y cargue *Requests.zip* y *Pamiko.zip*. Seleccione *Python 3.9* como el tiempo de ejecución compatible y haga clic en *Crear*.
+. Cree una capa y cargue el archivo *Utilities.zip*. Seleccione *Python 3.9* como el tiempo de ejecución compatible y haga clic en *Crear*.
 +
 image:fsxn-monitoring-resizing-create-layer-paramiko.png["Esta imagen muestra la ventana Crear nueva capa en la consola de AWS."]
 
-. Vuelva a AWS Lambda *Add Layer* > *Custom Layers* y agregue la capa paramiko y Requests una tras otra.
+. Vuelva a AWS Lambda *Add Layer* > *Custom Layers* y agregue la capa de utilidades.
 +
 image:fsxn-monitoring-resizing-add-layer-window.png["Esta imagen muestra la ventana Add Layer de la consola de funciones Lambda de AWS."]
 
@@ -325,6 +330,10 @@ image:fsxn-monitoring-resizing-layers-added.png["Esta imagen muestra las capas a
 | *Nombre* | *Tipo* | *Descripción* 
 
 
+| *FsxList* | Lista | (Obligatorio) Lista de todos los sistemas de archivos FSx para ONTAP que se van a supervisar.
+Incluya todos los sistemas de archivos de la lista para la supervisión y el cambio de tamaño automático. 
+
+
 | *FsxMgmtIp* | Cadena | (Obligatorio) Introduzca "Management Endpoint - IP address" de la consola FSX para ONTAP en AWS. 
 
 
@@ -335,12 +344,6 @@ image:fsxn-monitoring-resizing-layers-added.png["Esta imagen muestra las capas a
 
 
 | *redimensione_threshold* | Entero | (Obligatorio) Introduzca el porcentaje de umbral del 0 al 100. Este umbral se utilizará para medir la capacidad de almacenamiento, el uso del volumen y la LUN, y cuando se utilice el porcentaje de aumento por encima de este umbral, se realizará el cambio de tamaño de la actividad. 
-
-
-| *correo_remitente* | Cadena | (Obligatorio) Introduzca el ID de correo electrónico registrado en SES que utilizará la función lambda para enviar alertas de notificación relacionadas con la supervisión y el cambio de tamaño. 
-
-
-| *correo_destinatario* | Cadena | (Obligatorio) Introduzca el ID de correo electrónico en el que desea recibir las notificaciones de alerta. 
 
 
 | *fsx_password_ssm_parameter* | Cadena | (Obligatorio) Introduzca el nombre de ruta utilizado en el almacén de parámetros de AWS para almacenar la contraseña "fsxadmin". 
@@ -365,6 +368,12 @@ image:fsxn-monitoring-resizing-layers-added.png["Esta imagen muestra las capas a
 
 
 | *smtp_password_ssm_parameter* | Cadena | (Opcional) Si la variable “INTERNET_ACCESS” se establece en False, introduzca el nombre de la ruta de acceso utilizado en AWS Parameter Store para almacenar la contraseña SMTP. 
+
+
+| *correo_remitente* | Cadena | (Obligatorio) Introduzca el ID de correo electrónico registrado en SES que utilizará la función lambda para enviar alertas de notificación relacionadas con la supervisión y el cambio de tamaño. 
+
+
+| *correo_destinatario* | Cadena | (Obligatorio) Introduzca el ID de correo electrónico en el que desea recibir las notificaciones de alerta. 
 |===
 +
 image:fsxn-monitoring-resizing-lambda-code.png["Esta imagen muestra el código lambda en la consola de funciones de AWS Lambda."]
