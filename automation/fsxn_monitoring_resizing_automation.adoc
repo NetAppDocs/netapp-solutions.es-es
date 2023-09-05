@@ -17,9 +17,9 @@ summary: Esta página describe la automatización de la supervisión de FSxN de 
 
 == Descripción general: Supervisión y cambio automático de tamaño de FSX para ONTAP mediante la función AWS Lambda
 
-FSX para ONTAP es un servicio de almacenamiento en cloud empresarial de primera clase disponible en AWS que proporciona un almacenamiento de archivos altamente fiable, escalable, de alto rendimiento y con numerosas funciones, integrado en el popular sistema de archivos ONTAP de NetApp.
+FSX para ONTAP es un servicio de almacenamiento en cloud de clase empresarial de primer orden disponible en AWS que ofrece un almacenamiento de archivos altamente fiable, escalable, de alto rendimiento y con muchas funciones integrado en el popular sistema de archivos NetApp ONTAP.
 
-FSX para ONTAP proporciona una experiencia de puesta en marcha y gestión fluida. No se necesita experiencia en almacenamiento para comenzar. Para simplificar la supervisión, se puede utilizar una función lambda de AWS (para automatizar el redimensionamiento de la capacidad de almacenamiento total, el tamaño de volumen o el tamaño de LUN en función del umbral). Este documento proporciona una guía paso a paso para crear una configuración automatizada que monitoriza el FSX para ONTAP a intervalos regulares, notifica y cambia el tamaño cuando se cruza un umbral especificado por el usuario y notifica al administrador la actividad de cambio de tamaño.
+FSX para ONTAP proporciona una experiencia de puesta en marcha y gestión fluida. No se necesita experiencia en almacenamiento para comenzar. Para simplificar la supervisión, se puede utilizar una función lambda de AWS (para automatizar el redimensionamiento de la capacidad de almacenamiento total, el tamaño de volumen o el tamaño de LUN en función del umbral).  Este documento proporciona una guía paso a paso para crear una configuración automatizada que supervise FSx para ONTAP a intervalos regulares, notifique y cambie el tamaño cuando se cruza un umbral especificado por el usuario y notifique al administrador la actividad de cambio de tamaño.
 
 .Funciones
 [%collapsible]
@@ -34,8 +34,8 @@ La solución ofrece las siguientes funciones:
 
 
 * Capacidad de cambiar el tamaño de cualquiera de los valores anteriores cuando se supera un umbral definido por el usuario
-* Mecanismo de alertas para recibir notificaciones de advertencia de uso y redimensionamiento por correo electrónico
-* Capacidad para eliminar copias Snapshot con más antigüedad que el umbral definido por el usuario
+* Mecanismo de alertas para recibir avisos de uso y notificaciones de cambio de tamaño por correo electrónico
+* Capacidad para eliminar snapshots más antiguas que el umbral definido por el usuario
 * Capacidad de obtener una lista de volúmenes FlexClone y copias Snapshot asociadas
 * Capacidad para supervisar las comprobaciones a intervalos regulares
 * Posibilidad de utilizar la solución con o sin acceso a Internet
@@ -59,7 +59,7 @@ Antes de empezar, compruebe que se cumplan los siguientes requisitos previos:
 [%collapsible]
 ====
 * La función AWS Lambda hace que las llamadas API se realice a FSX para ONTAP a fin de recuperar y actualizar el tamaño de la capacidad de almacenamiento, volúmenes y LUN.
-* Contraseña "fsxadmin" almacenada como cadena segura en el almacén de parámetros SSM de AWS para una mayor capa de seguridad.
+* Contraseña de fsxadmin almacenada como cadena segura en AWS SSM Parameter Store para una capa de seguridad añadida.
 * Se utiliza el servicio de correo electrónico simple (SES) de AWS para notificar a los usuarios finales cuando se produce un evento de cambio de tamaño.
 * Si implementa la solución en una VPC sin acceso a Internet, los extremos de VPC para AWS SSM, FSx y SES están configurados para permitir que Lambda llegue a estos servicios a través de la red interna de AWS.
 
@@ -106,10 +106,10 @@ image:fsxn-monitoring-resizing-s3-upload-zip-files.png["Esta imagen muestra la v
 .Paso 3: Configuración SMTP de AWS SES (necesaria si no hay acceso a Internet disponible)
 [%collapsible]
 =====
-Siga este paso si desea implementar la solución sin acceso a Internet (Nota: Se agregarán costos asociados debido a la configuración de los endpoints de VPC).
+Siga este paso si desea implementar la solución sin acceso a Internet (Nota: Se agregarán costos asociados con los endpoints de VPC que se configuran).
 
-. Vaya a AWS Console > *AWS Simple Email Service (SES)* > Configuración SMTP y haga clic en *Crear credenciales SMTP*
-. Introduzca un nombre de usuario de IAM o déjelo en el valor predeterminado y haga clic en Crear. Guarde el nombre de usuario y la contraseña para seguir utilizándolo.
+. Vaya a AWS Console > *AWS Simple Email Service (SES)* > *Configuración SMTP* y haga clic en *Crear credenciales SMTP*
+. Introduzca un nombre de usuario de IAM o déjelo en el valor predeterminado y haga clic en *Crear usuario*. Guarde el *nombre de usuario SMTP* y la *contraseña SMTP* para su uso posterior.
 +
 
 NOTE: Omita este paso si la configuración SMTP de SES ya está en su lugar.
@@ -190,7 +190,7 @@ git clone https://github.com/NetApp-Automation/fsxn-monitoring-auto-resizing.git
 .Paso 2: Configuración SMTP de AWS SES (necesaria si no hay acceso a Internet disponible)
 [%collapsible]
 =====
-Siga este paso si desea implementar la solución sin acceso a Internet (Nota: Se agregarán costos asociados debido a la configuración de los endpoints de VPC).
+Siga este paso si desea implementar la solución sin acceso a Internet (Nota: Se agregarán costos asociados con los endpoints de VPC que se configuran).
 
 . Vaya a AWS Console > *AWS Simple Email Service (SES)* > Configuración SMTP y haga clic en *Crear credenciales SMTP*
 . Introduzca un nombre de usuario de IAM o déjelo en el valor predeterminado y haga clic en Crear. Guarde el nombre de usuario y la contraseña para seguir utilizándolo.
@@ -239,11 +239,11 @@ El ID de correo electrónico mencionado en el “ID de correo electrónico del r
 image:fsxn-monitoring-resizing-ses.png["Esta imagen muestra la ventana SES Identity Creation de la consola de AWS."]
 
 =====
-.Paso 5: Configurar los extremos de VPC (necesario si no hay acceso a Internet disponible)
+.Paso 5: Configurar puntos finales de VPC (necesario si no hay acceso a Internet disponible)
 [%collapsible]
 =====
 
-NOTE: Solo es necesario si se implementa sin acceso a Internet. Habrá costes adicionales asociados debido a los puntos finales de VPC.
+NOTE: Solo es necesario si se implementa sin acceso a Internet. Habrá costes adicionales asociados a los extremos de VPC.
 
 . Vaya a AWS Console > *VPC* > *Endpoints* y haga clic en *Create Endpoint* e introduzca los siguientes detalles:
 +
@@ -273,7 +273,7 @@ image:fsxn-monitoring-resizing-vpc-endpoint-create-2.png["Esta imagen muestra la
 .Paso 6: Crear y configurar la función AWS Lambda
 [%collapsible]
 =====
-. Navegue hasta la Consola de AWS > *AWS Lambda* y haga clic en *Crear función* en la misma región que FSX para ONTAP
+. Navegue hasta la consola de AWS > *AWS Lambda* > *Functions* y haga clic en *Create Function* en la misma región que FSx for ONTAP
 . Utilice el *Autor predeterminado desde cero* y actualice los siguientes campos:
 +
 [listing]
@@ -285,7 +285,7 @@ Permissions: Select "Create a new role with basic Lambda permissions"
 Advanced Settings:
   Enable VPC: Checked
     VPC: <Choose either the same VPC as FSx for ONTAP or a VPC that can access both FSx for ONTAP and the internet via a private subnet>
-    Subnets: <Choose 2 private subnets which have NAT gateway attached pointing to public subnets with internet gateway and subnets that have internet access>
+    Subnets: <Choose 2 private subnets that have NAT gateway attached pointing to public subnets with internet gateway and subnets that have internet access>
     Security Group: <Choose a Security Group>
 ----
 +
@@ -297,7 +297,7 @@ image:fsxn-monitoring-resizing-lambda-creation-1.png["Esta imagen muestra la ven
 +
 image:fsxn-monitoring-resizing-lambda-creation-2.png["Esta imagen muestra la ventana Lambda Creation en la consola AWS."]
 
-. Desplácese hasta la sección *capas* de la función Lambda recién creada y haga clic en *Agregar una capa*.
+. Navegue hasta la función Lambda recién creada > Desplácese hasta la sección *Capas* y haga clic en *Agregar una capa*.
 +
 image:fsxn-monitoring-resizing-add-layer-button.png["Esta imagen muestra el botón Add Layer de la consola de funciones Lambda de AWS."]
 
@@ -306,14 +306,14 @@ image:fsxn-monitoring-resizing-add-layer-button.png["Esta imagen muestra el bot�
 +
 image:fsxn-monitoring-resizing-create-layer-paramiko.png["Esta imagen muestra la ventana Crear nueva capa en la consola de AWS."]
 
-. Vuelva a AWS Lambda *Add Layer* > *Custom Layers* y agregue la capa de utilidades.
+. Vuelva a la función AWS Lambda > *Add Layer* > *Custom Layers* y agregue la capa utilities.
 +
 image:fsxn-monitoring-resizing-add-layer-window.png["Esta imagen muestra la ventana Add Layer de la consola de funciones Lambda de AWS."]
 
 +
 image:fsxn-monitoring-resizing-layers-added.png["Esta imagen muestra las capas agregadas en la consola de funciones de AWS Lambda."]
 
-. Vaya a la pestaña *Configuración* de la función Lambda y haga clic en *Editar* en *Configuración general*. Cambie el tiempo de espera a *5 min* y haga clic en Guardar.
+. Vaya a la pestaña *Configuración* de la función Lambda y haga clic en *Editar* en *Configuración general*. Cambie el tiempo de espera a *5 mins* y haga clic en *Guardar*.
 . Vaya a la ficha *permisos* de la función Lambda y haga clic en la función asignada. En la ficha permisos de la función, haga clic en *Agregar permisos* > *Crear directiva en línea*.
 +
 .. Haga clic en la pestaña JSON y pegue el contenido del archivo policy.json en GitHub repo.
@@ -349,7 +349,7 @@ Incluya todos los sistemas de archivos de la lista para la supervisión y el cam
 | *fsx_password_ssm_parameter* | Cadena | (Obligatorio) Introduzca el nombre de ruta utilizado en el almacén de parámetros de AWS para almacenar la contraseña "fsxadmin". 
 
 
-| *advertir_notificación* | Bool | (Obligatorio) Establezca esta variable en True para recibir una notificación cuando el uso de capacidad de almacenamiento/volumen/LUN supere el 75%, pero sea menor que el umbral. 
+| *advertir_notificación* | Bool | (Obligatorio) Establezca esta variable en True para recibir una notificación cuando el uso de capacidad de almacenamiento/volumen/LUN supere el 75%, pero sea inferior al umbral. 
 
 
 | *enable_snapshot_deletion* | Bool | (Obligatorio) establezca esta variable en True para habilitar la eliminación de snapshots a nivel de volumen en las snapshots de más antiguo que el valor especificado en "Snapshot_age_threshold_in_Days". 
@@ -378,7 +378,7 @@ Incluya todos los sistemas de archivos de la lista para la supervisión y el cam
 +
 image:fsxn-monitoring-resizing-lambda-code.png["Esta imagen muestra el código lambda en la consola de funciones de AWS Lambda."]
 
-. Haga clic en *Prueba*, cree un evento de prueba vacío y ejecute la prueba y compruebe si la secuencia de comandos se está ejecutando correctamente.
+. Haga clic en *Test*, cree un evento de prueba con un objeto JSON vacío y ejecute la prueba haciendo clic en *Invoke* para comprobar si el script se está ejecutando correctamente.
 . Una vez probado correctamente, navegue a *Configuración* > *Disparadores* > *Agregar desencadenador*.
 +
 [listing]
@@ -403,4 +403,4 @@ image:fsxn-monitoring-resizing-eventbridge.png["Esta imagen muestra la ventana d
 
 == Conclusión
 
-Con la solución proporcionada, es fácil configurar una solución de supervisión que supervisa regularmente FSX para el almacenamiento de ONTAP, cambia el tamaño según el umbral especificado por el usuario y proporciona un mecanismo de alertas. De este modo, el proceso de uso y supervisión de FSX para ONTAP es fluido y libera a los administradores para que se centren en actividades vitales para el negocio, mientras que el almacenamiento crece automáticamente cuando es necesario.
+Con la solución proporcionada, es fácil configurar una solución de supervisión que supervise regularmente FSx para almacenamiento ONTAP, cambie su tamaño en función del umbral especificado por el usuario y ofrezca un mecanismo de alerta. De este modo, el proceso de uso y supervisión de FSX para ONTAP es fluido y libera a los administradores para que se centren en actividades vitales para el negocio, mientras que el almacenamiento crece automáticamente cuando es necesario.
