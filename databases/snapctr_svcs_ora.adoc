@@ -162,15 +162,18 @@ La política debe configurarse con una cadena JSON que esté disponible en la do
 image:snapctr_svcs_connector_02-wspace.png["Captura de pantalla que muestra este paso en la GUI."]
 
 . Haga clic en *Agregar un conector* para iniciar el flujo de trabajo de aprovisionamiento del conector.
-+
+
+
 image:snapctr_svcs_connector_03-add.png["Captura de pantalla que muestra este paso en la GUI."]
 
 . Elija su proveedor de cloud (en este caso, *Amazon Web Services*).
-+
+
+
 image:snapctr_svcs_connector_04-aws.png["Captura de pantalla que muestra este paso en la GUI."]
 
 . Evite los pasos *Permission*, *Authentication* y *Networking* si ya los tiene configurados en su cuenta de AWS. Si no es así, debe configurarlos antes de continuar. Desde aquí también puede recuperar los permisos de la directiva de AWS a los que se hace referencia en la sección anterior "<<Incorporación a la preparación de BlueXP>>."
-+
+
+
 image:snapctr_svcs_connector_05-remind.png["Captura de pantalla que muestra este paso en la GUI."]
 
 . Ingrese la autenticación de su cuenta de AWS con *Clave de acceso* y *Clave secreta*.
@@ -178,7 +181,8 @@ image:snapctr_svcs_connector_05-remind.png["Captura de pantalla que muestra este
 image:snapctr_svcs_connector_06-auth.png["Captura de pantalla que muestra este paso en la GUI."]
 
 . Asigne un nombre a la instancia del conector y seleccione *Crear función* en *Detalles*.
-+
+
+
 image:snapctr_svcs_connector_07-details.png["Captura de pantalla que muestra este paso en la GUI."]
 
 . Configure las redes con el *VPC* adecuado, *Subnet* y SSH *Key Pair* para el acceso al conector.
@@ -190,10 +194,9 @@ image:snapctr_svcs_connector_08-network.png["Captura de pantalla que muestra est
 image:snapctr_svcs_connector_09-security.png["Captura de pantalla que muestra este paso en la GUI."]
 
 . Revise la página de resumen y haga clic en *Agregar* para iniciar la creación del conector. Normalmente la puesta en marcha se lleva aproximadamente 10 minutos. Una vez completada, la instancia del conector aparece en el panel de AWS EC2.
-+
+
+
 image:snapctr_svcs_connector_10-review.png["Captura de pantalla que muestra este paso en la GUI."]
-
-
 
 ====
 
@@ -244,15 +247,18 @@ image:snapctr_svcs_credential_08-aws.png["Captura de pantalla que muestra este p
 Con el conector desplegado y la credencial agregada, los servicios de SnapCenter ahora se pueden configurar con el siguiente procedimiento:
 
 . Desde *Mi entorno de trabajo* haga clic en *Agregar entorno de trabajo* para descubrir FSX implementado en AWS.
-+
+
+
 image:snapctr_svcs_setup_01.png["Captura de pantalla que muestra este paso en la GUI."]
 
 . Elija *Amazon Web Services* como ubicación.
-+
+
+
 image:snapctr_svcs_setup_02.png["Captura de pantalla que muestra este paso en la GUI."]
 
 . Haga clic en *descubrir existente* junto a *Amazon FSX para ONTAP*.
-+
+
+
 image:snapctr_svcs_setup_03.png["Captura de pantalla que muestra este paso en la GUI."]
 
 . Selecciona el *Nombre de Credenciales* que has creado en la sección anterior para otorgar a BlueXP los permisos que necesita para administrar FSx para ONTAP. Si no ha añadido credenciales, puede agregarlo desde el menú *Configuración* situado en la esquina superior derecha de la consola BlueXP.
@@ -260,31 +266,38 @@ image:snapctr_svcs_setup_03.png["Captura de pantalla que muestra este paso en la
 image:snapctr_svcs_setup_04.png["Captura de pantalla que muestra este paso en la GUI."]
 
 . Elija la región de AWS en la que esté implementado Amazon FSX para ONTAP, seleccione el clúster FSX que aloja la base de datos de Oracle y haga clic en Add.
-+
+
+
 image:snapctr_svcs_setup_05.png["Captura de pantalla que muestra este paso en la GUI."]
 
 . La instancia de Amazon FSX para ONTAP detectada ahora aparece en el entorno de trabajo.
-+
+
+
 image:snapctr_svcs_setup_06.png["Captura de pantalla que muestra este paso en la GUI."]
 
 . Puede iniciar sesión en el clúster FSX con sus credenciales de cuenta fsxadmin.
-+
+
+
 image:snapctr_svcs_setup_07.png["Captura de pantalla que muestra este paso en la GUI."]
 
 . Después de iniciar sesión en Amazon FSX para ONTAP, revise la información de almacenamiento de la base de datos (como los volúmenes de la base de datos).
-+
+
+
 image:snapctr_svcs_setup_08.png["Captura de pantalla que muestra este paso en la GUI."]
 
 . En la barra lateral izquierda de la consola, coloque el ratón sobre el icono de protección y, a continuación, haga clic en *Protección* > *aplicaciones* para abrir la página de inicio de aplicaciones. Haga clic en *detectar aplicaciones*.
-+
+
+
 image:snapctr_svcs_setup_09.png["Captura de pantalla que muestra este paso en la GUI."]
 
 . Seleccione *nativo de la nube* como tipo de origen de la aplicación.
-+
+
+
 image:snapctr_svcs_setup_10.png["Captura de pantalla que muestra este paso en la GUI."]
 
 . Elija *Oracle* para el tipo de aplicación.
-+
+
+
 image:snapctr_svcs_setup_13.png["Captura de pantalla que muestra este paso en la GUI."]
 
 . Rellene los detalles del host de la aplicación Oracle de AWS EC2. Elija *Usando SSH* como *Tipo de instalación del host* para la instalación del plugin en un solo paso y el descubrimiento de la base de datos. A continuación, haga clic en *Agregar clave privada SSH*.
@@ -323,26 +336,29 @@ image:snapctr_svcs_bkup_01.png["Captura de pantalla que muestra este paso en la 
  +
 image:snapctr_svcs_bkup_02.png["Captura de pantalla que muestra este paso en la GUI."]
 . Cuando esté satisfecho con la configuración de la directiva, puede asignar su directiva de elección para proteger la base de datos.
-+
+
+
 image:snapctr_svcs_bkup_03.png["Captura de pantalla que muestra este paso en la GUI."]
 
 . Elija la directiva que desea asignar a la base de datos.
-+
+
+
 image:snapctr_svcs_bkup_04.png["Captura de pantalla que muestra este paso en la GUI."]
 
 . Después de aplicar la directiva, el estado de protección de la base de datos cambió a *protegido* con una Marca de verificación verde.
-+
+
+
 image:snapctr_svcs_bkup_05.png["Captura de pantalla que muestra este paso en la GUI."]
 
 . El backup de la base de datos se ejecuta con una programación predefinida. También puede ejecutar un backup bajo demanda único, como se muestra a continuación.
-+
+
+
 image:snapctr_svcs_bkup_06.png["Captura de pantalla que muestra este paso en la GUI."]
 
 . Los detalles de las copias de seguridad de la base de datos se pueden ver haciendo clic en *Ver detalles* en la lista de menús. Esto incluye el nombre del backup, el tipo de backup, SCN y la fecha de la copia de seguridad. Un conjunto de backup cubre una copia de Snapshot tanto para el volumen de datos como para el volumen de registro. Una copia de Snapshot de volumen de registro se realiza justo después de una copia de Snapshot de volumen de base de datos. Puede aplicar un filtro si está buscando una copia de seguridad determinada en una lista larga.
-+
+
+
 image:snapctr_svcs_bkup_07.png["Captura de pantalla que muestra este paso en la GUI."]
-
-
 
 ====
 
@@ -352,25 +368,26 @@ image:snapctr_svcs_bkup_07.png["Captura de pantalla que muestra este paso en la 
 [%collapsible]
 ====
 . Para una restauración de base de datos, elija el backup adecuado, ya sea por el SCN o el tiempo de backup. Haga clic en los tres puntos de la copia de seguridad de datos de la base de datos y, a continuación, haga clic en *Restaurar* para iniciar la restauración y recuperación de la base de datos.
-+
+
+
 image:snapctr_svcs_restore_01.png["Captura de pantalla que muestra este paso en la GUI."]
 
 . Seleccione la configuración de restauración. Si está seguro de que nada ha cambiado en la estructura de la base de datos física después de la copia de seguridad (como la adición de un archivo de datos o un grupo de discos), puede utilizar la opción *Force in situ restore*, que es generalmente más rápida. De lo contrario, no active esta casilla.
-+
+
+
 image:snapctr_svcs_restore_02.png["Captura de pantalla que muestra este paso en la GUI."]
 
 . Revisar e iniciar la restauración y recuperación de la base de datos.
-+
+
+
 image:snapctr_svcs_restore_03.png["Captura de pantalla que muestra este paso en la GUI."]
 
 . En la ficha *Supervisión de trabajos*, puede ver el estado del trabajo de restauración, así como cualquier detalle mientras se está ejecutando.
-+
+
+
 image:snapctr_svcs_restore_05.png["Captura de pantalla que muestra este paso en la GUI."]
 
-+
 image:snapctr_svcs_restore_04.png["Captura de pantalla que muestra este paso en la GUI."]
-
-
 
 ====
 
@@ -382,30 +399,34 @@ image:snapctr_svcs_restore_04.png["Captura de pantalla que muestra este paso en 
 Para clonar una base de datos, inicie el flujo de trabajo de clonado desde la misma página de detalles de backup de base de datos.
 
 . Seleccione la copia de seguridad de la base de datos derecha, haga clic en los tres puntos para ver el menú y elija la opción *Clonar*.
-+
+
+
 image:snapctr_svcs_clone_02.png["Error: Falta la imagen gráfica"]
 
 . Seleccione la opción *básico* si no necesita cambiar ningún parámetro de base de datos clonado.
-+
+
+
 image:snapctr_svcs_clone_03.png["Error: Falta la imagen gráfica"]
 
 . También puede seleccionar *Archivo de especificación*, que le da la opción de descargar el archivo de inicio actual, hacer cambios y luego cargarlo de nuevo en el trabajo.
-+
+
+
 image:snapctr_svcs_clone_03_1.png["Error: Falta la imagen gráfica"]
 
 . Revise e inicie el trabajo.
-+
+
+
 image:snapctr_svcs_clone_04.png["Error: Falta la imagen gráfica"]
 
 . Supervise el estado del trabajo de clonación desde la ficha *Supervisión de trabajos*.
-+
+
+
 image:snapctr_svcs_clone_07-status.png["Error: Falta la imagen gráfica"]
 
 . Validar la base de datos clonada en el host de la instancia de EC2.
-+
+
+
 image:snapctr_svcs_clone_08-crs.png["Error: Falta la imagen gráfica"]
-
-
 
 ====
 
