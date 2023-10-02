@@ -1,0 +1,1006 @@
+---
+sidebar: sidebar 
+permalink: databases/aws_ora_fsx_ec2_data_guard.html 
+keywords: Oracle, AWS, FSx ONTAP, FSx, Database, Oracle 19c, Data Guard 
+summary: La solución ofrece información general y detalles para configurar Oracle Data Guard utilizando AWS FSx ONTAP como sitio de espera Almacenamiento de bases de datos de Oracle para reducir las licencias y el costo operativo de la solución de alta disponibilidad/recuperación ante desastres de Oracle Data Guard en AWS. 
+---
+= TR-4981: Reducción de costes de la protección de datos activa con AWS FSx ONTAP
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+Allen Cao, Niyaz Mohamed, NetApp
+
+
+
+== Específico
+
+Oracle Data Guard garantiza una alta disponibilidad, protección de datos y recuperación de desastres para los datos empresariales en una configuración de replicación de base de datos primaria y base de datos en espera. Oracle Active Data Guard permite a los usuarios acceder a bases de datos en espera mientras la replicación de datos está activa desde la base de datos primaria a bases de datos en espera. Data Guard es una función de Oracle Database Enterprise Edition. No se requiere licencia independiente. Por otro lado, Active Data Guard es una opción de Oracle Database Enterprise Edition, por lo tanto, requiere una licencia independiente. Varias bases de datos en espera pueden recibir la replicación de datos de una base de datos primaria en la configuración de Active Data Guard. Sin embargo, cada base de datos en espera adicional requiere una licencia de Active Data Guard y almacenamiento adicional como tamaño de la base de datos primaria. Los costes operativos se suman rápidamente.
+
+Si está interesado en reducir el coste de la operación de la base de datos Oracle y está planeando configurar un Active Data Guard en AWS, debería considerar una alternativa. En lugar de Active Data Guard, utilice Data Guard para replicar desde la base de datos principal a una única base de datos física en espera en el almacenamiento AWS FSx ONTAP. Posteriormente, se pueden clonar y abrir varias copias de esta base de datos en espera para que el acceso de lectura/escritura sirva para otros casos de uso, como informes, desarrollo, pruebas, etc. Los resultados netos ofrecen de forma efectiva funcionalidades de Active Data Guard al tiempo que eliminan la licencia de Active Data Guard y el coste de almacenamiento adicional para cada base de datos en espera adicional. En esta documentación, mostramos cómo configurar Oracle Data Guard con tu base de datos primaria existente en AWS y colocar la base de datos física en espera en el almacenamiento AWS FSx ONTAP. Se realiza una copia de seguridad de la base de datos en espera mediante instantáneas y se clona para obtener acceso de lectura/escritura para los casos prácticos que se deseen.
+
+Esta solución aborda los siguientes casos prácticos:
+
+* Oracle Data Guard entre una base de datos primaria en cualquier almacenamiento en AWS para una base de datos en espera en el almacenamiento AWS FSx ONTAP.
+* Clone la base de datos en espera mientras está cerrada para la replicación de datos y sirva casos de uso como creación de informes, desarrollo, pruebas, etc.
+
+
+
+
+== Destinatarios
+
+Esta solución está dirigida a las siguientes personas:
+
+* Un administrador de bases de datos que configura Oracle Active Data Guard en AWS para alta disponibilidad, protección de datos y recuperación ante desastres.
+* Un arquitecto de soluciones de bases de datos interesado en la configuración de Oracle Active Data Guard en la nube de AWS.
+* Un administrador de almacenamiento que gestiona el almacenamiento de AWS FSx ONTAP compatible con Oracle Data Guard.
+* Propietario de una aplicación al que le gusta poner en marcha Oracle Data Guard en un entorno AWS FSx/EC2.
+
+
+
+
+== Entorno de prueba y validación de la solución
+
+Las pruebas y la validación de esta solución se llevaron a cabo en un entorno AWS FSx ONTAP y EC2 Lab que podría no coincidir con el entorno de puesta en marcha final. Para obtener más información, consulte la sección <<Key Factors for Deployment Consideration>>.
+
+
+
+=== Arquitectura
+
+image::aws_ora_fsx_data_guard_architecture.png[Esta imagen proporciona una imagen detallada de la implementación de Oracle Data Guard en AWS con FSxN.]
+
+
+
+=== Componentes de hardware y software
+
+[cols="33%, 33%, 33%"]
+|===
+
+
+3+| *Hardware* 
+
+
+| Almacenamiento FSX ONTAP | Versión actual ofrecida por AWS | Un clúster de alta disponibilidad FSX en el mismo VPC y la zona de disponibilidad 
+
+
+| Instancia de EC2 para computación | t2.xlarge/4vCPU/16G | Tres instancias EC2 T2 xlarge EC2, una como servidor de base de datos primaria, una como servidor de base de datos en espera y la tercera como servidor de base de datos clonado 
+
+
+3+| *Software* 
+
+
+| Red Hat Linux | RHEL-8.6.0_HVM-20220503-x86_64-2-Hourly2-GP2 | Suscripción RedHat implementada para pruebas 
+
+
+| Infraestructura de Grid de Oracle | Versión 19.18 | Parche RU aplicado p34762026_190000_Linux-x86-64.zip 
+
+
+| Base de datos Oracle | Versión 19.18 | Parche RU aplicado p34765931_190000_Linux-x86-64.zip 
+
+
+| Oracle OPatch | Versión 12.2.0.1.36 | Último parche p6880880_190000_Linux-x86-64.zip 
+|===
+
+
+=== Configuración de Oracle Data Guard con configuración hipotética de NY a LA DR
+
+[cols="33%, 33%, 33%"]
+|===
+
+
+3+|  
+
+
+| *Base de datos* | *DB_UNIQUE_NAME* | *Nombre de Servicio de Red de Oracle* 
+
+
+| Primario | DB1_NY | db1_NY.demo.netapp.com 
+
+
+| Modo de espera físico | DB1_LA | db1_LA.demo.netapp.com 
+|===
+
+
+=== Factores clave a tener en cuenta la puesta en marcha
+
+* *Cómo funciona la base de datos en espera de Oracle.* AWS FSx ONTAP FlexClone proporciona copias compartidas de los mismos volúmenes de base de datos en espera que se pueden escribir. Las copias de los volúmenes son realmente punteros que enlazan a los bloques de datos originales hasta que se inicia una nueva escritura en el clon. A continuación, ONTAP asigna nuevos bloques de almacenamiento para las nuevas escrituras. Todos los I/O de lectura se suministran mediante bloques de datos originales bajo replicación activa. Así, el clon resulta muy eficiente del almacenamiento que se puede utilizar en muchos otros casos de uso con una asignación de nuevo almacenamiento mínima e incremental para nuevas I/O de escritura. Esto proporciona un enorme ahorro en costes de almacenamiento al reducir de forma considerable el espacio físico de almacenamiento de Active Data Guard. NetApp recomienda minimizar las actividades de FlexClone en caso de cambiar la base de datos del almacenamiento principal al almacenamiento FSx en espera para mantener un rendimiento de Oracle a un nivel alto.
+* *Requisitos de software de Oracle.* En general, una base de datos física en espera debe tener la misma versión del directorio raíz de la base de datos que la base de datos primaria, incluidas las excepciones de juego de parches (PSE), las actualizaciones de parches críticos (CPU), y y Actualizaciones de Juegos de Parches (PSU), a menos que esté en curso un proceso de aplicación de Parches Primero en Espera de Oracle Data Guard (como se describe en la nota 1265700,1 de My Oracle Support en link:http://support.oracle.com.["support.oracle.com"^]
+* *Consideraciones sobre la estructura del directorio de la base de datos en espera.* Si es posible, los archivos de datos, los archivos de registro y los archivos de control en los sistemas primario y en espera deben tener los mismos nombres y nombres de ruta de acceso y usar las convenciones de nomenclatura de Arquitectura Flexible Óptima (OFA). Los directorios de archivado de la base de datos en espera también deben ser idénticos entre las ubicaciones, incluido el tamaño y la estructura. Esta estrategia permite que otras operaciones, como backups, conmutaciones y recuperaciones tras fallos, ejecuten el mismo conjunto de pasos, lo que reduce la complejidad de mantenimiento.
+* *Forzar modo de registro.* Para proteger contra las escrituras directas no registradas en la base de datos primaria que no se pueden propagar a la base de datos en espera, active FORZAR REGISTRO en la base de datos primaria antes de realizar copias de seguridad de archivos de datos para la creación en espera.
+* *Gestión de Almacenamiento de Base de Datos.* Para una mayor simplicidad operativa, Oracle recomienda que al configurar Oracle Automatic Storage Management (Oracle ASM) y Oracle Managed Files (OMF) en una configuración de Oracle Data Guard, se configure de forma simétrica en las bases de datos primaria y en espera.
+* *EC2 instancias de cálculo.* En estas pruebas y validaciones, utilizamos una instancia de AWS EC2 T2.xlarge como instancia de cálculo de la base de datos Oracle. NetApp recomienda usar una instancia de M5 de tipo EC2 como instancia informática para Oracle en la puesta en marcha de producción porque está optimizada para la carga de trabajo de la base de datos. Debe ajustar el tamaño de la instancia de EC2 según el número de vCPU y la cantidad de RAM en función de los requisitos de las cargas de trabajo reales.
+* *Implementación de clústeres de alta disponibilidad de almacenamiento FSX de una o varias zonas.* en estas pruebas y validaciones, implementamos un clúster de alta disponibilidad FSX en una única zona de disponibilidad de AWS. Para la puesta en marcha en producción, NetApp recomienda la puesta en marcha de un par de alta disponibilidad FSX en dos zonas de disponibilidad diferentes. Un clúster de FSx se aprovisiona siempre en un par de alta disponibilidad que se refleja en un par de sistemas de archivos activo-pasivo para ofrecer redundancia a nivel de almacenamiento. La puesta en marcha de varias zonas mejora aún más la alta disponibilidad en caso de fallo en una única zona de AWS.
+* *Ajuste de tamaño del clúster de almacenamiento FSX.* un sistema de archivos de almacenamiento Amazon FSX para ONTAP proporciona hasta 160,000 IOPS SSD sin configurar, un rendimiento de hasta 4 Gbps y una capacidad máxima de 192 TIB. Sin embargo, puede ajustar el tamaño del clúster en términos de IOPS aprovisionadas, rendimiento y el límite de almacenamiento (mínimo de 1,024 GIB) según sus requisitos reales en el momento de la implementación. La capacidad se puede ajustar de forma dinámica y sobre la marcha sin que se vea afectada la disponibilidad de las aplicaciones.
+
+
+
+
+== Puesta en marcha de la solución
+
+Se asume que ya tiene su base de datos Oracle principal implementada en un entorno AWS EC2 dentro de una VPC como punto de partida para configurar Data Guard. La base de datos primaria se despliega mediante Oracle ASM para la gestión del almacenamiento.  Se crean dos grupos de discos ASM: +DATA y +LOGS para archivos de datos de Oracle, archivos log, archivos de control, etc. Para obtener más información sobre el despliegue de Oracle en AWS con ASM, consulte los siguientes informes técnicos para obtener ayuda.
+
+* link:https://docs.netapp.com/us-en/netapp-solutions/databases/aws_ora_fsx_ec2_deploy_intro.html["Puesta en marcha de Oracle Database en las prácticas recomendadas de EC2 y FSx"^]
+* link:https://docs.netapp.com/us-en/netapp-solutions/databases/aws_ora_fsx_ec2_iscsi_asm.html["Implementación y protección de bases de datos de Oracle en AWS FSX/EC2 con iSCSI/ASM"^]
+* link:https://docs.netapp.com/us-en/netapp-solutions/databases/aws_ora_fsx_ec2_nfs_asm.html["oracle 19C en Reinicio independiente en AWS FSx/EC2 con NFS/ASM"^]
+
+
+Tu base de datos de Oracle principal puede ejecutarse en FSx ONTAP o en cualquier otra opción de almacenamiento dentro del ecosistema AWS EC2. En la siguiente sección se proporcionan procedimientos de despliegue paso a paso para configurar Oracle Data Guard entre una instancia de EC2 DB primaria con almacenamiento de ASM en una instancia de EC2 DB en espera con almacenamiento de ASM.
+
+
+
+=== Requisitos previos para la implementación
+
+[%collapsible]
+====
+La implementación requiere los siguientes requisitos previos.
+
+. Se configuró una cuenta de AWS y se crearon el VPC y los segmentos de red necesarios en la cuenta de AWS.
+. Desde la consola AWS EC2, necesita desplegar al menos tres instancias de Linux EC2, una como instancia principal de Oracle DB, una como instancia de Oracle DB en espera y una instancia de base de datos destino de clonación para informes, desarrollo y pruebas, etc. Consulte el diagrama de la arquitectura en la sección anterior para obtener más detalles acerca de la configuración del entorno. Revise también AWS link:https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/concepts.html["Guía de usuario para instancias de Linux"^] si quiere más información.
+. Desde la consola AWS EC2, implementa los clústeres de alta disponibilidad de almacenamiento de Amazon FSx para ONTAP para alojar los volúmenes de Oracle que almacenan la base de datos en espera de Oracle. Si no está familiarizado con la implementación de almacenamiento FSX, consulte la documentación link:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/creating-file-systems.html["Creación de FSX para sistemas de archivos ONTAP"^] para obtener instrucciones paso a paso.
+. Los pasos 2 y 3 se pueden realizar utilizando el siguiente kit de herramientas de automatización de Terraform, que crea una instancia de EC2 denominada `ora_01` Y un sistema de archivos FSX llamado `fsx_01`. Revise las instrucciones detenidamente y cambie las variables para adaptarlas a su entorno antes de su ejecución. La plantilla se puede revisar fácilmente para satisfacer sus propios requisitos de implementación.
++
+[source, cli]
+----
+git clone https://github.com/NetApp-Automation/na_aws_fsx_ec2_deploy.git
+----
+
+
+
+NOTE: Asegúrese de haber asignado al menos 50g en el volumen raíz de la instancia EC2 para tener espacio suficiente para almacenar en zona intermedia los archivos de instalación de Oracle.
+
+====
+
+
+=== Prepare la base de datos primaria para Data Guard
+
+[%collapsible]
+====
+En esta demostración, hemos configurado una base de datos Oracle primaria llamada db1 en la instancia primaria de EC2 DB con dos grupos de discos ASM en configuración de reinicio independiente con archivos de datos en el grupo de discos de ASM +DATA y área de recuperación flash en el grupo de discos de ASM +LOGS. A continuación se muestran los procedimientos detallados para configurar la base de datos primaria para Data Guard. Todos los pasos se deben ejecutar como propietario de la base de datos - usuario oracle.
+
+. Configuración de la base de datos primaria db1 en la instancia de base de datos primaria EC2 ip-45-30-15-172. Los grupos de discos de ASM pueden estar en cualquier tipo de almacenamiento dentro del ecosistema EC2.
++
+....
+
+[oracle@ip-172-30-15-45 ~]$ cat /etc/oratab
+
+# This file is used by ORACLE utilities.  It is created by root.sh
+# and updated by either Database Configuration Assistant while creating
+# a database or ASM Configuration Assistant while creating ASM instance.
+
+# A colon, ':', is used as the field terminator.  A new line terminates
+# the entry.  Lines beginning with a pound sign, '#', are comments.
+#
+# Entries are of the form:
+#   $ORACLE_SID:$ORACLE_HOME:<N|Y>:
+#
+# The first and second fields are the system identifier and home
+# directory of the database respectively.  The third field indicates
+# to the dbstart utility that the database should , "Y", or should not,
+# "N", be brought up at system boot time.
+#
+# Multiple entries with the same $ORACLE_SID are not allowed.
+#
+#
++ASM:/u01/app/oracle/product/19.0.0/grid:N
+db1:/u01/app/oracle/product/19.0.0/db1:N
+
+[oracle@ip-172-30-15-45 ~]$ /u01/app/oracle/product/19.0.0/grid/bin/crsctl stat res -t
+--------------------------------------------------------------------------------
+Name           Target  State        Server                   State details
+--------------------------------------------------------------------------------
+Local Resources
+--------------------------------------------------------------------------------
+ora.DATA.dg
+               ONLINE  ONLINE       ip-172-30-15-45          STABLE
+ora.LISTENER.lsnr
+               ONLINE  ONLINE       ip-172-30-15-45          STABLE
+ora.LOGS.dg
+               ONLINE  ONLINE       ip-172-30-15-45          STABLE
+ora.asm
+               ONLINE  ONLINE       ip-172-30-15-45          Started,STABLE
+ora.ons
+               OFFLINE OFFLINE      ip-172-30-15-45          STABLE
+--------------------------------------------------------------------------------
+Cluster Resources
+--------------------------------------------------------------------------------
+ora.cssd
+      1        ONLINE  ONLINE       ip-172-30-15-45          STABLE
+ora.db1.db
+      1        ONLINE  ONLINE       ip-172-30-15-45          Open,HOME=/u01/app/o
+                                                             racle/product/19.0.0
+                                                             /db1,STABLE
+ora.diskmon
+      1        OFFLINE OFFLINE                               STABLE
+ora.driver.afd
+      1        ONLINE  ONLINE       ip-172-30-15-45          STABLE
+ora.evmd
+      1        ONLINE  ONLINE       ip-172-30-15-45          STABLE
+--------------------------------------------------------------------------------
+
+....
+. Desde sqlplus, active el registro forzado en primary.
++
+[source, cli]
+----
+alter database force logging;
+----
+. Desde sqlplus, active el flashback en primary. El flashback permite restablecer fácilmente la base de datos primaria como base de datos en espera después de un failover.
++
+[source, cli]
+----
+alter database flashback on;
+----
+. Configurar la autenticación de transporte de redo con el archivo de contraseñas de Oracle: Cree un archivo pwd en el archivo primario mediante la utilidad orapwd si no se define y copie en el directorio $ORACLE_HOME/dbs de la base de datos en espera.
+. Cree redo logs en espera en la base de datos primaria con el mismo tamaño que el archivo log en línea actual. Los grupos de registros son uno más que los grupos de archivos de registro en línea. De este modo, la base de datos primaria puede realizar una transición rápida al rol en espera y empezar a recibir datos de redo, si es necesario.
++
+[source, cli]
+----
+alter database add standby logfile thread 1 size 200M;
+----
++
+....
+Validate after standby logs addition:
+
+SQL> select group#, type, member from v$logfile;
+
+    GROUP# TYPE    MEMBER
+---------- ------- ------------------------------------------------------------
+         3 ONLINE  +DATA/DB1/ONLINELOG/group_3.264.1145821513
+         2 ONLINE  +DATA/DB1/ONLINELOG/group_2.263.1145821513
+         1 ONLINE  +DATA/DB1/ONLINELOG/group_1.262.1145821513
+         4 STANDBY +DATA/DB1/ONLINELOG/group_4.286.1146082751
+         4 STANDBY +LOGS/DB1/ONLINELOG/group_4.258.1146082753
+         5 STANDBY +DATA/DB1/ONLINELOG/group_5.287.1146082819
+         5 STANDBY +LOGS/DB1/ONLINELOG/group_5.260.1146082821
+         6 STANDBY +DATA/DB1/ONLINELOG/group_6.288.1146082825
+         6 STANDBY +LOGS/DB1/ONLINELOG/group_6.261.1146082827
+         7 STANDBY +DATA/DB1/ONLINELOG/group_7.289.1146082835
+         7 STANDBY +LOGS/DB1/ONLINELOG/group_7.262.1146082835
+
+11 rows selected.
+....
+. Desde sqlplus, cree un archivo pfile a partir de spfile para su edición.
++
+[source, cli]
+----
+create pfile='/home/oracle/initdb1.ora' from spfile;
+----
+. Revise el archivo pfile y agregue los siguientes parámetros.
++
+....
+DB_NAME=db1
+DB_UNIQUE_NAME=db1_NY
+LOG_ARCHIVE_CONFIG='DG_CONFIG=(db1_NY,db1_LA)'
+LOG_ARCHIVE_DEST_1='LOCATION=USE_DB_RECOVERY_FILE_DEST VALID_FOR=(ALL_LOGFILES,ALL_ROLES) DB_UNIQUE_NAME=db1_NY'
+LOG_ARCHIVE_DEST_2='SERVICE=db1_LA ASYNC VALID_FOR=(ONLINE_LOGFILES,PRIMARY_ROLE) DB_UNIQUE_NAME=db1_LA'
+REMOTE_LOGIN_PASSWORDFILE=EXCLUSIVE
+FAL_SERVER=db1_LA
+STANDBY_FILE_MANAGEMENT=AUTO
+....
+. Desde sqlplus, cree spfile en el directorio ASM +DATA desde pfile revisado en el directorio /home/oracle.
++
+[source, cli]
+----
+create spfile='+DATA' from pfile='/home/oracle/initdb1.ora';
+----
+. Localice el nuevo spfile en +grupo de discos de DATOS (usando la utilidad asmcmd si es necesario). Utilice srvctl para modificar la cuadrícula para iniciar la base de datos desde el nuevo spfile como se muestra a continuación.
++
+....
+[oracle@ip-172-30-15-45 db1]$ srvctl config database -d db1
+Database unique name: db1
+Database name: db1
+Oracle home: /u01/app/oracle/product/19.0.0/db1
+Oracle user: oracle
+Spfile: +DATA/DB1/PARAMETERFILE/spfile.270.1145822903
+Password file:
+Domain: demo.netapp.com
+Start options: open
+Stop options: immediate
+Database role: PRIMARY
+Management policy: AUTOMATIC
+Disk Groups: DATA
+Services:
+OSDBA group:
+OSOPER group:
+Database instance: db1
+[oracle@ip-172-30-15-45 db1]$ srvctl modify database -d db1 -spfile +DATA/DB1/PARAMETERFILE/spfiledb1.ora
+[oracle@ip-172-30-15-45 db1]$ srvctl config database -d db1
+Database unique name: db1
+Database name: db1
+Oracle home: /u01/app/oracle/product/19.0.0/db1
+Oracle user: oracle
+Spfile: +DATA/DB1/PARAMETERFILE/spfiledb1.ora
+Password file:
+Domain: demo.netapp.com
+Start options: open
+Stop options: immediate
+Database role: PRIMARY
+Management policy: AUTOMATIC
+Disk Groups: DATA
+Services:
+OSDBA group:
+OSOPER group:
+Database instance: db1
+....
+. Modifique tnsnames.ora para agregar db_unique_name para la resolución de nombres.
++
+....
+# tnsnames.ora Network Configuration File: /u01/app/oracle/product/19.0.0/db1/network/admin/tnsnames.ora
+# Generated by Oracle configuration tools.
+
+db1_NY =
+  (DESCRIPTION =
+    (ADDRESS = (PROTOCOL = TCP)(HOST = ip-172-30-15-45.ec2.internal)(PORT = 1521))
+    (CONNECT_DATA =
+      (SERVER = DEDICATED)
+      (SID = db1)
+    )
+  )
+
+db1_LA =
+  (DESCRIPTION =
+    (ADDRESS = (PROTOCOL = TCP)(HOST = ip-172-30-15-67.ec2.internal)(PORT = 1521))
+    (CONNECT_DATA =
+      (SERVER = DEDICATED)
+      (SID = db1)
+    )
+  )
+
+LISTENER_DB1 =
+  (ADDRESS = (PROTOCOL = TCP)(HOST = ip-172-30-15-45.ec2.internal)(PORT = 1521))
+....
+. Agregue el nombre de servicio de data guard db1_NY_DGMGRL.demo.netapp para la base de datos primaria al archivo listener.ora.
+
+
+....
+#Backup file is  /u01/app/oracle/crsdata/ip-172-30-15-45/output/listener.ora.bak.ip-172-30-15-45.oracle line added by Agent
+# listener.ora Network Configuration File: /u01/app/oracle/product/19.0.0/grid/network/admin/listener.ora
+# Generated by Oracle configuration tools.
+
+LISTENER =
+  (DESCRIPTION_LIST =
+    (DESCRIPTION =
+      (ADDRESS = (PROTOCOL = TCP)(HOST = ip-172-30-15-45.ec2.internal)(PORT = 1521))
+      (ADDRESS = (PROTOCOL = IPC)(KEY = EXTPROC1521))
+    )
+  )
+
+SID_LIST_LISTENER =
+  (SID_LIST =
+    (SID_DESC =
+      (GLOBAL_DBNAME = db1_NY_DGMGRL.demo.netapp.com)
+      (ORACLE_HOME = /u01/app/oracle/product/19.0.0/db1)
+      (SID_NAME = db1)
+    )
+  )
+
+ENABLE_GLOBAL_DYNAMIC_ENDPOINT_LISTENER=ON              # line added by Agent
+VALID_NODE_CHECKING_REGISTRATION_LISTENER=ON            # line added by Agent
+....
+. Cierre y reinicie la base de datos con srvctl y valide que los parámetros de data guard estén ahora activos.
++
+[source, cli]
+----
+srvctl stop database -d db1
+----
++
+[source, cli]
+----
+srvctl start database -d db1
+----
+
+
+Esto completa la configuración de la base de datos primaria para Data Guard.
+
+====
+
+
+=== Preparar la base de datos en espera y activar Data Guard
+
+[%collapsible]
+====
+Oracle Data Guard necesita la configuración del núcleo del sistema operativo y las pilas de software de Oracle, incluidos los juegos de parches en la instancia de base de datos EC2 en espera, para que coincidan con la instancia de base de datos EC2 primaria. Para facilitar la gestión y la simplicidad, la configuración de almacenamiento de la base de datos de la instancia de base de datos EC2 en espera debería coincidir también con la instancia de base de datos EC2 primaria, como el nombre, el número y el tamaño de los grupos de discos de ASM. A continuación se muestran los procedimientos detallados para configurar la instancia de base de datos EC2 en espera para Data Guard. Todos los comandos se deben ejecutar como identificador de usuario propietario de oracle.
+
+. En primer lugar, revise la configuración de la base de datos primaria en la instancia EC2 primaria. En esta demostración, hemos configurado una base de datos Oracle primaria llamada db1 en la instancia EC2 DB primaria con dos grupos de discos ASM +DATA y +LOGS en configuración de reinicio independiente. Los grupos de discos de ASM primarios pueden estar en cualquier tipo de almacenamiento dentro del ecosistema EC2.
+. Siga los procedimientos de la documentación link:https://docs.netapp.com/us-en/netapp-solutions/databases/aws_ora_fsx_ec2_iscsi_asm.html["TR-4965: Implementación y protección de bases de datos de Oracle en AWS FSX/EC2 con iSCSI/ASM"^] Para instalar y configurar grid y oracle en una instancia de base de datos EC2 en espera para que coincida con la base de datos primaria. El almacenamiento de la base de datos se debe aprovisionar y asignar a la instancia de base de datos EC2 en espera desde FSx ONTAP con la misma capacidad de almacenamiento que la instancia de base de datos EC2 primaria.
++
+
+NOTE: Deténgase en el paso 10 de `Oracle database installation` sección. La base de datos en espera se instanciará desde la base de datos primaria mediante la función de duplicación de la base de datos dbca.
+
+. Una vez instalado y configurado el software de Oracle, desde el directorio dbs $ORACLE_HOME en espera, copie la contraseña de oracle de la base de datos primaria.
++
+[source, cli]
+----
+scp oracle@172.30.15.45:/u01/app/oracle/product/19.0.0/db1/dbs/orapwdb1 .
+----
+. Cree el archivo tnsnames.ora con las siguientes entradas.
++
+....
+
+# tnsnames.ora Network Configuration File: /u01/app/oracle/product/19.0.0/db1/network/admin/tnsnames.ora
+# Generated by Oracle configuration tools.
+
+db1_NY =
+  (DESCRIPTION =
+    (ADDRESS = (PROTOCOL = TCP)(HOST = ip-172-30-15-45.ec2.internal)(PORT = 1521))
+    (CONNECT_DATA =
+      (SERVER = DEDICATED)
+      (SID = db1)
+    )
+  )
+
+db1_LA =
+  (DESCRIPTION =
+    (ADDRESS = (PROTOCOL = TCP)(HOST = ip-172-30-15-67.ec2.internal)(PORT = 1521))
+    (CONNECT_DATA =
+      (SERVER = DEDICATED)
+      (SID = db1)
+    )
+  )
+
+....
+. Agregue el nombre del servicio de protección de datos de base de datos al archivo listener.ora.
++
+....
+
+#Backup file is  /u01/app/oracle/crsdata/ip-172-30-15-67/output/listener.ora.bak.ip-172-30-15-67.oracle line added by Agent
+# listener.ora Network Configuration File: /u01/app/oracle/product/19.0.0/grid/network/admin/listener.ora
+# Generated by Oracle configuration tools.
+
+LISTENER =
+  (DESCRIPTION_LIST =
+    (DESCRIPTION =
+      (ADDRESS = (PROTOCOL = TCP)(HOST = ip-172-30-15-67.ec2.internal)(PORT = 1521))
+      (ADDRESS = (PROTOCOL = IPC)(KEY = EXTPROC1521))
+    )
+  )
+
+SID_LIST_LISTENER =
+  (SID_LIST =
+    (SID_DESC =
+      (GLOBAL_DBNAME = db1_LA_DGMGRL.demo.netapp.com)
+      (ORACLE_HOME = /u01/app/oracle/product/19.0.0/db1)
+      (SID_NAME = db1)
+    )
+  )
+
+ENABLE_GLOBAL_DYNAMIC_ENDPOINT_LISTENER=ON              # line added by Agent
+VALID_NODE_CHECKING_REGISTRATION_LISTENER=ON            # line added by Agent
+
+....
+. Defina el directorio raíz y la ruta de acceso de oracle.
++
+[source, cli]
+----
+export ORACLE_HOME=/u01/app/oracle/product/19.0.0/db1
+----
++
+[source, cli]
+----
+export PATH=$PATH:$ORACLE_HOME/bin
+----
+. Utilice dbca para instanciar la base de datos en espera de la base de datos primaria db1.
++
+....
+
+[oracle@ip-172-30-15-67 bin]$ dbca -silent -createDuplicateDB -gdbName db1 -primaryDBConnectionString ip-172-30-15-45.ec2.internal:1521/db1_NY.demo.netapp.com -sid db1 -initParams fal_server=db1_NY -createAsStandby -dbUniqueName db1_LA
+Enter SYS user password:
+
+Prepare for db operation
+22% complete
+Listener config step
+44% complete
+Auxiliary instance creation
+67% complete
+RMAN duplicate
+89% complete
+Post duplicate database operations
+100% complete
+
+Look at the log file "/u01/app/oracle/cfgtoollogs/dbca/db1_LA/db1_LA.log" for further details.
+
+....
+. Validar la base de datos en espera duplicada. La base de datos en espera recién duplicada se abre inicialmente en modo de SÓLO LECTURA.
++
+....
+
+[oracle@ip-172-30-15-67 bin]$ export ORACLE_SID=db1
+[oracle@ip-172-30-15-67 bin]$ sqlplus / as sysdba
+
+SQL*Plus: Release 19.0.0.0.0 - Production on Wed Aug 30 18:25:46 2023
+Version 19.18.0.0.0
+
+Copyright (c) 1982, 2022, Oracle.  All rights reserved.
+
+
+Connected to:
+Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
+Version 19.18.0.0.0
+
+SQL> select name, open_mode from v$database;
+
+NAME      OPEN_MODE
+--------- --------------------
+DB1       READ ONLY
+
+SQL> show parameter name
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+cdb_cluster_name                     string
+cell_offloadgroup_name               string
+db_file_name_convert                 string
+db_name                              string      db1
+db_unique_name                       string      db1_LA
+global_names                         boolean     FALSE
+instance_name                        string      db1
+lock_name_space                      string
+log_file_name_convert                string
+pdb_file_name_convert                string
+processor_group_name                 string
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+service_names                        string      db1_LA.demo.netapp.com
+SQL>
+SQL> show parameter log_archive_config
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+log_archive_config                   string      DG_CONFIG=(db1_NY,db1_LA)
+SQL> show parameter fal_server
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+fal_server                           string      db1_NY
+
+SQL> select name from v$datafile;
+
+NAME
+--------------------------------------------------------------------------------
++DATA/DB1_LA/DATAFILE/system.261.1146248215
++DATA/DB1_LA/DATAFILE/sysaux.262.1146248231
++DATA/DB1_LA/DATAFILE/undotbs1.263.1146248247
++DATA/DB1_LA/03C5C01A66EE9797E0632D0F1EAC5F59/DATAFILE/system.264.1146248253
++DATA/DB1_LA/03C5C01A66EE9797E0632D0F1EAC5F59/DATAFILE/sysaux.265.1146248261
++DATA/DB1_LA/DATAFILE/users.266.1146248267
++DATA/DB1_LA/03C5C01A66EE9797E0632D0F1EAC5F59/DATAFILE/undotbs1.267.1146248269
++DATA/DB1_LA/03C5EFD07C41A1FAE0632D0F1EAC9BD8/DATAFILE/system.268.1146248271
++DATA/DB1_LA/03C5EFD07C41A1FAE0632D0F1EAC9BD8/DATAFILE/sysaux.269.1146248279
++DATA/DB1_LA/03C5EFD07C41A1FAE0632D0F1EAC9BD8/DATAFILE/undotbs1.270.1146248285
++DATA/DB1_LA/03C5EFD07C41A1FAE0632D0F1EAC9BD8/DATAFILE/users.271.1146248293
+
+NAME
+--------------------------------------------------------------------------------
++DATA/DB1_LA/03C5F0DDF35CA2B6E0632D0F1EAC8B6B/DATAFILE/system.272.1146248295
++DATA/DB1_LA/03C5F0DDF35CA2B6E0632D0F1EAC8B6B/DATAFILE/sysaux.273.1146248301
++DATA/DB1_LA/03C5F0DDF35CA2B6E0632D0F1EAC8B6B/DATAFILE/undotbs1.274.1146248309
++DATA/DB1_LA/03C5F0DDF35CA2B6E0632D0F1EAC8B6B/DATAFILE/users.275.1146248315
++DATA/DB1_LA/03C5F1C9B142A2F1E0632D0F1EACF21A/DATAFILE/system.276.1146248317
++DATA/DB1_LA/03C5F1C9B142A2F1E0632D0F1EACF21A/DATAFILE/sysaux.277.1146248323
++DATA/DB1_LA/03C5F1C9B142A2F1E0632D0F1EACF21A/DATAFILE/undotbs1.278.1146248331
++DATA/DB1_LA/03C5F1C9B142A2F1E0632D0F1EACF21A/DATAFILE/users.279.1146248337
+
+19 rows selected.
+
+SQL> select name from v$controlfile;
+
+NAME
+--------------------------------------------------------------------------------
++DATA/DB1_LA/CONTROLFILE/current.260.1146248209
++LOGS/DB1_LA/CONTROLFILE/current.257.1146248209
+
+SQL> select name from v$tempfile;
+
+NAME
+--------------------------------------------------------------------------------
++DATA/DB1_LA/TEMPFILE/temp.287.1146248371
++DATA/DB1_LA/03C5C01A66EE9797E0632D0F1EAC5F59/TEMPFILE/temp.288.1146248375
++DATA/DB1_LA/03C5EFD07C41A1FAE0632D0F1EAC9BD8/TEMPFILE/temp.290.1146248463
++DATA/DB1_LA/03C5F0DDF35CA2B6E0632D0F1EAC8B6B/TEMPFILE/temp.291.1146248463
++DATA/DB1_LA/03C5F1C9B142A2F1E0632D0F1EACF21A/TEMPFILE/temp.292.1146248463
+
+SQL> select group#, type, member from v$logfile order by 2, 1;
+
+    GROUP# TYPE    MEMBER
+---------- ------- ------------------------------------------------------------
+         1 ONLINE  +LOGS/DB1_LA/ONLINELOG/group_1.259.1146248349
+         1 ONLINE  +DATA/DB1_LA/ONLINELOG/group_1.280.1146248347
+         2 ONLINE  +DATA/DB1_LA/ONLINELOG/group_2.281.1146248351
+         2 ONLINE  +LOGS/DB1_LA/ONLINELOG/group_2.258.1146248353
+         3 ONLINE  +DATA/DB1_LA/ONLINELOG/group_3.282.1146248355
+         3 ONLINE  +LOGS/DB1_LA/ONLINELOG/group_3.260.1146248355
+         4 STANDBY +DATA/DB1_LA/ONLINELOG/group_4.283.1146248357
+         4 STANDBY +LOGS/DB1_LA/ONLINELOG/group_4.261.1146248359
+         5 STANDBY +DATA/DB1_LA/ONLINELOG/group_5.284.1146248361
+         5 STANDBY +LOGS/DB1_LA/ONLINELOG/group_5.262.1146248363
+         6 STANDBY +LOGS/DB1_LA/ONLINELOG/group_6.263.1146248365
+         6 STANDBY +DATA/DB1_LA/ONLINELOG/group_6.285.1146248365
+         7 STANDBY +LOGS/DB1_LA/ONLINELOG/group_7.264.1146248369
+         7 STANDBY +DATA/DB1_LA/ONLINELOG/group_7.286.1146248367
+
+14 rows selected.
+
+SQL> select name, open_mode from v$database;
+
+NAME      OPEN_MODE
+--------- --------------------
+DB1       READ ONLY
+
+....
+. Reinicie la base de datos en espera en `mount` almacenar en zona intermedia y ejecutar el siguiente comando para activar la recuperación gestionada de la base de datos en espera.
++
+[source, cli]
+----
+alter database recover managed standby database disconnect from session;
+----
++
+....
+
+SQL> shutdown immediate;
+Database closed.
+Database dismounted.
+ORACLE instance shut down.
+SQL> startup mount;
+ORACLE instance started.
+
+Total System Global Area 8053062944 bytes
+Fixed Size                  9182496 bytes
+Variable Size            1291845632 bytes
+Database Buffers         6744440832 bytes
+Redo Buffers                7593984 bytes
+Database mounted.
+SQL> alter database recover managed standby database disconnect from session;
+
+Database altered.
+
+....
+. Validar el estado de recuperación de la base de datos en espera. Observe la `recovery logmerger` pulg `APPLYING_LOG` acción.
++
+....
+
+SQL> SELECT ROLE, THREAD#, SEQUENCE#, ACTION FROM V$DATAGUARD_PROCESS;
+
+ROLE                        THREAD#  SEQUENCE# ACTION
+------------------------ ---------- ---------- ------------
+recovery apply slave              0          0 IDLE
+recovery apply slave              0          0 IDLE
+recovery apply slave              0          0 IDLE
+recovery apply slave              0          0 IDLE
+recovery logmerger                1         30 APPLYING_LOG
+RFS ping                          1         30 IDLE
+RFS async                         1         30 IDLE
+archive redo                      0          0 IDLE
+archive redo                      0          0 IDLE
+archive redo                      0          0 IDLE
+gap manager                       0          0 IDLE
+
+ROLE                        THREAD#  SEQUENCE# ACTION
+------------------------ ---------- ---------- ------------
+managed recovery                  0          0 IDLE
+redo transport monitor            0          0 IDLE
+log writer                        0          0 IDLE
+archive local                     0          0 IDLE
+redo transport timer              0          0 IDLE
+
+16 rows selected.
+
+SQL>
+
+....
+
+
+De esta forma se completa la configuración de protección de Data Guard para db1 de primaria a en espera con la recuperación en espera gestionada activada.
+
+====
+
+
+=== Configurar Data Guard Broker
+
+[%collapsible]
+====
+Oracle Data Guard Broker es un marco de gestión distribuida que automatiza y centraliza la creación, el mantenimiento y la supervisión de las configuraciones de Oracle Data Guard. En la siguiente sección se muestra cómo configurar Data Guard Broker para gestionar el entorno de Data Guard.
+
+. Inicie Data Guard Broker tanto en bases de datos primarias como en espera con el siguiente comando a través de sqlplus.
++
+[source, cli]
+----
+alter system set dg_broker_start=true scope=both;
+----
+. Desde la base de datos primaria, conéctese a Data Guard Borker como SYSDBA.
++
+....
+
+[oracle@ip-172-30-15-45 db1]$ dgmgrl sys@db1_NY
+DGMGRL for Linux: Release 19.0.0.0.0 - Production on Wed Aug 30 19:34:14 2023
+Version 19.18.0.0.0
+
+Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
+
+Welcome to DGMGRL, type "help" for information.
+Password:
+Connected to "db1_NY"
+Connected as SYSDBA.
+
+....
+. Crear y activar la configuración de Data Guard Broker.
++
+....
+
+DGMGRL> create configuration dg_config as primary database is db1_NY connect identifier is db1_NY;
+Configuration "dg_config" created with primary database "db1_ny"
+DGMGRL> add database db1_LA as connect identifier is db1_LA;
+Database "db1_la" added
+DGMGRL> enable configuration;
+Enabled.
+DGMGRL> show configuration;
+
+Configuration - dg_config
+
+  Protection Mode: MaxPerformance
+  Members:
+  db1_ny - Primary database
+    db1_la - Physical standby database
+
+Fast-Start Failover:  Disabled
+
+Configuration Status:
+SUCCESS   (status updated 28 seconds ago)
+
+....
+. Validar el estado de la base de datos en el marco de gestión de Data Guard Broker.
++
+....
+
+DGMGRL> show database db1_ny;
+
+Database - db1_ny
+
+  Role:               PRIMARY
+  Intended State:     TRANSPORT-ON
+  Instance(s):
+    db1
+
+Database Status:
+SUCCESS
+
+DGMGRL> show database db1_la;
+
+Database - db1_la
+
+  Role:               PHYSICAL STANDBY
+  Intended State:     APPLY-ON
+  Transport Lag:      0 seconds (computed 1 second ago)
+  Apply Lag:          0 seconds (computed 1 second ago)
+  Average Apply Rate: 2.00 KByte/s
+  Real Time Query:    OFF
+  Instance(s):
+    db1
+
+Database Status:
+SUCCESS
+
+DGMGRL>
+
+....
+
+
+En caso de fallo, Data Guard Broker se puede utilizar para conmutar por error la base de datos primaria a la instancia en espera.
+
+====
+
+
+=== Clonar base de datos en espera para otros casos de uso
+
+[%collapsible]
+====
+La ventaja clave de almacenar en espera la base de datos en AWS FSx ONTAP en Data Guard es que puede ser FlexCloned para dar servicio a muchos otros casos de uso con una inversión mínima en almacenamiento adicional. En la siguiente sección, mostramos cómo realizar snapshots y clonar los volúmenes de bases de datos en espera montados y en recuperación en FSx ONTAP para otros fines, como DESARROLLO, PRUEBAS, INFORMES, etc. con la herramienta NetApp SnapCenter.
+
+A continuación, se describen los procedimientos de alto nivel para clonar una base de datos DE LECTURA/ESCRITURA desde la base de datos física en espera gestionada en Data Guard con SnapCenter. Para obtener instrucciones detalladas sobre cómo instalar y configurar SnapCenter, consulte link:https://docs.netapp.com/us-en/netapp-solutions/databases/hybrid_dbops_snapcenter_usecases.html["Soluciones de bases de datos de cloud híbrido con SnapCenter"^] Secciones de Oracle reactivas.
+
+. Comenzamos creando una tabla de prueba e insertando una fila en la tabla de prueba en la base de datos primaria. A continuación, validaremos si la transacción pasa al modo de espera y, finalmente, al clon.
++
+....
+[oracle@ip-172-30-15-45 db1]$ sqlplus / as sysdba
+
+SQL*Plus: Release 19.0.0.0.0 - Production on Thu Aug 31 16:35:53 2023
+Version 19.18.0.0.0
+
+Copyright (c) 1982, 2022, Oracle.  All rights reserved.
+
+
+Connected to:
+Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
+Version 19.18.0.0.0
+
+SQL> alter session set container=db1_pdb1;
+
+Session altered.
+
+SQL> create table test(
+  2  id integer,
+  3  dt timestamp,
+  4  event varchar(100));
+
+Table created.
+
+SQL> insert into test values(1, sysdate, 'a test transaction on primary database db1 and ec2 db host: ip-172-30-15-45.ec2.internal');
+
+1 row created.
+
+SQL> commit;
+
+Commit complete.
+
+SQL> select * from test;
+
+        ID
+----------
+DT
+---------------------------------------------------------------------------
+EVENT
+--------------------------------------------------------------------------------
+         1
+31-AUG-23 04.49.29.000000 PM
+a test transaction on primary database db1 and ec2 db host: ip-172-30-15-45.ec2.
+internal
+
+SQL> select instance_name, host_name from v$instance;
+
+INSTANCE_NAME
+----------------
+HOST_NAME
+----------------------------------------------------------------
+db1
+ip-172-30-15-45.ec2.internal
+....
+. Añada el clúster de almacenamiento de FSx a. `Storage Systems` En SnapCenter con IP de gestión del clúster FSx y credencial fsxadmin.
++
+image::aws_ora_fsx_data_guard_clone_01.png[Captura de pantalla que muestra este paso en la GUI.]
+
+. Agregue AWS EC2-user a. `Credential` pulg `Settings`.
++
+image::aws_ora_fsx_data_guard_clone_02.png[Captura de pantalla que muestra este paso en la GUI.]
+
+. Agregue la instancia de base de datos EC2 en espera y clone la instancia de base de datos EC2 a. `Hosts`.
++
+image::aws_ora_fsx_data_guard_clone_03.png[Captura de pantalla que muestra este paso en la GUI.]
+
++
+
+NOTE: La instancia de la base de datos clonada EC2 debe tener instaladas y configuradas pilas de software de Oracle similares. En nuestro caso de prueba, la infraestructura de grid y Oracle 19C se instalan y configuran pero no se crean bases de datos.
+
+. Cree una política de backup adaptada para un backup completo de base de datos sin conexión o montado.
++
+image::aws_ora_fsx_data_guard_clone_04.png[Captura de pantalla que muestra este paso en la GUI.]
+
+. Aplicar política de copia de seguridad para proteger la base de datos en espera en `Resources` pestaña.
++
+image::aws_ora_fsx_data_guard_clone_05.png[Captura de pantalla que muestra este paso en la GUI.]
+
+. Haga clic en el nombre de la base de datos para abrir la página Database Backups. Seleccione un backup que se usará para la clonación de base de datos y haga clic en `Clone` para iniciar el flujo de trabajo de clonación.
++
+image::aws_ora_fsx_data_guard_clone_06.png[Captura de pantalla que muestra este paso en la GUI.]
+
+. Seleccione `Complete Database Clone` Y asigne el nombre al SID de la instancia del clon.
++
+image::aws_ora_fsx_data_guard_clone_07.png[Captura de pantalla que muestra este paso en la GUI.]
+
+. Seleccione el host del clon, que aloja la base de datos clonada desde una base de datos en espera. Acepte el valor predeterminado para los archivos de datos, los archivos de control y los redo logs. Se crearán dos grupos de discos ASM en el host del clon que corresponden a los grupos de discos en la base de datos en espera.
++
+image::aws_ora_fsx_data_guard_clone_08.png[Captura de pantalla que muestra este paso en la GUI.]
+
+. No se necesitan credenciales de base de datos para la autenticación basada en el sistema operativo. Coincida con el valor del directorio raíz de Oracle con el configurado en la instancia de la base de datos clone EC2.
++
+image::aws_ora_fsx_data_guard_clone_09.png[Captura de pantalla que muestra este paso en la GUI.]
+
+. Cambie los parámetros de la base de datos clonada si es necesario y especifique los scripts que se deben ejecutar antes de cloen, si los hubiera.
++
+image::aws_ora_fsx_data_guard_clone_10.png[Captura de pantalla que muestra este paso en la GUI.]
+
+. Introduzca SQL para ejecutar después de clonar. En la demostración, ejecutamos comandos para desactivar el modo de archivo de base de datos para una base de datos de desarrollo/prueba/informe.
++
+image::aws_ora_fsx_data_guard_clone_11.png[Captura de pantalla que muestra este paso en la GUI.]
+
+. Configure la notificación por correo electrónico si lo desea.
++
+image::aws_ora_fsx_data_guard_clone_12.png[Captura de pantalla que muestra este paso en la GUI.]
+
+. Revise el resumen y haga clic en `Finish` para iniciar el clon.
++
+image::aws_ora_fsx_data_guard_clone_13.png[Captura de pantalla que muestra este paso en la GUI.]
+
+. Supervise el trabajo de clonación en `Monitor` pestaña. Observamos que tardaba unos 8 minutos en clonar una base de datos de unos 300GB GB de tamaño de volumen de base de datos.
++
+image::aws_ora_fsx_data_guard_clone_14.png[Captura de pantalla que muestra este paso en la GUI.]
+
+. Valide la base de datos del clon desde SnapCenter, que se registra de inmediato en `Resources` tabulador justo después de la operación de clonación.
++
+image::aws_ora_fsx_data_guard_clone_15.png[Captura de pantalla que muestra este paso en la GUI.]
+
+. Consulte la base de datos clonada desde la instancia del clon EC2. Validamos que la transacción de prueba que se producía en la base de datos principal se había pasado a base de datos clonada.
++
+....
+[oracle@ip-172-30-15-126 ~]$ export ORACLE_HOME=/u01/app/oracle/product/19.0.0/dev
+[oracle@ip-172-30-15-126 ~]$ export ORACLE_SID=db1dev
+[oracle@ip-172-30-15-126 ~]$ export PATH=$PATH:$ORACLE_HOME/bin
+[oracle@ip-172-30-15-126 ~]$ sqlplus / as sysdba
+
+SQL*Plus: Release 19.0.0.0.0 - Production on Wed Sep 6 16:41:41 2023
+Version 19.18.0.0.0
+
+Copyright (c) 1982, 2022, Oracle.  All rights reserved.
+
+
+Connected to:
+Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
+Version 19.18.0.0.0
+
+SQL> select name, open_mode, log_mode from v$database;
+
+NAME      OPEN_MODE            LOG_MODE
+--------- -------------------- ------------
+DB1DEV    READ WRITE           NOARCHIVELOG
+
+SQL> select instance_name, host_name from v$instance;
+
+INSTANCE_NAME
+----------------
+HOST_NAME
+----------------------------------------------------------------
+db1dev
+ip-172-30-15-126.ec2.internal
+
+SQL> alter session set container=db1_pdb1;
+
+Session altered.
+
+SQL> select * from test;
+
+        ID
+----------
+DT
+---------------------------------------------------------------------------
+EVENT
+--------------------------------------------------------------------------------
+         1
+31-AUG-23 04.49.29.000000 PM
+a test transaction on primary database db1 and ec2 db host: ip-172-30-15-45.ec2.
+internal
+
+
+SQL>
+
+....
+
+
+Esto completa el clonado y la validación de una nueva base de datos de Oracle a partir de una base de datos de espera en el almacenamiento de Data Guard on FSx para DESARROLLO, PRUEBAS, INFORMES o cualquier otro caso de uso. Es posible clonar varias bases de datos Oracle desde la misma base de datos en espera en Data Guard.
+
+====
+
+
+== Dónde encontrar información adicional
+
+Si quiere más información sobre la información descrita en este documento, consulte los siguientes documentos o sitios web:
+
+* Conceptos y administración de Data Guard
++
+link:https://docs.oracle.com/en/database/oracle/oracle-database/19/sbydb/index.html#Oracle%C2%AE-Data-Guard["https://docs.oracle.com/en/database/oracle/oracle-database/19/sbydb/index.html#Oracle%C2%AE-Data-Guard"^]
+
+* Artículo técnico WP-7357: Puesta en marcha de la base de datos de Oracle en EC2 y prácticas recomendadas de FSx
++
+link:https://docs.netapp.com/us-en/netapp-solutions/databases/aws_ora_fsx_ec2_deploy_intro.html["https://docs.netapp.com/us-en/netapp-solutions/databases/aws_ora_fsx_ec2_deploy_intro.html"^]
+
+* Amazon FSX para ONTAP de NetApp
++
+link:https://aws.amazon.com/fsx/netapp-ontap/["https://aws.amazon.com/fsx/netapp-ontap/"^]
+
+* Amazon EC2
++
+link:https://aws.amazon.com/pm/ec2/?trk=36c6da98-7b20-48fa-8225-4784bced9843&sc_channel=ps&s_kwcid=AL!4422!3!467723097970!e!!g!!aws%20ec2&ef_id=Cj0KCQiA54KfBhCKARIsAJzSrdqwQrghn6I71jiWzSeaT9Uh1-vY-VfhJixF-xnv5rWwn2S7RqZOTQ0aAh7eEALw_wcB:G:s&s_kwcid=AL!4422!3!467723097970!e!!g!!aws%20ec2["https://aws.amazon.com/pm/ec2/?trk=36c6da98-7b20-48fa-8225-4784bced9843&sc_channel=ps&s_kwcid=AL!4422!3!467723097970!e!!g!!aws%20ec2&ef_id=Cj0KCQiA54KfBhCKARIsAJzSrdqwQrghn6I71jiWzSeaT9Uh1-vY-VfhJixF-xnv5rWwn2S7RqZOTQ0aAh7eEALw_wcB:G:s&s_kwcid=AL!4422!3!467723097970!e!!g!!aws%20ec2"^]
+
+

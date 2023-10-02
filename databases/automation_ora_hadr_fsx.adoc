@@ -1,0 +1,224 @@
+---
+sidebar: sidebar 
+permalink: databases/automation_ora_hadr_fsx.html 
+keywords: Oracle, AWS, FSx ONTAP, Database, Oracle 19c, HA, DR 
+summary: 'La solución ofrece un kit de herramientas de automatización basado en Ansible para configurar la base de datos de Oracle High Availability and Disaster Recovery (HA/DR) con AWS FSx ONTAP como almacenamiento de base de datos de Oracle y las instancias EC2 como instancias de computación en AWS.' 
+---
+= Oracle HA/recuperación ante desastres automatizada en AWS FSx ONTAP
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+Equipo de ingeniería de soluciones de NetApp
+
+
+
+== Específico
+
+Este kit de herramientas automatiza las tareas de configuración y gestión de un entorno de alta disponibilidad y recuperación ante desastres para la base de datos de Oracle implementada en la nube de AWS con el almacenamiento de FSx para ONTAP e instancias de computación EC2.
+
+Esta solución aborda los siguientes casos prácticos:
+
+* Configurar host de destino HA/DR: Configuración del núcleo, configuración de Oracle para que coincida con el host del servidor de origen.
+* Configuración de FSx ONTAP: Paridad de clústeres, paridad de Vserver y configuración de las relaciones de snapmirror de Oracle Volumes, desde el origen hasta el destino.
+* Realizar una copia de seguridad de los datos de la base de datos de Oracle a través de la instantánea
+* Realizar una copia de seguridad de archive log de la base de datos Oracle mediante snapshot - ejecutar fuera de crontab
+* Ejecutar la recuperación tras fallos y la recuperación en host HA/DR: Probar y validar el entorno HA/DR
+* Ejecutar resincronización después de la prueba de conmutación al nodo de respaldo y restablecer la relación de snapmirror para volúmenes de base de datos en modo HA/recuperación ante desastres
+
+
+
+
+== Destinatarios
+
+Esta solución está dirigida a las siguientes personas:
+
+* Un administrador de bases de datos que configura la base de datos de Oracle en AWS para alta disponibilidad, protección de datos y recuperación ante desastres.
+* Un arquitecto de soluciones de bases de datos que esté interesado en la solución de recuperación ante desastres/alta disponibilidad de Oracle de nivel de almacenamiento en el cloud de AWS.
+* Un administrador de almacenamiento que gestiona el almacenamiento de ONTAP de AWS FSx compatible con las bases de datos de Oracle.
+* Propietario de una aplicación al que le gusta poner en marcha la base de datos de Oracle para alta disponibilidad/recuperación ante desastres en un entorno AWS FSx/EC2.
+
+
+
+
+== Licencia
+
+Al acceder, descargar, instalar o utilizar el contenido de este repositorio de GitHub, usted acepta los términos de la Licencia establecidos en link:https://github.com/NetApp/na_ora_hadr_failover_resync/blob/master/LICENSE.TXT["Archivo de licencia"^].
+
+
+NOTE: Hay ciertas restricciones en cuanto a la producción y/o el intercambio de cualquier obra derivada con el contenido de este repositorio de GitHub. Asegúrese de leer los términos de la licencia antes de utilizar el contenido. Si NO ACEPTA TODOS LOS TÉRMINOS, NO ACCEDA, DESCARGA NI UTILICE EL CONTENIDO DE ESTE REPOSITORIO.
+
+
+
+== Puesta en marcha de la solución
+
+
+
+=== Requisitos previos para la implementación
+
+[%collapsible]
+====
+La implementación requiere los siguientes requisitos previos.
+
+....
+Ansible v.2.10 and higher
+ONTAP collection 21.19.1
+Python 3
+Python libraries:
+  netapp-lib
+  xmltodict
+  jmespath
+....
+ AWS FSx storage as is available
+....
+AWS EC2 Instance
+  RHEL 7/8, Oracle Linux 7/8
+  Network interfaces for NFS, public (internet) and optional management
+  Existing Oracle environment on source, and the equivalent Linux operating system at the target
+....
+====
+
+
+=== Descargue el kit de herramientas
+
+[%collapsible]
+====
+[source, cli]
+----
+git clone https://github.com/NetApp/na_ora_hadr_failover_resync.git
+----
+====
+
+
+=== Configuración de variables globales
+
+[%collapsible]
+====
+Los libros de estrategia de Ansible se basan en variables. Se incluye un ejemplo de archivo de variable global fsx_vars_EXAMPLE.yml para demostrar la configuración típica. A continuación se presentan algunas consideraciones clave:
+
+....
+ONTAP - retrieve FSx storage parameters using AWS FSx console for both source and target FSx clusters.
+  cluster name: source/destination
+  cluster management IP: source/destination
+  inter-cluster IP: source/destination
+  vserver name: source/destination
+  vserver management IP: source/destination
+  NFS lifs: source/destination
+  cluster credentials: fsxadmin and vsadmin pwd to be updated in roles/ontap_setup/defaults/main.yml file
+....
+....
+Oracle database volumes - they should have been created from AWS FSx console, volume naming should follow strictly with following standard:
+  Oracle binary: {{ host_name }}_bin, generally one lun/volume
+  Oracle data: {{ host_name }}_data, can be multiple luns/volume, add additional line for each additional lun/volume in variable such as {{ host_name }}_data_01, {{ host_name }}_data_02 ...
+  Oracle log: {{ host_name }}_log, can be multiple luns/volume, add additional line for each additional lun/volume in variable such as {{ host_name }}_log_01, {{ host_name }}_log_02 ...
+  host_name: as defined in hosts file in root directory, the code is written to be specifically matched up with host name defined in host file.
+....
+....
+Linux and DB specific global variables - keep it as is.
+  Enter redhat subscription if you have one, otherwise leave it black.
+....
+====
+
+
+=== Configuración de variables de host
+
+[%collapsible]
+====
+Las variables de host se definen en el directorio HOST_vars denominado {{ HOST_NAME }}.yml. Se incluye un ejemplo de archivo de variables host host host host host_name.yml para demostrar la configuración típica. A continuación se presentan algunas consideraciones clave:
+
+....
+Oracle - define host specific variables when deploying Oracle in multiple hosts concurrently
+  ansible_host: IP address of database server host
+  log_archive_mode: enable archive log archiving (true) or not (false)
+  oracle_sid: Oracle instance identifier
+  pdb: Oracle in a container configuration, name pdb_name string and number of pdbs (Oracle allows 3 pdbs free of multitenant license fee)
+  listener_port: Oracle listener port, default 1521
+  memory_limit: set Oracle SGA size, normally up to 75% RAM
+  host_datastores_nfs: combining of all Oracle volumes (binary, data, and log) as defined in global vars file. If multi luns/volumes, keep exactly the same number of luns/volumes in host_var file
+....
+....
+Linux - define host specific variables at Linux level
+  hugepages_nr: set hugepage for large DB with large SGA for performance
+  swap_blocks: add swap space to EC2 instance. If swap exist, it will be ignored.
+....
+====
+
+
+=== Configuración del archivo de host del servidor de BASE DE DATOS
+
+[%collapsible]
+====
+La instancia de AWS EC2 utiliza la dirección IP para la nomenclatura de hosts de forma predeterminada. Si utiliza un nombre diferente en el archivo de hosts para Ansible, configure la resolución de nomenclatura de host en el archivo /etc/hosts para los servidores de origen y de destino. A continuación se muestra un ejemplo.
+
+....
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+172.30.15.96 db1
+172.30.15.107 db2
+....
+====
+
+
+=== Ejecución de PlayBook: Se ejecuta en secuencia
+
+[%collapsible]
+====
+. Instale los requisitos previos de la controladora Ansible.
++
+[source, cli]
+----
+ansible-playbook -i hosts requirements.yml
+----
++
+[source, cli]
+----
+ansible-galaxy collection install -r collections/requirements.yml --force
+----
+. Configurar la instancia de base de datos EC2 de destino.
++
+[source, cli]
+----
+ansible-playbook -i hosts ora_dr_setup.yml -u ec2-user --private-key db2.pem -e @vars/fsx_vars.yml
+----
+. Configura la relación de snapmirror de FSx ONTAP entre los volúmenes de las bases de datos de origen y destino.
++
+[source, cli]
+----
+ansible-playbook -i hosts ontap_setup.yml -u ec2-user --private-key db2.pem -e @vars/fsx_vars.yml
+----
+. Realizar backups de volúmenes de datos de la base de datos de Oracle mediante la instantánea desde crontab.
++
+[source, cli]
+----
+10 * * * * cd /home/admin/na_ora_hadr_failover_resync && /usr/bin/ansible-playbook -i hosts ora_replication_cg.yml -u ec2-user --private-key db1.pem -e @vars/fsx_vars.yml >> logs/snap_data_`date +"%Y-%m%d-%H%M%S"`.log 2>&1
+----
+. Realizar un backup de volúmenes de archive log de la base de datos de Oracle a través de la instantánea desde crontab.
++
+[source, cli]
+----
+0,20,30,40,50 * * * * cd /home/admin/na_ora_hadr_failover_resync && /usr/bin/ansible-playbook -i hosts ora_replication_logs.yml -u ec2-user --private-key db1.pem -e @vars/fsx_vars.yml >> logs/snap_log_`date +"%Y-%m%d-%H%M%S"`.log 2>&1
+----
+. Ejecutar failover y recuperar la base de datos Oracle en la instancia de la base de datos EC2 de destino: Probar y validar la configuración HA/DR.
++
+[source, cli]
+----
+ansible-playbook -i hosts ora_recovery.yml -u ec2-user --private-key db2.pem -e @vars/fsx_vars.yml
+----
+. Ejecutar resincronización después de la prueba de conmutación al nodo de respaldo y restablecer la relación de snapmirror de volúmenes de base de datos en modo de replicación.
++
+[source, cli]
+----
+ansible-playbook -i hosts ontap_ora_resync.yml -u ec2-user --private-key db2.pem -e @vars/fsx_vars.yml
+----
+
+
+====
+
+
+== Dónde encontrar información adicional
+
+Para obtener más información sobre la automatización de soluciones de NetApp, revise el siguiente sitio web link:https://docs.netapp.com/us-en/netapp-solutions/automation/automation_introduction.html["Automatización de soluciones de NetApp"^]

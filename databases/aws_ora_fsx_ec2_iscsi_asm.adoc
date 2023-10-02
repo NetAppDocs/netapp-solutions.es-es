@@ -323,13 +323,13 @@ igroup create -igroup ora_01 -protocol iscsi -ostype linux -initiator iqn.1994-0
 . Asigne las LUN al igroup creado anteriormente. Incremente secuencialmente el ID de LUN para cada LUN adicional dentro de un volumen.
 +
 ....
-map -path /vol/ora_01_biny/ora_01_biny_01 -igroup ora_01 -vserver svm_ora -lun-id 0
-map -path /vol/ora_01_data/ora_01_data_01 -igroup ora_01 -vserver svm_ora -lun-id 1
-map -path /vol/ora_01_data/ora_01_data_02 -igroup ora_01 -vserver svm_ora -lun-id 2
-map -path /vol/ora_01_data/ora_01_data_03 -igroup ora_01 -vserver svm_ora -lun-id 3
-map -path /vol/ora_01_data/ora_01_data_04 -igroup ora_01 -vserver svm_ora -lun-id 4
-map -path /vol/ora_01_logs/ora_01_logs_01 -igroup ora_01 -vserver svm_ora -lun-id 5
-map -path /vol/ora_01_logs/ora_01_logs_02 -igroup ora_01 -vserver svm_ora -lun-id 6
+lun map -path /vol/ora_01_biny/ora_01_biny_01 -igroup ora_01 -vserver svm_ora -lun-id 0
+lun map -path /vol/ora_01_data/ora_01_data_01 -igroup ora_01 -vserver svm_ora -lun-id 1
+lun map -path /vol/ora_01_data/ora_01_data_02 -igroup ora_01 -vserver svm_ora -lun-id 2
+lun map -path /vol/ora_01_data/ora_01_data_03 -igroup ora_01 -vserver svm_ora -lun-id 3
+lun map -path /vol/ora_01_data/ora_01_data_04 -igroup ora_01 -vserver svm_ora -lun-id 4
+lun map -path /vol/ora_01_logs/ora_01_logs_01 -igroup ora_01 -vserver svm_ora -lun-id 5
+lun map -path /vol/ora_01_logs/ora_01_logs_02 -igroup ora_01 -vserver svm_ora -lun-id 6
 ....
 . Validar el mapa de LUN.
 +
@@ -444,7 +444,6 @@ defaults {
     user_friendly_names yes
 }
 
-[source, cli]
 blacklist {
     devnode "^(ram|raw|loop|fd|md|dm-|sr|scd|st)[0-9]*"
     devnode "^hd[a-z]"
@@ -533,6 +532,7 @@ multipaths {
                 wwid            3600a09806c574235472455534e685146
                 alias           ora_01_logs_02
         }
+}
 ....
 . Reinicie el servicio multivía para verificar que los dispositivos en `/dev/mapper` Han cambiado a los nombres de las LUN en lugar de los ID de serie hexadecimal.
 +
@@ -675,11 +675,10 @@ unzip -q /tmp/archive/LINUX.X64_193000_grid_home.zip
 ....
 rm -rf OPatch
 ....
-. Desde el inicio de la cuadrícula, copiar `p6880880_190000_Linux-x86-64.zip` a grid_home y, a continuación, descomprimirlo.
+. Desde el directorio raíz de la cuadrícula, descomprima `p6880880_190000_Linux-x86-64.zip`.
 +
 ....
-cp /tmp/archive/p6880880_190000_Linux-x86-64.zip .
-unzip p6880880_190000_Linux-x86-64.zip
+unzip -q /tmp/archive/p6880880_190000_Linux-x86-64.zip
 ....
 . Desde el inicio de la cuadrícula, revisar `cv/admin/cvu_config`, descomentar y reemplazar `CV_ASSUME_DISTID=OEL5` con `CV_ASSUME_DISTID=OL7`.
 +
@@ -699,8 +698,8 @@ oracle.install.asm.SYSASMPassword="SetPWD"
 oracle.install.asm.diskGroup.name=DATA
 oracle.install.asm.diskGroup.redundancy=EXTERNAL
 oracle.install.asm.diskGroup.AUSize=4
-oracle.install.asm.diskGroup.disks=/dev/mapper/ora_01_data*
-oracle.install.asm.diskGroup.diskDiscoveryString=/dev/mapper/ora_01_data_01,/dev/mapper/ora_01_data_02,/dev/mapper/ora_01_data_03,/dev/mapper/ora_01_data_04
+oracle.install.asm.diskGroup.disks=/dev/mapper/ora_01_data_01,/dev/mapper/ora_01_data_02,/dev/mapper/ora_01_data_03,/dev/mapper/ora_01_data_04
+oracle.install.asm.diskGroup.diskDiscoveryString=/dev/mapper/*
 oracle.install.asm.monitorPassword="SetPWD"
 oracle.install.asm.configureAFD=true
 ....
@@ -834,11 +833,10 @@ unzip -q /tmp/archive/LINUX.X64_193000_db_home.zip
 ....
 rm -rf OPatch
 ....
-. Desde el inicio de la base de datos, copiar `p6880880_190000_Linux-x86-64.zip` para `grid_home`, y luego descomprimirlo.
+. Desde el directorio raíz de la base de datos, descomprima `p6880880_190000_Linux-x86-64.zip`.
 +
 ....
-cp /tmp/archive/p6880880_190000_Linux-x86-64.zip .
-unzip p6880880_190000_Linux-x86-64.zip
+unzip -q /tmp/archive/p6880880_190000_Linux-x86-64.zip
 ....
 . Desde el inicio de DB, revisar `cv/admin/cvu_config`, y descomentar y reemplazar `CV_ASSUME_DISTID=OEL5` con `CV_ASSUME_DISTID=OL7`.
 +

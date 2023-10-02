@@ -1,0 +1,175 @@
+---
+sidebar: sidebar 
+permalink: databases/automation_ora_migration.html 
+keywords: Oracle, AWS, FSx ONTAP, Database Migration, Oracle 19c, 
+summary: La solución ofrece un kit de herramientas de automatización basado en Ansible para migrar base de datos de Oracle mediante la reubicación de PDB con una metodología de máxima disponibilidad. La migración puede ser cualquier combinación de on-premises y de la nube como origen o destino 
+---
+= Migración Oracle automatizada
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+Equipo de ingeniería de soluciones de NetApp
+
+
+
+== Específico
+
+Este kit de herramientas automatiza la migración de las bases de datos de Oracle de on-premises a la nube de AWS con el almacenamiento FSx ONTAP y la instancia de computación EC2 como infraestructura de destino. Asume que el cliente ya tiene una base de datos de Oracle en las instalaciones implementada en el modelo CDB/PDB. El kit de herramientas permitirá al cliente reubicar una PDB con nombre desde una base de datos de contenedor en un host de Oracle mediante el procedimiento de reubicación de Oracle PDB con una opción de disponibilidad máxima. Esto significa que la PDB de origen en cualquier cabina de almacenamiento local se reubica en una nueva base de datos de contenedores con una interrupción del servicio mínima. El procedimiento de reubicación de Oracle moverá los archivos de datos de Oracle mientras la base de datos está en línea. Posteriormente, redirige las sesiones de usuario de on-premises a los servicios de base de datos reubicados en el momento de cambiar cuando todos los archivos de datos se mueven a la nube de AWS. La tecnología subrayada es la metodología probada de clonado en caliente de PDB de Oracle.
+
+Esta solución aborda los siguientes casos prácticos:
+
+* Cree el usuario de migración y otorgue los privilegios necesarios en el servidor de base de datos de origen local.
+* Reubique una PDB desde la CDB local a una CDB de destino en la nube mientras la PDB de origen está en línea hasta que se conmute.
+
+
+
+
+== Destinatarios
+
+Esta solución está dirigida a las siguientes personas:
+
+* Un administrador de bases de datos que migra las bases de datos de Oracle de los recursos locales a la nube de AWS.
+* Un arquitecto de soluciones de bases de datos que esté interesado en la migración de bases de datos de Oracle de premisses al cloud de AWS.
+* Un administrador de almacenamiento que gestiona el almacenamiento de ONTAP de AWS FSx compatible con las bases de datos de Oracle.
+* Un propietario de aplicación al que le gusta migrar sus bases de datos de Oracle desde los premisas a la nube de AWS.
+
+
+
+
+== Licencia
+
+Al acceder, descargar, instalar o utilizar el contenido de este repositorio de GitHub, usted acepta los términos de la Licencia establecidos en link:https://github.com/NetApp/na_ora_hadr_failover_resync/blob/master/LICENSE.TXT["Archivo de licencia"^].
+
+
+NOTE: Hay ciertas restricciones en cuanto a la producción y/o el intercambio de cualquier obra derivada con el contenido de este repositorio de GitHub. Asegúrese de leer los términos de la licencia antes de utilizar el contenido. Si NO ACEPTA TODOS LOS TÉRMINOS, NO ACCEDA, DESCARGA NI UTILICE EL CONTENIDO DE ESTE REPOSITORIO.
+
+
+
+== Puesta en marcha de la solución
+
+
+
+=== Requisitos previos para la implementación
+
+[%collapsible]
+====
+La implementación requiere los siguientes requisitos previos.
+
+....
+Ansible v.2.10 and higher
+ONTAP collection 21.19.1
+Python 3
+Python libraries:
+  netapp-lib
+  xmltodict
+  jmespath
+....
+....
+Source Oracle CDB with PDBs on-premises
+Target Oracle CDB in AWS hosted on FSx and EC2 instance
+Source and target CDB on same version and with same options installed
+....
+....
+Network connectivity
+  Ansible controller to source CDB
+  Ansible controller to target CDB
+  Source CDB to target CDB on Oracle listener port (typical 1521)
+....
+====
+
+
+=== Descargue el kit de herramientas
+
+[%collapsible]
+====
+[source, cli]
+----
+git clone https://github.com/NetApp/na_ora_aws_migration.git
+----
+====
+
+
+=== Configuración de variables de host
+
+[%collapsible]
+====
+Las variables de host se definen en el directorio HOST_vars denominado {{ HOST_NAME }}.yml. Se incluye un ejemplo de archivo de variables host host host host host_name.yml para demostrar la configuración típica. A continuación se presentan algunas consideraciones clave:
+
+....
+Source Oracle CDB - define host specific variables for the on-prem CDB
+  ansible_host: IP address of source database server host
+  source_oracle_sid: source Oracle CDB instance ID
+  source_pdb_name: source PDB name to migrate to cloud
+  source_file_directory: file directory of source PDB data files
+  target_file_directory: file directory of migrated PDB data files
+....
+....
+Target Oracle CDB - define host specific variables for the target CDB including some variables for on-prem CDB
+  ansible_host: IP address of target database server host
+  target_oracle_sid: target Oracle CDB instance ID
+  target_pdb_name: target PDB name to be migrated to cloud (for max availability option, the source and target PDB name must be the same)
+  source_oracle_sid: source Oracle CDB instance ID
+  source_pdb_name: source PDB name to be migrated to cloud
+  source_port: source Oracle CDB listener port
+  source_oracle_domain: source Oracle database domain name
+  source_file_directory: file directory of source PDB data files
+  target_file_directory: file directory of migrated PDB data files
+....
+====
+
+
+=== Configuración del archivo de host del servidor de BASE DE DATOS
+
+[%collapsible]
+====
+La instancia de AWS EC2 utiliza la dirección IP para la nomenclatura de hosts de forma predeterminada. Si utiliza un nombre diferente en el archivo de hosts para Ansible, configure la resolución de nomenclatura de host en el archivo /etc/hosts para el servidor de origen y el de destino. A continuación se muestra un ejemplo.
+
+....
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+172.30.15.96 source_db_server
+172.30.15.107 target_db_server
+....
+====
+
+
+=== Ejecución de PlayBook: Se ejecuta en secuencia
+
+[%collapsible]
+====
+. Instale los requisitos previos de la controladora Ansible.
++
+[source, cli]
+----
+ansible-playbook -i hosts requirements.yml
+----
++
+[source, cli]
+----
+ansible-galaxy collection install -r collections/requirements.yml --force
+----
+. Ejecute tareas previas a la migración en el servidor local - asumiendo que admin es usuario ssh para la conexión al host de Oracle local con permiso sudo.
++
+[source, cli]
+----
+ansible-playbook -i hosts ora_pdb_relocate.yml -u admin -k -K -t ora_pdb_relo_onprem
+----
+. Ejecute la reubicación de Oracle PDB desde la CDB local hasta la CDB de destino en la instancia de AWS EC2, asumiendo EC2-user para la conexión a la instancia de la base de datos EC2 y db1.pem con pares de claves ssh de EC2 usuarios.
++
+[source, cli]
+----
+ansible-playbook -i hosts ora_pdb_relocate.yml -u ec2-user --private-key db1.pem -t ora_pdb_relo_primary
+----
+
+
+====
+
+
+== Dónde encontrar información adicional
+
+Para obtener más información sobre la automatización de soluciones de NetApp, revise el siguiente sitio web link:https://docs.netapp.com/us-en/netapp-solutions/automation/automation_introduction.html["Automatización de soluciones de NetApp"^]
