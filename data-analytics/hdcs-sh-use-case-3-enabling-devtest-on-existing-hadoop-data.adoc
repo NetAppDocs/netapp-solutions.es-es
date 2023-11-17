@@ -1,6 +1,6 @@
 ---
 sidebar: sidebar 
-permalink: data-analytics/hdcs-sh-use-case-3--enabling-devtest-on-existing-hadoop-data.html 
+permalink: data-analytics/hdcs-sh-use-case-3-enabling-devtest-on-existing-hadoop-data.html 
 keywords: devtest, hadoop, spark, analytics data, reporting 
 summary: En este caso de uso, el requisito del cliente es crear de forma rápida y eficiente clústeres Hadoop/Spark basados en un clúster de Hadoop existente que contenga una gran cantidad de datos de análisis para DevTest y fines de generación de informes en el mismo centro de datos y en ubicaciones remotas. 
 ---
@@ -13,7 +13,7 @@ summary: En este caso de uso, el requisito del cliente es crear de forma rápida
 :imagesdir: ./../media/
 
 
-link:hdcs-sh-use-case-2--backup-and-disaster-recovery-from-the-cloud-to-on-premises.html["Anterior: Caso de uso 2: Backup y recuperación ante desastres del cloud a las instalaciones."]
+link:hdcs-sh-use-case-2-backup-and-disaster-recovery-from-the-cloud-to-on-premises.html["Anterior: Caso de uso 2: Backup y recuperación ante desastres del cloud a las instalaciones."]
 
 [role="lead"]
 En este caso de uso, el requisito del cliente es crear de forma rápida y eficiente clústeres Hadoop/Spark basados en un clúster de Hadoop existente que contenga una gran cantidad de datos de análisis para DevTest y fines de generación de informes en el mismo centro de datos y en ubicaciones remotas.
@@ -44,12 +44,10 @@ La tecnología FlexClone se utiliza para responder a los requisitos que acabamos
 
 En primer lugar, se creó una copia Snapshot del clúster existente mediante un grupo de consistencia de NetApp.
 
-Las copias de Snapshot dentro de NetApp System Manager o del símbolo del sistema del administrador del almacenamiento. Las copias Snapshot del grupo de consistencia son copias Snapshot de grupos coherentes con las aplicaciones y el volumen FlexClone se crea en función de las copias Snapshot del grupo de consistencia. Vale la pena mencionar que un volumen FlexClone hereda la política de exportación NFS del volumen principal. Una vez creada la copia snapshot, debe instalarse un nuevo clúster de Hadoop con fines de DevTest y generación de informes, como se muestra en la siguiente figura. El módulo de análisis in situ accede al volumen NFS clonado desde el nuevo clúster de Hadoop a través de los usuarios del módulo de análisis in situ y de la autorización del grupo para los datos de NFS.
-
-Para tener acceso adecuado, el nuevo clúster debe tener el mismo UID y GUID para los usuarios configurados en los usuarios del módulo de análisis in situ y las configuraciones de grupo.
+Las copias de Snapshot dentro de NetApp System Manager o del símbolo del sistema del administrador del almacenamiento. Las copias Snapshot del grupo de consistencia son copias Snapshot de grupos coherentes con las aplicaciones y el volumen FlexClone se crea en función de las copias Snapshot del grupo de consistencia. Vale la pena mencionar que un volumen FlexClone hereda la política de exportación NFS del volumen principal. Una vez creada la copia snapshot, debe instalarse un nuevo clúster de Hadoop con fines de DevTest y generación de informes, como se muestra en la siguiente figura. El volumen NFS clonado del nuevo clúster de Hadoop accede a los datos de NFS.
 
 Esta imagen muestra el clúster de Hadoop para DevTest.
 
 image:hdcs-sh-image11.png["Error: Falta la imagen gráfica"]
 
-link:hdcs-sh-use-case-4--data-protection-and-multicloud-connectivity.html["Siguiente: Caso práctico 4 - Protección de datos y conectividad multicloud."]
+link:hdcs-sh-use-case-4-data-protection-and-multicloud-connectivity.html["Siguiente: Caso práctico 4 - Protección de datos y conectividad multicloud."]
