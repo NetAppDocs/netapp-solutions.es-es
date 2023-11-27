@@ -4,7 +4,7 @@ permalink: databases/aws_ora_fsx_ec2_data_guard.html
 keywords: Oracle, AWS, FSx ONTAP, FSx, Database, Oracle 19c, Data Guard 
 summary: La solución ofrece información general y detalles para configurar Oracle Data Guard utilizando AWS FSx ONTAP como sitio de espera Almacenamiento de bases de datos de Oracle para reducir las licencias y el costo operativo de la solución de alta disponibilidad/recuperación ante desastres de Oracle Data Guard en AWS. 
 ---
-= TR-4981: Reducción de costes de la protección de datos activa con AWS FSx ONTAP
+= TR-4981: Reducción de costes de Oracle Active Data Guard con Amazon FSx ONTAP
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -21,11 +21,11 @@ Allen Cao, Niyaz Mohamed, NetApp
 
 Oracle Data Guard garantiza una alta disponibilidad, protección de datos y recuperación de desastres para los datos empresariales en una configuración de replicación de base de datos primaria y base de datos en espera. Oracle Active Data Guard permite a los usuarios acceder a bases de datos en espera mientras la replicación de datos está activa desde la base de datos primaria a bases de datos en espera. Data Guard es una función de Oracle Database Enterprise Edition. No se requiere licencia independiente. Por otro lado, Active Data Guard es una opción de Oracle Database Enterprise Edition, por lo tanto, requiere una licencia independiente. Varias bases de datos en espera pueden recibir la replicación de datos de una base de datos primaria en la configuración de Active Data Guard. Sin embargo, cada base de datos en espera adicional requiere una licencia de Active Data Guard y almacenamiento adicional como tamaño de la base de datos primaria. Los costes operativos se suman rápidamente.
 
-Si está interesado en reducir el coste de la operación de la base de datos Oracle y está planeando configurar un Active Data Guard en AWS, debería considerar una alternativa. En lugar de Active Data Guard, utilice Data Guard para replicar desde la base de datos principal a una única base de datos física en espera en el almacenamiento AWS FSx ONTAP. Posteriormente, se pueden clonar y abrir varias copias de esta base de datos en espera para que el acceso de lectura/escritura sirva para otros casos de uso, como informes, desarrollo, pruebas, etc. Los resultados netos ofrecen de forma efectiva funcionalidades de Active Data Guard al tiempo que eliminan la licencia de Active Data Guard y el coste de almacenamiento adicional para cada base de datos en espera adicional. En esta documentación, mostramos cómo configurar Oracle Data Guard con tu base de datos primaria existente en AWS y colocar la base de datos física en espera en el almacenamiento AWS FSx ONTAP. Se realiza una copia de seguridad de la base de datos en espera mediante instantáneas y se clona para obtener acceso de lectura/escritura para los casos prácticos que se deseen.
+Si está interesado en reducir el coste de la operación de la base de datos Oracle y está planeando configurar un Active Data Guard en AWS, debería considerar una alternativa. En lugar de Active Data Guard, utilice Data Guard para replicar desde la base de datos principal a una única base de datos física en espera en el almacenamiento de Amazon FSx ONTAP. Posteriormente, se pueden clonar y abrir varias copias de esta base de datos en espera para que el acceso de lectura/escritura sirva para otros casos de uso, como informes, desarrollo, pruebas, etc. Los resultados netos ofrecen de forma efectiva funcionalidades de Active Data Guard al tiempo que eliminan la licencia de Active Data Guard y el coste de almacenamiento adicional para cada base de datos en espera adicional. En esta documentación, mostramos cómo configurar Oracle Data Guard con tu base de datos primaria existente en AWS y colocar una base de datos física en espera en el almacenamiento de Amazon FSx ONTAP. Se realiza una copia de seguridad de la base de datos en espera mediante instantáneas y se clona para obtener acceso de lectura/escritura para los casos prácticos que se deseen.
 
 Esta solución aborda los siguientes casos prácticos:
 
-* Oracle Data Guard entre una base de datos primaria en cualquier almacenamiento en AWS para una base de datos en espera en el almacenamiento AWS FSx ONTAP.
+* Oracle Data Guard entre una base de datos primaria en cualquier almacenamiento en AWS para una base de datos en espera en el almacenamiento de Amazon FSx ONTAP.
 * Clone la base de datos en espera mientras está cerrada para la replicación de datos y sirva casos de uso como creación de informes, desarrollo, pruebas, etc.
 
 
