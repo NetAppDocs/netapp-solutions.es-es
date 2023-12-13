@@ -13,8 +13,6 @@ summary: Hemos obtenido la certificación con Confluent Platform con Kafka para 
 :imagesdir: ./../media/
 
 
-link:confluent-kafka-technology-overview.html["Anterior: Información general de la tecnología."]
-
 [role="lead"]
 Hemos realizado la verificación con el almacenamiento en niveles de 6.2 de la plataforma Confluent en StorageGRID de NetApp. Los equipos de NetApp y Confluent trabajaron juntos en esta verificación y ejecutaron los casos de prueba necesarios para la verificación.
 
@@ -95,5 +93,3 @@ Esta prueba generó indirectamente la carga de trabajo de escritura en el almac�
 === Prueba de rendimiento de cargas de trabajo de retención
 
 En esta prueba se comprobó el rendimiento de eliminación de un almacén de objetos en una gran carga de trabajo de retención de temas. La carga de trabajo de retención se generó mediante un script de prueba que produce muchos mensajes en paralelo a un tema de prueba. El tema de prueba se configuraba con una configuración de retención agresiva basada en tamaño y en tiempo que provocaba que la secuencia de eventos se purgaran continuamente del almacén de objetos. A continuación, se archivaron los segmentos. Esto llevó a un gran número de eliminaciones en el almacenamiento de objetos por parte del agente y la colección del rendimiento de las operaciones de eliminación del almacén de objetos.
-
-link:confluent-kafka-performance-tests-with-scalability.html["Siguiente: Pruebas de rendimiento con escalabilidad."]

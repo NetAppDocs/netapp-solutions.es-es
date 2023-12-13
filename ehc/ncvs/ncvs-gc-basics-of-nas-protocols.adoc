@@ -13,8 +13,6 @@ summary: Los protocolos NAS representan formas en las que varios clientes de una
 :imagesdir: ./../../media/
 
 
-link:ncvs-gc-nas-protocols_overview.html["Anterior: Descripción general de los protocolos NAS."]
-
 [role="lead"]
 Los protocolos NAS representan formas en las que varios clientes de una red pueden acceder a los mismos datos en un sistema de almacenamiento, como Cloud Volumes Service en GCP. NFS y SMB son los protocolos NAS definidos y funcionan cliente/servidor donde Cloud Volumes Service actúa como servidor. Los clientes envían solicitudes de acceso, lectura y escritura al servidor y éste es responsable de coordinar los mecanismos de bloqueo de archivos, de almacenar permisos y de gestionar las solicitudes de identidad y autenticación.
 
@@ -25,5 +23,3 @@ Por ejemplo, se sigue el siguiente proceso general si un cliente NAS desea crear
 . El cliente realiza una llamada al servidor para crear el archivo con el identificador de directorio y el nombre de archivo y establece el acceso y las horas modificadas. El servidor emite un ID de archivo único al archivo para asegurarse de que no se crean otros archivos con el mismo ID de archivo.
 . El cliente envía una llamada para comprobar los atributos del archivo antes de la operación DE ESCRITURA. Si los permisos lo permiten, el cliente escribe el nuevo archivo. Si el protocolo/aplicación utiliza el bloqueo, el cliente solicita al servidor un bloqueo para evitar que otros clientes accedan al archivo mientras está bloqueado para evitar que se dañen los datos.
 
-
-link:ncvs-gc-nfs.html["Siguiente: NFS."]

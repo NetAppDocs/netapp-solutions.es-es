@@ -13,9 +13,9 @@ summary: En esta sección se presentan las lecciones aprendidas en esta certific
 :imagesdir: ./../media/
 
 
-link:confluent-kafka-confluent-kafka-rebalance.html["Anterior: Clústeres de autoreequilibrio confluentes."]
-
 [role="lead"]
+En esta sección se presentan las lecciones aprendidas en esta certificación.
+
 * Basado en nuestra validación, el almacenamiento de objetos S3 es la mejor opción para Confluent mantener los datos.
 * Podemos usar SAN de alto rendimiento (específicamente FC) para mantener el intermediario de datos activos o el disco local, ya que, en la configuración de almacenamiento por niveles fluido, el tamaño de los datos contenidos en el directorio de datos del brokers se basa en el tamaño del segmento y el tiempo de retención en el que se mueven los datos al almacenamiento de objetos.
 * Los almacenes de objetos proporcionan un mejor rendimiento cuando el segmento.bytes es mayor; probamos 512 MB.
@@ -40,5 +40,3 @@ kafka-acls --bootstrap-server localhost:9092 --command-config adminclient-config
 NOTE: Sustituya al usuario `<kafka>` con el agente principal en la puesta en marcha.
 
 Por ejemplo, el comando `confluent-tier-state` Define las ACL en el tema interno para el almacenamiento por niveles. Actualmente, solo existe un solo tema interno relacionado con el almacenamiento por niveles. El ejemplo crea una ACL que proporciona el permiso Kafka principal para todas las operaciones del tema interno.
-
-link:confluent-kafka-sizing.html["Siguiente: Ajuste de tamaño."]

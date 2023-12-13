@@ -13,8 +13,6 @@ summary: En esta página se describe la validación del rendimiento de Confluent
 :imagesdir: ./../media/
 
 
-link:kafka-sc-technology-overview.html["Anterior: Información general de la tecnología."]
-
 [role="lead"]
 Hemos realizado la verificación con la plataforma Confluent para el almacenamiento por niveles en ONTAP de NetApp. Los equipos de NetApp y Confluent trabajaron juntos en esta verificación y ejecutaron los casos de prueba necesarios para TI.
 
@@ -114,5 +112,3 @@ Esta prueba genera indirectamente la carga de trabajo de escritura en el almacé
 En esta prueba se comprobó el rendimiento de eliminación de un almacenamiento de objetos en una carga de trabajo con una gran retención de temas. La carga de trabajo de retención se generó mediante un script TOCC que produce muchos mensajes en paralelo a un tema de prueba. El tema de prueba se configuraba con una configuración de retención agresiva basada en tamaño y en tiempo que provocaba que la secuencia de eventos se purgaran continuamente del almacén de objetos. A continuación, se archivaron los segmentos. Esto provocó muchas eliminaciones en el almacenamiento de objetos por parte del agente y la colección del rendimiento de las operaciones de eliminación de almacén de objetos.
 
 Para obtener detalles de verificación, consulte https://docs.confluent.io/platform/current/kafka/tiered-storage.html["Confluente"^] sitio web.
-
-link:kafka-sc-performance-tests-with-produce-consume-workload-generator.html["Siguiente: Pruebas de rendimiento con generador de cargas de trabajo de producción-consumo."]

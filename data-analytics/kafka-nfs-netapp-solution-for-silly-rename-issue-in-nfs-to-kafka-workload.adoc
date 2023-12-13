@@ -13,8 +13,6 @@ summary: En esta sección se describe el problema del nombre más tonto y los ca
 :imagesdir: ./../media/
 
 
-link:kafka-nfs-introduction.html["Anterior: Introducción."]
-
 [role="lead"]
 Kafka se construye con la suposición de que el sistema de ficheros subyacente es compatible con POSIX: Por ejemplo, XFS o Ext4. El reequilibrio de recursos de Kafka elimina los archivos mientras la aplicación se sigue utilizando. Un sistema de archivos compatible con POSIX permite que se realice la desvinculación. Sin embargo, sólo quita el archivo una vez que todas las referencias al archivo hayan desaparecido. Si el sistema de archivos subyacente está conectado a la red, el cliente NFS intercepta las llamadas de desenlace y administra el flujo de trabajo. Dado que hay abiertos pendientes en el archivo que se está desvinculando, el cliente NFS envía una solicitud de cambio de nombre al servidor NFS y, en el último cierre del archivo sin vincular, emite una operación de eliminación en el archivo cuyo nombre ha cambiado. Este comportamiento se conoce comúnmente como nombre tonto de NFS y está orquestado por el cliente NFS.
 
@@ -27,5 +25,3 @@ Para que el servidor NFS y el cliente NFS aborden el problema del cambio de nomb
 
 
 Con los cambios anteriores en el cliente y el servidor NFS, Kafka puede obtener de forma segura todas las ventajas del almacenamiento NFS conectado a la red.
-
-link:kafka-nfs-functional-validation-silly-rename-fix.html["Siguiente: Validación funcional - arreglo Silly rename."]

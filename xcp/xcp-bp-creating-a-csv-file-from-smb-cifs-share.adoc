@@ -13,8 +13,6 @@ summary: El comando de esta sección vuelca los datos en formato CSV. Puede suma
 :imagesdir: ./../media/
 
 
-link:xcp-bp-specific-date-based-scan-and-copy-of-data.html["Anterior: Exploración específica basada en fecha y copia de datos."]
-
 [role="lead"]
 El siguiente comando vuelca los datos en formato CSV. Puede sumar la columna size para obtener el tamaño total de los datos.
 
@@ -38,5 +36,3 @@ Para ordenar la información, vuelque la información en un archivo CSV y ordene
 xcp scan -match “type == d” -depth 3 -fmt "'{}, {}, {}, {}'.format(name, relpath, size)" NFS_Server_IP:/share > directory_report.csv
 ....
 Se trata de un informe personalizado que utiliza `-fmt` comando. Escanea todos los directorios y vuelca el nombre del directorio, la ruta y el tamaño del directorio en un archivo CSV. Puede ordenar la columna de tamaño de la aplicación de hoja de cálculo.
-
-link:xcp-bp-data-migration-from-7-mode-to-ontap.html["Siguiente: Migración de datos de 7-Mode a ONTAP."]

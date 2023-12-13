@@ -13,8 +13,6 @@ summary: En esta sección se describe la carga de Criteo Click Logs Day 15 en Pa
 :imagesdir: ./../media/
 
 
-link:aks-anf_load_criteo_click_logs_day_15_in_pandas_and_train_a_scikit-learn_random_forest_model.html["Anterior: Cargar Criteo Click Logs Day 15 en Pandas y entrenar un cikit-aprender modelo de bosque aleatorio."]
-
 [role="lead"]
 De una manera similar a la sección anterior, cargue Criteo Click Logs Day 15 en Pandas y entrena un cikit-aprende el modelo de bosque aleatorio. En este ejemplo, realizamos la carga de DataFrame con DASK cuDF y entrenamos un modelo de bosque aleatorio en DASK cuML. Hemos comparado las diferencias en el tiempo de formación y el escalado en la sección link:aks-anf_training_time_comparison.html["“Comparación del tiempo de formación”."]
 
@@ -75,4 +73,3 @@ pred_df = cuml_model.predict(gdf_test)
 # calculate accuracy
 cu_score = cuml.metrics.accuracy_score( test_y, pred_df )
 ....
-link:aks-anf_monitor_dask_using_native_task_streams_dashboard.html["Siguiente: Supervisión de tarea mediante el panel de control de flujos de tareas nativo."]

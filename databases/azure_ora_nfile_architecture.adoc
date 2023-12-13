@@ -14,8 +14,6 @@ keywords: architecture, database, Oracle, Azure, Azure NetApp Files
 :imagesdir: ./../media/
 
 
-link:azure_ora_nfile_usecase.html["Anterior: Introducción."]
-
 [role="lead"]
 En el siguiente diagrama arquitectura se muestra la puesta en marcha de bases de datos de Oracle de alta disponibilidad en instancias de Azure VM y en almacenamiento de Azure NetApp Files.
 
@@ -32,5 +30,3 @@ En nuestra validación de pruebas para la puesta en marcha y protección de dato
 image:db_ora_azure_anf_architecture2.PNG["Esta imagen muestra la organización de un único equipo virtual de Azure con vNet peering para hacer dos redes virtuales independientes."]
 
 El entorno de Azure Oracle se puede gestionar con un nodo de controladora de Ansible para la automatización, utilizando los kits de herramientas proporcionados por NetApp para la puesta en marcha de bases de datos, backup, recuperación y migración de bases de datos. Cualquier actualización del kernel del sistema operativo de la instancia de Oracle Azure VM o la revisión de Oracle se puede realizar en paralelo para mantener la sincronización principal y en espera. De hecho, los kits de herramientas iniciales se pueden ampliar fácilmente para realizar tareas diarias de Oracle si es necesario. Si necesita ayuda para configurar una controladora CLI de Ansible, consulte link:https://docs.netapp.com/us-en/netapp-solutions/automation/automation_introduction.html["Automatización de soluciones de NetApp"^] para empezar.
-
-link:azure_ora_nfile_factors.html["Siguiente: Factores a considerar."]

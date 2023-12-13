@@ -13,8 +13,6 @@ summary: 'StorageGRID cuenta con una amplia variedad de funciones que los usuari
 :imagesdir: ./../media/
 
 
-link:stgr-splunkss-solution-overview.html["Anterior: Descripción general de la solución."]
-
 [role="lead"]
 StorageGRID cuenta con una amplia variedad de funciones que los usuarios pueden aprovechar y personalizar para su entorno en constante cambio. Desde la puesta en marcha al escalado de SmartStore de Splunk, su entorno exige una rápida adopción de los cambios y debe no ser disruptivo para Splunk. Las políticas de gestión de datos (ILM) y los clasificadores de tráfico (QoS) flexibles de StorageGRID le permiten planificar y adaptarse a su entorno.
 
@@ -63,5 +61,3 @@ StorageGRID escala el rendimiento añadiendo más nodos, que pueden ser máquina
 Los nodos de administración en StorageGRID proporcionan la interfaz de usuario (interfaz de usuario) de Grid Manager y el extremo de la API DE REST para ver, configurar y gestionar el sistema StorageGRID, así como registros de auditoría para realizar un seguimiento de la actividad del sistema. Para proporcionar un extremo de S3 de alta disponibilidad para el almacenamiento remoto SmartStore de Splunk, se implementó el equilibrador de carga de StorageGRID, que se ejecuta como servicio en nodos de administración y nodos de puerta de enlace. Además, el equilibrador de carga también gestiona el tráfico local y habla con el GSLB (equilibrio de carga de servidor global) para ayudar en la recuperación ante desastres.
 
 Para mejorar aún más la configuración de los extremos, StorageGRID proporciona políticas de clasificación del tráfico integradas en el nodo de administración, le permite supervisar el tráfico de la carga de trabajo y aplicar diversos límites de calidad de servicio a sus cargas de trabajo. Las políticas de clasificación del tráfico se aplican a los extremos en el servicio StorageGRID Load Balancer para los nodos de puerta de enlace y los nodos de administración. Estas políticas pueden ayudar a limitar y supervisar el tráfico.
-
-link:stgr-splunkss-splunk-architecture.html["Siguiente: Arquitectura de Splunk."]

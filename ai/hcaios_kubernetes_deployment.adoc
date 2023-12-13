@@ -26,5 +26,3 @@ NOTE: Para que la puesta en marcha de DeepOps Kubernetes funcione, debe haber el
 Si la implementación falla, cambie el valor de `kubectl_localhost` a falso in `deepops/config/group_vars/k8s-cluster.yml` y repita el paso 2. La `Copy kubectl binary to ansible host` tarea, que sólo se ejecuta cuando el valor de `kubectl_localhost` Es cierto que se basa en el módulo Fetch Ansible, que tiene problemas conocidos con el uso de memoria. Estos problemas de uso de la memoria a veces pueden provocar un error en la tarea. Si la tarea falla debido a un problema de memoria, el resto de la operación de implementación no se completa correctamente.
 
 Si la implementación se completa correctamente después de cambiar el valor de `kubectl_localhost` para `false`, a continuación, debe copiar manualmente la `kubectl binary` Desde un nodo maestro de Kubernetes a un host de salto de implementación. Puede encontrar la ubicación del `kubectl binary` en un nodo maestro específico ejecutando el `which kubectl` comando directamente en ese nodo.
-
-link:hcaios_cnvrg.io_deployment.html["Siguiente: Puesta en marcha de Cnvrg.io"]

@@ -13,10 +13,10 @@ summary: 'Para esta solución, NetApp validó la migración de datos de un lago 
 :imagesdir: ./../media/
 
 
-link:bda-ai-gpfs-to-netapp-ontap-nfs.html["Anterior: GPFS a ONTAP NFS de NetApp."]
-
 [role="lead"]
-Para esta solución, NetApp validó la migración de datos de un lago de datos (HDFS) y datos de clúster de MapR a NFS de ONTAP. Los datos residían en MapR-FS y HDFS. XCP de NetApp presentó una nueva función que migra directamente los datos de un sistema de archivos distribuido como HDFS y MapR-FS a NFS de ONTAP. XCP utiliza subprocesos asíncronos y llamadas a la API C de HDFS para comunicar y transferir datos de MapR- FS y HDFS. La siguiente figura muestra la migración de datos del lago de datos (HDFS) y MapR-FS a NFS de ONTAP. Con esta nueva función, no es necesario exportar el origen como recurso compartido NFS.
+Para esta solución, NetApp validó la migración de datos de un lago de datos (HDFS) y datos de clúster de MapR a NFS de ONTAP. Los datos residían en MapR-FS y HDFS. XCP de NetApp presentó una nueva función que migra directamente los datos de un sistema de archivos distribuido como HDFS y MapR-FS a NFS de ONTAP. XCP utiliza subprocesos asíncronos y llamadas a la API C de HDFS para comunicar y transferir datos de MapR- FS y HDFS.
+
+La siguiente figura muestra la migración de datos del lago de datos (HDFS) y MapR-FS a NFS de ONTAP. Con esta nueva función, no es necesario exportar el origen como recurso compartido NFS.
 
 image:bda-ai-image6.png["Error: Falta la imagen gráfica"]
 
@@ -40,5 +40,3 @@ Las pruebas se realizaron en Amazon Web Services (AWS) para transferir los datos
 Basándonos en la prueba inicial, obtuvimos un rendimiento de 20 Gbps y pudimos transferir 2 PB por día de datos.
 
 Para obtener más información acerca de la migración de datos HDFS sin exportar HDFS a NFS, consulte la sección «pasos de puesta en marcha: NAS» en https://docs.netapp.com/us-en/netapp-solutions/xcp/xcp-bp-deployment-steps.html["TR-4863: TR-4863: Directrices sobre las mejores prácticas para NetApp XCP: Movimiento de datos, migración de archivos y análisis"^].
-
-link:bda-ai-business-benefits.html["Siguiente: Ventajas empresariales."]

@@ -13,8 +13,6 @@ summary: En esta configuración, le mostramos cómo leer y escribir temas en alm
 :imagesdir: ./../media/
 
 
-link:confluent-kafka-performance-tests-with-scalability.html["Anterior: Pruebas de rendimiento con escalabilidad."]
-
 [role="lead"]
 El conector Amazon S3 Sink exporta datos de temas de Apache Kafka a objetos de S3 en formato Avro, JSON o bytes. El conector hunk de Amazon S3 sondea periódicamente datos de Kafka y, a su vez, los carga en S3. Se utiliza un particionador para dividir los datos de cada partición de Kafka en fragmentos. Cada fragmento de datos se representa como un objeto S3. El nombre de clave codifica el tema, la partición Kafka y el desplazamiento inicial de este fragmento de datos.
 
@@ -307,5 +305,3 @@ root@stlrx2540m1-108:~# java -jar /usr/src/avro-tools-1.11.0.1.jar tojson tes.av
 root@stlrx2540m1-108:~#
 ....
 
-
-link:confluent-kafka-confluent-kafka-rebalance.html["Siguiente: Clústeres de autoreequilibrio confluentes."]

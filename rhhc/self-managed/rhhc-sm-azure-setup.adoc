@@ -1,0 +1,139 @@
+---
+sidebar: sidebar 
+permalink: rhhc/self-managed/rhhc-sm-azure-setup.html 
+keywords: NetApp Solutions, redhat OpenShift, red hat OpenShift, redhat openshift container platform, ocp, openshift container platform, Advanced Cluster Management, ACM, Hub Cluster, containers, container workloads, VMware, customer managed storage, ONTAP, Azure, Azure Cloud. 
+summary:  
+---
+= Implemente y configure la plataforma Red Hat OpenShift Container en Azure
+:allow-uri-read: 
+
+
+
+
+== Implemente y configure la plataforma Red Hat OpenShift Container en Azure
+
+[role="lead"]
+En esta sección se describe un flujo de trabajo de alto nivel sobre cómo configurar y gestionar clústeres OpenShift en Azure e implementar aplicaciones con estado en ellos. Muestra el uso del almacenamiento de NetApp Cloud Volumes ONTAP con la ayuda del aprovisionador de Astra Trident/Astra Control para proporcionar volúmenes persistentes. Se proporcionan detalles sobre el uso de Astra Control Center para realizar actividades de protección de datos y migración para las aplicaciones con estado.
+
+Aquí hay un diagrama que muestra los clústeres implementados en Azure y conectados al centro de datos mediante una VPN.
+
+image:rhhc-self-managed-azure.png[""]
+
+
+NOTE: Hay varias formas de implementar los clústeres de plataformas de contenedores de Red Hat OpenShift en Azure. Esta descripción de alto nivel de la configuración proporciona enlaces de documentación para el método específico utilizado. Puede consultar los otros métodos en los enlaces correspondientes que se proporcionan en la link:../rhhc-resources.html["sección recursos"].
+
+El proceso de configuración puede dividirse en los siguientes pasos:
+
+.Instale un clúster OCP en Azure desde la CLI.
+[%collapsible]
+====
+* Asegúrese de haber cumplido todos los requisitos previos indicados link:https://docs.openshift.com/container-platform/4.13/installing/installing_azure/installing-azure-vnet.html["aquí"].
+* Cree una VPN, subredes y grupos de seguridad de red y una zona DNS privada. Cree una puerta de enlace VPN y una conexión VPN de sitio a sitio.
+* Para la conectividad VPN entre las instalaciones y Azure, se creó y configuró una máquina virtual pfsense. Para ver instrucciones, consulte link:https://docs.netgate.com/pfsense/en/latest/recipes/ipsec-s2s-psk.html["aquí"].
+* Obtenga el programa de instalación y el secreto de extracción e implemente el clúster siguiendo los pasos que se proporcionan en la documentación link:https://docs.openshift.com/container-platform/4.13/installing/installing_azure/installing-azure-vnet.html["aquí"].
+* La instalación del clúster se completa y proporcionará un archivo kubeconfig y un nombre de usuario y contraseña para iniciar sesión en la consola del clúster.
+
+
+A continuación se proporciona un archivo install-config.yaml de ejemplo.
+
+....
+apiVersion: v1
+baseDomain: sddc.netapp.com
+compute:
+- architecture: amd64
+  hyperthreading: Enabled
+  name: worker
+  platform:
+    azure:
+      encryptionAtHost: false
+      osDisk:
+        diskSizeGB: 512
+        diskType: "StandardSSD_LRS"
+      type: Standard_D2s_v3
+      ultraSSDCapability: Disabled
+      #zones:
+      #- "1"
+      #- "2"
+      #- "3"
+  replicas: 3
+controlPlane:
+  architecture: amd64
+  hyperthreading: Enabled
+  name: master
+  platform:
+    azure:
+      encryptionAtHost: false
+      osDisk:
+        diskSizeGB: 1024
+        diskType: Premium_LRS
+      type: Standard_D8s_v3
+      ultraSSDCapability: Disabled
+  replicas: 3
+metadata:
+  creationTimestamp: null
+  name: azure-cluster
+networking:
+  clusterNetwork:
+  - cidr: 10.128.0.0/14
+    hostPrefix: 23
+  machineNetwork:
+  - cidr: 10.0.0.0/16
+  networkType: OVNKubernetes
+  serviceNetwork:
+  - 172.30.0.0/16
+platform:
+  azure:
+    baseDomainResourceGroupName: ocp-base-domain-rg
+    cloudName: AzurePublicCloud
+    computeSubnet: ocp-subnet2
+    controlPlaneSubnet: ocp-subnet1
+    defaultMachinePlatform:
+      osDisk:
+        diskSizeGB: 1024
+        diskType: "StandardSSD_LRS"
+      ultraSSDCapability: Disabled
+    networkResourceGroupName: ocp-nc-us-rg
+    #outboundType: UserDefinedRouting
+    region: northcentralus
+    resourceGroupName: ocp-cluster-ncusrg
+    virtualNetwork: ocp_vnet_ncus
+publish: Internal
+pullSecret:
+....
+====
+.Pon en marcha Cloud Volumes ONTAP en Azure mediante BlueXP.
+[%collapsible]
+====
+* Instale un conector en Azure. Consulte las instrucciones https://docs.netapp.com/us-en/bluexp-setup-admin/task-install-connector-azure-bluexp.html["aquí"].
+* Pon en marcha una instancia de CVO en Azure usando el conector. Consulte el enlace de instrucciones:https://docs.netapp.com/us-en/bluexp-cloud-volumes-ontap/task-getting-started-azure.html [aquí.]
+
+
+====
+.Instale Astra Control Provisioner en el clúster OCP en Azure
+[%collapsible]
+====
+* Para este proyecto, Astra Control Provisioner (ACP) se instaló en todos los clústeres (clúster en las instalaciones, clúster en las instalaciones donde se puso en marcha Astra Control Center y el clúster en Azure). Obtenga más información sobre el aprovisionador de Astra Control link:https://docs.netapp.com/us-en/astra-control-center/release-notes/whats-new.html#7-november-2023-23-10-0["aquí"].
+* Crear backend y clases de almacenamiento. Consulte las instrucciones link:https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-postdeployment.html["aquí"].
+
+
+====
+.Añada el clúster OCP en Azure al Astra Control Center.
+[%collapsible]
+====
+* Crea un archivo KubeConfig independiente con un rol de clúster que contenga los permisos mínimos necesarios para que Astra Control gestione un clúster. Se pueden encontrar las instrucciones
+link:https://docs.netapp.com/us-en/astra-control-center/get-started/setup_overview.html#create-a-cluster-role-kubeconfig["aquí"].
+* Añada el clúster a Astra Control Center siguiendo las instrucciones
+link:https://docs.netapp.com/us-en/astra-control-center/get-started/setup_overview.html#add-cluster["aquí"]
+
+
+====
+.Uso de la función de topología CSI de Trident para arquitecturas de varias zonas
+Los proveedores de cloud, hoy en día, permiten que los administradores de clústeres de Kubernetes/OpenShift generen nodos de los clústeres basados en zonas. Los nodos se pueden ubicar en diferentes zonas de disponibilidad dentro de una región o en varias regiones. Para facilitar el aprovisionamiento de volúmenes para cargas de trabajo en una arquitectura de varias zonas, Astra Trident utiliza la topología CSI. Con la función de topología CSI, el acceso a los volúmenes puede limitarse a un subconjunto de nodos, en función de regiones y zonas de disponibilidad. Consulte link:https://docs.netapp.com/us-en/trident/trident-use/csi-topology.html["aquí"] para obtener más detalles.
+
+
+NOTE: Kubernetes admite dos modos de vinculación de volúmenes: - Cuando **_VolumeBindingMode_ se establece en _Immediate_** (predeterminado), Astra Trident crea el volumen sin reconocimiento de topología. Los volúmenes persistentes se crean sin dependencia alguna de los requisitos de programación del POD solicitante. - Cuando **_VolumeBindingMode_ se establece en _WaitForFirstConsumer_**, la creación y vinculación de un Volumen persistente para una RVP se retrasa hasta que se programe y cree un pod que utilice la RVP. De esta forma, se crean volúmenes con el fin de cumplir las restricciones de programación que se aplican en los requisitos de topología. Los back-ends de almacenamiento de Astra Trident se pueden diseñar para aprovisionar volúmenes de forma selectiva según las zonas de disponibilidad (back-end compatible con topología). En el caso de StorageClasses que utilizan dicho back-end, solo se creará un volumen si lo solicita una aplicación programada en una región/zona admitida. (Clase StorageClass compatible con topología) link:https://docs.netapp.com/us-en/trident/trident-use/csi-topology.html["aquí"] para obtener más detalles.
+
+[Subrayar]#*Vídeo de demostración*#
+
+.Utilizar Astra Control para la conmutación al nodo de respaldo y la conmutación de retorno tras recuperación de aplicaciones
+video::1546191b-bc46-42eb-ac34-b0d60142c58d[panopto,width=360]
