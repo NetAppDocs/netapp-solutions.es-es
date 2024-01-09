@@ -1,0 +1,265 @@
+---
+sidebar: sidebar 
+permalink: ai/mlops_fsxn_s3_integration.html 
+keywords: FSxN, AWS S3, SageMaker, MLOps, NetApp ONTAP 
+summary: Esta publicación proporciona una guía sobre la configuración de FSxN como un bucket S3 privado usando AWS SageMaker. 
+---
+= 1 parte: Integración de AWS FSx para NetApp ONTAP (FSxN) como bloque de S3 privado en AWS SageMaker
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:highlighter: rouge
+:imagesdir: ./../media/
+
+
+[role="lead"]
+*Autor(es):*
+Ken Jian, científico sénior de datos y aplicado, NetApp
+
+
+
+== Introducción
+
+Utilizando SageMaker como ejemplo, esta página proporciona una guía para configurar FSxN como un bucket privado de S3.
+
+Para obtener más información sobre FSxN, por favor eche un vistazo a esta presentación (link:http://youtube.com/watch?v=mFN13R6JuUk["Enlace de vídeo"])
+
+
+
+== Guía del usuario
+
+
+
+=== Creación de servidores
+
+
+
+==== Cree una instancia de SageMaker Notebook
+
+. Abra la consola de AWS. En el panel de búsqueda, busque en SageMaker y haga clic en el servicio *Amazon SageMaker*.
++
+image:mlops_fsxn_s3_integration_0.png["Error: Abra la consola de AWS"]
+
+. Abra las instancias del bloc de notas * en la pestaña del bloc de notas, haga clic en el botón naranja * Crear instancia del bloc de notas *.
++
+image:mlops_fsxn_s3_integration_1.png["Error: Consola de instancia de AWS SageMaker Notebook"]
+
+. En la página de creación,
+Introduzca el nombre de la instancia de *Notebook*
+Expanda el panel *Network*
+Deje otras entradas predeterminadas y seleccione un *VPC*, *Subnet* y *Grupo(s) de seguridad*. (Este *VPC* y *Subnet* se utilizarán para crear el sistema de archivos FSxN más adelante)
+Haga clic en el botón naranja *Crear instancia de bloc de notas* en la parte inferior izquierda.
++
+image:mlops_fsxn_s3_integration_2.png["Error: Crear instancia de bloc de notas"]
+
+
+
+
+
+==== Crear un sistema de archivos FSxN
+
+. Abra la consola de AWS. En el panel de búsqueda, busca FSX y haz clic en el servicio *FSX*.
++
+image:mlops_fsxn_s3_integration_3.png["Error: FSX Panel"]
+
+. Haga clic en *Crear sistema de archivos*.
++
+image:mlops_fsxn_s3_integration_4.png["Error: Crear sistema de archivos"]
+
+. Seleccione la primera tarjeta *FSX for NetApp ONTAP* y haga clic en *Siguiente*.
++
+image:mlops_fsxn_s3_integration_5.png["Error: Seleccione el tipo de sistema de archivos"]
+
+. En la página de configuración de detalles.
++
+.. Seleccione la opción *Standard create*.
++
+image:mlops_fsxn_s3_integration_6.png["Error: Crear el panel del sistema de archivos"]
+
+.. Introduzca el *Nombre del sistema de archivos* y la *Capacidad de almacenamiento SSD*.
++
+image:mlops_fsxn_s3_integration_7.png["Error: Especifique los detalles del sistema de archivos"]
+
+.. Asegúrese de usar *VPC* y *subnet* igual a la instancia *SageMaker Notebook*.
++
+image:mlops_fsxn_s3_integration_8.png["Error: Configuración de seguridad de  de red"]
+
+.. Introduzca el nombre de la máquina virtual *Storage* y *especifique una contraseña* para su SVM (máquina virtual de almacenamiento).
++
+image:mlops_fsxn_s3_integration_9.png["Error: Configuración de la máquina virtual de almacenamiento predeterminada"]
+
+.. Deja otras entradas predeterminadas y haz clic en el botón naranja *Siguiente* en la parte inferior izquierda.
++
+image:mlops_fsxn_s3_integration_10.png["Error: Confirme la configuración"]
+
+.. Haga clic en el botón naranja *Crear sistema de archivos* en la parte inferior izquierda de la página de revisión.
++
+image:mlops_fsxn_s3_integration_11.png["Error: Revise la configuración y confirme la creación"]
+
+
+
+. Puede tardar unos *20-40 minutos* en activar el sistema de archivos FSX.
++
+image:mlops_fsxn_s3_integration_12.png["Error: Inspeccione la consola FSX"]
+
+
+
+
+
+=== Configuración del servidor
+
+
+
+==== Configuración de ONTAP
+
+. Abra el sistema de archivos FSX creado. Por favor, asegúrese de que el estado es *disponible*.
++
+image:mlops_fsxn_s3_integration_13.png["Error: Espere a la creación del backend"]
+
+. Seleccione la pestaña *Administración* y mantenga el *Punto final de administración - dirección IP* y el *Nombre de usuario del administrador de ONTAP*.
++
+image:mlops_fsxn_s3_integration_14.png["Error: Consola de detalles del sistema de archivos"]
+
+. Abra la instancia creada de *SageMaker Notebook* y haga clic en *Abrir JupyterLab*.
++
+image:mlops_fsxn_s3_integration_15.png["Error: Consola de instancia de AWS SageMaker Notebook"]
+
+. En la página Jupyter Lab, abre un nuevo *Terminal*.
++
+image:mlops_fsxn_s3_integration_16.png["Error: Página de bienvenida de Jupyter Lab"]
+
+. Introduzca el comando ssh ssh <nombre de usuario admin>@<IP del servidor de ONTAP> para iniciar sesión en el sistema de archivos ONTAP FSxN. (El nombre de usuario y la dirección IP se recuperan del paso 2)
+Utilice la contraseña utilizada al crear la *Storage virtual machine*.
++
+image:mlops_fsxn_s3_integration_17.png["Error: Terminal Jupyter Lab"]
+
+. Ejecute los comandos en el siguiente orden.
+Utilizamos *fsxn-ontap* como nombre para el *FSxN private S3 bucket name*.
+Utilice el *nombre de máquina virtual de almacenamiento* para el argumento *-Vserver*.
++
+[source, bash]
+----
+vserver object-store-server create -vserver fsxn-svm-demo -object-store-server fsx_s3 -is-http-enabled true -is-https-enabled false
+
+vserver object-store-server user create -vserver fsxn-svm-demo -user s3user
+
+vserver object-store-server group create -name s3group -users s3user -policies FullAccess
+
+vserver object-store-server bucket create fsxn-ontap -vserver fsxn-svm-demo -type nas -nas-path /vol1
+----
++
+image:mlops_fsxn_s3_integration_18.png["Error: Salida del terminal Jupyter Lab"]
+
+. Ejecute los siguientes comandos para recuperar la IP de punto final y las credenciales para FSxN private S3.
++
+[source, bash]
+----
+network interface show -vserver fsxn-svm-demo -lif nfs_smb_management_1
+
+set adv
+
+vserver object-store-server user show
+----
+. Conserve la IP del extremo y las credenciales para usarlo en el futuro.
++
+image:mlops_fsxn_s3_integration_19.png["Error: Terminal Jupyter Lab"]
+
+
+
+
+
+==== Configuración del cliente
+
+. En la instancia de SageMaker Notebook, cree un nuevo cuaderno Jupyter.
++
+image:mlops_fsxn_s3_integration_20.png["Error: Abra un nuevo cuaderno Jupyter"]
+
+. Utilice el siguiente código como solución alternativa para cargar archivos en el cubo privado de FSxN S3.
+Para obtener un ejemplo de código completo, consulte este cuaderno.
+link:./../media/mlops_fsxn_s3_integration_0.ipynb["fsxn_demo.ipynb"]
++
+[source, python]
+----
+# Setup configurations
+# -------- Manual configurations --------
+seed: int = 77                                                          # Random seed
+bucket_name: str = 'fsxn-ontap'                                         # The bucket name in ONTAP
+aws_access_key_id: str = 'PB7XA31OKDPKTEXMK0S2'                         # Please get this credential from ONTAP
+aws_secret_access_key: str = 'N06DwX7OgBnb5X569dr10JicACYuHfDy3_hmsn7M' # Please get this credential from ONTAP
+fsx_endpoint_ip: str = '172.31.255.251'                                 # Please get this IP address from FSXN
+# -------- Manual configurations --------
+
+# Workaround
+## Permission patch
+!mkdir -p vol1
+!sudo mount -t nfs $fsx_endpoint_ip:/vol1 /home/ec2-user/SageMaker/vol1
+!sudo chmod 777 /home/ec2-user/SageMaker/vol1
+
+## Authentication for FSxN as a Private S3 Bucket
+!aws configure set aws_access_key_id $aws_access_key_id
+!aws configure set aws_secret_access_key $aws_secret_access_key
+
+## Upload file to the FSxN Private S3 Bucket
+%%capture
+local_file_path: str = <Your local file path>
+
+!aws s3 cp --endpoint-url http://$fsx_endpoint_ip /home/ec2-user/SageMaker/$local_file_path  s3://$bucket_name/$local_file_path
+
+# Read data from FSxN Private S3 bucket
+## Initialize a s3 resource client
+import boto3
+
+# Get session info
+region_name = boto3.session.Session().region_name
+
+# Initialize Fsxn S3 bucket object
+# --- Start integrating SageMaker with FSXN ---
+# This is the only code change we need to incorporate SageMaker with FSXN
+s3_client: boto3.client = boto3.resource(
+    's3',
+    region_name=region_name,
+    aws_access_key_id=aws_access_key_id,
+    aws_secret_access_key=aws_secret_access_key,
+    use_ssl=False,
+    endpoint_url=f'http://{fsx_endpoint_ip}',
+    config=boto3.session.Config(
+        signature_version='s3v4',
+        s3={'addressing_style': 'path'}
+    )
+)
+# --- End integrating SageMaker with FSXN ---
+
+## Read file byte content
+bucket = s3_client.Bucket(bucket_name)
+
+binary_data = bucket.Object(data.filename).get()['Body']
+----
+
+
+Esto concluye la integración entre FSxN y la instancia de SageMaker.
+
+
+
+== Lista de comprobación de depuración útil
+
+* Asegúrese de que la instancia de SageMaker Notebook y el sistema de archivos FSxN estén en la misma VPC.
+* Recuerde ejecutar el comando *set dev* en ONTAP para establecer el nivel de privilegio en *dev*.
+
+
+
+
+== Preguntas frecuentes (a partir del 27 de septiembre de 2023)
+
+P: ¿Por qué recibo el error “*Se ha producido un error (NotImplemented) al llamar a la operación CreateMultipartUpload: El comando S3 que solicitó no está implementado*” al cargar archivos a FSxN?
+
+R: Como depósito privado de S3, FSxN admite la carga de archivos de hasta 100MB GB. Cuando se utiliza el protocolo S3, los archivos de más de 100MB MB se dividen en 100MB fragmentos y se llama a la función 'CreateMultipartUpload'. Sin embargo, la implementación actual de FSxN PRIVATE S3 no soporta esta función.
+
+P: ¿Por qué recibo el error “*Se ha producido un error (ACCESSDENIED) al llamar a las operaciones PutObject: Acceso denegado*” al cargar archivos a FSxN?
+
+R: Para acceder al bucket S3 privado FSxN desde una instancia de Notebook de SageMaker, cambie las credenciales de AWS a las credenciales FSxN. Sin embargo, otorgar permiso de escritura a la instancia requiere una solución provisional que implique montar el bucket y ejecutar el comando shell 'chmod' para cambiar los permisos.
+
+P: ¿Cómo puedo integrar el cubo FSxN private S3 con otros servicios de SageMaker ML?
+
+R: Desafortunadamente, el SDK de servicios de SageMaker no proporciona una forma de especificar el punto final para el cubo privado de S3. Como resultado, FSxN S3 no es compatible con los servicios de SageMaker tales como Sagemaker Data Wrangler, Sagemaker Clarify, Sagemaker Glue, Sagemaker Athena, Sagemaker AutoML, Sagemaker AutoML, y otros.
