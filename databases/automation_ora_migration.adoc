@@ -21,6 +21,9 @@ Equipo de ingeniería de soluciones de NetApp
 
 Este kit de herramientas automatiza la migración de las bases de datos de Oracle de on-premises a la nube de AWS con el almacenamiento FSx ONTAP y la instancia de computación EC2 como infraestructura de destino. Asume que el cliente ya tiene una base de datos de Oracle en las instalaciones implementada en el modelo CDB/PDB. El kit de herramientas permitirá al cliente reubicar una PDB con nombre desde una base de datos de contenedor en un host de Oracle mediante el procedimiento de reubicación de Oracle PDB con una opción de disponibilidad máxima. Esto significa que la PDB de origen en cualquier cabina de almacenamiento local se reubica en una nueva base de datos de contenedores con una interrupción del servicio mínima. El procedimiento de reubicación de Oracle moverá los archivos de datos de Oracle mientras la base de datos está en línea. Posteriormente, redirige las sesiones de usuario de on-premises a los servicios de base de datos reubicados en el momento de cambiar cuando todos los archivos de datos se mueven a la nube de AWS. La tecnología subrayada es la metodología probada de clonado en caliente de PDB de Oracle.
 
+
+NOTE: Aunque el kit de herramientas de migración ha sido desarrollado y validado en la infraestructura de nube de AWS, se basa en soluciones de aplicaciones de Oracle. Por lo tanto, el kit de herramientas es aplicable a otras plataformas de cloud público, como Azure, GCP, etc.
+
 Esta solución aborda los siguientes casos prácticos:
 
 * Cree el usuario de migración y otorgue los privilegios necesarios en el servidor de base de datos de origen local.

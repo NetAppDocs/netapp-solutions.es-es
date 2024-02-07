@@ -119,7 +119,7 @@ Cierre y reinicie la base de datos del contenedor. la ncdb se sale del modo rest
 
 == Migrar bases de datos de Oracle locales a Azure con la reubicación de PDB
 
-La reubicación de PDB de Oracle con la opción de disponibilidad máxima utiliza la tecnología de clonado en activo de PDB, lo que permite la disponibilidad de la PDB de origen mientras se copia la PDB en el destino. Tras la conmutación de sitios, las sesiones y las conexiones se redirigen automáticamente a la PDB de destino. Así, el tiempo de inactividad se minimiza independientemente del tamaño de la PDB que se va a reubicar. NetApp proporciona un kit de herramientas basado en Ansible que automatiza el procedimiento de migración.
+La reubicación de la PDB de Oracle con la opción de máxima disponibilidad emplea la tecnología de clonado en caliente de PDB, lo que permite la disponibilidad de PDB de origen mientras la PDB se copia en el destino. En el switchover, las conexiones de usuario se redirigen automáticamente a la PDB de destino. Por lo tanto, el tiempo de inactividad se minimiza de manera independiente del tamaño de la PDB. NetApp proporciona un kit de herramientas basado en Ansible que automatiza el procedimiento de migración.
 
 . Cree una CDB en el cloud público de Azure en una máquina virtual de Azure con el mismo nivel de versión y revisión.
 . Desde la controladora de Ansible, clone una copia del kit de herramientas de automatización.
