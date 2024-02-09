@@ -1,0 +1,69 @@
+---
+sidebar: sidebar 
+permalink: ehc/gcp-setup.html 
+keywords: NetApp Solutions, google cloud, gcp, gcve, vmware managed cloud, enterprise, hybrid, cloud, config, configuration, 
+summary:  
+---
+= Poner en marcha y configurar el entorno de virtualización en Google Cloud Platform (GCP)
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+Al igual que en las instalaciones, la planificación de Google Cloud VMware Engine (GCVE) es crucial para un entorno listo para la producción con éxito para la creación de equipos virtuales y la migración.
+
+En esta sección se describe cómo configurar y gestionar GCVE y cómo utilizarlo junto con las opciones disponibles para conectar el almacenamiento de NetApp.
+
+El proceso de configuración puede dividirse en los siguientes pasos:
+
+.Implementar y configurar GCVE
+[%collapsible]
+====
+Para configurar un entorno GCVE en GCP, inicie sesión en la consola de GCP y acceda al portal VMware Engine.
+
+Haga clic en el botón “New Private Cloud” e introduzca la configuración deseada para GCVE Private Cloud. En “ubicación”, asegúrese de poner en marcha el cloud privado en la misma región/zona donde se pone en marcha CVS/CVO, para garantizar el mejor rendimiento y la menor latencia.
+
+Requisitos previos:
+
+* Configurar el rol del IAM de administración de servicio del motor VMware
+* link:https://cloud.google.com/vmware-engine/docs/quickstart-prerequisites["Habilite el acceso a la API de VMware Engine y la cuota de nodo"]
+* Asegúrese de que la gama CIDR no se superpone con ninguna de las subredes en las instalaciones o en la nube. El rango CIDR debe ser /27 o superior.
+
+
+image:gcve-deploy-1.png[""]
+
+Nota: La creación de clouds privados puede tardar entre 30 minutos y 2 horas.
+
+====
+.Active el acceso privado a GCVE
+[%collapsible]
+====
+Una vez aprovisionado el cloud privado, configure el acceso privado al cloud privado para obtener una conexión de ruta de datos de alto rendimiento y baja latencia.
+
+De este modo, se asegurará de que la red VPC en la que se ejecutan las instancias de Cloud Volumes ONTAP pueda comunicarse con la nube privada de GCVE. Para ello, siga la link:https://cloud.google.com/architecture/partners/netapp-cloud-volumes/quickstart["Documentación para GCP"]. Para Cloud Volume Service, establezca una conexión entre VMware Engine y Cloud Volumes Service mediante la ejecución de un par de tiempo único entre los proyectos de host de inquilinos. Siga estos pasos para obtener más información link:https://cloud.google.com/vmware-engine/docs/vmware-ecosystem/howto-cloud-volumes-service["enlace"].
+
+image:gcve-access-1.png[""]
+
+Inicie sesión en vcenter con el usuario CloudOwner@gve.loc/. Para acceder a las credenciales, vaya al portal VMware Engine, vaya a Resources y seleccione la nube privada adecuada. En la sección Basic info, haga clic en el enlace View para la información de inicio de sesión de vCenter (vCenter Server, HCX Manager) o la información de inicio de sesión de NSX-T (NSX Manager).
+
+image:gcve-access-2.png[""]
+
+En una máquina virtual Windows, abra un explorador y desplácese hasta la URL del cliente web de vCenter  Y utilice el nombre de usuario admin como CloudOwner@gve.locloc l y pegue la contraseña copiada. De igual modo, también es posible acceder al administrador de NSX-T mediante la URL del cliente web  utilice el nombre de usuario admin y pegue la contraseña copiada para crear segmentos nuevos o modificar las puertas de enlace del nivel existente.
+
+Para conectar desde una red local a un cloud privado con motor de VMware, aproveche la VPN de cloud o la interconexión de cloud para obtener la conectividad adecuada y asegúrese de que los puertos necesarios estén abiertos. Siga estos pasos para obtener más información link:https://ubuntu.com/server/docs/service-iscsi["enlace"].
+
+image:gcve-access-3.png[""]
+
+image:gcve-access-4.png[""]
+
+====
+.Implemente el almacén de datos complementario del servicio de volúmenes de cloud de NetApp en GCVE
+[%collapsible]
+====
+Consulte link:gcp-ncvs-datastore.html["Procedimiento para implementar un almacén de datos NFS complementario con NetApp CVS en GCVE"]
+
+====

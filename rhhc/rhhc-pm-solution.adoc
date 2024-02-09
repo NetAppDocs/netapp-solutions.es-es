@@ -1,0 +1,29 @@
+---
+sidebar: sidebar 
+permalink: rhhc/rhhc-pm-solution.html 
+keywords: NetApp Solutions, redhat OpenShift, red hat OpenShift, redhat openshift container platform, ocp, openshift container platform, Advanced Cluster Management, ACM, Hub Cluster, containers, container workloads, VMware, customer managed storage, ONTAP 
+summary:  
+---
+= Solución de NetApp con cargas de trabajo de la plataforma de contenedores Red Hat OpenShift gestionadas en AWS
+:allow-uri-read: 
+
+
+
+
+== Solución de NetApp con cargas de trabajo de la plataforma de contenedores Red Hat OpenShift gestionadas en AWS
+
+[role="lead"]
+Los clientes pueden haber «nacido en el cloud» o pueden estar en un momento en su proceso de modernización cuando estén listos para mover algunas cargas de trabajo selectas o todas las cargas de trabajo de sus centros de datos al cloud. Pueden elegir usar contenedores OpenShift gestionados por proveedores y almacenamiento NetApp gestionado por proveedores en la nube para ejecutar sus cargas de trabajo. Deben planificar e implementar los clústeres de contenedores Managed Red Hat OpenShift (ROSA) en la nube para un entorno de producción adecuado para sus cargas de trabajo de contenedores. Cuando están en el cloud de AWS, también podrían poner en marcha FSx para ONTAP de NetApp para cubrir las necesidades de almacenamiento.
+
+FSX para ONTAP de NetApp ofrece protección de datos, fiabilidad y flexibilidad para las puestas en marcha de contenedores en AWS. Astra Trident actúa como el aprovisionador de almacenamiento dinámico para consumir el almacenamiento FSxN persistente para las aplicaciones con estado de los clientes.
+
+Como ROSA se puede poner en marcha en modo de alta disponibilidad con nodos del plano de control repartidos por varias zonas de disponibilidad, FSx ONTAP también se puede aprovisionar con la opción Multi-AZ que proporciona alta disponibilidad y protección frente a fallos de AZ.
+
+
+NOTE: No hay cargos de transferencia de datos al acceder a un sistema de archivos Amazon FSx desde la zona de disponibilidad (AZ) preferida del sistema de archivos. Para obtener más información sobre los precios, consulte link:https://aws.amazon.com/fsx/netapp-ontap/pricing/["aquí"].
+
+
+
+== Solución de protección y migración de datos para las cargas de trabajo de contenedores de OpenShift
+
+image:rhhc-rosa-with-fsxn.png[""]

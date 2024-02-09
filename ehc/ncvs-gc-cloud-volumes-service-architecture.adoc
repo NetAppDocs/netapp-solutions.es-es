@@ -1,0 +1,78 @@
+---
+sidebar: sidebar 
+permalink: ehc/ncvs-gc-cloud-volumes-service-architecture.html 
+keywords: tenancy model, shared vpcs, service controls, packet sniffing, trace considerations 
+summary: 'De forma similar a otros servicios nativos de Google Cloud como CloudSQL, Google Cloud VMware Engine (GCVE) y filestore, Cloud Volumes Service utiliza Google PSA para prestar el servicio.' 
+---
+= Arquitectura Cloud Volumes Service
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+De forma similar a otros servicios nativos de Google Cloud como CloudSQL, Google Cloud VMware Engine (GCVE) y filestore, utiliza Cloud Volumes Service https://cloud.google.com/vpc/docs/private-services-access?hl=en_US["Google PSA"^] para prestar el servicio. En PSA, los servicios se construyen dentro de un proyecto de productor de servicios, que utiliza https://cloud.google.com/vpc/docs/vpc-peering?hl=en_US["Agrupación de redes VPC"^] para conectarse con el consumidor de servicios. El productor de servicios lo proporciona y controla NetApp, y el consumidor de servicios es un VPC en un proyecto de cliente, que aloja a los clientes que desean acceder a recursos compartidos de archivos de Cloud Volumes Service.
+
+La siguiente figura, a la que se hace referencia desde https://cloud.google.com/architecture/partners/netapp-cloud-volumes/architecture?hl=en_US["sección de arquitectura"^] De la documentación de Cloud Volumes Service, muestra una vista de alto nivel.
+
+image:ncvs-gc-image1.png["Error: Falta la imagen gráfica"]
+
+La pieza situada encima de la línea de puntos muestra el plano de control del servicio, que controla el ciclo de vida del volumen. La pieza debajo de la línea de puntos muestra el plano de datos. El cuadro azul izquierdo muestra el VPC (consumidor de servicios) del usuario, el cuadro azul derecho es el productor de servicios que proporciona NetApp. Ambos se conectan mediante la agrupación de VPC.
+
+
+
+== Modelo de tenancy
+
+En Cloud Volumes Service, los proyectos individuales se consideran inquilinos únicos. Esto significa que la manipulación de volúmenes, copias Snapshot, etc. se realiza por proyecto. En otras palabras, todos los volúmenes son propiedad del proyecto en el que se crearon y solo ese proyecto puede gestionar y acceder a los datos de su interior de forma predeterminada. Se considera la vista del plano de control del servicio.
+
+
+
+=== VPC compartidos
+
+En la vista del plano de datos, Cloud Volumes Service puede conectarse a un VPC compartido. Se pueden crear volúmenes en el proyecto de host o en uno de los proyectos de servicio conectados al VPC compartido. Todos los proyectos (host o servicio) conectados al VPC compartido pueden llegar a los volúmenes de la capa de red (TCP/IP). Debido a que todos los clientes con conectividad de red en el VPC compartido pueden acceder potencialmente a los datos mediante los protocolos NAS, se debe utilizar el control de acceso en el volumen individual (como las listas de control de acceso de usuarios/grupos (ACL) y los nombres de host/direcciones IP para las exportaciones de NFS para controlar quién puede acceder a los datos.
+
+Puede conectar Cloud Volumes Service hasta a cinco VPC por proyecto de cliente. En el plano de control, el proyecto le permite gestionar todos los volúmenes creados, independientemente del VPC al que estén conectados. En el plano de datos, las PC están aisladas entre sí y cada volumen solo se puede conectar a un VPC.
+
+El acceso a los volúmenes individuales está controlado por mecanismos de control de acceso específicos de los protocolos (NFS/SMB).
+
+En otras palabras, en la capa de red, todos los proyectos conectados al VPC compartido pueden ver el volumen, mientras que, por el lado de la gestión, el plano de control solo permite que el proyecto del propietario vea el volumen.
+
+
+
+=== Controles de servicio VPC
+
+Los controles de servicio VPC establecen un perímetro de control de acceso alrededor de los servicios de Google Cloud que están conectados a Internet y son accesibles en todo el mundo. Estos servicios proporcionan control de acceso a través de identidades de usuario, pero no pueden restringir desde qué solicitudes de ubicación de red se originan. Los controles de servicio VPC cierran esa brecha introduciendo las funcionalidades para restringir el acceso a las redes definidas.
+
+El plano de datos Cloud Volumes Service no está conectado a Internet externo sino a ordenadores virtuales privados con límites de red bien definidos (perímetros). Dentro de esa red, cada volumen utiliza un control de acceso específico del protocolo. Los administradores de proyectos de Google Cloud crean explícitamente cualquier conectividad de red externa. Sin embargo, el plano de control no proporciona las mismas protecciones que el plano de datos y puede ser accesible por cualquier persona desde cualquier lugar con credenciales válidas ( https://datatracker.ietf.org/doc/html/rfc7519["Fichas JWT"^]).
+
+En resumen, el plano de datos Cloud Volumes Service proporciona la funcionalidad de control de acceso a la red, sin el requisito de admitir controles de servicio VPC y no utiliza de forma explícita los controles de servicio VPC.
+
+
+
+=== Consideraciones sobre rastreo y rastreo de paquetes
+
+Las capturas de paquetes pueden ser útiles para solucionar problemas de red u otros problemas (como permisos NAS, conectividad LDAP, etc.), pero también se pueden usar de forma malintencionada para obtener información sobre direcciones IP de red, direcciones MAC, nombres de usuarios y grupos, y sobre qué nivel de seguridad se está utilizando en los extremos. Debido a la forma en que se configuran las reglas de red, VPC y firewall de Google Cloud, el acceso no deseado a los paquetes de red debería ser difícil de obtener sin credenciales de inicio de sesión del usuario o link:<ncvs-gc-control-plane-architecture.html#jwt-tokens["Fichas JWT"] a las instancias de cloud. Las capturas de paquetes solo son posibles en extremos (como máquinas virtuales (VM)) y solo en extremos internos en el VPC, a menos que se utilice un VPC compartido o un reenvío de túnel/IP de red externo para permitir de forma explícita el tráfico externo a los extremos. No hay forma de sniff el tráfico fuera de los clientes.
+
+Cuando se utilizan VPC compartidos, cifrado en tránsito con NFS Kerberos y/o. link:ncvs-gc-data-encryption-in-transit.html#smb-encryption["Cifrado SMB"] puede enmascarar gran parte de la información obtenida de las trazas. Sin embargo, cierto tráfico se sigue enviando en texto sin texto, como link:ncvs-gc-other-nas-infrastructure-service-dependencies.html#dns["DNS"] y.. link:cvs-gc-other-nas-infrastructure-service-dependencies.html#ldap-queries["Consultas LDAP"]. En la siguiente figura se muestra una captura de paquetes de una consulta LDAP de texto sin formato originada en Cloud Volumes Service y la información de identificación potencial que se expone. Las consultas LDAP en Cloud Volumes Service actualmente no admiten cifrado ni LDAP sobre SSL. CVS-Performance admite la firma LDAP, si es solicitada por Active Directory. CVS-SW no admite la firma LDAP.
+
+image:ncvs-gc-image2.png["Error: Falta la imagen gráfica"]
+
+
+NOTE: UnixUserPassword es consultada por LDAP y no se envía en texto sin formato sino en un hash salado. De forma predeterminada, LDAP de Windows no rellena los campos unixUserPassword. Este campo sólo es necesario si necesita aprovechar LDAP de Windows para inicios de sesión interactivos a través de LDAP a clientes. Cloud Volumes Service no admite inicios de sesión LDAP interactivos en las instancias.
+
+En la siguiente figura se muestra una captura de paquetes desde una conversación Kerberos de NFS junto a una captura de NFS sobre AUTH_SYS. Tenga en cuenta que la información disponible en una traza difiere entre ambas y cómo habilitar el cifrado en tránsito ofrece una mayor seguridad general para el tráfico NAS.
+
+image:ncvs-gc-image3.png["Error: Falta la imagen gráfica"]
+
+image:ncvs-gc-image4.png["Error: Falta la imagen gráfica"]
+
+
+
+=== Interfaces de red de equipos virtuales
+
+Un truco que los atacantes podrían intentar es agregar una nueva tarjeta de interfaz de red (NIC) a una VM en https://en.wikipedia.org/wiki/Promiscuous_mode["modo promiscuo"^] (Duplicación de puertos) o habilite el modo promiscuo en una NIC existente para sniff todo el tráfico. En Google Cloud, agregar una nueva NIC requiere que una máquina virtual se cierre por completo, lo que crea alertas, por lo que los atacantes no pueden pasar por alto.
+
+Además, las NIC no se pueden establecer en modo promiscuo y activarán alertas en Google Cloud.

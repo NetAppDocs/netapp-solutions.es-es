@@ -1,0 +1,27 @@
+---
+sidebar: sidebar 
+permalink: ehc/ncvs-gc-firewall.html 
+keywords: tcp, nfs, smb share, kerberos, active directory, dns 
+summary: Cloud Volumes Service expone varios puertos TCP para servir recursos compartidos NFS y SMB. 
+---
+= Servidor de seguridad
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+Cloud Volumes Service expone varios puertos TCP para que sirvan a los recursos compartidos NFS y SMB:
+
+* https://cloud.google.com/architecture/partners/netapp-cloud-volumes/security-considerations?hl=en_US["Puertos necesarios para el acceso NFS"^]
+* https://cloud.google.com/architecture/partners/netapp-cloud-volumes/security-considerations?hl=en_US["Puertos necesarios para el acceso a SMB"^]
+
+
+Además, SMB, NFS con LDAP incluido Kerberos y configuraciones de protocolo dual requieren acceso a un dominio de Windows Active Directory. Deben estar las conexiones de Active Directory https://cloud.google.com/architecture/partners/netapp-cloud-volumes/creating-smb-volumes?hl=en_US["configurado"^] por región. Los controladores de dominio de Active Directory (DC) se identifican mediante el uso https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-adts/7fcdce70-5205-44d6-9c3a-260e616a2f04["Descubrimiento de DC basado en DNS"^] Utilizando los servidores DNS especificados. Se utiliza cualquiera de los DC devueltos. La lista de centros de datos elegibles se puede limitar especificando un sitio de Active Directory.
+
+Cloud Volumes Service se dirige a través de direcciones IP del rango CIDR asignado con el `gcloud compute address` command mientras https://cloud.google.com/architecture/partners/netapp-cloud-volumes/setting-up-private-services-access?hl=en_US["Integración de Cloud Volumes Service"^]. Puede utilizar este CIDR como direcciones de origen para configurar firewalls entrantes en los controladores de dominio de Active Directory.
+
+Los controladores de dominio de Active Directory deben https://cloud.google.com/architecture/partners/netapp-cloud-volumes/security-considerations?hl=en_US["Exponer los puertos a los CIDR de Cloud Volumes Service como se menciona aquí"^].

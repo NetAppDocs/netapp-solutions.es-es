@@ -1,0 +1,76 @@
+---
+sidebar: sidebar 
+permalink: containers/a-w-n_netapp_element.html 
+keywords: NetApp, Element, Solidfire, iSCSI 
+summary: El software NetApp Element ofrece un rendimiento modular y escalable con cada nodo de almacenamiento que ofrece capacidad y rendimiento garantizados para el entorno. Los sistemas NetApp Element pueden escalarse de 4 a 100 nodos en un único clúster y ofrecen una serie de funciones avanzadas de gestión del almacenamiento. 
+---
+= NetApp Element
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+El software NetApp Element ofrece un rendimiento modular y escalable con cada nodo de almacenamiento que ofrece capacidad y rendimiento garantizados para el entorno. Los sistemas NetApp Element pueden escalarse de 4 a 100 nodos en un único clúster y ofrecen diversas funciones avanzadas de gestión del almacenamiento.
+
+image:a-w-n_element.jpg["Error: Falta la imagen gráfica"]
+
+Para obtener más información sobre los sistemas de almacenamiento NetApp Element, visite https://www.netapp.com/data-storage/solidfire/["Sitio web de SolidFire de NetApp"^].
+
+
+
+== Redirección de inicio de sesión iSCSI y capacidades de reparación automática
+
+El software NetApp Element aprovecha el protocolo de almacenamiento iSCSI, una forma estándar de encapsular comandos SCSI en una red TCP/IP tradicional. Cuando los estándares SCSI cambian o cuando el rendimiento de las redes Ethernet mejora, el protocolo de almacenamiento iSCSI se beneficia sin necesidad de hacer cambios.
+
+Aunque todos los nodos de almacenamiento tienen una IP de gestión y una IP de almacenamiento, el software NetApp Element anuncia una única dirección IP virtual de almacenamiento (dirección SVIP) para todo el tráfico de almacenamiento del clúster. Como parte del proceso de inicio de sesión iSCSI, el almacenamiento puede responder que el volumen objetivo se ha movido a otra dirección y, por lo tanto, no puede continuar con el proceso de negociación. A continuación, el host vuelve a enviar la solicitud de inicio de sesión a la nueva dirección en un proceso que no requiere reconfiguración del lado del host. Este proceso se conoce como redireccionamiento de inicio de sesión iSCSI.
+
+La redirección de inicio de sesión iSCSI es una parte clave del cluster de software de NetApp Element. Cuando se recibe una solicitud de inicio de sesión de host, el nodo decide qué miembro del clúster debe encargarse del tráfico según las IOPS y los requisitos de capacidad del volumen. Los volúmenes se distribuyen por el clúster de software de NetApp Element y se redistribuyen si un solo nodo gestiona demasiado tráfico de sus volúmenes o si se añade un nodo nuevo. Se asignan varias copias de un volumen determinado en la cabina.
+
+De este modo, si a un fallo de un nodo le sigue una redistribución del volumen, no se produce ningún efecto en la conectividad de host más allá del cierre de sesión y el inicio de sesión mediante redirección a la nueva ubicación. Con la redirección de inicio de sesión iSCSI, un clúster de software NetApp Element es una arquitectura de escalabilidad horizontal y reparación automática que puede realizar operaciones y actualizaciones no disruptivas.
+
+
+
+== Calidad de servicio de clústeres de software NetApp Element
+
+Un clúster de software NetApp Element permite que la calidad de servicio se configure de forma dinámica por cada volumen. Puede utilizar la configuración de calidad de servicio por volumen para controlar el rendimiento de almacenamiento en función de los acuerdos de nivel de servicio que haya definido. Los tres siguientes parámetros configurables definen la calidad de servicio:
+
+* *IOPS mínimo.* el número mínimo de IOPS sostenidas que el clúster de software de NetApp Element proporciona a un volumen. El nivel mínimo de IOPS configurado para un volumen es el nivel garantizado de rendimiento de un volumen. El rendimiento por volumen no se sitúa por debajo de este nivel.
+* *IOPS máximo.* el número máximo de IOPS sostenidas que el clúster de software de NetApp Element proporciona a un volumen en particular.
+* *Burst IOPS.* el número máximo de IOPS permitidas en un escenario de ráfaga breve. El valor de duración de ráfaga se puede configurar, con un valor predeterminado de 1 minuto. Si un volumen se ejecuta por debajo del nivel máximo de IOPS, se acumulan créditos de ráfaga. Cuando los niveles de rendimiento llegan a ser muy altos e incluso se ven presionados, se permiten ráfagas breves de IOPS que superen los IOPS máximos en el volumen.
+
+
+
+
+== Multi-tenancy
+
+La funcionalidad multi-tenancy seguro se logra con las siguientes funciones:
+
+* *Autenticación segura.* el Protocolo de autenticación por desafío mutuo (CHAP) se utiliza para el acceso seguro al volumen. El protocolo ligero de acceso a directorios (LDAP) se utiliza para acceder de forma segura al clúster con fines de gestión e informes.
+* *Grupos de acceso de volúmenes (VAG).* opcionalmente, los VAG se pueden utilizar en lugar de la autenticación, asignando cualquier número de nombres calificados iSCSI específicos del iniciador iSCSI (IQN) a uno o más volúmenes. Para acceder a un volumen en un VAG, el IQN del iniciador debe estar en la lista de IQN permitido para el grupo de volúmenes.
+* *Redes LAN virtuales de inquilino (VLAN).* a nivel de red, la seguridad de red integral entre los iniciadores iSCSI y el clúster de software NetApp Element se facilita mediante VLAN. Para cualquier VLAN que se cree para aislar una carga de trabajo o un inquilino, NetApp Element Software crea una dirección SVIP de destino iSCSI independiente a la que solo se puede acceder a través de la VLAN específica.
+* *VLAN habilitadas para VRF.* para admitir más la seguridad y escalabilidad en el centro de datos, el software NetApp Element le permite habilitar cualquier VLAN de inquilino para la funcionalidad de VRF. Esta función añade estas dos funcionalidades clave:
++
+** *Enrutamiento L3 a una dirección SVIP de arrendatario.* esta función le permite ubicar iniciadores iSCSI en una red o VLAN independiente de la del clúster de software NetApp Element.
+** *Subredes IP duplicadas o superpuestas.* esta función le permite agregar una plantilla a entornos de arrendatarios, permitiendo a cada VLAN de arrendatario respectiva asignar direcciones IP desde la misma subred IP. Esta funcionalidad puede ser útil en entornos de proveedores de servicio en los que la escala y la conservación del espacio IP son importantes.
+
+
+
+
+
+
+== Eficiencias de almacenamiento para empresas
+
+El clúster de software NetApp Element aumenta el rendimiento y la eficiencia general del almacenamiento. Las siguientes funciones se realizan en línea, están siempre activas y el usuario no requiere ninguna configuración manual:
+
+* *Deduplicación.* el sistema sólo almacena bloques 4K únicos. Todos los bloques 4K duplicados se asocian automáticamente a una versión ya almacenada de los datos. Los datos se encuentran en unidades de bloques y se duplican mediante la protección de datos Helix del software NetApp Element. Este sistema reduce significativamente el consumo de capacidad y las operaciones de escritura en el sistema.
+* *Compresión.* la compresión se realiza en línea antes de que los datos se escriban en la NVRAM. Los datos se comprimen, almacenan en bloques de 4 K y siguen comprimidos en el sistema. Esta compresión reduce significativamente el consumo de capacidad, las operaciones de escritura y el consumo de ancho de banda en el clúster.
+* *Thin-Provisioning.* esta funcionalidad proporciona la cantidad adecuada de almacenamiento en el momento en que lo necesita, eliminando el consumo de capacidad causado por volúmenes sobreaprovisionados o volúmenes infrautilizados.
+* * Helix.* los metadatos de un volumen individual se almacenan en una unidad de metadatos y se replican en una unidad de metadatos secundaria por motivos de redundancia.
+
+
+
+NOTE: Element se diseñó para la automatización. Todas las funciones de almacenamiento están disponibles mediante API. Estas API son el único método que utiliza la interfaz de usuario para controlar el sistema.

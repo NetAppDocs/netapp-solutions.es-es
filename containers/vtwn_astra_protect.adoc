@@ -1,0 +1,97 @@
+---
+sidebar: sidebar 
+permalink: containers/vtwn_astra_protect.html 
+summary: Una vez que Astra Control Center gestiona las cargas de trabajo de las aplicaciones, puede configurar los ajustes de protección para esas cargas de trabajo. 
+keywords: NetApp Astra Control, Astra Control Center, Application, Trident, Astra Trident, Helm, Operator, ONTAP, Tanzu, Tanzu Kubernetes clusters, VMware Tanzu 
+---
+= Proteja sus aplicaciones
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+Una vez que Astra Control Center gestiona las cargas de trabajo de las aplicaciones, puede configurar los ajustes de protección para esas cargas de trabajo.
+
+
+
+== Crear una instantánea de aplicación
+
+Una copia Snapshot de una aplicación crea una copia Snapshot de ONTAP y una copia de los metadatos de la aplicación que se pueden usar para restaurar o clonar la aplicación en un momento específico según esa copia Snapshot.
+
+. Para tomar una instantánea de la aplicación, desplácese a la ficha aplicaciones > gestionado y haga clic en la aplicación de la que desea realizar una copia snapshot. Haga clic en el menú desplegable junto al nombre de la aplicación y haga clic en Snapshot.
++
+image::vtwn_image18.jpg[Botón de instantánea de Astra Control Center]
+
+. Introduzca los detalles de la snapshot, haga clic en Siguiente y luego en Snapshot. La creación de la snapshot tarda aproximadamente un minuto y el estado cambia a disponible después de que se cree correctamente la snapshot.
++
+image::vtwn_image19.jpg[Astra Control Center crea una instantánea]
+
+
+
+
+
+== Crear un backup de aplicación
+
+Un backup de una aplicación captura el estado activo de la aplicación y la configuración de sus recursos de TI, los coloca en archivos y los almacena en un bloque de almacenamiento de objetos remotos.
+
+. Para realizar la copia de seguridad y la restauración de las aplicaciones gestionadas en el Centro de control de Astra, debe configurar los ajustes de superusuario para los sistemas ONTAP de respaldo como requisito previo. Para ello, introduzca los comandos siguientes.
++
+[listing]
+----
+ONTAP::> export-policy rule modify -vserver ocp-trident -policyname default -ruleindex 1 -superuser sys
+ONTAP::> export-policy rule modify -policyname default -ruleindex 1 -anon 65534 -vserver ocp-trident
+----
+. Para crear una copia de seguridad de la aplicación gestionada en Astra Control Center, desplácese a la ficha aplicaciones > administradas y haga clic en la aplicación de la que desea realizar una copia de seguridad. Haga clic en el menú desplegable junto al nombre de la aplicación y haga clic en copia de seguridad.
++
+image::vtwn_image18.jpg[Botón de copia de seguridad de Astra Control Center]
+
+. Introduzca los detalles de la copia de seguridad, seleccione el bloque de almacenamiento de objetos donde se retengan los archivos de copia de seguridad, haga clic en Siguiente y, tras revisar los detalles, haga clic en Backup. Según el tamaño de la aplicación y los datos, el backup puede tardar varios minutos y el estado del backup pasa a estar disponible después de que el backup se haya completado correctamente.
+
+
+image::vtwn_image20.jpg[Astra Control Center crea una copia de seguridad]
+
+
+
+== Restaurar una aplicación
+
+Con solo pulsar un botón, puede restaurar una aplicación en el espacio de nombres de origen del mismo clúster o en un clúster remoto para realizar tareas de protección de aplicaciones y recuperación ante desastres.
+
+. Para restaurar una aplicación, desplácese a la ficha aplicaciones > administradas y haga clic en la aplicación en cuestión. Haga clic en el menú desplegable junto al nombre de la aplicación y haga clic en Restaurar.
++
+image::vtwn_image18.jpg[Botón de clonación de Astra Control Center]
+
+. Introduzca el nombre del espacio de nombres de la restauración, seleccione el clúster donde desea restaurarlo y elija si desea restaurarlo desde la copia de Snapshot existente o desde el backup de la aplicación. Haga clic en Siguiente.
++
+image::vtwn_image21.jpg[Restauración del Centro de control de Astra]
+
+. En el panel de revisión, introduzca `restore` Y haga clic en Restaurar después de haber revisado los detalles.
++
+image::vtwn_image22.jpg[Revisión de restauración del Centro de control de Astra]
+
+. La nueva aplicación pasa al estado de restauración mientras Astra Control Center restaura la aplicación en el clúster seleccionado. Una vez que todos los recursos de la aplicación son instalados y detectados por Astra, la aplicación pasa al estado disponible.
+
+
+image::vtwn_image17.jpg[Astra Control Center se ha descubierto una nueva aplicación]
+
+
+
+== Clonar una aplicación
+
+Es posible clonar una aplicación en el clúster de origen o en un clúster remoto para fines de desarrollo/pruebas o protección de aplicaciones y recuperación ante desastres. La clonado de una aplicación dentro del mismo clúster en el mismo back-end de almacenamiento utiliza la tecnología FlexClone de NetApp, que clona las RVP de forma instantánea y ahorra espacio de almacenamiento.
+
+. Para clonar una aplicación, vaya a la ficha aplicaciones > administradas y haga clic en la aplicación en cuestión. Haga clic en el menú desplegable junto al nombre de la aplicación y haga clic en Clonar.
++
+image::vtwn_image18.jpg[Botón de clonación de Astra Control Center]
+
+. Introduzca los detalles del nuevo espacio de nombres, seleccione el clúster al que desea clonarlo y elija si desea clonarlo desde una snapshot existente, desde un backup o desde el estado actual de la aplicación. Haga clic en Siguiente y, a continuación, en Clonar en el panel de revisión después de haber revisado los detalles.
++
+image:vtwn_image23.jpg["Restauración del Centro de control de Astra"]
+
+. La nueva aplicación pasa al estado de descubrimiento mientras Astra Control Center crea la aplicación en el clúster seleccionado. Una vez que todos los recursos de la aplicación son instalados y detectados por Astra, la aplicación pasa al estado disponible.
++
+image:vtwn_image24.jpg["Astra Control Center se ha descubierto una nueva aplicación"]
+
+

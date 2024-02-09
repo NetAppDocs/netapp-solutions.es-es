@@ -1,0 +1,85 @@
+---
+sidebar: sidebar 
+permalink: containers/bmanthos_solution_requirements.html 
+keywords: Hardware, software, compute, storage, requirements 
+summary: Las funcionalidades que no dependen del hardware de Anthos en configuraciones básicas le permiten seleccionar una plataforma informática optimizada para su caso de uso. Por lo tanto, puede adaptarse a su infraestructura actual y reducir los gastos de capital. 
+---
+= Requisitos de la solución
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+
+
+== Requisitos de hardware
+
+
+
+=== Computación: Traiga su propio servidor
+
+Las funcionalidades que no dependen del hardware de Anthos en configuraciones básicas le permiten seleccionar una plataforma de computación optimizada para su caso de uso. Por lo tanto, puede adaptarse a su infraestructura actual y reducir los gastos de capital.
+
+En la siguiente tabla se muestra el número mínimo de componentes de hardware de computación necesarios para implementar esta solución, aunque los modelos de hardware utilizados pueden variar en función de los requisitos del cliente.
+
+|===
+| Uso | Hardware y modelo | Cantidad 
+
+
+| Nodos de administración | Cisco UCS B200 | 3 
+
+
+| Nodos de trabajo | HP ProLiant DL360 | 4 
+|===
+
+
+=== Almacenamiento: ONTAP de NetApp
+
+En la siguiente tabla se muestra el número mínimo de componentes de hardware de almacenamiento necesarios para implementar la solución, aunque los modelos de hardware utilizados pueden variar en función de los requisitos del cliente.
+
+|===
+| Hardware subyacente | Modelo | Cantidad 
+
+
+| AFF de NetApp | AFF A300 de NetApp | 2 (1 par de alta disponibilidad) 
+|===
+
+
+== Requisitos de software
+
+Las versiones de software identificadas en la siguiente tabla fueron utilizadas por NetApp y nuestros partners para validar la solución con NetApp, aunque los componentes de software utilizados pueden variar en función de los requisitos del cliente.
+
+|===
+| De NetApp | Específico | Versión 
+
+
+| Ubuntu | So para 3 administradores | 20.04 
+
+
+|  | Os en Worker4 | 20.04 
+
+
+|  | Os en Worker3 | 18.04 
+
+
+| CentOS | Os en Worker2 | 8.2 
+
+
+| Red Hat Enterprise Linux | Os en Worker1 | 8.1 
+
+
+| Anthos en bare metal | Orquestación de contenedores | 1.6.0 
+
+
+| ONTAP de NetApp | El sistema operativo de almacenamiento | 9.7P8 
+
+
+| Astra Trident de NetApp | Gestión del almacenamiento de contenedores | 20.10 
+|===
+
+NOTE: Este entorno de varios SO muestra la interoperabilidad con versiones de SO compatibles de la solución Anthos en bare metal. Anticipamos que los clientes estandarizarán uno o un subconjunto de sistemas operativos para su puesta en marcha.
+
+Para ver Anthos en requisitos de hardware y software de configuración básica, consulte https://cloud.google.com/anthos/clusters/docs/bare-metal/latest["Anthos en documentación de configuración básica"^] página.

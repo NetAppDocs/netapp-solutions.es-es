@@ -1,0 +1,84 @@
+---
+sidebar: sidebar 
+permalink: containers/a-w-n_LB_MetalLB.html 
+summary: En esta página se detallan las instrucciones de instalación y configuración del equilibrador de carga de MetalLB. 
+keywords: Anthos, Kubernetes, MetalLB, LoadBalancer, Astra, Astra Control Center 
+---
+= Instalación de equilibradores de carga de MetalLB
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+En esta página se enumeran las instrucciones de instalación y configuración del equilibrador de carga gestionado de MetalLB.
+
+
+
+== Instalación del equilibrador de carga de MetalLB
+
+El equilibrador de carga de MetalLB está totalmente integrado con los clústeres de Anthos en VMware y cuenta con una puesta en marcha automatizada como parte de las configuraciones de clúster de administrador y usuario a partir de la versión 1.11. Hay bloques de texto en los respectivos `cluster.yaml` archivos de configuración que debe modificar para proporcionar información de equilibrador de carga. Se aloja automáticamente en su clúster Anthos en lugar de necesitar la implementación de recursos externos, como las otras soluciones de equilibrador de carga compatibles. También le permite crear un pool ip que asigna direcciones automáticamente con la creación de servicios de Kubernetes de equilibrio de carga de tipo en clústeres que no se ejecutan en un proveedor de cloud.
+
+
+
+== Integración con Anthos
+
+Al activar el equilibrador de carga de MetalLB para el administrador de Anthos, debe modificar algunas líneas en el `loadBalancer:` la sección que existe en la `admin-cluster.yaml` archivo. Los únicos valores que debe modificar son establecer el `controlPlaneVIP:` y, a continuación, defina la `kind:` Como MetalLB. Consulte el siguiente fragmento de código para obtener un ejemplo:
+
+[listing]
+----
+# (Required) Load balancer configuration
+loadBalancer:
+  # (Required) The VIPs to use for load balancing
+  vips:
+    # Used to connect to the Kubernetes API
+    controlPlaneVIP: "10.61.181.230"
+    # # (Optional) Used for admin cluster addons (needed for multi cluster features). Must
+    # # be the same across clusters
+    # addonsVIP: ""
+  # (Required) Which load balancer to use "F5BigIP" "Seesaw" "ManualLB" or "MetalLB".
+  # Uncomment the corresponding field below to provide the detailed spec
+  kind: MetalLB
+----
+Al habilitar el equilibrador de carga de MetalLB para los clústeres de usuarios de Anthos, hay dos áreas en cada uno `user-cluster.yaml` archivo que debe actualizar. En primer lugar, de una manera similar a la `admin-cluster.yaml` debe modificar el `controlPlaneVIP:`, `ingressVIP:`, y. `kind:` valores en la `loadBalancer:` sección. Consulte el siguiente fragmento de código para obtener un ejemplo:
+
+[listing]
+----
+loadBalancer:
+  # (Required) The VIPs to use for load balancing
+  vips:
+    # Used to connect to the Kubernetes API
+    controlPlaneVIP: "10.61.181.240"
+    # Shared by all services for ingress traffic
+    ingressVIP: "10.61.181.244"
+  # (Required) Which load balancer to use "F5BigIP" "Seesaw" "ManualLB" or "MetalLB".
+  # Uncomment the corresponding field below to provide the detailed spec
+  kind: MetalLB
+----
+
+NOTE: Las ingressVIP IP address deben existir dentro del grupo de direcciones IP asignadas al equilibrador de carga MetalLB más adelante en la configuración.
+
+A continuación, debe navegar hasta la `metalLB:` y modifique la `addressPools:` asigne un nombre al pool en la `- name:` variable. También debe crear un grupo de direcciones ip que MetalLB pueda asignar a servicios de tipo LoadBalancer proporcionando un rango a `addresses:` variable.
+
+[listing]
+----
+# # (Required when using "MetalLB" kind in user clusters) Specify the MetalLB config
+ metalLB:
+ #   # (Required) A list of non-overlapping IP pools used by load balancer typed services.
+ #   # Must include ingressVIP of the cluster.
+    addressPools:
+ #   # (Required) Name of the address pool
+    - name: "default"
+ #     # (Required) The addresses that are part of this pool. Each address must be either
+ #     # in the CIDR form (1.2.3.0/24) or range form (1.2.3.1-1.2.3.5).
+      addresses:
+      - "10.61.181.244-10.61.181.249"
+----
+
+NOTE: El pool de direcciones se puede proporcionar como un rango como en el ejemplo, limitando a un número de direcciones en una subred determinada, o se puede proporcionar como una notación CIDR si se pone a disposición toda la subred.
+
+. Cuando se crean servicios de Kubernetes de tipo LoadBalancer, MetalLB asigna automáticamente una IP externa a los servicios y anuncia la dirección IP respondiendo a las solicitudes ARP.
+

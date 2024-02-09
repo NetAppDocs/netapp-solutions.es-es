@@ -1,0 +1,51 @@
+---
+sidebar: sidebar 
+permalink: containers/vtwn_astra_register.html 
+summary: Para permitir que Astra Control Center gestione sus cargas de trabajo, primero debe registrar sus clústeres de Kubernetes tanzu. 
+keywords: NetApp Astra Control, Astra Control Center, Application, Trident, Astra Trident, Helm, Operator, ONTAP, Tanzu, Tanzu Kubernetes clusters, VMware Tanzu 
+---
+= Registre sus clústeres de Kubernetes de VMware Tanzu con Astra Control Center
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+Para permitir que Astra Control Center gestione sus cargas de trabajo, primero debe registrar sus clústeres de Kubernetes tanzu.
+
+
+
+== Registre clústeres de Kubernetes de VMware Tanzania
+
+. El primer paso es añadir los clústeres de Tanzania Kubernetes al Astra Control Center y gestionarlos. Vaya a Clusters y haga clic en Add a Cluster, cargue el archivo kubeconfig para el clúster Tanzania Kubernetes y haga clic en Select Storage.
++
+image::vtwn_image09.jpg[Astra Control Center crea un clúster]
+
+. Astra Control Center detecta las clases de almacenamiento elegibles. Ahora seleccione la forma en que storagegrid aprovisiona volúmenes mediante Trident con backup de una SVM en ONTAP de NetApp y haga clic en Review. En el panel siguiente, compruebe los detalles y haga clic en Add Cluster.
+. Cuando se agrega el clúster, se mueve al estado de detección mientras Astra Control Center lo inspecciona e instala los agentes necesarios. El estado del clúster cambia de `Healthy` después de que se haya registrado correctamente.
++
+image::vtwn_image10.jpg[Hay disponibles clústeres de Astra Control Center]
+
++
+
+NOTE: Todos los clústeres de Kubernetes de Tanzania que gestiona Astra Control Center deben tener acceso al registro de imágenes que se utilizó para su instalación, ya que los agentes instalados en los clústeres gestionados extraen las imágenes de ese registro.
+
+. Importe clústeres de ONTAP como recursos de almacenamiento que Astra Control Center gestiona como back-ends. Cuando se añaden los clústeres de Kubernetes tanzu a Astra y se configura un storagegrid, detecta e inspecciona automáticamente el clúster de ONTAP para realizar la copia de seguridad de storageecleclass pero no la importa al Centro de control de Astra para su gestión.
++
+image::vtwn_image11.jpg[Detección de entorno de administración de Astra Control Center]
+
+. Para importar los clústeres de ONTAP, desplácese hasta Back-ends, haga clic en el menú desplegable y seleccione Manage junto al clúster de ONTAP que se va a gestionar. Introduzca las credenciales del clúster de ONTAP, haga clic en revisar información y, a continuación, haga clic en Importar back-end de almacenamiento.
++
+image::vtwn_image12.jpg[Astra Control Center crea backend]
+
+. Una vez añadidos los back-ends, el estado cambia a Available. Ahora, estos back-ends presentan la información sobre los volúmenes persistentes en el clúster de Kubernetes tanzu y los volúmenes correspondientes en el sistema ONTAP.
++
+image::vtwn_image13.jpg[Hay disponibles back-ends de Astra Control Center]
+
+. Para realizar operaciones de backup y restauración en todos los clústeres de Kubernetes de Tanzania mediante Astra Control Center, debe aprovisionar un bloque de almacenamiento de objetos que sea compatible con el protocolo S3. Las opciones admitidas actualmente son ONTAP S3, StorageGRID, AWS S3 y almacenamiento blob de Microsoft Azure. Para el objetivo de esta instalación, vamos a configurar un bloque de AWS S3. Vaya a Buckets, haga clic en Add bucket y seleccione Generic S3. Introduzca los detalles sobre el bloque de S3 y las credenciales para acceder a él, haga clic en la casilla de comprobación Mase this Bucket Default Bucket para el cloud y, a continuación, haga clic en Add.
++
+image::vtwn_image14.jpg[Astra Control Center Create bucket]
+
+

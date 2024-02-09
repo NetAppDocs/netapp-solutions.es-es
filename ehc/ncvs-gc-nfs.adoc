@@ -1,0 +1,469 @@
+---
+sidebar: sidebar 
+permalink: ehc/ncvs-gc-nfs.html 
+keywords: default, local, unix users, groups, root user, anonymous user, acls for NFSv3, 
+summary: 'NFS es un protocolo de sistema de archivos distribuido que es un estándar abierto IETF definido en solicitud de comentarios (RFC) que permite a cualquiera implementar el protocolo.' 
+---
+= NFS
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+NFS es un protocolo de sistema de archivos distribuido que es un estándar abierto IETF definido en solicitud de comentarios (RFC) que permite a cualquiera implementar el protocolo.
+
+Los volúmenes de Cloud Volumes Service se comparten a los clientes NFS exportando una ruta a la que pueden acceder un cliente o un conjunto de clientes. Los permisos para montar estas exportaciones se definen mediante políticas y reglas de exportación, que los administradores de Cloud Volumes Service pueden configurar.
+
+La implantación de NFS de NetApp se considera un estándar oro para el protocolo y se utiliza en innumerables entornos NAS empresariales. En las siguientes secciones se tratan el NFS y las características de seguridad específicas disponibles en Cloud Volumes Service y cómo se implementan.
+
+
+
+== Usuarios y grupos UNIX locales predeterminados
+
+Cloud Volumes Service contiene varios usuarios y grupos UNIX predeterminados para varias funcionalidades básicas. Estos usuarios y grupos no se pueden modificar ni eliminar actualmente. No es posible agregar nuevos usuarios y grupos locales a Cloud Volumes Service en este momento. Los usuarios y grupos de UNIX fuera de los usuarios y grupos predeterminados deben ser proporcionados por un servicio de nombres LDAP externo.
+
+En la siguiente tabla se muestran los usuarios y grupos predeterminados y sus correspondientes ID numéricos. NetApp recomienda no crear nuevos usuarios o grupos en LDAP o en los clientes locales que vuelvan a usar estos ID numéricos.
+
+|===
+| Usuarios predeterminados: ID numéricos | Grupos predeterminados: ID numéricos 
+
+
+ a| 
+* raíz:0
+* pcuser:65534
+* nadie:65535
+
+ a| 
+* raíz:0
+* daemon:1
+* pcuser:65534
+* nadie:65535
+
+
+|===
+
+NOTE: Cuando se utiliza NFSv4.1, el usuario raíz podría mostrarse como nadie cuando se ejecutan comandos de lista de directorios en clientes NFS. Esto se debe a la configuración de asignación de dominio de ID del cliente. Consulte la sección llamada <<NFSv4.1 y el usuario/grupo nadie>> para obtener detalles sobre esta edición y cómo resolverla.
+
+
+
+== El usuario raíz
+
+En Linux, la cuenta raíz tiene acceso a todos los comandos, archivos y carpetas de un sistema de archivos basado en Linux. Debido a la eficacia de esta cuenta, las prácticas recomendadas de seguridad a menudo requieren que el usuario raíz se desactive o se restrinja de alguna manera. En las exportaciones NFS, la potencia que tienen los usuarios raíz sobre los archivos y carpetas se puede controlar en Cloud Volumes Service mediante las normas y políticas de exportación, y un concepto denominado squash raíz.
+
+La función de ocupación de raíz garantiza que el usuario root que accede a un montaje NFS esté almacenado en la base del usuario numérico anónimo 65534 (consulte la sección “<<El usuario anónimo>>”) y actualmente sólo está disponible cuando se utiliza CVS-Performance seleccionando Off para acceso raíz durante la creación de reglas de política de exportación. Si el usuario root está almacenado en el nombre del usuario anónimo, ya no tiene acceso a ejecutar chown o. https://en.wikipedia.org/wiki/Setuid["comandos setuid/setgid (el bit de pegado)"^] En los archivos o carpetas del montaje NFS, y los archivos o carpetas creados por el usuario raíz muestran el UID anon como el propietario/grupo. Además, el usuario raíz no puede modificar las ACL de NFSv4. Sin embargo, el usuario raíz todavía tiene acceso a chmod y archivos eliminados para los que no tiene permisos explícitos. Si desea limitar el acceso a los permisos de archivos y carpetas de un usuario raíz, considere la posibilidad de usar un volumen con ACL NTFS, creando un usuario de Windows con el nombre `root`y aplicar los permisos deseados a los archivos o carpetas.
+
+
+
+== El usuario anónimo
+
+El ID de usuario anónimo (anon) especifica un ID de usuario o nombre de usuario de UNIX que se asigna a solicitudes de cliente que llegan sin credenciales de NFS válidas. Esto puede incluir al usuario root cuando se utiliza la función root squashing. El usuario anon en Cloud Volumes Service es 65534.
+
+Este UID normalmente está asociado con el nombre de usuario `nobody` o. `nfsnobody` En entornos Linux. Cloud Volumes Service utiliza también 65534 como usuario local de UNIX' pcuser» (véase la sección “<<Usuarios y grupos UNIX locales predeterminados>>”), que también es el usuario de respaldo predeterminado para las asignaciones de nombres de Windows a UNIX cuando no se encuentra ningún usuario de UNIX válido coincidente en LDAP.
+
+Debido a las diferencias en los nombres de usuario en Linux y Cloud Volumes Service para UID 65534, es posible que la cadena de nombre de los usuarios asignados a 65534 no coincida cuando se utiliza NFSv4.1. Como resultado, puede que vea `nobody` como usuario en algunos archivos y carpetas. Consulte la sección “<<NFSv4.1 y el usuario/grupo nadie>>” para obtener información sobre este problema y cómo resolverlo.
+
+
+
+== Control de accesos/exportaciones
+
+El acceso inicial a las exportaciones y recursos compartidos para montajes NFS se controla mediante reglas de la política de exportación basadas en host contenidas en una política de exportación. Se define una IP de host, nombre de host, subred, netgroup o dominio para permitir el acceso al montaje del recurso compartido de NFS y el nivel de acceso permitido al host. Las opciones de configuración de las reglas de política de exportación dependen del nivel de Cloud Volumes Service.
+
+Para CVS-SW, hay disponibles las siguientes opciones para la configuración de la política de exportación:
+
+* *Coincidencia de cliente.* Lista de direcciones IP separadas por comas, lista separada por comas de nombres de host, subredes, grupos de red, nombres de dominio.
+* *Reglas de acceso RO/RW.* Seleccione sólo lectura/escritura o lectura para controlar el nivel de acceso a la exportación.CVS-Performance ofrece las siguientes opciones:
+* *Coincidencia de cliente.* Lista de direcciones IP separadas por comas, lista separada por comas de nombres de host, subredes, grupos de red, nombres de dominio.
+* *Reglas de acceso RO/RW.* Seleccione sólo lectura/escritura o lectura para controlar el nivel de acceso a la exportación.
+* *Acceso raíz (on/OFF).* configura el squash raíz (consulte la sección “<<El usuario raíz>>" para obtener más información).
+* *Tipo de protocolo.* esto limita el acceso al montaje NFS a una versión específica del protocolo. Cuando se especifican NFSv3 y NFSv4.1 para el volumen, deje las dos casillas en blanco o marque ambas.
+* *Nivel de seguridad de Kerberos (cuando se selecciona Enable Kerberos).* proporciona las opciones de krb5, krb5i y/o krb5p para acceso de solo lectura o de lectura/escritura.
+
+
+
+
+== Cambiar la propiedad (chown) y cambiar el grupo (chgrp)
+
+NFS en Cloud Volumes Service sólo permite al usuario raíz ejecutar chown/chgrp en archivos y carpetas. Otros usuarios ven a. `Operation not permitted` error: incluso en los archivos que poseen. Si utiliza la raíz de squash (como se describe en la sección “<<El usuario raíz>>”), la raíz está ocupada para un usuario que no es raíz y no se permite el acceso a chown y chgrp. Actualmente no hay soluciones alternativas en Cloud Volumes Service para permitir chown y chgrp para usuarios no raíz. Si se requieren cambios de propiedad, considere usar volúmenes de protocolo dual y establezca el estilo de seguridad en NTFS para controlar los permisos del lado de Windows.
+
+
+
+== Gestión de permisos
+
+Cloud Volumes Service admite ambos bits de modo (como 644, 777, etc. para rwx) y ACL de NFSv4.1 para controlar los permisos de los clientes NFS de los volúmenes que utilicen el estilo de seguridad UNIX. La gestión de permisos estándar se utiliza para estos (como chmod, chown o nfs4_setfacl) y funciona con cualquier cliente Linux que los admita.
+
+Además, cuando se usan volúmenes de protocolo dual establecidos en NTFS, los clientes NFS pueden aprovechar la asignación de nombres Cloud Volumes Service a usuarios de Windows, que se utilizan para resolver los permisos NTFS. Esto requiere una conexión LDAP a Cloud Volumes Service para proporcionar traducciones de ID-a-nombre de usuario numérico porque Cloud Volumes Service requiere un nombre de usuario UNIX válido para asignar correctamente a un nombre de usuario de Windows.
+
+
+
+=== Proporcionar ACL granulares para NFSv3
+
+Los permisos de bit de modo solo cubren al propietario, al grupo y a todos los demás en la semántica, lo que significa que no hay controles de acceso de usuario granulares disponibles para NFSv3 básico. Cloud Volumes Service no admite ACL de POSIX, ni atributos extendidos (como chattr), de modo que las listas de control de acceso granulares solo son posibles en los siguientes escenarios con NFSv3:
+
+* Volúmenes de estilo de seguridad NTFS (servidor CIFS necesario) con asignaciones de usuarios de UNIX a Windows válidas.
+* Las ACL de NFSv4.1 se aplican mediante el montaje de NFSv4.1 en un cliente de administrador para aplicar ACL.
+
+
+Ambos métodos requieren una conexión LDAP para la administración de identidades de UNIX y una información de grupo y usuario de UNIX válida rellenada (consulte la sección link:ncvs-gc-other-nas-infrastructure-service-dependencies.html#ldap["“LDAP”"]) Y sólo están disponibles con las instancias CVS-Performance. Para utilizar volúmenes de estilo de seguridad NTFS con NFS, debe utilizar el protocolo dual (SMB y NFSv3) o el protocolo doble (SMB y NFSv4.1), incluso si no se realiza ninguna conexión SMB. Para utilizar las ACL de NFSv4.1 con montajes NFSv3, debe seleccionar `Both (NFSv3/NFSv4.1)` como tipo de protocolo.
+
+Los bits del modo UNIX normal no proporcionan el mismo nivel de granularidad en permisos que proporcionan las ACL de NTFS o NFSv4.x. En la siguiente tabla, se compara la granularidad de permisos entre bits del modo NFSv3 y ACL de NFSv4.1. Para obtener más información sobre las ACL de NFSv4.1, consulte https://linux.die.net/man/5/nfs4_acl["Nfs4_acl - Listas de control de acceso de NFSv4"^].
+
+|===
+| Bits del modo NFSv3 | ACL de NFSv4.1 
+
+
+ a| 
+* Defina el ID de usuario en la ejecución
+* Establezca el ID de grupo en la ejecución
+* Guardar texto intercambiado (no definido en POSIX)
+* Permiso de lectura para el propietario
+* Permiso de escritura para el propietario
+* Ejecutar permiso para el propietario en un archivo; o buscar (buscar) permiso para el propietario en el directorio
+* Permiso de lectura para grupo
+* Permiso de escritura para grupo
+* Ejecutar permiso para grupo en un archivo o buscar (buscar) permiso para grupo en el directorio
+* Permiso de lectura para otros
+* Permiso de escritura para otros
+* Ejecutar permiso para otros usuarios en un archivo; o buscar (buscar) permiso para otros en el directorio
+
+ a| 
+Tipos de entrada de control de acceso (ACE) (permitir/Denegar/Auditoría) * indicadores de herencia * directorio-heredar * archivo-heredar * no-propagar-heredar * heredar-sólo
+
+Permisos * datos de lectura (archivos) / directorio de lista (directorios) * escribir-datos (archivos) / crear-archivo (directorios) * anexar-datos (archivos) / subdirectorio de creación (directorios) * ejecutar (archivos) / cambiar-directorio (directorios) * eliminar * eliminar-hijo * atributos de lectura-escritura * escribir-atributos * atributos-ACL de lectura-escritura * Sincronizar-escritura-escritura-propietario * ACL
+
+|===
+Por último, la pertenencia a grupos de NFS (tanto en NFSv3 COMO EN NFSV4.x) está limitada a un máximo predeterminado de 16 para AUTH_SYS según los límites de paquetes RPC. NFS Kerberos proporciona hasta 32 grupos y las ACL de NFSv4 eliminan la limitación a través de ACL granulares de usuarios y grupos (hasta 1024 entradas por ACE).
+
+Además, Cloud Volumes Service ofrece compatibilidad ampliada con grupos para ampliar el número máximo de grupos admitidos hasta 32. Esto requiere una conexión LDAP a un servidor LDAP que contenga identidades de grupo y de usuario UNIX válidas. Para obtener más información acerca de cómo configurar esto, consulte https://cloud.google.com/architecture/partners/netapp-cloud-volumes/creating-nfs-volumes?hl=en_US["Crear y gestionar volúmenes de NFS"^] En la documentación de Google.
+
+
+
+== ID de usuario y grupo de NFSv3
+
+Los ID de usuario y de grupo de NFSv3 se encuentran en el cable como identificadores numéricos en lugar de como nombres. Cloud Volumes Service no soluciona el nombre de usuario de estos ID numéricos con NFSv3, con los volúmenes de estilo de seguridad de UNIX que utilizan únicamente bits del modo. Cuando hay ACL de NFSv4.1, es necesario realizar una búsqueda de ID numéricos y/o una búsqueda de cadenas de nombre para resolver la ACL correctamente, incluso cuando se utiliza NFSv3. Con volúmenes de estilo de seguridad NTFS, Cloud Volumes Service debe resolver un ID numérico a un usuario UNIX válido y, a continuación, asignar a un usuario de Windows válido para negociar derechos de acceso.
+
+
+
+=== Limitaciones de seguridad de los ID de usuario y de grupo de NFSv3
+
+Con NFSv3, el cliente y el servidor nunca tienen que confirmar que el usuario que intenta leer o escribir con un ID numérico es un usuario válido; sólo es de confianza implícita. Esto abre el sistema de archivos hasta posibles infracciones simplemente falsificar cualquier ID numérico. Para evitar agujeros de seguridad como este, hay algunas opciones disponibles para Cloud Volumes Service.
+
+* La implementación de Kerberos para NFS obliga a los usuarios a autenticarse con un nombre de usuario y contraseña o un archivo keytab a obtener un vale Kerberos para permitir el acceso a un montaje. Kerberos solo está disponible con las instancias CVS-Performance y con NFSv4.1.
+* Limitar la lista de hosts de las reglas de la política de exportación los límites que los clientes NFSv3 tienen acceso al volumen de Cloud Volumes Service.
+* El uso de volúmenes de protocolo doble y la aplicación de ACL NTFS a los volúmenes obliga a los clientes NFSv3 a resolver los ID numéricos a nombres de usuario de UNIX válidos para autenticar correctamente el acceso a los montajes. Esto requiere habilitar LDAP y configurar las identidades de usuarios y grupos de UNIX.
+* Al SQUID el usuario raíz limita el daño que un usuario raíz puede hacer a un montaje NFS, pero no elimina por completo el riesgo. Para obtener más información, consulte la sección “<<El usuario raíz>>.”
+
+
+En última instancia, la seguridad de NFS se limita a qué versión del protocolo utiliza que ofrece. NFSv3, aunque tiene un rendimiento general superior al de NFSv4.1, no proporciona el mismo nivel de seguridad.
+
+
+
+== NFSv4.1
+
+NFSv4.1 proporciona una mayor seguridad y fiabilidad en comparación con NFSv3, por los siguientes motivos:
+
+* Bloqueo integrado mediante un mecanismo basado en arrendamiento
+* Sesiones con estado
+* Todas las funciones de NFS en un único puerto (2049)
+* Solo TCP
+* Asignación de dominio de ID
+* Integración de Kerberos (NFSv3 puede utilizar Kerberos, pero solo para NFS, no para protocolos auxiliares como NLM)
+
+
+
+
+=== Dependencias de NFSv4.1
+
+Debido a las funciones de seguridad adicionales de NFSv4.1, existen algunas dependencias externas implicadas que no fueron necesarias para utilizar NFSv3 (de forma similar a cómo requiere SMB dependencias como Active Directory).
+
+
+
+=== ACL de NFSv4.1
+
+Cloud Volumes Service ofrece compatibilidad con las ACL de NFSv4.x, las cuales proporcionan ventajas distintivas con respecto a los permisos de estilo POSIX normales, como las siguientes:
+
+* Control granular del acceso de los usuarios a los archivos y directorios
+* Mejor seguridad NFS
+* Interoperabilidad mejorada con CIFS/SMB
+* Eliminación de la limitación NFS de 16 grupos por usuario con seguridad AUTH_SYS
+* Los ACL omiten la necesidad de resolución del identificador de grupo (GID), que elimina en realidad las ACL de GID limititNFSv4.1 se controlan desde clientes NFS, no desde Cloud Volumes Service. Para utilizar las ACL de NFSv4.1, asegúrese de que la versión de software de su cliente las admite y de que están instaladas las utilidades NFS adecuadas.
+
+
+
+
+=== Compatibilidad entre las ACL de NFSv4.1 y los clientes de SMB
+
+Las ACL de NFSv4 son distintas de las de ACL de nivel de archivo de Windows (ACL de NTFS), pero llevan funciones similares. Sin embargo, en los entornos NAS multiprotocolo, si hay ACL de NFSv4.1 y utiliza acceso de doble protocolo (NFS y SMB en los mismos conjuntos de datos), los clientes que utilicen SMB2.0 y versiones posteriores no podrán ver ni gestionar ACL desde pestañas de seguridad de Windows.
+
+
+
+=== Cómo funcionan las ACL de NFSv4.1
+
+Como referencia, se definen los siguientes términos:
+
+* *Lista de control de acceso (ACL).* una lista de entradas de permisos.
+* *Entrada de control de acceso (ACE).* Entrada de permiso en la lista.
+
+
+Cuando un cliente establece una ACL de NFSv4.1 en un archivo durante una operación SETATTR, Cloud Volumes Service establece esa ACL en el objeto, por lo que se sustituye cualquier ACL existente. Si no hay ACL en un archivo, los permisos de modo en el archivo se calculan a partir de OWNER@, GROUP@ y EVERYONE@. Si hay algún bit SUID/SGID/STICKY existente en el archivo, no se verán afectados.
+
+Cuando un cliente obtiene una ACL de NFSv4.1 en un archivo durante UNA operación GETATTR, Cloud Volumes Service lee la ACL de NFSv4.1 asociada con el objeto, construye una lista de ACE y devuelve la lista al cliente. Si el archivo tiene una ACL de NT o bits de modo, se crea una ACL a partir de bits de modo y se devuelve al cliente.
+
+Se deniega el acceso si EXISTE UNA ACE DENEGADA en la ACL; el acceso se concede si existe una ACE DE PERMISO. Sin embargo, también se deniega el acceso si ninguno de los ACE está presente en el ACL.
+
+Un descriptor de seguridad consiste en una ACL de seguridad (SACL) y una ACL discrecional (DACL). Cuando NFSv4.1 interactúa con CIFS/SMB, el DACL se asigna de uno a uno con NFSv4 y CIFS. El DACL consta de LOS ACs PERMITIR Y DENEGAR.
+
+Si es un básico `chmod` Se ejecuta en un archivo o carpeta con conjuntos de ACL de NFSv4.1, se conservan las ACL de usuario y grupo existentes, pero se modifican las ACL de PROPIETARIO@, GRUPO@ y TODOS@ predeterminadas.
+
+Un cliente que utilice las ACL de NFSv4.1 puede definir y ver ACL de archivos y directorios en el sistema. Cuando se crea un archivo o subdirectorio nuevo en un directorio que tiene una ACL, ese objeto hereda todos los ACE de la ACL que se han etiquetado con el correspondiente http://linux.die.net/man/5/nfs4_acl["indicadores de herencia"^].
+
+Si un archivo o directorio tiene una ACL de NFSv4.1, esa ACL se utiliza para controlar el acceso, independientemente de qué protocolo se utilice para acceder al archivo o directorio.
+
+Los archivos y directorios heredan los ACE de las ACL de NFSv4 en directorios principales (posiblemente con las modificaciones adecuadas) siempre que se hayan etiquetado los ACE con las marcas de herencia correctas.
+
+Cuando se crea un archivo o directorio como resultado de una solicitud de NFSv4, la ACL del archivo o directorio resultante depende de si la solicitud de creación de archivos incluye una ACL o solo permisos de acceso estándar a archivos UNIX. La ACL también depende de si el directorio primario tiene una ACL.
+
+* Si la solicitud incluye una ACL, se utiliza esa ACL.
+* Si la solicitud incluye sólo permisos de acceso estándar a archivos UNIX y el directorio principal no tiene una ACL, el modo de archivo de cliente se utiliza para establecer permisos de acceso estándar a archivos UNIX.
+* Si la solicitud incluye sólo permisos de acceso estándar a archivos UNIX y el directorio primario tiene una ACL no heredable, se establece una ACL predeterminada basada en los bits de modo pasados a la solicitud en el nuevo objeto.
+* Si la solicitud incluye sólo permisos de acceso estándar a archivos UNIX pero el directorio principal tiene una ACL, el archivo o directorio nuevos heredan los ACE de la ACL del directorio principal siempre que se hayan etiquetado los ACE con los indicadores de herencia correspondientes.
+
+
+
+
+=== Permisos ACE
+
+Los permisos de ACL de NFSv4.1 utilizan una serie de valores de letras mayúsculas y minúsculas (como `rxtncy`) para controlar el acceso. Para obtener más información acerca de estos valores de letra, consulte https://www.osc.edu/book/export/html/4523["CÓMO: Utilizar NFSv4 ACL"^].
+
+
+
+=== Comportamiento de ACL de NFSv4.1 con herencia umask y ACL
+
+http://linux.die.net/man/5/nfs4_acl["Las ACL de NFSv4 proporcionan la capacidad de ofrecer herencia de ACL"^]. La herencia de ACL significa que los archivos o carpetas creados debajo de los objetos con conjuntos de ACL de NFSv4.1 pueden heredar las ACL según la configuración de http://linux.die.net/man/5/nfs4_acl["Indicador de herencia de ACL"^].
+
+https://man7.org/linux/man-pages/man2/umask.2.html["Umask"^] se utiliza para controlar el nivel de permisos en el que se crean archivos y carpetas en un directorio sin interacción del administrador. De forma predeterminada, Cloud Volumes Service permite a umask reemplazar las ACL heredadas, que es el comportamiento esperado según https://datatracker.ietf.org/doc/html/rfc5661["RFC 5661"^].
+
+
+
+=== Formato de ACL
+
+Las ACL de NFSv4.1 tienen formato específico. El ejemplo siguiente es un conjunto ACE en un archivo:
+
+....
+A::ldapuser@domain.netapp.com:rwatTnNcCy
+....
+El ejemplo anterior sigue las directrices de formato ACL de:
+
+....
+type:flags:principal:permissions
+....
+Tipo de `A` significa “permitir”. Los indicadores heredar no se establecen en este caso, porque el principal no es un grupo y no incluye la herencia. Además, como ACE no es una entrada DE AUDITORÍA, no es necesario establecer los indicadores de auditoría. Para obtener más información sobre las ACL de NFSv4.1, consulte http://linux.die.net/man/5/nfs4_acl["http://linux.die.net/man/5/nfs4_acl"^].
+
+Si la ACL de NFSv4.1 no se establece correctamente (o el cliente y el servidor no pueden resolver una cadena de nombre), es posible que la ACL no se comporte como se espera o que el cambio de ACL no se pueda aplicar y generar un error.
+
+Los errores de muestra son los siguientes:
+
+....
+Failed setxattr operation: Invalid argument
+Scanning ACE string 'A:: user@rwaDxtTnNcCy' failed.
+....
+
+
+=== RECHAZO explícito
+
+Los permisos de NFSv4.1 pueden incluir atributos DE DENEGACIÓN explícitos para EL PROPIETARIO, EL GRUPO Y TODOS. Esto se debe a que las ACL de NFSv4.1 son denegadas por defecto, lo que significa que si un ACE no concede explícitamente una ACL, se deniega. Los atributos DE DENEGACIÓN explícita anulan cualquier ACE de ACCESO, explícita o no.
+
+DENEGAR ACE se establece con una etiqueta de atributo de `D`.
+
+En el siguiente ejemplo, SE permite a GROUP@ todos los permisos de lectura y ejecución, pero se le deniega todo el acceso de escritura.
+
+....
+sh-4.1$ nfs4_getfacl /mixed
+A::ldapuser@domain.netapp.com:ratTnNcCy
+A::OWNER@:rwaDxtTnNcCy
+D::OWNER@:
+A:g:GROUP@:rxtncy
+D:g:GROUP@:waDTC
+A::EVERYONE@:rxtncy
+D::EVERYONE@:waDTC
+....
+DENEGAR ACs debe evitarse siempre que sea posible porque pueden ser confusos y complicados; PERMITIR que las ACL que no están definidas explícitamente se deniegan implícitamente. Cuando SE establecen LAS ACE DENEGADAS, es posible que se deniegue el acceso a los usuarios cuando esperan que se les conceda el acceso.
+
+El conjunto anterior de ACE es equivalente a 755 bits de modo, lo que significa:
+
+* El propietario tiene derechos completos.
+* Los grupos tienen sólo lectura.
+* Otros sólo han leído.
+
+
+Sin embargo, incluso si los permisos se ajustan al equivalente de 775, se puede denegar el acceso debido a LA DENEGACIÓN explícita establecida en TODOS.
+
+
+
+=== Dependencias de asignación de dominio de ID de NFSv4.1
+
+NFSv4.1 aprovecha la lógica de asignación de dominio de ID como capa de seguridad para ayudar a verificar que un usuario que intenta acceder a un montaje de NFSv4.1 es realmente lo que afirman que es. En estos casos, el nombre de usuario y el nombre del grupo que provienen del cliente NFSv4.1 anexa una cadena de nombres y la envía a la instancia de Cloud Volumes Service. Si esa combinación de nombre de usuario/grupo y cadena de ID no coincide, el usuario y/o grupo se utiliza en la función no se define ningún usuario por defecto en la `/etc/idmapd.conf` archivo en el cliente.
+
+Esta cadena de ID es un requisito para la observancia correcta de los permisos, especialmente cuando se utilizan las ACL de NFSv4.1 y/o Kerberos. Como resultado, las dependencias del servidor del servicio de nombres, como los servidores LDAP, son necesarias para garantizar la coherencia entre los clientes y la Cloud Volumes Service con el fin de resolver correctamente la identidad de nombres de usuario y grupo.
+
+Cloud Volumes Service utiliza un valor de nombre de dominio de ID predeterminado estático de `defaultv4iddomain.com`. Los clientes NFS utilizan de forma predeterminada el nombre de dominio DNS para la configuración de nombre de dominio ID, pero puede ajustar manualmente el nombre de dominio ID en `/etc/idmapd.conf`.
+
+Si LDAP está habilitado en Cloud Volumes Service, Cloud Volumes Service automatiza el dominio de identificador de NFS para cambiar a lo que está configurado para el dominio de búsqueda en DNS y los clientes no tendrán que modificarse a menos que utilicen nombres de búsqueda de dominio DNS diferentes.
+
+Cuando Cloud Volumes Service puede resolver un nombre de usuario o de grupo en archivos locales o LDAP, se utiliza la cadena de dominio y los ID de dominio no coincidentes no se pueden squash a nadie. Si Cloud Volumes Service no puede encontrar un nombre de usuario o nombre de grupo en los archivos locales o LDAP, se utiliza el valor de ID numérico y el cliente NFS resuelve el nombre correctamente (esto es similar al comportamiento de NFSv3).
+
+Sin cambiar el dominio de Id. De NFSv4.1 del cliente para que coincida con el uso del volumen de Cloud Volumes Service, verá el siguiente comportamiento:
+
+* Los usuarios y grupos UNIX con entradas locales en Cloud Volumes Service (como root, tal como se define en los usuarios y grupos locales de UNIX) se utilizan en el valor nobody.
+* Los usuarios y grupos de UNIX con entradas en LDAP (si Cloud Volumes Service está configurado para usar LDAP) no se conectan a nadie si los dominios DNS son diferentes entre los clientes NFS y Cloud Volumes Service.
+* Los usuarios y grupos de UNIX que no tienen entradas locales ni entradas LDAP utilizan el valor de ID numérico y resuelven el nombre especificado en el cliente NFS. Si no existe ningún nombre en el cliente, sólo se muestra el ID numérico.
+
+
+A continuación se muestran los resultados de la situación anterior:
+
+....
+# ls -la /mnt/home/prof1/nfs4/
+total 8
+drwxr-xr-x 2 nobody nobody 4096 Feb  3 12:07 .
+drwxrwxrwx 7 root   root   4096 Feb  3 12:06 ..
+-rw-r--r-- 1   9835   9835    0 Feb  3 12:07 client-user-no-name
+-rw-r--r-- 1 nobody nobody    0 Feb  3 12:07 ldap-user-file
+-rw-r--r-- 1 nobody nobody    0 Feb  3 12:06 root-user-file
+....
+Cuando los dominios de ID de cliente y servidor coinciden, así es como el mismo aspecto del listado de archivos:
+
+....
+# ls -la
+total 8
+drwxr-xr-x 2 root   root         4096 Feb  3 12:07 .
+drwxrwxrwx 7 root   root         4096 Feb  3 12:06 ..
+-rw-r--r-- 1   9835         9835    0 Feb  3 12:07 client-user-no-name
+-rw-r--r-- 1 apache apache-group    0 Feb  3 12:07 ldap-user-file
+-rw-r--r-- 1 root   root            0 Feb  3 12:06 root-user-file
+....
+Para obtener más información acerca de este problema y cómo resolverlo, consulte la sección “<<NFSv4.1 y el usuario/grupo nadie>>.”
+
+
+
+=== Dependencias de Kerberos
+
+Si va a utilizar Kerberos con NFS, debe tener lo siguiente con Cloud Volumes Service:
+
+* Dominio de Active Directory para servicios del centro de distribución Kerberos (KDC)
+* Dominio de Active Directory con atributos de usuario y grupo rellenados con información de UNIX para la funcionalidad LDAP (NFS Kerberos en Cloud Volumes Service requiere un SPN de usuario a la asignación de usuarios UNIX para una funcionalidad adecuada).
+* LDAP habilitado en la instancia de Cloud Volumes Service
+* Dominio de Active Directory para servicios DNS
+
+
+
+
+=== NFSv4.1 y el usuario/grupo nadie
+
+Uno de los problemas más comunes que se ven con una configuración de NFSv4.1 es cuando se muestra un archivo o una carpeta en un listado mediante `ls` como propiedad de la `user:group` combinación de `nobody:nobody`.
+
+Por ejemplo:
+
+....
+sh-4.2$ ls -la | grep prof1-file
+-rw-r--r-- 1 nobody nobody    0 Apr 24 13:25 prof1-file
+....
+Y el ID numérico es `99`.
+
+....
+sh-4.2$ ls -lan | grep prof1-file
+-rw-r--r-- 1 99 99    0 Apr 24 13:25 prof1-file
+....
+En algunos casos, es posible que el archivo muestre el propietario correcto pero `nobody` como grupo.
+
+....
+sh-4.2$ ls -la | grep newfile1
+-rw-r--r-- 1 prof1  nobody    0 Oct  9  2019 newfile1
+....
+¿Quién no es nadie?
+
+La `nobody` El usuario de NFSv4.1 es diferente del `nfsnobody` usuario. Puede ver cómo un cliente NFS ve cada usuario ejecutando el `id` comando:
+
+....
+# id nobody
+uid=99(nobody) gid=99(nobody) groups=99(nobody)
+# id nfsnobody
+uid=65534(nfsnobody) gid=65534(nfsnobody) groups=65534(nfsnobody)
+....
+Con NFSv4.1, el `nobody` user es el usuario predeterminado definido por `idmapd.conf` file y puede definirse como cualquier usuario que desee utilizar.
+
+....
+# cat /etc/idmapd.conf | grep nobody
+#Nobody-User = nobody
+#Nobody-Group = nobody
+....
+¿Por qué sucede esto?
+
+Puesto que la seguridad mediante la asignación de cadenas de nombres es un conjunto de claves de las operaciones de NFSv4.1, el comportamiento predeterminado cuando una cadena de nombres no coincide correctamente es squash a ese usuario con uno que normalmente no tendrá acceso a los archivos y carpetas que pertenecen a usuarios y grupos.
+
+Cuando vea `nobody` Para el usuario o el grupo de los listados de archivos, esto generalmente significa que hay algo configurado para NFSv4.1. Aquí puede entrar en juego la sensibilidad del caso.
+
+Por ejemplo, si usuario1@CVSDEMO.LOLARL (uid 1234, gid 1234) está accediendo a una exportación, entonces Cloud Volumes Service debe ser capaz de encontrar usuario1@CVSDEMO.LOLARL (uid 1234, gid 1234). Si el usuario en Cloud Volumes Service es USER1@CVSDEMO.LLOLex, entonces no coincidiría (USUARIO1 en mayúscula frente al usuario en minúscula 1). En muchos casos, puede ver lo siguiente en el archivo de mensajes del cliente:
+
+....
+May 19 13:14:29 centos7 nfsidmap[17481]: nss_getpwnam: name 'root@defaultv4iddomain.com' does not map into domain 'CVSDEMO.LOCAL'
+May 19 13:15:05 centos7 nfsidmap[17534]: nss_getpwnam: name 'nobody' does not map into domain 'CVSDEMO.LOCAL'
+....
+Tanto el cliente como el servidor deben estar de acuerdo en que un usuario es realmente quien afirma que es, por lo que debe comprobar lo siguiente para asegurarse de que el usuario que ve el cliente tiene la misma información que el usuario que ve Cloud Volumes Service.
+
+* *Dominio de ID NFSv4.x.* Cliente: `idmapd.conf` Archivo; utiliza Cloud Volumes Service `defaultv4iddomain.com` y no se puede cambiar manualmente. Si se utiliza LDAP con NFSv4.1, Cloud Volumes Service cambia el dominio de ID por lo que utiliza el dominio de búsqueda DNS, que es el mismo que el dominio de AD.
+* *Nombre de usuario e ID numéricos.* esto determina dónde busca el cliente los nombres de usuario y aprovecha la configuración del conmutador de servicio de nombres—cliente: `nsswitch.conf` Y/o archivos locales passwd y group; Cloud Volumes Service no permite modificaciones a esto pero agrega automáticamente LDAP a la configuración cuando está habilitado.
+* *Nombre del grupo e ID numéricos.* esto determina dónde está buscando el cliente los nombres de grupo y aprovecha la configuración del conmutador de servicio de nombres—cliente: `nsswitch.conf` Y/o archivos locales passwd y group; Cloud Volumes Service no permite modificaciones a esto pero agrega automáticamente LDAP a la configuración cuando está habilitado.
+
+
+En casi todos los casos, si ve `nobody` En las listas de usuarios y grupos de clientes, el problema es la traducción de ID de dominio de nombre de usuario o grupo entre Cloud Volumes Service y el cliente NFS. Para evitar esta situación, use LDAP para resolver la información de usuario y grupo entre los clientes y Cloud Volumes Service.
+
+
+
+=== Ver cadenas de ID de nombres para NFSv4.1 en clientes
+
+Si utiliza NFSv4.1, hay una asignación de cadena de nombre que se realiza durante las operaciones de NFS, como se ha descrito anteriormente.
+
+Además de utilizar `/var/log/messages` Para encontrar un problema con los ID de NFSv4, puede utilizar la https://man7.org/linux/man-pages/man5/nfsidmap.5.html["nfsidmap -l"^] Comando en el cliente NFS para ver los nombres de usuario que se han asignado correctamente al dominio de NFSv4.
+
+Por ejemplo, se trata del resultado del comando después de que un usuario que puede encontrar el cliente y Cloud Volumes Service accede a un montaje NFSv4.x:
+
+....
+# nfsidmap -l
+4 .id_resolver keys found:
+  gid:daemon@CVSDEMO.LOCAL
+  uid:nfs4@CVSDEMO.LOCAL
+  gid:root@CVSDEMO.LOCAL
+  uid:root@CVSDEMO.LOCAL
+....
+Cuando un usuario que no se asigna correctamente al dominio de ID de NFSv4.1 (en este caso, `netapp-user`) intenta acceder al mismo montaje y toca un archivo, están asignados `nobody:nobody`, según lo esperado.
+
+....
+# su netapp-user
+sh-4.2$ id
+uid=482600012(netapp-user), 2000(secondary)
+sh-4.2$ cd /mnt/nfs4/
+sh-4.2$ touch newfile
+sh-4.2$ ls -la
+total 16
+drwxrwxrwx  5 root   root   4096 Jan 14 17:13 .
+drwxr-xr-x. 8 root   root     81 Jan 14 10:02 ..
+-rw-r--r--  1 nobody nobody    0 Jan 14 17:13 newfile
+drwxrwxrwx  2 root   root   4096 Jan 13 13:20 qtree1
+drwxrwxrwx  2 root   root   4096 Jan 13 13:13 qtree2
+drwxr-xr-x  2 nfs4   daemon 4096 Jan 11 14:30 testdir
+....
+La `nfsidmap -l` salida muestra al usuario `pcuser` en la pantalla pero no `netapp-user`; éste es el usuario anónimo en nuestra regla de política de exportación (`65534`).
+
+....
+# nfsidmap -l
+6 .id_resolver keys found:
+  gid:pcuser@CVSDEMO.LOCAL
+  uid:pcuser@CVSDEMO.LOCAL
+  gid:daemon@CVSDEMO.LOCAL
+  uid:nfs4@CVSDEMO.LOCAL
+  gid:root@CVSDEMO.LOCAL
+  uid:root@CVSDEMO.LOCAL
+....

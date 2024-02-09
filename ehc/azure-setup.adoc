@@ -1,0 +1,118 @@
+---
+sidebar: sidebar 
+permalink: ehc/azure-setup.html 
+keywords: NetApp Solutions, microsoft azure, avs, azure, vmware managed cloud, enterprise, hybrid, cloud, cloud volumes ontap, cvo 
+summary:  
+---
+= Ponga en marcha y configure el entorno de virtualización en Azure
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+Como en las instalaciones, la planificación de la solución VMware para Azure es crucial para tener un entorno listo para la producción con éxito a la hora de crear máquinas virtuales y migraciones.
+
+En esta sección se describe cómo configurar y gestionar la solución VMware de Azure y utilizarla en combinación con las opciones disponibles para conectar el almacenamiento de NetApp.
+
+El proceso de configuración puede dividirse en los siguientes pasos:
+
+.Registre el proveedor de recursos y cree un cloud privado
+[%collapsible]
+====
+Para usar la solución VMware de Azure, registre primero el proveedor de recursos dentro de la suscripción identificada:
+
+. Inicie sesión en el portal de Azure.
+. En el menú del portal de Azure, seleccione todos los servicios.
+. En el cuadro de diálogo todos los servicios, introduzca la suscripción y, a continuación, seleccione Suscripciones.
+. Para verlo, seleccione la suscripción en la lista de suscripciones.
+. Seleccione proveedores de recursos e introduzca Microsoft.AVS en la búsqueda.
+. Si el proveedor de recursos no está registrado, seleccione Register.
++
+image:avs-register-create-pc-1.png[""]
+
++
+image:avs-register-create-pc-2.png[""]
+
+. Una vez registrado el proveedor de recursos, cree un cloud privado de Azure VMware Solution mediante el portal de Azure.
+. Inicie sesión en el portal de Azure.
+. Seleccione Crear un nuevo recurso.
+. En el cuadro de texto Buscar en el mercado, introduzca la solución VMware para Azure y selecciónela de los resultados.
+. En la página Azure VMware Solution, seleccione Create.
+. En la ficha conceptos básicos, introduzca los valores en los campos y seleccione revisar + Crear.
+
+
+Notas:
+
+* Para un inicio rápido, reúna la información necesaria durante la fase de planificación.
+* Seleccione un grupo de recursos existente o cree un nuevo grupo de recursos para el cloud privado. Un grupo de recursos es un contenedor lógico en el que se implementan y gestionan los recursos de Azure.
+* Asegúrese de que la dirección CIDR sea única y no se superponga con otras redes virtuales de Azure o en las instalaciones. CIDR representa la red de gestión de nube privada y se utiliza para los servicios de gestión de clúster, como vCenter Server y NSX-T Manager. NetApp recomienda utilizar el espacio de direcciones /22. En este ejemplo, se utiliza 10.21.0.0/22.
+
+
+image:avs-register-create-pc-3.png[""]
+
+El proceso de aprovisionamiento dura entre 4 y 5 horas, aproximadamente. Una vez completado el proceso, compruebe que la implementación se realizó correctamente accediendo a la nube privada desde el portal de Azure. Se muestra el estado correcto cuando se completa la implementación.
+
+Un cloud privado de una solución VMware Azure requiere una red virtual de Azure. Como la solución VMware Azure no es compatible con vCenter en las instalaciones, se requieren pasos adicionales para integrarse con un entorno local existente. También es necesario configurar un circuito ExpressRoute y una puerta de enlace de red virtual. Mientras se espera a que finalice el aprovisionamiento del clúster, cree una red virtual nueva o utilice una existente para conectarse a la solución VMware Azure.
+
+image:avs-register-create-pc-4.png[""]
+
+====
+.Conéctese a una puerta de enlace de red virtual ExpressRoute nueva o existente
+[%collapsible]
+====
+Para crear una nueva red virtual de Azure (vnet), seleccione la pestaña Azure vnet Connect. Como alternativa, puede crear una manualmente desde el portal de Azure mediante el asistente Create Virtual Network:
+
+. Acceda a Azure VMware Solution Private Cloud y acceda a Connectivity en la opción Manage.
+. Seleccione Azure vnet Connect.
+. Para crear un nuevo vnet, seleccione la opción Crear nuevo.
++
+Esta función permite conectar una vnet al cloud privado de la solución VMware para Azure. Vnet permite la comunicación entre cargas de trabajo en esta red virtual mediante la creación automática de los componentes necesarios (por ejemplo, buzón de entrada, servicios compartidos como Azure NetApp Files y Cloud Volume ONTAP) al cloud privado creado en la solución Azure VMware sobre ExpressRoute.
+
++
+*Nota:* el espacio de dirección vnet no debe superponerse con la nube privada CIDR.
+
++
+image:azure-connect-gateway-1.png[""]
+
+. Proporcione o actualice la información del nuevo vnet y seleccione Aceptar.
+
+
+image:azure-connect-gateway-2.png[""]
+
+El vnet con el intervalo de direcciones y la subred de puerta de enlace proporcionados se crea en la suscripción designada y el grupo de recursos.
+
+
+NOTE: Si crea un vnet manualmente, cree un gateway de red virtual con el SKU y ExpressRoute adecuados como tipo de gateway. Una vez completada la puesta en marcha, conecte la conexión de ExpressRoute a la puerta de enlace de red virtual que contiene el cloud privado de la solución VMware de Azure mediante la clave de autorización. Para obtener más información, consulte link:https://docs.microsoft.com/en-us/azure/azure-vmware/tutorial-configure-networking#create-a-vnet-manually["Configure las redes para su cloud privado de VMware en Azure"].
+
+====
+.Validar la conexión de la red y acceso al cloud privado de la solución VMware Azure
+[%collapsible]
+====
+La solución para VMware Azure no le permite gestionar un cloud privado con VMware vCenter en las instalaciones. En su lugar, se requiere el host de salto para conectarse a la instancia de Azure VMware Solution vCenter. Cree un host de salto en el grupo de recursos designado e inicie sesión en Azure VMware Solution vCenter. Este host de saltos debe ser una máquina virtual de Windows en la misma red virtual que se creó para tener conectividad y debe proporcionar acceso tanto a vCenter como a NSX Manager.
+
+image:azure-validate-network-1.png[""]
+
+Después de aprovisionar la máquina virtual, utilice la opción Connect para acceder a RDP.
+
+image:azure-validate-network-2.png[""]
+
+Inicie sesión en vCenter desde esta máquina virtual de host de salto recién creada mediante el usuario administrador de la nube . Para acceder a las credenciales, vaya al portal de Azure y vaya a Identity (en la opción Manage dentro de la nube privada). Desde aquí, se pueden copiar las URL y las credenciales de usuario del cloud privado vCenter y NSX-T Manager.
+
+image:azure-validate-network-3.png[""]
+
+En la máquina virtual Windows, abra un explorador y desplácese hasta la URL del cliente web de vCenter  y utilice el nombre de usuario admin como *cloudadmin@vsphere.locloc l* y pegue la contraseña copiada. De igual modo, también es posible acceder al administrador de NSX-T mediante la URL del cliente web  utilice el nombre de usuario admin y pegue la contraseña copiada para crear segmentos nuevos o modificar las puertas de enlace del nivel existente.
+
+
+NOTE: Las URL del cliente web son diferentes para cada SDDC aprovisionado.
+
+image:azure-validate-network-4.png[""]
+
+image:azure-validate-network-5.png[""]
+
+Ahora se pone en marcha y configura el SDDC de la solución para Azure VMware. Aproveche ExpressRoute Global REACH para conectar el entorno local al cloud privado de la solución VMware para Azure. Para obtener más información, consulte link:https://docs.microsoft.com/en-us/azure/azure-vmware/tutorial-expressroute-global-reach-private-cloud["Configurar de forma conjunta los entornos locales en la solución Azure VMware"].
+
+====
