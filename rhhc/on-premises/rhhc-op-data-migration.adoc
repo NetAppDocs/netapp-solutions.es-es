@@ -1,0 +1,45 @@
+---
+sidebar: sidebar 
+permalink: rhhc/on-premises/rhhc-op-data-migration.html 
+keywords: NetApp Solutions, redhat OpenShift, red hat OpenShift, redhat openshift container platform, ocp, openshift container platform, Advanced Cluster Management, ACM, Hub Cluster, containers, container workloads, VMware, customer managed storage, ONTAP 
+summary:  
+---
+= Migración de datos mediante Astra Control Center
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../../media/
+
+
+[role="lead"]
+Esta página muestra las opciones de migración de datos para las cargas de trabajo de contenedor en clústeres de Red Hat OpenShift con Astra Control Center (ACC).
+
+A menudo, las aplicaciones de Kubernetes tienen que moverse de un entorno a otro. Para migrar una aplicación junto con sus datos persistentes, se puede utilizar ACC de NetApp.
+
+
+
+== Migración de datos entre distintos entornos de Kubernetes
+
+ACC es compatible con varios tipos de Kubernetes, como Google Anthos, Red Hat OpenShift, Tanzu Kubernetes Grid, Rancher Kubernetes Engine, upstream Kubernetes, etc. Para obtener más información, consulte link:https://docs.netapp.com/us-en/astra-control-center/get-started/requirements.html#supported-host-cluster-kubernetes-environments["aquí"].
+
+Para migrar una aplicación de un cluster a otro, puede utilizar una de las siguientes funciones de ACC:
+
+* ** replicación **
+* ** copia de seguridad y restauración **
+* ** clone **
+
+
+Consulte la link:../data-protection["sección de protección de datos"] para las opciones **replicación y copia de seguridad y restauración**.
+
+Consulte link:https://docs.netapp.com/us-en/astra-control-center/use/clone-apps.html["aquí"] para más detalles acerca de **clonación**.
+
+
+NOTE: La función de replicación de Astra solo se admite con Trident Container Storage Interface (CSI). Sin embargo, la replicación no es compatible con los controladores de economía nas y san.
+
+
+
+=== Realización de la replicación de datos mediante ACC
+
+image:rhhc-onprem-dp-rep.png["Replicación de Astra Control Center"]
