@@ -1,0 +1,148 @@
+---
+sidebar: sidebar 
+permalink: ai/aipod_nv_hw_components.html 
+keywords: NetApp AI, AI, Artificial Intelligence, ML, Machine Learning, NVIDIA, NVIDIA AI Enterprise, NVIDIA BasePOD, NVIDIA DGX 
+summary: 'Pod de IA de NetApp con sistemas NVIDIA DGX: Componentes de hardware' 
+---
+= Pod de IA de NetApp con sistemas NVIDIA DGX: Componentes de hardware
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:aipod_nv_intro.html["Anterior: NetApp AI Pod con sistemas NVIDIA DGX: Introducción."]
+
+
+
+== Sistemas de almacenamiento de NetApp AFF
+
+Con los vanguardistas sistemas de almacenamiento de NetApp AFF, los departamentos TECNOLÓGICOS pueden satisfacer los requisitos de almacenamiento del negocio con un rendimiento de primera clase, una flexibilidad superior, integración con el cloud y la mejor gestión de datos. Los sistemas AFF han sido diseñados específicamente para flash y ayudan a acelerar, gestionar y proteger los datos esenciales para la empresa.
+
+
+
+=== Sistemas de almacenamiento AFF A-Series de NetApp
+
+ACTUALIZACIÓN PARA A900!!!
+
+El sistema NetApp AFF A800 es la primera solución NVMe integral del sector. En el caso de cargas de trabajo NAS, un solo sistema AFF A800 logra un rendimiento de 25GBps GB/s para lecturas secuenciales y un millón de IOPS en pequeñas lecturas aleatorias con latencias inferiores a los 500µs.
+
+image:oai_A800_3D.png["Error: Falta la imagen gráfica"]
+
+Los sistemas AFF A800 tienen las siguientes características:
+* Rendimiento masivo de hasta 300GBps GB y 11,4 millones de IOPS en un clúster de 24 nodos
+* Conectividad FC de 100GbE GbE y 32GB Gb
+* Hasta 30TB unidades de estado sólido (SSD) con escritura multistream
+* Alta densidad con 2PB en una bandeja de 2U unidades
+* Escalado de 200TB (2 controladores) a 9,6PB (24 controladores)
+* NetApp ONTAP incluye un conjunto completo de funciones de protección de datos y replicación para la gestión de datos líder del sector
+
+Para las puestas en marcha más grandes, los sistemas AFF A900 ofrecen opciones mayores de rendimiento y capacidad, mientras que otros sistemas de almacenamiento de NetApp, como AFF A700, AFF A400 y AFF A250, ofrecen opciones para puestas en marcha más pequeñas a puntos de coste más bajos.
+
+
+
+== DGX BasePOD de NVIDIA
+
+DGX BasePOD es una solución integrada que consta de componentes de hardware y software de NVIDIA, soluciones de MLOps y almacenamiento de terceros. Al aprovechar las mejores prácticas del diseño de sistemas de escalado horizontal con productos NVIDIA y soluciones de partners validadas, los clientes pueden implementar una plataforma eficiente y gestionable para el desarrollo de la IA. La figura 1 destaca los distintos componentes de NVIDIA DGX BasePOD.
+
+image:oai_basepod_layers.png["Error: Falta la imagen gráfica"]
+
+
+
+=== SISTEMA DGX H100 DE NVIDIA
+
+El sistema DGX&#8482; H100 es la última iteración de DGX Systems y el potente centro de IA que se ha acelerado por el revolucionario rendimiento de la GPU H100 de NVIDIA.
+
+image:oai_H100_3D.png["Error: Falta la imagen gráfica"]
+
+Las especificaciones clave del sistema DGX H100 son:
+* Ocho GPU NVIDIA H100.
+* 80 GB de memoria GPU.
+* Cuatro chips NVIDIA NVSwitch™.
+* Procesadores Intel® Xeon® de cuarta generación dual de 56 núcleos con soporte PCIe 5,0.
+* 2 TB de memoria del sistema DDR5.
+* Cuatro puertos OSFP que sirven a ocho VPI de un solo puerto NVIDIA ConnectX-7, tres VPI de doble puerto NVIDIA ConnectX-7.
+* Dos unidades NVMe M,2 de 1,92 TB para el sistema operativo DGX, ocho unidades NVMe U,2 de 3,84 TB para almacenamiento/caché.
+* 11,3 kW de potencia máxima.
+En la figura 7, se muestran los puertos posteriores de la bandeja de CPU DGX H100. Cuatro de los puertos OSFP sirven a ocho HCA ConnectX-7 para la estructura de computación InfiniBand. Cada par de HCA ConnectX-7 de doble puerto proporciona vías paralelas para los tejidos de almacenamiento y gestión. El puerto fuera de banda se utiliza para el acceso BMC.
+image:oai_H100_rear.png["Error: Falta la imagen gráfica"]
+
+
+
+=== SISTEMA DGX A100 DE NVIDIA
+
+El sistema NVIDIA DGX A100 ofrece una densidad, un rendimiento y una flexibilidad de computación sin precedentes en el primer sistema de IA de 5 petaflops del mundo.
+
+image:oai_A100_3D.png["Error: Falta la imagen gráfica"]
+
+Las especificaciones clave del sistema DGX A100 son:
+* Ocho GPU NVIDIA A100 Tensor Core.
+* 40 GB o 80 GB GPU opciones de memoria.
+* Seis chips NVIDIA NVSwitch™.
+* Dual AMD EPYC™ 7742 CPU, 128 núcleos totales, 2,25 GHz (base), 3,4 GHz (impulso máximo).
+* Hasta 2 TB de memoria del sistema.
+* Ocho HCA NVIDIA ConnectX-6 o ConnectX-7 InfiniBand.
+* Dos unidades NVMe M,2 de 1,92 TB para el sistema operativo DGX, ocho unidades NVMe U,2 de 3,84 TB para almacenamiento/caché.
+* 6,5 kW de potencia máxima.
+
+Hay más información disponible sobre los sistemas DGX A100 link:https://www.nvidia.com/en-us/data-center/dgx-a100/["aquí"].
+
+En la figura 5, se muestran los puertos posteriores de la bandeja de CPU DGX A100. Se utilizan cuatro de los HCA de un puerto para las estructuras de computación de InfiniBand. Cada par de HCA de doble puerto proporciona vías paralelas para las estructuras de almacenamiento y gestión. El puerto fuera de banda se utiliza para el acceso BMC.
+image:oai_A100_rear.png["Error: Falta la imagen gráfica"]
+
+
+
+=== Conexión a redes NVIDIA
+
+
+
+==== Switch NVIDIA QM9700
+
+image:oai_QM9700.png["Error: Falta la imagen gráfica"]
+
+Los switches NVIDIA QM9700 con conectividad NDR InfiniBand potencian la estructura informática en las configuraciones NDR BasePOD. Se utilizan adaptadores de un solo puerto ConnectX-7 para la estructura de computación InfiniBand. Cada sistema NVIDIA DGX tiene conexiones dobles con cada switch de QM9700 GbE, lo que proporciona múltiples rutas de ancho de banda elevado y baja latencia entre
+los sistemas.
+
+
+
+==== Switch NVIDIA QM8700
+
+image:oai_QM8700.png["Error: Falta la imagen gráfica"]
+
+Los switches NVIDIA QM8700 con conectividad HDR InfiniBand potencian la estructura informática en configuraciones HDR BasePOD. Se utilizan adaptadores de un solo puerto ConnectX-6 para la estructura de computación InfiniBand. Cada sistema NVIDIA DGX tiene conexiones dobles a cada switch de QM8700 GbE, lo que proporciona varias rutas de alto ancho de banda y baja latencia entre los sistemas.
+
+
+
+==== Switch NVIDIA SN4600
+
+image:oai_SN4600.png["Error: Falta la imagen gráfica"]
+
+Los switches NVIDIA SN4600 ofrecen 128 puertos en total (64 GbE por switch) para proporcionar conectividad redundante para la gestión en banda de DGX BasePOD. El switch NVIDIA SN4600 puede proporcionar velocidades de entre 1 GbE y 200 GbE.Para dispositivos de almacenamiento conectados a través de Ethernet, también se utilizan los switches NVIDIA SN4600. Los puertos en las HCA de doble puerto NVIDIA DGX se utilizan para la gestión en banda y la conectividad de almacenamiento.
+
+
+
+==== Switch NVIDIA SN2201
+
+image:oai_SN2201.png["Error: Falta la imagen gráfica"]
+
+Los switches NVIDIA SN2201 ofrecen puertos 48 GbE para proporcionar conectividad para la gestión fuera de banda. La gestión fuera de banda proporciona conectividad de gestión consolidada para todos los componentes de BasePOD.
+
+
+
+==== NVIDIA CONNECT-X 7 HCA
+
+image:oai_CX7.png["Error: Falta la imagen gráfica"]
+
+El ConnectX-7 HCA es la última línea ConnectX HCA. Puede proporcionar 25/50/100/200/400G de rendimiento. Los sistemas NVIDIA DGX utilizan los HCA ConnectX-7 de único y doble puerto para proporcionar flexibilidad en las puestas en marcha de DGX BasePOD con NDR. Las especificaciones adicionales están disponibles aquí.
+
+
+
+==== NVIDIA CONNECT-X 6 HCA
+
+image:oai_CX6.png["Error: Falta la imagen gráfica"]
+
+Las HCA de ConnectX-6 pueden proporcionar 10/25/40/50/100/200g de rendimiento. Los sistemas NVIDIA DGX utilizan los HCA ConnectX-6 de único puerto y doble puerto para proporcionar flexibilidad en las implementaciones de DGX BasePOD con HDR.
+
+link:aipod_nv_sw_components.html["Próximo: NetApp AI Pod con sistemas NVIDIA DGX: Componentes de software."]
