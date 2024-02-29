@@ -173,7 +173,7 @@ image:sql-awsec2-image3.png["Error: Falta la imagen gráfica"]
 
 
 ....
-Vol create -vserver svm001 -volume vol_awssqlprod01_data -aggregate aggr1 -size 800GB -state online -tiering-policy snapshot-only -percent-snapshot-space 0 -autosize-mode grow -snapshot-policy none -security-style ntfs -aggregate aggr1
+vol create -vserver svm001 -volume vol_awssqlprod01_data -aggregate aggr1 -size 800GB -state online -tiering-policy snapshot-only -percent-snapshot-space 0 -autosize-mode grow -snapshot-policy none -security-style ntfs
 volume modify -vserver svm001 -volume vol_awssqlprod01_data -fractional-reserve 0
 volume modify -vserver svm001 -volume vol_awssqlprod01_data -space-mgmt-try-first vol_grow
 volume snapshot autodelete modify -vserver svm001 -volume vol_awssqlprod01_data -delete-order oldest_first
@@ -209,7 +209,7 @@ igroup create -igroup igrp_ws2019sql1 -protocol iscsi -ostype windows -initiator
 
 
 ....
-lun create -path /vol/vol_awssqlprod01_data/lun_awssqlprod01_data -size 700GB -ostype windows_2008 -space-reserve enabled -space-allocation enabled lun create -path /vol/vol_awssqlprod01_log/lun_awssqlprod01_log -size 100GB -ostype windows_2008 -space-reserve enabled -space-allocation enabled
+lun create -path /vol/vol_awssqlprod01_data/lun_awssqlprod01_data -size 700GB -ostype windows_2008 -space-allocation enabled lun create -path /vol/vol_awssqlprod01_log/lun_awssqlprod01_log -size 100GB -ostype windows_2008 -space-allocation enabled
 ....
 image:sql-awsec2-image5.png["Error: Falta la imagen gráfica"]
 
@@ -249,15 +249,15 @@ foreach ($TargetPortal in $TargetPortals) {New-IscsiTargetPortal -TargetPortalAd
 ....
 image:sql-awsec2-image10.png["Error: Falta la imagen gráfica"]
 
-+
 *Mejores prácticas*
 
-+
-* Configure cinco sesiones iSCSI por interfaz de destino para un rendimiento óptimo.
-* Configure una política round-robin para el mejor rendimiento general de iSCSI.
+* Configure cinco sesiones iSCSI por interfaz de destino para conseguir un rendimiento óptimo.
+* Configure una normativa por turnos para el mejor rendimiento iSCSI global.
 * Asegúrese de que el tamaño de la unidad de asignación esté establecido en 64K para las particiones al formatear las LUN
++
+.. Ejecute el siguiente comando de PowerShell para asegurarse de que la sesión iSCSI persiste.
 
-. Ejecute el siguiente comando de PowerShell para asegurarse de que la sesión iSCSI persiste.
+
 
 
 ....
@@ -414,13 +414,16 @@ La fórmula de ajuste de tamaño del directorio de registro de host asume lo sig
 
 * Copia de seguridad de la base de datos del sistema que no incluya la base de datos tempdb
 * SpacePlace, sobre una sobrecarga del 10% de LUN, el directorio de registro del host en un volumen o una LUN dedicados. La cantidad de datos en el directorio de registro del host depende del tamaño de los backups y de la cantidad de días que se retienen los backups.
-
-
++
 image:sql-awsec2-image17.png["Error: Falta la imagen gráfica"]
 
++
 Si las LUN ya se han aprovisionado, puede seleccionar el punto de montaje para representar el directorio del registro del host.
 
++
 image:sql-awsec2-image18.png["Error: Falta la imagen gráfica"]
+
+
 
 ====
 Ahora está listo para realizar operaciones de backup, restauración y clonado para SQL Server.
@@ -437,31 +440,28 @@ Después de colocar los archivos de base de datos y de registro en los LUN de ON
 * Use un grupo de recursos para llevar a cabo una configuración de backup para la optimización de Snapshot y la cantidad de trabajos que deben gestionarse.
 +
 .. Seleccione *Recursos* y, a continuación, seleccione *Microsoft SQL Server *en el menú desplegable de la parte superior izquierda. Seleccione *Actualizar recursos*.
-
-
-
-
++
 image:sql-awsec2-image19.png["Error: Falta la imagen gráfica"]
 
-. Seleccione la base de datos de la que desea realizar una copia de seguridad y, a continuación, seleccione *Siguiente* y (**) para agregar la política si no se ha creado una. Siga la *Nueva política de copia de seguridad de SQL Server* para crear una nueva directiva.
-
-
+.. Seleccione la base de datos de la que desea realizar una copia de seguridad y, a continuación, seleccione *Siguiente* y (**) para agregar la política si no se ha creado una. Siga la *Nueva política de copia de seguridad de SQL Server* para crear una nueva directiva.
++
 image:sql-awsec2-image20.png["Error: Falta la imagen gráfica"]
 
-. Seleccione el servidor de verificación si es necesario. Este servidor es el servidor que SnapCenter ejecuta DBCC CHECKDB después de crear una copia de seguridad completa. Haga clic en *Siguiente* para la notificación y, a continuación, seleccione *Resumen* para revisar. Después de revisar, haga clic en *Finalizar*.
-
-
+.. Seleccione el servidor de verificación si es necesario. Este servidor es el servidor que SnapCenter ejecuta DBCC CHECKDB después de crear una copia de seguridad completa. Haga clic en *Siguiente* para la notificación y, a continuación, seleccione *Resumen* para revisar. Después de revisar, haga clic en *Finalizar*.
++
 image:sql-awsec2-image21.png["Error: Falta la imagen gráfica"]
 
-. Haga clic en *copia de seguridad ahora* para probar la copia de seguridad. En las ventanas emergentes, seleccione *copia de seguridad*.
-
-
+.. Haga clic en *copia de seguridad ahora* para probar la copia de seguridad. En las ventanas emergentes, seleccione *copia de seguridad*.
++
 image:sql-awsec2-image22.png["Error: Falta la imagen gráfica"]
 
-. Seleccione *Monitor* para comprobar que la copia de seguridad se ha completado.
-
-
+.. Seleccione *Monitor* para comprobar que la copia de seguridad se ha completado.
++
 image:sql-awsec2-image23.png["Error: Falta la imagen gráfica"]
+
+
+
+
 
 *Mejores prácticas*
 
