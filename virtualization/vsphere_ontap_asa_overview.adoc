@@ -24,15 +24,15 @@ Autor: Josh Powell: Ingeniería de soluciones de NetApp
 
 === Introducción
 
-Durante casi dos décadas, el software NetApp ONTAP se ha situado como una solución de almacenamiento de primera categoría para entornos vSphere de VMware, introduciendo continuamente funciones innovadoras que simplifican la gestión y reducen los costes. NetApp es un líder establecido en el desarrollo de NAS y plataformas de almacenamiento unificado que ofrecen una amplia gama de compatibilidad con protocolos y conectividad. Junto con este segmento del mercado, hay muchos clientes que prefieren la simplicidad y las ventajas de coste de las plataformas de almacenamiento SAN basadas en bloques centradas en optimizar su trabajo. La cabina all-flash SAN (AFF ASA) de NetApp cumple esa promesa con sencillez a escala y con funciones de gestión y automatización consistentes para todas las aplicaciones y los proveedores de cloud.
+Durante casi dos décadas, el software NetApp ONTAP se ha situado como una solución de almacenamiento de primera categoría para entornos vSphere de VMware, introduciendo continuamente funciones innovadoras que simplifican la gestión y reducen los costes. NetApp es un líder establecido en el desarrollo de NAS y plataformas de almacenamiento unificado que ofrecen una amplia gama de compatibilidad con protocolos y conectividad. Junto con este segmento del mercado, hay muchos clientes que prefieren la simplicidad y las ventajas de coste de las plataformas de almacenamiento SAN basadas en bloques centradas en optimizar su trabajo. La cabina all-flash SAN (ASA) de NetApp cumple esa promesa con sencillez a escala y con funciones de gestión y automatización consistentes para todas las aplicaciones y los proveedores de cloud.
 
 
 
 === Objetivo de este documento
 
-En este documento, trataremos el valor exclusivo del uso de sistemas de almacenamiento de NetApp AFF ASA con vSphere de VMware y proporcionaremos una descripción general de la tecnología de la cabina SAN all-flash de NetApp. Además, veremos herramientas adicionales para simplificar el aprovisionamiento de almacenamiento y la protección de datos y la supervisión de tu centro de datos de VMware y ONTAP.
+En este documento, trataremos el valor exclusivo del uso de sistemas de almacenamiento de NetApp ASA con vSphere de VMware y proporcionaremos una descripción general de la tecnología de la cabina SAN all-flash de NetApp. Además, veremos herramientas adicionales para simplificar el aprovisionamiento de almacenamiento y la protección de datos y la supervisión de tu centro de datos de VMware y ONTAP.
 
-Las secciones de la implementación de este documento tratan la creación de almacenes de datos VVOL con herramientas de ONTAP para VMware vSphere y la observabilidad para el centro de datos moderno con NetApp Cloud Insights.
+Las secciones de puesta en marcha de este documento tratan la creación de almacenes de datos VVOL con herramientas de ONTAP para VMware vSphere y la observabilidad del centro de datos moderno con NetApp Cloud Insights.
 
 
 
@@ -68,13 +68,13 @@ VSphere 8,0 introduce algunas mejoras nuevas, entre las que se incluyen:
 
 * Tiempo de ejecución de Kubernetes integrado * - Con la inclusión de Tanzu, vSphere 8,0 simplifica la orquestación de contenedores.
 
-Para obtener más información, consulte el blog, https://core.vmware.com/resource/whats-new-vsphere-8/["¿Qué novedades hay en vSphere 8?"]
+Para obtener más información, consulte el blog, https://core.vmware.com/resource/whats-new-vsphere-8/["¿Qué novedades hay en vSphere 8?"].
 
 
 
 ===== Volúmenes virtuales de VMware (vVols)
 
-VVols es un nuevo y revolucionario método de la gestión del almacenamiento en clústeres de vSphere que ofrece una gestión simplificada y un control más granular de los recursos de almacenamiento. En un almacén de datos vVols, cada disco virtual es un VVOL y se convierte en un objeto LUN nativo del sistema de almacenamiento. La integración del sistema de almacenamiento y vSphere se lleva a cabo a través del proveedor VASA (API de VMware para el reconocimiento del almacenamiento) y permite que el sistema de almacenamiento conozca los datos de los equipos virtuales y gestionarlos adecuadamente. Las políticas de almacenamiento, definidas en vCenter Client, se utilizan para asignar y gestionar recursos de almacenamiento.
+VVols es un nuevo y revolucionario método de la gestión del almacenamiento en clústeres de vSphere que ofrece una gestión simplificada y un control más granular de los recursos de almacenamiento. En un almacén de datos vVols, cada disco virtual es un VVOL y se convierte en un objeto LUN nativo del sistema de almacenamiento. La integración del sistema de almacenamiento y vSphere se lleva a cabo a través del proveedor de la API de VMware para el conocimiento del almacenamiento (VASA)* y permite que el sistema de almacenamiento sea consciente de los datos de la VM y lo gestione en consecuencia. Las políticas de almacenamiento, definidas en vCenter Client, se utilizan para asignar y gestionar recursos de almacenamiento.
 
 Los vVols constituyen un método simplificado de la gestión del almacenamiento y son preferibles en algunos casos prácticos.
 
@@ -88,6 +88,7 @@ Con el lanzamiento de vSphere 8,0, ahora se admite NVMe integral, con compatibil
 
 Para obtener información detallada sobre el uso de NVMe con vSphere, consulte https://docs.vmware.com/en/VMware-vSphere/8.0/vsphere-storage/GUID-2A80F528-5B7D-4BE9-8EF6-52E2301DC423.html["Acerca del almacenamiento NVMe de VMware"] En la documentación de vSphere Storage.
 
+'''
 
 
 === ONTAP de NetApp
@@ -170,6 +171,7 @@ La licencia de ONTAP One incluye todas las siguientes funciones:
 
 *S3 SnapMirror* – Permite la replicación de objetos de ONTAP S3 para alternar destinos compatibles con S3.
 
+'''
 
 
 === Cabina All-Flash SAN NetApp
@@ -250,6 +252,7 @@ NetApp ofrece un conjunto único de garantías de almacenamiento con cabinas SAN
 
 Consulte https://www.netapp.com/data-storage/all-flash-san-storage-array/["Portal de productos de NetApp ASA"] si quiere más información.
 
+'''
 
 
 === Complementos de NetApp para VMware vSphere
@@ -271,7 +274,7 @@ Las herramientas de ONTAP incluyen los siguientes componentes:
 
 *Adaptador de replicación de almacenamiento (SRA):* Cuando se habilita y se usa con VMware Site Recovery Manager (SRM), SRA facilita la recuperación de los almacenes de datos de vCenter Server y las máquinas virtuales en caso de fallo, lo que permite la configuración de sitios protegidos y sitios de recuperación para recuperación ante desastres.
 
-Para obtener más información sobre las herramientas de NetApp ONTAP para VMware, consulte lo siguiente: https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere/index.html[].
+Para obtener más información sobre las herramientas de NetApp ONTAP para VMware, consulte https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere/index.html["Herramientas de ONTAP para documentación de VMware vSphere"].
 
 
 
@@ -295,8 +298,9 @@ Para obtener más información, consulte https://docs.netapp.com/us-en/sc-plugin
 
 La integración de BlueXP habilita estrategias de backup de 3-2-1 que amplían las copias de datos en el almacenamiento de objetos en el cloud.
 
-Para obtener más información sobre las estrategias de backup 3-2-1 con BlueXP visita https://community.netapp.com/t5/Tech-ONTAP-Blogs/3-2-1-Data-Protection-for-VMware-with-SnapCenter-Plug-in-and-BlueXP-backup-and/ba-p/446180["3-2-1 Protección de datos para VMware con complemento SnapCenter y backup y recuperación de datos de BlueXP para máquinas virtuales"].
+Para obtener más información sobre estrategias de backup 3-2-1 con BlueXP, visita https://community.netapp.com/t5/Tech-ONTAP-Blogs/3-2-1-Data-Protection-for-VMware-with-SnapCenter-Plug-in-and-BlueXP-backup-and/ba-p/446180["3-2-1 Protección de datos para VMware con complemento SnapCenter y backup y recuperación de datos de BlueXP para máquinas virtuales"].
 
+'''
 
 
 === Cloud Insights de NetApp
