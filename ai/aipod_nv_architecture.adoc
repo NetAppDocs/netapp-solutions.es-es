@@ -2,7 +2,7 @@
 sidebar: sidebar 
 permalink: ai/aipod_nv_architecture.html 
 keywords: NetApp AI, AI, Artificial Intelligence, ML, Machine Learning, NVIDIA, NVIDIA AI Enterprise, NVIDIA BasePOD, NVIDIA DGX 
-summary: 'NetApp AIPod con sistemas NVIDIA DGX: Arquitectura' 
+summary: 'NetApp AI Pod con sistemas NVIDIA DGX: Arquitectura' 
 ---
 = NetApp AIPod con sistemas NVIDIA DGX: Arquitectura de la solución
 :hardbreaks:
@@ -13,33 +13,34 @@ summary: 'NetApp AIPod con sistemas NVIDIA DGX: Arquitectura'
 :imagesdir: ./../media/
 
 
+link:aipod_nv_sw_components.html["Anterior: ONTAP AI - Componentes de software"]
+
 
 
 == AI Pod de NetApp con sistemas DGX H100
 
-Esta arquitectura de referencia aprovecha estructuras independientes para la interconexión en clústeres de computación y el acceso al almacenamiento, con opciones para la conectividad Infiniband (IB) de NDR200 e HDR200 Gb entre los nodos de computación. Los sistemas DGX H100 incluyen tarjetas ConnectX-7 preinstaladas para conectividad NDR IB, mientras que los sistemas DGX A100 pueden utilizar tarjetas ConnectX-6 o ConnectX-7 para conectividad HDR o NDR respectivamente.
+Esta arquitectura de referencia aprovecha las estructuras separadas para la interconexión en clústeres de computación y el acceso al almacenamiento, con conectividad InfiniBand (IB) de 400GB Gb/s entre los nodos de computación. El siguiente dibujo muestra la topología general de la solución de NetApp AIPod con sistemas DGX H100.
 
-El siguiente dibujo muestra la topología general de la solución al utilizar sistemas DGX H100 con AIPod de NetApp.
-
+_Topología de la solución AIpod de NetApp_
 image:aipod_nv_a900topo.png["Error: Falta la imagen gráfica"]
 
 
 
 == Configuración de red
 
-En esta configuración, la estructura de clústeres de computación utiliza un par de QM9700 switches IB NDR, que se conectan entre sí para conseguir una alta disponibilidad. Cada sistema DGX H100 está conectado a los switches mediante ocho conexiones, con puertos números pares conectados a un switch y puertos con número impar conectados al otro switch.
+En esta configuración, la estructura de clústeres de computación utiliza un par de switches IB de QM9700 400GB Gb/s, que se conectan entre sí para lograr una alta disponibilidad. Cada sistema DGX H100 está conectado a los switches mediante ocho conexiones, con puertos números pares conectados a un switch y puertos con número impar conectados al otro switch.
 
-Para el acceso al sistema de almacenamiento, la gestión en banda y el acceso de clientes, se utiliza un par de switches Ethernet SN4600 Gb. Los switches están conectados con enlaces entre switches y se configuran con varias VLAN para aislar los distintos tipos de tráfico. Para implementaciones mayores, la red ethernet se puede expandir a una configuración hoja-espina añadiendo pares de switches adicionales para los switches espina y hojas adicionales según sea necesario.
+Para el acceso al sistema de almacenamiento, la gestión en banda y el acceso de clientes, se utiliza un par de switches Ethernet SN4600 Gb. Los switches están conectados con enlaces entre switches y se configuran con varias VLAN para aislar los distintos tipos de tráfico. Para implementaciones mayores, la red Ethernet se puede expandir a una configuración hoja-espina añadiendo pares de switches adicionales para los switches espina y hojas adicionales según sea necesario.
 
-Además de la interconexión informática y las redes ethernet de alta velocidad, todos los dispositivos físicos también están conectados a uno o más switches Ethernet de SN2201 Gb para la gestión fuera de banda.  Para obtener más información sobre la conectividad del sistema DGX H100, consulte la link:https://nvdam.widen.net/s/nfnjflmzlj/nvidia-dgx-basepod-reference-architecture["Documentación de NVIDIA BasePOD"].
+Además de la interconexión informática y las redes Ethernet de alta velocidad, todos los dispositivos físicos también están conectados a uno o más switches Ethernet de SN2201 Gb para la gestión fuera de banda.  Para obtener más información sobre la conectividad del sistema DGX H100, consulte la link:https://nvdam.widen.net/s/nfnjflmzlj/nvidia-dgx-basepod-reference-architecture["Documentación de NVIDIA BasePOD"].
 
 
 
 == Configuración de cliente para el acceso al almacenamiento
 
-Cada sistema DGX H100 está aprovisionado con dos tarjetas ConnectX-7 de doble puerto para el tráfico de gestión y almacenamiento y, para esta solución, ambos puertos de cada tarjeta están conectados al mismo switch. Después, un puerto de cada tarjeta se configura en un vínculo LACP MLAG con un puerto conectado a cada switch, y las VLAN para la gestión en banda, el acceso de clientes y el acceso al almacenamiento en el nivel de usuario se alojan en este vínculo.
+Cada sistema DGX H100 está aprovisionado con dos adaptadores ConnectX-7 de doble puerto para el tráfico de gestión y almacenamiento. Para esta solución, ambos puertos de cada tarjeta están conectados al mismo switch. Después, un puerto de cada tarjeta se configura en un vínculo LACP MLAG con un puerto conectado a cada switch, y las VLAN para la gestión en banda, el acceso de clientes y el acceso al almacenamiento en el nivel de usuario se alojan en este vínculo.
 
-El otro puerto de cada tarjeta se utiliza para la conectividad con los sistemas de almacenamiento AFF A900 y se puede utilizar en varias configuraciones según los requisitos de la carga de trabajo. En el caso de configuraciones que utilizan NFS over RDMA para admitir el almacenamiento GPUDirect de NVIDIA, los puertos se configuran en un vínculo activo-pasivo, ya que RDMA no es compatible con ningún otro tipo de vínculo. Para las puestas en marcha que no requieran RDMA, los clientes también pueden aprovechar el enlace LACP en las interfaces de almacenamiento para ofrecer una alta disponibilidad y un ancho de banda adicional. Con o sin RDMA, los clientes pueden montar el sistema de almacenamiento mediante pNFS v4,1 y Trunking de sesiones para permitir el acceso en paralelo a todos los nodos de almacenamiento del clúster.
+El otro puerto de cada tarjeta se utiliza para la conectividad con los sistemas de almacenamiento AFF A900 y se puede utilizar en varias configuraciones según los requisitos de la carga de trabajo. Para configuraciones que utilizan NFS a través de RDMA para admitir el almacenamiento Magnum IO GPUDirect de NVIDIA, los puertos se configuran en un vínculo activo-pasivo, ya que RDMA no es compatible con ningún otro tipo de vínculo. Para las puestas en marcha que no requieren RDMA, las interfaces de almacenamiento también se pueden configurar mediante enlaces LACP para ofrecer una alta disponibilidad y ancho de banda adicional. Con o sin RDMA, los clientes pueden montar el sistema de almacenamiento mediante pNFS v4,1 y Trunking de sesiones para permitir el acceso en paralelo a todos los nodos de almacenamiento del clúster.
 
 
 
@@ -47,18 +48,19 @@ El otro puerto de cada tarjeta se utiliza para la conectividad con los sistemas 
 
 Cada sistema de almacenamiento A900 de AFF está conectado mediante cuatro puertos de 100 GbE desde cada controladora. Dos puertos de cada controladora se utilizan para el acceso a los datos de carga de trabajo desde los sistemas DGX y dos puertos de cada controladora están configurados como un grupo de interfaces LACP para admitir el acceso desde los servidores del plano de gestión para artefactos de gestión de clústeres y directorios iniciales de usuario. Todos los accesos a datos desde el sistema de almacenamiento se realizan mediante NFS, con una máquina virtual de almacenamiento (SVM) dedicada al acceso a las cargas de trabajo de IA y una SVM independiente dedicada a los usos de gestión del clúster.
 
-La SVM de carga de trabajo está configurada con un total de ocho interfaces lógicas (LIF), con dos para cada puerto físico. Esta configuración proporciona el ancho de banda máximo, así como los medios para que cada LIF pueda conmutar por error a otro puerto de la misma controladora, de modo que ambas controladoras permanezcan activas en caso de un fallo de red. Esta configuración también es compatible con NFS over RDMA para habilitar el acceso a almacenamiento GPUDirect. La capacidad de almacenamiento se aprovisiona en forma de un único volumen FlexGroup grande que abarca todas las controladoras de almacenamiento del clúster, con 16 volúmenes constituyentes en cada controladora. Puede accederse a esta FlexGroup desde cualquiera de las LIF en la SVM y al utilizar NFSv4,1 con pNFS y conexión de enlaces de sesiones, los clientes establecen conexiones a todas las LIF de la SVM, lo cual permite acceder a los datos locales de cada nodo de almacenamiento en paralelo con el fin de mejorar significativamente el rendimiento. La SVM de carga de trabajo y cada LIF de datos también están configuradas para el acceso a protocolo RDMA. Para obtener más información sobre la configuración de RDMA para ONTAP, consulte la link:https://docs.netapp.com/us-en/ontap/nfs-rdma/index.html["Documentación de ONTAP"].
+La SVM de carga de trabajo está configurada con un total de ocho interfaces lógicas (LIF), con dos para cada puerto físico. Esta configuración proporciona el ancho de banda máximo, así como los medios para que cada LIF pueda conmutar por error a otro puerto de la misma controladora, de modo que ambas controladoras permanezcan activas en caso de un fallo de red. Esta configuración también admite NFS sobre RDMA para habilitar el acceso a almacenamiento GPUDirect. La capacidad de almacenamiento se aprovisiona en forma de un único volumen FlexGroup grande que abarca todas las controladoras de almacenamiento del clúster, con 16 volúmenes constituyentes en cada controladora. Puede accederse a esta FlexGroup desde cualquiera de las LIF en la SVM y al utilizar NFSv4,1 con pNFS y conexión de enlaces de sesiones, los clientes establecen conexiones a todas las LIF de la SVM, lo cual permite acceder a los datos locales de cada nodo de almacenamiento en paralelo con el fin de mejorar significativamente el rendimiento. La SVM de carga de trabajo y cada LIF de datos también están configuradas para el acceso a protocolo RDMA. Para obtener más información sobre la configuración de RDMA para ONTAP, consulte la link:https://docs.netapp.com/us-en/ontap/nfs-rdma/index.html["Documentación de ONTAP"].
 
 La SVM de gestión solo requiere un solo LIF, que está alojado en los grupos de interfaz de 2 puertos configurados en cada controladora. Otros volúmenes FlexGroup se aprovisionan en la SVM de gestión con el fin de albergar artefactos de gestión del clúster, como imágenes de nodos de clúster, datos históricos de supervisión del sistema y directorios iniciales de usuarios finales. El siguiente dibujo muestra la configuración lógica del sistema de almacenamiento.
 
+_Configuración lógica del clúster de almacenamiento de NetApp A900_
 image:aipod_nv_A900logical.png["Error: Falta la imagen gráfica"]
 
 
 
 == Servidores del plano de gestión
 
-Esta arquitectura de referencia también incluye cinco servidores basados en CPU para los usos del plano de gestión. Dos de estos sistemas se utilizan como nodos principales de Base Command Manager para la puesta en marcha y gestión del clúster. Los otros tres sistemas se utilizan para proporcionar servicios de clúster adicionales, como los nodos maestros de Kubernetes o los nodos de inicio de sesión para las implementaciones que utilizan Slurm para la programación de tareas. Las puestas en marcha que utilizan Kubernetes pueden aprovechar el controlador CSI Astra Trident de NetApp para proporcionar aprovisionamiento automatizado y servicios de datos con almacenamiento persistente para cargas de trabajo de gestión y de IA en el sistema de almacenamiento A900 de AFF.
+Esta arquitectura de referencia también incluye cinco servidores basados en CPU para los usos del plano de gestión. Dos de estos sistemas se usan como nodos principales de NVIDIA Base Command Manager para la puesta en marcha y la gestión del clúster. Los otros tres sistemas se utilizan para proporcionar servicios de clúster adicionales, como los nodos maestros de Kubernetes o los nodos de inicio de sesión para las implementaciones que utilizan Slurm para la programación de tareas. Las puestas en marcha que utilizan Kubernetes pueden aprovechar el controlador CSI Astra Trident de NetApp para proporcionar aprovisionamiento automatizado y servicios de datos con almacenamiento persistente para cargas de trabajo de gestión y de IA en el sistema de almacenamiento A900 de AFF.
 
-Cada servidor está conectado físicamente a los switches IB y ethernet para permitir la puesta en marcha y gestión de clústeres. Además, está configurado con montajes NFS en el sistema de almacenamiento a través de la SVM de gestión para almacenamiento de artefactos de gestión de clústeres, tal como se ha descrito anteriormente.
+Cada servidor está conectado físicamente a los switches IB y Ethernet para permitir la puesta en marcha y gestión de clústeres. Además, está configurado con montajes NFS en el sistema de almacenamiento a través de la SVM de gestión para almacenamiento de artefactos de gestión de clústeres, tal como se ha descrito anteriormente.
 
-link:aipod_nv_storage.html["Próximo: NetApp AI Pod con sistemas NVIDIA DGX: Diseño del sistema de almacenamiento y guía de tamaño."]
+link:aipod_nv_validation_sizing.html["Próximo: AIPod de NetApp con sistemas NVIDIA DGX: Validación de la solución y guía de tamaño"]
