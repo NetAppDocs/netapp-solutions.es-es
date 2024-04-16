@@ -1,0 +1,77 @@
+---
+sidebar: sidebar 
+permalink: containers/rh-os-n_use_case_openshift_virtualization_dataprotection_backup.html 
+keywords: OpenShift, OCP, Astra Trident, NetApp ONTAP, Red Hat OpenShift, OpenShift Virtualization, CNV, Container Native Virtualization, Red Hat OpenShift Virtualization, OADP operator, Openshift Data Protection Application operator, velero 
+summary: OpenShift Virtualization de Red Hat con ONTAP de NetApp 
+---
+= Crear backups bajo demanda para máquinas virtuales en la virtualización de OpenShift
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+
+
+== Pasos para crear un backup de una máquina virtual
+
+Para crear una copia de seguridad bajo demanda de toda la VM (metadatos de VM y discos de VM), haga clic en la pestaña **Backup**. Esto crea un recurso personalizado de copia de seguridad (CR). Se proporciona un yaml de ejemplo para crear el CR de copia de seguridad. Mediante este yaml se realizará una copia de seguridad de la máquina virtual y sus discos en el espacio de nombre especificado. Los parámetros adicionales se pueden establecer como se muestra en la link:https://docs.openshift.com/container-platform/4.14/backup_and_restore/application_backup_and_restore/backing_up_and_restoring/oadp-creating-backup-cr.html["documentación"].
+
+El CSI creará una instantánea de los volúmenes persistentes que respalden los discos y se moverá a la ubicación de almacenamiento de objetos proporcionada en yaml. La copia de seguridad permanecerá en el sistema durante 30 días, tal y como se especifica en el ttl.
+
+....
+apiVersion: velero.io/v1
+kind: Backup
+metadata:
+  name: backup1
+  namespace: openshift-adp
+spec:
+  includedNamespaces:
+  - virtual-machines-demo
+  snapshotVolumes: true
+  storageLocation: velero-demo-1
+  ttl: 720h0m0s
+....
+Una vez que se complete la copia de seguridad, su Fase debe mostrar como completada.
+
+image::redhat_openshift_OADP_backup_image1.jpg[Copia de seguridad completada]
+
+Puede inspeccionar la copia de seguridad en el almacenamiento de objetos con la ayuda de una aplicación de explorador S3. La ruta de acceso del backup aparece en el bucket configurado con el prefijo name (velero/demobackup). Es posible ver el contenido del backup incluidos las copias de Snapshot de volúmenes, los registros y otros metadatos de la máquina virtual.
+
+image::redhat_openshift_OADP_backup_image2.jpg[Objetos de Copia de Seguridad en S3]
+
+
+
+== Crear backups programados para máquinas virtuales en la virtualización de OpenShift
+
+Para crear backups según una programación, debe crear un recurso personalizado de programación.
+La programación es simplemente una expresión Cron que le permite especificar la hora a la que desea crear la copia de seguridad. yaml de ejemplo para crear un CR de programa.
+
+....
+apiVersion: velero.io/v1
+kind: Schedule
+metadata:
+  name: <schedule>
+  namespace: openshift-adp
+spec:
+  schedule: 0 7 * * *
+  template:
+    hooks: {}
+    includedNamespaces:
+    - <namespace>
+    storageLocation: velero-demo-1
+    defaultVolumesToFsBackup: true
+    ttl: 720h0m0s
+....
+La expresión Cron 0 7 * * * significa que se creará una copia de seguridad a las 7:00 todos los días.
+También se especifican los espacios de nombres que se incluirán en la copia de seguridad y la ubicación de almacenamiento para la copia de seguridad. Por lo tanto, en lugar de un CR de copia de seguridad, el CR de programa se utiliza para crear una copia de seguridad de la hora y frecuencia especificadas.
+
+Una vez creada la programación, se habilita.
+
+image::redhat_openshift_OADP_backup_image3.jpg[Programación creada]
+
+Las copias de seguridad se crearán de acuerdo con esta programación y se podrán ver desde la pestaña Copia de seguridad.
+
+image::redhat_openshift_OADP_backup_image4.jpg[Programación creada]

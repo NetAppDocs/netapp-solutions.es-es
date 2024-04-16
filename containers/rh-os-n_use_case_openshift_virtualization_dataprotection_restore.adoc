@@ -1,0 +1,44 @@
+---
+sidebar: sidebar 
+permalink: containers/rh-os-n_use_case_openshift_virtualization_dataprotection_restore.html 
+keywords: OpenShift, OCP, Astra Trident, NetApp ONTAP, Red Hat OpenShift, OpenShift Virtualization, CNV, Container Native Virtualization, Red Hat OpenShift Virtualization, OADP operator, Openshift Data Protection Application operator, velero 
+summary: OpenShift Virtualization de Red Hat con ONTAP de NetApp 
+---
+= Restaurar un equipo virtual desde un backup
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+
+
+== Requisitos previos
+
+Para restaurar desde un backup, asumimos que el espacio de nombres donde existía la máquina virtual se eliminó por accidente.
+
+
+
+== Pasos para realizar una restauración
+
+Para restaurar desde el backup que acabamos de crear, necesitamos crear un Restore Custom Resource (CR). Necesitamos darle un nombre, proporcionar el nombre del backup del que queremos restaurar y establecer restorePVs en true.
+Los parámetros adicionales se pueden establecer como se muestra en la link:https://docs.openshift.com/container-platform/4.14/backup_and_restore/application_backup_and_restore/backing_up_and_restoring/restoring-applications.html["documentación"]. Haga clic en el botón Crear.
+
+image::redhat_openshift_OADP_restore_image1.jpg[Crear Restaurar CR]
+
+....
+apiVersion: velero.io/v1
+kind: Restore
+metadata:
+  name: restore1
+  namespace: openshift-adp
+spec:
+  backupName: backup1
+  restorePVs: true
+....
+Cuando la fase muestre Finalizado, verá que las máquinas virtuales se han restaurado
+al estado en el que se tomó la instantánea. (Si el backup se creó cuando la máquina virtual se estaba ejecutando, al restaurar la máquina virtual desde el backup se iniciará la máquina virtual restaurada y se llevará a un estado en ejecución)
+
+image::redhat_openshift_OADP_restore_image2.jpg[Se ha creado la restauración CR]
