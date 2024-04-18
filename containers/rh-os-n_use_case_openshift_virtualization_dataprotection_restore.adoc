@@ -21,10 +21,9 @@ Para restaurar desde un backup, asumimos que el espacio de nombres donde existí
 
 
 
-== Pasos para realizar una restauración
+== Restaure el mismo espacio de nombres
 
-Para restaurar desde el backup que acabamos de crear, necesitamos crear un Restore Custom Resource (CR). Necesitamos darle un nombre, proporcionar el nombre del backup del que queremos restaurar y establecer restorePVs en true.
-Los parámetros adicionales se pueden establecer como se muestra en la link:https://docs.openshift.com/container-platform/4.14/backup_and_restore/application_backup_and_restore/backing_up_and_restoring/restoring-applications.html["documentación"]. Haga clic en el botón Crear.
+Para restaurar desde el backup que acabamos de crear, necesitamos crear un Restore Custom Resource (CR). Necesitamos darle un nombre, proporcionar el nombre del backup del que queremos restaurar y establecer restorePVs en true. Los parámetros adicionales se pueden establecer como se muestra en la link:https://docs.openshift.com/container-platform/4.14/backup_and_restore/application_backup_and_restore/backing_up_and_restoring/restoring-applications.html["documentación"]. Haga clic en el botón Crear.
 
 image::redhat_openshift_OADP_restore_image1.jpg[Crear Restaurar CR]
 
@@ -38,7 +37,32 @@ spec:
   backupName: backup1
   restorePVs: true
 ....
-Cuando la fase muestre Finalizado, verá que las máquinas virtuales se han restaurado
-al estado en el que se tomó la instantánea. (Si el backup se creó cuando la máquina virtual se estaba ejecutando, al restaurar la máquina virtual desde el backup se iniciará la máquina virtual restaurada y se llevará a un estado en ejecución)
+Cuando la fase muestra Completado, puede ver que las máquinas virtuales se han restaurado al estado en que se tomó la instantánea. (Si el backup se creó cuando la máquina virtual se estaba ejecutando, al restaurar la máquina virtual desde el backup se iniciará la máquina virtual restaurada y se llevará a un estado en ejecución). La máquina virtual se restaura en el mismo espacio de nombres.
 
-image::redhat_openshift_OADP_restore_image2.jpg[Se ha creado la restauración CR]
+image::redhat_openshift_OADP_restore_image2.jpg[Se completó la restauración]
+
+
+
+== Restaure un espacio de nombres diferente
+
+Para restaurar el equipo virtual en un espacio de nombres diferente, puede proporcionar un namespaceMapping en la definición yaml del Restore CR.
+
+El siguiente ejemplo de archivo yaml crea un Restore CR para restaurar un equipo virtual y sus discos en el espacio de nombres virtual-machines-demo cuando el backup se realizó en el espacio de nombres de equipos virtuales.
+
+....
+apiVersion: velero.io/v1
+kind: Restore
+metadata:
+  name: restore-to-different-ns
+  namespace: openshift-adp
+spec:
+  backupName: backup
+  restorePVs: true
+  includedNamespaces:
+  - virtual-machines-demo
+  namespaceMapping:
+    virtual-machines-demo: virtual-machines
+....
+Cuando la fase muestra Completado, puede ver que las máquinas virtuales se han restaurado al estado en que se tomó la instantánea. (Si el backup se creó cuando la máquina virtual se estaba ejecutando, al restaurar la máquina virtual desde el backup se iniciará la máquina virtual restaurada y se llevará a un estado en ejecución). La máquina virtual se restaura en un espacio de nombres diferente como se especifica en la yaml.
+
+Image::redhat_openshift_OADP_restore_image3.jpg[Restore completado en un nuevo espacio de nombres]%
