@@ -36,8 +36,7 @@ spec:
   ttl: 720h0m0s
 ....
 Una vez que se complete la copia de seguridad, su Fase se mostrará como completada.
-
-image::redhat_openshift_OADP_backup_image1.jpg[Copia de seguridad completada]
+Imagen::redhat_openshift_OADP_backup_image1.jpg[Backup completado]
 
 Puede inspeccionar la copia de seguridad en el almacenamiento de objetos con la ayuda de una aplicación de explorador S3. La ruta de acceso del backup aparece en el bucket configurado con el prefijo name (velero/demobackup). Es posible ver el contenido del backup incluidos las copias de Snapshot de volúmenes, los registros y otros metadatos de la máquina virtual.
 
@@ -51,7 +50,6 @@ image::redhat_openshift_OADP_backup_image2.jpg[Objetos de Copia de Seguridad en 
 == Creación de backups programados para máquinas virtuales en OpenShift Virtualization
 
 Para crear copias de seguridad en un programa, debe crear un CR de programa.
-
 La programación es simplemente una expresión Cron que le permite especificar la hora a la que desea crear la copia de seguridad. yaml de ejemplo para crear un CR de programa.
 
 ....

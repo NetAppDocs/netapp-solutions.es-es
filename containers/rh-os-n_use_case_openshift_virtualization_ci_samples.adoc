@@ -1,0 +1,61 @@
+---
+sidebar: sidebar 
+permalink: containers/rh-os-n_use_case_openshift_virtualization_ci_samples.html 
+keywords: OpenShift, OCP, Astra Trident, NetApp ONTAP, Red Hat OpenShift, OpenShift Virtualization, CNV, Container Native Virtualization, Red Hat OpenShift Virtualization, cloud Insights 
+summary: Supervisión mediante Cloud Insights para máquinas virtuales en Red Hat OpenShift Virtualization 
+---
+= Ejemplos de capacidades de supervisión para máquinas virtuales en Red Hat OpenShift Virtualization
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+
+
+== **Monitoreo basado en eventos y creación de alertas**
+
+A continuación se muestra un ejemplo en el que el espacio de nombres que contiene una VM en OpenShift Virtualization se supervisa en función de eventos. En este ejemplo, se crea un monitor basado en **logs.kubernetes**.event para el espacio de nombres especificado en el clúster.
+
+image::redhat_openshift_ci_samples_image1.jpg[Muestras de Cloud Insights]
+
+Esta consulta proporciona todos los eventos para la máquina virtual en el espacio de nombres. (Solo hay una máquina virtual en el espacio de nombres). También se puede crear una consulta avanzada para filtrar en función del evento en el que el motivo es «fallido» o «FailedMount» Estos eventos normalmente se crean cuando hay un problema al crear un VP o al montar el PV en un pod que indica problemas en el aprovisionador dinámico para la creación persistente volúmenes para la máquina virtual.
+Al crear el Monitor de alertas como se muestra anteriormente, también puede configurar las notificaciones para los destinatarios. También puede proporcionar acciones correctivas o información adicional que pueden ser útiles para resolver el error. En el ejemplo anterior, podría haber más información sobre la configuración de back-end de Trident y las definiciones de la clase de almacenamiento para resolver el problema.
+
+
+
+== **Cambie la analítica**
+
+Con Change Analytics, puede obtener una vista de los cambios en el estado de su clúster, incluido quién realizó ese cambio, lo que puede ayudar a solucionar problemas.
+
+image::redhat_openshift_ci_samples_image2.jpg[Muestras de Cloud Insights]
+
+En el ejemplo anterior, Change Analysis se configura en el cluster OpenShift para el espacio de nombres que contiene una VM de OpenShift Virtualization. El panel muestra los cambios con respecto a la escala de tiempo. Puede aumentar detalle para ver lo que ha cambiado y hacer clic en Todos los Cambios Diff para ver la diferencia de los manifiestos. Desde el manifiesto, puede ver que se creó una nueva copia de seguridad de los discos persistentes.
+
+image::redhat_openshift_ci_samples_image3.jpg[Muestras de Cloud Insights]
+
+image::redhat_openshift_ci_samples_image4.jpg[Muestras de Cloud Insights]
+
+
+
+== **Asignación de almacenamiento de backend**
+
+Con Cloud Insights, usted puede obtener fácilmente el almacenamiento de back-end de los discos de los equipos virtuales y varias estadísticas sobre los RVP.
+
+image::redhat_openshift_ci_samples_image5.jpg[Muestras de Cloud Insights]
+
+Puede hacer clic en los enlaces de la columna back-end, que extraerá datos directamente del almacenamiento ONTAP back-end.
+
+image::redhat_openshift_ci_samples_image6.jpg[Muestras de Cloud Insights]
+
+Otra forma de observar todo el pod a la asignación de almacenamiento es creando una consulta All Metrics desde el menú Observabilidad en Explorar.
+
+image::redhat_openshift_ci_samples_image7.jpg[Muestras de Cloud Insights]
+
+Al hacer clic en cualquiera de los enlaces, se le proporcionarán los datos correspondientes del almacenamiento de ONTP. Por ejemplo, al hacer clic en el nombre de una SVM en la columna storageVirtualMachine se extraerán los detalles sobre la SVM de ONTAP. Al hacer clic en el nombre de un volumen interno, se extraerán detalles sobre el volumen en ONTAP.
+
+image::redhat_openshift_ci_samples_image8.jpg[Muestras de Cloud Insights]
+
+image::redhat_openshift_ci_samples_image9.jpg[Muestras de Cloud Insights]
