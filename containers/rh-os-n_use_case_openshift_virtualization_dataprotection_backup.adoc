@@ -36,7 +36,8 @@ spec:
   ttl: 720h0m0s
 ....
 Una vez que se complete la copia de seguridad, su Fase se mostrará como completada.
-Imagen::redhat_openshift_OADP_backup_image1.jpg[Backup completado]
+
+image::redhat_openshift_OADP_backup_image1.jpg[Copia de seguridad completada]
 
 Puede inspeccionar la copia de seguridad en el almacenamiento de objetos con la ayuda de una aplicación de explorador S3. La ruta de acceso del backup aparece en el bucket configurado con el prefijo name (velero/demobackup). Es posible ver el contenido del backup incluidos las copias de Snapshot de volúmenes, los registros y otros metadatos de la máquina virtual.
 
@@ -72,7 +73,9 @@ La expresión Cron 0 7 * * * significa que se creará una copia de seguridad a l
 También se especifican los espacios de nombres que se incluirán en la copia de seguridad y la ubicación de almacenamiento para la copia de seguridad. Por lo tanto, en lugar de un CR de copia de seguridad, el CR de programa se utiliza para crear una copia de seguridad a la hora y frecuencia especificadas.
 
 Una vez creada la programación, se habilita.
-Imagen::redhat_openshift_OADP_backup_image3.jpg[Schedule Creado]
+
+image::redhat_openshift_OADP_backup_image3.jpg[Programación creada]
 
 Las copias de seguridad se crearán de acuerdo con esta programación y se podrán ver desde la pestaña Copia de seguridad.
-Imagen::redhat_openshift_OADP_backup_image4.jpg[Schedule Creado]
+
+image::redhat_openshift_OADP_backup_image4.jpg[Programación creada]
