@@ -1,0 +1,78 @@
+---
+sidebar: sidebar 
+permalink: ai/vector-database-use-cases.html 
+keywords: vector database 
+summary: 'caso de uso: solución de base de datos vectorial para NetApp' 
+---
+= Casos de uso de bases de datos vectoriales
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+
+
+== Casos de uso de bases de datos vectoriales
+
+En esta sección, discutimos sobre dos casos de uso como la Recuperación de Generación Aumentada con Modelos de Lenguaje Grande y el chatbot NetApp IT.
+
+
+
+=== Generación Aumentada de Recuperación (RAG) con Modelos de Lenguaje Grande (LLMs)
+
+....
+Retrieval-augmented generation, or RAG, is a technique for enhancing the accuracy and reliability of Large Language Models, or LLMs, by augmenting prompts with facts fetched from external sources. In a traditional RAG deployment, vector embeddings are generated from an existing dataset and then stored in a vector database, often referred to as a knowledgebase. Whenever a user submits a prompt to the LLM, a vector embedding representation of the prompt is generated, and the vector database is searched using that embedding as the search query. This search operation returns similar vectors from the knowledgebase, which are then fed to the LLM as context alongside the original user prompt. In this way, an LLM can be augmented with additional information that was not part of its original training dataset.
+....
+El operador NVIDIA Enterprise RAG LLM es una herramienta útil para implementar RAG en la empresa. Este operador se puede utilizar para desplegar un pipeline RAG completo. La canalización de RAG se puede personalizar para utilizar Milvus o pgvecto como base de datos vectorial para almacenar incrustaciones en la base de conocimientos. Consulte la documentación para obtener más detalles.
+
+....
+NetApp has validated an enterprise RAG architecture powered by the NVIDIA Enterprise RAG LLM Operator alongside NetApp storage. Refer to our blog post for more information and to see a demo. Figure 1 provides an overview of this architecture.
+....
+Figura 1) RAG empresarial con la tecnología de microservicios Nemo de NVIDIA y NetApp
+
+image:RAG_nvidia_nemo.png["Error. Falta la imagen gráfica"]
+
+
+
+=== Caso de uso de NetApp IT Chatbot
+
+El chatbot de NetApp sirve como otro caso de uso en tiempo real para la base de datos vectorial. En este ejemplo, el Sandbox de OpenAI Privado de NetApp proporciona una plataforma eficaz, segura y eficiente para gestionar las consultas de los usuarios internos de NetApp. Al incorporar protocolos de seguridad estrictos, sistemas de gestión de datos eficientes y sofisticadas capacidades de procesamiento de IA, garantiza respuestas precisas y de alta calidad a los usuarios en función de sus funciones y responsabilidades en la organización a través de la autenticación SSO. Esta arquitectura destaca el potencial de la fusión de tecnologías avanzadas para crear sistemas inteligentes y centrados en el usuario.
+
+image:netapp_chatbot.png["Error: Falta la imagen gráfica"]
+
+El caso de uso puede dividirse en cuatro secciones primarias.
+
+
+
+==== Autenticación y verificación de usuario:
+
+* Las consultas de usuario primero pasan por el proceso de inicio de sesión único (SSO) de NetApp para confirmar la identidad del usuario.
+* Después de una autenticación exitosa, el sistema comprueba la conexión VPN para garantizar una transmisión de datos segura.
+
+
+
+
+==== Transmisión y procesamiento de datos:
+
+* Una vez validada la VPN, los datos se envían a MariaDB a través de las aplicaciones web NetAIChat o NetAICreate. MariaDB es un sistema de base de datos rápido y eficaz que se utiliza para gestionar y almacenar los datos de los usuarios.
+* A continuación, MariaDB envía la información a la instancia de Azure de NetApp, que conecta los datos de usuario a la unidad de procesamiento de IA.
+
+
+
+
+==== Interacción con OpenAI y filtrado de contenido:
+
+* La instancia de Azure envía las preguntas del usuario a un sistema de filtrado de contenido. Este sistema limpia la consulta y la prepara para su procesamiento.
+* La entrada limpiada se envía entonces al modelo base de Azure OpenAI, que genera una respuesta basada en la entrada.
+
+
+
+
+==== Generación de respuesta y moderación:
+
+* La respuesta del modelo base se comprueba primero para asegurarse de que es precisa y cumple con los estándares de contenido.
+* Después de pasar la comprobación, la respuesta se envía de vuelta al usuario. Este proceso garantiza que el usuario reciba una respuesta clara, precisa y adecuada a su consulta.
+
