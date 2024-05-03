@@ -169,7 +169,6 @@ ONTAP S3 o StorageGRID S3 (con sus credenciales y otra información como se mues
 Si utiliza instantáneas de Container Storage Interface (CSI), no es necesario especificar una ubicación de snapshot porque creará un VolumeSnapshotClass CR para registrar el controlador CSI. En nuestro ejemplo, utilizarás Astra Trident CSI y ya has creado anteriormente VolumeSnapShotClass CR mediante el controlador Trident CSI.
 
 **Habilitar plugin CSI**
-
 Agregue csi a los defaultPlugins para Velero para realizar copias de seguridad de volúmenes persistentes con snapshots CSI.
 Los plugins de Velero CSI, para respaldar los PVCs respaldados por CSI, elegirán el VolumeSnapshotClass en el clúster que tiene la etiqueta **velero.io/csi-volumesnapshot-class** establecida en él. Para esto
 
