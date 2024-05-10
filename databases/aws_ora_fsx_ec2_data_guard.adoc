@@ -123,9 +123,9 @@ image::aws_ora_fsx_data_guard_architecture.png[Esta imagen proporciona una image
 
 Se asume que ya tiene su base de datos Oracle principal implementada en un entorno AWS EC2 dentro de una VPC como punto de partida para configurar Data Guard. La base de datos primaria se despliega mediante Oracle ASM para la gestión del almacenamiento.  Se crean dos grupos de discos ASM: +DATA y +LOGS para archivos de datos de Oracle, archivos log, archivos de control, etc. Para obtener más información sobre el despliegue de Oracle en AWS con ASM, consulte los siguientes informes técnicos para obtener ayuda.
 
-* link:https://docs.netapp.com/us-en/netapp-solutions/databases/aws_ora_fsx_ec2_deploy_intro.html["Puesta en marcha de Oracle Database en las prácticas recomendadas de EC2 y FSx"^]
-* link:https://docs.netapp.com/us-en/netapp-solutions/databases/aws_ora_fsx_ec2_iscsi_asm.html["Implementación y protección de bases de datos de Oracle en AWS FSX/EC2 con iSCSI/ASM"^]
-* link:https://docs.netapp.com/us-en/netapp-solutions/databases/aws_ora_fsx_ec2_nfs_asm.html["oracle 19C en Reinicio independiente en AWS FSx/EC2 con NFS/ASM"^]
+* link:aws_ora_fsx_ec2_deploy_intro.html["Puesta en marcha de Oracle Database en las prácticas recomendadas de EC2 y FSx"^]
+* link:aws_ora_fsx_ec2_iscsi_asm.html["Implementación y protección de bases de datos de Oracle en AWS FSX/EC2 con iSCSI/ASM"^]
+* link:aws_ora_fsx_ec2_nfs_asm.html["oracle 19C en Reinicio independiente en AWS FSx/EC2 con NFS/ASM"^]
 
 
 Tu base de datos de Oracle principal puede ejecutarse en FSx ONTAP o en cualquier otra opción de almacenamiento dentro del ecosistema AWS EC2. En la siguiente sección se proporcionan procedimientos de despliegue paso a paso para configurar Oracle Data Guard entre una instancia de EC2 DB primaria con almacenamiento de ASM en una instancia de EC2 DB en espera con almacenamiento de ASM.
@@ -406,7 +406,7 @@ Esto completa la configuración de la base de datos primaria para Data Guard.
 Oracle Data Guard necesita la configuración del núcleo del sistema operativo y las pilas de software de Oracle, incluidos los juegos de parches en la instancia de base de datos EC2 en espera, para que coincidan con la instancia de base de datos EC2 primaria. Para facilitar la gestión y la simplicidad, la configuración de almacenamiento de la base de datos de la instancia de base de datos EC2 en espera debería coincidir también con la instancia de base de datos EC2 primaria, como el nombre, el número y el tamaño de los grupos de discos de ASM. A continuación se muestran los procedimientos detallados para configurar la instancia de base de datos EC2 en espera para Data Guard. Todos los comandos se deben ejecutar como identificador de usuario propietario de oracle.
 
 . En primer lugar, revise la configuración de la base de datos primaria en la instancia EC2 primaria. En esta demostración, hemos configurado una base de datos Oracle primaria llamada db1 en la instancia EC2 DB primaria con dos grupos de discos ASM +DATA y +LOGS en configuración de reinicio independiente. Los grupos de discos de ASM primarios pueden estar en cualquier tipo de almacenamiento dentro del ecosistema EC2.
-. Siga los procedimientos de la documentación link:https://docs.netapp.com/us-en/netapp-solutions/databases/aws_ora_fsx_ec2_iscsi_asm.html["TR-4965: Implementación y protección de bases de datos de Oracle en AWS FSX/EC2 con iSCSI/ASM"^] Para instalar y configurar grid y oracle en una instancia de base de datos EC2 en espera para que coincida con la base de datos primaria. El almacenamiento de la base de datos se debe aprovisionar y asignar a la instancia de base de datos EC2 en espera desde FSx ONTAP con la misma capacidad de almacenamiento que la instancia de base de datos EC2 primaria.
+. Siga los procedimientos de la documentación link:aws_ora_fsx_ec2_iscsi_asm.html["TR-4965: Implementación y protección de bases de datos de Oracle en AWS FSX/EC2 con iSCSI/ASM"^] Para instalar y configurar grid y oracle en una instancia de base de datos EC2 en espera para que coincida con la base de datos primaria. El almacenamiento de la base de datos se debe aprovisionar y asignar a la instancia de base de datos EC2 en espera desde FSx ONTAP con la misma capacidad de almacenamiento que la instancia de base de datos EC2 primaria.
 +
 
 NOTE: Deténgase en el paso 10 de `Oracle database installation` sección. La base de datos en espera se instanciará desde la base de datos primaria mediante la función de duplicación de la base de datos dbca.
@@ -800,7 +800,7 @@ En caso de fallo, Data Guard Broker se puede utilizar para conmutar por error la
 ====
 La ventaja clave de almacenar en espera la base de datos en AWS FSx ONTAP en Data Guard es que puede ser FlexCloned para dar servicio a muchos otros casos de uso con una inversión mínima en almacenamiento adicional. En la siguiente sección, mostramos cómo realizar snapshots y clonar los volúmenes de bases de datos en espera montados y en recuperación en FSx ONTAP para otros fines, como DESARROLLO, PRUEBAS, INFORMES, etc. con la herramienta NetApp SnapCenter.
 
-A continuación, se describen los procedimientos de alto nivel para clonar una base de datos DE LECTURA/ESCRITURA desde la base de datos física en espera gestionada en Data Guard con SnapCenter. Para obtener instrucciones detalladas sobre cómo instalar y configurar SnapCenter, consulte link:https://docs.netapp.com/us-en/netapp-solutions/databases/hybrid_dbops_snapcenter_usecases.html["Soluciones de bases de datos de cloud híbrido con SnapCenter"^] Secciones de Oracle reactivas.
+A continuación, se describen los procedimientos de alto nivel para clonar una base de datos DE LECTURA/ESCRITURA desde la base de datos física en espera gestionada en Data Guard con SnapCenter. Para obtener instrucciones detalladas sobre cómo instalar y configurar SnapCenter, consulte link:hybrid_dbops_snapcenter_usecases.html["Soluciones de bases de datos de cloud híbrido con SnapCenter"^] Secciones de Oracle reactivas.
 
 . Comenzamos creando una tabla de prueba e insertando una fila en la tabla de prueba en la base de datos primaria. A continuación, validaremos si la transacción pasa al modo de espera y, finalmente, al clon.
 +
@@ -993,7 +993,7 @@ link:https://docs.oracle.com/en/database/oracle/oracle-database/19/sbydb/index.h
 
 * Artículo técnico WP-7357: Puesta en marcha de la base de datos de Oracle en EC2 y prácticas recomendadas de FSx
 +
-link:https://docs.netapp.com/us-en/netapp-solutions/databases/aws_ora_fsx_ec2_deploy_intro.html["https://docs.netapp.com/us-en/netapp-solutions/databases/aws_ora_fsx_ec2_deploy_intro.html"^]
+link:aws_ora_fsx_ec2_deploy_intro.html["Introducción"]
 
 * Amazon FSX para ONTAP de NetApp
 +

@@ -1,0 +1,316 @@
+---
+sidebar: sidebar 
+permalink: vmware/vsphere_ontap_asa_overview.html 
+keywords: vsphere, ontap, cloud insights, asa, all-flash san array, 
+summary:  
+---
+= Cabina All-Flash SAN de NetApp con VMware vSphere 8
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+Autor: Josh Powell: Ingeniería de soluciones de NetApp
+
+
+
+== Descripción general de la solución
+
+
+
+=== Introducción
+
+Durante casi dos décadas, el software NetApp ONTAP se ha situado como una solución de almacenamiento de primera categoría para entornos vSphere de VMware, introduciendo continuamente funciones innovadoras que simplifican la gestión y reducen los costes. NetApp es un líder establecido en el desarrollo de NAS y plataformas de almacenamiento unificado que ofrecen una amplia gama de compatibilidad con protocolos y conectividad. Junto con este segmento del mercado, hay muchos clientes que prefieren la simplicidad y las ventajas de coste de las plataformas de almacenamiento SAN basadas en bloques centradas en optimizar su trabajo. La cabina all-flash SAN (ASA) de NetApp cumple esa promesa con sencillez a escala y con funciones de gestión y automatización consistentes para todas las aplicaciones y los proveedores de cloud.
+
+
+
+=== Objetivo de este documento
+
+En este documento, trataremos el valor exclusivo del uso de sistemas de almacenamiento de NetApp ASA con vSphere de VMware y proporcionaremos una descripción general de la tecnología de la cabina SAN all-flash de NetApp. Además, veremos herramientas adicionales para simplificar el aprovisionamiento de almacenamiento y la protección de datos y la supervisión de tu centro de datos de VMware y ONTAP.
+
+Las secciones de puesta en marcha de este documento tratan la creación de almacenes de datos VVOL con herramientas de ONTAP para VMware vSphere y la observabilidad del centro de datos moderno con NetApp Cloud Insights.
+
+
+
+== Visión general de la tecnología
+
+Esta solución incluye tecnologías innovadoras de VMware y NetApp.
+
+
+
+=== VMware vSphere 8,0
+
+VMware vSphere es una plataforma de virtualización que transforma los recursos físicos en pools de informática, red y almacenamiento que se pueden utilizar para satisfacer los requisitos de las aplicaciones y las cargas de trabajo de los clientes. Entre los principales componentes de VMware vSphere se incluyen:
+
+* *ESXi* - Hipervisor de VMware que permite la abstracción de procesadores de cómputo, memoria, red y otros recursos y los pone a disposición de máquinas virtuales y cargas de trabajo de contenedores.
+* *VCenter* - VMware vCenter es una plataforma de gestión centralizada para interactuar con recursos informáticos, redes y almacenamiento como parte de una infraestructura virtual. VCenter desempeña un papel crucial en la simplificación de la administración de infraestructura virtualizada.
+
+
+
+
+==== Nuevas mejoras en vSphere 8,0
+
+VSphere 8,0 introduce algunas mejoras nuevas, entre las que se incluyen:
+
+*Escalabilidad* - vSphere 8,0 es compatible con las CPU Intel y AMD más recientes y tiene límites extendidos para dispositivos vGPU, hosts ESXi, VM por clúster y dispositivos de E/S DirectPath de VM.
+
+*Distributed Services Engine* - Descarga de red con NSX a unidades de procesamiento de datos (DPU).
+
+* Eficiencia mejorada de dispositivos * - vSphere 8,0 aumenta las capacidades de administración de dispositivos con funciones como grupos de dispositivos y extensiones de virtualización de dispositivos (DVX).
+
+* Seguridad mejorada * - La inclusión de un tiempo de espera SSH y la Política de provisión TPM fortalece el marco de seguridad.
+
+*Integración con servicios de nube híbrida* - Esta característica facilita la transición sin interrupciones entre las cargas de trabajo en las instalaciones y en la nube.
+
+* Tiempo de ejecución de Kubernetes integrado * - Con la inclusión de Tanzu, vSphere 8,0 simplifica la orquestación de contenedores.
+
+Para obtener más información, consulte el blog, https://core.vmware.com/resource/whats-new-vsphere-8/["¿Qué novedades hay en vSphere 8?"].
+
+
+
+===== Volúmenes virtuales de VMware (vVols)
+
+VVols es un nuevo y revolucionario método de la gestión del almacenamiento en clústeres de vSphere que ofrece una gestión simplificada y un control más granular de los recursos de almacenamiento. En un almacén de datos vVols, cada disco virtual es un VVOL y se convierte en un objeto LUN nativo del sistema de almacenamiento. La integración del sistema de almacenamiento y vSphere se lleva a cabo a través del proveedor de la API de VMware para el conocimiento del almacenamiento (VASA)* y permite que el sistema de almacenamiento sea consciente de los datos de la VM y lo gestione en consecuencia. Las políticas de almacenamiento, definidas en vCenter Client, se utilizan para asignar y gestionar recursos de almacenamiento.
+
+Los vVols constituyen un método simplificado de la gestión del almacenamiento y son preferibles en algunos casos prácticos.
+
+Para obtener más información sobre vVols, consulte la https://core.vmware.com/resource/vvols-getting-started-guide["Guía de inicio de vVols"].
+
+
+
+===== NVMe sobre entramados
+
+Con el lanzamiento de vSphere 8,0, ahora se admite NVMe integral, con compatibilidad total con vVols con NVMe-TCP y NVMe-FC.
+
+Para obtener información detallada sobre el uso de NVMe con vSphere, consulte https://docs.vmware.com/en/VMware-vSphere/8.0/vsphere-storage/GUID-2A80F528-5B7D-4BE9-8EF6-52E2301DC423.html["Acerca del almacenamiento NVMe de VMware"] En la documentación de vSphere Storage.
+
+'''
+
+
+=== ONTAP de NetApp
+
+El software ONTAP de NetApp lleva casi dos décadas siendo una solución de almacenamiento líder para entornos VMware vSphere y sigue agregando funcionalidades innovadoras que simplifican la gestión y reducen los costes. El uso de ONTAP junto con vSphere es una excelente combinación que le permite reducir los gastos en hardware del host y software de VMware. También puede proteger sus datos con un coste menor y un alto rendimiento uniforme, al tiempo que aprovecha las eficiencias del almacenamiento nativo.
+
+
+
+==== Funciones básicas de ONTAP
+
+Copias Snapshot de NetApp: Copias Snapshot de una máquina virtual o un almacén de datos, lo que garantiza que el rendimiento no afecte a la creación o utilización de una snapshot. Estas réplicas pueden servir como puntos de restauración para equipos virtuales o como una sencilla protección de datos. Estas copias Snapshot basadas en cabina son diferentes de las copias Snapshot de VMware (coherencia). El método más sencillo para generar una copia Snapshot de ONTAP es mediante el plugin de SnapCenter para VMware vSphere, que realiza backups de máquinas virtuales y almacenes de datos.
+
+* *Eficiencia de almacenamiento* - ONTAP proporciona deduplicación y compresión en tiempo real y en segundo plano, deduplicación de bloques cero y compactación de datos.
+* * Volumen y movimiento de LUN * - Permite el movimiento no disruptivo de volúmenes y LUN que admiten almacenes de datos de vSphere y vVols dentro del clúster de ONTAP para equilibrar el rendimiento y la capacidad o admitir mantenimiento y actualizaciones no disruptivas.
+* *Reubicación de volumen y LUN* - ONTAP permite el movimiento no disruptivo de volúmenes y LUN que alojan almacenes de datos vSphere y vVols dentro del clúster de ONTAP. De este modo, se consigue equilibrar el rendimiento y la capacidad, y se pueden realizar actualizaciones sin interrupciones.
+* *Calidad de servicio* - QoS es una característica que permite la administración del rendimiento en un LUN, volumen o archivo individual. Puede utilizarse para limitar una máquina virtual agresiva o para garantizar que una máquina virtual crítica reciba suficientes recursos de rendimiento.
+* *Cifrado* - Cifrado de volumen NetApp y Cifrado agregado NetApp. Estas opciones proporcionan un enfoque sencillo basado en software para cifrar los datos en reposo y garantizar su protección.
+* *Fabric Pool* - Esta función organiza en niveles los datos a los que se accede con menos frecuencia en un almacén de objetos separado, liberando valioso almacenamiento flash. Al operar a nivel de bloque, se identifican y clasifican en niveles los datos más inactivos de manera eficiente, lo que ayuda a optimizar los recursos de almacenamiento y reducir los costes.
+* * Automatización * - Simplifica las tareas de almacenamiento y gestión de datos utilizando las API REST DE ONTAP para la automatización y aprovechando los módulos de Ansible para una gestión de configuración perfecta de los sistemas de ONTAP. Los módulos de Ansible ofrecen una solución práctica para gestionar de manera eficiente las configuraciones de los sistemas ONTAP. La combinación de estas potentes herramientas permite agilizar los flujos de trabajo y mejorar la gestión global de la infraestructura de almacenamiento.
+
+
+
+
+==== Funcionalidades de recuperación ante desastres de ONTAP
+
+NetApp ONTAP ofrece soluciones sólidas de recuperación ante desastres para entornos VMware. Estas soluciones aprovechan las tecnologías de replicación de SnapMirror entre los sistemas de almacenamiento primario y secundario para permitir la recuperación tras fallos y una rápida recuperación en caso de fallo.
+
+*Adaptador de Replicación de Almacenamiento:*
+El adaptador de replicación de almacenamiento (SRA) de NetApp es un componente de software que ofrece integración entre los sistemas de almacenamiento de NetApp y el administrador de recuperación de sitio (SRM) de VMware. Facilita la replicación de datos de máquinas virtuales (VM) en las cabinas de almacenamiento de NetApp y ofrece funcionalidades sólidas de protección de datos y recuperación ante desastres. El SRA utiliza SnapMirror y SnapVault para lograr la replicación de datos de VM en sistemas de almacenamiento dispares o ubicaciones geográficas.
+
+El adaptador proporciona replicación asíncrona en el nivel de máquina virtual de almacenamiento (SVM) mediante la tecnología SnapMirror y amplía la compatibilidad con VMFS en entornos de almacenamiento SAN (iSCSI y FC) y NFS en entornos de almacenamiento NAS.
+
+El SRA de NetApp se instala como parte de las herramientas de ONTAP para VMware vSphere.
+
+image::vmware-asa-image3.png[vmware ASA image3]
+
+Para obtener información sobre el adaptador de replicación de almacenamiento de NetApp para SRM, consulte https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware-srm-overview.html["VMware Site Recovery Manager con NetApp ONTAP"].
+
+*Continuidad del negocio de SnapMirror:*
+SnapMirror es una tecnología de replicación de datos de NetApp que proporciona replicación síncrona de datos entre sistemas de almacenamiento. Permite la creación de varias copias de los datos en ubicaciones diferentes, proporcionando la posibilidad de recuperar los datos en caso de desastre o pérdida de datos. SnapMirror ofrece flexibilidad en términos de frecuencia de replicación y permite la creación de copias de un momento específico de datos para fines de backup y recuperación de datos. SM-BC replica los datos a nivel del grupo de consistencia.
+
+image::vmware-asa-image4.png[vmware ASA image4]
+
+Si quiere más información, consulte SnapMirror https://docs.netapp.com/us-en/ontap/smbc/["Información general sobre la continuidad del negocio"].
+
+*NetApp MetroCluster:*
+NetApp MetroCluster es una solución de alta disponibilidad y de recuperación ante desastres que ofrece replicación de datos síncrona entre dos sistemas de almacenamiento de NetApp distribuidos geográficamente. Está diseñado para garantizar la disponibilidad y la protección continuas de los datos en caso de que se produzca un fallo en todo el site.
+
+MetroCluster utiliza SyncMirror para replicar datos de manera síncrona justo por encima del nivel de RAID. SyncMirror se ha diseñado para realizar una transición eficiente entre modos síncronos y asíncronos. Esto permite que el clúster de almacenamiento principal siga funcionando en un estado no replicado en situaciones en las que el sitio secundario quede temporalmente inaccesible. SyncMirror también se volverá a replicar en un estado RPO = 0 cuando se restaure la conectividad.
+
+MetroCluster puede funcionar sobre redes basadas en IP o utilizando Fibre Channel.
+
+image::vmware-asa-image5.png[vmware ASA image5]
+
+Para obtener información detallada sobre la arquitectura y configuración de MetroCluster, consulte la https://docs.netapp.com/us-en/ontap-metrocluster["Sitio de documentación de MetroCluster"].
+
+
+
+==== Modelo de licencias de ONTAP One
+
+ONTAP One es un completo modelo de licencias que proporciona acceso a todas las funciones de ONTAP sin necesidad de licencias adicionales. Esto incluye la protección de datos, recuperación ante desastres, alta disponibilidad, integración del cloud, eficiencia del almacenamiento, rendimiento y seguridad. Los clientes con sistemas de almacenamiento de NetApp con licencias Flash, Core más Data Protection o Premium pueden obtener licencias de ONTAP One y así maximizar el aprovechamiento de sus sistemas de almacenamiento.
+
+La licencia de ONTAP One incluye todas las siguientes funciones:
+
+*NVMeoF* – Permite el uso de NVMe over Fabrics para la E/S de cliente front-end, tanto NVMe/FC como NVMe/TCP.
+
+*FlexClone* – Permite la creación rápida de la clonación eficiente del espacio de datos basada en instantáneas.
+
+*S3* – Permite el protocolo S3 para la E/S del cliente front-end.
+
+*SnapRestore* – Permite la rápida recuperación de datos de instantáneas.
+
+*Protección contra ransomware autónoma* - Permite la protección automática de los recursos compartidos de archivos del NAS cuando se detecta una actividad anormal del sistema de archivos.
+
+* Multi Tenant Key Manager * - Permite la capacidad de tener varios administradores de claves para diferentes inquilinos en el sistema.
+
+*SnapLock* – Permite la protección de los datos contra la modificación, eliminación o corrupción en el sistema.
+
+*SnapMirror Cloud* – Permite la replicación de volúmenes del sistema a objetivos de objetos.
+
+*S3 SnapMirror* – Permite la replicación de objetos de ONTAP S3 para alternar destinos compatibles con S3.
+
+'''
+
+
+=== Cabina All-Flash SAN NetApp
+
+La cabina all-flash SAN (ASA) de NetApp es una solución de almacenamiento de alto rendimiento diseñada para satisfacer los requisitos más exigentes de los centros de datos modernos. Combina la velocidad y la fiabilidad del almacenamiento flash con las funciones avanzadas de gestión de datos de NetApp para ofrecer un rendimiento, una escalabilidad y una protección de datos excepcionales.
+
+La gama ASA está compuesta por los modelos A-Series y C-Series.
+
+Las cabinas flash all-NVMe NetApp A-Series están diseñadas para cargas de trabajo de alto rendimiento, con una latencia ultrabaja y una alta resiliencia, lo que las convierte en adecuadas para aplicaciones de misión crítica.
+
+image::vmware-asa-image1.png[vmware ASA image1]
+
+Las cabinas flash QLC de C-Series se dirigen a casos de uso de mayor capacidad, y ofrecen la velocidad de la tecnología flash con la economía del flash híbrido.
+
+image::vmware-asa-image2.png[vmware ASA image2]
+
+Para obtener información detallada, consulte https://www.netapp.com/data-storage/all-flash-san-storage-array["Página de destino de NetApp ASA"].
+
+
+
+==== Funciones de NetApp ASA
+
+La cabina all-flash SAN NetApp incluye las siguientes funciones:
+
+*Rendimiento* - La cabina SAN All-Flash aprovecha las unidades de estado sólido (SSD), con una arquitectura NVMe integral, para proporcionar un rendimiento increíblemente rápido, reduciendo significativamente la latencia y mejorando los tiempos de respuesta de las aplicaciones. Ofrece una alta tasa constante de IOPS y baja latencia, lo que lo convierte en adecuado para cargas de trabajo sensibles a la latencia, como bases de datos, virtualización y análisis.
+
+* Escalabilidad * - Las cabinas SAN All-Flash de NetApp se crean con una arquitectura de escalado horizontal, lo que permite a las organizaciones escalar sin problemas su infraestructura de almacenamiento a medida que crecen sus necesidades. Gracias a la capacidad de añadir nodos de almacenamiento adicionales, las organizaciones pueden ampliar la capacidad y el rendimiento sin interrupciones, lo que garantiza que su almacenamiento pueda satisfacer las crecientes demandas de datos.
+
+* Gestión de datos *: El sistema operativo Data ONTAP de NetApp incorpora la cabina All-Flash SAN, que ofrece un conjunto completo de funciones de gestión de datos. Estas incluyen thin provisioning, la deduplicación, la compresión y la compactación de datos, que optimizan el aprovechamiento del almacenamiento y reducen los costes. Las funciones de protección de datos avanzadas, como snapshots, replicación y cifrado, garantizan la integridad y la seguridad de los datos almacenados.
+
+*Integración y flexibilidad*: La cabina SAN All-Flash se integra con el ecosistema más amplio de NetApp, lo que permite una integración perfecta con otras soluciones de almacenamiento de NetApp, como implementaciones de clouds híbridos con NetApp Cloud Volumes ONTAP. Además, admite protocolos estándares del sector como Fibre Channel (FC) e iSCSI, lo que permite la integración fácil en las infraestructuras SAN existentes.
+
+* Análisis y automatización*: El software de gestión de NetApp, incluido NetApp Cloud Insights, proporciona funcionalidades completas de supervisión, análisis y automatización. Estas herramientas permiten a los administradores obtener información sobre su entorno de almacenamiento, optimizar el rendimiento y automatizar las tareas rutinarias, simplificar la gestión del almacenamiento y mejorar la eficiencia operativa.
+
+* Protección de datos y continuidad empresarial *: La cabina SAN All-Flash ofrece funciones integradas de protección de datos, como instantáneas puntuales, replicación y capacidades de recuperación ante desastres. Estas funciones garantizan la disponibilidad de datos y facilitan una rápida recuperación en caso de pérdida de datos o de fallos del sistema.
+
+
+
+==== Compatibilidad con protocolos
+
+ASA admite todos los protocolos SAN estándar, incluidos iSCSI, Fibre Channel (FC), Fibre Channel sobre Ethernet (FCoE) y NVME over Fabrics.
+
+*ISCSI* - NetApp ASA proporciona una sólida compatibilidad con iSCSI, lo que permite el acceso a nivel de bloque a dispositivos de almacenamiento a través de redes IP. Ofrece una integración perfecta con iniciadores iSCSI, lo que permite aprovisionar y gestionar LUN iSCSI de manera eficaz. Funciones avanzadas de ONTAP, como rutas múltiples, autenticación CHAP y compatibilidad con ALUA.
+
+Para obtener una guía de diseño sobre configuraciones de iSCSI, consulte .
+
+*Canal de fibra* - NetApp ASA ofrece soporte integral para el canal de fibra (FC), una tecnología de red de alta velocidad comúnmente utilizada en redes de área de almacenamiento (SAN). ONTAP se integra sin problemas con la infraestructura de FC y proporciona un acceso por bloques fiable y eficiente a los dispositivos de almacenamiento. Ofrece funciones como la división en zonas, las rutas múltiples y el inicio de sesión estructural (FLOGI) para optimizar el rendimiento, mejorar la seguridad y garantizar una conectividad perfecta en entornos FC.
+
+Para obtener directrices de diseño sobre configuraciones de Fibre Channel, consulte https://docs.netapp.com/us-en/ontap/san-config/fc-config-concept.html["Documentación de referencia de configuración de SAN"].
+
+*NVMe over Fabrics* - NetApp ONTAP y ASA admiten NVMe over Fabrics. NVMe/FC permite utilizar dispositivos de almacenamiento NVMe sobre infraestructura Fibre Channel y NVMe/TCP sobre redes IP de almacenamiento.
+
+Para obtener directrices de diseño en NVMe, consulte https://docs.netapp.com/us-en/ontap/nvme/support-limitations.html["Configuración, compatibilidad y limitaciones de NVMe"].
+
+
+
+==== Tecnología activo-activo
+
+Las cabinas NetApp All-Flash SAN permiten rutas activo-activo que pasan por ambas controladoras, por lo que no es necesario que el sistema operativo host espere a que se produzca un error en una ruta activa antes de activar la ruta alternativa. Esto significa que el host puede utilizar todas las rutas disponibles en todas las controladoras, asegurando que las rutas activas siempre estén presentes sin importar si el sistema está en estado constante o si se debe someter a una operación de conmutación por error de la controladora.
+
+Además, NetApp ASA ofrece una función distintiva que mejora significativamente la velocidad de la conmutación por error de SAN. Cada controladora replica continuamente los metadatos LUN esenciales con su asociado. Como resultado, cada controladora está preparada para asumir las responsabilidades del servicio de datos en caso de un fallo repentino de su compañero. Esta preparación es posible debido a que la controladora ya posee la información necesaria para comenzar a utilizar las unidades que se gestionaron previamente por la controladora con el error.
+
+Con rutas activo-activo, las tomas de control planificadas y sin planificar tienen tiempos de reanudación de I/O de 2-3 segundos.
+
+Para obtener más información, consulte https://www.netapp.com/pdf.html?item=/media/85671-tr-4968.pdf["TR-4968, cabina All-SAS NetApp: Disponibilidad e integridad de los datos con NetApp ASA"].
+
+
+
+==== Garantías de almacenamiento
+
+NetApp ofrece un conjunto único de garantías de almacenamiento con cabinas SAN All-Flash NetApp. Sus ventajas únicas incluyen:
+
+* Garantía de eficiencia de almacenamiento: * Consiga un alto rendimiento al tiempo que minimiza el costo de almacenamiento con la Garantía de Eficiencia de Almacenamiento. 4:1 para cargas de trabajo SAN.
+
+*Garantía de disponibilidad de datos de 6 Nines (99,9999%):* garantiza la corrección de los tiempos de inactividad no planificados en más de 31,56 segundos al año.
+
+*Garantía de recuperación de ransomware:* Recuperación de datos garantizada en caso de un ataque de ransomware.
+
+Consulte https://www.netapp.com/data-storage/all-flash-san-storage-array/["Portal de productos de NetApp ASA"] si quiere más información.
+
+'''
+
+
+=== Complementos de NetApp para VMware vSphere
+
+Los servicios de almacenamiento de NetApp se integran perfectamente con VMware vSphere mediante el uso de los siguientes plugins:
+
+
+
+==== Herramientas de ONTAP para VMware vSphere
+
+Las herramientas de ONTAP para VMware permiten a los administradores gestionar el almacenamiento de NetApp directamente desde vSphere Client. ONTAP Tools permite poner en marcha y gestionar almacenes de datos, así como aprovisionar almacenes de datos VVOL.
+Herramientas ONTAP permite la asignación de almacenes de datos a perfiles de capacidades de almacenamiento que determinan un conjunto de atributos del sistema de almacenamiento. Esto permite la creación de almacenes de datos con atributos específicos como el rendimiento del almacenamiento y la calidad de servicio.
+
+Las herramientas de ONTAP incluyen los siguientes componentes:
+
+*Virtual Storage Console (VSC):* El VSC incluye la interfaz integrada con el cliente vSphere, donde puede agregar controladores de almacenamiento, aprovisionar almacenes de datos, supervisar el rendimiento de los almacenes de datos y ver y actualizar la configuración del host ESXi.
+
+* Proveedor VASA: * El proveedor de API de VMware vSphere para ONTAP envía información sobre el almacenamiento utilizado por VMware vSphere al servidor vCenter, lo que permite el aprovisionamiento de almacenes de datos de VMware Virtual Volumes (vVols), la creación y el uso de perfiles de capacidad de almacenamiento, la verificación de cumplimiento y la supervisión del rendimiento.
+
+*Adaptador de replicación de almacenamiento (SRA):* Cuando se habilita y se usa con VMware Site Recovery Manager (SRM), SRA facilita la recuperación de los almacenes de datos de vCenter Server y las máquinas virtuales en caso de fallo, lo que permite la configuración de sitios protegidos y sitios de recuperación para recuperación ante desastres.
+
+Para obtener más información sobre las herramientas de NetApp ONTAP para VMware, consulte https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere/index.html["Herramientas de ONTAP para documentación de VMware vSphere"].
+
+
+
+==== Plugin de SnapCenter para VMware vSphere
+
+El plugin de SnapCenter para VMware vSphere (SCV) es una solución de software de NetApp que ofrece una protección de datos completa para entornos VMware vSphere. Está diseñado para simplificar y agilizar el proceso de protección y gestión de máquinas virtuales y almacenes de datos.
+
+El plugin de SnapCenter para VMware vSphere ofrece las siguientes funcionalidades en una interfaz unificada, integrada con el cliente de vSphere:
+
+*Instantáneas basadas en políticas* - SnapCenter le permite definir políticas para crear y administrar instantáneas consistentes con aplicaciones de máquinas virtuales (VM) en VMware vSphere.
+
+* Automatización * - La creación y gestión automatizada de instantáneas basadas en políticas definidas ayudan a garantizar una protección de datos consistente y eficiente.
+
+*VM-Level Protection* - La protección granular a nivel de VM permite una gestión y recuperación eficientes de máquinas virtuales individuales.
+
+* Características de eficiencia del almacenamiento * - La integración con las tecnologías de almacenamiento de NetApp proporciona funciones de eficiencia del almacenamiento como deduplicación y compresión para instantáneas, minimizando los requisitos de almacenamiento.
+
+El complemento de SnapCenter orquesta el modo inactivo de máquinas virtuales junto con los snapshots basados en hardware en las cabinas de almacenamiento de NetApp. La tecnología SnapMirror se utiliza para replicar copias de backups en sistemas de almacenamiento secundarios, incluso en el cloud.
+
+Para obtener más información, consulte https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere["Documentación del plugin de SnapCenter para VMware vSphere"].
+
+La integración de BlueXP habilita estrategias de backup de 3-2-1 que amplían las copias de datos en el almacenamiento de objetos en el cloud.
+
+Para obtener más información sobre estrategias de backup 3-2-1 con BlueXP, visita https://community.netapp.com/t5/Tech-ONTAP-Blogs/3-2-1-Data-Protection-for-VMware-with-SnapCenter-Plug-in-and-BlueXP-backup-and/ba-p/446180["3-2-1 Protección de datos para VMware con complemento SnapCenter y backup y recuperación de datos de BlueXP para máquinas virtuales"].
+
+'''
+
+
+=== Cloud Insights de NetApp
+
+NetApp Cloud Insights simplifica la observación de la infraestructura on-premises y de nube, y proporciona funcionalidades de análisis y solución de problemas para ayudar a resolver problemas complejos. Cloud Insights funciona recogiendo datos de un entorno de centro de datos y enviándolos al cloud. Esto se realiza con un software instalado localmente denominado Unidad de adquisición y con recopiladores específicos habilitados para los activos en el centro de datos.
+
+Los activos de Cloud Insights se pueden etiquetar con anotaciones que proporcionan un método de organizar y clasificar los datos. El panel de control se puede crear utilizando una amplia variedad de widgets para mostrar los datos y se pueden crear consultas de métricas para obtener vistas tabulares detalladas de los datos.
+
+Cloud Insights viene con un gran número de paneles de control listos para usar que ayudan a centrarse en tipos específicos de áreas problemáticas y categorías de datos.
+
+Cloud Insights es una herramienta heterogénea diseñada para recopilar datos de una amplia gama de dispositivos. Sin embargo, existe una biblioteca de plantillas, llamada ONTAP Essentials, que permite a los clientes de NetApp empezar a trabajar rápidamente.
+
+Si desea obtener información detallada sobre cómo empezar a usar Cloud Insights, consulte la https://bluexp.netapp.com/cloud-insights["Página de inicio de BlueXP y Cloud Insights de NetApp"].

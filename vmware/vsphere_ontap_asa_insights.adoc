@@ -1,0 +1,260 @@
+---
+sidebar: sidebar 
+permalink: vmware/vsphere_ontap_asa_insights.html 
+keywords: vsphere, ontap, cloud insights, asa, all-flash san array, 
+summary:  
+---
+= Cabina All-Flash SAN de NetApp con VMware vSphere 8
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+Autor: Josh Powell: Ingeniería de soluciones de NetApp
+
+
+
+== Supervisión del almacenamiento en las instalaciones con NetApp Cloud Insights
+
+NetApp Cloud Insights es una plataforma de supervisión y análisis de infraestructuras basada en la nube diseñada para proporcionar una visibilidad e información exhaustiva sobre el rendimiento, el estado y los costes de las INFRAESTRUCTURAS TECNOLÓGICAS, tanto on-premises como en la nube. Las funciones clave de NetApp Cloud Insights incluyen supervisión en tiempo real, consolas personalizables, análisis predictivo y herramientas de optimización de costes, lo que permite a las organizaciones gestionar y optimizar con eficiencia sus entornos en las instalaciones y en el cloud.
+
+NetApp Cloud Insights funciona a través del software Acquisition Unit, configurado con recopiladores de datos para activos como VMware vSphere y sistemas de almacenamiento NetApp ONTAP. Estos recolectores recopilan datos y los transmiten a Cloud Insights. A continuación, la plataforma utiliza una variedad de paneles de control, widgets y consultas de métricas para organizar los datos en análisis perspicaces para que los usuarios los interpreten.
+
+Diagrama de la arquitectura de Cloud Insights:
+
+image::vmware-asa-image29.png[Cloud Insights]
+
+
+
+=== Descripción general de la puesta en marcha de soluciones
+
+Esta solución proporciona una introducción a la supervisión de los sistemas de almacenamiento ONTAP y VMware vSphere en las instalaciones mediante NetApp Cloud Insights.
+
+Esta lista proporciona los pasos generales que se tratan en esta solución:
+
+. Configure el recopilador de datos para un clúster de vSphere.
+. Configurar el Recopilador de datos para un sistema de almacenamiento de ONTAP
+. Utilice reglas de anotación para etiquetar activos.
+. Explorar y correlacionar activos.
+. Utilice una consola Top VM Latency para aislar los vecinos ruidosos.
+. Identifique oportunidades para ajustar el tamaño de los equipos virtuales.
+. Utilice consultas para aislar y ordenar métricas.
+
+
+
+
+=== Requisitos previos
+
+Esta solución usa los siguientes componentes:
+
+. Cabina All-Flash SAN A400 de NetApp con ONTAP 9,13.
+. Clúster de vSphere 8,0 de VMware.
+. Cuenta de NetApp Cloud Insights.
+. Software de unidad de adquisición NetApp Cloud Insights instalado en una VM local con conectividad de red a activos para la recopilación de datos.
+
+
+
+
+=== Puesta en marcha de la solución
+
+
+
+==== Configurar colectores de datos
+
+Para configurar los recopiladores de datos para los sistemas de almacenamiento VMware vSphere y ONTAP, lleve a cabo los siguientes pasos:
+
+.Agregar un recopilador de datos para un sistema de almacenamiento de ONTAP
+[%collapsible]
+====
+. Una vez que haya iniciado sesión en Cloud Insights, vaya a *Observabilidad > Recopiladores > Recopiladores de datos* y pulse el botón para instalar un nuevo Recopilador de datos.
++
+image::vmware-asa-image31.png[Nuevo recopilador de datos]
+
+. Desde aquí busque *ONTAP* y haga clic en *Software de gestión de datos ONTAP*.
++
+image::vmware-asa-image30.png[Buscar recopilador de datos]
+
+. En la página *Configurar recopilador*, rellene un nombre para el recopilador, especifique la *Unidad de adquisición* correcta y proporcione las credenciales para el sistema de almacenamiento ONTAP. Haga clic en *Guardar y continuar* y luego en *Completar configuración* en la parte inferior de la página para completar la configuración.
++
+image::vmware-asa-image32.png[Configurar recopilador]
+
+
+
+====
+.Añadir un recopilador de datos para un clúster de VMware vSphere
+[%collapsible]
+====
+. Una vez más, navegue hasta *Observabilidad > Recopiladores > Recopiladores de datos* y pulse el botón para instalar un nuevo Recopilador de datos.
++
+image::vmware-asa-image31.png[Nuevo recopilador de datos]
+
+. Desde aquí busca *vsphere* y haz clic en *vmware vsphere*.
++
+image::vmware-asa-image33.png[Buscar recopilador de datos]
+
+. En la página *Configure Collector*, rellene un nombre para el recopilador, especifique la *Acquisition Unit* correcta y proporcione las credenciales para el servidor vCenter. Haga clic en *Guardar y continuar* y luego en *Completar configuración* en la parte inferior de la página para completar la configuración.
++
+image::vmware-asa-image34.png[Configurar recopilador]
+
+
+
+====
+
+
+==== Agregar anotaciones a activos
+
+Las anotaciones son un método útil para etiquetar activos para que se puedan filtrar e identificar de otro modo en las distintas vistas y consultas de métricas disponibles en Cloud Insights.
+
+En esta sección, se agregarán anotaciones a los activos de las máquinas virtuales para filtrarlos por *Data Center*.
+
+.Utilice reglas de anotación para etiquetar activos
+[%collapsible]
+====
+. En el menú de la izquierda, navegue hasta *Observabilidad > Enriquecimiento > Reglas de anotación* y haga clic en el botón *+ Regla* en la parte superior derecha para agregar una nueva regla.
++
+image::vmware-asa-image35.png[Acceso a reglas de anotación]
+
+. En el cuadro de diálogo *Agregar regla*, rellene un nombre para la regla, localice una consulta a la que se aplicará la regla, el campo de anotación afectado y el valor que se va a rellenar.
++
+image::vmware-asa-image36.png[Agregar regla]
+
+. Por último, en la esquina superior derecha de la página *Reglas de anotación* haga clic en *Ejecutar todas las reglas* para ejecutar la regla y aplicar la anotación a los activos.
++
+image::vmware-asa-image37.png[Ejecute todas las reglas]
+
+
+
+====
+
+
+==== Explorar y correlacionar activos
+
+Cloud Insights saca conclusiones lógicas sobre los activos que se ejecutan juntos en los sistemas de almacenamiento y clústeres de vsphere.
+
+En esta sección se muestra cómo utilizar paneles de control para correlacionar activos.
+
+.Correlación de activos de una consola de rendimiento del almacenamiento
+[%collapsible]
+====
+. En el menú de la izquierda, navegue hasta *Observabilidad > Explorar > Todos los paneles*.
++
+image::vmware-asa-image38.png[Acceda a todos los paneles de control]
+
+. Haga clic en el botón *+ From Gallery* para ver una lista de los paneles de control ya preparados que se pueden importar.
++
+image::vmware-asa-image39.png[Consolas de galería]
+
+. Elija un panel de control para el rendimiento de FlexVol de la lista y haga clic en el botón *Agregar paneles de control* en la parte inferior de la página.
++
+image::vmware-asa-image40.png[Panel de rendimiento de FlexVol]
+
+. Una vez importado, abra el panel de control. Desde aquí puede ver varios widgets con datos de rendimiento detallados. Añada un filtro para ver un único sistema de almacenamiento y seleccione un volumen de almacenamiento para examinar sus detalles.
++
+image::vmware-asa-image41.png[Profundice en el volumen de almacenamiento]
+
+. Desde esta vista, se pueden observar diferentes métricas relacionadas con este volumen de almacenamiento y los equipos virtuales más utilizados y correlacionados que se ejecutan en el volumen.
++
+image::vmware-asa-image42.png[Principales equipos virtuales correlacionados]
+
+. Al hacer clic en el VM con la mayor utilización, se profundiza en las métricas para ese VM para ver cualquier problema potencial.
++
+image::vmware-asa-image43.png[Métricas de rendimiento de máquinas virtuales]
+
+
+
+====
+
+
+==== Use Cloud Insights para identificar los vecinos ruidosos
+
+Cloud Insights incluye consolas que pueden aislar fácilmente máquinas virtuales iguales que afectan negativamente a otras máquinas virtuales que se ejecutan en el mismo volumen de almacenamiento.
+
+.Utilice una consola Top VM Latency para aislar los vecinos ruidosos
+[%collapsible]
+====
+. En este ejemplo, acceda a un panel de control disponible en la *Galería* llamado *VMware Admin - ¿Dónde tengo la latencia de VM?*
++
+image::vmware-asa-image44.png[Panel de latencia de máquinas virtuales]
+
+. A continuación, filtra por la anotación *Data Center* creada en un paso anterior para ver un subconjunto de activos.
++
+image::vmware-asa-image45.png[Anotación del centro de datos]
+
+. Esta consola muestra una lista de las 10 máquinas virtuales principales por latencia media. A partir de aquí, haga clic en la VM de la preocupación para profundizar en sus detalles.
++
+image::vmware-asa-image46.png[Las 10 VM principales]
+
+. Las máquinas virtuales que potencialmente causan la contención de las cargas de trabajo aparecen y están disponibles. Examine estas métricas de rendimiento de las máquinas virtuales para investigar cualquier posible problema.
++
+image::vmware-asa-image47.png[Contención de cargas de trabajo]
+
+
+
+====
+
+
+==== Visualice los recursos infrautilizados en Cloud Insights
+
+Al adecuar los recursos de las máquinas virtuales a los requisitos reales de la carga de trabajo, se puede optimizar la utilización de recursos, lo que genera ahorros de costes de la infraestructura y los servicios en cloud. Los datos de Cloud Insights se pueden personalizar para mostrar fácilmente sobre o infrautilizados equipos virtuales.
+
+.Identifique oportunidades para ajustar el tamaño de los equipos virtuales
+[%collapsible]
+====
+. En este ejemplo, acceda a un panel de control disponible en la *Galería* llamado *VMware Admin - ¿Dónde están las oportunidades para el tamaño adecuado?*
++
+image::vmware-asa-image48.png[Panel de control del tamaño correcto]
+
+. Primer filtro por todos los hosts ESXi del clúster. Entonces puede ver clasificación de los equipos virtuales principales e inferiores por uso de la memoria y la CPU.
++
+image::vmware-asa-image49.png[Panel de control del tamaño correcto]
+
+. Las tablas permiten ordenar y proporcionar más detalles en función de las columnas de datos elegidas.
++
+image::vmware-asa-image50.png[Tablas de métricas]
+
+. Otro panel llamado *VMware Admin - ¿Dónde puedo recuperar residuos?* muestra VM apagadas ordenadas por su uso de capacidad.
++
+image::vmware-asa-image51.png[Apagado de los equipos virtuales]
+
+
+
+====
+
+
+==== Utilice consultas para aislar y ordenar métricas
+
+La cantidad de datos capturados por Cloud Insights es bastante completa. Las consultas de métricas proporcionan una forma eficaz de ordenar y organizar grandes cantidades de datos de formas útiles.
+
+.Consulte una consulta detallada de VMware en ONTAP Essentials
+[%collapsible]
+====
+. Navegue hasta *ONTAP Essentials > VMware* para acceder a una consulta de métricas de VMware completa.
++
+image::vmware-asa-image52.png[ONTAP Essential - VMware]
+
+. En esta vista se le presentan varias opciones para filtrar y agrupar los datos en la parte superior. Todas las columnas de datos son personalizables y se pueden agregar columnas adicionales fácilmente.
++
+image::vmware-asa-image53.png[ONTAP Essential - VMware]
+
+
+
+====
+
+
+=== Conclusión
+
+Esta solución se diseñó como un manual básico para aprender a comenzar a usar NetApp Cloud Insights y mostrar algunas de las potentes capacidades que puede ofrecer esta solución de observabilidad. Hay cientos de paneles de control y consultas métricas integradas en el producto, lo que facilita la puesta en marcha inmediata. La versión completa de Cloud Insights está disponible como prueba de 30 días y la versión básica está disponible de forma gratuita para los clientes de NetApp.
+
+
+
+=== Información adicional
+
+Para obtener más información sobre las tecnologías presentadas en esta solución, consulte la siguiente información adicional.
+
+* https://bluexp.netapp.com/cloud-insights["Página de inicio de BlueXP y Cloud Insights de NetApp"]
+* https://docs.netapp.com/us-en/cloudinsights/["Documentación de NetApp Cloud Insights"]
+

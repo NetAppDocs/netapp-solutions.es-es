@@ -128,7 +128,7 @@ La implementación requiere los siguientes requisitos previos.
 . Desde la consola de AWS EC2, debe poner en marcha dos instancias EC2 Linux, una como servidor PostgreSQL DB principal en el sitio principal y otra en el sitio de recuperación ante desastres en espera. Para obtener redundancia informática en los sitios de recuperación ante desastres principal y en espera, implemente dos instancias de EC2 Linux adicionales como servidores de base de datos PostgreSQL en espera. Consulte el diagrama de arquitectura de la sección anterior para obtener más información sobre la configuración del entorno. Revise también la link:https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/concepts.html["Guía de usuario para instancias de Linux"] si quiere más información.
 . Desde la consola de AWS EC2, ponga en marcha dos clústeres de alta disponibilidad de almacenamiento de ONTAP FSX para alojar los volúmenes de base de datos PostgreSQL. Si no está familiarizado con la implementación de almacenamiento FSX, consulte la documentación link:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/creating-file-systems.html["Creación de FSX para sistemas de archivos ONTAP"] para obtener instrucciones paso a paso.
 . Cree un equipo virtual CentOS de Linux para alojar la controladora de Ansible. La controladora de Ansible puede estar ubicada en las instalaciones o en el cloud de AWS. Si se encuentra en las instalaciones, debe tener conectividad SSH al VPC, a las instancias de Linux EC2 y a los clústeres de almacenamiento de FSX.
-. Configure la controladora de Ansible como se describe en la sección "Configuración del nodo de control de Ansible para las puestas en marcha de la CLI en RHEL/CentOS" desde el recurso link:https://docs.netapp.com/us-en/netapp-solutions/automation/getting-started.html["Primeros pasos con la automatización de soluciones de NetApp"].
+. Configure la controladora de Ansible como se describe en la sección "Configuración del nodo de control de Ansible para las puestas en marcha de la CLI en RHEL/CentOS" desde el recurso link:../automation/getting-started.html["Primeros pasos con la automatización de soluciones de NetApp"].
 . Clone una copia del kit de herramientas de automatización del sitio público de GitHub de NetApp.
 
 
@@ -386,4 +386,4 @@ link:https://aws.amazon.com/pm/ec2/?trk=36c6da98-7b20-48fa-8225-4784bced9843&sc_
 * Automatización de soluciones de NetApp
 
 
-link:https://docs.netapp.com/us-en/netapp-solutions/automation/automation_introduction.html["https://docs.netapp.com/us-en/netapp-solutions/automation/automation_introduction.html"^]
+link:../automation/automation_introduction.html["Introducción"]

@@ -144,7 +144,7 @@ En las siguientes secciones se proporcionan procedimientos paso a paso para la i
 La implementación requiere los siguientes requisitos previos.
 
 . Se ha configurado una cuenta de Azure y se han creado los segmentos de red y vnet necesarios dentro de su cuenta de Azure.
-. Desde el portal de la nube de Azure, implemente máquinas virtuales de Azure Linux como servidores de Oracle DB. Crear un pool de capacidad de Azure NetApp Files y volúmenes de base de datos para las bases de datos de Oracle. Active la autenticación de clave pública/privada SSH de VM para azureuser en servidores de base de datos. Consulte el diagrama de arquitectura en la sección anterior para obtener información detallada sobre la configuración del entorno. También se ha mencionado link:https://docs.netapp.com/us-en/netapp-solutions/databases/azure_ora_nfile_procedures.html["Procedimientos detallados de puesta en marcha de Oracle en Azure VM y Azure NetApp Files"^] para obtener información detallada.
+. Desde el portal de la nube de Azure, implemente máquinas virtuales de Azure Linux como servidores de Oracle DB. Crear un pool de capacidad de Azure NetApp Files y volúmenes de base de datos para las bases de datos de Oracle. Active la autenticación de clave pública/privada SSH de VM para azureuser en servidores de base de datos. Consulte el diagrama de arquitectura en la sección anterior para obtener información detallada sobre la configuración del entorno. También se ha mencionado link:azure_ora_nfile_procedures.html["Procedimientos detallados de puesta en marcha de Oracle en Azure VM y Azure NetApp Files"^] para obtener información detallada.
 +
 
 NOTE: Para las máquinas virtuales de Azure implementadas con redundancia de disco local, asegúrese de que ha asignado al menos 128G en el disco raíz de la máquina virtual para tener espacio suficiente para almacenar en zona intermedia los archivos de instalación de Oracle y agregar el archivo de intercambio del sistema operativo. Expanda la partición /tmplv y /rootlv OS en consecuencia. Asegúrese de que la nomenclatura de volúmenes de base de datos siga la convención VMname-u01, VMname-u02 y VMname-u03.
@@ -160,7 +160,7 @@ sudo lvresize -r -L +20G /dev/mapper/rootvg-rootlv
 sudo lvresize -r -L +10G /dev/mapper/rootvg-tmplv
 ----
 . Desde el portal de cloud de Azure, aprovisione un servidor de Windows para ejecutar la herramienta de interfaz de usuario de NetApp SnapCenter con la última versión. Consulte el siguiente enlace para obtener más información: link:https://docs.netapp.com/us-en/snapcenter/install/task_install_the_snapcenter_server_using_the_install_wizard.html["Instale el servidor SnapCenter"^]
-. Aprovisione una máquina virtual de Linux como nodo de controladora de Ansible con la última versión de Ansible y Git instalada. Consulte el siguiente enlace para obtener más información: link:https://docs.netapp.com/us-en/netapp-solutions/automation/getting-started.html["Primeros pasos con la automatización de soluciones de NetApp"^] en la sección -
+. Aprovisione una máquina virtual de Linux como nodo de controladora de Ansible con la última versión de Ansible y Git instalada. Consulte el siguiente enlace para obtener más información: link:../automation/getting-started.html["Primeros pasos con la automatización de soluciones de NetApp"^] en la sección -
 `Setup the Ansible Control Node for CLI deployments on RHEL / CentOS` o.
 `Setup the Ansible Control Node for CLI deployments on Ubuntu / Debian`.
 +
@@ -587,7 +587,7 @@ image::automation_ora_anf_nfs_em_02.png[Esta imagen proporciona una vista de bas
 
 [%collapsible]
 ====
-La migración de bases de datos de Oracle de on-premises a la nube es todo un esfuerzo. Utilizar la estrategia y la automatización adecuadas puede facilitar el proceso y minimizar las interrupciones del servicio y el tiempo de inactividad. Siga esta instrucción detallada link:https://docs.netapp.com/us-en/netapp-solutions/databases/azure_ora_nfile_migration.html#converting-a-single-instance-non-cdb-to-a-pdb-in-a-multitenant-cdb["Migración de bases de datos desde las instalaciones al cloud de Azure"^] para guiar su proceso de migración de bases de datos.
+La migración de bases de datos de Oracle de on-premises a la nube es todo un esfuerzo. Utilizar la estrategia y la automatización adecuadas puede facilitar el proceso y minimizar las interrupciones del servicio y el tiempo de inactividad. Siga esta instrucción detallada link:azure_ora_nfile_migration.html#converting-a-single-instance-non-cdb-to-a-pdb-in-a-multitenant-cdb["Migración de bases de datos desde las instalaciones al cloud de Azure"^] para guiar su proceso de migración de bases de datos.
 
 ====
 
@@ -596,7 +596,7 @@ La migración de bases de datos de Oracle de on-premises a la nube es todo un es
 
 [%collapsible]
 ====
-NetApp recomienda la herramienta de interfaz de usuario de SnapCenter para gestionar la base de datos de Oracle implementada en la nube de Azure. Consulte TR-4988: link:https://docs.netapp.com/us-en/netapp-solutions/databases/snapctr_ora_azure_anf.html["Oracle Database Backup, Recovery y Clone en ANF con SnapCenter"^] para obtener más detalles.
+NetApp recomienda la herramienta de interfaz de usuario de SnapCenter para gestionar la base de datos de Oracle implementada en la nube de Azure. Consulte TR-4988: link:snapctr_ora_azure_anf.html["Oracle Database Backup, Recovery y Clone en ANF con SnapCenter"^] para obtener más detalles.
 
 ====
 
@@ -607,7 +607,7 @@ Si quiere más información sobre la información descrita en este documento, co
 
 * Oracle Database Backup, Recovery y Clone en ANF con SnapCenter
 +
-link:https://docs.netapp.com/us-en/netapp-solutions/databases/snapctr_ora_azure_anf.html["Oracle Database Backup, Recovery y Clone en ANF con SnapCenter"^]
+link:snapctr_ora_azure_anf.html["Oracle Database Backup, Recovery y Clone en ANF con SnapCenter"^]
 
 * Azure NetApp Files
 +

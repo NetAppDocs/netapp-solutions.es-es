@@ -225,7 +225,7 @@ git clone https://github.com/NetApp-Automation/na_rds_fsx_oranfs_config.git
 
 === Ejecutar la puesta en marcha automatizada de Oracle 19c con el kit de herramientas de automatización
 
-Consulte estas instrucciones detalladas link:https://docs.netapp.com/us-en/netapp-solutions/databases/cli_automation.html["Puesta en marcha de la interfaz de línea de comandos Oracle 19c Database"^] Para poner en marcha Oracle 19c con automatización CLI. Hay un pequeño cambio en la sintaxis de comandos para la ejecución de la tableta, ya que utiliza un par de claves SSH en lugar de una contraseña para la autenticación del acceso al host. La siguiente lista es un resumen de alto nivel:
+Consulte estas instrucciones detalladas link:cli_automation.html["Puesta en marcha de la interfaz de línea de comandos Oracle 19c Database"^] Para poner en marcha Oracle 19c con automatización CLI. Hay un pequeño cambio en la sintaxis de comandos para la ejecución de la tableta, ya que utiliza un par de claves SSH en lugar de una contraseña para la autenticación del acceso al host. La siguiente lista es un resumen de alto nivel:
 
 . De forma predeterminada, una instancia de EC2 utiliza un par de claves SSH para la autenticación de acceso. Desde los directorios raíz de automatización de la controladora de Ansible `/home/ec2-user/na_oracle19c_deploy`, y. `/home/ec2-user/na_rds_fsx_oranfs_config`, Haga una copia de la clave SSH `accesststkey.pem` Para el host Oracle puesto en marcha en el paso "<<Creación y conexión a una instancia EC2 para alojar la base de datos Oracle>>."
 . Inicie sesión en el host de la base de datos de instancia de EC2 como ec2-user e instale la biblioteca python3.
@@ -480,7 +480,7 @@ image:aws_rds_custom_deploy_snp_08.PNG["Error: Falta la imagen gráfica"]
 
 === Configurar la política de backup para la base de datos de Oracle
 
-Consulte esta sección link:https://docs.netapp.com/us-en/netapp-solutions/databases/hybrid_dbops_snapcenter_getting_started_onprem.html#7-setup-database-backup-policy-in-snapcenter["Configure la política de backup de la base de datos en SnapCenter"^] Para obtener más detalles sobre la configuración de la política de backup de base de datos Oracle.
+Consulte esta sección link:hybrid_dbops_snapcenter_getting_started_onprem.html#7-setup-database-backup-policy-in-snapcenter["Configure la política de backup de la base de datos en SnapCenter"^] Para obtener más detalles sobre la configuración de la política de backup de base de datos Oracle.
 
 Generalmente, se necesita crear una política para el backup completo de una base de datos de Oracle de Snapshot y una política para el backup de snapshots de solo registro de archivo de Oracle.
 
@@ -493,7 +493,7 @@ NOTE: Puede habilitar la eliminación de registros de archivo de Oracle en la po
 
 El usuario puede configurar un backup de bases de datos en SnapCenter por separado o como un grupo de recursos. El intervalo de backup depende de los objetivos de objetivo de tiempo de recuperación y objetivo de punto de recuperación. NetApp recomienda ejecutar un backup completo de bases de datos cada pocas horas y archivar el backup de registros a una mayor frecuencia, como 10-15 minutos para lograr una recuperación rápida.
 
-Consulte la sección Oracle de link:https://docs.netapp.com/us-en/netapp-solutions/databases/hybrid_dbops_snapcenter_getting_started_onprem.html#8-implement-backup-policy-to-protect-database["Implemente una política de backup para proteger la base de datos"^] para obtener procesos detallados paso a paso para implementar la política de respaldo creada en la sección <<Configurar la política de backup para la base de datos de Oracle>> y para la programación de tareas de backup.
+Consulte la sección Oracle de link:hybrid_dbops_snapcenter_getting_started_onprem.html#8-implement-backup-policy-to-protect-database["Implemente una política de backup para proteger la base de datos"^] para obtener procesos detallados paso a paso para implementar la política de respaldo creada en la sección <<Configurar la política de backup para la base de datos de Oracle>> y para la programación de tareas de backup.
 
 La siguiente imagen muestra un ejemplo de los grupos de recursos configurados para realizar backup de una base de datos Oracle.
 
