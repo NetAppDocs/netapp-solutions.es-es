@@ -2,7 +2,7 @@
 sidebar: sidebar 
 permalink: ai/aicp_apache_airflow_deployment.html 
 keywords: AI, control plane, apache, airflow 
-summary: En esta sección se describen las tareas que debe completar para poner en marcha el flujo de aire en el clúster de Kubernetes. 
+summary: 'MLOps de código abierto con NetApp: Implementación de Apache Airflow' 
 ---
 = Distribución del flujo de aire de Apache
 :hardbreaks:
@@ -14,7 +14,7 @@ summary: En esta sección se describen las tareas que debe completar para poner 
 
 
 [role="lead"]
-NetApp recomienda ejecutar el flujo de aire de Apache sobre Kubernetes. En esta sección se describen las tareas que debe completar para poner en marcha el flujo de aire en el clúster de Kubernetes.
+En esta sección se describen las tareas que debe completar para poner en marcha el flujo de aire en el clúster de Kubernetes.
 
 
 NOTE: Es posible poner en marcha un flujo de aire en plataformas distintas a Kubernetes. Esta solución no cubre la posibilidad de poner en marcha un flujo de aire en plataformas distintas a Kubernetes.
@@ -26,7 +26,7 @@ NOTE: Es posible poner en marcha un flujo de aire en plataformas distintas a Kub
 Antes de realizar el ejercicio de implementación descrito en esta sección, asumimos que ya ha realizado las siguientes tareas:
 
 . Ya tiene un clúster de Kubernetes en funcionamiento.
-. Ya ha instalado y configurado NetApp Trident en su clúster de Kubernetes como se indica en la sección “NetApp Trident Deployment and Configuration”.
+. Ya ha instalado y configurado Astra Trident de NetApp en su clúster de Kubernetes. Si quiere más información sobre Astra Trident, consulte la link:https://docs.netapp.com/us-en/trident/index.html["Documentación de Astra Trident"].
 
 
 
@@ -39,7 +39,7 @@ El flujo de aire se pone en marcha con Helm, un conocido administrador de paquet
 
 == Establezca el tipo de almacenamiento de Kubernetes predeterminado
 
-Antes de implementar el flujo de aire, debe designar un tipo de almacenamiento predeterminado en el clúster de Kubernetes. El proceso de implementación de flujo de aire intenta aprovisionar nuevos volúmenes persistentes mediante el tipo de almacenamiento predeterminado. Si no se designa StorageClass como clase de almacenamiento predeterminado, la implementación falla. Para designar un tipo de almacenamiento predeterminado en el clúster, siga las instrucciones que se describen en la sección link:aicp_kubeflow_deployment_overview.html["Despliegue de Kubeflow"]. Si ya ha designado un tipo de almacenamiento predeterminado en el clúster, puede omitir este paso.
+Antes de implementar el flujo de aire, debe designar un tipo de almacenamiento predeterminado en el clúster de Kubernetes. El proceso de implementación de flujo de aire intenta aprovisionar nuevos volúmenes persistentes mediante el tipo de almacenamiento predeterminado. Si no se designa StorageClass como clase de almacenamiento predeterminado, la implementación falla. Para designar una clase de almacenamiento predeterminada en el clúster, siga las instrucciones descritas en link:aicp_kubeflow_deployment_overview.html["Despliegue de Kubeflow"] sección. Si ya ha designado un tipo de almacenamiento predeterminado en el clúster, puede omitir este paso.
 
 
 

@@ -2,9 +2,9 @@
 sidebar: sidebar 
 permalink: ai/aicp_example_trident_operations_overview.html 
 keywords: Trident 
-summary: Ejemplo de operaciones de Trident 
+summary: MLOps de código abierto con NetApp - Ejemplo de operaciones de Astra Trident 
 ---
-= Ejemplo de operaciones de Trident
+= Ejemplo de operaciones de Astra Trident
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -14,7 +14,7 @@ summary: Ejemplo de operaciones de Trident
 
 
 [role="lead"]
-En esta sección se incluyen ejemplos de diversas operaciones que quizás desee realizar con Trident.
+En esta sección se incluyen ejemplos de distintas operaciones que puede que desee realizar con Astra Trident.
 
 
 
@@ -22,12 +22,9 @@ En esta sección se incluyen ejemplos de diversas operaciones que quizás desee 
 
 Si hay volúmenes existentes en su sistema/plataforma de almacenamiento de NetApp que desea montar en contenedores dentro de su clúster de Kubernetes, pero que no están ligados a las RVP en el clúster, debe importar estos volúmenes. Es posible usar la funcionalidad de importación de volúmenes de Trident para importar estos volúmenes.
 
-Los comandos de ejemplo siguientes muestran la importación del mismo volumen, denominado `pb_fg_all,` Dos veces, una para cada backend de Trident que se creó en el ejemplo de la sección link:aicp_example_trident_backends_for_ontap_ai_deployments.html["Ejemplo de Back-ends de Trident para puestas en marcha de ONTAP AI"], paso 1. Importar el mismo volumen dos veces de esta manera le permite montar el volumen (un volumen FlexGroup existente) varias veces en diferentes LIF, como se describe en la sección link:aicp_example_trident_backends_for_ontap_ai_deployments.html["Ejemplo de Back-ends de Trident para puestas en marcha de ONTAP AI"], paso 1. Para obtener más información acerca de las EVs, consulte https://kubernetes.io/docs/concepts/storage/persistent-volumes/["Documentación oficial sobre Kubernetes"^]. Para obtener más información sobre la funcionalidad de importación de volúmenes, consulte https://netapp-trident.readthedocs.io/["Documentación de Trident"^].
+Los comandos de ejemplo siguientes muestran la importación de un volumen denominado `pb_fg_all`. Para obtener más información acerca de las EVs, consulte https://kubernetes.io/docs/concepts/storage/persistent-volumes/["Documentación oficial sobre Kubernetes"^]. Para obtener más información sobre la funcionalidad de importación de volúmenes, consulte https://docs.netapp.com/us-en/trident/index.html["Documentación de Trident"^].
 
 An `accessModes` valor de `ReadOnlyMany` Se especifica en los archivos de especificaciones de PVC de ejemplo. Para obtener más información acerca de `accessMode` consulte https://kubernetes.io/docs/concepts/storage/persistent-volumes/["Documentación oficial sobre Kubernetes"^].
-
-
-NOTE: Los nombres de backend especificados en los siguientes comandos de importación de ejemplo corresponden a las backends que se crearon en el ejemplo de la sección link:aicp_example_trident_backends_for_ontap_ai_deployments.html["Ejemplo de Back-ends de Trident para puestas en marcha de ONTAP AI"], paso 1. Los nombres de StorageClass especificados en el siguiente ejemplo de archivos de definición PVC corresponden a las clases de almacenamiento que se crearon en el ejemplo de la sección link:aicp_example_kubernetes_storageclasses_for_ontap_ai_deployments.html["Ejemplo de clases de almacenamiento Kubernetes para puestas en marcha de IA en ONTAP"], paso 1.
 
 ....
 $ cat << EOF > ./pvc-import-pb_fg_all-iface1.yaml
@@ -47,40 +44,27 @@ $ tridentctl import volume ontap-ai-flexgroups-iface1 pb_fg_all -f ./pvc-import-
 +--------------------------------+--------+-----------------------------------+----------+------------------------------------------+--------+---------+
 | default-pb-fg-all-iface1-7d9f1 | 10 TiB | ontap-ai-flexgroups-retain-iface1 | file     | b74cbddb-e0b8-40b7-b263-b6da6dec0bdd | online | true    |
 +--------------------------------+--------+-----------------------------------+----------+--------------------------------------------+--------+---------+
-$ cat << EOF > ./pvc-import-pb_fg_all-iface2.yaml
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
-  name: pb-fg-all-iface2
-  namespace: default
-spec:
-  accessModes:
-    - ReadOnlyMany
-  storageClassName: ontap-ai-flexgroups-retain-iface2
-EOF
-$ tridentctl import volume ontap-ai-flexgroups-iface2 pb_fg_all -f ./pvc-import-pb_fg_all-iface2.yaml -n trident
-+--------------------------------+--------+-----------------------------------+----------+--------------------------------------------+--------+---------+
-|          NAME                  |  SIZE  |       STORAGE CLASS               | PROTOCOL |             BACKEND UUID                         | STATE  | MANAGED |
-+--------------------------------+--------+-----------------------------------+----------+------------------------------------------+--------+---------+
-| default-pb-fg-all-iface2-85aee | 10 TiB | ontap-ai-flexgroups-retain-iface2 | file     | 61814d48-c770-436b-9cb4-cf7ee661274d | online | true    |
-+--------------------------------+--------+-----------------------------------+----------+--------------------------------------------+--------+---------+
 $ tridentctl get volume -n trident
 +----------------------------------+---------+-----------------------------------+----------+--------------------------------------+--------+---------+
 |               NAME               |  SIZE   |           STORAGE CLASS           | PROTOCOL |             BACKEND UUID             | STATE  | MANAGED |
 +----------------------------------+---------+-----------------------------------+----------+--------------------------------------+--------+---------+
 | default-pb-fg-all-iface1-7d9f1   | 10 TiB  | ontap-ai-flexgroups-retain-iface1 | file     | b74cbddb-e0b8-40b7-b263-b6da6dec0bdd | online | true    |
-| default-pb-fg-all-iface2-85aee   | 10 TiB  | ontap-ai-flexgroups-retain-iface2 | file     | 61814d48-c770-436b-9cb4-cf7ee661274d | online | true    |
 +----------------------------------+---------+-----------------------------------+----------+--------------------------------------+--------+---------+
 $ kubectl get pvc
 NAME                 STATUS   VOLUME                             CAPACITY         ACCESS MODES   STORAGECLASS                        AGE
 pb-fg-all-iface1     Bound    default-pb-fg-all-iface1-7d9f1     10995116277760   ROX            ontap-ai-flexgroups-retain-iface1   25h
-pb-fg-all-iface2     Bound    default-pb-fg-all-iface2-85aee     10995116277760   ROX            ontap-ai-flexgroups-retain-iface2   25h
 ....
 
 
 == Aprovisione un nuevo volumen
 
-Puede usar Trident para aprovisionar un nuevo volumen en su plataforma o sistema de almacenamiento de NetApp. Los siguientes comandos de ejemplo muestran el aprovisionamiento de un volumen FlexVol nuevo. En este ejemplo, se aprovisiona el volumen con el tipo de almacenamiento que se creó en el ejemplo de la sección link:aicp_example_kubernetes_storageclasses_for_ontap_ai_deployments.html["Ejemplo de clases de almacenamiento Kubernetes para puestas en marcha de IA en ONTAP"], paso 2.
+Puede usar Trident para aprovisionar un nuevo volumen en su plataforma o sistema de almacenamiento de NetApp.
+
+
+
+=== Aprovisione un nuevo volumen mediante kubectl
+
+Los siguientes comandos de ejemplo muestran el aprovisionamiento de un nuevo volumen FlexVol mediante kubectl.
 
 An `accessModes` valor de `ReadWriteMany` Se especifica en el siguiente archivo de definición de PVC de ejemplo. Para obtener más información acerca de `accessMode` consulte https://kubernetes.io/docs/concepts/storage/persistent-volumes/["Documentación oficial sobre Kubernetes"^].
 
@@ -103,6 +87,10 @@ persistentvolumeclaim/tensorflow-results created
 $ kubectl get pvc
 NAME                              STATUS    VOLUME                             CAPACITY         ACCESS MODES   STORAGECLASS                        AGE
 pb-fg-all-iface1                  Bound     default-pb-fg-all-iface1-7d9f1     10995116277760   ROX            ontap-ai-flexgroups-retain-iface1   26h
-pb-fg-all-iface2                  Bound     default-pb-fg-all-iface2-85aee     10995116277760   ROX            ontap-ai-flexgroups-retain-iface2   26h
 tensorflow-results                Bound     default-tensorflow-results-2fd60   1073741824       RWX            ontap-ai-flexvols-retain            25h
 ....
+
+
+=== Aprovisione un nuevo volumen con el kit de herramientas de DataOps de NetApp
+
+También puedes usar el kit de herramientas de DataOps de NetApp para Kubernetes a fin de aprovisionar un volumen nuevo en tu sistema de almacenamiento o plataforma de NetApp. El kit de herramientas DataOps de NetApp para Kubernetes utiliza Trident para aprovisionar volúmenes, pero simplifica el proceso para el usuario. Consulte la link:https://github.com/NetApp/netapp-dataops-toolkit/blob/main/netapp_dataops_k8s/docs/volume_management.md["documentación"] para obtener más detalles.

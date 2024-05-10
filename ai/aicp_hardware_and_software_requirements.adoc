@@ -2,9 +2,9 @@
 sidebar: sidebar 
 permalink: ai/aicp_hardware_and_software_requirements.html 
 keywords: Hardware, Software, Requirements, Trident, DeepOps, ONTAP, Ubuntu 
-summary: La solución de plano de control de IA de NetApp no depende de este hardware específico. 
+summary: MLOps de código abierto con NetApp - Arquitectura 
 ---
-= Requisitos de hardware y software
+= Arquitectura
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -14,26 +14,8 @@ summary: La solución de plano de control de IA de NetApp no depende de este har
 
 
 [role="lead"]
-La solución de plano de control de IA de NetApp no depende de este hardware específico. La solución es compatible con cualquier dispositivo de almacenamiento físico, instancia definida por software o servicio cloud de NetApp compatible con Trident. Entre los ejemplos se incluyen un sistema de almacenamiento AFF de NetApp, Azure NetApp Files, Cloud Volumes Service de NetApp, una instancia de almacenamiento definido por software ONTAP Select de NetApp o una instancia de Cloud Volumes ONTAP de NetApp. Además, la solución puede implementarse en cualquier clúster de Kubernetes, siempre que la versión de Kubernetes utilizada sea compatible con Kubeflow y Trident de NetApp. Si desea ver una lista de las versiones de Kubernetes compatibles con ubeflow, consulte la https://www.kubeflow.org/docs/started/getting-started/["Documentación oficial de Kubeflow"^]. Si desea ver una lista de las versiones de Kubernetes compatibles con Trident, consulte https://netapp-trident.readthedocs.io/["Documentación de Trident"^]. Consulte las siguientes tablas para obtener información detallada sobre el entorno que se utilizó para validar la solución.
+Esta solución no depende de hardware específico. La solución es compatible con cualquier dispositivo de almacenamiento físico, instancia definida por software o servicio cloud de NetApp compatible con Trident. Entre los ejemplos se incluyen un sistema de almacenamiento de NetApp AFF, Amazon FSx para NetApp ONTAP, Azure NetApp Files o una instancia de NetApp Cloud Volumes ONTAP. Además, la solución se puede implementar en cualquier clúster de Kubernetes, siempre y cuando la versión de Kubernetes utilizada sea compatible con Kubeflow y Astra Trident de NetApp. Si desea ver una lista de las versiones de Kubernetes compatibles con ubeflow, consulte la https://www.kubeflow.org/docs/started/getting-started/["Documentación oficial de Kubeflow"^]. Si desea ver una lista de las versiones de Kubernetes compatibles con Trident, consulte https://docs.netapp.com/us-en/trident/index.html["Documentación de Trident"^]. Consulte las siguientes tablas para obtener información detallada sobre el entorno que se utilizó para validar la solución.
 
-|===
-| Componente de la infraestructura | Cantidad | Detalles | Sistema operativo 
-
-
-| Host de salto de implementación | 1 | MÁQUINA VIRTUAL | Sistema operativo Ubuntu 20.04.2 LTS 
-
-
-| Nodos maestros de Kubernetes | 1 | MÁQUINA VIRTUAL | Sistema operativo Ubuntu 20.04.2 LTS 
-
-
-| Nodos de trabajo de Kubernetes | 2 | MÁQUINA VIRTUAL | Sistema operativo Ubuntu 20.04.2 LTS 
-
-
-| Nodos de trabajo de GPU de Kubernetes | 2 | NVIDIA DGX-1 (nativo) | NVIDIA DGX OS 4.0.5 (basado en Ubuntu 18.04.2 LTS) 
-
-
-| Reducida | 1 par de alta disponibilidad | AFF A220 de NetApp | ONTAP 9.7 P6 de NetApp 
-|===
 |===
 | Componente de software | Versión 
 
@@ -44,22 +26,16 @@ La solución de plano de control de IA de NetApp no depende de este hardware esp
 | Tabla de Helm para flujo de aire de Apache | 8.0.8 
 
 
-| Docker | 19.03.12 
+| Kubeflow | 1,7, puesto en marcha mediante link:https://www.deploykf.org["Desplegar KF"] 0.1.1 
 
 
-| Kubeflow | 1.2 
+| Kubernetes | 1,26 
 
 
-| Kubernetes | 1.18.9 
-
-
-| Trident de NetApp | 21.01.2 
-
-
-| DeepOps de NVIDIA | Funcionalidad de implementación de Trident desde la rama maestra hasta el encargo link:https://github.com/NVIDIA/deepops/tree/61898cdfdaa0c59c07e9fabf3022945a905b148e/docs/k8s-cluster["61898cdfda"]; Todas las demás funciones de la versión 21.03 
+| Astra Trident de NetApp | 23,07 
 |===
 
 
 == Soporte técnico
 
-NetApp no ofrece compatibilidad empresarial con Apache Airflow, Docker, Kubeflow, Kubernetes u NVIDIA DeepOps. Si está interesado en una solución totalmente compatible con funcionalidades similares a la solución del plano de control de IA de NetApp, link:https://www.netapp.com/us/contact-us/index.aspx?for_cr=us["Póngase en contacto con NetApp"] Acerca de soluciones de IA/ML totalmente compatibles que NetApp ofrece en colaboración con partners.
+NetApp no ofrece compatibilidad empresarial para Apache Airflow, Kubeflow o Kubernetes. Si está interesado en una plataforma MLOps totalmente compatible, link:https://www.netapp.com/us/contact-us/index.aspx?for_cr=us["Póngase en contacto con NetApp"] Acerca de las soluciones de MLOps totalmente compatibles que NetApp ofrece conjuntamente con partners.
