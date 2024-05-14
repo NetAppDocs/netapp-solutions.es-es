@@ -1,0 +1,39 @@
+---
+sidebar: sidebar 
+permalink: vmware/migrate-vms-to-ec2-fsxn-wrapup.html 
+keywords: netapp, vmware, amazon, ec2, fsxn, migration, iscsi, 
+summary: 'En este informe técnico se explica cómo migrar máquinas virtuales VMware vSphere on-premises a una instancia de Amazon EC2 con discos de datos ubicados en FSx para LUN iSCSI de ONTAP utilizando la funcionalidad de movilidad de datos como código de MigrateOps de Cirrus Migrate Cloud (CMC).' 
+---
+= Migrar máquinas virtuales a Amazon EC2 mediante FSxN: Otras posibilidades y conclusiones
+:allow-uri-read: 
+
+
+
+
+== Migrar máquinas virtuales a Amazon EC2 mediante FSxN: Otras posibilidades y conclusiones
+
+[role="lead"]
+Este artículo destaca otras posibilidades para esta solución de migración, así como la conclusión del tema.
+
+
+
+== Otras posibilidades
+
+El mismo método se puede ampliar para migrar máquinas virtuales utilizando almacenamiento en invitado en máquinas virtuales on-premises. El VMDK del sistema operativo se puede migrar usando CMC, y los LUN iSCSI internos se pueden replicar mediante SnapMirror. El proceso requiere interrumpir la duplicación y conectar el LUN a la instancia recién migrada de Amazon EC2, como se muestra en el siguiente diagrama.
+
+image:migrate-ec2-fsxn-image13.png["Imagen que muestra una posibilidad adicional para esta solución de migración"]
+
+
+
+== Conclusión
+
+Este documento ha proporcionado un tutorial completo sobre el uso de la función MigrateOps de CMC para migrar los datos almacenados en repositorios de VMware locales a AWS mediante instancias de Amazon EC2 y FSx para ONTAP.
+
+En el siguiente vídeo se muestra el proceso de migración de principio a fin:
+
+.Migre máquinas virtuales de VMware a Amazon EC2
+video::317a0758-cba9-4bd8-a08b-b17000d88ae9[panopto]
+Para ver la interfaz gráfica de usuario y la migración local básica de Amazon EBS to FSx para ONTAP, vea este vídeo de demostración de cinco minutos:
+
+.Migración a cualquier almacenamiento a escala con Cirrus Migrate Cloud
+video::PeFNZxXeQAU[youtube]
