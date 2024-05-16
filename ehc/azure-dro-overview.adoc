@@ -14,13 +14,15 @@ summary:
 
 
 [role="lead"]
+La recuperación ante desastres mediante replicación a nivel de bloques entre regiones del cloud es un método resiliente y rentable de proteger las cargas de trabajo frente a interrupciones del servicio del sitio y eventos de corrupción de datos (por ejemplo, ransomware).
+
 Autor(es): Niyaz Mohamed, Ingeniería de Soluciones NetApp
 
 
 
 == Descripción general
 
-La recuperación ante desastres mediante replicación a nivel de bloques entre regiones del cloud es un método resiliente y rentable de proteger las cargas de trabajo frente a interrupciones del servicio del sitio y eventos de corrupción de datos (por ejemplo, ransomware). Con la replicación de volúmenes entre regiones de Azure NetApp Files (ANF), las cargas de trabajo de VMware que se ejecutan en un sitio SDDC de Azure VMware Solution (AVS) usando Azure NetApp Files Volumes como almacén de datos NFS en el sitio de AVS principal se pueden replicar en un sitio de AVS secundario designado en la región de recuperación de destino.
+Con la replicación de volúmenes entre regiones de Azure NetApp Files (ANF), las cargas de trabajo de VMware que se ejecutan en un sitio SDDC de Azure VMware Solution (AVS) usando Azure NetApp Files Volumes como almacén de datos NFS en el sitio de AVS principal se pueden replicar en un sitio de AVS secundario designado en la región de recuperación de destino.
 
 El orquestador de recuperación ante desastres (DRO) (una solución basada en secuencia de comandos con una interfaz de usuario) puede utilizarse para recuperar sin problemas las cargas de trabajo replicadas desde un SDDC de AVS a otro. DRO automatiza la recuperación rompiendo la paridad de replicación y luego montando el volumen de destino como almacén de datos, a través del registro de VM en AVS, a las asignaciones de red directamente en NSX-T (incluido con todos los clouds privados de AVS).
 

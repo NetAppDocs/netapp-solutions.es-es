@@ -110,7 +110,7 @@ vserver modify -vserver vs1 -v4.1-pnfs enabled -tcp-max-xfer-size 262144
 ....
 sudo bin/benchmark --drivers driver-kafka/kafka-throughput.yaml workloads/1-topic-100-partitions-1kb.yaml
 ....
-. Por último, hemos completado las mediciones con un pedido atrasado para medir la capacidad de los consumidores para ponerse al día con los últimos mensajes. OMB construye un atraso al pausar a los consumidores durante el comienzo de una medición. Esto produce tres fases distintas: Creación de acumulación (tráfico sólo para productores), drenaje de acumulación (una fase de consumo pesado en la que los consumidores se quedan al tanto de los eventos perdidos en un tema) y el estado estable. Consulte la sección “<<Extreme performance,análisis de los límites de almacenamiento>>” para más información.
+. Por último, hemos completado las mediciones con un pedido atrasado para medir la capacidad de los consumidores para ponerse al día con los últimos mensajes. OMB construye un atraso al pausar a los consumidores durante el comienzo de una medición. Esto produce tres fases distintas: Creación de acumulación (tráfico sólo para productores), drenaje de acumulación (una fase de consumo pesado en la que los consumidores se quedan al tanto de los eventos perdidos en un tema) y el estado estable. Consulte la sección “<<Rendimiento extremo y exploración de los límites de almacenamiento>>” para más información.
 
 
 

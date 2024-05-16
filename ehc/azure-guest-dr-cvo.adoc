@@ -13,14 +13,16 @@ summary: La recuperación ante desastres en el cloud es un método resiliente y 
 :imagesdir: ./../media/
 
 
+[role="lead"]
+La recuperación ante desastres en el cloud es un método resiliente y rentable de proteger las cargas de trabajo contra interrupciones del sitio y eventos dañados por datos como ransomware. Con SnapMirror de NetApp, las cargas de trabajo de VMware en las instalaciones que utilizan el almacenamiento conectado a invitado se pueden replicar a Cloud Volumes ONTAP de NetApp que se ejecuta en Azure.
+
 
 
 == Descripción general
 
 Autores: Ravi BCB y Niyaz Mohamed, NetApp
 
-La recuperación ante desastres en el cloud es un método resiliente y rentable de proteger las cargas de trabajo contra interrupciones del sitio y eventos dañados por datos como ransomware. Con SnapMirror de NetApp, las cargas de trabajo de VMware en las instalaciones que utilizan el almacenamiento conectado a invitado se pueden replicar a Cloud Volumes ONTAP de NetApp que se ejecuta en Azure. Así se tratan los datos de aplicaciones; sin embargo, ¿qué ocurre con los equipos virtuales mismos? La recuperación ante desastres debería cubrir todos los componentes dependientes, incluidos equipos virtuales, VMDK, datos de aplicaciones, etc. Para ello, SnapMirror y JetStream pueden utilizarse para recuperar sin problemas cargas de trabajo replicadas de las instalaciones a Cloud Volumes ONTAP utilizando almacenamiento VSAN para VMDK de VM.
-
+ This covers application data; however, what about the actual VMs themselves. Disaster recovery should cover all dependent components, including virtual machines, VMDKs, application data, and more. To accomplish this, SnapMirror along with Jetstream can be used to seamlessly recover workloads replicated from on-premises to Cloud Volumes ONTAP while using vSAN storage for VM VMDKs.
 Este documento proporciona un enfoque paso a paso para configurar y realizar la recuperación ante desastres que utiliza SnapMirror, JetStream y la solución Azure VMware (AVS) de NetApp.
 
 image:dr-cvo-avs-image1.png["Error: Falta la imagen gráfica"]
