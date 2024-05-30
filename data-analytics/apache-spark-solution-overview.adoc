@@ -105,26 +105,17 @@ En las siguientes secciones se describen las funcionalidades de almacenamiento q
 
 Con el almacenamiento por niveles de Hadoop, puede almacenar archivos con diferentes tipos de almacenamiento según una normativa de almacenamiento. Los tipos de almacenamiento incluyen `hot`, `cold`, `warm`, `all_ssd`, `one_ssd`, y. `lazy_persist`.
 
-<<<<<<<<< HEAD validamos el almacenamiento por niveles de Hadoop en una controladora de almacenamiento AFF de NetApp y una controladora de almacenamiento E-Series con unidades SSD y SAS con políticas de almacenamiento diferentes. El clúster Spark con AFF-A800 tiene cuatro nodos de trabajo de computación, mientras que el clúster con E-Series tiene ocho. Esto se compara principalmente con el rendimiento de las unidades de estado sólido (SSD) en comparación con los discos de disco duro (HDD).
-
-[]
-====
-Validamos el almacenamiento por niveles de Hadoop en una controladora de almacenamiento AFF de NetApp y una controladora de almacenamiento E-Series con unidades SSD y SAS con políticas de almacenamiento diferentes. El clúster Spark con AFF-A800 tiene cuatro nodos de trabajo de computación, mientras que el clúster con E-Series tiene ocho. Esto se realizó principalmente para comparar el rendimiento de las unidades de estado sólido con los discos duros. >>>>>> a51c9ddf73ca61120ce05edc7b0b9607b96eae
+Validamos el almacenamiento por niveles de Hadoop en una controladora de almacenamiento AFF de NetApp y una controladora de almacenamiento E-Series con unidades SSD y SAS con políticas de almacenamiento diferentes. El clúster Spark con AFF-A800 tiene cuatro nodos de trabajo de computación, mientras que el clúster con E-Series tiene ocho. Esto se compara principalmente con el rendimiento de las unidades de estado sólido (SSD) en comparación con los discos de disco duro (HDD).
 
 La siguiente figura muestra el rendimiento de las soluciones de NetApp para SSD de Hadoop.
 
 image:apache-spark-image2.png["Tiempo para ordenar 1 TB de datos."]
 
-* La configuración de NL-SAS de referencia utilizó ocho nodos de computación y 96 unidades NL-SAS. Esta configuración generó 1 TB de datos en 4 minutos y 38 segundos. Consulte https://www.netapp.com/media/16420-tr-3969.pdf["TR-3969 solución E-Series de NetApp para Hadoop"^] para obtener detalles sobre el clúster y la configuración de almacenamiento.
+* La configuración de NL-SAS de referencia utilizó ocho nodos de computación y 96 unidades NL-SAS. Esta configuración generó 1 TB de datos en 4 minutos y 38 segundos.  Consulte https://www.netapp.com/pdf.html?item=/media/16462-tr-3969.pdf["TR-3969 solución E-Series de NetApp para Hadoop"^] para obtener detalles sobre el clúster y la configuración de almacenamiento.
 * Con TeraGen, la configuración de SSD generó 1 TB de datos 15,6 veces más rápido que la configuración NL-SAS. Además, la configuración de SSD utilizó la mitad de la cantidad de nodos de computación y la mitad de la cantidad de unidades de disco (24 unidades SSD en total). Según el tiempo para completar la tarea, era casi el doble de rápido que la configuración de NL-SAS.
-* Con TeraSort, la configuración de SSD ordena 1 TB de datos 1138.36 veces más rápido que la configuración de NL-SAS. Además, la configuración de SSD utilizó la mitad de la cantidad de nodos de computación y la mitad de la cantidad de unidades de disco (24 unidades SSD en total). Por lo tanto, por unidad, era aproximadamente tres veces más rápida que la configuración de NL-SAS. <<<<<<<<< CABEZA
+* Con TeraSort, la configuración de SSD ordena 1 TB de datos 1138.36 veces más rápido que la configuración de NL-SAS. Además, la configuración de SSD utilizó la mitad de la cantidad de nodos de computación y la mitad de la cantidad de unidades de disco (24 unidades SSD en total). Por lo tanto, por unidad, era aproximadamente tres veces más rápida que la configuración de NL-SAS.
 * La ventaja es que la transición de los discos giratorios a all-flash mejora el rendimiento. El número de nodos de computación no era el cuello de botella. Con el almacenamiento all-flash de NetApp, el rendimiento del tiempo de ejecución se escala bien.
 * Con NFS, los datos eran funcionalmente equivalentes a los agrupados en pools, lo que puede reducir el número de nodos de computación en función de la carga de trabajo. Los usuarios del clúster de Apache Spark no tienen que reequilibrar manualmente los datos cuando se cambia el número de nodos de computación.
-
-
-====
-* En resumen, la transición de discos giratorios a all-flash mejora el rendimiento. El número de nodos de computación no era el cuello de botella. Con el almacenamiento all-flash de NetApp, el rendimiento del tiempo de ejecución se escala bien.
-* Con NFS, los datos eran funcionalmente equivalentes a los agrupados en pools, lo que puede reducir el número de nodos de computación en función de la carga de trabajo. Los usuarios de clúster de Apache Spark no necesitan reequilibrar manualmente los datos cuando se cambia el número de nodos de computación. >>>>>> a51c9ddf73ca61120ce05edc7b0b9607b96eae
 
 
 
