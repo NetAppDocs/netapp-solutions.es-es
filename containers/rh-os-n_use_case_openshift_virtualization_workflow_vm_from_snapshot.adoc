@@ -14,7 +14,7 @@ summary: OpenShift Virtualization de Red Hat con ONTAP de NetApp
 
 
 [role="lead"]
-En esta sección se explica cómo crear una máquina virtual a partir de una instantánea con Red Hat OpenShift Virtualization.
+Esta sección muestra cómo crear una máquina virtual a partir de una instantánea con Red Hat OpenShift Virtualization.
 
 
 
@@ -29,7 +29,7 @@ Para las operaciones de Snapshot en OpenShift, se deben definir los recursos Vol
 * VolumeSnapshotClass permite que el administrador especifique diferentes atributos para una copia VolumeSnapshot. Permite tener distintos atributos para las diferentes copias Snapshot realizadas desde el mismo volumen.
 
 
-image::redhat_openshift_image60.jpg[Equipos virtuales desde la arquitectura de Snapshot]
+image::redhat_openshift_image60.png[Equipos virtuales desde la arquitectura de Snapshot]
 
 Para crear una instantánea de un equipo virtual, complete los siguientes pasos:
 
@@ -55,7 +55,7 @@ image::redhat_openshift_image62.JPG[Cree Snapshot]
 +
 image::redhat_openshift_image63.JPG[Restaurar snapshot en una nueva RVP]
 
-. A continuación, cree una nueva máquina virtual a partir de esta RVP. Desplácese hasta cargas de trabajo > virtualización > Máquinas virtuales y haga clic en Crear > con AYLMA.
+. A continuación, cree una nueva máquina virtual a partir de esta RVP. Navegue a Virtualization > Virtual Machines y haga clic en Create > With YAML.
 . En la sección Spec > template > Volumes, especifique la nueva RVP creada en Snapshot en lugar de en el disco de contenedor. Proporcione los demás detalles de la nueva VM de acuerdo con sus requisitos.
 +
 [source, cli]
