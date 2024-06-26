@@ -16,6 +16,8 @@ summary: 'milvus con Amazon FSxN para NetApp ONTAP: Solución de base de datos v
 [role="lead"]
 En esta sección se describe la configuración del cluster Milvus con Amazon FSxN para la solución de base de datos vectorial para NetApp.
 
+
+
 === Milvus con Amazon FSxN para NetApp ONTAP: Dualidad de archivos y objetos
 
 En esta sección, ¿Por qué necesitamos implementar la base de datos vectorial en la nube, así como los pasos para implementar la base de datos vectorial (milvus standalone) en Amazon FSxN para NetApp ONTAP dentro de contenedores docker?
@@ -50,7 +52,7 @@ root@ip-172-31-22-245:~# wget https://github.com/milvus-io/milvus/releases/downl
 . Verifique las carpetas y los archivos montados.
 +
 [source, bash]
-....
+----
 ubuntu@ip-172-31-29-98:~/milvusvectordb$ ls -ltrh /home/ubuntu/milvusvectordb
 total 8.0K
 -rw-r--r-- 1 root root 1.8K Apr  2 16:35 s3_access.py
@@ -61,12 +63,12 @@ ubuntu@ip-172-31-29-98:~/milvusvectordb$ cd
 ubuntu@ip-172-31-29-98:~$ ls
 docker-compose.yml  docker-compose.yml~  milvus.yaml  milvusvectordb  vectordbvol1
 ubuntu@ip-172-31-29-98:~$
-....
+----
 . Ejecute 'Docker-compose up -d' desde el directorio que contiene el archivo docker-compose.yml.
 . Compruebe el estado del contenedor Milvus.
 +
 [source, bash]
-....
+----
 ubuntu@ip-172-31-29-98:~$ sudo docker-compose ps
       Name                     Command                  State                                               Ports
 ----------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -80,12 +82,12 @@ drwxr-xr-x 3 root root 4.0K Apr  4 20:21 etcd
 drwxr-xr-x 4 root root 4.0K Apr  4 20:21 minio
 drwxr-xr-x 5 root root 4.0K Apr  4 20:21 milvus
 ubuntu@ip-172-31-29-98:~$
-....
+----
 . Para validar la funcionalidad de lectura y escritura de la base de datos vectorial y sus datos en Amazon FSxN para NetApp ONTAP, utilizamos el SDK de Python Milvus y un programa de muestra de PyMilvus. Instale los paquetes necesarios usando 'apt-get install python3-numpy python3-pip' e instale PyMilvus usando 'pip3 install pymilvus'.
 . Validar las operaciones de escritura y lectura de datos desde Amazon FSxN para NetApp ONTAP en la base de datos vectorial.
 +
 [source, python]
-....
+----
 root@ip-172-31-29-98:~/pymilvus/examples# python3 prepare_data_netapp_new.py
 === start connecting to Milvus     ===
 === Milvus host: localhost         ===
@@ -111,11 +113,11 @@ root@ip-172-31-29-98:~/pymilvus/examples# find /home/ubuntu/milvusvectordb/
 /home/ubuntu/milvusvectordb/volumes/minio/a-bucket/files/insert_log/448789845791611912/448789845791611913/448789845791611939/100
 /home/ubuntu/milvusvectordb/volumes/minio/a-bucket/files/insert_log/448789845791611912/448789845791611913/448789845791611939/100/448789845791411920
 /home/ubuntu/milvusvectordb/volumes/minio/a-bucket/files/insert_log/448789845791611912/448789845791611913/448789845791611939/100/448789845791411920/xl.meta
-....
+----
 . Compruebe la operación de lectura con el script verify_data_netapp.py.
 +
 [source, python]
-....
+----
 root@ip-172-31-29-98:~/pymilvus/examples# python3 verify_data_netapp.py
 === start connecting to Milvus     ===
 
@@ -158,11 +160,11 @@ hit: id: 1627, distance: 0.08096684515476227, entity: {'random': 0.9302397069516
 search latency = 0.2674s
 Does collection hello_milvus_ntapnew_sc2 exist in Milvus: True
 {'auto_id': True, 'description': 'hello_milvus_ntapnew_sc2', 'fields': [{'name': 'pk', 'description': '', 'type': <DataType.INT64: 5>, 'is_primary': True, 'auto_id': True}, {'name': 'random', 'description': '', 'type': <DataType.DOUBLE: 11>}, {'name': 'var', 'description': '', 'type': <DataType.VARCHAR: 21>, 'params': {'max_length': 65535}}, {'name': 'embeddings', 'description': '', 'type': <DataType.FLOAT_VECTOR: 101>, 'params': {'dim': 8}}], 'enable_dynamic_field': False}
-....
+----
 . Si el cliente quiere acceder (leer) a datos NFS probados en la base de datos vectorial a través del protocolo S3 para cargas de trabajo de IA, se puede validar mediante un programa sencillo de Python. Un ejemplo de esto podría ser una búsqueda de similitud de imágenes de otra aplicación como se menciona en la imagen que está al principio de esta sección.
 +
 [source, python]
-....
+----
 root@ip-172-31-29-98:~/pymilvus/examples# sudo python3 /home/ubuntu/milvusvectordb/s3_access.py -i 172.31.255.228 --bucket milvusnasvol --access-key PY6UF318996I86NBYNDD --secret-key hoPctr9aD88c1j0SkIYZ2uPa03vlbqKA0c5feK6F
 OBJECTS in the bucket milvusnasvol are :
 ***************************************
@@ -191,6 +193,8 @@ volumes/minio/a-bucket/files/stats_log/448789845791611912/448789845791611913/448
 volumes/minio/a-bucket/files/stats_log/448789845791611912/448789845791611913/448789845791611939/100/448789845791411926/xl.meta
 ***************************************
 root@ip-172-31-29-98:~/pymilvus/examples#
-....
+----
 +
 En esta sección se muestra de forma eficaz cómo los clientes pueden poner en marcha y operar una configuración independiente de Milvus en contenedores Docker mediante el almacenamiento de datos FSxN de NetApp de Amazon para NetApp ONTAP. Esta configuración permite a los clientes aprovechar la potencia de las bases de datos vectoriales para gestionar datos de alta dimensión y ejecutar consultas complejas, todo ello dentro del entorno escalable y eficiente de los contenedores Docker. Al crear una instancia de Amazon FSxN para NetApp ONTAP y relacionar la instancia de EC2, los clientes pueden garantizar una utilización óptima de los recursos y una gestión de datos. La validación correcta de las operaciones de escritura y lectura de datos de FSxN en la base de datos vectorial proporciona a los clientes la garantía de operaciones de datos fiables y coherentes. Además, la capacidad de mostrar (leer) datos de cargas de trabajo de IA a través del protocolo S3 ofrece accesibilidad a los datos mejorada. Por lo tanto, este completo proceso proporciona a los clientes una solución sólida y eficiente para gestionar sus operaciones de datos a gran escala, aprovechando las funcionalidades de FSxN para NetApp ONTAP de Amazon.
+
+
