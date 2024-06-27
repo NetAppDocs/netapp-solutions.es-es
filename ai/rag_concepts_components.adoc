@@ -1,0 +1,225 @@
+---
+sidebar: sidebar 
+permalink: ai/rag_concepts_components.html 
+keywords: RAG, Retrieval Augmented Generation, NetApp AI, AI, Artificial Intelligence, ML, Machine Learning, NVIDIA, NeMo, NIM, NIMS, Hybrid, Hybrid Cloud, Hybrid Multicloud, NetApp ONTAP, FlexCache, SnapMirror, BlueXP 
+summary: Enterprise RAG con NetApp - Conceptos y componentes 
+---
+= Conceptos y componentes
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+
+
+== IA generativa
+
+Los sistemas de IA como la IA generativa están diseñados aplicando aprendizaje automático sin supervisar o autosupervisado a un gran conjunto de datos. A diferencia de los modelos tradicionales de aprendizaje automático que realizan predicciones sobre un conjunto de datos específico, los modelos de IA generativos son capaces de generar nuevo contenido, como texto, código, imagen, vídeo o audio, en respuesta a las indicaciones de los usuarios. Por esta razón, las capacidades de un sistema de IA generativa también se clasifican en función de la modalidad o tipo de datos utilizados. Estos podrían ser unimodales o multimodales. Un sistema unimodal solo toma un tipo de entrada (por ejemplo, Solo texto o solo imagen), mientras que un sistema multimodal puede tomar más de un tipo de entrada (por ejemplo, texto, imagen y audio), comprender y generar simultáneamente contenido a través de diferentes modalidades. En esencia, la IA generativa está cambiando la forma en que las empresas crean contenido, generan nuevos conceptos de diseño y extraen valor a partir de los datos existentes.
+
+
+
+=== Modelos de lenguaje grande (LLMs)
+
+Las LLMs son modelos de aprendizaje profundo pre-entrenados en grandes cantidades de datos, que pueden reconocer y generar texto, entre otras tareas. Las LLMs comenzaron como un subconjunto de IA generativa que se centró principalmente en el lenguaje, sin embargo, tales distinciones se desvanecen lentamente a medida que las LLMs multimodales continúan emergiendo. El transformador subyacente en un LLM, presenta una nueva arquitectura de red que no sea RNN o CNN. Tiene un conjunto de redes neuronales que consisten en un codificador y un decodificador que ayuda a extraer el significado de una secuencia de texto y comprender la relación entre las palabras. Las LLMs pueden responder al lenguaje humano natural y usar el análisis de datos para responder una pregunta no estructurada. Sin embargo, las LLMs solo pueden ser tan confiables como los datos que ingieren, por lo tanto propensas a alucinaciones, derivadas de los desafíos de la basura dentro-fuera. Si las LLMs se alimentan con información falsa, pueden generar resultados inexactos en respuesta a las consultas de los usuarios simplemente para adaptarse a la narrativa que está construyendo. Nuestra investigación basada en la evidencia sugiere que los ingenieros de IA se basan en varios métodos para contrarrestar estas alucinaciones, uno a través de barandas que limitan los resultados inexactos y el otro mediante el ajuste fino y la transferencia de aprendizaje con datos de calidad que son contextualmente relevantes, a través de técnicas como RAG.
+
+
+
+=== Generación Aumentada de Recuperación (RAG)
+
+Los LLM están entrenados en grandes volúmenes de datos, pero no están entrenados en sus datos. RAG resuelve este problema agregando sus datos a los LLMs de datos a los que ya tienen acceso. RAG permite a los clientes aprovechar el poder de un LLM, entrenado en sus datos, recuperando así la información y usando eso para proporcionar información contextual para los usuarios de IA generativa. RAG es una técnica de aprendizaje automático, un enfoque arquitectónico que puede ayudar a reducir las alucinaciones y mejorar la eficacia y la fiabilidad de las LLMs, acelerar el desarrollo de aplicaciones de IA y aumentar la experiencia de búsqueda empresarial.
+
+
+
+=== Ragas
+
+Hay herramientas y marcos existentes que le ayudan a construir tuberías RAG, pero evaluarlo y cuantificar el rendimiento de su tubería puede ser difícil. Aquí es donde entra Ragas (Evaluación RAG). Ragas es un marco que le ayuda a evaluar sus tuberías RAG. Ragas tiene como objetivo crear un estándar abierto, proporcionando a los desarrolladores las herramientas y técnicas para aprovechar el aprendizaje continuo en sus aplicaciones RAG. Para obtener más información, consulte https://docs.ragas.io/en/stable/getstarted/index.html["Empieza con Ragas"^]
+
+
+
+== Llama 3
+
+El Llama 3 de Meta, un modelo de transformador solo decodificador, es un modelo de lenguaje grande (LLM) preentrenado abiertamente accesible. Entrenado en más de 15 billones de tokens de datos, Llama 3 cambia las reglas del juego en el concepto de lenguaje natural (NLU). Se destaca por la comprensión contextual y por tareas complejas como la traducción y la generación de diálogos. Llama 3 viene en dos tamaños: 8b para una implementación y un desarrollo eficientes, y 70B para aplicaciones nativas de IA a gran escala. Los clientes pueden implementar Llama 3 en Google Cloud a través de Vertex AI, en Azure a través de Azure AI Studio y en AWS a través de Amazon Sagemaker.
+
+En nuestra validación, hemos implementado el modelo Llama de Meta con microservicios NVIDIA Nemo™, en una instancia de NVIDIA DGX acelerada con GPU NVIDIA A100, para personalizar y evaluar un caso de uso de IA generativa, al tiempo que admite la generación aumentada de recuperación (RAG) en aplicaciones locales.
+
+
+
+== Marcos de código abierto
+
+La siguiente información adicional sobre las tecnologías de código abierto puede ser relevante en función de su implementación.
+
+
+
+=== LangChain
+
+LangChain es un marco de integración de código abierto para el desarrollo de aplicaciones basadas en grandes modelos de lenguaje (LLMs). Los clientes pueden crear de forma eficiente aplicaciones RAG, ya que incluye Document Loader, VectorStores y varios otros paquetes, lo que permite a los desarrolladores la flexibilidad para crear flujos de trabajo complejos. También pueden inspeccionar, monitorear y evaluar aplicaciones con LangSmith para optimizar e implementar constantemente cualquier cadena en una API REST con LangServe. LangChain codifica las mejores prácticas para las aplicaciones RAG y proporciona interfaces estándar para los diversos componentes necesarios para construir aplicaciones RAG.
+
+
+
+=== LlamaIndex
+
+LlamaIndex es un marco de datos simple y flexible para conectar fuentes de datos personalizadas a aplicaciones basadas en modelos de lenguaje grande (LLM). Le permite ingerir datos de API, bases de datos, PDF y más a través de conectores de datos flexibles. LLMs como Llama 3 y GPT-4 vienen pre-entrenados en conjuntos de datos públicos masivos, lo que permite increíbles capacidades de procesamiento de lenguaje natural listas para usar. Sin embargo, su utilidad está limitada sin acceso a sus propios datos privados. LlamaIndex proporciona bibliotecas Python y typescript muy populares y está liderando la industria en técnicas de generación aumentada de recuperación (RAG).
+
+
+
+== Microservicios Nemo de NVIDIA
+
+NVIDIA Nemo es una plataforma integral para crear y personalizar modelos de IA generativa de clase empresarial que se pueden implementar en cualquier lugar, en el cloud y en centros de datos. Nemo ofrece microservicios que simplifican el proceso de desarrollo y puesta en marcha de IA generativas a escala, lo que permite a las organizaciones conectar las LLM con sus orígenes de datos empresariales. En el momento de escribir este artículo, los microservicios Nemo están disponibles a través de un programa de acceso temprano de NVIDIA.
+
+
+
+=== Microservicios de inferencia Nemo de NVIDIA (NIMS)
+
+NVIDIA NIMS, parte de NVIDIA AI Enterprise, proporciona una ruta optimizada para desarrollar aplicaciones empresariales impulsadas por IA e implementar modelos de IA en producción. NIMS es un microservicio de inferencia en contenedores que incluye API estándar del sector, código específico de dominio, motores de inferencia optimizados y tiempo de ejecución empresarial.
+
+
+
+=== Nemo Retriever de NVIDIA
+
+NVIDIA Nemo Retriever, el servicio más reciente en el marco de NVIDIA Nemo, optimiza la parte de incrustación y recuperación de RAG para ofrecer una mayor precisión y respuestas más eficientes. NVIDIA Nemo Retriever es un servicio de recuperación de información que se puede implementar on-premises o en la nube. Proporciona una ruta segura y simplificada para que las empresas integren capacidades RAG de clase empresarial en sus aplicaciones de IA de producción personalizadas.
+
+
+
+== Operador de NVIDIA Enterprise RAG LLM
+
+El operador del modelo de lenguaje grande (LLM) de generación aumentada de recuperación empresarial de NVIDIA (RAG) habilita los componentes y servicios de software necesarios para ejecutar las canalizaciones de RAG en Kubernetes. Proporciona acceso temprano a un operador que administra el ciclo de vida de los componentes clave para las tuberías RAG, como el microservicio de inferencia NVIDIA y el microservicio de inclusión NVIDIA Nemo Retriever. Para obtener más información, consulte https://docs.nvidia.com/ai-enterprise/rag-llm-operator/0.4.1/index.html["Operador de NVIDIA Enterprise RAG LLM"^]
+
+
+
+== Base de datos vectorial
+
+
+
+=== PostgreSQL: Pgvector
+
+Con sus enlaces nativos para muchos algoritmos clásicos DE ML como XGBoost, hacer aprendizaje automático con SQL no es algo nuevo para PostgreSQL. Últimamente, con su lanzamiento de pgvector, una extensión de código abierto para la búsqueda de similitud vectorial, PostgreSQL tiene la capacidad de almacenar y buscar incrustaciones generadas POR ML, una característica útil para casos de uso de IA y aplicaciones que utilizan LLMs.
+
+La canalización de ejemplo predeterminada en nuestra validación con el operador NVIDIA Enterprise RAG LLM, inicia la base de datos pgvector en un pod. A continuación, el servidor de consultas se conecta a la base de datos pgvector para almacenar y recuperar las incrustaciones. La aplicación web del bot de chat y el servidor de consultas se comunican con los microservicios y la base de datos vectorial para responder a las peticiones de datos del usuario.
+
+
+
+=== Milvus
+
+Como una base de datos vectorial versátil que ofrece una API, al igual que MongoDB, Milvus destaca por su compatibilidad con una amplia variedad de tipos de datos y características como la multivectorización, por lo que es una opción popular para la ciencia de datos y el aprendizaje automático. Tiene la capacidad de almacenar, indexar y gestionar más de mil millones de vectores de incrustación generados por los modelos de redes neuronales profundas (DNN) y aprendizaje automático (ML). Los clientes pueden crear una aplicación RAG con el microservicio Nvidia NIM & Nemo y Milvus como base de datos vectorial. Una vez que el contenedor NVIDIA Nemo se ha desplegado correctamente para la generación de incrustaciones, el contenedor Milvus se puede implementar para almacenar esas incrustaciones. Para obtener más información sobre las bases de datos vectoriales y NetApp, consulte https://docs.netapp.com/us-en/netapp-solutions/ai/vector-database-solution-with-netapp.html["Arquitectura de referencia: Solución de base de datos vectorial con NetApp"^].
+
+
+
+=== Cassandra de Apache
+
+Apache Cassandra®, una base de datos NoSQL de código abierto, altamente escalable y de alta disponibilidad. Se envía con capacidades de búsqueda vectorial y admite tipos de datos vectoriales y funciones de búsqueda de similitud vectorial, particularmente útil para aplicaciones de IA que involucran LLMs y tuberías RAG privadas.
+
+NetApp Instaclustr proporciona un servicio totalmente administrado para Apache Cassandra®, alojado en la nube o en las instalaciones. Permite a los clientes de NetApp aprovisionar un clúster Apache Cassandra® y conectarse al clúster mediante C#, Node.js, AWS PrivateLink y varias otras opciones a través de la consola Instaclustr o la API de aprovisionamiento Instaclstr.
+
+Además, NetApp ONTAP actúa como proveedor de almacenamiento persistente para un clúster en contenedores de Apache Cassandra que se ejecuta en Kubernetes. Astra Control de NetApp amplía sin problemas las ventajas de la gestión de datos de ONTAP en aplicaciones de Kubernetes que utilizan una gran cantidad de datos, como Apache Cassandra. Para obtener más información al respecto, consulte https://cloud.netapp.com/hubfs/SB-4134-0321-DataStax-Cassandra-Guide%20(1).pdf["Gestión de datos para aplicaciones para DataStax Enterprise con Astra Control de NetApp y almacenamiento ONTAP"^]
+
+
+
+=== Instaclustr. De NetApp
+
+Instaclustr ayuda a las organizaciones a entregar aplicaciones a escala ofreciendo soporte a su infraestructura de datos mediante su plataforma SaaS para tecnologías de código abierto. Los desarrolladores de IA generativa que desean integrar la comprensión semántica en sus aplicaciones de búsqueda tienen una multitud de opciones. Instaclustr para Postgres admite extensiones pgvector. Instaclustr para OpenSearch admite la búsqueda vectorial para recuperar documentos relevantes basados en consultas de entrada junto con las funciones vecinas más cercanas. Instaclustr para Redis puede almacenar datos vectoriales, recuperar vectores y realizar búsquedas vectoriales. Para obtener más información, lea https://www.instaclustr.com/platform/["The Instaclustr Platform de NetApp"^]
+
+
+
+== BlueXP de NetApp
+
+NetApp BlueXP unifica todos los servicios de datos y almacenamiento de NetApp en una única herramienta que te permite crear, proteger y gobernar tus activos de datos multicloud híbridos. Proporciona una experiencia unificada para el almacenamiento y los servicios de datos en entornos en las instalaciones y en el cloud, y permite la sencillez operativa a través de la potencia de AIOps, con los parámetros de consumo flexible y la protección integrada que necesita el mundo actual dirigido por el cloud.
+
+
+
+== Cloud Insights de NetApp
+
+Cloud Insights de NetApp es una herramienta de supervisión de infraestructura de cloud que le proporciona visibilidad sobre su infraestructura completa. Con Cloud Insights, puede supervisar, solucionar problemas y optimizar todos los recursos, incluidos los clouds públicos y los centros de datos privados. Cloud Insights ofrece visibilidad de toda la pila de la infraestructura y aplicaciones de cientos de recopiladores para infraestructuras y cargas de trabajo heterogéneas, incluido Kubernetes, todo en un mismo lugar. Para obtener más información, consulte https://docs.netapp.com/us-en/cloudinsights/index.html["¿Qué puede hacer Cloud Insights por mí?"^]
+
+
+
+== StorageGRID de NetApp
+
+StorageGRID de NetApp es una suite de almacenamiento de objetos definido por software que admite diferentes casos de uso en entornos de multinube pública, privada e híbrida. StorageGRID ofrece compatibilidad nativa con la API de Amazon S3 y proporciona innovaciones líderes en el sector, como la gestión automatizada del ciclo de vida, para almacenar, proteger y conservar datos no estructurados de forma rentable durante largos periodos.
+
+
+
+== Spot de NetApp
+
+Spot de NetApp automatiza y optimiza su infraestructura de cloud en AWS Azure o Google Cloud para proporcionar niveles de disponibilidad y rendimiento respaldados por SLA por el menor coste posible. Spot usa aprendizaje automático y algoritmos analíticos que le permiten aprovechar la capacidad supervisada en las cargas de trabajo críticas y de producción. Los clientes que ejecutan instancias basadas en GPU pueden beneficiarse de Spot y reducir sus costes informáticos.
+
+
+
+== ONTAP de NetApp
+
+ONTAP 9, la última generación del software de gestión del almacenamiento de NetApp, permite a las empresas modernizar su infraestructura y realizar la transición a un centro de datos preparado para el cloud. ONTAP ofrece las mejores capacidades de gestión de datos y permite la gestión y protección de los datos con un solo conjunto de herramientas, sin importar dónde residan. También puede mover los datos libremente a donde sea necesario: El perímetro, el núcleo o el cloud. ONTAP 9 incluye numerosas funciones que simplifican la gestión de datos, aceleran y protegen los datos esenciales y permiten disfrutar de funcionalidades de infraestructura de nueva generación en arquitecturas de cloud híbrido.
+
+
+
+=== Simplificar la gestión de los datos
+
+La gestión de los datos es crucial para las operaciones TECNOLÓGICAS empresariales y los científicos de datos, para que se utilicen recursos apropiados para las aplicaciones de IA y para entrenar conjuntos de datos de IA/ML. La siguiente información adicional sobre las tecnologías de NetApp no está disponible para esta validación, pero puede ser relevante en función de su puesta en marcha.
+
+El software para la gestión de datos ONTAP incluye las siguientes funciones para mejorar y simplificar las operaciones, y reducir el coste total de funcionamiento:
+
+* Compactación de datos inline y deduplicación expandida. La compactación de datos reduce el espacio perdido dentro de los bloques de almacenamiento, mientras que la deduplicación aumenta la capacidad efectiva de forma significativa. Esto es aplicable a los datos almacenados localmente y a los datos organizados en niveles en el cloud.
+* Calidad de servicio (AQoS) mínima, máxima y adaptativa. Los controles granulares de calidad de servicio (QoS) ayudan a mantener los niveles de rendimiento para aplicaciones críticas en entornos altamente compartidos.
+* FabricPool de NetApp. Proporciona la organización automática en niveles de datos fríos en opciones de almacenamiento en cloud privado como Amazon Web Services (AWS), Azure y la solución de almacenamiento StorageGRID de NetApp. Para obtener más información sobre FabricPool, consulte https://www.netapp.com/pdf.html?item=/media/17239-tr4598pdf.pdf["TR-4598: Prácticas recomendadas de FabricPool"^].
+
+
+
+
+=== Acelere y proteja sus datos
+
+ONTAP no solo ofrece niveles de rendimiento y protección de datos superiores, sino que amplía estas capacidades de las siguientes maneras:
+
+* Rendimiento y menor latencia. ONTAP ofrece la salida más alta posible con la menor latencia posible.
+* Protección de datos. ONTAP ofrece capacidades integradas de protección de datos, con una administración común entre todas las plataformas.
+* Cifrado de volúmenes de NetApp (NVE). ONTAP ofrece cifrado nativo en el nivel de volumen y permite la gestión de claves incorporada o externa.
+* Multi-tenancy y autenticación multifactor. ONTAP permite compartir recursos de infraestructura con los niveles más altos de seguridad.
+
+
+
+
+=== Infraestructura preparada para futuros retos
+
+ONTAP ayuda a satisfacer las exigentes y siempre cambiantes necesidades de su empresa con las siguientes funciones:
+
+* Escalado sencillo y operaciones no disruptivas. ONTAP admite la adición no disruptiva de capacidad a las controladoras existentes y a clústeres de escalado horizontal. Los clientes pueden empezar a utilizar tecnologías punteras como NVMe y FC 32 GB, sin necesidad de realizar costosas migraciones de datos y sin cortes.
+* Conexión de cloud. ONTAP es el software de gestión de almacenamiento con mejor conexión de cloud e incluye opciones de almacenamiento definido por software e instancias nativas del cloud en todos los clouds públicos.
+* Integración con aplicaciones emergentes. ONTAP ofrece servicios de datos de clase empresarial para plataformas y aplicaciones de última generación, como vehículos autónomos, ciudades inteligentes e Industria 4.0, utilizando la misma infraestructura que da soporte a las aplicaciones empresariales existentes.
+
+
+
+
+== Amazon FSX para ONTAP de NetApp
+
+Amazon FSx para NetApp ONTAP es un servicio AWS de primer proveedor totalmente gestionado que proporciona un almacenamiento de archivos altamente fiable, escalable, de alto rendimiento y con muchas funciones integrado en el popular sistema de archivos ONTAP de NetApp. FSX para ONTAP combina las funciones, el rendimiento, las funcionalidades y las operaciones API de los sistemas de archivos de NetApp con la agilidad, la escalabilidad y la simplicidad de un servicio AWS totalmente gestionado.
+
+
+
+== Azure NetApp Files
+
+Azure NetApp Files es un servicio de almacenamiento de archivos de alto rendimiento, de clase empresarial y nativo de Azure. Admite volúmenes de protocolos SMB, NFS y dobles y puede utilizarse para casos de uso como:
+
+* Uso compartido de archivos.
+* Directorios iniciales.
+* Bases de datos.
+* Informática de alto rendimiento
+* IA generativa.
+
+
+
+
+== NetApp Volumes para Google Cloud
+
+Google Cloud NetApp Volumes es un servicio de almacenamiento de datos basado en el cloud y totalmente gestionado que ofrece capacidades de gestión de datos avanzadas y un rendimiento muy escalable. Los datos alojados en NetApp se pueden usar en operaciones de RAG (generación aumentada de recuperación) de la plataforma Vertex AI de Google en una arquitectura de referencia de un kit de herramientas vista previa.
+
+
+
+== Astra Trident de NetApp
+
+Astra Trident permite el consumo y la gestión de recursos de almacenamiento en todas las plataformas de almacenamiento de NetApp más conocidas, tanto en el cloud público como en las instalaciones, incluidos ONTAP (AFF, FAS, Select, Cloud, Amazon FSx para NetApp ONTAP), el software Element (NetApp HCI, SolidFire), el servicio Azure NetApp Files y Cloud Volumes Service en Google Cloud. Astra Trident es una interfaz de almacenamiento de contenedores (CSI) que ordena el almacenamiento dinámico conforme a la normativa que se integra de forma nativa con Kubernetes.
+
+
+
+== Kubernetes
+
+Kubernetes es una plataforma de orquestación de contenedores distribuida de código abierto que originalmente diseñada por Google y que ahora se mantiene mediante Cloud Native Computing Foundation (CNCF). Kubernetes permite la automatización de funciones de puesta en marcha, gestión y escalado para aplicaciones en contenedores, y es la plataforma de orquestación de contenedores dominante en entornos empresariales.
