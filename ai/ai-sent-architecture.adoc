@@ -34,7 +34,7 @@ En los centros de datos acelerados por GPU, las empresas pueden utilizar NVIDIA 
 
 Esta solución muestra los pasos detallados del procesamiento de archivos de audio, el entrenamiento de modelos NLP, el aprendizaje de transferencias y la administración de datos. La canalización integral resultante genera un resumen de sentimiento que se muestra en tiempo real en los paneles de control de los agentes de apoyo humano.
 
-image:ai-sent-image4.png["Error: Falta la imagen gráfica"]
+image:ai-sent-image4.png[""]
 
 
 
@@ -233,12 +233,12 @@ Esta solución se aplica a los siguientes casos de uso:
 * Análisis de la confianza
 
 
-image:ai-sent-image6.png["Error: Falta la imagen gráfica"]
+image:ai-sent-image6.png[""]
 
 El caso práctico de voz a texto comienza ingiriendo archivos de audio para los centros de soporte. Este audio se procesa entonces para ajustarse a la estructura requerida por RIVA. Si los archivos de audio aún no se han dividido en sus unidades de análisis, esto se debe hacer antes de pasar el audio a RIVA. Una vez procesado el archivo de audio, se pasa al servidor RIVA como una llamada API. El servidor emplea uno de los muchos modelos que aloja y devuelve una respuesta. Este mensaje de voz a texto (parte del reconocimiento automático de voz) devuelve una representación de texto del audio. A partir de ahí, la canalización pasa a la parte del análisis de confianza.
 
 Para el análisis de confianza, la salida de texto del reconocimiento automático de voz sirve como entrada a la clasificación de texto. Text Classification es el componente NVIDIA para clasificar el texto en cualquier número de categorías. Las categorías de sentimiento varían de positivo a negativo para las conversaciones del centro de apoyo. El rendimiento de los modelos se puede evaluar utilizando un conjunto de holdout para determinar el éxito del paso de ajuste fino.
 
-image:ai-sent-image8.png["Error: Falta la imagen gráfica"]
+image:ai-sent-image8.png[""]
 
 Una canalización similar se utiliza tanto para el análisis de voz a texto como para el análisis de sentimiento dentro del TAO Toolkit. La principal diferencia es el uso de etiquetas que se requieren para la afinación de los modelos. La canalización del kit de herramientas TAO comienza con el procesamiento de los archivos de datos. A continuación, los modelos preformados (procedentes de https://ngc.nvidia.com/catalog["Catálogo de NVIDIA NGC"^]) se ajustan con precisión mediante los datos del centro de soporte. Los modelos ajustados con precisión se evalúan en función de sus mediciones de rendimiento correspondientes y, si tienen un rendimiento superior al de los modelos preformados, se implementan en EL servidor RIVA.

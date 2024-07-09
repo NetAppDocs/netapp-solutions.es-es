@@ -29,11 +29,11 @@ Una secuencia típica de desarrollo e implementación de modelos ML implica paso
 * Monitoringcnvrg.io ha desarrollado una plataforma completa para automatizar todas las tareas, desde la investigación hasta la implementación. En la siguiente figura se muestra una pequeña muestra de capturas de pantalla del panel relativas a la canalización.
 
 
-image:hcaios_image2.png["Error: Falta la imagen gráfica"]
+image:hcaios_image2.png[""]
 
 Es muy común tener múltiples conjuntos de datos en juego desde los repositorios públicos y los datos privados. Además, es probable que cada conjunto de datos tenga varias versiones como resultado de la limpieza del conjunto de datos o la ingeniería de funciones. Se necesita un panel que proporcione un concentrador de conjuntos de datos y un concentrador de versiones para garantizar que las herramientas de colaboración y consistencia estén disponibles para el equipo, como se puede ver en la siguiente figura.
 
-image:hcaios_image3.png["Error: Falta la imagen gráfica"]
+image:hcaios_image3.png[""]
 
 El siguiente paso de la canalización es el entrenamiento, que requiere varias instancias paralelas de modelos de entrenamiento, cada uno asociado con un conjunto de datos y una determinada instancia de computación. La vinculación de un conjunto de datos con un cierto experimento con una determinada instancia informática es un reto, ya que es posible que algunos experimentos se realicen mediante instancias de GPU de Amazon Web Services (AWS), mientras que otras instancias de DGX-1 o DGX-2 se llevan a cabo en las instalaciones. Es posible que se ejecuten otros experimentos en servidores de CPU en GCP, mientras que la ubicación del conjunto de datos no está muy cerca de los recursos informáticos que realizan el entrenamiento. Una proximidad razonable tendría conectividad de 10 GbE completa o más baja latencia desde el almacenamiento del conjunto de datos a la instancia de computación.
 
@@ -54,4 +54,4 @@ Esta solución de NetApp y cnvrg.io proporciona almacenamiento en caché de conj
 
 La plataforma cnvrg.io detecta automáticamente conjuntos de datos antiguos que no se han utilizado durante un cierto tiempo y los desaloja de la caché, por lo que mantiene un espacio libre de la caché NFS para conjuntos de datos utilizados con mayor frecuencia. Es importante tener en cuenta que el almacenamiento en caché del conjunto de datos con ONTAP funciona en el cloud y en las instalaciones, por lo que proporciona la máxima flexibilidad.
 
-image:hcaios_image4.png["Error: Falta la imagen gráfica"]
+image:hcaios_image4.png[""]

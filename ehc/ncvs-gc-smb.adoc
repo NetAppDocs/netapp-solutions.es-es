@@ -45,7 +45,7 @@ Por ejemplo, este volumen Cloud Volumes Service utiliza la siguiente ruta de uso
 
 En Active Directory, estas son las entradas de SPN generadas por el servicio Cloud Volumes:
 
-image:ncvs-gc-image6.png["Error: Falta la imagen gráfica"]
+image:ncvs-gc-image6.png[""]
 
 Este es el resultado de búsqueda directa/inversa de DNS:
 
@@ -71,7 +71,7 @@ En algunos casos, podría ser una preocupación de seguridad para los usuarios f
 
 Si desea crear alias para la ruta de acceso compartida SMB, puede aprovechar lo que se conoce como registro CNAME en DNS. Por ejemplo, si desea usar el nombre `\\CIFS` para acceder a los recursos compartidos en lugar de `\\cvs-east- 433d.cvsdemo.local`, Pero todavía desea utilizar la autenticación Kerberos, un CNAME en DNS que señala al registro A/AAAA existente y un SPN adicional agregado a la cuenta de equipo existente proporciona acceso Kerberos.
 
-image:ncvs-gc-image7.png["Error: Falta la imagen gráfica"]
+image:ncvs-gc-image7.png[""]
 
 Este es el resultado de búsqueda directa de DNS resultante después de agregar un CNAME:
 
@@ -85,11 +85,11 @@ Aliases:  cifs.cvsdemo.local
 ....
 Esta es la consulta SPN resultante tras agregar nuevos números de dominio:
 
-image:ncvs-gc-image8.png["Error: Falta la imagen gráfica"]
+image:ncvs-gc-image8.png[""]
 
 En una captura de paquete, podemos ver la solicitud de configuración de sesión mediante el SPN vinculado al CNAME.
 
-image:ncvs-gc-image9.png["Error: Falta la imagen gráfica"]
+image:ncvs-gc-image9.png[""]
 
 
 
@@ -148,9 +148,9 @@ De forma predeterminada, las ACL compartidas y las ACL de volumen inicial incluy
 
 Por ejemplo, si a un usuario solo se le permite acceso de lectura a la ACL del archivo de volumen Cloud Volumes Service, se les deniega el acceso para crear archivos y carpetas aunque la ACL de uso compartido esté establecida en todos los usuarios con control completo, como se muestra en la siguiente figura.
 
-image:ncvs-gc-image10.png["Error: Falta la imagen gráfica"]
+image:ncvs-gc-image10.png[""]
 
-image:ncvs-gc-image11.png["Error: Falta la imagen gráfica"]
+image:ncvs-gc-image11.png[""]
 
 Para obtener los mejores resultados de seguridad, haga lo siguiente:
 
@@ -172,7 +172,7 @@ Algunas de estas opciones dependen del nivel de Cloud Volumes Service (rendimien
 * *Hacer visible el directorio de la instantánea (disponible tanto para CVS-Performance como para CVS-SW).* esta opción controla si los clientes de SMB pueden acceder al directorio de la instantánea en un recurso compartido de SMB (`\\server\share\~snapshot` Y/o la ficha versiones anteriores). La configuración predeterminada no está activada, lo que significa que el volumen se oculta y se despermite el acceso a la `~snapshot` y no aparecen copias Snapshot en la pestaña versiones anteriores del volumen.
 
 
-image:ncvs-gc-image12.png["Error: Falta la imagen gráfica"]
+image:ncvs-gc-image12.png[""]
 
 Ocultar copias Snapshot de usuarios finales puede ser conveniente por motivos de seguridad, por motivos de rendimiento (ocultar estas carpetas de los análisis AV) o por preferencias. Las instantáneas Cloud Volumes Service son de sólo lectura, por lo que aunque estas Snapshots estén visibles, los usuarios finales no pueden eliminar ni modificar archivos en el directorio Snapshot. Se aplican permisos de archivo en los archivos o carpetas en el momento en que se realizó la copia snapshot. Si los permisos de un archivo o carpeta cambian entre copias Snapshot, los cambios también se aplican a los archivos o carpetas del directorio Snapshot. Los usuarios y grupos pueden obtener acceso a estos archivos o carpetas en función de los permisos. Aunque no es posible eliminar o modificar archivos del directorio Snapshot, es posible copiar archivos o carpetas fuera del directorio Snapshot.
 
@@ -202,11 +202,11 @@ Cuando se especifica un usuario que se va a agregar a los usuarios de copia de s
 
 Cuando agrega un usuario a usuarios de privilegios de seguridad, se le da al usuario SeSecurityPrivilege, que es útil en algunos casos de uso de aplicaciones, como https://docs.netapp.com/us-en/ontap/smb-hyper-v-sql/add-sesecurityprivilege-user-account-task.html["SQL Server en recursos compartidos de SMB"^].
 
-image:ncvs-gc-image13.png["Error: Falta la imagen gráfica"]
+image:ncvs-gc-image13.png[""]
 
 Puede ver las pertenencias a grupos locales de Cloud Volumes Service a través de MMC con los privilegios adecuados. La siguiente figura muestra los usuarios que se han agregado mediante la consola de Cloud Volumes Service.
 
-image:ncvs-gc-image14.png["Error: Falta la imagen gráfica"]
+image:ncvs-gc-image14.png[""]
 
 La siguiente tabla muestra la lista de grupos BUILTIN predeterminados y qué usuarios/grupos se agregan de forma predeterminada.
 
@@ -232,9 +232,9 @@ La siguiente tabla muestra la lista de grupos BUILTIN predeterminados y qué usu
 
 Puede ver los usuarios y grupos locales (y los miembros del grupo) en la ventana MMC, pero no puede agregar ni eliminar objetos ni cambiar las pertenencias a grupos desde esta consola. De forma predeterminada, sólo el grupo Administradores de dominio y Administrador se agregan al grupo BUILTIN\Administradores de Cloud Volumes Service. Actualmente, no puede modificarlo.
 
-image:ncvs-gc-image15.png["Error: Falta la imagen gráfica"]
+image:ncvs-gc-image15.png[""]
 
-image:ncvs-gc-image16.png["Error: Falta la imagen gráfica"]
+image:ncvs-gc-image16.png[""]
 
 
 
@@ -250,9 +250,9 @@ Cuando se ven los recursos compartidos de SMB con los permisos adecuados, se ven
 
 Recuerde que sólo se permite una conexión de Active Directory por región.
 
-image:ncvs-gc-image17.png["Error: Falta la imagen gráfica"]
+image:ncvs-gc-image17.png[""]
 
-image:ncvs-gc-image18.png["Error: Falta la imagen gráfica"]
+image:ncvs-gc-image18.png[""]
 
 En la siguiente tabla se muestra una lista de las funciones compatibles/no admitidas para MMC.
 

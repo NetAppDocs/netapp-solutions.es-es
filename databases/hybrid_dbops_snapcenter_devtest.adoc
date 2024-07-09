@@ -23,22 +23,22 @@ La agilidad del cloud público, la rentabilidad de la inversión y la reducción
 
 . Inicie sesión en SnapCenter con un ID de usuario de administración de bases de datos para Oracle. Desplácese hasta la pestaña Resources, donde se muestran las bases de datos de Oracle que está protegida por SnapCenter.
 +
-image:snapctr_ora_clone_01.PNG["Error: Falta la imagen gráfica"]
+image:snapctr_ora_clone_01.PNG[""]
 
 . Haga clic en el nombre de la base de datos en las instalaciones indicado para la topología de backup y la vista detallada. Si se habilita una ubicación de replicación secundaria, se muestran backups de reflejos vinculados.
 +
-image:snapctr_ora_clone_02.PNG["Error: Falta la imagen gráfica"]
+image:snapctr_ora_clone_02.PNG[""]
 
 . Para alternar la vista de backups reflejados, haga clic en backups reflejados. Luego, se muestran los backups de reflejos secundarios.
 +
-image:snapctr_ora_clone_03.PNG["Error: Falta la imagen gráfica"]
+image:snapctr_ora_clone_03.PNG[""]
 
 . Elija una copia de backup de base de datos secundaria reflejada que se clonará y determine un punto de recuperación por tiempo y número de cambio de sistema o por SCN. Por lo general, el punto de recuperación debe contener el tiempo de backup completo de la base de datos o el SCN que se va a clonar. Una vez decidido un punto de recuperación, es necesario montar el backup de archivo de registro necesario para la recuperación. El backup del archivo de registro debe montarse en el servidor de la base de datos de destino donde se va a alojar la base de datos del clon.
 +
-image:snapctr_ora_clone_04.PNG["Error: Falta la imagen gráfica"]
+image:snapctr_ora_clone_04.PNG[""]
 
 +
-image:snapctr_ora_clone_05.PNG["Error: Falta la imagen gráfica"]
+image:snapctr_ora_clone_05.PNG[""]
 
 +
 
@@ -46,42 +46,42 @@ NOTE: Si se habilita la eliminación de registros y el punto de recuperación se
 
 . Destaque la copia de backup completa de la base de datos que se va a clonar y haga clic en el botón clonar para iniciar el flujo de trabajo de clonado de base de datos.
 +
-image:snapctr_ora_clone_06.PNG["Error: Falta la imagen gráfica"]
+image:snapctr_ora_clone_06.PNG[""]
 
 . Elija un SID de base de datos del clon adecuado para una base de datos completa del contenedor o un clon de la CDB.
 +
-image:snapctr_ora_clone_07.PNG["Error: Falta la imagen gráfica"]
+image:snapctr_ora_clone_07.PNG[""]
 
 . Seleccione el host del clon objetivo en el cloud y el flujo de trabajo del clon creará el archivo de datos, el archivo de control y los directorios de registro de recuperación.
 +
-image:snapctr_ora_clone_08.PNG["Error: Falta la imagen gráfica"]
+image:snapctr_ora_clone_08.PNG[""]
 
 . El nombre de la credencial None se utiliza para la autenticación basada en el sistema operativo, lo que hace que el puerto de la base de datos sea irrelevante. Rellene el directorio inicial de Oracle, el usuario del sistema operativo Oracle y el grupo del sistema operativo Oracle que se hayan configurado en el servidor de la base de datos del clon de destino.
 +
-image:snapctr_ora_clone_09.PNG["Error: Falta la imagen gráfica"]
+image:snapctr_ora_clone_09.PNG[""]
 
 . Especifique los scripts que se ejecutarán antes de la operación de clonado. Lo que es más importante, el parámetro de instancia de base de datos se puede ajustar o definir aquí.
 +
-image:snapctr_ora_clone_10.PNG["Error: Falta la imagen gráfica"]
+image:snapctr_ora_clone_10.PNG[""]
 
 . Especifique el punto de recuperación por fecha y hora o SCN. Until Cancel recupera la base de datos hasta los registros de archivo disponibles. Especifique la ubicación del registro de archivos externo desde el host de destino donde se monta el volumen de registro de archivos. Si el propietario de Oracle del servidor de destino es diferente del servidor de producción local, compruebe que el propietario de Oracle del servidor de destino puede leer el directorio de registro de archivado.
 +
-image:snapctr_ora_clone_11.PNG["Error: Falta la imagen gráfica"]
+image:snapctr_ora_clone_11.PNG[""]
 
 +
-image:snapctr_ora_clone_12.PNG["Error: Falta la imagen gráfica"]
+image:snapctr_ora_clone_12.PNG[""]
 
 . Configure el servidor SMTP para la notificación por correo electrónico si lo desea.
 +
-image:snapctr_ora_clone_13.PNG["Error: Falta la imagen gráfica"]
+image:snapctr_ora_clone_13.PNG[""]
 
 . Resumen de clones.
 +
-image:snapctr_ora_clone_14.PNG["Error: Falta la imagen gráfica"]
+image:snapctr_ora_clone_14.PNG[""]
 
 . Debe validar después de la clonación para asegurarse de que la base de datos clonada funcione. Algunas tareas adicionales, como iniciar el listener o desactivar el modo de archivo de registro de DB, se pueden realizar en la base de datos de prueba/desarrollo.
 +
-image:snapctr_ora_clone_15.PNG["Error: Falta la imagen gráfica"]
+image:snapctr_ora_clone_15.PNG[""]
 
 
 
@@ -91,46 +91,46 @@ image:snapctr_ora_clone_15.PNG["Error: Falta la imagen gráfica"]
 
 . Inicie sesión en SnapCenter con un ID de usuario de administración de bases de datos para SQL Server. Desplácese hasta la pestaña Resources, donde se muestran las bases de datos de usuario SQL Server protegidas por SnapCenter y una instancia de SQL en espera de destino en la nube pública.
 +
-image:snapctr_sql_clone_01.PNG["Error: Falta la imagen gráfica"]
+image:snapctr_sql_clone_01.PNG[""]
 
 . Haga clic en el nombre previsto de la base de datos de usuario de SQL Server en las instalaciones para obtener la topología y la vista detallada de las copias de seguridad. Si se habilita una ubicación de replicación secundaria, se muestran backups de reflejos vinculados.
 +
-image:snapctr_sql_clone_02.PNG["Error: Falta la imagen gráfica"]
+image:snapctr_sql_clone_02.PNG[""]
 
 . Para alternar a la vista Mirrored backups, haga clic en Mirrored backups. Luego, se mostrarán los backups de reflejo secundarios. Dado que SnapCenter realiza un backup del registro de transacciones de SQL Server en una unidad dedicada para la recuperación, solo se muestran aquí backups completos de la base de datos.
 +
-image:snapctr_sql_clone_03.PNG["Error: Falta la imagen gráfica"]
+image:snapctr_sql_clone_03.PNG[""]
 
 . Seleccione una copia de backup y, a continuación, haga clic en el botón Clone para iniciar el flujo de trabajo Clone desde Backup.
 +
-image:snapctr_sql_clone_04_1.PNG["Error: Falta la imagen gráfica"]
+image:snapctr_sql_clone_04_1.PNG[""]
 
 +
-image:snapctr_sql_clone_04.PNG["Error: Falta la imagen gráfica"]
+image:snapctr_sql_clone_04.PNG[""]
 
 . Seleccione un servidor en cloud como el servidor de clonado de destino, el nombre de la instancia de clon y el nombre de la base de datos de clonado. Seleccione un punto de montaje de asignación automática o una ruta de punto de montaje definida por el usuario.
 +
-image:snapctr_sql_clone_05.PNG["Error: Falta la imagen gráfica"]
+image:snapctr_sql_clone_05.PNG[""]
 
 . Determine un punto de recuperación por hora de backup del registro o por una fecha y hora específicas.
 +
-image:snapctr_sql_clone_06.PNG["Error: Falta la imagen gráfica"]
+image:snapctr_sql_clone_06.PNG[""]
 
 . Especifique scripts opcionales que ejecutar antes y después de la operación de clonado.
 +
-image:snapctr_sql_clone_07.PNG["Error: Falta la imagen gráfica"]
+image:snapctr_sql_clone_07.PNG[""]
 
 . Configure un servidor SMTP si se desea recibir una notificación por correo electrónico.
 +
-image:snapctr_sql_clone_08.PNG["Error: Falta la imagen gráfica"]
+image:snapctr_sql_clone_08.PNG[""]
 
 . Resumen de clones.
 +
-image:snapctr_sql_clone_09.PNG["Error: Falta la imagen gráfica"]
+image:snapctr_sql_clone_09.PNG[""]
 
 . Supervise el estado del trabajo y valide que la base de datos de usuario prevista se ha adjuntado a una instancia de SQL de destino en el servidor de clones en cloud.
 +
-image:snapctr_sql_clone_10.PNG["Error: Falta la imagen gráfica"]
+image:snapctr_sql_clone_10.PNG[""]
 
 
 

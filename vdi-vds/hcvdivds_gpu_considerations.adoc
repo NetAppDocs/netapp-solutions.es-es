@@ -21,19 +21,19 @@ Para aplicaciones con un uso intensivo de gráficos, Microsoft Azure ofrece la s
 
 NOTE: Se incluye una licencia de NVIDIA con la serie NV.
 
-image:hcvdivds_image37.png["Error: Falta la imagen gráfica"]
+image:hcvdivds_image37.png[""]
 
 Con NetApp HCI, la GPU H615C contiene tres tarjetas NVIDIA Tesla T4. Cada tarjeta NVIDIA Tesla T4 dispone de una GPU basada en Touring con 16 GB de memoria GDDR6. Si se utiliza en un entorno VMware vSphere, los equipos virtuales pueden compartir la GPU y cada equipo virtual tiene una memoria de búfer de trama dedicada. El seguimiento de rayos está disponible con las GPU en la NetApp HCI H615C para generar imágenes realistas, incluidos reflejos de luz. Tenga en cuenta que debe tener un servidor de licencias de NVIDIA con una licencia para las funciones de GPU.
 
-image:hcvdivds_image38.png["Error: Falta la imagen gráfica"]
+image:hcvdivds_image38.png[""]
 
 Para utilizar la GPU, debe instalar el controlador apropiado, que puede descargarse desde el portal de licencias de NVIDIA. En un entorno de Azure, el controlador NVIDIA está disponible como extensión del controlador GPU. A continuación, las políticas de grupo de la siguiente captura de pantalla deben actualizarse para utilizar hardware GPU para sesiones de servicio de escritorio remoto. Debe priorizar el modo de gráficos H.264 y activar la funcionalidad de codificador.
 
-image:hcvdivds_image39.png["Error: Falta la imagen gráfica"]
+image:hcvdivds_image39.png[""]
 
 Valide la supervisión del rendimiento de la GPU con el Administrador de tareas o utilizando la interfaz de línea de comandos nvidia-smi cuando ejecute muestras WebGL. Asegúrese de que se están consumiendo recursos de GPU, memoria y codificador.
 
-image:hcvdivds_image40.png["Error: Falta la imagen gráfica"]
+image:hcvdivds_image40.png[""]
 
 Para asegurarse de que la máquina virtual se despliegue en NetApp HCI H615C con Virtual Desktop Service, defina un sitio con el recurso de clúster de vCenter que tenga hosts H615C. La plantilla de VM debe tener conectado el perfil vGPU requerido.
 

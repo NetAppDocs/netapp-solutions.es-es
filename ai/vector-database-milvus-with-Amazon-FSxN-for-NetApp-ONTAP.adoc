@@ -18,14 +18,14 @@ En esta sección se describe la configuración del cluster Milvus con Amazon FSx
 
 
 
-=== Milvus con Amazon FSxN para NetApp ONTAP: Dualidad de archivos y objetos
+== Milvus con Amazon FSxN para NetApp ONTAP: Dualidad de archivos y objetos
 
 En esta sección, ¿Por qué necesitamos implementar la base de datos vectorial en la nube, así como los pasos para implementar la base de datos vectorial (milvus standalone) en Amazon FSxN para NetApp ONTAP dentro de contenedores docker?
 
 La implementación de una base de datos vectorial en la nube ofrece varias ventajas significativas, especialmente para aplicaciones que requieren manejar datos de alta dimensión y ejecutar búsquedas de similitud. En primer lugar, la implementación basada en la nube ofrece escalabilidad, lo que permite un ajuste fácil de los recursos para que se adapten a los crecientes volúmenes de datos y las cargas de consultas. Esto garantiza que la base de datos pueda gestionar eficientemente el aumento de la demanda mientras mantiene un alto rendimiento. Segundo, la puesta en marcha de cloud proporciona alta disponibilidad y recuperación ante desastres, ya que los datos pueden replicarse entre distintas ubicaciones geográficas, lo que minimiza el riesgo de pérdida de datos y garantiza un servicio continuo incluso durante eventos inesperados. Tercero, proporciona rentabilidad, ya que solo paga por los recursos que utiliza y puede ampliar o reducir verticalmente en función de la demanda, evitando la necesidad de realizar una inversión inicial sustancial en hardware. Por último, la implementación de una base de datos vectorial en la nube puede mejorar la colaboración, ya que se puede acceder a los datos y compartirlos desde cualquier lugar, lo que facilita el trabajo en equipo y la toma de decisiones basadas en datos.
 Compruebe la arquitectura del milvus independiente con Amazon FSxN for NetApp ONTAP utilizada en esta validación.
 
-image:Amazon_fsxn_milvus.png["Error: Falta la imagen gráfica"]
+image:Amazon_fsxn_milvus.png[""]
 
 . Cree una instancia de Amazon FSxN para NetApp ONTAP y anote los detalles de la VPC, los grupos de seguridad de VPC y la subred. Esta información será necesaria al crear una instancia de EC2. Puedes encontrar más detalles aquí - https://us-east-1.console.aws.amazon.com/fsx/home?region=us-east-1#file-system-create[]
 . Cree una instancia de EC2, asegurándose de que la VPC, los grupos de seguridad y la subred coincidan con los de la instancia de Amazon FSxN para NetApp ONTAP.

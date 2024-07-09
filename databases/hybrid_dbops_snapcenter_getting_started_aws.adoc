@@ -50,31 +50,31 @@ NOTE: Existen muchos métodos para poner en marcha Cloud Manager y Cloud Volumes
 
 . Vaya a. https://cloud.netapp.com/cloud-manager["Cloud Central de NetApp"^] e inicie sesión o regístrese.
 +
-image:cloud_central_login_page.PNG["Error: Falta la imagen gráfica"]
+image:cloud_central_login_page.PNG[""]
 
 . Después de iniciar sesión, se le debe llevar al lienzo.
 +
-image:cloud_central_canvas_page.PNG["Error: Falta la imagen gráfica"]
+image:cloud_central_canvas_page.PNG[""]
 
 . Haga clic en "Add Working Environment" y elija Cloud Volumes ONTAP en AWS. Aquí, también puede elegir si desea poner en marcha un sistema de nodo único o un par de alta disponibilidad. He decidido implementar un par de alta disponibilidad.
 +
-image:cloud_central_add_we.PNG["Error: Falta la imagen gráfica"]
+image:cloud_central_add_we.PNG[""]
 
 . Si no se ha creado ningún conector, aparece una ventana emergente que le pide que cree un conector.
 +
-image:cloud_central_add_conn_1.PNG["Error: Falta la imagen gráfica"]
+image:cloud_central_add_conn_1.PNG[""]
 
 . Haga clic en lets Start y, a continuación, seleccione AWS.
 +
-image:cloud_central_add_conn_3.PNG["Error: Falta la imagen gráfica"]
+image:cloud_central_add_conn_3.PNG[""]
 
 . Introduzca la clave secreta y la clave de acceso. Asegúrese de que el usuario tiene los permisos correctos descritos en https://mysupport.netapp.com/site/info/cloud-manager-policies["Página de políticas de NetApp"^].
 +
-image:cloud_central_add_conn_4.PNG["Error: Falta la imagen gráfica"]
+image:cloud_central_add_conn_4.PNG[""]
 
 . Asigne al conector un nombre y utilice una función predefinida como se describe en https://mysupport.netapp.com/site/info/cloud-manager-policies["Página de políticas de NetApp"^] O pida a Cloud Manager que cree la función que usted desempeña.
 +
-image:cloud_central_add_conn_5.PNG["Error: Falta la imagen gráfica"]
+image:cloud_central_add_conn_5.PNG[""]
 
 . Proporcione la información de red necesaria para implementar el conector. Verifique que el acceso saliente a Internet esté habilitado por:
 +
@@ -82,25 +82,25 @@ image:cloud_central_add_conn_5.PNG["Error: Falta la imagen gráfica"]
 .. Dar al conector un proxy a través del cual trabajar
 .. Dar al conector una ruta a Internet pública a través de una puerta de enlace de Internet
 +
-image:cloud_central_add_conn_6.PNG["Error: Falta la imagen gráfica"]
+image:cloud_central_add_conn_6.PNG[""]
 
 
 
 . Proporcione comunicación con el conector a través de SSH, HTTP y HTTPS ya sea proporcionando un grupo de seguridad o creando un nuevo grupo de seguridad. Sólo he habilitado el acceso al conector desde mi dirección IP.
 +
-image:cloud_central_add_conn_7.PNG["Error: Falta la imagen gráfica"]
+image:cloud_central_add_conn_7.PNG[""]
 
 . Revise la información de la página de resumen y haga clic en Agregar para implementar el conector.
 +
-image:cloud_central_add_conn_8.PNG["Error: Falta la imagen gráfica"]
+image:cloud_central_add_conn_8.PNG[""]
 
 . El conector ahora se pone en marcha utilizando una pila de formación de cloud. Puede supervisar su progreso desde Cloud Manager o a través de AWS.
 +
-image:cloud_central_add_conn_9.PNG["Error: Falta la imagen gráfica"]
+image:cloud_central_add_conn_9.PNG[""]
 
 . Una vez completada la implementación, aparece una página Success.
 +
-image:cloud_central_add_conn_10.PNG["Error: Falta la imagen gráfica"]
+image:cloud_central_add_conn_10.PNG[""]
 
 
 
@@ -110,39 +110,39 @@ image:cloud_central_add_conn_10.PNG["Error: Falta la imagen gráfica"]
 
 . Seleccione AWS y el tipo de implementación según sus requisitos.
 +
-image:cloud_central_add_we_1.PNG["Error: Falta la imagen gráfica"]
+image:cloud_central_add_we_1.PNG[""]
 
 . Si no se ha asignado ninguna suscripción y desea comprarla con PAYGO, seleccione Editar credenciales.
 +
-image:cloud_central_add_we_2.PNG["Error: Falta la imagen gráfica"]
+image:cloud_central_add_we_2.PNG[""]
 
 . Seleccione Agregar suscripción.
 +
-image:cloud_central_add_we_3.PNG["Error: Falta la imagen gráfica"]
+image:cloud_central_add_we_3.PNG[""]
 
 . Elija el tipo de contrato al que desea suscribirse. Elegí el pago por uso.
 +
-image:cloud_central_add_we_4.PNG["Error: Falta la imagen gráfica"]
+image:cloud_central_add_we_4.PNG[""]
 
 . Se le redirigirá a AWS; elija continuar Suscribirse.
 +
-image:cloud_central_add_we_5.PNG["Error: Falta la imagen gráfica"]
+image:cloud_central_add_we_5.PNG[""]
 
 . Suscríbase y se le redirigirá a Cloud Central de NetApp. Si ya se ha suscrito y no se redirecciona, elija el enlace "haga clic aquí".
 +
-image:cloud_central_add_we_6.PNG["Error: Falta la imagen gráfica"]
+image:cloud_central_add_we_6.PNG[""]
 
 . Se le redirigirá a Cloud Central, donde debe dar un nombre a su suscripción y asignarla a su cuenta de Cloud Central.
 +
-image:cloud_central_add_we_7.PNG["Error: Falta la imagen gráfica"]
+image:cloud_central_add_we_7.PNG[""]
 
 . Cuando se realiza correctamente, aparece una página de Marca de verificación. Vuelva a la pestaña Cloud Manager.
 +
-image:cloud_central_add_we_8.PNG["Error: Falta la imagen gráfica"]
+image:cloud_central_add_we_8.PNG[""]
 
 . La suscripción aparece ahora en Cloud Central. Haga clic en aplicar para continuar.
 +
-image:cloud_central_add_we_9.PNG["Error: Falta la imagen gráfica"]
+image:cloud_central_add_we_9.PNG[""]
 
 . Introduzca los detalles del entorno de trabajo como:
 +
@@ -150,25 +150,25 @@ image:cloud_central_add_we_9.PNG["Error: Falta la imagen gráfica"]
 .. Contraseña del clúster
 .. Etiquetas de AWS (opcional)
 +
-image:cloud_central_add_we_10.PNG["Error: Falta la imagen gráfica"]
+image:cloud_central_add_we_10.PNG[""]
 
 
 
 . Elija los servicios adicionales que le gustaría poner en marcha. Para obtener más información sobre estos servicios, visite la https://cloud.netapp.com["Página de inicio de cloud de NetApp"^].
 +
-image:cloud_central_add_we_11.PNG["Error: Falta la imagen gráfica"]
+image:cloud_central_add_we_11.PNG[""]
 
 . Elija si desea implementar en varias zonas de disponibilidad (reguarida tres subredes, cada una en una zona AZ diferente) o una única zona de disponibilidad. Elegí varios AZs.
 +
-image:cloud_central_add_we_12.PNG["Error: Falta la imagen gráfica"]
+image:cloud_central_add_we_12.PNG[""]
 
 . Elija la región, VPC y grupo de seguridad del clúster en el que se pondrá en marcha. En esta sección, también se asignan las zonas de disponibilidad por nodo (y mediador), así como las subredes que ocupan.
 +
-image:cloud_central_add_we_13.PNG["Error: Falta la imagen gráfica"]
+image:cloud_central_add_we_13.PNG[""]
 
 . Elija los métodos de conexión tanto para los nodos como para el mediador.
 +
-image:cloud_central_add_we_14.PNG["Error: Falta la imagen gráfica"]
+image:cloud_central_add_we_14.PNG[""]
 
 
 
@@ -177,47 +177,47 @@ TIP: El mediador requiere comunicación con las API de AWS. No se requiere una d
 
 . Las direcciones IP flotantes se usan para permitir el acceso a las diferentes direcciones IP que usa Cloud Volumes ONTAP, incluidas las IP de administración de clústeres y servicio de datos. Deben ser direcciones que no se puedan enrutar ya dentro de su red y que se agreguen a tablas de rutas en su entorno AWS. Estos son necesarios para habilitar direcciones IP constantes para un par de alta disponibilidad durante la conmutación por error. Puede encontrar más información acerca de las direcciones IP flotantes en el https://docs.netapp.com/us-en/occm/reference_networking_aws.html#requirements-for-ha-pairs-in-multiple-azs["Documentación en cloud de NetApp"^].
 +
-image:cloud_central_add_we_15.PNG["Error: Falta la imagen gráfica"]
+image:cloud_central_add_we_15.PNG[""]
 
 . Seleccione a qué tablas de rutas se agregan las direcciones IP flotantes. Los clientes utilizan estas tablas de ruta para comunicarse con Cloud Volumes ONTAP.
 +
-image:cloud_central_add_we_16.PNG["Error: Falta la imagen gráfica"]
+image:cloud_central_add_we_16.PNG[""]
 
 . Elija si habilitar el cifrado gestionado de AWS o AWS KMS para cifrar los discos raíz, de arranque y de datos de ONTAP.
 +
-image:cloud_central_add_we_17.PNG["Error: Falta la imagen gráfica"]
+image:cloud_central_add_we_17.PNG[""]
 
 . Elija su modelo de licencias. Si no sabe qué elegir, póngase en contacto con su representante de NetApp.
 +
-image:cloud_central_add_we_18.PNG["Error: Falta la imagen gráfica"]
+image:cloud_central_add_we_18.PNG[""]
 
 . Seleccione la configuración que mejor se ajuste a su caso de uso. Esto se relaciona con las consideraciones de tamaño que se tratan en la página de requisitos previos.
 +
-image:cloud_central_add_we_19.PNG["Error: Falta la imagen gráfica"]
+image:cloud_central_add_we_19.PNG[""]
 
 . Opcionalmente, cree un volumen. Esto no es necesario, ya que los siguientes pasos utilizan SnapMirror, que nos crea los volúmenes.
 +
-image:cloud_central_add_we_20.PNG["Error: Falta la imagen gráfica"]
+image:cloud_central_add_we_20.PNG[""]
 
 . Revise las selecciones que se han realizado y marque las casillas para verificar que entiende que Cloud Manager pone en marcha recursos en su entorno AWS. Al terminar, haga clic en Go.
 +
-image:cloud_central_add_we_21.PNG["Error: Falta la imagen gráfica"]
+image:cloud_central_add_we_21.PNG[""]
 
 . Cloud Volumes ONTAP inicia ahora su proceso de puesta en marcha. Cloud Manager utiliza las API de AWS y las pilas de formación de cloud para poner en marcha Cloud Volumes ONTAP. A continuación, configura el sistema de acuerdo con sus especificaciones, lo que le proporciona un sistema listo para usar que se puede utilizar al instante. El tiempo de este proceso varía en función de las selecciones realizadas.
 +
-image:cloud_central_add_we_22.PNG["Error: Falta la imagen gráfica"]
+image:cloud_central_add_we_22.PNG[""]
 
 . Puede supervisar el progreso navegando hasta la línea de tiempo.
 +
-image:cloud_central_add_we_23.PNG["Error: Falta la imagen gráfica"]
+image:cloud_central_add_we_23.PNG[""]
 
 . La línea de tiempo actúa como una auditoría de todas las acciones realizadas en Cloud Manager. Puede ver todas las llamadas API que realiza Cloud Manager durante la configuración en AWS y en el clúster de ONTAP. Esto también se puede utilizar de manera eficaz para solucionar cualquier problema que tenga.
 +
-image:cloud_central_add_we_24.PNG["Error: Falta la imagen gráfica"]
+image:cloud_central_add_we_24.PNG[""]
 
 . Una vez completada la implementación, aparece el clúster CVO en el lienzo, que es la capacidad actual. El clúster de ONTAP en su estado actual está totalmente configurado para permitir una experiencia realmente lista para usar.
 +
-image:cloud_central_add_we_25.PNG["Error: Falta la imagen gráfica"]
+image:cloud_central_add_we_25.PNG[""]
 
 
 
@@ -231,62 +231,62 @@ Para obtener una guía sobre las versiones compatibles de ONTAP para SnapMirror,
 
 . Haga clic en el sistema ONTAP de origen (en las instalaciones) y arrástrelo y colóquelo en el destino, seleccione replicación > Habilitar o seleccione replicación > Menú > replicar.
 +
-image:cloud_central_replication_1.png["Error: Falta la imagen gráfica"]
+image:cloud_central_replication_1.png[""]
 
 +
 Seleccione Habilitar.
 
 +
-image:cloud_central_replication_2.png["Error: Falta la imagen gráfica"]
+image:cloud_central_replication_2.png[""]
 
 +
 U Opciones.
 
 +
-image:cloud_central_replication_3.png["Error: Falta la imagen gráfica"]
+image:cloud_central_replication_3.png[""]
 
 +
 Replicar.
 
 +
-image:cloud_central_replication_4.png["Error: Falta la imagen gráfica"]
+image:cloud_central_replication_4.png[""]
 
 . Si no ha arrastrado ni solado, elija el clúster de destino al que se va a replicar.
 +
-image:cloud_central_replication_5.png["Error: Falta la imagen gráfica"]
+image:cloud_central_replication_5.png[""]
 
 . Elija el volumen que desea replicar. Replicamos los datos y todos los volúmenes de registro.
 +
-image:cloud_central_replication_6.png["Error: Falta la imagen gráfica"]
+image:cloud_central_replication_6.png[""]
 
 . Elija el tipo de disco de destino y la política de organización en niveles. Para la recuperación ante desastres, recomendamos un SSD como tipo de disco y mantener la organización en niveles de los datos. Organización en niveles de datos ordena los datos duplicados en un almacenamiento de objetos de bajo coste y ahorra dinero en discos locales. Cuando se rompe la relación o se clona el volumen, los datos utilizan el almacenamiento local rápido.
 +
-image:cloud_central_replication_7.png["Error: Falta la imagen gráfica"]
+image:cloud_central_replication_7.png[""]
 
 . Seleccione el nombre del volumen de destino: Se ha elegido `[source_volume_name]_dr`.
 +
-image:cloud_central_replication_8.png["Error: Falta la imagen gráfica"]
+image:cloud_central_replication_8.png[""]
 
 . Seleccione la tasa de transferencia máxima para la replicación. Esto le permite ahorrar ancho de banda si dispone de una conexión de bajo ancho de banda a la nube, como una VPN.
 +
-image:cloud_central_replication_9.png["Error: Falta la imagen gráfica"]
+image:cloud_central_replication_9.png[""]
 
 . Defina la política de replicación. Elegimos un duplicado, que toma el conjunto de datos más reciente y lo replica en el volumen de destino. También puede elegir una política diferente en función de sus requisitos.
 +
-image:cloud_central_replication_10.png["Error: Falta la imagen gráfica"]
+image:cloud_central_replication_10.png[""]
 
 . Elija la programación para activar la replicación. NetApp recomienda establecer una programación "diaria" de para el volumen de datos y una programación "por hora" para los volúmenes de registro, aunque esto se puede modificar en función de los requisitos.
 +
-image:cloud_central_replication_11.png["Error: Falta la imagen gráfica"]
+image:cloud_central_replication_11.png[""]
 
 . Revise la información introducida, haga clic en Go para activar el par de clústeres y la SVM del mismo nivel (si esta es la primera vez que se replica entre los dos clústeres), y, a continuación, implemente e inicialice la relación de SnapMirror.
 +
-image:cloud_central_replication_12.png["Error: Falta la imagen gráfica"]
+image:cloud_central_replication_12.png[""]
 
 . Continúe este proceso para los volúmenes de datos y los volúmenes de registro.
 . Para comprobar todas sus relaciones, acceda a la pestaña Replication de Cloud Manager. Aquí puede gestionar sus relaciones y comprobar su estado.
 +
-image:cloud_central_replication_13.png["Error: Falta la imagen gráfica"]
+image:cloud_central_replication_13.png[""]
 
 . Una vez que se han replicado todos los volúmenes, tiene un estado constante y listo para pasar a los flujos de trabajo de recuperación ante desastres y de desarrollo y pruebas.
 

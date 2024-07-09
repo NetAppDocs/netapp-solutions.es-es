@@ -25,15 +25,15 @@ En esta sección, profundizamos en cómo SnapCenter protege los datos de la base
 
 . Configure el host que se utilizará para ejecutar comandos SnapCenter.
 +
-image:sc_host_setup.png["Error: Falta la imagen gráfica"]
+image:sc_host_setup.png[""]
 
 . Instale y configure el complemento de almacenamiento. En el host agregado, seleccione “Más opciones”. Navegue hasta y seleccione el plugin de almacenamiento descargado en link:https://automationstore.netapp.com/snap-detail.shtml?packUuid=Storage&packVersion=1.0["Automation Store de NetApp"]. Instale el plugin y guarde la configuración.
 +
-image:sc_storage_plugin.png["Error: Falta la imagen gráfica"]
+image:sc_storage_plugin.png[""]
 
 . Configure el sistema de almacenamiento y el volumen: Añada el sistema de almacenamiento en «Storage System» y seleccione la SVM (Storage Virtual Machine). En este ejemplo, hemos elegido «vs_nvidia».
 +
-image:sc_storage_system.png["Error: Falta la imagen gráfica"]
+image:sc_storage_system.png[""]
 
 . Establecer un recurso para la base de datos vectorial, incorporando una política de backup y un nombre de snapshot personalizado.
 +
@@ -41,7 +41,7 @@ image:sc_storage_system.png["Error: Falta la imagen gráfica"]
 ** En la sección Storage Footprint, seleccione los volúmenes asociados a los datos de los clientes de bases de datos vectoriales y los datos de clúster de Milvus. En nuestro ejemplo, estos son «vol1» y «vectordbpv».
 ** Cree una política para la protección de bases de datos vectoriales y proteja el recurso de bases de datos vectoriales con la política.
 +
-image:sc_resource_vectordatabase.png["Error: Falta la imagen gráfica"]
+image:sc_resource_vectordatabase.png[""]
 
 
 
@@ -102,7 +102,7 @@ root@node2:~#
 ----
 . Inicie un backup utilizando la snapshot de grupo de consistencia (CG) desde el recurso 'milvusdb'
 +
-image:sc_backup_vector_database.png["Error: Falta la imagen gráfica"]
+image:sc_backup_vector_database.png[""]
 
 . Para probar la funcionalidad de copia de seguridad, hemos agregado una nueva tabla después del proceso de copia de seguridad o hemos eliminado algunos datos del NFS (S3 bucket NAS).
 +
@@ -134,7 +134,7 @@ root@node2:~#
 ----
 . Ejecute una restauración completa del depósito de NAS S3 desde la instantánea anterior.
 +
-image:sc_restore_vector_database.png["Error: Falta la imagen gráfica"]
+image:sc_restore_vector_database.png[""]
 
 . Utilice un script de Python para verificar los datos de las colecciones 'hello_milvus_netapp_sc_test' y 'hello_milvus_netapp_sc_test2'.
 +

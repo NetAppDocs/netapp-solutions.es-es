@@ -40,7 +40,7 @@ Los principales requisitos y retos de este caso de uso son:
 
 Esta imagen ilustra la solución de conectividad de múltiples clouds y protección de datos.
 
-image:hdcs-sh-image12.png["Error: Falta la imagen gráfica"]
+image:hdcs-sh-image12.png[""]
 
 Como se muestra en la figura anterior, los datos de los sensores se transmiten y ingieren en el clúster de AWS Spark a través de Kafka. Los datos se almacenan en un recurso compartido de NFS que reside en NPS, que se encuentra fuera del proveedor de cloud en un centro de datos Equinix. Dado que el almacenamiento privado de NetApp de NetApp está conectado a Amazon AWS y Microsoft Azure a través de conexiones Direct Connect y Express Route, respectivamente, los clientes pueden acceder a los datos NFS desde los clústeres de análisis de Amazon y AWS. Este enfoque soluciona el tener que hacer análisis en cloud en varios proveedores a hiperescala.
 

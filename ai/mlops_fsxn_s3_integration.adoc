@@ -42,11 +42,11 @@ Para obtener más información sobre FSxN, por favor eche un vistazo a esta pres
 
 . Abra la consola de AWS. En el panel de búsqueda, busque en SageMaker y haga clic en el servicio *Amazon SageMaker*.
 +
-image:mlops_fsxn_s3_integration_0.png["Error: Abra la consola de AWS"]
+image:mlops_fsxn_s3_integration_0.png["Abra la consola de AWS"]
 
 . Abra las instancias del bloc de notas * en la pestaña del bloc de notas, haga clic en el botón naranja * Crear instancia del bloc de notas *.
 +
-image:mlops_fsxn_s3_integration_1.png["Error: Consola de instancia de AWS SageMaker Notebook"]
+image:mlops_fsxn_s3_integration_1.png["Consola de instancia de AWS SageMaker Notebook"]
 
 . En la página de creación,
 Introduzca el nombre de la instancia de *Notebook*
@@ -54,7 +54,7 @@ Expanda el panel *Network*
 Deje otras entradas predeterminadas y seleccione un *VPC*, *Subnet* y *Grupo(s) de seguridad*. (Este *VPC* y *Subnet* se utilizarán para crear el sistema de archivos FSxN más adelante)
 Haga clic en el botón naranja *Crear instancia de bloc de notas* en la parte inferior derecha.
 +
-image:mlops_fsxn_s3_integration_2.png["Error: Crear instancia de bloc de notas"]
+image:mlops_fsxn_s3_integration_2.png["Crear instancia de bloc de notas"]
 
 
 
@@ -64,47 +64,47 @@ image:mlops_fsxn_s3_integration_2.png["Error: Crear instancia de bloc de notas"]
 
 . Abra la consola de AWS. En el panel de búsqueda, busca FSX y haz clic en el servicio *FSX*.
 +
-image:mlops_fsxn_s3_integration_3.png["Error: FSX Panel"]
+image:mlops_fsxn_s3_integration_3.png["Panel FSX"]
 
 . Haga clic en *Crear sistema de archivos*.
 +
-image:mlops_fsxn_s3_integration_4.png["Error: Crear sistema de archivos"]
+image:mlops_fsxn_s3_integration_4.png["Crear sistema de archivos"]
 
 . Seleccione la primera tarjeta *FSX for NetApp ONTAP* y haga clic en *Siguiente*.
 +
-image:mlops_fsxn_s3_integration_5.png["Error: Seleccione el tipo de sistema de archivos"]
+image:mlops_fsxn_s3_integration_5.png["Seleccione el tipo de sistema de archivos"]
 
 . En la página de configuración de detalles.
 +
 .. Seleccione la opción *Standard create*.
 +
-image:mlops_fsxn_s3_integration_6.png["Error: Crear el panel del sistema de archivos"]
+image:mlops_fsxn_s3_integration_6.png["Panel Crear sistema de archivos"]
 
 .. Introduzca el *Nombre del sistema de archivos* y la *Capacidad de almacenamiento SSD*.
 +
-image:mlops_fsxn_s3_integration_7.png["Error: Especifique los detalles del sistema de archivos"]
+image:mlops_fsxn_s3_integration_7.png["Especifique los detalles del sistema de archivos"]
 
 .. Asegúrese de usar *VPC* y *subnet* igual a la instancia *SageMaker Notebook*.
 +
-image:mlops_fsxn_s3_integration_8.png["Error: Configuración de seguridad de  de red"]
+image:mlops_fsxn_s3_integration_8.png["Configuración de seguridad de  de red"]
 
 .. Introduzca el nombre de la máquina virtual *Storage* y *especifique una contraseña* para su SVM (máquina virtual de almacenamiento).
 +
-image:mlops_fsxn_s3_integration_9.png["Error: Configuración de la máquina virtual de almacenamiento predeterminada"]
+image:mlops_fsxn_s3_integration_9.png["Configuración de máquina virtual de almacenamiento predeterminada"]
 
 .. Deja otras entradas predeterminadas y haz clic en el botón naranja *Siguiente* en la parte inferior derecha.
 +
-image:mlops_fsxn_s3_integration_10.png["Error: Confirme la configuración"]
+image:mlops_fsxn_s3_integration_10.png["Confirme la configuración"]
 
 .. Haga clic en el botón naranja *Crear sistema de archivos* en la parte inferior derecha de la página de revisión.
 +
-image:mlops_fsxn_s3_integration_11.png["Error: Revise la configuración y confirme la creación"]
+image:mlops_fsxn_s3_integration_11.png["Revise la configuración y confirme la creación"]
 
 
 
 . Puede tardar unos *20-40 minutos* en activar el sistema de archivos FSX.
 +
-image:mlops_fsxn_s3_integration_12.png["Error: Inspeccione la consola FSX"]
+image:mlops_fsxn_s3_integration_12.png["Inspeccione la consola FSX"]
 
 
 
@@ -118,24 +118,24 @@ image:mlops_fsxn_s3_integration_12.png["Error: Inspeccione la consola FSX"]
 
 . Abra el sistema de archivos FSX creado. Por favor, asegúrese de que el estado es *disponible*.
 +
-image:mlops_fsxn_s3_integration_13.png["Error: Espere a la creación del backend"]
+image:mlops_fsxn_s3_integration_13.png["Espere la creación del backend"]
 
 . Seleccione la pestaña *Administración* y mantenga el *Punto final de administración - dirección IP* y el *Nombre de usuario del administrador de ONTAP*.
 +
-image:mlops_fsxn_s3_integration_14.png["Error: Consola de detalles del sistema de archivos"]
+image:mlops_fsxn_s3_integration_14.png["Consola de detalles del sistema de archivos"]
 
 . Abra la instancia creada de *SageMaker Notebook* y haga clic en *Abrir JupyterLab*.
 +
-image:mlops_fsxn_s3_integration_15.png["Error: Consola de instancia de AWS SageMaker Notebook"]
+image:mlops_fsxn_s3_integration_15.png["Consola de instancia de AWS SageMaker Notebook"]
 
 . En la página Jupyter Lab, abre un nuevo *Terminal*.
 +
-image:mlops_fsxn_s3_integration_16.png["Error: Página de bienvenida de Jupyter Lab"]
+image:mlops_fsxn_s3_integration_16.png["Página de bienvenida de Jupyter Lab"]
 
 . Introduzca el comando ssh ssh <nombre de usuario admin>@<IP del servidor de ONTAP> para iniciar sesión en el sistema de archivos ONTAP FSxN. (El nombre de usuario y la dirección IP se recuperan del paso 2)
 Utilice la contraseña utilizada al crear la *Storage virtual machine*.
 +
-image:mlops_fsxn_s3_integration_17.png["Error: Terminal Jupyter Lab"]
+image:mlops_fsxn_s3_integration_17.png["Terminal Jupyter Lab"]
 
 . Ejecute los comandos en el siguiente orden.
 Utilizamos *fsxn-ontap* como nombre para el *FSxN private S3 bucket name*.
@@ -152,7 +152,7 @@ vserver object-store-server group create -name s3group -users s3user -policies F
 vserver object-store-server bucket create fsxn-ontap -vserver fsxn-svm-demo -type nas -nas-path /vol1
 ----
 +
-image:mlops_fsxn_s3_integration_18.png["Error: Salida del terminal Jupyter Lab"]
+image:mlops_fsxn_s3_integration_18.png["Salida de terminal Jupyter Lab"]
 
 . Ejecute los siguientes comandos para recuperar la IP de punto final y las credenciales para FSxN private S3.
 +
@@ -166,7 +166,7 @@ vserver object-store-server user show
 ----
 . Conserve la IP del extremo y las credenciales para usarlo en el futuro.
 +
-image:mlops_fsxn_s3_integration_19.png["Error: Terminal Jupyter Lab"]
+image:mlops_fsxn_s3_integration_19.png["Terminal Jupyter Lab"]
 
 
 
@@ -176,7 +176,7 @@ image:mlops_fsxn_s3_integration_19.png["Error: Terminal Jupyter Lab"]
 
 . En la instancia de SageMaker Notebook, cree un nuevo cuaderno Jupyter.
 +
-image:mlops_fsxn_s3_integration_20.png["Error: Abra un nuevo cuaderno Jupyter"]
+image:mlops_fsxn_s3_integration_20.png["Abra un nuevo cuaderno Jupyter"]
 
 . Utilice el siguiente código como solución alternativa para cargar archivos en el cubo privado de FSxN S3.
 Para obtener un ejemplo de código completo, consulte este cuaderno.

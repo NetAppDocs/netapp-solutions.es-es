@@ -25,7 +25,7 @@ Autores: Ravi BCB y Niyaz Mohamed, NetApp
  This covers application data; however, what about the actual VMs themselves. Disaster recovery should cover all dependent components, including virtual machines, VMDKs, application data, and more. To accomplish this, SnapMirror along with Jetstream can be used to seamlessly recover workloads replicated from on-premises to Cloud Volumes ONTAP while using vSAN storage for VM VMDKs.
 Este documento proporciona un enfoque paso a paso para configurar y realizar la recuperación ante desastres que utiliza SnapMirror, JetStream y la solución Azure VMware (AVS) de NetApp.
 
-image:dr-cvo-avs-image1.png["Error: Falta la imagen gráfica"]
+image:dr-cvo-avs-image1.png[""]
 
 
 
@@ -75,7 +75,7 @@ NOTE: Existen múltiples opciones para conectar los centros de datos en las inst
 ====
 El primer paso es configurar Cloud Volumes ONTAP en Azure (link:azure-guest.html["Enlace"^]) Y replicar los volúmenes deseados en Cloud Volumes ONTAP con las frecuencias y retentions de instantánea deseadas.
 
-image:dr-cvo-avs-image2.png["Error: Falta la imagen gráfica"]
+image:dr-cvo-avs-image2.png[""]
 
 ====
 .Configurar los hosts AVS y el acceso a datos CVO
@@ -104,17 +104,17 @@ El software JetStream DR consta de tres componentes principales: JetStream DR Ma
 . Registre el servidor vCenter con el MSA.
 . Una vez que se haya puesto en marcha JetStream DR MSA y se haya registrado vCenter Server, desplácese hasta el complemento de recuperación ante desastres JetStream con vSphere Web Client. Para ello, vaya a Datacenter > Configure > JetStream DR.
 +
-image:dr-cvo-avs-image3.png["Error: Falta la imagen gráfica"]
+image:dr-cvo-avs-image3.png[""]
 
 . Desde la interfaz DR de JetStream, realice las siguientes tareas:
 +
 .. Configure el clúster con el paquete de filtro de I/O.
 +
-image:dr-cvo-avs-image4.png["Error: Falta la imagen gráfica"]
+image:dr-cvo-avs-image4.png[""]
 
 .. Añada el almacenamiento de Azure Blob que está situado en el sitio de recuperación.
 +
-image:dr-cvo-avs-image5.png["Error: Falta la imagen gráfica"]
+image:dr-cvo-avs-image5.png[""]
 
 
 
@@ -124,21 +124,21 @@ image:dr-cvo-avs-image5.png["Error: Falta la imagen gráfica"]
 NOTE: Utilice la herramienta de planificación de la capacidad para calcular el número de DRVAs necesarios.
 
 +
-image:dr-cvo-avs-image6.png["Error: Falta la imagen gráfica"]
+image:dr-cvo-avs-image6.png[""]
 
 +
-image:dr-cvo-avs-image7.png["Error: Falta la imagen gráfica"]
+image:dr-cvo-avs-image7.png[""]
 
 . Cree volúmenes de registro de replicación para cada DRVA utilizando el VMDK desde los almacenes de datos disponibles o el pool de almacenamiento iSCSI compartido independiente.
 +
-image:dr-cvo-avs-image8.png["Error: Falta la imagen gráfica"]
+image:dr-cvo-avs-image8.png[""]
 
 . En la pestaña Protected Domains, cree la cantidad necesaria de dominios protegidos utilizando información acerca del sitio de Azure Blob Storage, la instancia de DRVA y el registro de replicación. Un dominio protegido define una máquina virtual o un conjunto específico de máquinas virtuales de aplicación dentro del clúster que se protegen en conjunto y asignó un orden de prioridad para las operaciones de conmutación por error y conmutación tras recuperación.
 +
-image:dr-cvo-avs-image9.png["Error: Falta la imagen gráfica"]
+image:dr-cvo-avs-image9.png[""]
 
 +
-image:dr-cvo-avs-image10.png["Error: Falta la imagen gráfica"]
+image:dr-cvo-avs-image10.png[""]
 
 . Seleccione las máquinas virtuales que se van a proteger y agrupe las máquinas virtuales en grupos de aplicaciones en función de la dependencia. Las definiciones de aplicaciones le permiten agrupar conjuntos de máquinas virtuales en grupos lógicos que contengan sus órdenes de arranque, retrasos de arranque y validaciones de aplicaciones opcionales que se pueden ejecutar tras la recuperación.
 +
@@ -150,19 +150,19 @@ NOTE: Asegúrese de que se utilice el mismo modo de protección para todas las m
 NOTE: El modo Write-Back (VMDK) ofrece un mayor rendimiento.
 
 +
-image:dr-cvo-avs-image11.png["Error: Falta la imagen gráfica"]
+image:dr-cvo-avs-image11.png[""]
 
 . Asegúrese de que los volúmenes de registros de replicación se colocan en un almacenamiento de alto rendimiento.
 +
-image:dr-cvo-avs-image12.png["Error: Falta la imagen gráfica"]
+image:dr-cvo-avs-image12.png[""]
 
 . Una vez que haya terminado, haga clic en Iniciar protección para el dominio protegido. Esto inicia la replicación de datos de las máquinas virtuales seleccionadas en el almacén BLOB designado.
 +
-image:dr-cvo-avs-image13.png["Error: Falta la imagen gráfica"]
+image:dr-cvo-avs-image13.png[""]
 
 . Una vez finalizada la replicación, el estado de protección del equipo virtual se Marca como recuperable.
 +
-image:dr-cvo-avs-image14.png["Error: Falta la imagen gráfica"]
+image:dr-cvo-avs-image14.png[""]
 
 +
 
@@ -170,7 +170,7 @@ NOTE: Los runbooks pueden configurarse para agrupar los equipos virtuales (denom
 
 . Haga clic en Configuración y, a continuación, en el enlace Configurar libro de ejecución para configurar el grupo de libro de ejecución.
 +
-image:dr-cvo-avs-image15.png["Error: Falta la imagen gráfica"]
+image:dr-cvo-avs-image15.png[""]
 
 . Haga clic en el botón Crear grupo para comenzar a crear un nuevo grupo runbook.
 +
@@ -178,22 +178,22 @@ image:dr-cvo-avs-image15.png["Error: Falta la imagen gráfica"]
 NOTE: Si es necesario, en la parte inferior de la pantalla, aplique scripts previos y posteriores personalizados para que se ejecuten automáticamente antes y después del funcionamiento del grupo runbook. Asegúrese de que los scripts de Runbook residen en el servidor de administración.
 
 +
-image:dr-cvo-avs-image16.png["Error: Falta la imagen gráfica"]
+image:dr-cvo-avs-image16.png[""]
 
 . Edite la configuración de la máquina virtual según sea necesario. Especifique los parámetros para recuperar las VM, incluida la secuencia de arranque, el retraso de arranque (especificado en segundos), el número de CPU y la cantidad de memoria que se debe asignar. Cambie la secuencia de arranque de las VM haciendo clic en las flechas arriba o abajo. También se proporcionan opciones para conservar MAC.
 +
-image:dr-cvo-avs-image17.png["Error: Falta la imagen gráfica"]
+image:dr-cvo-avs-image17.png[""]
 
 . Las direcciones IP estáticas pueden configurarse manualmente para las máquinas virtuales individuales del grupo. Haga clic en el enlace NIC View de una máquina virtual para configurar manualmente las opciones de su dirección IP.
 +
-image:dr-cvo-avs-image18.png["Error: Falta la imagen gráfica"]
+image:dr-cvo-avs-image18.png[""]
 
 . Haga clic en el botón Configure para guardar los ajustes de NIC de los equipos virtuales correspondientes.
 +
-image:dr-cvo-avs-image19.png["Error: Falta la imagen gráfica"]
+image:dr-cvo-avs-image19.png[""]
 
 +
-image:dr-cvo-avs-image20.png["Error: Falta la imagen gráfica"]
+image:dr-cvo-avs-image20.png[""]
 
 
 
@@ -227,24 +227,24 @@ NOTE: El usuario CloudAdmin predeterminado de la solución VMware de Azure no ti
 La siguiente captura de pantalla muestra la instalación mediante una dirección IP basada en DHCP.
 
 +
-image:dr-cvo-avs-image21.png["Error: Falta la imagen gráfica"]
+image:dr-cvo-avs-image21.png[""]
 
 . Una vez finalizada la instalación de JetStream DR para AVS, actualice el explorador. Para acceder a la interfaz de usuario de recuperación ante desastres de JetStream, vaya a SDDC Datacenter > Configure > JetStream DR.
 +
-image:dr-cvo-avs-image22.png["Error: Falta la imagen gráfica"]
+image:dr-cvo-avs-image22.png[""]
 
 . Desde la interfaz DR de JetStream, realice las siguientes tareas:
 +
 .. Añada la cuenta de Azure Blob Storage que se utilizó para proteger el clúster local como sitio de almacenamiento y, a continuación, ejecute la opción Scan Domains.
 .. En la ventana emergente de diálogo que aparece, seleccione el dominio protegido que desea importar y, a continuación, haga clic en el vínculo Importar.
 +
-image:dr-cvo-avs-image23.png["Error: Falta la imagen gráfica"]
+image:dr-cvo-avs-image23.png[""]
 
 
 
 . El dominio se importa para la recuperación. Vaya a la ficha Dominios protegidos y compruebe que el dominio deseado se ha seleccionado o elija el que desee en el menú Seleccionar dominio protegido. Se muestra una lista de las máquinas virtuales recuperables del dominio protegido.
 +
-image:dr-cvo-avs-image24.png["Error: Falta la imagen gráfica"]
+image:dr-cvo-avs-image24.png[""]
 
 . Después de importar los dominios protegidos, implemente dispositivos DRVA.
 +
@@ -254,7 +254,7 @@ NOTE: Estos pasos también se pueden automatizar mediante planes creados por CPT
 . Cree volúmenes de registros de replicación con almacenes de datos VSAN o ANF disponibles.
 . Importe los dominios protegidos y configure el va de recuperación para utilizar un almacén de datos ANF para las ubicaciones de las máquinas virtuales.
 +
-image:dr-cvo-avs-image25.png["Error: Falta la imagen gráfica"]
+image:dr-cvo-avs-image25.png[""]
 
 +
 
@@ -266,7 +266,7 @@ NOTE: Asegúrese de que DHCP está habilitado en el segmento seleccionado y de q
 NOTE: Aunque los modos de conmutación por error continua y conmutación por error varían cuando se realiza la configuración, ambos modos de conmutación por error se configuran siguiendo los mismos pasos. Los pasos de conmutación por error se configuran y se realizan de forma conjunta en respuesta a un evento de desastre. La conmutación por error continua se puede configurar en cualquier momento y luego se puede ejecutar en segundo plano durante el funcionamiento normal del sistema. Una vez ocurrido un evento de desastre, la conmutación al respaldo continua se completa para transferir inmediatamente la propiedad de las máquinas virtuales protegidas al sitio de recuperación (objetivo de tiempo de recuperación cercano a cero).
 
 +
-image:dr-cvo-avs-image26.png["Error: Falta la imagen gráfica"]
+image:dr-cvo-avs-image26.png[""]
 
 
 
@@ -278,10 +278,10 @@ El proceso de conmutación al respaldo continua comienza y su progreso se puede 
 ====
 . Cuando se produce un desastre en el clúster protegido del entorno local (fallo parcial o completo), puede activarse la conmutación por error para máquinas virtuales mediante Jetstream tras romper la relación de SnapMirror con los volúmenes de aplicaciones correspondientes.
 +
-image:dr-cvo-avs-image27.png["Error: Falta la imagen gráfica"]
+image:dr-cvo-avs-image27.png[""]
 
 +
-image:dr-cvo-avs-image28.png["Error: Falta la imagen gráfica"]
+image:dr-cvo-avs-image28.png[""]
 
 +
 
@@ -292,19 +292,19 @@ NOTE: Este paso puede automatizarse fácilmente para facilitar el proceso de rec
 En la ventana de diálogo que aparece al finalizar la conmutación por error, la tarea de conmutación por error se puede especificar como planificada o se supone que se fuerza.
 
 +
-image:dr-cvo-avs-image29.png["Error: Falta la imagen gráfica"]
+image:dr-cvo-avs-image29.png[""]
 
 +
-image:dr-cvo-avs-image30.png["Error: Falta la imagen gráfica"]
+image:dr-cvo-avs-image30.png[""]
 
 +
 La conmutación por error forzada asume que el sitio principal ya no está accesible y que el sitio de recuperación debería asumir directamente la propiedad del dominio protegido.
 
 +
-image:dr-cvo-avs-image31.png["Error: Falta la imagen gráfica"]
+image:dr-cvo-avs-image31.png[""]
 
 +
-image:dr-cvo-avs-image32.png["Error: Falta la imagen gráfica"]
+image:dr-cvo-avs-image32.png[""]
 
 . Una vez finalizada la conmutación por error continua, aparece un mensaje que confirma la finalización de la tarea. Una vez finalizada la tarea, acceda a los equipos virtuales recuperados para configurar sesiones ISCSI o NFS.
 +
@@ -316,20 +316,20 @@ NOTE: El modo de recuperación tras fallos cambia a ejecutarse en Failover y el 
 NOTE: Para verificar la configuración de recuperación tras fallos y la infraestructura, JetStream puede utilizarse en modo de prueba (opción de conmutación por error de prueba) para observar la recuperación de máquinas virtuales y sus datos desde el almacén de objetos en un entorno de recuperación de pruebas. Cuando se ejecuta un procedimiento de conmutación por error en el modo de prueba, su operación se asemeja a un proceso de conmutación por error real.
 
 +
-image:dr-cvo-avs-image33.png["Error: Falta la imagen gráfica"]
+image:dr-cvo-avs-image33.png[""]
 
 . Después de recuperar las máquinas virtuales, utilice la recuperación ante desastres de almacenamiento para el almacenamiento invitado. Para demostrar este proceso, se utiliza SQL Server en este ejemplo.
 . Inicie sesión en el SnapCenter VM recuperado en AVS SDDC y habilite el modo de recuperación ante desastres.
 +
 .. Acceda a la interfaz de usuario de SnapCenter mediante el comando browserN.
 +
-image:dr-cvo-avs-image34.png["Error: Falta la imagen gráfica"]
+image:dr-cvo-avs-image34.png[""]
 
 .. En la página Settings, vaya a Settings > Global Settings > Disaster Recovery.
 .. Seleccione Enable Disaster Recovery.
 .. Haga clic en Apply.
 +
-image:dr-cvo-avs-image35.png["Error: Falta la imagen gráfica"]
+image:dr-cvo-avs-image35.png[""]
 
 .. Compruebe si el trabajo de recuperación ante desastres está habilitado. Para ello, haga clic en Monitor > Jobs.
 +
@@ -340,27 +340,27 @@ NOTE: NetApp SnapCenter 4.6 o posterior deben utilizarse para la recuperación a
 
 . Asegúrese de que la relación de SnapMirror esté rota.
 +
-image:dr-cvo-avs-image36.png["Error: Falta la imagen gráfica"]
+image:dr-cvo-avs-image36.png[""]
 
 . Asociar la LUN de Cloud Volumes ONTAP a la máquina virtual invitada de SQL recuperada con las mismas letras de unidad.
 +
-image:dr-cvo-avs-image37.png["Error: Falta la imagen gráfica"]
+image:dr-cvo-avs-image37.png[""]
 
 . Abra el iniciador iSCSI, borre la sesión desconectada anterior y añada el nuevo destino junto con la multivía para los volúmenes Cloud Volumes ONTAP replicados.
 +
-image:dr-cvo-avs-image38.png["Error: Falta la imagen gráfica"]
+image:dr-cvo-avs-image38.png[""]
 
 . Asegúrese de que todos los discos están conectados utilizando las mismas letras de unidad que se usaron antes de la recuperación ante desastres.
 +
-image:dr-cvo-avs-image39.png["Error: Falta la imagen gráfica"]
+image:dr-cvo-avs-image39.png[""]
 
 . Reinicie el servicio del servidor MSSQL.
 +
-image:dr-cvo-avs-image40.png["Error: Falta la imagen gráfica"]
+image:dr-cvo-avs-image40.png[""]
 
 . Asegúrese de que los recursos SQL vuelven a estar en línea.
 +
-image:dr-cvo-avs-image41.png["Error: Falta la imagen gráfica"]
+image:dr-cvo-avs-image41.png[""]
 
 +
 
@@ -384,30 +384,30 @@ Una vez que la instalación principal esté activa y en funcionamiento de nuevo,
 NOTE: El plan de conmutación por recuperación generado por CPT también se puede usar para iniciar la devolución de los equipos virtuales y sus datos del almacén de objetos al entorno VMware original.
 
 +
-image:dr-cvo-avs-image42.png["Error: Falta la imagen gráfica"]
+image:dr-cvo-avs-image42.png[""]
 
 +
 
 NOTE: Especifique la demora máxima después de pausar las máquinas virtuales en el sitio de recuperación y reiniciarlas en el sitio protegido. El tiempo necesario para completar este proceso incluye la finalización de la replicación tras detener la conmutación por error de las máquinas virtuales, el tiempo necesario para limpiar el sitio de recuperación y el tiempo necesario para recrear las máquinas virtuales en el sitio protegido. NetApp recomienda 10 minutos.
 
 +
-image:dr-cvo-avs-image43.png["Error: Falta la imagen gráfica"]
+image:dr-cvo-avs-image43.png[""]
 
 . Completar el proceso de conmutación tras recuperación y, a continuación, confirmar la reanudación de la protección de los equipos virtuales y la consistencia de datos.
 +
-image:dr-cvo-avs-image44.png["Error: Falta la imagen gráfica"]
+image:dr-cvo-avs-image44.png[""]
 
 . Una vez recuperados los equipos virtuales, desconecte el almacenamiento secundario del host y conéctelo al almacenamiento principal.
 +
-image:dr-cvo-avs-image45.png["Error: Falta la imagen gráfica"]
+image:dr-cvo-avs-image45.png[""]
 
 +
-image:dr-cvo-avs-image46.png["Error: Falta la imagen gráfica"]
+image:dr-cvo-avs-image46.png[""]
 
 . Reinicie el servicio del servidor MSSQL.
 . Compruebe que los recursos de SQL vuelven a estar en línea.
 +
-image:dr-cvo-avs-image47.png["Error: Falta la imagen gráfica"]
+image:dr-cvo-avs-image47.png[""]
 
 +
 

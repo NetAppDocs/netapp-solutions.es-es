@@ -60,12 +60,12 @@ Este cuaderno crea dos imágenes que utilizamos en la canalización.
 * `iguazio/netapp.` Se utiliza para manejar tareas ML.
 
 
-image:mlrun_image13.png["Error: Falta la imagen gráfica"]
+image:mlrun_image13.png[""]
 
 * `netapp/pipeline`. Contiene utilidades para gestionar las copias snapshot de NetApp.
 
 
-image:mlrun_image14.png["Error: Falta la imagen gráfica"]
+image:mlrun_image14.png[""]
 
 
 
@@ -98,7 +98,7 @@ Hemos utilizado varios portátiles para construir la canalización DE ML. Cada p
 
 El resultado deseado es una canalización que entrena un modelo basado en una copia Snapshot de los datos y pone en marcha el modelo para la inferencia. En la siguiente imagen se muestra un diagrama de bloque de una canalización MLRun completada.
 
-image:mlrun_image15.png["Error: Falta la imagen gráfica"]
+image:mlrun_image15.png[""]
 
 
 
@@ -331,26 +331,26 @@ prep = data_prep.as_step(name='data-prep', handler='handler',params=params,
 |===
 Puede ejecutar `pipeline.ipynb` de arriba a abajo. A continuación, puede ir a la pestaña tuberías desde el panel de control de Iguazio para supervisar el progreso tal y como se ve en la pestaña tuberías del panel de control de Iguazio.
 
-image:mlrun_image16.png["Error: Falta la imagen gráfica"]
+image:mlrun_image16.png[""]
 
 Debido a que hemos registrado la precisión del paso de entrenamiento en cada carrera, tenemos un registro de precisión para cada experimento, como se ve en el registro de precisión de entrenamiento.
 
-image:mlrun_image17.png["Error: Falta la imagen gráfica"]
+image:mlrun_image17.png[""]
 
 Si selecciona el paso Snapshot, puede ver el nombre de la copia Snapshot que se utilizó para ejecutar este experimento.
 
-image:mlrun_image18.png["Error: Falta la imagen gráfica"]
+image:mlrun_image18.png[""]
 
 El paso descrito tiene artefactos visuales para explorar las métricas que utilizamos. Puede expandir para ver el trazado completo como se ve en la siguiente imagen.
 
-image:mlrun_image19.png["Error: Falta la imagen gráfica"]
+image:mlrun_image19.png[""]
 
 La base de datos de la API MLRun también realiza un seguimiento de las entradas, salidas y artefactos de cada ejecución organizada por el proyecto. En la siguiente imagen se puede ver un ejemplo de entradas, salidas y artefactos para cada secuencia.
 
-image:mlrun_image20.png["Error: Falta la imagen gráfica"]
+image:mlrun_image20.png[""]
 
 Para cada trabajo, almacenamos detalles adicionales.
 
-image:mlrun_image21.png["Error: Falta la imagen gráfica"]
+image:mlrun_image21.png[""]
 
 Hay más información sobre MLRun que podemos cubrir en este documento. Los artefactos de al, incluida la definición de los pasos y las funciones, se pueden guardar en la base de datos de API, con versiones e invocados individualmente o como un proyecto completo. Los proyectos también se pueden guardar e insertar en Git para su uso posterior. Le animamos a obtener más información en la https://github.com/mlrun/mlrun["Sitio de MLRun GitHub"^].
