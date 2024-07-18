@@ -1,0 +1,45 @@
+---
+sidebar: sidebar 
+permalink: rhhc/rhhc-dp-velero-delete.html 
+keywords: OpenShift, OCP, Astra Trident, NetApp ONTAP, Red Hat OpenShift, OADP operator, Openshift Data Protection Application operator, Velero 
+summary: Protección de datos de aplicaciones de contenedores Red Hat OpenShift con NetApp ONTAP 
+---
+= Eliminación de copias de seguridad y restauraciones en el uso de Velero
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+Esta sección describe cómo eliminar copias de seguridad y restauraciones de aplicaciones en la plataforma de contenedores OpenShift mediante Velero.
+
+
+
+== Enumere todos los backups
+
+Puede enumerar todos los CRS de copia de seguridad mediante la herramienta OC CLI o la herramienta Velero CLI. Descargue la CLI de Velero como se indica en las instrucciones de la link:https://velero.io/docs/v1.3.0/basic-install/#install-the-cli["Documentación de velero"].
+
+image::redhat_openshift_OADP_delete_image1.png[listar copia de seguridad]
+
+
+
+== Eliminar un backup
+
+Puede eliminar una copia de seguridad de CR sin eliminar los datos de almacenamiento de objetos mediante la herramienta CLI de OC. La copia de seguridad se eliminará de la salida CLI/Console. Sin embargo, como el backup correspondiente no se elimina del almacenamiento de objetos, volverá a aparecer en la salida CLI/CONSOLA.
+
+image::redhat_openshift_OADP_delete_image2.png[eliminar copia de seguridad]
+
+**Si desea eliminar la copia de seguridad CR Y los datos de almacenamiento de objetos asociados, puede hacerlo utilizando la herramienta CLI de Velero.**
+
+image::redhat_openshift_OADP_delete_image3.png[Suprimir copia de seguridad Y almacenamiento de objetos asociado]
+
+
+
+== Suprimiendo la restauración
+
+Puede eliminar el objeto Restore CR mediante la CLI de OC o la CLI de Velero
+
+image::redhat_openshift_OADP_delete_image4.png[Eliminar restauración]

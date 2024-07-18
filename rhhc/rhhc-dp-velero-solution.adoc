@@ -1,0 +1,51 @@
+---
+sidebar: sidebar 
+permalink: rhhc/rhhc-dp-velero-solution.html 
+keywords: OpenShift, OCP, Astra Trident, NetApp ONTAP, Red Hat OpenShift, OADP operator, Openshift Data Protection Application operator, Velero, app data protection, Containers 
+summary: Protección de datos de aplicaciones de contenedores Red Hat OpenShift con NetApp ONTAP 
+---
+= Protección de datos para aplicaciones de contenedores en OpenShift Container Platform mediante la API de OpenShift para protección de datos (OADP)
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+Autor: Banu Sundhar, NetApp
+
+[role="lead"]
+Esta sección del documento de referencia proporciona detalles para crear copias de seguridad de aplicaciones de contenedores mediante la API de OpenShift para protección de datos (OADP) con Velero en NetApp ONTAP S3 o NetApp StorageGRID S3. Los backups de recursos del ámbito del espacio de nombres, incluidos los volúmenes persistentes (VP) de la aplicación, se crean mediante snapshots de CSI Astra Trident.
+
+El almacenamiento persistente para las aplicaciones de contenedor se puede respaldar mediante el almacenamiento de ONTAP integrado en el clúster de OpenShift mediante link:https://docs.netapp.com/us-en/trident/["CSI de Astra Trident"]. En esta sección utilizamos link:https://docs.openshift.com/container-platform/4.14/backup_and_restore/application_backup_and_restore/installing/installing-oadp-ocs.html["API de OpenShift para la protección de datos (OADP)"] para realizar copias de seguridad de aplicaciones, incluidos sus volúmenes de datos
+
+* Almacenamiento de objetos ONTAP
+* StorageGRID
+
+
+Después, restauramos desde el backup cuando sea necesario. Tenga en cuenta que la aplicación solo se puede restaurar en el clúster desde el que se creó la copia de seguridad.
+
+OADP permite realizar copias de seguridad, restauraciones y recuperación ante desastres de aplicaciones en un clúster OpenShift. Los datos que se pueden proteger con OADP incluyen objetos de recursos de Kubernetes, volúmenes persistentes e imágenes internas.
+
+image::redhat_openshift_OADP_image1.jpg[API de OpenShift para protección de datos]
+
+Red Hat OpenShift ha aprovechado las soluciones desarrolladas por las comunidades OpenSource para la protección de datos. link:https://velero.io/["Velero"] Es una herramienta de código abierto para realizar backups y restauraciones seguras, llevar a cabo la recuperación de desastres y migrar los recursos de clústeres de Kubernetes y volúmenes persistentes. Para usar Velero fácilmente, OpenShift ha desarrollado el operador OADP y el plugin Velero para integrarse con los controladores de almacenamiento CSI. El núcleo de las API de OADP que se exponen se basa en las API de Velero. Después de instalar el operador OADP y configurarlo, las operaciones de copia de seguridad/restauración que se pueden realizar se basan en las operaciones expuestas por la API de Velero.
+
+image::redhat_openshift_OADP_image2.jpg[API de OpenShift para protección de datos]
+
+OADP 1,3 está disponible desde el concentrador de operadores del cluster OpenShift 4,12 y versiones posteriores. Tiene un Data Mover integrado que puede mover instantáneas de volumen CSI a un almacén de objetos remoto. De este modo, se proporciona portabilidad y durabilidad al mover snapshots a una ubicación de almacenamiento de objetos durante el backup. A continuación, las instantáneas están disponibles para la restauración después de un desastre.
+
+**Las siguientes son las versiones de los diversos componentes utilizados para los ejemplos de esta sección**
+
+* Cluster OpenShift 4,14
+* Operador OADP 1,13 proporcionado por Red Hat
+* Velero CLI 1,13 para Linux
+* Astra Trident 24,02
+* ONTAP 9,12
+* postgresql instalado usando helm.
+
+
+link:https://docs.netapp.com/us-en/trident/["CSI de Astra Trident"]
+link:https://docs.openshift.com/container-platform/4.14/backup_and_restore/application_backup_and_restore/installing/installing-oadp-ocs.html["API de OpenShift para la protección de datos (OADP)"]
+link:https://velero.io/["Velero"]
