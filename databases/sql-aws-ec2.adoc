@@ -147,15 +147,15 @@ Para crear volúmenes y LUN para SQL Server, complete los pasos siguientes:
 . Abra la consola de Amazon FSX en https://console.aws.amazon.com/fsx/[]
 . Cree un Amazon FSX para el sistema de archivos ONTAP de NetApp mediante la opción Standard Create del método de creación. Esto permite definir credenciales FSxadmin y vsadmin.
 +
-image:sql-awsec2-image1.png[""]
+image::sql-awsec2-image1.png[sql awsec2 image1]
 
 . Especifique la contraseña para fsxadmin.
 +
-image:sql-awsec2-image2.png[""]
+image::sql-awsec2-image2.png[sql awsec2 image2]
 
 . Especifique la contraseña para las SVM.
 +
-image:sql-awsec2-image3.png[""]
+image::sql-awsec2-image3.png[sql awsec2 image3]
 
 . Cree volúmenes mediante el paso que se indica en https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/creating-volumes.html["Creación de un volumen en FSX para ONTAP de NetApp"^].
 +
@@ -193,7 +193,7 @@ Set-Service -Name msiscsi -StartupType Automatic
 Get-InitiatorPort | select NodeAddress
 ....
 +
-image:sql-awsec2-image4.png[""]
+image::sql-awsec2-image4.png[sql awsec2 image4]
 
 . Conéctese a máquinas virtuales de almacenamiento (SVM) mediante putty y cree un iGroup.
 +
@@ -206,7 +206,7 @@ igroup create -igroup igrp_ws2019sql1 -protocol iscsi -ostype windows -initiator
 lun create -path /vol/vol_awssqlprod01_data/lun_awssqlprod01_data -size 700GB -ostype windows_2008 -space-allocation enabled lun create -path /vol/vol_awssqlprod01_log/lun_awssqlprod01_log -size 100GB -ostype windows_2008 -space-allocation enabled
 ....
 +
-image:sql-awsec2-image5.png[""]
+image::sql-awsec2-image5.png[sql awsec2 image5]
 
 . Para alinear la I/o con el esquema de particiones del SO, utilice Windows_2008 como tipo de LUN recomendado. Consulte https://docs.netapp.com/us-en/ontap/san-admin/io-misalignments-properly-aligned-luns-concept.html["aquí"^] para obtener más información.
 . Utilice el siguiente comando SSH para asignar el igroup a las LUN que acaba de crear.
@@ -216,21 +216,21 @@ lun show
 lun map -path /vol/vol_awssqlprod01_data/lun_awssqlprod01_data -igroup igrp_awssqlprod01lun map -path /vol/vol_awssqlprod01_log/lun_awssqlprod01_log -igroup igrp_awssqlprod01
 ....
 +
-image:sql-awsec2-image6.png[""]
+image::sql-awsec2-image6.png[sql awsec2 image6]
 
 . Para un disco compartido que utiliza el clúster de conmutación al nodo de respaldo de Windows, ejecute un comando SSH para asignar la misma LUN al igroup que pertenece a todos los servidores que participan en el clúster de conmutación al nodo de respaldo de Windows.
 . Conecte Windows Server a una SVM con un destino iSCSI. Busque la dirección IP de destino en AWS Portal.
 +
-image:sql-awsec2-image7.png[""]
+image::sql-awsec2-image7.png[sql awsec2 image7]
 
 . En el Administrador del servidor y en el menú Herramientas, seleccione el iniciador iSCSI. Seleccione la pestaña detección y, a continuación, seleccione detectar portal. Proporcione la dirección IP de iSCSI del paso anterior y seleccione Avanzada. En adaptador local, seleccione Iniciador iSCSI de Microsoft. En IP del iniciador, seleccione la IP del servidor. A continuación, seleccione Aceptar para cerrar todas las ventanas.
 +
-image:sql-awsec2-image8.png[""]
+image::sql-awsec2-image8.png[sql awsec2 image8]
 
 . Repita el paso 12 para la segunda IP de iSCSI desde la SVM.
 . Seleccione la ficha *Targets*, seleccione *Connect* y seleccione *Enable muti-path*.
 +
-image:sql-awsec2-image9.png[""]
+image::sql-awsec2-image9.png[sql awsec2 image9]
 
 . Para obtener el mejor rendimiento, añada más sesiones; NetApp recomienda crear cinco sesiones iSCSI. Seleccione *Propiedades *> *Añadir sesión *> *Avanzado* y repita el paso 12.
 +
@@ -239,7 +239,7 @@ $TargetPortals = ('10.2.1.167', '10.2.2.12')
 foreach ($TargetPortal in $TargetPortals) {New-IscsiTargetPortal -TargetPortalAddress $TargetPortal}
 ....
 +
-image:sql-awsec2-image10.png[""]
+image::sql-awsec2-image10.png[sql awsec2 image10]
 
 
 
@@ -259,7 +259,7 @@ Connect-IscsiTarget -IsMultipathEnabled $true -NodeAddress $target.NodeAddress -
 }
 ....
 +
-image:sql-awsec2-image11.png[""]
+image::sql-awsec2-image11.png[sql awsec2 image11]
 
 .. Inicializar discos con el siguiente comando de PowerShell.
 +
@@ -268,7 +268,7 @@ $disks = Get-Disk | where PartitionStyle -eq raw
 foreach ($disk in $disks) {Initialize-Disk $disk.Number}
 ....
 +
-image:sql-awsec2-image12.png[""]
+image::sql-awsec2-image12.png[sql awsec2 image12]
 
 .. Ejecute los comandos Create Partition y Format Disk con PowerShell.
 +
@@ -350,7 +350,7 @@ Para obtener compatibilidad de versiones, consulte https://mysupport.netapp.com/
 ====
 La figura siguiente muestra algunas consideraciones que se deben tener en cuenta para crear el diseño de almacenamiento de la base de datos de Microsoft SQL Server al realizar backups con SnapCenter.
 
-image:sql-awsec2-image13.png[""]
+image::sql-awsec2-image13.png[sql awsec2 image13]
 
 *Mejores prácticas*
 
@@ -383,15 +383,15 @@ Después de instalar SnapCenter, lleve a cabo los siguientes pasos para configur
 
 . Para configurar las credenciales, seleccione *Ajustes* > *Nuevo* y, a continuación, introduzca la información de las credenciales.
 +
-image:sql-awsec2-image14.png[""]
+image::sql-awsec2-image14.png[sql awsec2 image14]
 
 . Añada el sistema de almacenamiento seleccionando sistemas de almacenamiento > Nuevo y proporcione el FSX adecuado para la información del almacenamiento ONTAP.
 +
-image:sql-awsec2-image15.png[""]
+image::sql-awsec2-image15.png[sql awsec2 image15]
 
 . Agregue hosts seleccionando *hosts* > *Agregar* y, a continuación, proporcione la información del host. SnapCenter instala automáticamente los complementos de Windows y SQL Server. Este proceso puede tardar algún tiempo.
 +
-image:sql-awsec2-image16.png[""]
+image::sql-awsec2-image16.png[sql awsec2 image16]
 
 
 
@@ -409,13 +409,13 @@ La fórmula de ajuste de tamaño del directorio de registro de host asume lo sig
 * Copia de seguridad de la base de datos del sistema que no incluya la base de datos tempdb
 * SpacePlace, sobre una sobrecarga del 10% de LUN, el directorio de registro del host en un volumen o una LUN dedicados. La cantidad de datos en el directorio de registro del host depende del tamaño de los backups y de la cantidad de días que se retienen los backups.
 +
-image:sql-awsec2-image17.png[""]
+image::sql-awsec2-image17.png[sql awsec2 image17]
 
 +
 Si las LUN ya se han aprovisionado, puede seleccionar el punto de montaje para representar el directorio del registro del host.
 
 +
-image:sql-awsec2-image18.png[""]
+image::sql-awsec2-image18.png[sql awsec2 image18]
 
 
 
@@ -435,23 +435,23 @@ Después de colocar los archivos de base de datos y de registro en los LUN de ON
 +
 .. Seleccione *Recursos* y, a continuación, seleccione *Microsoft SQL Server *en el menú desplegable de la parte superior izquierda. Seleccione *Actualizar recursos*.
 +
-image:sql-awsec2-image19.png[""]
+image::sql-awsec2-image19.png[sql awsec2 image19]
 
 .. Seleccione la base de datos de la que desea realizar una copia de seguridad y, a continuación, seleccione *Siguiente* y (**) para agregar la política si no se ha creado una. Siga la *Nueva política de copia de seguridad de SQL Server* para crear una nueva directiva.
 +
-image:sql-awsec2-image20.png[""]
+image::sql-awsec2-image20.png[sql awsec2 image20]
 
 .. Seleccione el servidor de verificación si es necesario. Este servidor es el servidor que SnapCenter ejecuta DBCC CHECKDB después de crear una copia de seguridad completa. Haga clic en *Siguiente* para la notificación y, a continuación, seleccione *Resumen* para revisar. Después de revisar, haga clic en *Finalizar*.
 +
-image:sql-awsec2-image21.png[""]
+image::sql-awsec2-image21.png[sql awsec2 image21]
 
 .. Haga clic en *copia de seguridad ahora* para probar la copia de seguridad. En las ventanas emergentes, seleccione *copia de seguridad*.
 +
-image:sql-awsec2-image22.png[""]
+image::sql-awsec2-image22.png[sql awsec2 image22]
 
 .. Seleccione *Monitor* para comprobar que la copia de seguridad se ha completado.
 +
-image:sql-awsec2-image23.png[""]
+image::sql-awsec2-image23.png[sql awsec2 image23]
 
 
 
@@ -473,13 +473,13 @@ Complete los siguientes pasos para restaurar una base de datos individual a un m
 
 . Seleccione Resources y, a continuación, seleccione la base de datos que desea restaurar.
 +
-image:sql-awsec2-image24.png[""]
+image::sql-awsec2-image24.png[sql awsec2 image24]
 
 . Seleccione el nombre de backup desde el que debe restaurarse la base de datos y, a continuación, seleccione restore.
 . Siga las ventanas emergentes de *Restaurar* para restaurar la base de datos.
 . Seleccione *Monitor* para comprobar que el proceso de restauración se ha realizado correctamente.
 +
-image:sql-awsec2-image25.png[""]
+image::sql-awsec2-image25.png[sql awsec2 image25]
 
 
 
@@ -550,12 +550,12 @@ El siguiente paso se utiliza para clonar bases de datos en la nueva instancia de
 . Seleccione Resources y, a continuación, la base de datos que desea clonar.
 . Seleccione el nombre de backup que desea clonar y, a continuación, seleccione Clone.
 +
-image:sql-awsec2-image26.png[""]
+image::sql-awsec2-image26.png[sql awsec2 image26]
 
 . Siga las instrucciones Clone from Backup proporcionando la nueva instancia de SQL Server en EC2 y el nombre de la instancia para finalizar el proceso de clonado.
 . Seleccione Monitor para asegurarse de que se ha completado la clonación.
 +
-image:sql-awsec2-image27.png[""]
+image::sql-awsec2-image27.png[sql awsec2 image27]
 
 
 

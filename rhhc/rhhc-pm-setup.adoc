@@ -18,7 +18,7 @@ En esta sección se describe un flujo de trabajo de alto nivel de configuración
 
 A continuación se muestra un diagrama que muestra los clústeres ROSA implementados en AWS y utilizando FSxN como almacenamiento back-end.
 
-image:rhhc-rosa-with-fsxn.png[""]
+image::rhhc-rosa-with-fsxn.png[rhhc rosa con fsxn]
 
 
 NOTE: Esta solución se verificó mediante el uso de dos clústeres ROSA en dos VPC en AWS. Cada clúster ROSA se integró con FSxN mediante Astra Trident. Hay varias formas de implementar los clusters ROSA y FSxN en AWS. Esta descripción de alto nivel de la configuración proporciona enlaces de documentación para el método específico utilizado. Puede consultar los otros métodos en los enlaces correspondientes proporcionados en la link:rhhc-resources.html["sección recursos"].
@@ -52,7 +52,7 @@ video::621ae20d-7567-4bbf-809d-b01200fa7a68[panopto]
 
 NOTE: OpenShift GitOps se puede utilizar para implementar Astra Trident CSI en todos los clústeres gestionados a medida que se registran en ArgoCD mediante ApplicationSet.
 
-image:rhhc-trident-helm.png[""]
+image::rhhc-trident-helm.png[timón tridente rhhc]
 
 ====
 .Crear clases de almacenamiento y back-end con Trident (para FSxN)
@@ -62,7 +62,7 @@ image:rhhc-trident-helm.png[""]
 * Convierta la clase de almacenamiento creada para FsxN con Trident CSI por defecto en OpenShift Console. Consulte la captura de pantalla a continuación:
 
 
-image:rhhc-default-storage-class.png[""]
+image::rhhc-default-storage-class.png[clase de almacenamiento por defecto de rhhc]
 
 ====
 .Desplegar una aplicación usando OpenShift GitOps (CD de Argo)

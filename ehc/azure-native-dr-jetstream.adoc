@@ -78,15 +78,15 @@ El software Jetstream DR consta de tres componentes principales: Jetstream DR Ma
 . Registre el servidor vCenter con MSA.para realizar la instalación, complete los siguientes pasos detallados:
 . Una vez que se haya puesto en marcha JetStream DR MSA y se haya registrado vCenter Server, acceda al complemento de recuperación ante desastres JetStream mediante vSphere Web Client. Para ello, vaya a Datacenter > Configure > JetStream DR.
 +
-image:vmware-dr-image8.png[""]
+image::vmware-dr-image8.png[dr image8 de vmware]
 
 . En la interfaz DR de JetStream, seleccione el clúster adecuado.
 +
-image:vmware-dr-image9.png[""]
+image::vmware-dr-image9.png[dr image9 de vmware]
 
 . Configure el clúster con el paquete de filtro de I/O.
 +
-image:vmware-dr-image10.png[""]
+image::vmware-dr-image10.png[dr image10 de vmware]
 
 . Añada Azure Blob Storage ubicado en el sitio de recuperación.
 . Implemente un dispositivo virtual de recuperación ante desastres (DRVA) desde la ficha Appliances (dispositivos).
@@ -97,14 +97,14 @@ NOTE: Los DRVAs se pueden crear automáticamente mediante CPT, pero para las pru
 
 JetStream DRVA es un dispositivo virtual que facilita las funciones clave del proceso de replicación de datos. Un clúster protegido debe contener al menos un DVAD y, normalmente, un DVAD se configura por host. Cada DRVA puede gestionar varios dominios protegidos.
 
-image:vmware-dr-image11.png[""]
+image::vmware-dr-image11.png[dr image11 de vmware]
 
 En este ejemplo, se crearon cuatro DRVA para 80 máquinas virtuales.
 
 . Crear volúmenes de registro de replicación para cada DRVA utilizando VMDK desde los almacenes de datos disponibles o grupos de almacenamiento iSCSI compartidos independientes.
 . En la pestaña protected Domains, cree la cantidad necesaria de dominios protegidos utilizando información acerca del sitio de Azure Blob Storage, la instancia de DRVA y el registro de replicación. Un dominio protegido define una máquina virtual o un conjunto de máquinas virtuales específicos del clúster que se protegen en conjunto y asignó un orden de prioridad a las operaciones de conmutación por error y conmutación tras recuperación.
 +
-image:vmware-dr-image12.png[""]
+image::vmware-dr-image12.png[dr image12 de vmware]
 
 . Seleccione las máquinas virtuales que desea proteger e iniciar la protección de máquinas virtuales del dominio protegido. Esto comienza la replicación de datos en el almacén BLOB designado.
 
@@ -115,7 +115,7 @@ NOTE: Compruebe que se utilice el mismo modo de protección para todas las máqu
 
 NOTE: El modo Write- Back (VMDK) puede ofrecer un mayor rendimiento.
 
-image:vmware-dr-image13.png[""]
+image::vmware-dr-image13.png[dr image13 de vmware]
 
 Compruebe que los volúmenes de registro de replicación se colocan en un almacenamiento de alto rendimiento.
 
@@ -153,15 +153,15 @@ NOTE: El usuario de CloudAdmin predeterminado en la solución VMware de Azure no
 La siguiente captura de pantalla muestra la instalación mediante una dirección IP basada en DHCP.
 
 +
-image:vmware-dr-image14.png[""]
+image::vmware-dr-image14.png[dr image14 de vmware]
 
 . Una vez finalizada la instalación de JetStream DR para AVS, actualice el explorador. Para acceder a la interfaz de usuario de recuperación ante desastres de JetStream, vaya a SDDC Datacenter > Configure > JetStream DR.
 +
-image:vmware-dr-image15.png[""]
+image::vmware-dr-image15.png[dr image15 de vmware]
 
 . Desde la interfaz DR de JetStream, añada la cuenta de almacenamiento BLOB de Azure que se utilizó para proteger el clúster local como sitio de almacenamiento y, a continuación, ejecute la opción Scan Domains.
 +
-image:vmware-dr-image16.png[""]
+image::vmware-dr-image16.png[dr image16 de vmware]
 
 . Después de importar los dominios protegidos, implemente dispositivos DRVA. En este ejemplo, la rehidratación continua se inicia manualmente desde el sitio de recuperación mediante la IU de recuperación ante desastres de JetStream.
 +
@@ -171,7 +171,7 @@ NOTE: Estos pasos también se pueden automatizar mediante planes creados por CPT
 . Cree volúmenes de registros de replicación con almacenes de datos VSAN o ANF disponibles.
 . Importe los dominios protegidos y configure Recovery VA para utilizar el almacén de datos ANF en las ubicaciones de las máquinas virtuales.
 +
-image:vmware-dr-image17.png[""]
+image::vmware-dr-image17.png[dr image17 de vmware]
 
 +
 
@@ -179,7 +179,7 @@ NOTE: Asegúrese de que DHCP esté habilitado en el segmento seleccionado y haya
 
 . Seleccione la opción de conmutación por error adecuada (conmutación por error continua o conmutación por error). En este ejemplo, se selecciona la rehidratación continua (conmutación por error continua).
 +
-image:vmware-dr-image18.png[""]
+image::vmware-dr-image18.png[dr image18 de vmware]
 
 
 
@@ -201,17 +201,17 @@ NOTE: CPT se puede usar para ejecutar el plan de conmutación por error y recupe
 NOTE: Después de la conmutación al nodo de respaldo (para una rehidratación continua o estándar), cuando se iniciaron las máquinas virtuales protegidas en AVS, la protección se reanuda automáticamente y JetStream DR sigue replicando sus datos en los contenedores originales o adecuados en Azure Blob Storage.
 
 +
-image:vmware-dr-image19.png[""]
+image::vmware-dr-image19.png[dr image19 de vmware]
 
 +
-image:vmware-dr-image20.png[""]
+image::vmware-dr-image20.png[dr image20 de vmware]
 
 +
 La barra de tareas muestra el progreso de las actividades de failover.
 
 . Una vez finalizada la tarea, el acceso al equipo virtual recuperado y al negocio continúa de forma normal.
 +
-image:vmware-dr-image21.png[""]
+image::vmware-dr-image21.png[dr image21 de vmware]
 
 +
 Una vez que el sitio principal esté activo y en funcionamiento de nuevo, es posible realizar la conmutación tras recuperación. La protección de equipos virtuales se reanuda y se debe comprobar la consistencia de los datos.
@@ -223,7 +223,7 @@ NOTE: Nota: La `recovery_utility_prepare_failback` El script que se proporciona 
 
 . Acceda al entorno local restaurado, vaya a la interfaz de usuario de recuperación ante desastres de Jetstream y seleccione el dominio protegido adecuado. Una vez que el sitio protegido esté listo para la conmutación tras recuperación, seleccione la opción de conmutación por recuperación en la interfaz de usuario.
 +
-image:vmware-dr-image22.png[""]
+image::vmware-dr-image22.png[dr image22 de vmware]
 
 
 
@@ -244,4 +244,4 @@ Recuperarse del ransomware puede ser una tarea abrumadora. Específicamente, pue
 
 Jetstream DR para AVS junto con los almacenes de datos de Azure NetApp Files pueden resolver estos problemas al permitir que las organizaciones se recuperen de puntos disponibles en el tiempo, de modo que las cargas de trabajo se recuperen en una red funcional y aislada, en caso necesario. La recuperación permite que las aplicaciones funcionen y se comuniquen entre sí mientras no las exponen al tráfico norte-sur, dando así a los equipos de seguridad un lugar seguro para realizar el análisis forense y otra reparación necesaria.
 
-image:vmware-dr-image23.png[""]
+image::vmware-dr-image23.png[dr image23 de vmware]

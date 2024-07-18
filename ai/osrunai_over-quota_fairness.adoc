@@ -28,7 +28,7 @@ Para obtener información detallada, incluidos los envíos de trabajos, las imá
 
 Cuando todos los trabajos se someten según la sección link:osrunai_testing_details_for_section_410.html["Detalles de la prueba para la sección 4.10"], el panel del sistema muestra eso `team-a`, `team-b`, y. `team-c` Todos tienen más GPU que su cuota predefinida. `team-a` Ocupa cuatro GPU más que su cuota de software predefinida (cuatro), mientras que `team-b` y.. `team-c` Cada uno ocupa dos GPU más que su cuota blanda (dos). La proporción de GPU asignadas por encima de una cuota es igual a la de su cuota predefinida. Esto se debe a que el sistema utilizó la cuota preconfigurada como referencia de prioridad y se aprovisionó de manera acorde cuando varios equipos soliciten más GPU, por lo que superó su cuota. Este equilibrio de carga automático proporciona justicia y priorización cuando los equipos de ciencia de datos empresariales están involucrados activamente en el desarrollo y la producción de modelos de IA.
 
-image:osrunai_image10.png[""]
+image::osrunai_image10.png[osrunai image10]
 
 Los resultados de este escenario de prueba muestran lo siguiente:
 
@@ -56,4 +56,4 @@ Por lo tanto, el sistema debe estabilizarse en los siguientes estados:
 |===
 La siguiente figura muestra la asignación de GPU por proyecto a lo largo del tiempo en el panel Run:AI Analytics de las secciones link:osrunai_achieving_high_cluster_utilization_with_over-uota_gpu_allocation.html["Utilización óptima del clúster gracias a la asignación de GPU por encima de una cuota"], link:osrunai_basic_resource_allocation_fairness.html["Equidad en la asignación de recursos básicos"], y. link:osrunai_over-quota_fairness.html["Justicia por exceso de cuotas"]. Cada línea de la figura indica el número de GPU aprovisionadas para un equipo de ciencias de datos en cualquier momento. Podemos observar que el sistema asigna dinámicamente las GPU de acuerdo con las cargas de trabajo enviadas. Esto permite a los equipos revisar las cuotas cuando hay GPU disponibles en el clúster y, después, adelantarse a los trabajos según sea necesario, antes de alcanzar, por fin, un estado estable para los cuatro equipos.
 
-image:osrunai_image11.png[""]
+image::osrunai_image11.png[osrunai image11]

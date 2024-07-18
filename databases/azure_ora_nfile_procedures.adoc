@@ -53,36 +53,38 @@ En función de su carga de trabajo, determine qué tipo de equipo virtual de Azu
 
 . En la página de Azure VM, haga clic en *Crear* y, a continuación, elija *máquina virtual de Azure*.
 +
-image:db_ora_azure_anf_vm_01.PNG["Esta captura de pantalla muestra la lista de máquinas virtuales de Azure disponibles."]
+image::db_ora_azure_anf_vm_01.PNG[Esta captura de pantalla muestra la lista de máquinas virtuales de Azure disponibles.]
 
 . Elija el ID de suscripción de la implementación y elija el grupo de recursos, la región, el nombre de host, la imagen de máquina virtual, el tamaño y método de autenticación. Vaya a la página Disk.
 +
-image:db_ora_azure_anf_vm_02-1.PNG["Esta captura de pantalla muestra la entrada de la página Crear una máquina virtual."]
-image:db_ora_azure_anf_vm_02-2.PNG["Esta captura de pantalla muestra entradas adicionales para la página Crear una máquina virtual."]
+image::db_ora_azure_anf_vm_02-1.PNG[Esta captura de pantalla muestra la entrada de la página Crear una máquina virtual.]
+
++
+image::db_ora_azure_anf_vm_02-2.PNG[Esta captura de pantalla muestra entradas adicionales para la página Crear una máquina virtual.]
 
 . Elija *SSD premium* para la redundancia local del SO y deje el disco de datos vacío porque los discos de datos están montados desde el almacenamiento ANF. Vaya a la página Networking.
 +
-image:db_ora_azure_anf_vm_03.PNG["Esta captura de pantalla muestra la entrada de la página Crear discos de máquina virtual."]
+image::db_ora_azure_anf_vm_03.PNG[Esta captura de pantalla muestra la entrada de la página Crear discos de máquina virtual.]
 
 . Seleccione el vnet y la subred. Asigne una IP pública para el acceso externo a una máquina virtual. A continuación, vaya a la página Management.
 +
-image:db_ora_azure_anf_vm_04.PNG["Esta captura de pantalla muestra información adicional para la página Crear una máquina virtual."]
+image::db_ora_azure_anf_vm_04.PNG[Esta captura de pantalla muestra información adicional para la página Crear una máquina virtual.]
 
 . Mantenga todos los valores predeterminados de Management y desplácese a la página Advanced.
 +
-image:db_ora_azure_anf_vm_05.PNG["Esta captura de pantalla muestra la entrada de la página Crear una máquina virtual Management."]
+image::db_ora_azure_anf_vm_05.PNG[Esta captura de pantalla muestra la entrada de la página Crear una máquina virtual Management.]
 
 . Conserve todos los valores predeterminados en la página Advanced a menos que necesite personalizar una máquina virtual tras la implementación con scripts personalizados. A continuación, vaya a la página Etiquetas.
 +
-image:db_ora_azure_anf_vm_06.PNG["Esta captura de pantalla muestra la entrada de la página Create a Virtual Machine Advanced."]
+image::db_ora_azure_anf_vm_06.PNG[Esta captura de pantalla muestra la entrada de la página Create a Virtual Machine Advanced.]
 
 . Añada una etiqueta para la máquina virtual si lo desea. A continuación, vaya a la página revisar + crear.
 +
-image:db_ora_azure_anf_vm_07.PNG["Esta captura de pantalla muestra la entrada de la página Crear una máquina virtual Etiquetas."]
+image::db_ora_azure_anf_vm_07.PNG[Esta captura de pantalla muestra la entrada de la página Crear una máquina virtual Etiquetas.]
 
 . El flujo de trabajo de implementación ejecuta una validación en la configuración y, si se supera la validación, haga clic en *Crear* para crear la VM.
 +
-image:db_ora_azure_anf_vm_08.PNG["Esta captura de pantalla muestra la entrada de la página Crear una máquina virtual de revisión y creación"]
+image::db_ora_azure_anf_vm_08.PNG[Esta captura de pantalla muestra la entrada para la página Crear una Máquina Virtual de revisión y Crear]
 
 
 
@@ -94,28 +96,30 @@ Debe crear tres volúmenes NFS para un pool de capacidad ANF para los volúmenes
 
 . Desde la consola de Azure, en la lista de servicios de Azure, haga clic en Azure NetApp Files para abrir un flujo de trabajo de creación de volúmenes. Si tiene más de una cuenta de almacenamiento de ANF, haga clic en la cuenta desde la cual desea aprovisionar volúmenes.
 +
-image:db_ora_azure_anf_vols_00.PNG["Esta captura de pantalla muestra la página de Azure Services, con ANF resaltado."]
+image::db_ora_azure_anf_vols_00.PNG[Esta captura de pantalla muestra la página de Azure Services, con ANF resaltado.]
 
 . En su cuenta de almacenamiento de NetApp, haga clic en *volúmenes* y, a continuación, en *Añadir volumen* para crear nuevos volúmenes de Oracle.
 +
-image:db_ora_azure_anf_vols_01_1.PNG["Esta captura de pantalla muestra la pantalla de destino de una cuenta de almacenamiento de NetApp."]
-image:db_ora_azure_anf_vols_01.PNG["Esta captura de pantalla muestra los volúmenes disponibles para la cuenta de almacenamiento de NetApp."]
+image::db_ora_azure_anf_vols_01_1.PNG[Esta captura de pantalla muestra la pantalla de destino de una cuenta de almacenamiento de NetApp.]
+
++
+image::db_ora_azure_anf_vols_01.PNG[Esta captura de pantalla muestra los volúmenes disponibles para la cuenta de almacenamiento de NetApp.]
 
 . Como práctica recomendada, identifique los volúmenes de Oracle con el nombre de host de VM como prefijo y, a continuación, seguido del punto de montaje en el host, como u01 para el binario de Oracle, u02 para los datos de Oracle y u03 para el registro de Oracle. Elija el mismo vnet para el volumen que para el equipo virtual. Haga clic en *Siguiente: Protocolo>*.
 +
-image:db_ora_azure_anf_vols_02.PNG["Pantalla de creación de volumen."]
+image::db_ora_azure_anf_vols_02.PNG[Pantalla de creación de volumen.]
 
 . Elija el protocolo NFS, añada la dirección IP del host de Oracle al cliente permitido y elimine la política predeterminada que permite todas las direcciones IP 0.0.0.0/0. A continuación, haga clic en *Siguiente: Etiquetas>*.
 +
-image:db_ora_azure_anf_vols_03.PNG["Entrada de protocolo en la pantalla Volume Creation."]
+image::db_ora_azure_anf_vols_03.PNG[Entrada de protocolo en la pantalla Volume Creation.]
 
 . Añada una etiqueta de volumen si lo desea. A continuación, haga clic en *revisar + Crear>*.
 +
-image:db_ora_azure_anf_vols_04.PNG["Entrada de etiquetas en la pantalla creación de volúmenes."]
+image::db_ora_azure_anf_vols_04.PNG[Entrada de etiquetas en la pantalla creación de volúmenes.]
 
 . Si la validación se supera, haga clic en *Crear* para crear el volumen.
 +
-image:db_ora_azure_anf_vols_05.PNG["Revise y cree la etapa de la pantalla Volume Creation."]
+image::db_ora_azure_anf_vols_05.PNG[Revise y cree la etapa de la pantalla Volume Creation.]
 
 
 

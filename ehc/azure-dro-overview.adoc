@@ -26,7 +26,7 @@ Con la replicación de volúmenes entre regiones de Azure NetApp Files (ANF), la
 
 El orquestador de recuperación ante desastres (DRO) (una solución basada en secuencia de comandos con una interfaz de usuario) puede utilizarse para recuperar sin problemas las cargas de trabajo replicadas desde un SDDC de AVS a otro. DRO automatiza la recuperación rompiendo la paridad de replicación y luego montando el volumen de destino como almacén de datos, a través del registro de VM en AVS, a las asignaciones de red directamente en NSX-T (incluido con todos los clouds privados de AVS).
 
-image:azure-dro-image1.png[""]
+image::azure-dro-image1.png[azure dro image1]
 
 
 
@@ -69,7 +69,7 @@ https://learn.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-in
 
 El primer paso es configurar la replicación entre regiones para los volúmenes de almacén de datos deseados desde el sitio primario AVS al sitio secundario AVS con las frecuencias y retenciones apropiadas.
 
-image:azure-dro-image2.png[""]
+image::azure-dro-image2.png[azure dro image2]
 
 Siga los pasos que se indican a continuación https://learn.microsoft.com/en-us/azure/azure-netapp-files/cross-region-replication-create-peering["enlace"^] para configurar la replicación entre regiones mediante la creación de pares de replicación. El nivel de servicio del pool de capacidad de destino puede coincidir con el del pool de capacidad de origen. Sin embargo, para este caso de uso específico, puede seleccionar el nivel de servicio estándar y luego https://learn.microsoft.com/en-us/azure/azure-netapp-files/dynamic-change-volume-service-level["modificar el nivel de servicio"^] En caso de desastre real o simulaciones de recuperación ante desastres.
 
@@ -123,7 +123,7 @@ sudo sh deploy.sh
 ** Nombre de usuario: `admin`
 ** Contraseña: `admin`
 +
-image:azure-dro-image3.png[""]
+image::azure-dro-image3.png[azure dro image3]
 
 
 
@@ -156,7 +156,7 @@ Debe haber capturado esta información al crear la aplicación AD.
 
 . Confirme los detalles sobre las nuevas credenciales y haga clic en Add Credential.
 +
-image:azure-dro-image4.png[""]
+image::azure-dro-image4.png[azure dro image4]
 
 +
 Después de agregar las credenciales, es hora de detectar y agregar los sitios de AVS principales y secundarios (tanto vCenter como la cuenta de almacenamiento de Azure NetApp Files) a DRO. Para agregar el sitio de origen y destino, realice los siguientes pasos:
@@ -174,7 +174,7 @@ Después de agregar las credenciales, es hora de detectar y agregar los sitios d
 ** SDDC vCenter
 ** Cuenta de almacenamiento de Azure NetApp Files
 +
-image:azure-dro-image5.png[""]
+image::azure-dro-image5.png[azure dro image5]
 
 
 
@@ -187,18 +187,18 @@ NOTE: A modo de demostración, en este documento se trata la adición de un siti
 . DRO muestra todos los SDDC disponibles dentro de la región. Seleccione la URL de cloud privado designada del menú desplegable.
 . Introduzca el `cloudadmin@vsphere.local` credenciales de usuario. A esto se puede acceder desde Azure Portal. Siga los pasos mencionados en este https://learn.microsoft.com/en-us/azure/azure-vmware/tutorial-access-private-cloud["enlace"^]. Una vez hecho esto, haga clic en *Continuar*.
 +
-image:azure-dro-image6.png[""]
+image::azure-dro-image6.png[azure dro image6]
 
 . Seleccione los detalles de Source Storge (ANF) seleccionando el grupo de recursos de Azure y la cuenta de NetApp.
 . Haga clic en *Crear sitio*.
 +
-image:azure-dro-image7.png[""]
+image::azure-dro-image7.png[azure dro image7]
 
 
 
 Una vez agregado, DRO realiza la detección automática y muestra las máquinas virtuales que tienen las réplicas entre regiones correspondientes desde el sitio de origen al sitio de destino. DRO detecta automáticamente las redes y los segmentos que utilizan las máquinas virtuales y los rellena.
 
-image:azure-dro-image8.png[""]
+image::azure-dro-image8.png[azure dro image8]
 
 El siguiente paso es agrupar los equipos virtuales necesarios en sus grupos funcionales como grupos de recursos.
 
@@ -212,7 +212,7 @@ Para comenzar a crear grupos de recursos, haga clic en el elemento de menú *Cre
 
 . Acceda a *Resource Grou*ps y haga clic en *Crear nuevo grupo de recursos*.
 +
-image:azure-dro-image9.png[""]
+image::azure-dro-image9.png[azure dro image9]
 
 . En Nuevo grupo de recursos, seleccione el sitio de origen en el menú desplegable y haga clic en *Crear*.
 . Proporcione los detalles del grupo de recursos y haga clic en *Continuar*.
@@ -223,13 +223,13 @@ image:azure-dro-image9.png[""]
 ** Predeterminado
 ** La última máquina virtual que se enciende
 +
-image:azure-dro-image10.png[""]
+image::azure-dro-image10.png[azure dro image10]
 
 
 
 . Haga clic en *Crear grupo de recursos*.
 +
-image:azure-dro-image11.png[""]
+image::azure-dro-image11.png[azure dro image11]
 
 
 
@@ -243,15 +243,15 @@ Para comenzar a crear un plan de replicación, lleve a cabo los siguientes pasos
 
 . Vaya a *Planes de replicación* y haga clic en *Crear nuevo plan de replicación*.
 +
-image:azure-dro-image12.png[""]
+image::azure-dro-image12.png[azure dro image12]
 
 . En *New Replication Plan*, proporcione un nombre para el plan y agregue asignaciones de recuperación seleccionando el sitio de origen, vCenter asociado, el sitio de destino y vCenter asociado.
 +
-image:azure-dro-image13.png[""]
+image::azure-dro-image13.png[azure dro image13]
 
 . Después de completar el mapeo de recuperación, seleccione el *Cluster Mapping*.
 +
-image:azure-dro-image14.png[""]
+image::azure-dro-image14.png[azure dro image14]
 
 . Seleccione *Detalles del grupo de recursos* y haga clic en *continuar*.
 . Establezca el orden de ejecución del grupo de recursos. Esta opción permite seleccionar la secuencia de operaciones cuando existen varios grupos de recursos.
@@ -262,39 +262,39 @@ image:azure-dro-image14.png[""]
 NOTE: La replicación entre regiones (CRR) se encuentra en el nivel del volumen. Por lo tanto, todas las máquinas virtuales que residen en el respectivo volumen se replican en el destino de CRR. Asegúrese de seleccionar todas las máquinas virtuales que forman parte del almacén de datos, ya que solo se procesan las máquinas virtuales que forman parte del plan de replicación.
 
 +
-image:azure-dro-image15.png[""]
+image::azure-dro-image15.png[azure dro image15]
 
 . En Detalles de VM, opcionalmente puede cambiar el tamaño de los parámetros de CPU y RAM de VM. Esto puede ser muy útil cuando se recuperan entornos grandes en clústeres de destino de menor tamaño, o cuando se realizan pruebas de recuperación ante desastres sin tener que aprovisionar una infraestructura física de VMware uno a uno. Modifique además el orden de arranque y el retraso de inicio (segundos) para todas las máquinas virtuales seleccionadas en los grupos de recursos. Existe una opción adicional para modificar el orden de inicio si se requieren cambios en lo que seleccionó durante la selección de orden de inicio de grupo de recursos. De forma predeterminada, se utiliza el orden de inicio seleccionado durante la selección del grupo de recursos, sin embargo, se pueden realizar modificaciones en esta etapa.
 +
-image:azure-dro-image16.png[""]
+image::azure-dro-image16.png[azure dro image16]
 
 . Haga clic en *Crear plan de replicación*.Después de crear el plan de replicación, puede ejercer las opciones de failover, failover de prueba o migración dependiendo de sus requisitos.
 +
-image:azure-dro-image17.png[""]
+image::azure-dro-image17.png[azure dro image17]
 
 
 
 Durante las opciones de conmutación por error y conmutación por error de prueba, se utiliza la instantánea más reciente o se puede seleccionar una instantánea específica a partir de una instantánea puntual. La opción point-in-time puede ser muy beneficiosa si te enfrentas a un evento de corrupción como ransomware, donde las réplicas más recientes ya están comprometidas o cifradas. DRO muestra todos los puntos de tiempo disponibles.
 
-image:azure-dro-image18.png[""]
+image::azure-dro-image18.png[azure dro image18]
 
 Para activar failover o failover de prueba con la configuración especificada en el plan de replicación, puede hacer clic en *Failover* o *Test Failover*. Puede supervisar el plan de replicación en el menú de tareas.
 
-image:azure-dro-image19.png[""]
+image::azure-dro-image19.png[azure dro image19]
 
 Una vez activada la conmutación al respaldo, los elementos recuperados pueden verse en el sitio secundario AVS SDDC vCenter (máquinas virtuales, redes y almacenes de datos). De forma predeterminada, las máquinas virtuales se recuperan en la carpeta Workload.
 
-image:azure-dro-image20.png[""]
+image::azure-dro-image20.png[azure dro image20]
 
 La conmutación tras recuperación se puede activar en el nivel del plan de replicación. En caso de conmutación por error de prueba, la opción de desmontaje puede utilizarse para revertir los cambios y eliminar el volumen recién creado. Los fallos relacionados con la conmutación al nodo de respaldo son un proceso de dos pasos. Seleccione el plan de replicación y seleccione *Reverse Data Sync*.
 
-image:azure-dro-image21.png[""]
+image::azure-dro-image21.png[azure dro image21]
 
 Una vez completado este paso, active la conmutación por recuperación para volver al sitio AVS principal.
 
-image:azure-dro-image22.png[""]
+image::azure-dro-image22.png[azure dro image22]
 
-image:azure-dro-image23.png[""]
+image::azure-dro-image23.png[azure dro image23]
 
 Desde Azure Portal, podemos ver que el estado de la replicación se ha roto con los volúmenes apropiados que se asignaron al centro secundario AVS SDDC como volúmenes de lectura/escritura. Durante la conmutación al nodo de respaldo de prueba, DRO no asigna el volumen de destino o de réplica. En su lugar, crea un nuevo volumen de la instantánea de replicación entre regiones necesaria y expone el volumen como almacén de datos, que consume capacidad física adicional del pool de capacidad y garantiza que el volumen de origen no se modifique. En particular, las tareas de replicación pueden continuar durante las pruebas de recuperación ante desastres o clasificar los flujos de trabajo. Además, este proceso garantiza que la recuperación se puede limpiar sin el riesgo de que la réplica se destruya en caso de que se produzcan errores o se recuperen datos dañados.
 

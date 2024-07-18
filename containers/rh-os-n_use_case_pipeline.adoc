@@ -24,12 +24,12 @@ Para crear los recursos necesarios para implementar la aplicación Jenkins, real
 
 . Cree un nuevo proyecto denominado Jenkins.
 +
-image:redhat_openshift_image15.jpeg[""]
+image::redhat_openshift_image15.jpeg[red hat openshift image15]
 
 . En este ejemplo, hemos puesto en marcha Jenkins con almacenamiento persistente. Para respaldar la compilación de Jenkins, cree la RVP. Desplácese hasta almacenamiento > reclamaciones de volumen persistente y haga clic en Crear solicitud de volumen persistente. Seleccione la clase de almacenamiento que se creó, asegúrese de que el nombre de reclamación de volumen persistente es jenkins, seleccione el tamaño adecuado y el modo de acceso y, a continuación, haga clic en Create.
 
 
-image:redhat_openshift_image16.png[""]
+image::redhat_openshift_image16.png[red hat openshift image16]
 
 
 
@@ -39,54 +39,54 @@ Para poner en marcha Jenkins con almacenamiento persistente, realice los siguien
 
 . En la esquina superior izquierda, cambie la función de Administrador a Programador. Haga clic en +Agregar y seleccione de Catálogo. En la barra Filtrar por palabra clave, busque jenkins. Seleccione Jenkins Service with persistent Storage.
 +
-image:redhat_openshift_image17.png[""]
+image::redhat_openshift_image17.png[red hat openshift image17]
 
 . Haga clic en `Instantiate Template`.
 +
-image:redhat_openshift_image18.png[""]
+image::redhat_openshift_image18.png[red hat openshift image18]
 
 . De forma predeterminada, se completan los detalles de la aplicación Jenkins. En función de sus requisitos, modifique los parámetros y haga clic en Crear. Este proceso crea todos los recursos necesarios para soportar Jenkins en OpenShift.
 +
-image:redhat_openshift_image19.jpeg[""]
+image::redhat_openshift_image19.jpeg[red hat openshift image19]
 
 . Los POD de Jenkins tardan aproximadamente de 10 a 12 minutos en introducir el estado Listo.
 +
-image:redhat_openshift_image20.png[""]
+image::redhat_openshift_image20.png[red hat openshift image20]
 
 . Después de crear una instancia de los POD, desplácese a Networking > Routes. Para abrir la página web de Jenkins, haga clic en la dirección URL proporcionada para la ruta de jenkins.
 +
-image:redhat_openshift_image21.png[""]
+image::redhat_openshift_image21.png[red hat openshift image21]
 
 . Puesto que se utilizó OpenShift OAuth durante la creación de la aplicación Jenkins, haga clic en Iniciar sesión con OpenShift.
 +
-image:redhat_openshift_image22.jpeg[""]
+image::redhat_openshift_image22.jpeg[red hat openshift image22]
 
 . Autorice a la cuenta de servicio de Jenkins a acceder a los usuarios de OpenShift.
 +
-image:redhat_openshift_image23.jpeg[""]
+image::redhat_openshift_image23.jpeg[red hat openshift image23]
 
 . Aparece la página de bienvenida de Jenkins. Debido a que estamos utilizando un Maven Build, complete la instalación de Maven primero. Desplácese hasta Manage Jenkins > Global Tool Configuration y, a continuación, en el subtítulo de Maven, haga clic en Add Maven. Introduzca el nombre que desee y asegúrese de que la opción instalar automáticamente está seleccionada. Haga clic en Guardar.
 +
-image:redhat_openshift_image24.png[""]
+image::redhat_openshift_image24.png[red hat openshift image24]
 
 . Ahora puede crear una canalización para demostrar el flujo de trabajo de CI/CD. En la página de inicio, haga clic en Crear nuevos trabajos o Nuevo elemento en el menú de la izquierda.
 +
-image:redhat_openshift_image25.jpeg[""]
+image::redhat_openshift_image25.jpeg[red hat openshift image25]
 
 . En la página Create Item, introduzca el nombre que desee, seleccione Pipeline y haga clic en OK.
 +
-image:redhat_openshift_image26.png[""]
+image::redhat_openshift_image26.png[red hat openshift image26]
 
 . Seleccione la pestaña canalización. En el menú desplegable probar canalización de muestra, seleccione Github + Maven. El código se rellena automáticamente. Haga clic en Guardar.
 +
-image:redhat_openshift_image27.png[""]
+image::redhat_openshift_image27.png[red hat openshift image27]
 
 . Haga clic en generar ahora para activar el desarrollo a través de la fase de preparación, creación y prueba. Puede tardar varios minutos en completar todo el proceso de compilación y mostrar los resultados del desarrollo.
 +
-image:redhat_openshift_image28.png[""]
+image::redhat_openshift_image28.png[red hat openshift image28]
 
 . Siempre que haya cambios en el código, la canalización se puede reconstruir para revisar la nueva versión del software permitiendo una integración continua y entrega continua. Haga clic en cambios recientes para realizar un seguimiento de los cambios de la versión anterior.
 +
-image:redhat_openshift_image29.png[""]
+image::redhat_openshift_image29.png[red hat openshift image29]
 
 

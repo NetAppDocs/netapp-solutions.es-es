@@ -28,7 +28,7 @@ Microsoft ofrece varias sesiones en Windows 10 exclusivamente para entornos de e
 
 En la siguiente figura se muestra un ejemplo de topología de puesta en marcha.
 
-image:hcvdivds_image1.png[""]
+image::hcvdivds_image1.png[hcvdivds image1]
 
 Cada implementación está asociada a un dominio de directorio activo y proporciona a los clientes un punto de entrada de acceso para áreas de trabajo y aplicaciones. Normalmente, un proveedor de servicios o empresa que tiene varios dominios de Active Directory tiene más puestas en marcha. Un único dominio de Active Directory que abarca varias regiones normalmente tiene una única implementación con varios sitios.
 
@@ -36,19 +36,19 @@ Para WVD en Azure, Microsoft proporciona una plataforma como servicio que VDS de
 
 Cada puesta en marcha tiene sus propios servicios de plataforma, que consisten en Cloud Workspace Manager (extremo de la API DE REST), una puerta de enlace HTML 5 (conexión a equipos virtuales desde un portal de gestión VDS), puertas de enlace RDS (punto de acceso para clientes) y un controlador de dominio. La siguiente figura muestra la arquitectura VDS Control Plane para la implementación RDS.
 
-image:hcvdivds_image2.png[""]
+image::hcvdivds_image2.png[hcvdivds image2]
 
 Para implementaciones RDS, se puede acceder fácilmente a VDS de NetApp desde Windows y navegadores con un software de cliente que puede personalizarse para incluir imágenes y el logotipo del cliente. Basándose en las credenciales de usuario, proporciona acceso de los usuarios a los espacios de trabajo y aplicaciones aprobados. No es necesario configurar los detalles de la puerta de enlace.
 
 La siguiente figura muestra el cliente VDS de NetApp.
 
-image:hcvdivds_image3.png[""]
+image::hcvdivds_image3.png[hcvdivds image3]
 
 En la implementación de Azure WVD, Microsoft gestiona el punto de entrada de acceso de los clientes y puede ser consumido por un cliente WVD de Microsoft disponible de forma nativa para varios SO. También se puede acceder a él desde un portal web. La configuración del software cliente debe ser gestionada por el objeto de directiva de grupo (GPO) o de otras formas preferidas por los clientes.
 
 En la siguiente figura se muestra la arquitectura VDS Control Plane para implementaciones de Azure WVD.
 
-image:hcvdivds_image4.png[""]
+image::hcvdivds_image4.png[hcvdivds image4]
 
 Además de la instalación y configuración de los componentes necesarios, NetApp VDS también gestiona la gestión de usuarios, la gestión de aplicaciones, el escalado de recursos y la optimización.
 

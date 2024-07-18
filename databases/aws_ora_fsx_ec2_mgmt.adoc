@@ -44,21 +44,21 @@ Una instantánea completa de base de datos incluye todos los archivos de Oracle,
 
 . Inicie sesión en la interfaz de usuario de SnapCenter y haga clic en Resources en el menú que aparece a la izquierda. En el menú desplegable View, cambie a la vista Resource Group.
 +
-image:aws_rds_custom_deploy_snp_10.PNG[""]
+image::aws_rds_custom_deploy_snp_10.PNG[implementación personalizada de aws rds snp 10]
 
 . Haga clic en el nombre completo del recurso de backup y luego en el icono Backup Now para iniciar un backup Add-hoc.
 +
-image:aws_rds_custom_deploy_snp_11.PNG[""]
+image::aws_rds_custom_deploy_snp_11.PNG[implementación personalizada de aws rds snp 11]
 
 . Haga clic en Backup y, a continuación, confirme el backup para iniciar un backup completo de la base de datos.
 +
-image:aws_rds_custom_deploy_snp_12.PNG[""]
+image::aws_rds_custom_deploy_snp_12.PNG[implementación personalizada de aws rds snp 12]
 
 +
 En la vista Resource de la base de datos, abra la página Database Managed Backup Copies para comprobar que el backup inicial se ha realizado correctamente. Un backup de base de datos completo crea dos copias de Snapshot: Una para el volumen de datos y otra para el volumen de registro.
 
 +
-image:aws_rds_custom_deploy_snp_13.PNG[""]
+image::aws_rds_custom_deploy_snp_13.PNG[implementación personalizada de aws rds snp 13]
 
 
 
@@ -70,21 +70,21 @@ Solo se toma una snapshot de registro de archivos para el volumen de registro de
 
 . Inicie sesión en la interfaz de usuario de SnapCenter y haga clic en la pestaña Resources en la barra de menús de la izquierda. En el menú desplegable View, cambie a la vista Resource Group.
 +
-image:aws_rds_custom_deploy_snp_10.PNG[""]
+image::aws_rds_custom_deploy_snp_10.PNG[implementación personalizada de aws rds snp 10]
 
 . Haga clic en el nombre del recurso de backup de registro y, a continuación, en el icono Backup Now para iniciar un backup Add-hoc para los registros de archivos.
 +
-image:aws_rds_custom_deploy_snp_14.PNG[""]
+image::aws_rds_custom_deploy_snp_14.PNG[implementación personalizada de aws rds snp 14]
 
 . Haga clic en Backup y, a continuación, confirme el backup para iniciar el backup de los registros de archivos.
 +
-image:aws_rds_custom_deploy_snp_15.PNG[""]
+image::aws_rds_custom_deploy_snp_15.PNG[implementación personalizada de aws rds snp 15]
 
 +
 En la vista Resource de la base de datos, abra la página Database Managed Backup Copies para verificar que el backup de registro de archivo único se haya completado correctamente. Un backup de registros de archivos crea una copia de Snapshot para el volumen de registro.
 
 +
-image:aws_rds_custom_deploy_snp_16.PNG[""]
+image::aws_rds_custom_deploy_snp_16.PNG[implementación personalizada de aws rds snp 16]
 
 
 
@@ -96,23 +96,26 @@ La restauración basada en SnapCenter a un momento específico se ejecuta en el 
 
 . En la pestaña SnapCenter Resources > Database, haga clic en el nombre de la base de datos para abrir el backup de la base de datos.
 +
-image:aws_rds_custom_deploy_snp_17.PNG[""]
+image::aws_rds_custom_deploy_snp_17.PNG[implementación personalizada de aws rds snp 17]
 
 . Seleccione la copia de backup de la base de datos y el momento específico que desea restaurar. Marque también el número SCN correspondiente para el punto en tiempo. La restauración a un momento específico se puede ejecutar mediante el tiempo o el SCN.
 +
-image:aws_rds_custom_deploy_snp_18.PNG[""]
+image::aws_rds_custom_deploy_snp_18.PNG[implementación personalizada de aws rds snp 18]
 
 . Destaque la copia de Snapshot del volumen de registro y haga clic en el botón Mount para montar el volumen.
 +
-image:aws_rds_custom_deploy_snp_19.PNG[""]
+image::aws_rds_custom_deploy_snp_19.PNG[implementación personalizada de aws rds snp 19]
 
 . Seleccione la instancia primaria de EC2 para montar el volumen de registro.
 +
-image:aws_rds_custom_deploy_snp_20.PNG[""]
+image::aws_rds_custom_deploy_snp_20.PNG[implementación personalizada de aws rds snp 20]
 
 . Compruebe que el trabajo de montaje se haya completado correctamente. Compruebe también el host de la instancia de EC2 para ver el volumen de registro montado y la ruta de punto de montaje.
 +
-image:aws_rds_custom_deploy_snp_21_1.PNG[""] image:aws_rds_custom_deploy_snp_21_2.PNG[""]
+image::aws_rds_custom_deploy_snp_21_1.PNG[implementación personalizada de aws rds snp 21 1]
+
++
+image::aws_rds_custom_deploy_snp_21_2.PNG[implementación personalizada de aws rds snp 21 2]
 
 . Copie los registros de archivos del volumen de registro montado en el directorio actual de registro de archivos.
 +
@@ -122,39 +125,39 @@ image:aws_rds_custom_deploy_snp_21_1.PNG[""] image:aws_rds_custom_deploy_snp_21_
 ----
 . Vuelva a la página SnapCenter Resource tab > backup de base de datos, destaque la copia de Snapshot de datos y haga clic en el botón Restore para iniciar el flujo de trabajo de restauración de base de datos.
 +
-image:aws_rds_custom_deploy_snp_22.PNG[""]
+image::aws_rds_custom_deploy_snp_22.PNG[implementación personalizada de aws rds snp 22]
 
 . Marque "All Datafiles" y "Change database state if needed for restore and recovery", y haga clic en Next.
 +
-image:aws_rds_custom_deploy_snp_23.PNG[""]
+image::aws_rds_custom_deploy_snp_23.PNG[implementación personalizada de aws rds snp 23]
 
 . Elija el alcance de recuperación que desee mediante SCN o Time. En lugar de copiar los registros de archivo montados en el directorio de registro actual como se muestra en el paso 6, la ruta de acceso de registro de archivo montada puede aparecer en "Specify external archive log locations" para su recuperación.
 +
-image:aws_rds_custom_deploy_snp_24_1.PNG[""]
+image::aws_rds_custom_deploy_snp_24_1.PNG[implementación personalizada de aws rds snp 24 1]
 
 . Especifique un script previo opcional para ejecutarlo si es necesario.
 +
-image:aws_rds_custom_deploy_snp_25.PNG[""]
+image::aws_rds_custom_deploy_snp_25.PNG[implementación personalizada de aws rds snp 25]
 
 . Especifique un script posterior opcional para ejecutarlo si es necesario. Compruebe la base de datos abierta después de la recuperación.
 +
-image:aws_rds_custom_deploy_snp_26.PNG[""]
+image::aws_rds_custom_deploy_snp_26.PNG[implementación personalizada de aws rds snp 26]
 
 . Indique un servidor SMTP y una dirección de correo electrónico si se necesita una notificación de trabajo.
 +
-image:aws_rds_custom_deploy_snp_27.PNG[""]
+image::aws_rds_custom_deploy_snp_27.PNG[implementación personalizada de aws rds snp 27]
 
 . Restaure el resumen de trabajos. Haga clic en Finalizar para iniciar el trabajo de restauración.
 +
-image:aws_rds_custom_deploy_snp_28.PNG[""]
+image::aws_rds_custom_deploy_snp_28.PNG[implementación personalizada de aws rds snp 28]
 
 . Validar la restauración desde SnapCenter.
 +
-image:aws_rds_custom_deploy_snp_29_1.PNG[""]
+image::aws_rds_custom_deploy_snp_29_1.PNG[implementación personalizada de aws rds snp 29 1]
 
 . Validar la restauración desde el host de la instancia de EC2.
 +
-image:aws_rds_custom_deploy_snp_29_2.PNG[""]
+image::aws_rds_custom_deploy_snp_29_2.PNG[implementación personalizada de aws rds snp 29 2]
 
 . Para desmontar el volumen de registro de restauración, invierta los pasos del paso 4.
 
@@ -167,53 +170,56 @@ En la siguiente sección se muestra cómo utilizar el flujo de trabajo del clon 
 
 . Haga un backup completo de Snapshot de la base de datos primaria de SnapCenter mediante el grupo de recursos de backup completo.
 +
-image:aws_rds_custom_deploy_replica_02.PNG[""]
+image::aws_rds_custom_deploy_replica_02.PNG[réplica 02 de implementación personalizada de aws rds]
 
 . En la ficha recurso de SnapCenter > Vista base de datos, abra la página Gestión de copias de seguridad de la base de datos principal a partir de la cual se creará la réplica.
 +
-image:aws_rds_custom_deploy_replica_04.PNG[""]
+image::aws_rds_custom_deploy_replica_04.PNG[réplica 04 de implementación personalizada de aws rds]
 
 . Monte la snapshot del volumen de registro tomada en el paso 4 en el host de la instancia de EC2 en espera.
 +
-image:aws_rds_custom_deploy_replica_13.PNG[""] image:aws_rds_custom_deploy_replica_14.PNG[""]
+image::aws_rds_custom_deploy_replica_13.PNG[réplica 13 de implementación personalizada de aws rds]
+
++
+image::aws_rds_custom_deploy_replica_14.PNG[réplica 14 de implementación personalizada de aws rds]
 
 . Destaque la copia snapshot que se va a clonar para la réplica y haga clic en el botón Clonar para iniciar el procedimiento de clonación.
 +
-image:aws_rds_custom_deploy_replica_05.PNG[""]
+image::aws_rds_custom_deploy_replica_05.PNG[réplica 05 de implementación personalizada de aws rds]
 
 . Cambie el nombre de la copia de réplica para que sea diferente del nombre de la base de datos principal. Haga clic en Siguiente.
 +
-image:aws_rds_custom_deploy_replica_06.PNG[""]
+image::aws_rds_custom_deploy_replica_06.PNG[réplica 06 de implementación personalizada de aws rds]
 
 . Cambie el host del clon al host EC2 en espera, acepte el nombre predeterminado y haga clic en Siguiente.
 +
-image:aws_rds_custom_deploy_replica_07.PNG[""]
+image::aws_rds_custom_deploy_replica_07.PNG[réplica 07 de implementación personalizada de aws rds]
 
 . Cambie la configuración inicial de Oracle para que coincida con la configurada para el host de destino del servidor Oracle y haga clic en Siguiente.
 +
-image:aws_rds_custom_deploy_replica_08.PNG[""]
+image::aws_rds_custom_deploy_replica_08.PNG[réplica 08 de implementación personalizada de aws rds]
 
 . Especifique un punto de recuperación mediante Time o el SCN y la ruta de registro de archivos montada.
 +
-image:aws_rds_custom_deploy_replica_15.PNG[""]
+image::aws_rds_custom_deploy_replica_15.PNG[réplica 15 de implementación personalizada de aws rds]
 
 . Envíe la configuración de correo electrónico SMTP si es necesario.
 +
-image:aws_rds_custom_deploy_replica_11.PNG[""]
+image::aws_rds_custom_deploy_replica_11.PNG[réplica 11 de implementación personalizada de aws rds]
 
 . Clone el resumen de trabajos y haga clic en Finish para iniciar el trabajo de clonado.
 +
-image:aws_rds_custom_deploy_replica_12.PNG[""]
+image::aws_rds_custom_deploy_replica_12.PNG[réplica 12 de implementación personalizada de aws rds]
 
 . Revise el registro de trabajos de clonado para validar el clon de la réplica.
 +
-image:aws_rds_custom_deploy_replica_17.PNG[""]
+image::aws_rds_custom_deploy_replica_17.PNG[réplica 17 de implementación personalizada de aws rds]
 
 +
 La base de datos clonada se registra de inmediato en SnapCenter.
 
 +
-image:aws_rds_custom_deploy_replica_18.PNG[""]
+image::aws_rds_custom_deploy_replica_18.PNG[réplica 18 de implementación personalizada de aws rds]
 
 . Desactive el modo de registro de archivo de Oracle. Inicie sesión en la instancia de EC2 como usuario de oracle y ejecute el siguiente comando:
 +

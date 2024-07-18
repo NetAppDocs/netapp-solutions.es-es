@@ -39,7 +39,7 @@ Los principales requisitos y retos de este caso de uso son:
 
 La siguiente ilustración muestra la solución original de backup nativo de Hadoop.
 
-image:hdcs-sh-image5.png[""]
+image::hdcs-sh-image5.png[hdcs sh image5]
 
 Los datos de producción se protegen a cinta a través del clúster de backup intermedio:
 
@@ -73,7 +73,7 @@ Teniendo en cuenta estos retos y requisitos, y teniendo en cuenta el sistema de 
 
 En la solución A, el clúster de backup de Hadoop envía los backups secundarios a los sistemas de almacenamiento NFS de NetApp, eliminando los requisitos de cinta, como se muestra en la siguiente figura.
 
-image:hdcs-sh-image6.png[""]
+image::hdcs-sh-image6.png[hdcs sh image6]
 
 Las tareas detalladas de la solución A incluyen:
 
@@ -118,7 +118,7 @@ En esta solución, los discos SAN de ONTAP pueden utilizarse en vez de JBOD. Est
 
 La solución B añade el volumen NFS al clúster Hadoop de producción, lo que elimina la necesidad de tener que utilizar el clúster Hadoop de backup, como se muestra en la siguiente figura.
 
-image:hdcs-sh-image7.png[""]
+image::hdcs-sh-image7.png[hdcs sh image7]
 
 Entre las tareas detalladas de la solución B se incluyen las siguientes:
 
@@ -145,7 +145,7 @@ La desventaja de esta solución es que se implementa en el clúster de producci�
 
 En la solución C, los volúmenes SAN de NetApp se aprovisionan directamente en el clúster de producción de Hadoop para el almacenamiento HDFS, tal y como se muestra en la siguiente figura.
 
-image:hdcs-sh-image8.png[""]
+image::hdcs-sh-image8.png[hdcs sh image8]
 
 Los pasos detallados de la solución C incluyen:
 

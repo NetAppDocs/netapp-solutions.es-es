@@ -16,7 +16,7 @@ summary:
 [role="lead"]
 Los conjuntos de datos y las versiones de conjuntos de datos normalmente se encuentran en un lago de datos, como el almacenamiento basado en objetos StorageGRID de NetApp, que ofrece un coste reducido y otras ventajas operativas. Los científicos de datos extraen estos conjuntos de datos y los ingenieros en varios pasos para prepararlos para el entrenamiento con un modelo específico, a menudo creando varias versiones en el proceso. Al siguiente paso, el científico de datos debe seleccionar recursos informáticos optimizados (GPU, instancias de CPU de gama alta, un clúster local, etc.) para ejecutar el modelo. En la siguiente figura, se muestra la falta de proximidad del conjunto de datos en un entorno de computación DE ML.
 
-image:hcaios_image1.png[""]
+image::hcaios_image1.png[hcaios image1]
 
 Sin embargo, deben ejecutarse varios experimentos de entrenamiento en paralelo en distintos entornos informáticos, cada uno de los cuales requiere una descarga del conjunto de datos del lago de datos, lo cual es un proceso costoso y largo. No se garantiza la proximidad del conjunto de datos a entorno de computación (especialmente para un cloud híbrido). Además, otros miembros del equipo que llevan a cabo sus propios experimentos con el mismo conjunto de datos deben pasar por el mismo arduo proceso. Más allá del obvio y lento acceso a los datos, los retos incluyen las dificultades para seguir las versiones de los conjuntos de datos, compartir conjuntos de datos, colaboración y reproducibilidad.
 

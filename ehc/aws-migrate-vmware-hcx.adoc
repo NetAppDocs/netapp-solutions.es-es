@@ -65,7 +65,7 @@ Para realizar las pruebas, el entorno de laboratorio local utilizado para esta v
 
 La siguiente imagen muestra la arquitectura de alto nivel.
 
-image:fsx-hcx-image1.png[""]
+image::fsx-hcx-image1.png[fsx hcx image1]
 
 ====
 
@@ -87,7 +87,7 @@ Para realizar la instalación, lleve a cabo los siguientes pasos:
 NOTE: Este paso tarda hasta 25 minutos en completarse.
 
 +
-image:fsx-hcx-image2.png[""]
+image::fsx-hcx-image2.png[fsx hcx image2]
 
 . Una vez completada la implementación, valide la implementación confirmando que HCX Manager y sus plugins asociados están disponibles en vCenter Console.
 . Cree los firewalls de Management Gateway adecuados para abrir los puertos necesarios para acceder a HCX Cloud Manager.HCX Cloud Manager ahora está listo para operaciones HCX.
@@ -102,7 +102,7 @@ Para que el conector local se comunique con HCX Manager en VMC, asegúrese de qu
 . Desde la consola VMC, vaya al panel HCX, vaya a Administración y seleccione la ficha actualización de sistemas. Haga clic en solicitar un enlace de descarga para la imagen OVA del conector HCX.
 . Con el conector HCX descargado, implemente el OVA en el vCenter Server local. Haga clic con el botón derecho en vSphere Cluster y seleccione la opción Deploy OVF Template.
 +
-image:fsx-hcx-image5.png[""]
+image::fsx-hcx-image5.png[fsx hcx image5]
 
 . Introduzca la información necesaria en el asistente implementar plantilla OVF, haga clic en Siguiente y, a continuación, en Finalizar para implementar el OVA del conector HCX de VMware.
 . Encienda el dispositivo virtual manualmente.para obtener instrucciones paso a paso, vaya a. https://docs.vmware.com/en/VMware-HCX/services/user-guide/GUID-BFD7E194-CFE5-4259-B74B-991B26A51758.html["Guía del usuario de VMware HCX"^].
@@ -117,7 +117,7 @@ Después de implementar el OVA del conector HCX de VMware en las instalaciones e
 . En VMware Cloud Console, vaya a Inventory, seleccione el centro de datos definido por software y haga clic en View Details. En la pestaña Add Ons, en el icono VMware HCX, haga clic en Open HCX.
 . En la ficha claves de activación, haga clic en Crear clave de activación. Seleccione el Tipo de sistema como conector HCX y haga clic en Confirmar para generar la clave. Copie la clave de activación.
 +
-image:fsx-hcx-image7.png[""]
+image::fsx-hcx-image7.png[fsx hcx image7]
 
 +
 
@@ -154,7 +154,7 @@ NOTE: Este proceso debe tardar aproximadamente de 10 a 20 minutos y el plugin se
 
 
 
-image:fsx-hcx-image8.png[""]
+image::fsx-hcx-image8.png[fsx hcx image8]
 
 ====
 .Paso 4: Emparejar el conector VMware HCX en las instalaciones con VMC HCX Cloud Manager
@@ -162,21 +162,21 @@ image:fsx-hcx-image8.png[""]
 ====
 . Para crear un par de sitios entre la instancia local de vCenter Server y el SDDC de VMC, inicie sesión en la instancia local de vCenter Server y acceda al plugin HCX vSphere Web Client.
 +
-image:fsx-hcx-image9.png[""]
+image::fsx-hcx-image9.png[fsx hcx image9]
 
 . En Infraestructura, haga clic en Agregar un emparejamiento de sitios. Para autenticar el sitio remoto, introduzca la dirección IP o la URL de HCX Cloud Manager de VMC y las credenciales del rol CloudAdmin.
 +
-image:fsx-hcx-image10.png[""]
+image::fsx-hcx-image10.png[fsx hcx image10]
 
 +
 
 NOTE: La información HCX se puede recuperar desde la página SDDC Settings.
 
 +
-image:fsx-hcx-image11.png[""]
+image::fsx-hcx-image11.png[fsx hcx image11]
 
 +
-image:fsx-hcx-image12.png[""]
+image::fsx-hcx-image12.png[fsx hcx image12]
 
 . Para iniciar el emparejamiento de sitios, haga clic en conectar.
 +
@@ -201,7 +201,7 @@ NOTE: Los perfiles de computación contienen los parámetros de puesta en marcha
 Para obtener instrucciones detalladas, consulte https://docs.vmware.com/en/VMware-HCX/4.4/hcx-user-guide/GUID-BBAC979E-8899-45AD-9E01-98A132CE146E.html["Crear un perfil de computación"^].
 
 +
-image:fsx-hcx-image13.png[""]
+image::fsx-hcx-image13.png[fsx hcx image13]
 
 . Una vez creado el perfil de computación, cree el perfil de red seleccionando malla de servicio multisitio > Perfiles de red > Crear perfil de red.
 . El perfil de red define un rango de direcciones IP y redes que utilizará HCX para sus dispositivos virtuales.
@@ -210,7 +210,7 @@ image:fsx-hcx-image13.png[""]
 NOTE: Esto requerirá dos o más direcciones IP. Estas direcciones IP se asignarán desde la red de gestión a los dispositivos virtuales.
 
 +
-image:fsx-hcx-image14.png[""]
+image::fsx-hcx-image14.png[fsx hcx image14]
 
 +
 Para obtener instrucciones detalladas, consulte https://docs.vmware.com/en/VMware-HCX/4.4/hcx-user-guide/GUID-184FCA54-D0CB-4931-B0E8-A81CD6120C52.html["Creación de un perfil de red"^].
@@ -224,7 +224,7 @@ NOTE: Si está conectando con una SD-WAN a través de Internet, tiene que reserv
 La malla de servicio establece un par de perfiles de red y de computación local y remota.
 
 +
-image:fsx-hcx-image15.png[""]
+image::fsx-hcx-image15.png[fsx hcx image15]
 
 +
 
@@ -232,11 +232,11 @@ NOTE: Parte de este proceso implica la implementación de dispositivos HCX que s
 
 . Seleccione los perfiles de computación de origen y remoto y haga clic en Continue.
 +
-image:fsx-hcx-image16.png[""]
+image::fsx-hcx-image16.png[fsx hcx image16]
 
 . Seleccione el servicio que desea activar y haga clic en continuar.
 +
-image:fsx-hcx-image17.png[""]
+image::fsx-hcx-image17.png[fsx hcx image17]
 
 +
 
@@ -244,7 +244,7 @@ NOTE: Se requiere una licencia HCX Enterprise para la migración de vMotion asis
 
 . Cree un nombre para la malla de servicio y haga clic en Finalizar para comenzar el proceso de creación. La puesta en marcha tardará aproximadamente 30 minutos en completarse. Una vez configurada la malla de servicio, se crean las máquinas virtuales y las redes necesarias para migrar las máquinas virtuales de carga de trabajo.
 +
-image:fsx-hcx-image18.png[""]
+image::fsx-hcx-image18.png[fsx hcx image18]
 
 
 
@@ -261,7 +261,7 @@ El dispositivo HCX-IX utiliza el servicio de agente de movilidad para realizar m
 
 NOTE: El dispositivo HCX-IX agrega el servicio Mobility Agent como un objeto host en vCenter Server. El procesador, la memoria, los recursos de almacenamiento y redes que se muestran en este objeto no representan el consumo real en el hipervisor físico que aloja el dispositivo IX.
 
-image:fsx-hcx-image19.png[""]
+image::fsx-hcx-image19.png[fsx hcx image19]
 
 .HCX vMotion de VMware
 [%collapsible]
@@ -273,15 +273,15 @@ NOTE: La extensión de red debe estar en su lugar (para el grupo de puertos en e
 
 . Desde el cliente vSphere local, vaya a Inventory, haga clic con el botón derecho en la máquina virtual que se va a migrar y seleccione HCX Actions > Migrate to HCX Target Site.
 +
-image:fsx-hcx-image20.png[""]
+image::fsx-hcx-image20.png[fsx hcx image20]
 
 . En el asistente Migrate Virtual Machine, seleccione Remote Site Connection (VMC SDDC de destino).
 +
-image:fsx-hcx-image21.png[""]
+image::fsx-hcx-image21.png[fsx hcx image21]
 
 . Agregue un nombre de grupo y, en transferencia y colocación, actualice los campos obligatorios (clúster, almacenamiento y red de destino) y haga clic en Validar.
 +
-image:fsx-hcx-image22.png[""]
+image::fsx-hcx-image22.png[fsx hcx image22]
 
 . Una vez finalizadas las comprobaciones de validación, haga clic en Ir para iniciar la migración.
 +
@@ -290,7 +290,7 @@ NOTE: La transferencia de vMotion captura la memoria activa de la máquina virtu
 
 . Es posible supervisar el progreso y la finalización de vMotion desde el panel HCX > Migration.
 +
-image:fsx-hcx-image23.png[""]
+image::fsx-hcx-image23.png[fsx hcx image23]
 
 
 
@@ -302,11 +302,11 @@ Como ya se ha visto en la documentación de VMware, VMware HCX Replication Assis
 
 La siguiente captura de pantalla muestra el perfil de migración como Replication Assisted vMotion.
 
-image:fsx-hcx-image24.png[""]
+image::fsx-hcx-image24.png[fsx hcx image24]
 
 La duración de la replicación puede ser más larga en comparación con vMotion de un pequeño número de máquinas virtuales. Con RAV, sólo sincronice los deltas e incluya el contenido de la memoria. A continuación se muestra una captura de pantalla del estado de la migración; muestra cómo la hora de inicio de la migración es la misma y la hora de finalización es diferente para cada equipo virtual.
 
-image:fsx-hcx-image25.png[""]
+image::fsx-hcx-image25.png[fsx hcx image25]
 
 =====
 Si quiere más información acerca de las opciones de migración a HCX y sobre cómo migrar cargas de trabajo de las instalaciones a VMware Cloud en AWS mediante HCX, consulte la https://docs.vmware.com/en/VMware-HCX/4.4/hcx-user-guide/GUID-14D48C15-3D75-485B-850F-C5FCB96B5637.html["Guía del usuario de VMware HCX"^].

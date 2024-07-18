@@ -37,11 +37,11 @@ NetApp recomienda la siguiente distribución de almacenamiento:
 
 * En el caso del almacenamiento NFS, la distribución de volúmenes recomendada es tres volúmenes: Uno para los binarios de Oracle, otro para los datos de Oracle y un archivo de control duplicado, y otro para el registro activo, el registro archivado y el archivo de control de Oracle.
 +
-image:aws_ora_fsx_ec2_stor_12.PNG[""]
+image::aws_ora_fsx_ec2_stor_12.PNG[aws ora fsx ec2 stor 12]
 
 * Para el almacenamiento iSCSI, el diseño de volumen recomendado es de tres volúmenes: Uno para el binario de Oracle; uno para los datos de Oracle y un archivo de control duplicado; y otro para el registro activo de Oracle, el registro archivado y el archivo de control. Sin embargo, lo ideal es que cada volumen de datos y registro contenga cuatro LUN. Los LUN se equilibran perfectamente en los nodos de clúster de alta disponibilidad.
 +
-image:aws_ora_fsx_ec2_stor_13.PNG[""]
+image::aws_ora_fsx_ec2_stor_13.PNG[aws ora fsx ec2 stor 13]
 
 * Para IOPS y rendimiento del almacenamiento, puede elegir el umbral para la tasa de IOPS y el rendimiento aprovisionados para el clúster de almacenamiento FSX, y estos parámetros pueden ajustarse sobre la marcha cuando cambie la carga de trabajo.
 +
@@ -74,7 +74,7 @@ sysctl -a | grep tcp.*.slot_table
 ----
 * En la siguiente tabla se ofrecen opciones de montaje NFS recomendadas para NFSv3 de Linux: Una única instancia.
 +
-image:aws_ora_fsx_ec2_nfs_01.PNG[""]
+image::aws_ora_fsx_ec2_nfs_01.PNG[aws ora fsx ec2 nfs 01]
 
 
 

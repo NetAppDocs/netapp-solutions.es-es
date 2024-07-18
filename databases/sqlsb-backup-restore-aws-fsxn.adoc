@@ -44,7 +44,7 @@ Se deben realizar los siguientes pasos en relación con la configuración de Sna
 
 Configure las credenciales para la copia de seguridad de SQL Server y restaure al usuario con derechos de administrador del sistema.
 
-image:sqlsb-aws-image1.png[""]
+image::sqlsb-aws-image1.png[sqlsb aws image1]
 
 NetApp recomienda usar el control de acceso basado en roles (RBAC) para delegar las funcionalidades de protección de datos y gestión a usuarios individuales en los hosts de SnapCenter y Windows. El usuario debe tener acceso a SQL Server que aloja la base de datos. En el caso de varios hosts, el nombre de usuario y la contraseña deben ser los mismos en los distintos hosts. Además, para permitir que SnapCenter implemente el plugin requerido en los hosts de SQL Server, es necesario registrar la información del dominio para que SnapCenter valide las credenciales y los hosts.
 
@@ -55,11 +55,11 @@ Expanda las siguientes secciones para ver las instrucciones detalladas sobre có
 ====
 Vaya a *Configuración*, seleccione *Credenciales* y haga clic en (*+*).
 
-image:sqlsb-aws-image2.png[""]
+image::sqlsb-aws-image2.png[sqlsb aws image2]
 
 El nuevo usuario debe tener derechos de administrador en el host de SQL Server.
 
-image:sqlsb-aws-image3.png[""]
+image::sqlsb-aws-image3.png[sqlsb aws image3]
 
 ====
 .Configurar el almacenamiento
@@ -70,15 +70,15 @@ Para configurar el almacenamiento en SnapCenter, complete los siguientes pasos:
 . En la interfaz de usuario de SnapCenter, seleccione *Sistemas de almacenamiento*. Hay dos tipos de almacenamiento, *ONTAP SVM* y *ONTAP Cluster*. Por defecto, el tipo de almacenamiento es *ONTAP SVM*.
 . Haga clic en (*+*) para añadir la información del sistema de almacenamiento.
 +
-image:sqlsb-aws-image4.png[""]
+image::sqlsb-aws-image4.png[sqlsb aws image4]
 
 . Proporcione el punto final *FSX para la gestión de ONTAP*.
 +
-image:sqlsb-aws-image5.png[""]
+image::sqlsb-aws-image5.png[sqlsb aws image5]
 
 . La SVM ahora está configurada en SnapCenter.
 +
-image:sqlsb-aws-image6.png[""]
+image::sqlsb-aws-image6.png[sqlsb aws image6]
 
 
 
@@ -90,7 +90,7 @@ Para agregar un host de SQL Server, complete los siguientes pasos:
 
 . En la pestaña Host, haga clic en (*+*) para agregar el host de Microsoft SQL Server.
 +
-image:sqlsb-aws-image7.png[""]
+image::sqlsb-aws-image7.png[sqlsb aws image7]
 
 . Proporcione el nombre de dominio completo (FQDN) o la dirección IP del host remoto.
 +
@@ -99,17 +99,17 @@ NOTE: Las credenciales se rellenan por defecto.
 
 . Seleccione la opción para Microsoft Windows y Microsoft SQL Server y, a continuación, enviar.
 +
-image:sqlsb-aws-image8.png[""]
+image::sqlsb-aws-image8.png[sqlsb aws image8]
 
 
 
 Los paquetes de SQL Server están instalados.
 
-image:sqlsb-aws-image9.png[""]
+image::sqlsb-aws-image9.png[sqlsb aws image9]
 
 . Una vez completada la instalación, vaya a la pestaña *Recurso* para verificar si todos los volúmenes iSCSI de FSx para ONTAP están presentes.
 +
-image:sqlsb-aws-image10.png[""]
+image::sqlsb-aws-image10.png[sqlsb aws image10]
 
 
 
@@ -121,25 +121,25 @@ Para configurar un directorio de registro de host, complete los siguientes pasos
 
 . Haga clic en la casilla de verificación. Se abrirá una nueva pestaña.
 +
-image:sqlsb-aws-image11.png[""]
+image::sqlsb-aws-image11.png[sqlsb aws image11]
 
 . Haga clic en el enlace *configure log directory*.
 +
-image:sqlsb-aws-image12.png[""]
+image::sqlsb-aws-image12.png[sqlsb aws image12]
 
 . Seleccione la unidad para el directorio de registro de host y el directorio de registro de instancia de FCI. Haga clic en *Guardar*. Repita el mismo proceso para el segundo nodo del clúster. Cierre la ventana.
 +
-image:sqlsb-aws-image13.png[""]
+image::sqlsb-aws-image13.png[sqlsb aws image13]
 
 
 
 El host ahora está en estado en ejecución.
 
-image:sqlsb-aws-image14.png[""]
+image::sqlsb-aws-image14.png[sqlsb aws image14]
 
 . Desde la pestaña *Recursos*, tenemos todos los servidores y bases de datos.
 +
-image:sqlsb-aws-image15.png[""]
+image::sqlsb-aws-image15.png[sqlsb aws image15]
 
 
 
@@ -159,39 +159,39 @@ Para configurar una política de copia de seguridad para una base de datos FCI, 
 
 . Ve a *Ajustes* y selecciona *Políticas* en la parte superior izquierda. Luego haga clic en *Nuevo*.
 +
-image:sqlsb-aws-image16.png[""]
+image::sqlsb-aws-image16.png[sqlsb aws image16]
 
 . Introduzca el nombre de la política y una descripción. Haga clic en *Siguiente*.
 +
-image:sqlsb-aws-image17.png[""]
+image::sqlsb-aws-image17.png[sqlsb aws image17]
 
 . Seleccione *Copia de seguridad completa* como tipo de copia de seguridad.
 +
-image:sqlsb-aws-image18.png[""]
+image::sqlsb-aws-image18.png[sqlsb aws image18]
 
 . Seleccione la frecuencia del programa (esto se basa en el SLA de la empresa). Haga clic en *Siguiente*.
 +
-image:sqlsb-aws-image19.png[""]
+image::sqlsb-aws-image19.png[sqlsb aws image19]
 
 . Configure los ajustes de retención para el backup.
 +
-image:sqlsb-aws-image20.png[""]
+image::sqlsb-aws-image20.png[sqlsb aws image20]
 
 . Configure las opciones de replicación.
 +
-image:sqlsb-aws-image21.png[""]
+image::sqlsb-aws-image21.png[sqlsb aws image21]
 
 . Especifique un script de ejecución antes y después de ejecutar un trabajo de copia de seguridad (si lo hubiera).
 +
-image:sqlsb-aws-image22.png[""]
+image::sqlsb-aws-image22.png[sqlsb aws image22]
 
 . Ejecute la verificación basada en la programación de backups.
 +
-image:sqlsb-aws-image23.png[""]
+image::sqlsb-aws-image23.png[sqlsb aws image23]
 
 . La página *Summary* proporciona detalles de la política de copia de seguridad. Los errores se pueden corregir aquí.
 +
-image:sqlsb-aws-image24.png[""]
+image::sqlsb-aws-image24.png[sqlsb aws image24]
 
 
 
@@ -202,26 +202,26 @@ image:sqlsb-aws-image24.png[""]
 
 . Configure la fecha de inicio y de vencimiento de la política de backup.
 +
-image:sqlsb-aws-image25.png[""]
+image::sqlsb-aws-image25.png[sqlsb aws image25]
 
 . Defina la programación para la copia de seguridad. Para ello, haga clic en (*+*) para configurar una programación. Introduzca la *Fecha de inicio* y *Fecha de caducidad*. Establecer la hora en función del SLA de la empresa.
 +
-image:sqlsb-aws-image26.png[""]
+image::sqlsb-aws-image26.png[sqlsb aws image26]
 
 . Configure el servidor de verificación. En el menú desplegable, seleccione el servidor.
 +
-image:sqlsb-aws-image27.png[""]
+image::sqlsb-aws-image27.png[sqlsb aws image27]
 
 . Confirme la programación configurada haciendo clic en el signo más y confirme.
 . Proporcione información para la notificación por correo electrónico. Haga clic en *Siguiente*.
 +
-image:sqlsb-aws-image28.png[""]
+image::sqlsb-aws-image28.png[sqlsb aws image28]
 
 
 
 El resumen de la política de backup para la base de datos de SQL Server ahora está configurado.
 
-image:sqlsb-aws-image29.png[""]
+image::sqlsb-aws-image29.png[sqlsb aws image29]
 
 
 
@@ -231,15 +231,15 @@ Para crear copias de seguridad de SQL Server a petición, lleve a cabo los sigui
 
 . Desde la vista *Recurso*, selecciona el recurso y selecciona *Hacer una copia de seguridad ahora*.
 +
-image:sqlsb-aws-image30.png[""]
+image::sqlsb-aws-image30.png[sqlsb aws image30]
 
 . En el cuadro de diálogo *Copia de seguridad*, haga clic en *Copia de seguridad*.
 +
-image:sqlsb-aws-image31.png[""]
+image::sqlsb-aws-image31.png[sqlsb aws image31]
 
 . Aparece una pantalla de confirmación. Haga clic en *Sí* para confirmar.
 +
-image:sqlsb-aws-image32.png[""]
+image::sqlsb-aws-image32.png[sqlsb aws image32]
 
 
 
@@ -249,10 +249,10 @@ image:sqlsb-aws-image32.png[""]
 
 . En la pestaña *Monitor*, haga clic en el trabajo y seleccione *Detalles* a la derecha para ver los trabajos.
 +
-image:sqlsb-aws-image33.png[""]
+image::sqlsb-aws-image33.png[sqlsb aws image33]
 
 +
-image:sqlsb-aws-image34.png[""]
+image::sqlsb-aws-image34.png[sqlsb aws image34]
 
 
 
@@ -266,15 +266,15 @@ Para configurar una política de backup para varias bases de datos de SQL Server
 
 . En la pestaña *Recursos* del menú *Ver*, cambie a un grupo de recursos usando el menú desplegable.
 +
-image:sqlsb-aws-image35.png[""]
+image::sqlsb-aws-image35.png[sqlsb aws image35]
 
 . Haga clic en (*+*) para obtener un nuevo grupo de recursos.
 +
-image:sqlsb-aws-image36.png[""]
+image::sqlsb-aws-image36.png[sqlsb aws image36]
 
 . Proporcione un nombre y una etiqueta. Haga clic en *Siguiente*.
 +
-image:sqlsb-aws-image37.png[""]
+image::sqlsb-aws-image37.png[sqlsb aws image37]
 
 . Añada recursos al grupo de recursos:
 +
@@ -282,47 +282,47 @@ image:sqlsb-aws-image37.png[""]
 ** *Tipo de recurso.* En el menú desplegable, selecciona *Base de datos*.
 ** *Instancia de SQL Server.* Seleccione el servidor.
 +
-image:sqlsb-aws-image38.png[""]
+image::sqlsb-aws-image38.png[sqlsb aws image38]
 
 +
 La opción *Opción* Auto selecciona todos los recursos del mismo volumen de almacenamiento* está seleccionada de forma predeterminada. Desactive la opción y seleccione solo las bases de datos que necesita agregar al grupo de recursos, haga clic en la flecha para agregar y haga clic en *Siguiente*.
 
 +
-image:sqlsb-aws-image39.png[""]
+image::sqlsb-aws-image39.png[sqlsb aws image39]
 
 
 
 . En las políticas, haga clic en (*+*).
 +
-image:sqlsb-aws-image40.png[""]
+image::sqlsb-aws-image40.png[sqlsb aws image40]
 
 . Escriba el nombre de la política del grupo de recursos.
 +
-image:sqlsb-aws-image41.png[""]
+image::sqlsb-aws-image41.png[sqlsb aws image41]
 
 . Seleccione *Copia de seguridad completa* y la frecuencia de programación según el SLA de su empresa.
 +
-image:sqlsb-aws-image42.png[""]
+image::sqlsb-aws-image42.png[sqlsb aws image42]
 
 . Configure los ajustes de retención.
 +
-image:sqlsb-aws-image43.png[""]
+image::sqlsb-aws-image43.png[sqlsb aws image43]
 
 . Configure las opciones de replicación.
 +
-image:sqlsb-aws-image44.png[""]
+image::sqlsb-aws-image44.png[sqlsb aws image44]
 
 . Configure los scripts que se ejecutarán antes de realizar una copia de seguridad. Haga clic en *Siguiente*.
 +
-image:sqlsb-aws-image45.png[""]
+image::sqlsb-aws-image45.png[sqlsb aws image45]
 
 . Confirme la verificación de las siguientes programaciones de backup.
 +
-image:sqlsb-aws-image46.png[""]
+image::sqlsb-aws-image46.png[sqlsb aws image46]
 
 . En la página *Resumen*, verifique la información y haga clic en *Finalizar*.
 +
-image:sqlsb-aws-image47.png[""]
+image::sqlsb-aws-image47.png[sqlsb aws image47]
 
 
 
@@ -332,28 +332,28 @@ image:sqlsb-aws-image47.png[""]
 
 . Haga clic en el signo (*+*) para configurar la fecha de inicio y la fecha de caducidad.
 +
-image:sqlsb-aws-image48.png[""]
+image::sqlsb-aws-image48.png[sqlsb aws image48]
 
 . Ajuste la hora.
 +
-image:sqlsb-aws-image49.png[""]
+image::sqlsb-aws-image49.png[sqlsb aws image49]
 
 +
-image:sqlsb-aws-image50.png[""]
+image::sqlsb-aws-image50.png[sqlsb aws image50]
 
 . En la pestaña *Verificación*, seleccione el servidor, configure la programación y haga clic en *Siguiente*.
 +
-image:sqlsb-aws-image51.png[""]
+image::sqlsb-aws-image51.png[sqlsb aws image51]
 
 . Configure las notificaciones para enviar un correo electrónico.
 +
-image:sqlsb-aws-image52.png[""]
+image::sqlsb-aws-image52.png[sqlsb aws image52]
 
 
 
 La política ahora está configurada para realizar backup de varias bases de datos de SQL Server.
 
-image:sqlsb-aws-image53.png[""]
+image::sqlsb-aws-image53.png[sqlsb aws image53]
 
 
 
@@ -361,20 +361,20 @@ image:sqlsb-aws-image53.png[""]
 
 . En la pestaña *Recurso*, selecciona Ver. En el menú desplegable, selecciona *Grupo de recursos*.
 +
-image:sqlsb-aws-image54.png[""]
+image::sqlsb-aws-image54.png[sqlsb aws image54]
 
 . Seleccione el nombre del grupo de recursos.
 . Haga clic en *Copia de seguridad ahora* en la parte superior derecha.
 +
-image:sqlsb-aws-image55.png[""]
+image::sqlsb-aws-image55.png[sqlsb aws image55]
 
 . Se abrirá una nueva ventana. Haga clic en la casilla de verificación *Verificar después de copia de seguridad* y luego haga clic en Copia de seguridad.
 +
-image:sqlsb-aws-image56.png[""]
+image::sqlsb-aws-image56.png[sqlsb aws image56]
 
 . Se muestra un mensaje de confirmación. Haga clic en *Sí*.
 +
-image:sqlsb-aws-image57.png[""]
+image::sqlsb-aws-image57.png[sqlsb aws image57]
 
 
 
@@ -384,11 +384,11 @@ image:sqlsb-aws-image57.png[""]
 
 En la barra de navegación izquierda, haga clic en *Monitor*, seleccione el trabajo de respaldo y haga clic en *Detalles* para ver el progreso del trabajo.
 
-image:sqlsb-aws-image58.png[""]
+image::sqlsb-aws-image58.png[sqlsb aws image58]
 
 Haga clic en la pestaña *Recurso* para ver el tiempo que tarda la copia de seguridad en completarse.
 
-image:sqlsb-aws-image59.png[""]
+image::sqlsb-aws-image59.png[sqlsb aws image59]
 
 
 
@@ -400,49 +400,49 @@ Para realizar una copia de seguridad del registro de transacciones, complete los
 
 . Desde la pestaña *Recursos*, cambie el menú de visualización de *Base de datos* a *Grupo de recursos*.
 +
-image:sqlsb-aws-image60.png[""]
+image::sqlsb-aws-image60.png[sqlsb aws image60]
 
 . Seleccione la política de backup del grupo de recursos creada.
 . Seleccione *Modificar grupo de recursos* en la parte superior derecha.
 +
-image:sqlsb-aws-image61.png[""]
+image::sqlsb-aws-image61.png[sqlsb aws image61]
 
 . La sección *Name* se establece por defecto en el nombre y la etiqueta de la política de copia de seguridad. Haga clic en *Siguiente*.
 +
 La pestaña *Recursos* resalta las bases en las que se va a configurar la política de copia de seguridad de transacciones.
 
 +
-image:sqlsb-aws-image62.png[""]
+image::sqlsb-aws-image62.png[sqlsb aws image62]
 
 . Introduzca el nombre de la política.
 +
-image:sqlsb-aws-image63.png[""]
+image::sqlsb-aws-image63.png[sqlsb aws image63]
 
 . Seleccione las opciones de backup de SQL Server.
 . Seleccione log backup.
 . Establezca la frecuencia de programación en función del objetivo de tiempo de recuperación de su empresa. Haga clic en *Siguiente*.
 +
-image:sqlsb-aws-image64.png[""]
+image::sqlsb-aws-image64.png[sqlsb aws image64]
 
 . Configure las opciones de retención de backups de registros. Haga clic en *Siguiente*.
 +
-image:sqlsb-aws-image65.png[""]
+image::sqlsb-aws-image65.png[sqlsb aws image65]
 
 . (Opcional) Configure las opciones de replicación.
 +
-image:sqlsb-aws-image66.png[""]
+image::sqlsb-aws-image66.png[sqlsb aws image66]
 
 . (Opcional) Configure cualquier script que se ejecute antes de realizar un trabajo de backup.
 +
-image:sqlsb-aws-image67.png[""]
+image::sqlsb-aws-image67.png[sqlsb aws image67]
 
 . (Opcional) Configurar verificación de copia de seguridad.
 +
-image:sqlsb-aws-image68.png[""]
+image::sqlsb-aws-image68.png[sqlsb aws image68]
 
 . En la página *Resumen*, haz clic en *Finalizar*.
 +
-image:sqlsb-aws-image69.png[""]
+image::sqlsb-aws-image69.png[sqlsb aws image69]
 
 
 
@@ -452,28 +452,28 @@ image:sqlsb-aws-image69.png[""]
 
 . Haga clic en la política de backup de registro de transacciones recién creada.
 +
-image:sqlsb-aws-image70.png[""]
+image::sqlsb-aws-image70.png[sqlsb aws image70]
 
 . Establece la *Fecha de inicio* y *Fecha de caducidad*.
 . Introduzca la frecuencia de la política de backup de registros según el acuerdo de nivel de servicio, RTP y RPO. Haga clic en Aceptar.
 +
-image:sqlsb-aws-image71.png[""]
+image::sqlsb-aws-image71.png[sqlsb aws image71]
 
 . Puede ver ambas políticas. Haga clic en *Siguiente*.
 +
-image:sqlsb-aws-image72.png[""]
+image::sqlsb-aws-image72.png[sqlsb aws image72]
 
 . Configure el servidor de verificación.
 +
-image:sqlsb-aws-image73.png[""]
+image::sqlsb-aws-image73.png[sqlsb aws image73]
 
 . Configure la notificación por correo electrónico.
 +
-image:sqlsb-aws-image74.png[""]
+image::sqlsb-aws-image74.png[sqlsb aws image74]
 
 . En la página *Resumen*, haz clic en *Finalizar*.
 +
-image:sqlsb-aws-image75.png[""]
+image::sqlsb-aws-image75.png[sqlsb aws image75]
 
 
 
@@ -485,16 +485,16 @@ Para activar una copia de seguridad a petición del log transaccional para varia
 
 . En la página de políticas recién creada, seleccione *Copia de seguridad ahora* en la parte superior derecha de la página.
 +
-image:sqlsb-aws-image76.png[""]
+image::sqlsb-aws-image76.png[sqlsb aws image76]
 
 . Desde la ventana emergente de la pestaña *Política*, seleccione el menú desplegable, seleccione la política de copia de seguridad y configure la copia de seguridad del registro de transacciones.
 +
-image:sqlsb-aws-image77.png[""]
+image::sqlsb-aws-image77.png[sqlsb aws image77]
 
 . Haga clic en *copia de seguridad*. Aparecerá una nueva ventana.
 . Haga clic en *Sí* para confirmar la política de copia de seguridad.
 +
-image:sqlsb-aws-image78.png[""]
+image::sqlsb-aws-image78.png[sqlsb aws image78]
 
 
 
@@ -504,7 +504,7 @@ image:sqlsb-aws-image78.png[""]
 
 Vaya a la pestaña *Monitoring* y supervise el progreso del trabajo de copia de seguridad.
 
-image:sqlsb-aws-image79.png[""]
+image::sqlsb-aws-image79.png[sqlsb aws image79]
 
 
 
@@ -527,34 +527,34 @@ Para restaurar una base de datos de SQL Server a un punto en el tiempo, lleve a 
 
 . La siguiente captura de pantalla muestra el estado inicial de la base de datos de SQL Server antes de las tablas eliminadas.
 +
-image:sqlsb-aws-image80.png[""]
+image::sqlsb-aws-image80.png[sqlsb aws image80]
 
 +
 La captura de pantalla muestra que se han eliminado 20 filas de la tabla.
 
 +
-image:sqlsb-aws-image81.png[""]
+image::sqlsb-aws-image81.png[sqlsb aws image81]
 
 . Inicie sesión en el servidor SnapCenter. En la pestaña *Recursos*, seleccione la base de datos.
 +
-image:sqlsb-aws-image82.png[""]
+image::sqlsb-aws-image82.png[sqlsb aws image82]
 
 . Seleccione el backup más reciente.
 . A la derecha, selecciona *Restaurar*.
 +
-image:sqlsb-aws-image83.png[""]
+image::sqlsb-aws-image83.png[sqlsb aws image83]
 
 . Aparecerá una nueva ventana. Seleccione la opción *Restaurar*.
 . Restaure la base de datos en el mismo host donde se creó el backup. Haga clic en *Siguiente*.
 +
-image:sqlsb-aws-image84.png[""]
+image::sqlsb-aws-image84.png[sqlsb aws image84]
 
 . Para el *Tipo de recuperación*, selecciona *All log backups*. Haga clic en *Siguiente*.
 +
-image:sqlsb-aws-image85.png[""]
+image::sqlsb-aws-image85.png[sqlsb aws image85]
 
 +
-image:sqlsb-aws-image86.png[""]
+image::sqlsb-aws-image86.png[sqlsb aws image86]
 
 
 
@@ -562,7 +562,7 @@ image:sqlsb-aws-image86.png[""]
 
 . Seleccione la opción *Sobrescribir la base de datos con el mismo nombre durante la restauración*. Haga clic en *Siguiente*.
 +
-image:sqlsb-aws-image87.png[""]
+image::sqlsb-aws-image87.png[sqlsb aws image87]
 
 
 
@@ -570,15 +570,15 @@ image:sqlsb-aws-image87.png[""]
 
 . Seleccione la opción *Operativo, pero no disponible para restaurar registros de transacciones adicionales*. Haga clic en *Siguiente*.
 +
-image:sqlsb-aws-image88.png[""]
+image::sqlsb-aws-image88.png[sqlsb aws image88]
 
 . Proporcione la configuración del correo electrónico. Haga clic en *Siguiente*.
 +
-image:sqlsb-aws-image89.png[""]
+image::sqlsb-aws-image89.png[sqlsb aws image89]
 
 . En la página *Resumen*, haz clic en *Finalizar*.
 +
-image:sqlsb-aws-image90.png[""]
+image::sqlsb-aws-image90.png[sqlsb aws image90]
 
 
 
@@ -588,15 +588,15 @@ image:sqlsb-aws-image90.png[""]
 
 . En la pestaña *Monitoring*, haga clic en los detalles del trabajo de restauración para ver el progreso del trabajo de restauración.
 +
-image:sqlsb-aws-image91.png[""]
+image::sqlsb-aws-image91.png[sqlsb aws image91]
 
 . Restaurar los detalles del trabajo.
 +
-image:sqlsb-aws-image92.png[""]
+image::sqlsb-aws-image92.png[sqlsb aws image92]
 
 . Volver al host de SQL Server > base de datos > tabla están presentes.
 +
-image:sqlsb-aws-image93.png[""]
+image::sqlsb-aws-image93.png[sqlsb aws image93]
 
 
 

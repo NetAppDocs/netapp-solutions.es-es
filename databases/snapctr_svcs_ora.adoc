@@ -143,7 +143,7 @@ La implementación requiere los siguientes requisitos previos.
 . Utilice el enlace link:https://console.bluexp.netapp.com/["BlueXP de NetApp"] Para registrarse para acceder a la consola BlueXP.
 . Inicia sesión en tu cuenta de AWS para crear una política de IAM con los permisos adecuados y asignar la política a la cuenta de AWS que se utilizará para la puesta en marcha del conector de BlueXP.
 +
-image:snapctr_svcs_connector_01-policy.png["Captura de pantalla que muestra este paso en la GUI."]
+image::snapctr_svcs_connector_01-policy.png[Captura de pantalla que muestra este paso en la GUI.]
 
 +
 La política debe configurarse con una cadena JSON que esté disponible en la documentación de NetApp. La cadena JSON también se puede recuperar de la página cuando se inicia el aprovisionamiento del conector y se le solicita la asignación de permisos de requisitos previos.
@@ -160,44 +160,44 @@ La política debe configurarse con una cadena JSON que esté disponible en la do
 ====
 . Inicia sesión en la consola de BlueXP. Para una cuenta compartida, es una práctica recomendada crear un espacio de trabajo individual haciendo clic en *cuenta* > *Administrar cuenta* > *espacio de trabajo* para agregar un nuevo espacio de trabajo.
 +
-image:snapctr_svcs_connector_02-wspace.png["Captura de pantalla que muestra este paso en la GUI."]
+image::snapctr_svcs_connector_02-wspace.png[Captura de pantalla que muestra este paso en la GUI.]
 
 . Haga clic en *Agregar un conector* para iniciar el flujo de trabajo de aprovisionamiento del conector.
 
 
-image:snapctr_svcs_connector_03-add.png["Captura de pantalla que muestra este paso en la GUI."]
+image::snapctr_svcs_connector_03-add.png[Captura de pantalla que muestra este paso en la GUI.]
 
 . Elija su proveedor de cloud (en este caso, *Amazon Web Services*).
 
 
-image:snapctr_svcs_connector_04-aws.png["Captura de pantalla que muestra este paso en la GUI."]
+image::snapctr_svcs_connector_04-aws.png[Captura de pantalla que muestra este paso en la GUI.]
 
 . Evite los pasos *Permission*, *Authentication* y *Networking* si ya los tiene configurados en su cuenta de AWS. Si no es así, debe configurarlos antes de continuar. Desde aquí también puede recuperar los permisos de la directiva de AWS a los que se hace referencia en la sección anterior "<<Incorporación a la preparación de BlueXP>>."
 
 
-image:snapctr_svcs_connector_05-remind.png["Captura de pantalla que muestra este paso en la GUI."]
+image::snapctr_svcs_connector_05-remind.png[Captura de pantalla que muestra este paso en la GUI.]
 
 . Ingrese la autenticación de su cuenta de AWS con *Clave de acceso* y *Clave secreta*.
 +
-image:snapctr_svcs_connector_06-auth.png["Captura de pantalla que muestra este paso en la GUI."]
+image::snapctr_svcs_connector_06-auth.png[Captura de pantalla que muestra este paso en la GUI.]
 
 . Asigne un nombre a la instancia del conector y seleccione *Crear función* en *Detalles*.
 
 
-image:snapctr_svcs_connector_07-details.png["Captura de pantalla que muestra este paso en la GUI."]
+image::snapctr_svcs_connector_07-details.png[Captura de pantalla que muestra este paso en la GUI.]
 
 . Configure las redes con el *VPC* adecuado, *Subnet* y SSH *Key Pair* para el acceso al conector.
 +
-image:snapctr_svcs_connector_08-network.png["Captura de pantalla que muestra este paso en la GUI."]
+image::snapctr_svcs_connector_08-network.png[Captura de pantalla que muestra este paso en la GUI.]
 
 . Establezca el *Grupo de seguridad* para el conector.
 +
-image:snapctr_svcs_connector_09-security.png["Captura de pantalla que muestra este paso en la GUI."]
+image::snapctr_svcs_connector_09-security.png[Captura de pantalla que muestra este paso en la GUI.]
 
 . Revise la página de resumen y haga clic en *Agregar* para iniciar la creación del conector. Normalmente la puesta en marcha se lleva aproximadamente 10 minutos. Una vez completada, la instancia del conector aparece en el panel de AWS EC2.
 
 
-image:snapctr_svcs_connector_10-review.png["Captura de pantalla que muestra este paso en la GUI."]
+image::snapctr_svcs_connector_10-review.png[Captura de pantalla que muestra este paso en la GUI.]
 
 ====
 
@@ -208,34 +208,33 @@ image:snapctr_svcs_connector_10-review.png["Captura de pantalla que muestra este
 ====
 . Primero, desde la consola de AWS EC2, cree un rol en el menú *Identity and Access Management (IAM)* *Roles*, *Create Role* para iniciar el flujo de trabajo de creación de roles.
 +
-image:snapctr_svcs_credential_01-aws.png["Captura de pantalla que muestra este paso en la GUI."]
+image::snapctr_svcs_credential_01-aws.png[Captura de pantalla que muestra este paso en la GUI.]
 
 . En la página *Seleccionar entidad de confianza*, selecciona *cuenta de AWS*, *otra cuenta de AWS* y pégala en el ID de cuenta de BlueXP, que se puede recuperar desde la consola de BlueXP.
 +
-image:snapctr_svcs_credential_02-aws.png["Captura de pantalla que muestra este paso en la GUI."]
+image::snapctr_svcs_credential_02-aws.png[Captura de pantalla que muestra este paso en la GUI.]
 
 . Filtra las políticas de permisos por fsx y agrega *Políticas de permisos* al rol.
 +
-image:snapctr_svcs_credential_03-aws.png["Captura de pantalla que muestra este paso en la GUI."]
+image::snapctr_svcs_credential_03-aws.png[Captura de pantalla que muestra este paso en la GUI.]
 
 . En la página *Detalles del rol*, asigne un nombre al rol, agregue una descripción y haga clic en *Crear rol*.
 +
-image:snapctr_svcs_credential_04-aws.png["Captura de pantalla que muestra este paso en la GUI."]
+image::snapctr_svcs_credential_04-aws.png[Captura de pantalla que muestra este paso en la GUI.]
 
 . De vuelta a la consola de BlueXP, haz clic en el icono de configuración en la esquina superior derecha de la consola Para abrir la página *Credenciales de cuenta*, haz clic en *Añadir credenciales* para iniciar el flujo de trabajo de configuración de credenciales.
 +
-image:snapctr_svcs_credential_05-aws.png["Captura de pantalla que muestra este paso en la GUI."]
+image::snapctr_svcs_credential_05-aws.png[Captura de pantalla que muestra este paso en la GUI.]
 
 . Elige la ubicación de las credenciales como - *Amazon Web Services - BlueXP*.
 +
-image:snapctr_svcs_credential_06-aws.png["Captura de pantalla que muestra este paso en la GUI."]
+image::snapctr_svcs_credential_06-aws.png[Captura de pantalla que muestra este paso en la GUI.]
 
 . Defina las credenciales de AWS con el *Role ARN* adecuado, que se puede recuperar del rol de AWS IAM creado en el paso uno anterior. BlueXP *account ID*, que se utiliza para crear el rol de AWS IAM en el primer paso.
 +
-image:snapctr_svcs_credential_07-aws.png["Captura de pantalla que muestra este paso en la GUI."]
+image::snapctr_svcs_credential_07-aws.png[Captura de pantalla que muestra este paso en la GUI.]
 
-. Revisión y *Añadir*.
-image:snapctr_svcs_credential_08-aws.png["Captura de pantalla que muestra este paso en la GUI."]
+. Revisión y *Añadir*. Image::snapctr_svcs_credential_08-aws.png[«Captura de pantalla que muestra este paso en la GUI»]
 
 
 ====
@@ -250,72 +249,72 @@ Con el conector desplegado y la credencial agregada, los servicios de SnapCenter
 . Desde *Mi entorno de trabajo* haga clic en *Agregar entorno de trabajo* para descubrir FSX implementado en AWS.
 
 
-image:snapctr_svcs_setup_01.png["Captura de pantalla que muestra este paso en la GUI."]
+image::snapctr_svcs_setup_01.png[Captura de pantalla que muestra este paso en la GUI.]
 
 . Elija *Amazon Web Services* como ubicación.
 
 
-image:snapctr_svcs_setup_02.png["Captura de pantalla que muestra este paso en la GUI."]
+image::snapctr_svcs_setup_02.png[Captura de pantalla que muestra este paso en la GUI.]
 
 . Haga clic en *descubrir existente* junto a *Amazon FSX para ONTAP*.
 
 
-image:snapctr_svcs_setup_03.png["Captura de pantalla que muestra este paso en la GUI."]
+image::snapctr_svcs_setup_03.png[Captura de pantalla que muestra este paso en la GUI.]
 
 . Selecciona el *Nombre de Credenciales* que has creado en la sección anterior para otorgar a BlueXP los permisos que necesita para administrar FSx para ONTAP. Si no ha añadido credenciales, puede agregarlo desde el menú *Configuración* situado en la esquina superior derecha de la consola BlueXP.
 +
-image:snapctr_svcs_setup_04.png["Captura de pantalla que muestra este paso en la GUI."]
+image::snapctr_svcs_setup_04.png[Captura de pantalla que muestra este paso en la GUI.]
 
 . Elija la región de AWS en la que esté implementado Amazon FSX para ONTAP, seleccione el clúster FSX que aloja la base de datos de Oracle y haga clic en Add.
 
 
-image:snapctr_svcs_setup_05.png["Captura de pantalla que muestra este paso en la GUI."]
+image::snapctr_svcs_setup_05.png[Captura de pantalla que muestra este paso en la GUI.]
 
 . La instancia de Amazon FSX para ONTAP detectada ahora aparece en el entorno de trabajo.
 
 
-image:snapctr_svcs_setup_06.png["Captura de pantalla que muestra este paso en la GUI."]
+image::snapctr_svcs_setup_06.png[Captura de pantalla que muestra este paso en la GUI.]
 
 . Puede iniciar sesión en el clúster FSX con sus credenciales de cuenta fsxadmin.
 
 
-image:snapctr_svcs_setup_07.png["Captura de pantalla que muestra este paso en la GUI."]
+image::snapctr_svcs_setup_07.png[Captura de pantalla que muestra este paso en la GUI.]
 
 . Después de iniciar sesión en Amazon FSX para ONTAP, revise la información de almacenamiento de la base de datos (como los volúmenes de la base de datos).
 
 
-image:snapctr_svcs_setup_08.png["Captura de pantalla que muestra este paso en la GUI."]
+image::snapctr_svcs_setup_08.png[Captura de pantalla que muestra este paso en la GUI.]
 
 . En la barra lateral izquierda de la consola, coloque el ratón sobre el icono de protección y, a continuación, haga clic en *Protección* > *aplicaciones* para abrir la página de inicio de aplicaciones. Haga clic en *detectar aplicaciones*.
 
 
-image:snapctr_svcs_setup_09.png["Captura de pantalla que muestra este paso en la GUI."]
+image::snapctr_svcs_setup_09.png[Captura de pantalla que muestra este paso en la GUI.]
 
 . Seleccione *nativo de la nube* como tipo de origen de la aplicación.
 
 
-image:snapctr_svcs_setup_10.png["Captura de pantalla que muestra este paso en la GUI."]
+image::snapctr_svcs_setup_10.png[Captura de pantalla que muestra este paso en la GUI.]
 
 . Elija *Oracle* para el tipo de aplicación.
 
 
-image:snapctr_svcs_setup_13.png["Captura de pantalla que muestra este paso en la GUI."]
+image::snapctr_svcs_setup_13.png[Captura de pantalla que muestra este paso en la GUI.]
 
 . Rellene los detalles del host de la aplicación Oracle de AWS EC2. Elija *Usando SSH* como *Tipo de instalación del host* para la instalación del plugin en un solo paso y el descubrimiento de la base de datos. A continuación, haga clic en *Agregar clave privada SSH*.
 +
-image:snapctr_svcs_setup_14.png["Captura de pantalla que muestra este paso en la GUI."]
+image::snapctr_svcs_setup_14.png[Captura de pantalla que muestra este paso en la GUI.]
 
 . Pegue su clave SSH de EC2 usuarios para el host de la base de datos EC2 y haga clic en *Validar* para continuar.
 +
-image:snapctr_svcs_setup_14-1.png["Captura de pantalla que muestra este paso en la GUI."]
+image::snapctr_svcs_setup_14-1.png[Captura de pantalla que muestra este paso en la GUI.]
 
 . Se le pedirá que *valide huella dactilar* para continuar.
 +
-image:snapctr_svcs_setup_14-2.png["Captura de pantalla que muestra este paso en la GUI."]
+image::snapctr_svcs_setup_14-2.png[Captura de pantalla que muestra este paso en la GUI.]
 
 . Haga clic en *Next* para instalar un plugin de base de datos Oracle y descubrir las bases de datos Oracle en el host EC2. Las bases de datos descubiertas se añaden a *Aplicaciones*. La base de datos *Protection Status* se muestra como *UNPROTECTED* cuando se descubre inicialmente.
 +
-image:snapctr_svcs_setup_17.png["Captura de pantalla que muestra este paso en la GUI."]
+image::snapctr_svcs_setup_17.png[Captura de pantalla que muestra este paso en la GUI.]
 
 
 
@@ -331,37 +330,37 @@ Con esto finaliza la configuración inicial de los servicios SnapCenter para Ora
 . Haga clic en los tres puntos junto a la base de datos *Estado de protección* y, a continuación, haga clic en *políticas* para ver las directivas de protección de bases de datos precargadas predeterminadas que se pueden aplicar para proteger las bases de datos Oracle.
 
 
-image:snapctr_svcs_bkup_01.png["Captura de pantalla que muestra este paso en la GUI."]
+image::snapctr_svcs_bkup_01.png[Captura de pantalla que muestra este paso en la GUI.]
 
 . También puede crear su propia política con una frecuencia de backup personalizada y una ventana de retención de datos del backup.
 
 
-image:snapctr_svcs_bkup_02.png["Captura de pantalla que muestra este paso en la GUI."]
+image::snapctr_svcs_bkup_02.png[Captura de pantalla que muestra este paso en la GUI.]
 
 . Cuando esté satisfecho con la configuración de la directiva, puede asignar su directiva de elección para proteger la base de datos.
 
 
-image:snapctr_svcs_bkup_03.png["Captura de pantalla que muestra este paso en la GUI."]
+image::snapctr_svcs_bkup_03.png[Captura de pantalla que muestra este paso en la GUI.]
 
 . Elija la directiva que desea asignar a la base de datos.
 
 
-image:snapctr_svcs_bkup_04.png["Captura de pantalla que muestra este paso en la GUI."]
+image::snapctr_svcs_bkup_04.png[Captura de pantalla que muestra este paso en la GUI.]
 
 . Después de aplicar la directiva, el estado de protección de la base de datos cambió a *protegido* con una Marca de verificación verde.
 
 
-image:snapctr_svcs_bkup_05.png["Captura de pantalla que muestra este paso en la GUI."]
+image::snapctr_svcs_bkup_05.png[Captura de pantalla que muestra este paso en la GUI.]
 
 . El backup de la base de datos se ejecuta con una programación predefinida. También puede ejecutar un backup bajo demanda único, como se muestra a continuación.
 
 
-image:snapctr_svcs_bkup_06.png["Captura de pantalla que muestra este paso en la GUI."]
+image::snapctr_svcs_bkup_06.png[Captura de pantalla que muestra este paso en la GUI.]
 
 . Los detalles de las copias de seguridad de la base de datos se pueden ver haciendo clic en *Ver detalles* en la lista de menús. Esto incluye el nombre del backup, el tipo de backup, SCN y la fecha de la copia de seguridad. Un conjunto de backup cubre una copia de Snapshot tanto para el volumen de datos como para el volumen de registro. Una copia de Snapshot de volumen de registro se realiza justo después de una copia de Snapshot de volumen de base de datos. Puede aplicar un filtro si está buscando una copia de seguridad determinada en una lista larga.
 
 
-image:snapctr_svcs_bkup_07.png["Captura de pantalla que muestra este paso en la GUI."]
+image::snapctr_svcs_bkup_07.png[Captura de pantalla que muestra este paso en la GUI.]
 
 ====
 
@@ -373,24 +372,24 @@ image:snapctr_svcs_bkup_07.png["Captura de pantalla que muestra este paso en la 
 . Para una restauración de base de datos, elija el backup adecuado, ya sea por el SCN o el tiempo de backup. Haga clic en los tres puntos de la copia de seguridad de datos de la base de datos y, a continuación, haga clic en *Restaurar* para iniciar la restauración y recuperación de la base de datos.
 
 
-image:snapctr_svcs_restore_01.png["Captura de pantalla que muestra este paso en la GUI."]
+image::snapctr_svcs_restore_01.png[Captura de pantalla que muestra este paso en la GUI.]
 
 . Seleccione la configuración de restauración. Si está seguro de que nada ha cambiado en la estructura de la base de datos física después de la copia de seguridad (como la adición de un archivo de datos o un grupo de discos), puede utilizar la opción *Force in situ restore*, que es generalmente más rápida. De lo contrario, no active esta casilla.
 
 
-image:snapctr_svcs_restore_02.png["Captura de pantalla que muestra este paso en la GUI."]
+image::snapctr_svcs_restore_02.png[Captura de pantalla que muestra este paso en la GUI.]
 
 . Revisar e iniciar la restauración y recuperación de la base de datos.
 
 
-image:snapctr_svcs_restore_03.png["Captura de pantalla que muestra este paso en la GUI."]
+image::snapctr_svcs_restore_03.png[Captura de pantalla que muestra este paso en la GUI.]
 
 . En la ficha *Supervisión de trabajos*, puede ver el estado del trabajo de restauración, así como cualquier detalle mientras se está ejecutando.
 
 
-image:snapctr_svcs_restore_05.png["Captura de pantalla que muestra este paso en la GUI."]
+image::snapctr_svcs_restore_05.png[Captura de pantalla que muestra este paso en la GUI.]
 
-image:snapctr_svcs_restore_04.png["Captura de pantalla que muestra este paso en la GUI."]
+image::snapctr_svcs_restore_04.png[Captura de pantalla que muestra este paso en la GUI.]
 
 ====
 
@@ -404,34 +403,34 @@ Para clonar una base de datos, inicie el flujo de trabajo de clonado desde la mi
 . Seleccione la copia de seguridad de la base de datos derecha, haga clic en los tres puntos para ver el menú y elija la opción *Clonar*.
 
 
-image:snapctr_svcs_clone_02.png[""]
+image::snapctr_svcs_clone_02.png[snapctr svcs clone 02]
 
 . Seleccione la opción *básico* si no necesita cambiar ningún parámetro de base de datos clonado.
 
 
-image:snapctr_svcs_clone_03.png[""]
+image::snapctr_svcs_clone_03.png[snapctr svcs clone 03]
 
 . También puede seleccionar *Archivo de especificación*, que le da la opción de descargar el archivo de inicio actual, hacer cambios y luego cargarlo de nuevo en el trabajo.
 
 
-image:snapctr_svcs_clone_03_1.png[""]
+image::snapctr_svcs_clone_03_1.png[snapctr svcs clone 03 1]
 
 . Revise e inicie el trabajo.
 
 
-image:snapctr_svcs_clone_04.png[""]
+image::snapctr_svcs_clone_04.png[snapctr svcs clone 04]
 
 . Supervise el estado del trabajo de clonación desde la ficha *Supervisión de trabajos*.
 
 
-image:snapctr_svcs_clone_07-status.png[""]
+image::snapctr_svcs_clone_07-status.png[snapctr svcs clone 07 status]
 
 . Validar la base de datos clonada en el host de la instancia de EC2.
 
 
-image:snapctr_svcs_clone_08-crs.png[""]
+image::snapctr_svcs_clone_08-crs.png[snapctr svcs clone 08 crs]
 
-image:snapctr_svcs_clone_08-db.png[""]
+image::snapctr_svcs_clone_08-db.png[snapctr svcs clone 08 db]
 
 ====
 

@@ -22,7 +22,7 @@ Para habilitar Astra Control Center para gestionar sus cargas de trabajo, primer
 
 . El primer paso es agregar los clústeres de OpenShift al Centro de control de Astra y gestionarlos. Vaya a Clusters, haga clic en Add a Cluster, cargue el `kubeconfig` File para el clúster OpenShift y haga clic en Select Storage.
 +
-image:redhat_openshift_image91.jpg["Astra Control Center crea un clúster"]
+image::redhat_openshift_image91.jpg[Astra Control Center crea un clúster]
 
 +
 
@@ -30,11 +30,11 @@ NOTE: El archivo kubeconfig se puede generar para autenticarse con un nombre de 
 
 . Astra Control Center detecta las clases de almacenamiento elegibles. Ahora seleccione la forma en que storagegrid aprovisiona volúmenes mediante Trident con backup de una SVM en ONTAP de NetApp y haga clic en Review. En el panel siguiente, compruebe los detalles y haga clic en Add Cluster.
 +
-image:redhat_openshift_image92.jpg["Astra Control Center crea el almacenamiento seleccionado en clúster"]
+image::redhat_openshift_image92.jpg[Astra Control Center crea el almacenamiento seleccionado en clúster]
 
 . Registre ambos clústeres de OpenShift como se describe en el paso 1. Cuando se añaden, los clústeres se mueven al estado de detección mientras Astra Control Center los inspecciona e instala los agentes necesarios. El estado del clúster cambia a en ejecución después de que se hayan registrado correctamente.
 +
-image:redhat_openshift_image93.jpg["Hay disponibles clústeres de Astra Control Center"]
+image::redhat_openshift_image93.jpg[Hay disponibles clústeres de Astra Control Center]
 
 +
 
@@ -42,18 +42,18 @@ NOTE: Todos los clústeres de Red Hat OpenShift que gestiona Astra Control Cente
 
 . Importe clústeres de ONTAP como recursos de almacenamiento que Astra Control Center gestiona como back-ends. Cuando se agregan clústeres de OpenShift a Astra y se configura un storagegrid, detecta e inspecciona automáticamente el clúster de ONTAP para respaldar el storageeclcaso pero no lo importa en el Centro de control de Astra para su gestión.
 +
-image:redhat_openshift_image94.jpg["Detección de entorno de administración de Astra Control Center"]
+image::redhat_openshift_image94.jpg[Detección de entorno de administración de Astra Control Center]
 
 . Para importar los clústeres de ONTAP, vaya a Back-ends, haga clic en el menú desplegable y seleccione Manage junto al clúster de ONTAP que se va a gestionar. Introduzca las credenciales del clúster de ONTAP, haga clic en revisar información y, a continuación, haga clic en Importar back-end de almacenamiento.
 +
-image:redhat_openshift_image95.jpg["Astra Control Center crea backend"]
+image::redhat_openshift_image95.jpg[Astra Control Center crea backend]
 
 . Una vez añadidos los back-ends, el estado cambia a Available. Estos back-ends ahora tienen información sobre los volúmenes persistentes en el clúster de OpenShift y los volúmenes correspondientes en el sistema ONTAP.
 +
-image:redhat_openshift_image96.jpg["Hay disponibles back-ends de Astra Control Center"]
+image::redhat_openshift_image96.jpg[Hay disponibles back-ends de Astra Control Center]
 
 . Para realizar backups y restauraciones en todos los clústeres de OpenShift con Astra Control Center, debe aprovisionar un bloque de almacenamiento de objetos que sea compatible con el protocolo S3. Actualmente, las opciones admitidas son ONTAP S3, StorageGRID y AWS S3. Para el objetivo de esta instalación, vamos a configurar un bloque de AWS S3. Vaya a Buckets, haga clic en Add bucket y seleccione Generic S3. Introduzca los detalles sobre el bloque de S3 y las credenciales para acceder a él, haga clic en la casilla de comprobación make this Bucket the Default Bucket for the Cloud y, a continuación, haga clic en Add.
 +
-image:redhat_openshift_image97.jpg["Astra Control Center Create bucket"]
+image::redhat_openshift_image97.jpg[Astra Control Center Create bucket]
 
 

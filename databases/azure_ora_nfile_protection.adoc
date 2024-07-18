@@ -74,8 +74,9 @@ NOTE: Al configurar el backup `azacsnap.json` archivo de configuración, agregar
 
 Vaya al portal de Azure > Azure NetApp Files/Volumes para comprobar si las snapshots se han creado correctamente.
 
-image:db_ora_azure_anf_snap_01.PNG["Esta captura de pantalla muestra dos archivos en la lista de instantáneas."]
-image:db_ora_azure_anf_snap_02.PNG["Esta captura de pantalla muestra ocho archivos en la lista de instantáneas."]
+image::db_ora_azure_anf_snap_01.PNG[Esta captura de pantalla muestra dos archivos en la lista de instantáneas.]
+
+image::db_ora_azure_anf_snap_02.PNG[Esta captura de pantalla muestra ocho archivos en la lista de instantáneas.]
 
 
 
@@ -167,19 +168,19 @@ Version 19.8.0.0.0
 ----
 . En la consola de Azure NetApp Files, restaure el volumen de registro a la última snapshot disponible. Seleccione *volumen de reversión*.
 +
-image:db_ora_azure_anf_restore_01.PNG["Esta captura de pantalla muestra el método de reversión de instantánea para volúmenes en el panel ANF."]
+image::db_ora_azure_anf_restore_01.PNG[Esta captura de pantalla muestra el método de reversión de instantánea para volúmenes en el panel ANF.]
 
 . Confirme la reversión de volumen y haga clic en *revertir* para completar la reversión del volumen a la última copia de seguridad disponible.
 +
-image:db_ora_azure_anf_restore_02.PNG["El \"¿está seguro de que desea hacer esto?\" página para la nueva versión de instantánea."]
+image::db_ora_azure_anf_restore_02.PNG[El "¿está seguro de que desea hacer esto?" página para la nueva versión de instantánea.]
 
 . Repita los mismos pasos para el volumen de datos y compruebe que el backup contenga la tabla que se va a recuperar.
 +
-image:db_ora_azure_anf_restore_03.PNG["Esta captura de pantalla muestra el método de reversión de instantánea para volúmenes de datos en el panel ANF."]
+image::db_ora_azure_anf_restore_03.PNG[Esta captura de pantalla muestra el método de reversión de instantánea para volúmenes de datos en el panel ANF.]
 
 . Vuelva a confirmar la versión del volumen y haga clic en "Revert".
 +
-image:db_ora_azure_anf_restore_04.PNG["El \"¿está seguro de que desea hacer esto?\" página para la reversión de la copia de snapshot de volumen de datos."]
+image::db_ora_azure_anf_restore_04.PNG[El "¿está seguro de que desea hacer esto?" página para la reversión de la copia de snapshot de volumen de datos.]
 
 . Resincronizcar los archivos de control si tiene varias copias de ellos y reemplazar el archivo de control antiguo con la última copia disponible.
 +

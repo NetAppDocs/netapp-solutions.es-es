@@ -48,32 +48,32 @@ Para crear y montar volúmenes de Azure NetApp Files, complete los siguientes pa
 Para conocer los pasos detallados, consulte link:https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-create-netapp-account["Recursos compartidos de Azure NetApp Files"]. Esta página le guiará a través del proceso paso a paso.
 
 +
-image:azure-anf-guest-1.png[""]
+image::azure-anf-guest-1.png[azure y invitado 1]
 
 . Una vez creada la cuenta de NetApp, configure los pools de capacidad con el tamaño y el nivel de servicio requeridos.
 +
 Para obtener más información, consulte link:https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-set-up-capacity-pool["Configure un pool de capacidad"].
 
 +
-image:azure-anf-guest-2.png[""]
+image::azure-anf-guest-2.png[azure y invitado 2]
 
 . Configure la subred delegada para Azure NetApp Files y especifique esta subred mientras crea los volúmenes. Para obtener información detallada sobre los pasos para crear una subred delegada, consulte link:https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-delegate-subnet["Delegar una subred en Azure NetApp Files"].
 +
-image:azure-anf-guest-3.png[""]
+image::azure-anf-guest-3.png[azure y invitado 3]
 
 . Añada un volumen SMB utilizando el blade volúmenes bajo el blade de pools de capacidad. Asegúrese de que el conector de Active Directory esté configurado antes de crear el volumen de SMB.
 +
-image:azure-anf-guest-4.png[""]
+image::azure-anf-guest-4.png[azure y invitado 4]
 
 . Haga clic en Review + Create para crear el volumen del SMB.
 +
 Si la aplicación es SQL Server, habilite la disponibilidad continua de SMB.
 
 +
-image:azure-anf-guest-5.png[""]
+image::azure-anf-guest-5.png[azure y invitado 5]
 
 +
-image:azure-anf-guest-6.png[""]
+image::azure-anf-guest-6.png[azure y invitado 6]
 
 +
 Para obtener más información acerca del rendimiento de Azure NetApp Files Volume por tamaño o cuota, consulte link:https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-performance-considerations["Consideraciones de rendimiento para Azure NetApp Files"].
@@ -83,14 +83,14 @@ Para obtener más información acerca del rendimiento de Azure NetApp Files Volu
 Para ello, en el portal de Azure, haga clic en el blade de volúmenes y, a continuación, seleccione el volumen que desea montar y acceder a las instrucciones de montaje. Copie la ruta y utilice la opción Map Network Drive para montar el volumen en el equipo virtual que se ejecuta en el centro definido por software de la solución VMware de Azure.
 
 +
-image:azure-anf-guest-7.png[""]
+image::azure-anf-guest-7.png[azure y invitado 7]
 
 +
-image:azure-anf-guest-8.png[""]
+image::azure-anf-guest-8.png[azure y invitado 8]
 
 . Para montar volúmenes NFS en equipos virtuales Linux que se ejecutan en un SDDC de la solución Azure VMware, utilice este mismo proceso. Usar la funcionalidad de un nuevo estado de los volúmenes o un nivel de servicio dinámico para satisfacer las demandas de las cargas de trabajo.
 +
-image:azure-anf-guest-9.png[""]
+image::azure-anf-guest-9.png[azure y invitado 9]
 
 +
 Para obtener más información, consulte link:https://docs.microsoft.com/en-us/azure/azure-netapp-files/dynamic-change-volume-service-level["Cambie dinámicamente el nivel de servicio de un volumen"].
@@ -126,47 +126,47 @@ NOTE: Uso link:https://cloud.netapp.com/cvo-sizer["Configuración de Cloud Volum
 
 . Inicie sesión en NetApp Cloud Central: Se mostrará la pantalla Fabric View. Localice la pestaña Cloud Volumes ONTAP y seleccione Go to Cloud Manager. Una vez que haya iniciado sesión, aparecerá la pantalla Canvas.
 +
-image:azure-cvo-guest-1.png[""]
+image::azure-cvo-guest-1.png[invitado de azure cvo 1]
 
 . En la página de inicio de Cloud Manager, haga clic en Add a Working Environment y, a continuación, seleccione Microsoft Azure como cloud y el tipo de configuración del sistema.
 +
-image:azure-cvo-guest-2.png[""]
+image::azure-cvo-guest-2.png[invitado de azure cvo 2]
 
 . Al crear el primer entorno de trabajo de Cloud Volumes ONTAP, Cloud Manager le solicita que implemente un conector.
 +
-image:azure-cvo-guest-3.png[""]
+image::azure-cvo-guest-3.png[invitado de azure cvo 3]
 
 . Una vez creado el conector, actualice los campos Detalles y credenciales.
 +
-image:azure-cvo-guest-4.png[""]
+image::azure-cvo-guest-4.png[invitado de azure cvo 4]
 
 . Proporcione los detalles del entorno que se va a crear, incluidos el nombre del entorno y las credenciales de administración. Añada etiquetas de grupo de recursos para el entorno de Azure como un parámetro opcional. Una vez que haya terminado, haga clic en continuar.
 +
-image:azure-cvo-guest-5.png[""]
+image::azure-cvo-guest-5.png[invitado de azure cvo 5]
 
 . Selecciona los servicios complementarios para la implementación de Cloud Volumes ONTAP, que incluyen la clasificación de BlueXP, el backup y la recuperación de datos de BlueXP, y Cloud Insights. Seleccione los servicios y haga clic en Continue.
 +
-image:azure-cvo-guest-6.png[""]
+image::azure-cvo-guest-6.png[invitado de azure cvo 6]
 
 . Configure la ubicación y la conectividad de Azure. Seleccione la región de Azure, el grupo de recursos, vnet y la subred que desee utilizar.
 +
-image:azure-cvo-guest-7.png[""]
+image::azure-cvo-guest-7.png[invitado de azure cvo 7]
 
 . Seleccione la opción de licencia: Pago por uso o BYOL para usar la licencia existente. En este ejemplo, se utiliza la opción de pago por uso.
 +
-image:azure-cvo-guest-8.png[""]
+image::azure-cvo-guest-8.png[invitado de azure cvo 8]
 
 . Seleccione entre varios paquetes preconfigurados disponibles para los distintos tipos de cargas de trabajo.
 +
-image:azure-cvo-guest-9.png[""]
+image::azure-cvo-guest-9.png[invitado de azure cvo 9]
 
 . Acepte los dos acuerdos sobre la activación del soporte y la asignación de recursos de Azure.para crear la instancia de Cloud Volumes ONTAP, haga clic en Go.
 +
-image:azure-cvo-guest-10.png[""]
+image::azure-cvo-guest-10.png[invitado de azure cvo 10]
 
 . Una vez que se ha aprovisionado Cloud Volumes ONTAP, se muestra en los entornos de trabajo de la página lienzo.
 +
-image:azure-cvo-guest-11.png[""]
+image::azure-cvo-guest-11.png[invitado de azure cvo 11]
 
 
 
@@ -176,23 +176,23 @@ image:azure-cvo-guest-11.png[""]
 ====
 . Una vez listo el entorno de trabajo, asegúrese de que el servidor CIFS esté configurado con los parámetros de configuración DNS y Active Directory adecuados. Este paso es necesario para poder crear el volumen de SMB.
 +
-image:azure-cvo-guest-20.png[""]
+image::azure-cvo-guest-20.png[invitado de azure cvo 20]
 
 . La creación del volumen SMB es un proceso sencillo. Seleccione la instancia de CVO para crear el volumen y haga clic en la opción Create Volume. Elija el tamaño adecuado y el gestor de cloud elija el agregado que lo contiene o utilice un mecanismo de asignación avanzado para colocarlo en un agregado concreto. En esta demostración, se ha seleccionado SMB como protocolo.
 +
-image:azure-cvo-guest-21.png[""]
+image::azure-cvo-guest-21.png[invitado de azure cvo 21]
 
 . Una vez que el volumen se ha aprovisionado, estará disponible en el panel Volumes. Dado que se aprovisiona un recurso compartido de CIFS, conceda a los usuarios o grupos permiso a los archivos y carpetas y compruebe que esos usuarios pueden acceder al recurso compartido y crear un archivo. Este paso no es necesario si el volumen se replica desde un entorno en las instalaciones, ya que los permisos de archivos y carpetas se conservan como parte de la replicación de SnapMirror.
 +
-image:azure-cvo-guest-22.png[""]
+image::azure-cvo-guest-22.png[invitado de azure cvo 22]
 
 . Una vez creado el volumen, utilice el comando Mount para conectarse al recurso compartido desde la máquina virtual que se ejecuta en los hosts SDDC de Azure VMware Solution.
 . Copie la siguiente ruta y utilice la opción Map Network Drive para montar el volumen en el equipo virtual que se ejecuta en el centro de datos definido por software de la solución VMware de Azure.
 +
-image:azure-cvo-guest-23.png[""]
+image::azure-cvo-guest-23.png[invitado de azure cvo 23]
 
 +
-image:azure-cvo-guest-24.png[""]
+image::azure-cvo-guest-24.png[invitado de azure cvo 24]
 
 
 
@@ -205,7 +205,7 @@ Para conectar el LUN a un host, complete los pasos siguientes:
 . En la página lienzo, haga doble clic en el entorno de trabajo de Cloud Volumes ONTAP para crear y gestionar volúmenes.
 . Haga clic en Add Volume > New Volume, seleccione iSCSI y haga clic en Create Initiator Group. Haga clic en Continue.
 +
-image:azure-cvo-guest-30.png[""]
+image::azure-cvo-guest-30.png[invitado de azure cvo 30]
 
 . Una vez que se haya aprovisionado el volumen, seleccione el volumen y, a continuación, haga clic en IQN de destino. Para copiar el nombre completo de iSCSI (IQN), haga clic en Copy. Configurar una conexión iSCSI desde el host al LUN.
 +
@@ -221,7 +221,7 @@ Para lograr lo mismo con el host que reside en el centro de datos definido por s
 *Nota:* el host Windows debe tener una conexión iSCSI con cada nodo del clúster. El DSM nativo selecciona las mejores rutas que se van a utilizar.
 
 +
-image:azure-cvo-guest-31.png[""]
+image::azure-cvo-guest-31.png[invitado de azure cvo 31]
 
 
 
@@ -235,7 +235,7 @@ Las LUN de una máquina virtual de almacenamiento (SVM) aparecen como discos en 
 . Haga clic en Acción > discos de reexploración.
 
 
-image:azure-cvo-guest-32.png[""]
+image::azure-cvo-guest-32.png[invitado de azure cvo 32]
 
 Cuando el host Windows accede por primera vez a una nueva LUN, no tiene sistema de archivos o partición. Inicialice la LUN y, de manera opcional, formatee la LUN con un sistema de archivos realizando los pasos siguientes:
 
@@ -244,8 +244,8 @@ Cuando el host Windows accede por primera vez a una nueva LUN, no tiene sistema 
 . Siga las instrucciones del asistente. En este ejemplo, la unidad E: Está montada
 
 
-image:azure-cvo-guest-33.png[""]
+image::azure-cvo-guest-33.png[invitado de azure cvo 33]
 
-image:azure-cvo-guest-34.png[""]
+image::azure-cvo-guest-34.png[invitado de azure cvo 34]
 
 ====

@@ -50,7 +50,7 @@ Este escenario requiere los siguientes componentes y configuraciones:
 
 NetApp recomienda diseños de red completamente redundantes para iSCSI. En el siguiente diagrama se muestra un ejemplo de una configuración redundante, que proporciona tolerancia a fallos para los sistemas de almacenamiento, los switches, los adaptadores de red y los sistemas host. Consulte NetApp link:https://docs.netapp.com/us-en/ontap/san-config/index.html["Referencia para la configuración DE SAN"] para obtener más información.
 
-image:vmware-vcf-asa-image74.png["Diseño de red de NVMe-tcp"]
+image::vmware-vcf-asa-image74.png[Diseño de red de NVMe-tcp]
 
 {nbsp}
 
@@ -82,14 +82,14 @@ Complete los siguientes pasos para crear una SVM junto con varios LIF para el tr
 
 . Desde el Administrador del sistema de ONTAP navegue hasta *VM de almacenamiento* en el menú de la izquierda y haga clic en *+ Agregar* para comenzar.
 +
-image:vmware-vcf-asa-image01.png["Haga clic en +Add para comenzar a crear SVM"]
+image::vmware-vcf-asa-image01.png[Haga clic en +Add para comenzar a crear SVM]
 
 +
 {nbsp}
 
 . En el asistente de *Add Storage VM*, proporcione un *Name* para la SVM, seleccione *IP Space* y, a continuación, en *Access Protocol*, haga clic en la pestaña *iSCSI* y marque la casilla *Enable iSCSI*.
 +
-image:vmware-vcf-asa-image02.png["Asistente Add storage VM: Habilitar iSCSI"]
+image::vmware-vcf-asa-image02.png[Asistente Add storage VM: Habilitar iSCSI]
 
 +
 {nbsp}
@@ -100,14 +100,14 @@ image:vmware-vcf-asa-image02.png["Asistente Add storage VM: Habilitar iSCSI"]
 NOTE: Para la multivía y la conmutación al respaldo en varias rutas, NetApp recomienda tener un mínimo de dos LIF por nodo de almacenamiento en redes Ethernet independientes para todas las SVM en configuraciones de iSCSI.
 
 +
-image:vmware-vcf-asa-image03.png["Rellene la información de red para las LIF"]
+image::vmware-vcf-asa-image03.png[Rellene la información de red para las LIF]
 
 +
 {nbsp}
 
 . Elija si desea activar la cuenta de administración de Storage VM (para entornos multi-tenancy) y haga clic en *Guardar* para crear la SVM.
 +
-image:vmware-vcf-asa-image04.png["Habilite la cuenta de SVM y Finalizar"]
+image::vmware-vcf-asa-image04.png[Habilite la cuenta de SVM y Finalizar]
 
 
 
@@ -125,7 +125,7 @@ Complete lo siguiente para crear un nuevo grupo de puertos distribuidos para cad
 
 . En el cliente vSphere , desplácese hasta *Inventory > Networking* para el dominio de la carga de trabajo. Navegue hasta el conmutador distribuido existente y elija la acción para crear *Nuevo grupo de puertos distribuidos...*.
 +
-image:vmware-vcf-asa-image22.png["Seleccione para crear un nuevo grupo de puertos"]
+image::vmware-vcf-asa-image22.png[Seleccione para crear un nuevo grupo de puertos]
 
 +
 {nbsp}
@@ -133,7 +133,7 @@ image:vmware-vcf-asa-image22.png["Seleccione para crear un nuevo grupo de puerto
 . En el asistente de *New Distributed Port Group*, introduzca un nombre para el nuevo grupo de puertos y haga clic en *Next* para continuar.
 . En la página *Configure settings*, complete todos los ajustes. Si se utilizan VLAN, asegúrese de proporcionar el identificador de VLAN correcto. Haga clic en *Siguiente* para continuar.
 +
-image:vmware-vcf-asa-image23.png["Rellene el ID de VLAN"]
+image::vmware-vcf-asa-image23.png[Rellene el ID de VLAN]
 
 +
 {nbsp}
@@ -142,18 +142,18 @@ image:vmware-vcf-asa-image23.png["Rellene el ID de VLAN"]
 . Repita este proceso para crear un grupo de puertos distribuidos para la segunda red iSCSI que se esté utilizando y asegúrese de que ha introducido el *VLAN ID* correcto.
 . Una vez que ambos grupos de puertos han sido creados, navegue al primer grupo de puertos y seleccione la acción para *Editar configuración...*.
 +
-image:vmware-vcf-asa-image24.png["DPG - editar configuración"]
+image::vmware-vcf-asa-image24.png[DPG - editar configuración]
 
 +
 {nbsp}
 
 . En la página *Distributed Port Group - Edit Settings*, navega a *Teaming and failover* en el menú de la izquierda y haz clic en *uplink2* para moverlo hacia abajo a *Uplinks sin usar*.
 +
-image:vmware-vcf-asa-image25.png["mueva uplink2 a unused"]
+image::vmware-vcf-asa-image25.png[mueva uplink2 a unused]
 
 . Repita este paso para el segundo grupo de puertos iSCSI. Sin embargo, esta vez mueva *uplink1* hacia abajo a *Uplinks sin usar*.
 +
-image:vmware-vcf-asa-image26.png["mueva uplink1 a unused"]
+image::vmware-vcf-asa-image26.png[mueva uplink1 a unused]
 
 
 
@@ -165,42 +165,42 @@ Repita este proceso en cada host ESXi del dominio de la carga de trabajo.
 
 . En el cliente de vSphere, desplácese hasta uno de los hosts ESXi en el inventario de dominio de la carga de trabajo. En la pestaña *Configure*, seleccione *VMkernel adapter* y haga clic en *Add Networking...* para comenzar.
 +
-image:vmware-vcf-asa-image30.png["Inicie el asistente para agregar redes"]
+image::vmware-vcf-asa-image30.png[Inicie el asistente para agregar redes]
 
 +
 {nbsp}
 
 . En la ventana *Seleccionar tipo de conexión*, elija *Adaptador de red VMkernel* y haga clic en *Siguiente* para continuar.
 +
-image:vmware-vcf-asa-image08.png["Seleccione VMkernel Network Adapter"]
+image::vmware-vcf-asa-image08.png[Seleccione VMkernel Network Adapter]
 
 +
 {nbsp}
 
 . En la página *Seleccionar dispositivo de destino*, elija uno de los grupos de puertos distribuidos para iSCSI que se crearon anteriormente.
 +
-image:vmware-vcf-asa-image31.png["Seleccione el grupo de puertos de destino"]
+image::vmware-vcf-asa-image31.png[Seleccione el grupo de puertos de destino]
 
 +
 {nbsp}
 
 . En la página *Propiedades del puerto*, mantenga los valores predeterminados y haga clic en *Siguiente* para continuar.
 +
-image:vmware-vcf-asa-image32.png["Propiedades del puerto VMkernel"]
+image::vmware-vcf-asa-image32.png[Propiedades del puerto VMkernel]
 
 +
 {nbsp}
 
 . En la página *IPv4 settings*, rellena la *IP address*, *Subnet mask* y proporciona una nueva dirección IP de Gateway (solo si es necesario). Haga clic en *Siguiente* para continuar.
 +
-image:vmware-vcf-asa-image33.png["Configuración de VMkernel IPv4"]
+image::vmware-vcf-asa-image33.png[Configuración de VMkernel IPv4]
 
 +
 {nbsp}
 
 . Revise sus selecciones en la página *Listo para completar* y haga clic en *Finalizar* para crear el adaptador VMkernel.
 +
-image:vmware-vcf-asa-image34.png["Revise las selecciones de VMkernel"]
+image::vmware-vcf-asa-image34.png[Revise las selecciones de VMkernel]
 
 +
 {nbsp}
@@ -230,14 +230,14 @@ Complete lo siguiente para poner en marcha herramientas de ONTAP para VMware vSp
 . Inicie sesión en el dispositivo vCenter para el dominio de gestión de VCF.
 . Desde la interfaz del dispositivo vCenter, haga clic con el botón derecho en el clúster de administración y seleccione *Implementar plantilla OVF…*
 +
-image:vmware-vcf-aff-image21.png["Desplegar Plantilla OVF..."]
+image::vmware-vcf-aff-image21.png[Desplegar Plantilla OVF...]
 
 +
 {nbsp}
 
 . En el asistente de *Desplegar plantilla OVF* haga clic en el botón de opción *Archivo local* y seleccione el archivo OVA de herramientas ONTAP descargado en el paso anterior.
 +
-image:vmware-vcf-aff-image22.png["Seleccione el archivo OVA"]
+image::vmware-vcf-aff-image22.png[Seleccione el archivo OVA]
 
 +
 {nbsp}
@@ -245,14 +245,14 @@ image:vmware-vcf-aff-image22.png["Seleccione el archivo OVA"]
 . En los pasos 2 a 5 del asistente, seleccione un nombre y una carpeta para la máquina virtual, seleccione el recurso de computación, revise los detalles y acepte el acuerdo de licencia.
 . Para la ubicación de almacenamiento de los archivos de configuración y disco, seleccione el almacén de datos vSAN del clúster de dominio de gestión de VCF.
 +
-image:vmware-vcf-aff-image23.png["Seleccione el archivo OVA"]
+image::vmware-vcf-aff-image23.png[Seleccione el archivo OVA]
 
 +
 {nbsp}
 
 . En la página Seleccionar red, seleccione la red que se utiliza para el tráfico de gestión.
 +
-image:vmware-vcf-aff-image24.png["Seleccione RED"]
+image::vmware-vcf-aff-image24.png[Seleccione RED]
 
 +
 {nbsp}
@@ -271,10 +271,10 @@ image:vmware-vcf-aff-image24.png["Seleccione RED"]
 Haga clic en *Siguiente* para continuar.
 
 +
-image:vmware-vcf-aff-image25.png["Personalizar plantilla OTV 1"]
+image::vmware-vcf-aff-image25.png[Personalizar plantilla OTV 1]
 
 +
-image:vmware-vcf-asa-image35.png["Personalizar plantilla OTV 2"]
+image::vmware-vcf-asa-image35.png[Personalizar plantilla OTV 2]
 
 +
 {nbsp}
@@ -297,7 +297,7 @@ image::vmware-asa-image6.png[Herramientas de NetApp ONTAP]
 
 . En el menú desplegable *INSTANCE* de la interfaz de la herramienta ONTAP, seleccione la instancia OTV asociada al dominio de carga de trabajo que se va a gestionar.
 +
-image:vmware-vcf-asa-image36.png["Seleccione Instancia de OTV"]
+image::vmware-vcf-asa-image36.png[Seleccione Instancia de OTV]
 
 +
 {nbsp}

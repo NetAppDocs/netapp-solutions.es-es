@@ -18,7 +18,7 @@ En las instalaciones, utilizamos la controladora de almacenamiento AFF A900 de N
 
 Utilizamos Confluent Kafka 6.2.0 para evaluar el AFF A900. El clúster dispone de ocho nodos de broker y tres nodos de zomantenimiento. Para realizar pruebas de rendimiento, utilizamos cinco nodos de trabajo OMB.
 
-image:kafka-nfs-image32.png[""]
+image::kafka-nfs-image32.png[kafka nfs image32]
 
 
 
@@ -121,11 +121,11 @@ Evaluamos la plataforma AFF A900 utilizando la prueba de rendimiento de OpenMess
 
 El rendimiento constante con Confluent Kafka y AFF A900 logró un rendimiento medio de 3,4 Gbps tanto para el productor como para el consumidor. Esto es más de 3.4 millones de mensajes en el cluster Kafka. Al visualizar el rendimiento sostenido en bytes por segundo para BrokerTopicMetrics, observamos el excelente rendimiento en estado constante y el tráfico apoyado por la AFF A900.
 
-image:kafka-nfs-image33.png["En este gráfico se muestra el rendimiento de la red de Broker."]
+image::kafka-nfs-image33.png[En este gráfico se muestra el rendimiento de la red de Broker.]
 
 Esto se alinea correctamente con la vista de los mensajes entregados por tema. El siguiente gráfico proporciona un desglose por tema. En la configuración probada, hemos visto unos 900 mensajes por tema en cuatro temas.
 
-image:kafka-nfs-image34.png["En este gráfico se muestra el rendimiento de la red de Broker."]
+image::kafka-nfs-image34.png[En este gráfico se muestra el rendimiento de la red de Broker.]
 
 
 
@@ -137,7 +137,7 @@ Para comprender las limitaciones del almacenamiento en el rendimiento de consumo
 
 Durante la parte sólo para el productor de esta medición, observamos un alto rendimiento máximo que ha elevado los límites del rendimiento de A900 (cuando otros recursos de broker no estaban saturados al servicio del tráfico de productores y consumidores).
 
-image:kafka-nfs-image35.png[""]
+image::kafka-nfs-image35.png[kafka nfs image35]
 
 
 NOTE: Hemos aumentado el tamaño del mensaje a 16 k para esta medición para limitar la sobrecarga por mensaje y maximizar la capacidad de almacenamiento a los puntos de montaje NFS.

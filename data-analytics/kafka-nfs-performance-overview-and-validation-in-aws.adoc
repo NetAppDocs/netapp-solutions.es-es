@@ -52,14 +52,14 @@ En la siguiente tabla se muestra la configuración del entorno de un clúster de
 
 . Para el par de alta disponibilidad de Cloud Volumes ONTAP, hemos creado dos agregados con tres volúmenes en cada agregado de cada controladora de almacenamiento. Para el nodo único de Cloud Volumes ONTAP, creamos seis volúmenes en un agregado.
 +
-image:kafka-nfs-image25.png["Esta imagen muestra las propiedades de aggr3 y aggr22."]
+image::kafka-nfs-image25.png[Esta imagen muestra las propiedades de aggr3 y aggr22.]
 
 +
-image:kafka-nfs-image26.png["Esta imagen muestra las propiedades de aggr2."]
+image::kafka-nfs-image26.png[Esta imagen muestra las propiedades de aggr2.]
 
 . Para mejorar el rendimiento de red, hemos habilitado redes de alta velocidad para el par de alta disponibilidad y el nodo único.
 +
-image:kafka-nfs-image27.png["Esta imagen muestra cómo activar redes de alta velocidad."]
+image::kafka-nfs-image27.png[Esta imagen muestra cómo activar redes de alta velocidad.]
 
 . Hemos observado que el ONTAP NVRAM tenía más IOPS, por lo que hemos cambiado el IOPS a 2350 para el volumen raíz de Cloud Volumes ONTAP. El disco del volumen raíz en Cloud Volumes ONTAP tenía un tamaño de 47 GB. El siguiente comando ONTAP es para el par de alta disponibilidad, y el mismo paso es aplicable para el único nodo.
 +
@@ -88,7 +88,7 @@ Scope: kafka_nfs_cvo_ha1-02
 kafka_nfs_cvo_ha1::*>
 ....
 +
-image:kafka-nfs-image28.png["Estas imágenes muestran la forma de modificar las propiedades del volumen."]
+image::kafka-nfs-image28.png[Estas imágenes muestran la forma de modificar las propiedades del volumen.]
 
 
 
@@ -99,7 +99,7 @@ En la figura siguiente se muestra la arquitectura de un clúster Kafka basado en
 * *Almacenamiento.* utilizamos una instancia Cloud Volumes ONTAP de par de alta disponibilidad con un volumen GP3 de 6 TB AWS-EBS montado en la instancia. El volumen se exportó después al agente de Kafka con un montaje NFS.
 
 
-image:kafka-nfs-image29.png["En esta figura, se muestra la arquitectura de un clúster Kafka basado en NAS."]
+image::kafka-nfs-image29.png[En esta figura, se muestra la arquitectura de un clúster Kafka basado en NAS.]
 
 
 
@@ -362,8 +362,8 @@ El controlador Sync puede generar un rendimiento constante a medida que los regi
 
 Estos números de rendimiento se generan para la configuración de AWS determinada. Para requisitos de rendimiento más altos, los tipos de instancias se pueden escalar verticalmente para mejorar los números de rendimiento. El rendimiento total o la tasa total es la combinación de la tasa de producción y del consumidor.
 
-image:kafka-nfs-image30.png["Aquí se presentan cuatro gráficos diferentes. Controlador de rendimiento de par CVO-ha. Controlador de sincronización de pares CVO-ha. Controlador de rendimiento de nodo único CVO. Controlador CVO-Single Node Sync."]
+image::kafka-nfs-image30.png[Aquí se presentan cuatro gráficos diferentes. Controlador de rendimiento de par CVO-ha. Controlador de sincronización de pares CVO-ha. Controlador de rendimiento de nodo único CVO. Controlador CVO-Single Node Sync.]
 
 Asegúrese de comprobar el rendimiento del almacenamiento al realizar el rendimiento o sincronizar las pruebas de rendimiento del controlador.
 
-image:kafka-nfs-image31.png["Este gráfico muestra el rendimiento en la latencia, IOPS y rendimiento."]
+image::kafka-nfs-image31.png[Este gráfico muestra el rendimiento en la latencia, IOPS y rendimiento.]

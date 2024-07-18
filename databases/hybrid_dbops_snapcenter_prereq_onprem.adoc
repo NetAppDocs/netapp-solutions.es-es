@@ -41,26 +41,26 @@ El rendimiento del almacenamiento desempeña un papel importante en el rendimien
 
 La conexión directa de LUN de almacenamiento al equipo virtual «guest» mediante NFS o iSCSI para cargas de trabajo de bases de datos virtualizadas suele proporcionar un mejor rendimiento que el almacenamiento asignado a través de VMDK. NetApp recomienda el diseño del almacenamiento para una base de datos de SQL Server grande en las LUN descritas en la siguiente figura.
 
-image:storage_layout_sqlsvr_large.PNG[""]
+image::storage_layout_sqlsvr_large.PNG[diseño de almacenamiento sqlsvr grande]
 
 La siguiente figura muestra la distribución de almacenamiento recomendada por NetApp para bases de datos de SQL Server pequeñas o medianas en LUN.
 
-image:storage_layout_sqlsvr_smallmedium.PNG[""]
+image::storage_layout_sqlsvr_smallmedium.PNG[diseño de almacenamiento sqlsvr smallmedium]
 
 
 NOTE: El directorio de registro se dedica a SnapCenter para realizar un paquete acumulativo de registros de transacciones para la recuperación de la base de datos. Para una base de datos extra grande, se pueden asignar varios LUN a un volumen para mejorar el rendimiento.
 
 Para cargas de trabajo de bases de datos de Oracle, SnapCenter admite entornos de base de datos respaldados por almacenamiento ONTAP que están montados en el host como dispositivos físicos o virtuales. Puede alojar toda la base de datos en un único dispositivo de almacenamiento o en varios en función de la importancia del entorno. Normalmente, los clientes aíslan los archivos de datos del almacenamiento dedicado de todos los demás archivos, como los archivos de control, los archivos de recuperación y los archivos de registro de archivos. De este modo, los administradores pueden restaurar rápidamente (SnapRestore de un solo archivo de ONTAP) o clonar una base de datos crítica de gran tamaño (a escala de petabytes) mediante la tecnología Snapshot en unos pocos segundos o minutos.
 
-image:storage_layout_oracle_typical.PNG[""]
+image::storage_layout_oracle_typical.PNG[diseño de almacenamiento típico de oracle]
 
 En el caso de cargas de trabajo críticas que sean sensibles a la latencia, se debe poner en marcha un volumen de almacenamiento dedicado en diferentes tipos de archivos de Oracle para lograr la mejor latencia posible. Para una base de datos grande, se deben asignar varios LUN (NetApp recomienda hasta ocho) por volumen a los archivos de datos.
 
-image:storage_layout_oracle_dedicated.PNG[""]
+image::storage_layout_oracle_dedicated.PNG[diseño de almacenamiento oracle dedicado]
 
 En el caso de bases de datos de Oracle más pequeñas, SnapCenter admite diseños de almacenamiento compartido en los que puede alojar varias bases de datos o parte de una base de datos en el mismo volumen de almacenamiento o una LUN. Como ejemplo de este diseño, es posible alojar archivos de datos de todas las bases de datos en un grupo de discos +DATA ASM o un grupo de volúmenes. El resto de los archivos (archivos de recuperación, registro de archivo y de control) se puede alojar en otro grupo de discos o grupo de volúmenes dedicado (LVM). A continuación se ilustra un escenario de despliegue de este tipo.
 
-image:storage_layout_oracle_shared.PNG[""]
+image::storage_layout_oracle_shared.PNG[diseño de almacenamiento compartido de oracle]
 
 Para facilitar la reubicación de las bases de datos de Oracle, el binario de Oracle debe instalarse en un LUN independiente que se incluya en la política de backup normal. Esto garantiza que, en caso de reubicación de la base de datos a un nuevo host de servidor, la pila de Oracle se pueda iniciar para la recuperación sin ningún problema potencial debido a un binario de Oracle que no está sincronizado.
 
