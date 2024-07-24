@@ -1,0 +1,87 @@
+---
+sidebar: sidebar 
+permalink: virtualization/virt-overview.html 
+keywords: virtualization, overview, compute, storage, vmware, openshift, hyper-v 
+summary: Este documento ofrece información general sobre la virtualización desde el punto de vista informático, de red y del almacenamiento. 
+---
+= Una introducción rápida a la virtualización
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+La prevalencia de la virtualización ha impulsado los resultados empresariales durante décadas. Desde los inicios de los entornos mainframe hasta la era actual de los casos de uso que consumen gran cantidad de almacenamiento y las necesidades de sistemas preparados para IA, la virtualización se ha convertido en un componente integral de cada entorno de clientes.
+
+
+
+== Descripción general
+
+Tradicionalmente, los centros de datos consistían en servidores físicos, redes y almacenamiento, cada uno dedicado a tareas específicas. Este enfoque creó silos de recursos que a menudo se infrautilizaban en gran medida. En el núcleo, la virtualización implica desvincular los recursos físicos de los requisitos y funciones de la organización. Esto se logra mediante la creación de representaciones virtuales de los tres componentes principales de la infraestructura: *Red*, *computación* y *almacenamiento*. La puesta en marcha de una infraestructura virtual permite a las organizaciones lograr un mayor aprovechamiento de los recursos físicos subyacentes a través de estas construcciones lógicas.
+
+image::virt-overview-image1.png[Diagrama de los componentes de virtualización para computación, red y almacenamiento]
+
+La virtualización es un caso en el que el conjunto es mayor que la suma de las partes a través de la automatización, los flujos de trabajo condicionados por políticas y la escalabilidad. Al mejorar la eficiencia, la flexibilidad y reducir el coste total de propiedad DE la infraestructura DE TI, la virtualización permite a las organizaciones optimizar sus recursos tecnológicos en mayor medida. Una infraestructura virtual con tecnología de NetApp hereda las ventajas clave de ONTAP:
+
+* Aprovisionamiento, backup y protección de datos con complementos e integraciones líderes en el sector
+* Eficiencias de almacenamiento de nivel empresarial
+* Compatibilidad con varios protocolos para necesidades de cargas de trabajo cambiantes
+* Configuración de almacenamiento basada en políticas y calidad de servicio adaptativa
+* Admita aplicaciones y cargas de trabajo, ya sea en las instalaciones o en los clouds públicos con un único sistema operativo de almacenamiento
+
+
+Para obtener más información acerca de NetApp ONTAP, consulte los siguientes aspectos:
+
+* link:https://www.netapp.com/data-management/ontap-data-management-software/["ONTAP: El sistema operativo de almacenamiento unificado líder"]
+
+
+
+
+== Virtualización de redes
+
+La virtualización de red se refiere a la abstracción de los componentes físicos de la red (switches, routers, firewalls, interfaces, etc.) en construcciones lógicas. Estos constructos lógicos, que funcionan con independencia de la infraestructura física subyacente, proporcionan una comunicación segura entre los clientes, el almacenamiento y otros componentes de la red. La virtualización de red es clave para ejecutar el negocio, ya que permite el uso compartido de recursos mientras que al mismo tiempo permite la restricción del tráfico de red de acuerdo con las políticas.
+
+La virtualización de red puede combinar varias redes físicas en una estructura virtual, o puede facilitar la división de una red física en redes virtuales separadas y discretas. Se pueden crear y personalizar varias redes para satisfacer requisitos específicos DE TI. A menudo, la virtualización de red hace referencia a casos de uso basados en Ethernet, pero en muchas instancias las estructuras virtuales pueden configurarse en función de las capacidades de fabricación del switch. Ya sea que se empleen LAN virtuales o SAN virtuales, las organizaciones logran una mayor eficiencia operativa y un rendimiento general mejorado de la red a través de la virtualización de la red.
+
+Para obtener más información sobre la virtualización de redes, consulte lo siguiente:
+
+* link:https://www.cisco.com/c/en/us/products/switches/virtual-networking/index.html["Redes virtuales de Cisco"]
+* link:https://www.vmware.com/topics/glossary/content/virtual-networking.html["Redes virtuales de VMware"]
+
+
+
+
+== Virtualización de la computación
+
+La virtualización de servidores o computación es quizás la forma más conocida de virtualización. Con la virtualización de computación, los hipervisores imitan las funciones de los servidores físicos y permiten que los equipos de operaciones ejecuten varias máquinas virtuales en un único nodo físico. Con la virtualización informática, se comparten recursos como la memoria de servidor y la CPU. Este uso compartido permite una sobresuscripción de los recursos subyacentes en el grado que sea aceptable para las cargas de trabajo y aplicaciones puestas en marcha.
+
+Con la virtualización informática, cada máquina virtual tiene su propio sistema operativo y aplicaciones y recursos instalados, que funcionan independientemente uno de otro. Entre las numerosas ventajas de la virtualización de computación se incluyen el aumento del uso de los servidores, reducción de gastos de hardware, gestión simplificada mediante la interfaz de usuario (UI) del hipervisor y funciones de recuperación ante desastres mejoradas. Además, con complementos de hipervisor, la administración del almacenamiento, pueden configurarse relaciones de backup y protección para simplificar aún más las tareas operativas.
+
+Para obtener más información sobre la virtualización de la computación, consulte lo siguiente:
+
+* link:https://www.vmware.com/solutions/virtualization.html["VSphere de VMware"]
+* link:https://www.redhat.com/en/technologies/cloud-computing/openshift/virtualization["Red Hat OpenShift Virtualization"]
+* link:https://learn.microsoft.com/en-us/windows-server/virtualization/hyper-v/hyper-v-on-windows-server["Microsoft Hyper-V"]
+
+
+
+
+== Virtualización del almacenamiento
+
+Al igual que la virtualización de red y computación, la virtualización del almacenamiento es importante para un centro de datos moderno. NetApp ONTAP facilita la virtualización del almacenamiento mediante máquinas virtuales de almacenamiento (SVM) que proporcionan datos a clientes y hosts. Las SVM son entidades lógicas que permiten que los recursos de almacenamiento no se vinculen a medios físicos. Las SVM pueden ponerse en marcha según el tipo de carga de trabajo, las necesidades de aplicación y los grupos de organización para el acceso.
+
+Existen varios tipos de SVM que ayudan en el acceso a los datos, la administración y las tareas en el nivel del clúster y del sistema. Las SVM de datos sirven datos a los clientes y hosts desde uno o más volúmenes a través de una o varias interfaces lógicas de red (LIF). Estos volúmenes y LIF son construcciones lógicas y se asignan a los agregados de almacenamiento y puertos de red físicos o lógicos. Este acceso lógico a los datos permite la movilidad de volúmenes o LIF durante escenarios de mantenimiento o reequilibrio de recursos, similar al de los equipos virtuales de computación.
+
+Si quiere más información sobre la virtualización del almacenamiento, consulte:
+
+* link:https://docs.netapp.com/us-en/ontap/concepts/storage-virtualization-concept.html["Descripción general de la virtualización del almacenamiento de ONTAP"]
+
+
+
+
+== Cierre
+
+Los componentes de la infraestructura virtual descritos aquí: La red, los recursos informáticos y el almacenamiento proporcionan las mismas funcionalidades que los recursos físicos típicos pero mediante el software. La asignación de recursos virtuales a través de recursos físicos acelera la rentabilidad de la inversión y permite la configuración de recursos basada en políticas. La vinculación de ONTAP con la virtualización de los recursos informáticos y de red permite que los clientes y los hosts accedan a los recursos a través de una infraestructura virtual definida por software.
