@@ -22,20 +22,46 @@ Esta sección se centra en las directrices sobre el tamaño y la validación de 
 
 La configuración del almacenamiento de esta solución se validó mediante una serie de cargas de trabajo sintéticas utilizando la herramienta de código abierto FIO. Estas pruebas incluyen patrones de I/O de lectura y escritura destinados a simular la carga de trabajo de almacenamiento generada por los sistemas DGX que realizan trabajos de entrenamiento de aprendizaje profundo. La configuración del almacenamiento se validó utilizando un clúster de servidores CPU de 2 sockets que ejecutaban las cargas de trabajo FIO de forma simultánea para simular un clúster de sistemas DGX. Cada cliente se configuró con la misma configuración de red descrita anteriormente, con la adición de los siguientes detalles.
 
-Para esta validación se han utilizado las siguientes opciones de montaje:
-• vers=4,1 # Habilita pNFS para el acceso paralelo a varios nodos de almacenamiento
-• proto=rdma # establece el protocolo de transferencia en RDMA en lugar del TCP predeterminado
-• puerto=20049 # Especifique el puerto correcto para el servicio NFS RDMA
-• max_connect=16 # Permite el trunking de sesión NFS para agregar ancho de banda de puerto de almacenamiento
-• write=eager # mejora el rendimiento de escritura de escrituras en búfer
-• Rsize=262144,wsize=262144 # establece el tamaño de transferencia de I/O en 256K kb
+Para esta validación se utilizaron las siguientes opciones de montaje:
 
-Además, los clientes se configuraron con un valor de NFS max_session_slots de 1024. Dado que la solución se probó con NFS a través de RDMA, los puertos de redes de almacenamiento se configuraron con un vínculo activo-pasivo. Para esta validación se han utilizado los siguientes parámetros de enlace:
-• mode=backup activo # establece el enlace al modo activo / pasivo
-• primario=<interface name> # las interfaces primarias para todos los clientes se distribuyeron a través de los switches
-• mii-monitor-interval=100 # especifica el intervalo de monitoreo de 100ms
-• fail-over-mac-policy=active # especifica que la dirección MAC del enlace activo es el MAC del enlace. Esto es necesario para el correcto funcionamiento de RDMA a través de la interfaz vinculada.
+[cols="30%, 70%"]
+|===
 
+
+| vers=4,1 | Habilita pNFS para el acceso paralelo a varios nodos de almacenamiento 
+
+
+| proto=rdma | Define el protocolo de transferencia en RDMA en lugar del TCP predeterminado 
+
+
+| puerto = 20049 | Especifique el puerto correcto para el servicio RDMA NFS 
+
+
+| max_connect=16 | Habilita la conexión de enlaces de sesión NFS para agregar el ancho de banda de puertos de almacenamiento 
+
+
+| write=eager | mejora el rendimiento de escritura de escrituras en búfer 
+
+
+| rsize=262144,wsize=262144 | Establece el tamaño de transferencia de I/O en 256K 
+|===
+Además, los clientes se configuraron con un valor de NFS max_session_slots de 1024. Dado que la solución se probó con NFS a través de RDMA, los puertos de redes de almacenamiento se configuraron con un vínculo activo-pasivo. Para esta validación, se utilizaron los siguientes parámetros de enlace:
+
+[cols="30%, 70%"]
+|===
+
+
+| mode=backup activo | establece el vínculo en el modo activo-pasivo 
+
+
+| primary=<interface name> | las interfaces principales para todos los clientes se distribuyeron entre los switches 
+
+
+| mii-monitor-interval=100 | especifica el intervalo de monitorización de 100ms 
+
+
+| fail-over-mac-policy=active | Especifica que la dirección MAC del enlace activo es la MAC del enlace. Esto es necesario para el correcto funcionamiento de RDMA a través de la interfaz vinculada. 
+|===
 El sistema de almacenamiento se configuró como se describe con dos pares de alta disponibilidad A900 (4 controladoras) con dos bandejas de discos NS224 de 24 1,9TB unidades de disco NVMe añadidas a cada par de alta disponibilidad. Tal y como se indica en la sección de arquitectura, la capacidad de almacenamiento de todas las controladoras se combinó mediante el uso de un volumen FlexGroup y la información de todos los clientes se distribuyó entre todas las controladoras del clúster.
 
 
@@ -44,4 +70,6 @@ El sistema de almacenamiento se configuró como se describe con dos pares de alt
 
 NetApp ha completado correctamente la certificación DGX BasePOD y los dos pares de alta disponibilidad A900 como pruebas pueden admitir fácilmente un clúster de ocho sistemas DGX H100. Para puestas en marcha de mayor tamaño con requisitos de rendimiento del almacenamiento superiores, es posible añadir sistemas AFF adicionales al clúster de NetApp ONTAP hasta 12 pares de alta disponibilidad (24 nodos) en un único clúster. Con la tecnología FlexGroup descrita en esta solución, un clúster de 24 nodos puede proporcionar más de 40 PB y hasta 300 Gbps de rendimiento en un solo espacio de nombres. Otros sistemas de almacenamiento de NetApp como AFF A400, A250 y C800 ofrecen un rendimiento menor y opciones de capacidad superior para puestas en marcha de menor tamaño a puntos de coste menores. Como ONTAP 9 admite clústeres de modelo mixto, los clientes pueden comenzar con una huella inicial pequeña e ir aumentando el sistema de almacenamiento a medida que crezcan los requisitos de capacidad y rendimiento. La siguiente tabla muestra una estimación aproximada del número de GPU A100 y H100 admitidas en cada modelo de AFF.
 
-_Guía de dimensionamiento del sistema de almacenamiento NetApp_ image::aipod_nv_sizing_new.png[]
+_Guía para ajustar el tamaño del sistema de almacenamiento de NetApp_
+
+image::aipod_nv_sizing_new.png[aipod nv dimensionamiento nuevo]
