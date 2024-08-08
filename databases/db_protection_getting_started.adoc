@@ -103,10 +103,7 @@ En el caso de los entornos AWX/Tower, se le guiará a través de la creación de
 | se han creado nfs vlan e ifgrp 
 
 
-.6+| *Servidor(s) Oracle* |  
-
-
-| RHEL 7/8 
+.5+| *Servidor(s) Oracle* | RHEL 7/8 
 
 
 | Oracle Linux 7/8 
@@ -121,13 +118,16 @@ En el caso de los entornos AWX/Tower, se le guiará a través de la creación de
 | Establezca el espacio de intercambio adecuado en la instancia de Oracle EC2; de forma predeterminada, algunas instancias de EC2 se implementan con 0 swap 
 
 
-.3+| *Cloud Manager/AWS* | Acceso a AWS/clave secreta 
+.4+| *Cloud Manager/AWS* | Acceso a AWS/clave secreta 
 
 
 | Cuenta de Cloud Manager de NetApp 
 
 
 | Token de actualización de Cloud Manager de NetApp 
+
+
+| Agregue los LIF de interconexión de clústeres de origen al grupo de seguridad de AWS 
 |===
 --
 ====
@@ -137,7 +137,7 @@ En el caso de los entornos AWX/Tower, se le guiará a través de la creación de
 
 [role="tabbed-block"]
 ====
-.<strong class="big"> de </strong> <strong>|</strong>
+.</strong> de encendido <strong class="big">
 --
 Esta puesta en marcha automatizada se ha diseñado con un único libro de aplicaciones de Ansible que consiste en tres roles independientes. Los roles están destinados a configuraciones de ONTAP, Linux y Oracle. La siguiente tabla describe qué tareas se automatizan.
 
