@@ -14,19 +14,65 @@ summary: MLOps de código abierto con NetApp - Arquitectura
 
 
 [role="lead"]
-Esta solución no depende de hardware específico. La solución es compatible con cualquier dispositivo de almacenamiento físico, instancia definida por software o servicio cloud de NetApp compatible con Trident. Entre los ejemplos se incluyen un sistema de almacenamiento de NetApp AFF, Amazon FSx para NetApp ONTAP, Azure NetApp Files o una instancia de NetApp Cloud Volumes ONTAP. Además, la solución se puede implementar en cualquier clúster de Kubernetes, siempre y cuando la versión de Kubernetes utilizada sea compatible con Kubeflow y Astra Trident de NetApp. Si desea ver una lista de las versiones de Kubernetes compatibles con ubeflow, consulte la https://www.kubeflow.org/docs/started/getting-started/["Documentación oficial de Kubeflow"^]. Si desea ver una lista de las versiones de Kubernetes compatibles con Trident, consulte https://docs.netapp.com/us-en/trident/index.html["Documentación de Trident"^]. Consulte las siguientes tablas para obtener información detallada sobre el entorno que se utilizó para validar la solución.
+Esta solución no depende de hardware específico. La solución es compatible con cualquier dispositivo de almacenamiento físico de NetApp, instancia definida por software o servicio cloud que sea compatible con Astra Trident de NetApp. Entre los ejemplos se incluyen un sistema de almacenamiento de NetApp AFF, Amazon FSx para NetApp ONTAP, Azure NetApp Files, Google Cloud NetApp Volumes o una instancia de NetApp Cloud Volumes ONTAP. Además, la solución se puede implementar en cualquier clúster de Kubernetes, siempre y cuando la versión de Kubernetes utilizada sea compatible con Astra Trident de NetApp y los demás componentes de la solución que se implementen. Para obtener una lista de las versiones de Kubernetes compatibles con Trident, consulte la https://docs.netapp.com/us-en/trident/index.html["Documentación de Trident"^]. Consulte las siguientes tablas si quiere más información acerca de los entornos que se han utilizado para validar los distintos componentes de esta solución.
+
+
+
+== Entorno de validación de flujo de aire de Apache
 
 |===
 | Componente de software | Versión 
 
 
-| Flujo de aire Apache | 2.0.1 
+| Flujo de aire Apache | 2,0.1, puesta en marcha mediante link:https://artifacthub.io/packages/helm/airflow-helm/airflow["Gráfico de Apache Airflow Helm"^] 8.0.8 
 
 
-| Tabla de Helm para flujo de aire de Apache | 8.0.8 
+| Kubernetes | 1,18 
 
 
-| Kubeflow | 1,7, puesto en marcha mediante link:https://www.deploykf.org["Desplegar KF"] 0.1.1 
+| Astra Trident de NetApp | 21,01 
+|===
+
+
+== Entorno de validación de JupyterHub
+
+|===
+| Componente de software | Versión 
+
+
+| JupyterHub | 4,1.5, puesta en marcha mediante link:https://hub.jupyter.org/helm-chart/["Diagrama de JupyterHub Helm"^] 3.3.7 
+
+
+| Kubernetes | 1,29 
+
+
+| Astra Trident de NetApp | 24,02 
+|===
+
+
+== Entorno de Validación de MLflow
+
+|===
+| Componente de software | Versión 
+
+
+| MLflow | 2.14.1, puesto en marcha mediante link:https://artifacthub.io/packages/helm/bitnami/mlflow["Diagrama de Helm de MLflow"^] 1.4.12 
+
+
+| Kubernetes | 1,29 
+
+
+| Astra Trident de NetApp | 24,02 
+|===
+
+
+== Entorno de validación de Kubeflow
+
+|===
+| Componente de software | Versión 
+
+
+| Kubeflow | 1,7, puesto en marcha mediante link:https://www.deploykf.org["Desplegar KF"^] 0.1.1 
 
 
 | Kubernetes | 1,26 
@@ -38,4 +84,4 @@ Esta solución no depende de hardware específico. La solución es compatible co
 
 == Soporte técnico
 
-NetApp no ofrece compatibilidad empresarial para Apache Airflow, Kubeflow o Kubernetes. Si está interesado en una plataforma MLOps totalmente compatible, link:https://www.netapp.com/us/contact-us/index.aspx?for_cr=us["Póngase en contacto con NetApp"] Acerca de las soluciones de MLOps totalmente compatibles que NetApp ofrece conjuntamente con partners.
+NetApp no ofrece compatibilidad empresarial para Apache Airflow, JupyterHub, MLflow, Kubeflow o Kubernetes. Si le interesa una plataforma MLOps totalmente compatible, link:https://www.netapp.com/us/contact-us/index.aspx?for_cr=us["Póngase en contacto con NetApp"^] acerca de soluciones MLOps totalmente compatibles que NetApp ofrece conjuntamente con sus partners.

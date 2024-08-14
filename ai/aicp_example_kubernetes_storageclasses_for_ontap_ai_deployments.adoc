@@ -14,17 +14,17 @@ summary: 'MLOps de código abierto con NetApp: Ejemplo de StorageClasses de Kube
 
 
 [role="lead"]
-Para poder usar Astra Trident para aprovisionar de forma dinámica recursos de almacenamiento dentro de su clúster de Kubernetes, debe crear uno o varios StorageClasses de Kubernetes. Los ejemplos siguientes representan los diferentes tipos de StorageClasses que puede que desee crear si va a implementar componentes de esta solución en un link:https://docs.netapp.com/us-en/netapp-solutions/ai/aipod_nv_intro.html["AIPod de NetApp"]. Si desea obtener más información sobre las clases de almacenamiento, consulte link:https://docs.netapp.com/us-en/trident/index.html["Documentación de Astra Trident"].
+Para poder usar Astra Trident para aprovisionar de forma dinámica recursos de almacenamiento dentro de su clúster de Kubernetes, debe crear uno o varios StorageClasses de Kubernetes. Los ejemplos siguientes representan diferentes tipos de StorageClasses que puede que desee crear si está implementando componentes de esta solución en un link:https://docs.netapp.com/us-en/netapp-solutions/ai/aipod_nv_intro.html["AIPod de NetApp"^]. Para obtener más información sobre StorageClasses y, por ejemplo, StorageClasses para otras plataformas/entornos, consulte la link:https://docs.netapp.com/us-en/trident/index.html["Documentación de Astra Trident"^].
 
 . NetApp recomienda crear una clase de almacenamiento para el back-end de Trident habilitado para FlexGroup que haya creado en la sección link:aicp_example_trident_backends_for_ontap_ai_deployments.html["Ejemplo de backend Astra Trident para implementaciones de AIPod de NetApp"], paso 1. Los comandos de ejemplo que siguen muestran la creación de varias clases de almacenamiento que corresponden a los dos backend de ejemplo que se crearon en la sección link:aicp_example_trident_backends_for_ontap_ai_deployments.html["Ejemplo de backend Astra Trident para implementaciones de AIPod de NetApp"], paso 1 - uno que utiliza link:https://docs.netapp.com/us-en/ontap/nfs-rdma/["NFS sobre RDMA"] y uno que no lo hace.
 +
 Para que no se elimine un volumen persistente cuando se elimine la reclamación de volumen persistente (RVP) correspondiente, en el siguiente ejemplo se utiliza un `reclaimPolicy` valor de `Retain`. Para obtener más información acerca de `reclaimPolicy` consulte el funcionario https://kubernetes.io/docs/concepts/storage/storage-classes/["Documentación de Kubernetes"^].
 
 +
-Nota: El siguiente ejemplo StorageClasses utiliza un tamaño de transferencia máximo de 262144. Para utilizar este tamaño máximo de transferencia, debe configurar el tamaño máximo de transferencia en el sistema ONTAP de forma acorde. Consulte la link:https://docs.netapp.com/us-en/ontap/nfs-admin/nfsv3-nfsv4-performance-tcp-transfer-size-concept.html["Documentación de ONTAP"] para obtener más detalles.
+Nota: El siguiente ejemplo StorageClasses utiliza un tamaño de transferencia máximo de 262144. Para utilizar este tamaño máximo de transferencia, debe configurar el tamaño máximo de transferencia en el sistema ONTAP de forma acorde. Consulte la link:https://docs.netapp.com/us-en/ontap/nfs-admin/nfsv3-nfsv4-performance-tcp-transfer-size-concept.html["Documentación de ONTAP"^] para obtener más información.
 
 +
-Nota: Para utilizar NFS a través de RDMA, debe configurar NFS a través de RDMA en el sistema ONTAP. Consulte la documentación de linkhttps://docs.netapp.com/us-en/ontap/nfs-rdma/[ONTAP] para obtener más información.
+Nota: Para utilizar NFS a través de RDMA, debe configurar NFS a través de RDMA en el sistema ONTAP. Consulte la link:https://docs.netapp.com/us-en/ontap/nfs-rdma/["Documentación de ONTAP"^] para obtener más información.
 
 +
 Nota: En el siguiente ejemplo, no se especifica un backend específico en el campo storagePool del archivo de definición de StorageClass.
