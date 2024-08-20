@@ -1,0 +1,32 @@
+---
+sidebar: sidebar 
+permalink: ehc/dr-draas-overview.html 
+keywords: dr, draas, bluexp, disaster recovery, vmfs datastore, nfs datastore, overview 
+summary: Esta sección del documento describe la configuración de DRaaS de BlueXP  para configurar la recuperación ante desastres para máquinas virtuales VMware on-premises en otro sitio designado. 
+---
+= Descripción general
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+La recuperación ante desastres es lo más importante en la mente de cualquier administrador de VMware. Dado que VMware encapsula servidores completos en una serie de archivos que componen la máquina virtual, los administradores aprovechan las técnicas basadas en almacenamiento de bloques, como clones, copias Snapshot y réplicas para proteger estos equipos virtuales. Las cabinas de ONTAP ofrecen replicación integrada para transferir datos de volúmenes y, por lo tanto, los equipos virtuales que residen en los LUN de almacén de datos designados, desde un sitio a otro. DRaaS de BlueXP  se integra con vSphere y automatiza todo el flujo de trabajo para obtener una conmutación al respaldo y una conmutación de retorno tras recuperación fluidas en caso de desastre. Combinando la replicación del almacenamiento con la automatización inteligente, los administradores cuentan ahora con una forma gestionable, no solo para configurar, automatizar y probar planes de recuperación ante desastres, sino que también ofrece la forma de ejecutarlos fácilmente en caso de desastre.
+
+La mayoría de las partes que consumen mucho tiempo de una conmutación por error en recuperación ante desastres en un entorno VMware vSphere es la ejecución de los pasos necesarios para inventariar, registrar, reconfigurar y encender las máquinas virtuales en el centro de recuperación ante desastres. Una solución ideal tiene un objetivo de punto de recuperación bajo (medido en minutos) y un objetivo de tiempo de recuperación bajo (medido en minutos y horas). Un factor que a menudo se pasa por alto en una solución de recuperación ante desastres es la posibilidad de probar la solución de recuperación ante desastres con eficiencia a intervalos periódicos.
+
+Para diseñar una solución de recuperación ante desastres, tenga en cuenta los siguientes factores:
+
+* El objetivo de tiempo de recuperación. El objetivo de tiempo de recuperación es la rapidez con la que una empresa puede recuperarse de un desastre o, más concretamente, el tiempo que se tarda en ejecutar el proceso de recuperación para volver a garantizar la disponibilidad de los servicios empresariales.
+* El objetivo de punto de recuperación (RPO). El objetivo de punto de recuperación es la antigüedad de los datos recuperados una vez que se han puesto a disposición, en relación con el momento en que ocurrió el desastre.
+* Escalabilidad y adaptabilidad. Este factor incluye la posibilidad de aumentar los recursos de almacenamiento incrementalmente a medida que aumenta la demanda.
+
+
+Para obtener más información técnica sobre las soluciones disponibles, consulte:
+
+* link:dr-draas-nfs.html["Recuperación ante desastres mediante DRaaS de BlueXP  para almacenes de datos NFS"]
+* link:dr-draas-vmfs.html["Recuperación ante desastres mediante DRaaS de BlueXP  para almacenes de datos de VMFS"]
+
