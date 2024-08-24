@@ -1,0 +1,403 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmware_nfs_vlsr.html 
+keywords: netapp, vmware, cloud, foundation, vcf, aff, all-flash, nfs, vvol, vvols, array, ontap tools, otv, sddc 
+summary:  
+---
+= Utilice Site Recovery Manager de VMware para la recuperación ante desastres de almacenes de datos NFS
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+
+
+== Utilice Site Recovery Manager de VMware para la recuperación ante desastres de almacenes de datos NFS
+
+[role="lead"]
+El uso de herramientas de ONTAP para VMware vSphere 10 y el adaptador de replicación de sitio (SRA) junto con el administrador de recuperación de sitio (SRM) de VMware aporta un valor importante a los procesos de recuperación ante desastres. Las herramientas de ONTAP 10 proporcionan sólidas funciones de almacenamiento, entre las que se incluyen alta disponibilidad y escalabilidad nativas para el proveedor VASA, y son compatibles con vVols iSCSI y NFS. Esto garantiza la disponibilidad de datos y simplifica la gestión de múltiples servidores de VMware vCenter y clústeres de ONTAP. Mediante el SRA con VMware Site Recovery Manager, las organizaciones pueden lograr una replicación y una conmutación por error fluidas de máquinas virtuales y datos entre sitios, lo que permite procesos de recuperación ante desastres eficientes. La combinación de las herramientas de ONTAP y el SRA permite a las empresas proteger las cargas de trabajo cruciales, minimizar los tiempos de inactividad y mantener la continuidad del negocio ante desastres o eventos imprevistos.
+
+Las herramientas de ONTAP 10 simplifican las funciones de eficiencia y gestión del almacenamiento, mejora la disponibilidad y reduce los costes de almacenamiento y la sobrecarga operativa, tanto si utiliza SAN como NAS. Utiliza prácticas recomendadas para aprovisionar almacenes de datos y optimiza la configuración de host ESXi para entornos de almacenamiento en bloques y NFS. Para todas estas ventajas, NetApp recomienda este plugin cuando se usa vSphere en sistemas que ejecutan el software ONTAP.
+
+El SRA se usa junto con el SRM para gestionar la replicación de datos de máquinas virtuales entre sitios de producción y recuperación ante desastres para almacenes de datos VMFS tradicionales y NFS, y también para las pruebas no disruptivas de réplicas de recuperación ante desastres. Ayuda a automatizar las tareas de identificación, recuperación y protección.
+
+En este escenario, demostraremos cómo poner en marcha y utilizar el administrador de recuperación de sitios de VMware para proteger los almacenes de datos y ejecutar tanto una prueba como una conmutación por error final a un sitio secundario. La reprotección y la conmutación por recuperación también se tratan.
+
+
+
+=== Descripción general del escenario
+
+Este escenario cubre los siguientes pasos de alto nivel:
+
+* Configurar SRM con servidores de vCenter en sitios principales y secundarios.
+* Instale las herramientas del adaptador SRA para ONTAP para VMware vSphere 10 y regístrelo en vCenters.
+* Crear relaciones de SnapMirror entre los sistemas de almacenamiento de ONTAP de origen y de destino
+* Configurar Site Recovery para SRM.
+* Realizar pruebas y recuperación tras fallos final.
+* Habla sobre la reprotección y la conmutación tras recuperación.
+
+
+
+
+=== Arquitectura
+
+El siguiente diagrama muestra una arquitectura típica de VMware Site Recovery con herramientas ONTAP para VMware vSphere 10 configuradas en una configuración de alta disponibilidad de 3 nodos.
+
+image::vmware-nfs-srm-image05.png[Configurar el dispositivo]
+
+{nbsp}
+
+
+
+=== Requisitos previos
+
+Este escenario requiere los siguientes componentes y configuraciones:
+
+* Clústeres de vSphere 8 instalados en las ubicaciones principales y secundarias con redes adecuadas para las comunicaciones entre entornos.
+* Sistemas de almacenamiento de ONTAP en la ubicación principal y secundaria, con puertos de datos físicos en switches ethernet dedicados al tráfico de almacenamiento NFS.
+* Se han instalado las herramientas de ONTAP para VMware vSphere 10 y tienen registrados ambos servidores vCenter.
+* Se han instalado dispositivos VMware Site Replication Manager para los sitios primarios y secundarios.
++
+** Se configuraron las asignaciones de inventario (red, carpeta, recurso, política de almacenamiento) para SRM.
+
+
+
+
+NetApp recomienda diseños de red redundantes para NFS, lo que proporciona tolerancia a fallos para sistemas de almacenamiento, switches, adaptadores de red y sistemas host. Es común poner en marcha NFS con una única subred o varias subredes, en función de los requisitos de la arquitectura.
+
+Consulte https://core.vmware.com/resource/best-practices-running-nfs-vmware-vsphere["Prácticas recomendadas para ejecutar NFS con VMware vSphere"] Para obtener información detallada específica de VMware vSphere.
+
+Para obtener orientación de red sobre el uso de ONTAP con VMware vSphere, consulte la https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware-vsphere-network.html#nfs["Configuración de red: NFS"] De la documentación de aplicaciones empresariales de NetApp.
+
+Para obtener documentación de NetApp sobre el uso del almacenamiento de ONTAP con VMware SRM, consulte https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware-srm-overview.html#why-use-ontap-with-srm["VMware Site Recovery Manager con ONTAP"]
+
+
+
+=== Pasos de despliegue
+
+Las siguientes secciones describen los pasos de puesta en marcha para implementar y probar una configuración de VMware Site Recovery Manager con el sistema de almacenamiento de ONTAP.
+
+
+
+==== Crear una relación de SnapMirror entre los sistemas de almacenamiento de ONTAP
+
+Debe establecerse una relación de SnapMirror entre los sistemas de almacenamiento ONTAP de origen y de destino para que los volúmenes de almacenes de datos estén protegidos.
+
+Consulte la documentación de ONTAP en la que comienza https://docs.netapp.com/us-en/ontap/data-protection/snapmirror-replication-workflow-concept.html["AQUÍ"] para obtener información completa sobre la creación de relaciones de SnapMirror para volúmenes de ONTAP.
+
+Las instrucciones paso a paso se describen en el siguiente documento, ubicado https://docs.netapp.com/us-en/netapp-solutions/ehc/aws-guest-dr-solution-overview.html#assumptions-pre-requisites-and-component-overview["AQUÍ"]. Estos pasos describen cómo crear relaciones entre iguales de clústeres y SVM y, a continuación, relaciones de SnapMirror para cada volumen. Estos pasos pueden llevarse a cabo en ONTAP System Manager o mediante la CLI de ONTAP.
+
+
+
+==== Configure el dispositivo SRM
+
+Complete los siguientes pasos para configurar el dispositivo SRM y el adaptador de SRA.
+
+.Conecte el dispositivo SRM para sitios primarios y secundarios
+[%collapsible]
+====
+Deben completarse los siguientes pasos tanto para el sitio primario como para el secundario.
+
+. En un navegador web, navegue https://<SRM_appliance_IP>:5480[] e inicie sesión. Haga clic en *Configurar dispositivo* para comenzar.
++
+image::vmware-nfs-srm-image01.png[Configurar el dispositivo]
+
++
+{nbsp}
+
+. En la página *Platform Services Controller* del asistente Configure Site Recovery Manager, rellene las credenciales del servidor vCenter en el que se registrará SRM. Haga clic en *Siguiente* para continuar.
++
+image::vmware-nfs-srm-image02.png[controlador de servicios de plataforma]
+
++
+{nbsp}
+
+. En la página *vCenter Server*, vea el vServer conectado y haga clic en *Siguiente* para continuar.
+. En la página *Nombre y extensión*, introduzca un nombre para el sitio SRM, una dirección de correo electrónico de los administradores y el host local que utilizará SRM. Haga clic en *Siguiente* para continuar.
++
+image::vmware-nfs-srm-image03.png[Configurar el dispositivo]
+
++
+{nbsp}
+
+. En la página *Listo para completar* revise el resumen de los cambios
+
+
+====
+.Configure el SRA en el dispositivo SRM
+[%collapsible]
+====
+Complete los siguientes pasos para configurar el SRA en el dispositivo SRM:
+
+. Descargue las herramientas SRA para ONTAP 10 en el https://mysupport.netapp.com/site/products/all/details/otv10/downloads-tab["Sitio de soporte de NetApp"] y guarde el archivo tar.gz en una carpeta local.
+. Desde el dispositivo de gestión SRM, haga clic en *Adaptadores de replicación de almacenamiento* en el menú de la izquierda y luego en *Nuevo adaptador*.
++
+image::vmware-nfs-srm-image04.png[Agregue un nuevo adaptador SRM]
+
++
+{nbsp}
+
+. Siga los pasos descritos en el sitio de documentación de ONTAP Tools 10 en https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/protect/configure-on-srm-appliance.html["Configure el SRA en el dispositivo SRM"]. Una vez que se haya completado, el SRA puede comunicarse con el SRA mediante la dirección IP proporcionada y las credenciales del servidor de vCenter.
+
+
+====
+
+
+==== Configurar Site Recovery para SRM
+
+Realice los siguientes pasos para configurar el emparejamiento de sitios, crear grupos de protección,
+
+.Configure Site Pairing para SRM
+[%collapsible]
+====
+El siguiente paso se completa en el cliente vCenter del sitio primario.
+
+. En el cliente vSphere haga clic en *Site Recovery* en el menú de la izquierda. Se abre una nueva ventana del explorador en la interfaz de usuario de gestión de SRM en el sitio principal.
++
+image::vmware-nfs-srm-image06.png[Recuperación del sitio]
+
++
+{nbsp}
+
+. En la página *Site Recovery*, haz clic en *NEW SITE PAIR*.
++
+image::vmware-nfs-srm-image07.png[Recuperación del sitio]
+
++
+{nbsp}
+
+. En la página *Pair type* del asistente *New Pair*, verifique que el servidor vCenter local esté seleccionado y seleccione el *Pair type*. Haga clic en *Siguiente* para continuar.
++
+image::vmware-nfs-srm-image08.png[Tipo de par]
+
++
+{nbsp}
+
+. En la página *Peer vCenter*, rellene las credenciales de vCenter en el sitio secundario y haga clic en *Buscar instancias de vCenter*. Compruebe que la instancia de vCenter se ha detectado y haga clic en *Siguiente* para continuar.
++
+image::vmware-nfs-srm-image09.png[VCenter entre iguales]
+
++
+{nbsp}
+
+. En la página *Servicios*, marque la casilla junto al emparejamiento de sitios propuesto. Haga clic en *Siguiente* para continuar.
++
+image::vmware-nfs-srm-image10.png[Servicios]
+
++
+{nbsp}
+
+. En la página *Listo para completar*, revise la configuración propuesta y luego haga clic en el botón *Finalizar* para crear el Emparejamiento del sitio
+. El nuevo par de sitios y su resumen se pueden ver en la página Resumen.
++
+image::vmware-nfs-srm-image11.png[Resumen de pares de sitios]
+
+
+
+====
+.Añada un par de cabinas para SRM
+[%collapsible]
+====
+El siguiente paso se completa en la interfaz de recuperación del sitio principal.
+
+. En la interfaz de recuperación del sitio, vaya a *Configure > Array Based Replication > Array Pairs* en el menú de la izquierda. Haga clic en *ADD* para comenzar.
++
+image::vmware-nfs-srm-image12.png[Parejas de cabinas]
+
++
+{nbsp}
+
+. En la página *Storage replication adapter* del asistente *Add Array Pair*, verifique que el adaptador SRA esté presente para el sitio principal y haga clic en *Next* para continuar.
++
+image::vmware-nfs-srm-image13.png[Añada pareja de cabinas]
+
++
+{nbsp}
+
+. En la página *Local array manager*, introduzca un nombre para la cabina en el sitio primario, el FQDN del sistema de almacenamiento, las direcciones IP de SVM que sirven NFS y, opcionalmente, los nombres de volúmenes específicos que se van a detectar. Haga clic en *Siguiente* para continuar.
++
+image::vmware-nfs-srm-image14.png[Gestor de cabina local]
+
++
+{nbsp}
+
+. En el *Remote array manager*, rellene la misma información que el último paso para el sistema de almacenamiento ONTAP en el sitio secundario.
++
+image::vmware-nfs-srm-image15.png[Gestor de cabina remota]
+
++
+{nbsp}
+
+. En la página *Matrices*, seleccione los pares de matrices que desea habilitar y haga clic en *Siguiente* para continuar.
++
+image::vmware-nfs-srm-image16.png[Parejas de cabinas]
+
++
+{nbsp}
+
+. Revise la información en la página *Ready to Complete* y haga clic en *Finish* para crear el par de matrices.
+
+
+====
+.Configure los grupos de protección para el SRM
+[%collapsible]
+====
+El siguiente paso se completa en la interfaz de recuperación del sitio principal.
+
+. En la interfaz de recuperación del sitio, haga clic en la pestaña * Grupos de protección * y luego en * Nuevo grupo de protección * para comenzar.
++
+image::vmware-nfs-srm-image17.png[Recuperación del sitio]
+
++
+{nbsp}
+
+. En la página *Nombre y dirección* del asistente *New Protection Group*, proporcione un nombre para el grupo y elija la dirección del sitio para la protección de los datos.
++
+image::vmware-nfs-srm-image18.png[Nombre y dirección]
+
++
+{nbsp}
+
+. En la página *Type*, seleccione el tipo de grupo de protección (almacén de datos, VM o VVol) y seleccione el par de cabinas. Haga clic en *Siguiente* para continuar.
++
+image::vmware-nfs-srm-image19.png[Tipo]
+
++
+{nbsp}
+
+. En la página *Datastore groups*, seleccione los almacenes de datos que desea incluir en el grupo de protección. Las máquinas virtuales que residen actualmente en el almacén de datos se muestran para cada almacén de datos seleccionado. Haga clic en *Siguiente* para continuar.
++
+image::vmware-nfs-srm-image20.png[Grupos de almacenes de datos]
+
++
+{nbsp}
+
+. En la página *Recovery plan*, opcionalmente, elija agregar el grupo de protección a un plan de recuperación. En este caso, el plan de recuperación aún no se ha creado, por lo que se selecciona *NO AÑADIR AL PLAN DE RECUPERACIÓN*. Haga clic en *Siguiente* para continuar.
++
+image::vmware-nfs-srm-image21.png[Plan de recuperación]
+
++
+{nbsp}
+
+. En la página *Listo para completar*, revise los nuevos parámetros del grupo de protección y haga clic en *Finalizar* para crear el grupo.
++
+image::vmware-nfs-srm-image22.png[Plan de recuperación]
+
+
+
+====
+.Configurar el plan de recuperación para SRM
+[%collapsible]
+====
+El siguiente paso se completa en la interfaz de recuperación del sitio principal.
+
+. En la interfaz de recuperación del sitio haga clic en la pestaña *Plan de recuperación* y luego en *Nuevo plan de recuperación* para comenzar.
++
+image::vmware-nfs-srm-image23.png[Nuevo plan de recuperación]
+
++
+{nbsp}
+
+. En la página *Nombre y dirección* del asistente *Crear plan de recuperación*, proporcione un nombre para el plan de recuperación y elija la dirección entre los sitios de origen y destino. Haga clic en *Siguiente* para continuar.
++
+image::vmware-nfs-srm-image24.png[Nombre y dirección]
+
++
+{nbsp}
+
+. En la página *Grupos de protección*, seleccione los grupos de protección creados previamente para incluir en el plan de recuperación. Haga clic en *Siguiente* para continuar.
++
+image::vmware-nfs-srm-image25.png[Grupos de protección]
+
++
+{nbsp}
+
+. En las *Redes de prueba* configure redes específicas que se utilizarán durante la prueba del plan. Si no existe ninguna asignación o si no se selecciona ninguna red, se creará una red de prueba aislada. Haga clic en *Siguiente* para continuar.
++
+image::vmware-nfs-srm-image26.png[Probar redes]
+
++
+{nbsp}
+
+. En la página *Listo para completar*, revise los parámetros elegidos y luego haga clic en *Finalizar* para crear el plan de recuperación.
+
+
+====
+
+
+=== Operaciones de recuperación ante desastres con SRM
+
+En esta sección se tratarán varias funciones de uso de la recuperación ante desastres con SRM, como la prueba de recuperación tras fallos, la realización de recuperación tras fallos, la realización de reprotección y la conmutación tras recuperación.
+
+Consulte https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware-srm-operational_best_practices.html["Mejores prácticas operativas"] si desea más información sobre cómo usar el almacenamiento de ONTAP con operaciones de recuperación ante desastres de SRM.
+
+.Pruebas de recuperación tras fallos con SRM
+[%collapsible]
+====
+El siguiente paso se completa en la interfaz de recuperación del sitio.
+
+. En la interfaz de recuperación del sitio haga clic en la pestaña *Plan de recuperación* y luego seleccione un plan de recuperación. Haga clic en el botón *Test* para comenzar a probar la conmutación por error en el sitio secundario.
++
+image::vmware-nfs-srm-image27.png[Probar la recuperación tras fallos]
+
++
+{nbsp}
+
+. Es posible ver el progreso de la prueba desde el panel de tareas Site Recovery y el panel de tareas de vCenter.
++
+image::vmware-nfs-srm-image28.png[prueba de failover en el panel de tareas]
+
++
+{nbsp}
+
+. El SRM envía comandos a través del SRA al sistema de almacenamiento de ONTAP secundario. Se crea y se monta una FlexClone de la snapshot más reciente en el clúster de vSphere secundario. El almacén de datos recién montado puede verse en el inventario de almacenamiento.
++
+image::vmware-nfs-srm-image29.png[Almacén de datos recién montado]
+
++
+{nbsp}
+
+. Una vez completada la prueba, haga clic en *Cleanup* para desmontar el almacén de datos y volver al entorno original.
++
+image::vmware-nfs-srm-image30.png[Almacén de datos recién montado]
+
+
+
+====
+.Ejecute el plan de recuperación con SRM
+[%collapsible]
+====
+Realice una recuperación completa y una conmutación al nodo de respaldo en el sitio secundario.
+
+. En la interfaz de recuperación del sitio haga clic en la pestaña *Plan de recuperación* y luego seleccione un plan de recuperación. Haga clic en el botón *Run* para iniciar la conmutación por error al sitio secundario.
++
+image::vmware-nfs-srm-image31.png[Ejecutar la recuperación tras fallos]
+
++
+{nbsp}
+
+. Una vez finalizada la conmutación al respaldo, puede ver el almacén de datos montado y las máquinas virtuales registradas en el sitio secundario.
++
+image::vmware-nfs-srm-image32.png[Filover completo]
+
+
+
+====
+SRM ofrece funciones adicionales una vez completada una recuperación tras fallos.
+
+*Reprotección*: Una vez completado el proceso de recuperación, el sitio de recuperación previamente designado asume el papel del nuevo sitio de producción. Sin embargo, es importante tener en cuenta que la replicación de SnapMirror se interrumpe durante la operación de recuperación, lo que deja al nuevo sitio de producción vulnerable a futuros desastres. Para garantizar la protección continua, se recomienda establecer una nueva protección para el nuevo sitio de producción replicándola en otro sitio. En los casos en que el sitio de producción original siga funcionando, el administrador de VMware puede reorganizarlo como un nuevo centro de recuperación, invirtiendo efectivamente la dirección de la protección. Es crucial destacar que la reprotección solo es factible en caso de fallos no catastróficos, lo que requiere la capacidad de recuperación eventual de los servidores vCenter Server originales, los servidores ESXi, los servidores SRM y sus bases de datos respectivas. Si estos componentes no están disponibles, es necesario crear un nuevo grupo de protección y un nuevo plan de recuperación.
+
+*Failback*: Una operación de failback es una conmutación por error inversa, devolviendo las operaciones al sitio original. Es crucial asegurarse de que el sitio original ha recuperado la funcionalidad antes de iniciar el proceso de conmutación por error. Para garantizar una conmutación por error sin problemas, se recomienda realizar una conmutación por error de prueba después de completar el proceso de reprotección y antes de ejecutar la conmutación por error final. Esta práctica sirve como un paso de verificación, confirmando que los sistemas en el sitio original son totalmente capaces de manejar la operación. Si sigue este enfoque, puede minimizar los riesgos y garantizar una transición más fiable de vuelta al entorno de producción original.
+
+
+
+=== Información adicional
+
+Para obtener documentación de NetApp sobre el uso del almacenamiento de ONTAP con VMware SRM, consulte https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware-srm-overview.html#why-use-ontap-with-srm["VMware Site Recovery Manager con ONTAP"]
+
+Para obtener información acerca de la configuración de los sistemas de almacenamiento ONTAP, consulte la link:https://docs.netapp.com/us-en/ontap["Documentación de ONTAP 9"] centro.
+
+Para obtener información sobre la configuración de VCF, consulte link:https://docs.vmware.com/en/VMware-Cloud-Foundation/index.html["Documentación de VMware Cloud Foundation"].

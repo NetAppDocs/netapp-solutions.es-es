@@ -14,7 +14,7 @@ summary:
 
 
 [role="lead"]
-En este escenario, mostraremos cómo implementar y usar Herramientas de ONTAP para VMware vSphere (OTV) para configurar un almacén de datos *vVols* para un dominio de carga de trabajo VCF.
+En esta situación, mostraremos cómo implementar y utilizar las herramientas de ONTAP para VMware vSphere para configurar un *vVols datastore* para un dominio de carga de trabajo VCF.
 
 *ISCSI* se utiliza como protocolo de almacenamiento para el almacén de datos vVols.
 
@@ -213,16 +213,16 @@ image::vmware-vcf-asa-image34.png[Revise las selecciones de VMkernel]
 
 ==== Pon en marcha y utiliza herramientas de ONTAP para configurar el almacenamiento
 
-Los siguientes pasos se realizan en el clúster de dominio de gestión de VCF mediante el cliente vSphere e implican la puesta en marcha de OTV, la creación de un almacén de datos iSCSI vVols y la migración de equipos virtuales de gestión al nuevo almacén de datos.
+Los siguientes pasos se realizan en el clúster de dominio de gestión de VCF mediante el cliente vSphere e implican la puesta en marcha de herramientas de ONTAP, la creación de un almacén de datos iSCSI vVols y la migración de equipos virtuales de gestión al nuevo almacén de datos.
 
-Para dominios de carga de trabajo VI, OTV se instala en el clúster de gestión de VCF, pero se registra en el vCenter asociado al dominio de carga de trabajo VI.
+Para dominios de carga de trabajo de VI, Herramientas de ONTAP se instala en el clúster de gestión de VCF, pero se registra en el vCenter asociado al dominio de carga de trabajo de VI.
 
 Para obtener información adicional sobre la puesta en marcha y el uso de las herramientas de ONTAP en un entorno múltiple de vCenter, consulte link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere/configure/concept_requirements_for_registering_vsc_in_multiple_vcenter_servers_environment.html["Requisitos para registrar herramientas de ONTAP en varios entornos de vCenter Server"].
 
 .Ponga en marcha herramientas de ONTAP para VMware vSphere
 [%collapsible]
 ====
-Las herramientas de ONTAP para VMware vSphere (OTV) se ponen en marcha como dispositivo de máquina virtual y proporcionan una interfaz de usuario integrada de vCenter para gestionar el almacenamiento de ONTAP.
+Las herramientas de ONTAP para VMware vSphere se ponen en marcha como dispositivo de máquina virtual y proporcionan una interfaz de usuario integrada de vCenter para gestionar el almacenamiento de ONTAP.
 
 Complete lo siguiente para poner en marcha herramientas de ONTAP para VMware vSphere:
 
@@ -259,10 +259,10 @@ image::vmware-vcf-aff-image24.png[Seleccione RED]
 
 . En la página Personalizar plantilla, rellene toda la información necesaria:
 +
-** Contraseña que se utilizará para el acceso administrativo a OTV.
+** Contraseña que se utilizará para el acceso administrativo a las herramientas de ONTAP.
 ** Dirección IP del servidor NTP.
-** Contraseña de la cuenta de mantenimiento de OTV.
-** Contraseña de OTV Derby DB.
+** Contraseña de la cuenta de mantenimiento de ONTAP Tools.
+** ONTAP Herramientas Derby contraseña de la base de datos.
 ** No marque la casilla para *Enable VMware Cloud Foundation (VCF)*. El modo VCF no es necesario para implementar almacenamiento complementario.
 ** FQDN o dirección IP del dispositivo vCenter para el *VI Workload Domain*
 ** Credenciales para el dispositivo vCenter del *VI Workload Domain*
@@ -281,7 +281,7 @@ image::vmware-vcf-asa-image35.png[Personalizar plantilla OTV 2]
 
 
 
-. Revise toda la información en la página Listo para completar y haga clic en Finalizar para comenzar a desplegar el dispositivo OTV.
+. Revise toda la información en la página Listo para completar y haga clic en Finalizar para comenzar a implementar el dispositivo Herramientas de ONTAP.
 
 
 ====
@@ -295,7 +295,7 @@ image::vmware-asa-image6.png[Herramientas de NetApp ONTAP]
 +
 {nbsp}
 
-. En el menú desplegable *INSTANCE* de la interfaz de la herramienta ONTAP, seleccione la instancia OTV asociada al dominio de carga de trabajo que se va a gestionar.
+. En el menú desplegable *INSTANCIA* de la interfaz de la herramienta ONTAP, seleccione la instancia de herramientas ONTAP asociada al dominio de carga de trabajo que se va a gestionar.
 +
 image::vmware-vcf-asa-image36.png[Seleccione Instancia de OTV]
 
