@@ -13,10 +13,6 @@ summary:
 :imagesdir: ./../media/
 
 
-
-
-== Utilice las herramientas de ONTAP 10 para configurar almacenes de datos NFS para vSphere 8
-
 [role="lead"]
 Las herramientas de ONTAP para VMware vSphere 10 cuentan con una arquitectura de última generación que permite una alta disponibilidad y escalabilidad nativas para el proveedor VASA (es compatible con vVols iSCSI y NFS). Esto simplifica la gestión de varios servidores de VMware vCenter y clústeres de ONTAP.
 
@@ -24,7 +20,7 @@ En esta situación, mostraremos cómo poner en marcha y utilizar herramientas de
 
 
 
-=== Descripción general de la solución
+== Descripción general de la solución
 
 Este escenario cubre los siguientes pasos de alto nivel:
 
@@ -37,7 +33,7 @@ Este escenario cubre los siguientes pasos de alto nivel:
 
 
 
-=== Arquitectura
+== Arquitectura
 
 El siguiente diagrama muestra los componentes de la arquitectura de una herramienta de ONTAP para la implementación de VMware vSphere 10.
 
@@ -45,7 +41,7 @@ image::vmware-nfs-otv10-image29.png[arquitectura de otv10]
 
 
 
-=== Requisitos previos
+== Requisitos previos
 
 Esta solución requiere los siguientes componentes y configuraciones:
 
@@ -64,13 +60,13 @@ Se pueden encontrar recursos exhaustivos de ONTAP Tools 10 https://www.netapp.co
 
 
 
-=== Pasos de despliegue
+== Pasos de despliegue
 
 Para implementar las herramientas de ONTAP 10 y utilizarlo para crear un almacén de datos NFS en el dominio de gestión de VCF, lleve a cabo los siguientes pasos:
 
 
 
-==== Crear SVM y LIF en el sistema de almacenamiento ONTAP
+=== Crear SVM y LIF en el sistema de almacenamiento ONTAP
 
 El siguiente paso se lleva a cabo en ONTAP System Manager.
 
@@ -110,7 +106,7 @@ image::vmware-vcf-asa-image04.png[Habilite la cuenta de SVM y Finalizar]
 ====
 
 
-==== Configure las redes para NFS en los hosts ESXi
+=== Configure las redes para NFS en los hosts ESXi
 
 Los siguientes pasos se llevan a cabo en el clúster de dominio de carga de trabajo VI con el cliente vSphere. En este caso, se utiliza vCenter Single Sign-On para que el cliente vSphere sea común en los dominios de carga de trabajo y gestión.
 
@@ -196,7 +192,7 @@ image::vmware-nfs-otv10-image06.png[Revise las selecciones de VMkernel]
 ====
 
 
-==== Implemente y utilice las herramientas de ONTAP 10 para configurar el almacenamiento
+=== Implemente y utilice las herramientas de ONTAP 10 para configurar el almacenamiento
 
 Los siguientes pasos se realizan en un clúster de vSphere 8 mediante el cliente de vSphere e implican la puesta en marcha de OTV, la configuración de ONTAP tools Manager y la creación de un almacén de datos vVols NFS.
 
@@ -441,7 +437,7 @@ image::vmware-nfs-otv10-image32.png[Panel de tareas recientes]
 ====
 
 
-=== Información adicional
+== Información adicional
 
 Para obtener una lista completa de las herramientas de ONTAP para los recursos de VMware vSphere 10, consulte https://www.netapp.com/support-and-training/documentation/ontap-tools-for-vmware-vsphere-documentation/["Recursos de documentación de las herramientas de ONTAP para VMware vSphere"] .
 

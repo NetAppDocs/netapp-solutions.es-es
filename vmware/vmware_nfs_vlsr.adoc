@@ -13,10 +13,6 @@ summary:
 :imagesdir: ./../media/
 
 
-
-
-== Utilice Site Recovery Manager de VMware para la recuperación ante desastres de almacenes de datos NFS
-
 [role="lead"]
 El uso de herramientas de ONTAP para VMware vSphere 10 y el adaptador de replicación de sitio (SRA) junto con el administrador de recuperación de sitio (SRM) de VMware aporta un valor importante a los procesos de recuperación ante desastres. Las herramientas de ONTAP 10 proporcionan sólidas funciones de almacenamiento, entre las que se incluyen alta disponibilidad y escalabilidad nativas para el proveedor VASA, y son compatibles con vVols iSCSI y NFS. Esto garantiza la disponibilidad de datos y simplifica la gestión de múltiples servidores de VMware vCenter y clústeres de ONTAP. Mediante el SRA con VMware Site Recovery Manager, las organizaciones pueden lograr una replicación y una conmutación por error fluidas de máquinas virtuales y datos entre sitios, lo que permite procesos de recuperación ante desastres eficientes. La combinación de las herramientas de ONTAP y el SRA permite a las empresas proteger las cargas de trabajo cruciales, minimizar los tiempos de inactividad y mantener la continuidad del negocio ante desastres o eventos imprevistos.
 
@@ -28,7 +24,7 @@ En este escenario, demostraremos cómo poner en marcha y utilizar el administrad
 
 
 
-=== Descripción general del escenario
+== Descripción general del escenario
 
 Este escenario cubre los siguientes pasos de alto nivel:
 
@@ -42,7 +38,7 @@ Este escenario cubre los siguientes pasos de alto nivel:
 
 
 
-=== Arquitectura
+== Arquitectura
 
 El siguiente diagrama muestra una arquitectura típica de VMware Site Recovery con herramientas ONTAP para VMware vSphere 10 configuradas en una configuración de alta disponibilidad de 3 nodos.
 
@@ -52,7 +48,7 @@ image::vmware-nfs-srm-image05.png[Configurar el dispositivo]
 
 
 
-=== Requisitos previos
+== Requisitos previos
 
 Este escenario requiere los siguientes componentes y configuraciones:
 
@@ -76,13 +72,13 @@ Para obtener documentación de NetApp sobre el uso del almacenamiento de ONTAP c
 
 
 
-=== Pasos de despliegue
+== Pasos de despliegue
 
 Las siguientes secciones describen los pasos de puesta en marcha para implementar y probar una configuración de VMware Site Recovery Manager con el sistema de almacenamiento de ONTAP.
 
 
 
-==== Crear una relación de SnapMirror entre los sistemas de almacenamiento de ONTAP
+=== Crear una relación de SnapMirror entre los sistemas de almacenamiento de ONTAP
 
 Debe establecerse una relación de SnapMirror entre los sistemas de almacenamiento ONTAP de origen y de destino para que los volúmenes de almacenes de datos estén protegidos.
 
@@ -92,7 +88,7 @@ Las instrucciones paso a paso se describen en el siguiente documento, ubicado ht
 
 
 
-==== Configure el dispositivo SRM
+=== Configure el dispositivo SRM
 
 Complete los siguientes pasos para configurar el dispositivo SRM y el adaptador de SRA.
 
@@ -101,7 +97,7 @@ Complete los siguientes pasos para configurar el dispositivo SRM y el adaptador 
 ====
 Deben completarse los siguientes pasos tanto para el sitio primario como para el secundario.
 
-. En un navegador web, navegue https://<SRM_appliance_IP>:5480[] e inicie sesión. Haga clic en *Configurar dispositivo* para comenzar.
+. En un navegador web, navegue https://<SRM_appliance_IP>:5480*[] e inicie sesión. Haga clic en *Configurar dispositivo* para comenzar.
 +
 image::vmware-nfs-srm-image01.png[Configurar el dispositivo]
 
@@ -146,7 +142,7 @@ image::vmware-nfs-srm-image04.png[Agregue un nuevo adaptador SRM]
 ====
 
 
-==== Configurar Site Recovery para SRM
+=== Configurar Site Recovery para SRM
 
 Realice los siguientes pasos para configurar el emparejamiento de sitios, crear grupos de protección,
 
@@ -328,7 +324,7 @@ image::vmware-nfs-srm-image26.png[Probar redes]
 ====
 
 
-=== Operaciones de recuperación ante desastres con SRM
+== Operaciones de recuperación ante desastres con SRM
 
 En esta sección se tratarán varias funciones de uso de la recuperación ante desastres con SRM, como la prueba de recuperación tras fallos, la realización de recuperación tras fallos, la realización de reprotección y la conmutación tras recuperación.
 
@@ -394,7 +390,7 @@ SRM ofrece funciones adicionales una vez completada una recuperación tras fallo
 
 
 
-=== Información adicional
+== Información adicional
 
 Para obtener documentación de NetApp sobre el uso del almacenamiento de ONTAP con VMware SRM, consulte https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware-srm-overview.html#why-use-ontap-with-srm["VMware Site Recovery Manager con ONTAP"]
 

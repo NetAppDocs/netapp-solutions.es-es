@@ -20,11 +20,7 @@ Autor: Josh Powell
 
 
 
-== Configurar el almacenamiento complementario NVMe/TCP para dominios de carga de trabajo de VCF
-
-
-
-=== Descripción general del escenario
+== Descripción general del escenario
 
 Este escenario cubre los siguientes pasos de alto nivel:
 
@@ -37,7 +33,7 @@ Este escenario cubre los siguientes pasos de alto nivel:
 
 
 
-=== Requisitos previos
+== Requisitos previos
 
 Este escenario requiere los siguientes componentes y configuraciones:
 
@@ -58,13 +54,13 @@ Si quiere más información sobre las consideraciones de diseño de NVMe para si
 
 
 
-=== Pasos de despliegue
+== Pasos de despliegue
 
 Para crear un almacén de datos VMFS en un dominio de carga de trabajo de VCF con NVMe/TCP, complete los siguientes pasos.
 
 
 
-==== Crear SVM, LIF y espacio de nombres de NVMe en el sistema de almacenamiento ONTAP
+=== Crear SVM, LIF y espacio de nombres de NVMe en el sistema de almacenamiento ONTAP
 
 El siguiente paso se lleva a cabo en ONTAP System Manager.
 
@@ -144,7 +140,7 @@ Haga clic en *Más opciones* para configurar elementos adicionales como la polí
 ====
 
 
-==== Configure los adaptadores de red y de software NVMe en hosts ESXi
+=== Configure los adaptadores de red y de software NVMe en hosts ESXi
 
 Los siguientes pasos se realizan en el clúster de dominio de cargas de trabajo de VI utilizando el cliente de vSphere. En este caso, se utiliza vCenter Single Sign-On para que el cliente vSphere sea común a los dominios de carga de trabajo y de gestión.
 
@@ -334,7 +330,7 @@ image::vmware-vcf-asa-image107.png[Hosts conectados al almacén de datos]
 ====
 
 
-=== Información adicional
+== Información adicional
 
 Para obtener información acerca de la configuración de los sistemas de almacenamiento ONTAP, consulte la link:https://docs.netapp.com/us-en/ontap["Documentación de ONTAP 9"] centro.
 

@@ -22,11 +22,7 @@ Autor: Josh Powell
 
 
 
-== Utilice las herramientas de ONTAP para configurar el almacenamiento complementario (vVols) para los dominios de carga de trabajo de VCF
-
-
-
-=== Descripción general del escenario
+== Descripción general del escenario
 
 Este escenario cubre los siguientes pasos de alto nivel:
 
@@ -39,7 +35,7 @@ Este escenario cubre los siguientes pasos de alto nivel:
 
 
 
-=== Requisitos previos
+== Requisitos previos
 
 Este escenario requiere los siguientes componentes y configuraciones:
 
@@ -65,13 +61,13 @@ Para obtener información adicional sobre el uso de almacenes de datos VMFS iSCS
 
 
 
-=== Pasos de despliegue
+== Pasos de despliegue
 
 Para desplegar las herramientas de ONTAP y utilizarlo para crear un almacén de datos vVols en el dominio de administración de VCF, lleve a cabo los siguientes pasos:
 
 
 
-==== Crear SVM y LIF en el sistema de almacenamiento ONTAP
+=== Crear SVM y LIF en el sistema de almacenamiento ONTAP
 
 El siguiente paso se lleva a cabo en ONTAP System Manager.
 
@@ -114,7 +110,7 @@ image::vmware-vcf-asa-image04.png[Habilite la cuenta de SVM y Finalizar]
 ====
 
 
-==== Configure las redes para iSCSI en hosts ESXi
+=== Configure las redes para iSCSI en hosts ESXi
 
 Los siguientes pasos se llevan a cabo en el clúster de dominio de carga de trabajo VI con el cliente vSphere. En este caso, se utiliza vCenter Single Sign-On para que el cliente vSphere sea común en los dominios de carga de trabajo y gestión.
 
@@ -211,7 +207,7 @@ image::vmware-vcf-asa-image34.png[Revise las selecciones de VMkernel]
 ====
 
 
-==== Pon en marcha y utiliza herramientas de ONTAP para configurar el almacenamiento
+=== Pon en marcha y utiliza herramientas de ONTAP para configurar el almacenamiento
 
 Los siguientes pasos se realizan en el clúster de dominio de gestión de VCF mediante el cliente vSphere e implican la puesta en marcha de herramientas de ONTAP, la creación de un almacén de datos iSCSI vVols y la migración de equipos virtuales de gestión al nuevo almacén de datos.
 
@@ -388,7 +384,7 @@ image::vmware-vcf-asa-image45.png[Resumen]
 ====
 
 
-=== Información adicional
+== Información adicional
 
 Para obtener información acerca de la configuración de los sistemas de almacenamiento ONTAP, consulte la link:https://docs.netapp.com/us-en/ontap["Documentación de ONTAP 9"] centro.
 
