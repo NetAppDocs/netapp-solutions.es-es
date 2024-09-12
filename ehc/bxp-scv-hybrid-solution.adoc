@@ -47,7 +47,7 @@ Esta solución aborda los siguientes casos prácticos:
 
 ONTAP es la solución de almacenamiento líder del sector de NetApp que ofrece almacenamiento unificado, tanto si se accede a través de protocolos SAN o NAS. La estrategia de backup 3-2-1 garantiza que los datos en las instalaciones estén protegidos en más de un tipo de medio, y NetApp ofrece plataformas que van desde flash de alta velocidad a medios de bajo coste.
 
-image::bxp-scv-hybrid-40.png[Almacenamiento de datos ONTAP]
+image:bxp-scv-hybrid-40.png["Almacenamiento de datos ONTAP"]
 
 Para obtener más información acerca de toda la plataforma de hardware de NetApp, consulte https://www.netapp.com/data-storage/["Almacenamiento de datos de NetApp"].
 
@@ -72,15 +72,15 @@ Si se elige entre los backups primarios y secundarios como origen en el backup y
 
 *Topología de Fan-Out* – Cuando el plugin de SnapCenter inicia una copia de seguridad para VMware vSphere, se toma inmediatamente una instantánea local. A continuación, SCV inicia una operación de SnapMirror que replica la snapshot más reciente en el clúster de ONTAP secundario. En el backup y recuperación de BlueXP, una política especifica el clúster de ONTAP principal como el origen de una copia Snapshot de los datos que se transferirán al almacenamiento de objetos en el proveedor de cloud de su elección.
 
-image::bxp-scv-hybrid-01.png[Topología de dispersión,800,418]
+image:bxp-scv-hybrid-01.png["Topología de dispersión,800.418"]
 
 *Topología en cascada* – Crear las copias de datos primarias y secundarias usando SCV es idéntica a la topología de fan-out mencionada anteriormente. Sin embargo, esta vez se crea una política en BlueXP Backup and Recovery que especifica que el backup en el almacenamiento de objetos se originará en el clúster de ONTAP secundario.
 
-image::bxp-scv-hybrid-02.png[Topología en cascada]
+image:bxp-scv-hybrid-02.png["Topología en cascada"]
 
 El backup y la recuperación de datos de BlueXP puede crear copias de backup de copias de Snapshot de ONTAP en las instalaciones en el almacenamiento de AWS Glacier, Azure Blob y GCP Archive.
 
-image::bxp-scv-hybrid-03.png[Topología en cascada]
+image:bxp-scv-hybrid-03.png["Topología en cascada"]
 
 Además, es posible usar NetApp StorageGRID como destino de backup de almacenamiento de objetos. Para obtener más información acerca de StorageGRID, consulte la https://www.netapp.com/data-storage/storagegrid["Página de destino de StorageGRID"].
 
@@ -133,7 +133,7 @@ El objetivo de esta solución es demostrar la protección de datos de equipos vi
 
 Las pruebas y la validación de esta solución se llevaron a cabo en un laboratorio que puede o no coincidir con el entorno de puesta en marcha final.
 
-image::bxp-scv-hybrid-04.png[Diagrama de la arquitectura de la solución]
+image:bxp-scv-hybrid-04.png["Diagrama de la arquitectura de la solución"]
 
 
 
@@ -170,34 +170,34 @@ Para empezar, inicie sesión en la consola web de BlueXP y vaya a Canvas.
 
 . Arrastre y suelte el sistema de almacenamiento ONTAP de origen (principal) en el sistema de almacenamiento ONTAP (secundario) de destino.
 +
-image::bxp-scv-hybrid-41.png[Arrastre y suelte sistemas de almacenamiento]
+image:bxp-scv-hybrid-41.png["Arrastre y suelte sistemas de almacenamiento"]
 
 . En el menú que aparece seleccione *Replicación*.
 +
-image::bxp-scv-hybrid-42.png[Seleccione REPLICATION]
+image:bxp-scv-hybrid-42.png["Seleccione REPLICATION"]
 
 . En la página *Configuración de pares de destino*, seleccione las LIF de interconexión de clústeres de destino que se utilizarán para la conexión entre sistemas de almacenamiento.
 +
-image::bxp-scv-hybrid-43.png[Seleccione los LIF de interconexión de clústeres]
+image:bxp-scv-hybrid-43.png["Seleccione los LIF de interconexión de clústeres"]
 
 . En la página *Nombre del volumen de destino*, seleccione primero el volumen de origen y, a continuación, rellene el nombre del volumen de destino y seleccione la SVM de destino y el agregado. Haga clic en *Siguiente* para continuar.
 +
-image::bxp-scv-hybrid-44.png[Seleccionar el volumen de origen]
+image:bxp-scv-hybrid-44.png["Seleccionar el volumen de origen"]
 
 +
-image::bxp-scv-hybrid-45.png[Detalles del volumen de destino]
+image:bxp-scv-hybrid-45.png["Detalles del volumen de destino"]
 
 . Elija la velocidad de transferencia máxima para que se produzca la replicación.
 +
-image::bxp-scv-hybrid-46.png[Velocidad de transferencia máxima]
+image:bxp-scv-hybrid-46.png["Velocidad de transferencia máxima"]
 
 . Seleccione la política que determinará la programación de retención para backups secundarios. Esta política se puede crear de antemano (consulte el proceso manual a continuación en el paso *Crear una política de retención de instantáneas*) o se puede cambiar después del hecho si lo desea.
 +
-image::bxp-scv-hybrid-47.png[Seleccione la política de retención]
+image:bxp-scv-hybrid-47.png["Seleccione la política de retención"]
 
 . Por último, revise toda la información y haga clic en el botón *Go* para iniciar el proceso de configuración de la replicación.
 +
-image::bxp-scv-hybrid-48.png[Revisar y listo]
+image:bxp-scv-hybrid-48.png["Revisar y listo"]
 
 
 
@@ -215,7 +215,7 @@ Para los clústeres de ONTAP de origen y de destino, puede recuperar la informac
 
 . En ONTAP System Manager, desplácese a la página Network Overview y recupere las direcciones IP de Type: Interclúster configurado para comunicarse con el VPC donde se instaló FSX.
 +
-image::dr-vmc-aws-image10.png[dr vmc aws image10]
+image:dr-vmc-aws-image10.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 . Para recuperar las direcciones IP de interconexión de clústeres mediante la CLI, ejecute el siguiente comando:
 +
@@ -239,7 +239,7 @@ Confirm the passphrase:
 ....
 . En el clúster de origen, puede establecer la relación de paridad de clústeres mediante ONTAP System Manager o CLI. En ONTAP System Manager, desplácese hasta Protection > Overview y seleccione Peer Cluster.
 +
-image::dr-vmc-aws-image12.png[dr vmc aws image12]
+image:dr-vmc-aws-image12.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 . En el cuadro de diálogo Peer Cluster, rellene la información que corresponda:
 +
@@ -248,7 +248,7 @@ image::dr-vmc-aws-image12.png[dr vmc aws image12]
 .. Introduzca las direcciones IP de LIF entre clústeres del clúster de ONTAP de destino.
 .. Haga clic en Iniciar Cluster peering para finalizar el proceso.
 +
-image::dr-vmc-aws-image13.png[dr vmc aws image13]
+image:dr-vmc-aws-image13.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 
 
@@ -273,7 +273,7 @@ ONTAP-Dest::> vserver peer create -vserver DestSVM -peer-vserver Backup -peer-cl
 . En el clúster de ONTAP de origen, acepte la relación de paridad con ONTAP System Manager o CLI.
 . En ONTAP System Manager, vaya a Protection > Overview y seleccione Peer Storage VMs, en Storage VM peers.
 +
-image::dr-vmc-aws-image15.png[dr vmc aws image15]
+image:dr-vmc-aws-image15.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 . En el cuadro de diálogo de la VM de almacenamiento del mismo nivel, rellene los campos necesarios:
 +
@@ -281,7 +281,7 @@ image::dr-vmc-aws-image15.png[dr vmc aws image15]
 ** El clúster de destino
 ** La máquina virtual de almacenamiento de destino
 +
-image::dr-vmc-aws-image16.png[dr vmc aws image16]
+image:dr-vmc-aws-image16.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 
 
@@ -301,7 +301,7 @@ NOTE: En el almacenamiento secundario, estas etiquetas se adaptan a las reglas d
 
 El siguiente ejemplo muestra una etiqueta de SnapMirror presente en todas las copias de Snapshot generadas como parte de una política utilizada para los backups diarios de nuestros volúmenes de registros y base de datos de SQL Server.
 
-image::dr-vmc-aws-image17.png[dr vmc aws image17]
+image:dr-vmc-aws-image17.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 Para obtener más información sobre la creación de políticas de SnapCenter para una base de datos de SQL Server, consulte https://docs.netapp.com/us-en/snapcenter/protect-scsql/task_create_backup_policies_for_sql_server_databases.html["Documentación de SnapCenter"^].
 
@@ -377,11 +377,11 @@ Detectar los clústeres de almacenamiento de ONTAP que se usarán para backups p
 
 . En el plug-in de SnapCenter para VMware vSphere navegue hasta *Sistemas de almacenamiento* en el menú de la izquierda y haga clic en el botón *Agregar*.
 +
-image::bxp-scv-hybrid-05.png[Sistemas de almacenamiento]
+image:bxp-scv-hybrid-05.png["Sistemas de almacenamiento"]
 
 . Complete las credenciales y el tipo de plataforma para el sistema de almacenamiento ONTAP principal y haga clic en *Agregar*.
 +
-image::bxp-scv-hybrid-06.png[Añada sistema de almacenamiento]
+image:bxp-scv-hybrid-06.png["Añada sistema de almacenamiento"]
 
 . Repita este procedimiento para el sistema de almacenamiento ONTAP secundario.
 
@@ -398,11 +398,11 @@ Para crear políticas de backup complete los siguientes pasos:
 
 . En el complemento de SnapCenter para VMware vSphere, navegue hasta *Políticas* en el menú de la izquierda y haga clic en el botón *Crear*.
 +
-image::bxp-scv-hybrid-07.png[Normativas]
+image:bxp-scv-hybrid-07.png["Normativas"]
 
 . Escriba un nombre para la política, el período de retención, las opciones de frecuencia y replicación y la etiqueta de la snapshot.
 +
-image::bxp-scv-hybrid-08.png[Crear políticas]
+image:bxp-scv-hybrid-08.png["Crear políticas"]
 
 +
 
@@ -427,12 +427,12 @@ Para crear grupos de recursos, complete los siguientes pasos.
 
 . En el plugin de SnapCenter para VMware vSphere, navegue hasta *Grupos de recursos* en el menú de la izquierda y haga clic en el botón *Crear*.
 +
-image::bxp-scv-hybrid-09.png[Crear grupos de recursos]
+image:bxp-scv-hybrid-09.png["Crear grupos de recursos"]
 
 . En el asistente Create Resource Group, escriba un nombre y una descripción para el grupo, así como la información necesaria para recibir notificaciones. Haga clic en *Siguiente*
 . En la página siguiente, seleccione los almacenes de datos y las máquinas virtuales que desean incluirse en el trabajo de copia de seguridad y luego haga clic en *Siguiente*.
 +
-image::bxp-scv-hybrid-10.png[Seleccione almacenes de datos y máquinas virtuales]
+image:bxp-scv-hybrid-10.png["Seleccione almacenes de datos y máquinas virtuales"]
 
 +
 
@@ -440,7 +440,7 @@ NOTE: Puede seleccionar máquinas virtuales específicas o almacenes de datos co
 
 . Elija opciones para ampliar almacenes de datos para máquinas virtuales con VMDK que residen en varios almacenes de datos y luego haga clic en *Siguiente*.
 +
-image::bxp-scv-hybrid-11.png[Almacenes de datos en expansión]
+image:bxp-scv-hybrid-11.png["Almacenes de datos en expansión"]
 
 +
 
@@ -448,7 +448,7 @@ NOTE: El backup y la recuperación de datos de BlueXP no admite actualmente el b
 
 . En la página siguiente, seleccione las políticas que se asociarán con el grupo de recursos y haga clic en *Siguiente*.
 +
-image::bxp-scv-hybrid-12.png[Política de grupo de recursos]
+image:bxp-scv-hybrid-12.png["Política de grupo de recursos"]
 
 +
 
@@ -456,7 +456,7 @@ NOTE: Al realizar un backup de las snapshots gestionadas de SCV en el almacenami
 
 . Seleccione un programa que determinará en qué momento se ejecutarán las copias de seguridad. Haga clic en *Siguiente*.
 +
-image::bxp-scv-hybrid-13.png[Política de grupo de recursos]
+image:bxp-scv-hybrid-13.png["Política de grupo de recursos"]
 
 . Finalmente, revise la página de resumen y luego en *Finish* para completar la creación del grupo de recursos.
 
@@ -470,11 +470,11 @@ En este paso final, ejecute un trabajo de copia de seguridad y supervise su prog
 . En el plugin de SnapCenter para VMware vSphere, desplácese hasta *Resource Groups* en el menú de la izquierda.
 . Para iniciar una tarea de copia de seguridad, seleccione el grupo de recursos deseado y haga clic en el botón *Ejecutar ahora*.
 +
-image::bxp-scv-hybrid-14.png[Ejecute una tarea de backup]
+image:bxp-scv-hybrid-14.png["Ejecute una tarea de backup"]
 
 . Para supervisar el trabajo de copia de seguridad, navegue hasta *Dashboard* en el menú de la izquierda. En *Actividades recientes del trabajo*, haga clic en el número de ID del trabajo para supervisar el progreso del trabajo.
 +
-image::bxp-scv-hybrid-15.png[Supervise el progreso del trabajo]
+image:bxp-scv-hybrid-15.png["Supervise el progreso del trabajo"]
 
 
 
@@ -498,15 +498,15 @@ El primer paso es añadir los sistemas de almacenamiento de ONTAP on-premises a 
 
 . En el lienzo seleccione *Agregar entorno de trabajo* para comenzar.
 +
-image::bxp-scv-hybrid-16.png[Agregar entorno de trabajo]
+image:bxp-scv-hybrid-16.png["Agregar entorno de trabajo"]
 
 . Seleccione *on-premises* de la selección de ubicaciones y luego haga clic en el botón *Discover*.
 +
-image::bxp-scv-hybrid-17.png[Elija on-premises]
+image:bxp-scv-hybrid-17.png["Elija on-premises"]
 
 . Rellene las credenciales del sistema de almacenamiento ONTAP y haga clic en el botón *Descubrir* para agregar el entorno de trabajo.
 +
-image::bxp-scv-hybrid-18.png[Añada las credenciales del sistema de almacenamiento]
+image:bxp-scv-hybrid-18.png["Añada las credenciales del sistema de almacenamiento"]
 
 
 
@@ -518,23 +518,23 @@ Para detectar el almacén de datos en las instalaciones y los recursos de máqui
 
 . En el menú de la izquierda de BlueXP, seleccione *Protección > Copia de seguridad y recuperación > Máquinas virtuales*
 +
-image::bxp-scv-hybrid-19.png[Seleccionar máquinas virtuales]
+image:bxp-scv-hybrid-19.png["Seleccionar máquinas virtuales"]
 
 . Desde la pantalla principal de Máquinas virtuales, acceda al menú desplegable *Configuración* y seleccione *SnapCenter Plug-in for VMware vSphere*.
 +
-image::bxp-scv-hybrid-20.png[Menú desplegable Configuración]
+image:bxp-scv-hybrid-20.png["Menú desplegable Configuración"]
 
 . Haga clic en el botón *Registrar* y, a continuación, introduzca la dirección IP y el número de puerto para el dispositivo de complemento de SnapCenter y el nombre de usuario y la contraseña para el dispositivo de administración de vCenter. Haga clic en el botón *Registrar* para comenzar el proceso de descubrimiento.
 +
-image::bxp-scv-hybrid-21.png[Introduzca la información de SCV y vCenter]
+image:bxp-scv-hybrid-21.png["Introduzca la información de SCV y vCenter"]
 
 . El progreso de los trabajos se puede supervisar desde la pestaña Supervisión de trabajos.
 +
-image::bxp-scv-hybrid-22.png[Ver el progreso del trabajo]
+image:bxp-scv-hybrid-22.png["Ver el progreso del trabajo"]
 
 . Una vez completada la detección, podrá ver los almacenes de datos y las máquinas virtuales en todos los dispositivos SCV detectados.
 +
-image::bxp-scv-hybrid-23.png[Ver los recursos disponibles]
+image:bxp-scv-hybrid-23.png["Ver los recursos disponibles"]
 
 
 
@@ -548,7 +548,7 @@ Para obtener más información sobre la creación de políticas, consulte https:
 
 . Desde la página principal de copia de seguridad y recuperación de BlueXP para máquinas virtuales, accede al menú desplegable *Configuración* y selecciona *Políticas*.
 +
-image::bxp-scv-hybrid-24.png[Seleccionar máquinas virtuales]
+image:bxp-scv-hybrid-24.png["Seleccionar máquinas virtuales"]
 
 . Haga clic en *Crear política* para acceder a la ventana *Crear política para copia de seguridad híbrida*.
 +
@@ -557,7 +557,7 @@ image::bxp-scv-hybrid-24.png[Seleccionar máquinas virtuales]
 .. Seleccione si se asignarán los backups del sistema de almacenamiento de ONTAP principal o secundario en las instalaciones
 .. Opcionalmente, especifique tras qué período de tiempo se organizarán los backups en niveles en el almacenamiento archivado para reducir aún más los costes.
 +
-image::bxp-scv-hybrid-25.png[Crear política de backup]
+image:bxp-scv-hybrid-25.png["Crear política de backup"]
 
 +
 
@@ -578,27 +578,27 @@ Para obtener más información, consulte https://docs.netapp.com/us-en/bluexp-ba
 
 . Desde la página principal de copia de seguridad y recuperación de BlueXP para máquinas virtuales, accede a la lista desplegable de configuración para que se realice una copia de seguridad del almacén de datos y selecciona *Activar copia de seguridad*.
 +
-image::bxp-scv-hybrid-26.png[Activar copia de seguridad]
+image:bxp-scv-hybrid-26.png["Activar copia de seguridad"]
 
 . Asigne la política que se utilizará para la operación de protección de datos y haga clic en *Siguiente*.
 +
-image::bxp-scv-hybrid-27.png[Asignación de directiva]
+image:bxp-scv-hybrid-27.png["Asignación de directiva"]
 
 . En la página *Agregar entornos de trabajo*, el almacén de datos y el entorno de trabajo con una marca de verificación deben aparecer si el entorno de trabajo se ha detectado previamente. Si el entorno de trabajo no se ha detectado anteriormente, puede agregarlo aquí. Haga clic en *Siguiente* para continuar.
 +
-image::bxp-scv-hybrid-28.png[Agregar entornos de trabajo]
+image:bxp-scv-hybrid-28.png["Agregar entornos de trabajo"]
 
 . En la página *Seleccionar proveedor*, haga clic en AWS y luego haga clic en el botón *Siguiente* para continuar.
 +
-image::bxp-scv-hybrid-29.png[Seleccione un proveedor de cloud]
+image:bxp-scv-hybrid-29.png["Seleccione un proveedor de cloud"]
 
 . Rellene la información de credenciales específica del proveedor para AWS, incluida la clave de acceso de AWS y la clave secreta, la región y el nivel de archivado que se va a utilizar. Además, seleccione el espacio IP de ONTAP para el sistema de almacenamiento de ONTAP en las instalaciones. Haga clic en *Siguiente*.
 +
-image::bxp-scv-hybrid-30.png[Proporcione las credenciales que proporcione el cloud]
+image:bxp-scv-hybrid-30.png["Proporcione las credenciales que proporcione el cloud"]
 
 . Por último, revise los detalles del trabajo de copia de seguridad y haga clic en el botón *Activar copia de seguridad* para iniciar la protección de datos del almacén de datos.
 +
-image::bxp-scv-hybrid-31.png[Revisar y activar]
+image:bxp-scv-hybrid-31.png["Revisar y activar"]
 
 +
 
@@ -631,19 +631,19 @@ Complete los siguientes pasos para restaurar una restauración de máquina virtu
 . Desde el cliente de vCenter, navegue hasta *Inventory > Storage* y haga clic en el almacén de datos que contiene las máquinas virtuales que desea restaurar.
 . Desde la pestaña *Configure*, haga clic en *backups* para acceder a la lista de copias de seguridad disponibles.
 +
-image::bxp-scv-hybrid-32.png[Acceder a la lista de backups]
+image:bxp-scv-hybrid-32.png["Acceder a la lista de backups"]
 
 . Haga clic en un backup para acceder a la lista de máquinas virtuales y, a continuación, seleccione una máquina virtual para restaurar. Haga clic en *Restaurar*.
 +
-image::bxp-scv-hybrid-33.png[Seleccione VM para restaurar]
+image:bxp-scv-hybrid-33.png["Seleccione VM para restaurar"]
 
 . En el asistente Restore, seleccione para restaurar toda la máquina virtual o un VMDK específico. Seleccione para instalar en la ubicación original o la ubicación alternativa, proporcione el nombre de máquina virtual después de la restauración y el almacén de datos de destino. Haga clic en *Siguiente*.
 +
-image::bxp-scv-hybrid-34.png[Proporcione los detalles de restauración]
+image:bxp-scv-hybrid-34.png["Proporcione los detalles de restauración"]
 
 . Seleccione realizar un backup desde la ubicación del almacenamiento principal o secundario.
 +
-image::bxp-scv-hybrid-35.png[Seleccione principal o secundario]
+image:bxp-scv-hybrid-35.png["Seleccione principal o secundario"]
 
 . Por último, revise un resumen del trabajo de copia de seguridad y haga clic en Finalizar para comenzar el proceso de restauración.
 
@@ -664,20 +664,20 @@ Para restaurar una máquina virtual a partir de backup y recuperación de BlueXP
 
 . Vaya a *Protección > Copia de seguridad y recuperación > Máquinas virtuales* y haga clic en Máquinas virtuales para ver la lista de máquinas virtuales disponibles para restaurar.
 +
-image::bxp-scv-hybrid-36.png[Acceder a la lista de máquinas virtuales]
+image:bxp-scv-hybrid-36.png["Acceder a la lista de máquinas virtuales"]
 
 . Acceda al menú desplegable de configuración de la máquina virtual que se va a restaurar y seleccione
 +
-image::bxp-scv-hybrid-37.png[Seleccione Restaurar desde la configuración]
+image:bxp-scv-hybrid-37.png["Seleccione Restaurar desde la configuración"]
 
 . Seleccione la copia de seguridad para restaurar y haga clic en *Siguiente*.
 +
-image::bxp-scv-hybrid-38.png[Seleccione backup]
+image:bxp-scv-hybrid-38.png["Seleccione backup"]
 
 . Revise un resumen del trabajo de copia de seguridad y haga clic en *Restaurar* para iniciar el proceso de restauración.
 . Supervise el progreso del trabajo de restauración desde la pestaña *Job Monitoring*.
 +
-image::bxp-scv-hybrid-39.png[Revise la restauración en la pestaña Job Monitoring]
+image:bxp-scv-hybrid-39.png["Revise la restauración en la pestaña Job Monitoring"]
 
 
 

@@ -38,7 +38,7 @@ Este mecanismo de replicación garantiza que las cargas de trabajo puedan inicia
 
 El proceso de replicación en Veeam Backup & Replication está controlado por tareas, lo que significa que la replicación se realiza mediante la configuración de trabajos de replicación. En caso de desastre, se puede activar la conmutación al respaldo para recuperar las máquinas virtuales conmutando por error a su copia replicada. Cuando se realiza una conmutación por error, una máquina virtual replicada asume el rol de la máquina virtual original. La conmutación por error se puede realizar al estado más reciente de una réplica o a cualquiera de sus puntos de restauración conocidos. Esto permite la recuperación frente al ransomware o las pruebas aisladas según sea necesario. Veeam Backup & Replication ofrece múltiples opciones para gestionar diferentes escenarios de recuperación ante desastres.
 
-image::dr-veeam-anf-image1.png[dr veeam y image1]
+image:dr-veeam-anf-image1.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 
 
@@ -88,41 +88,41 @@ Para replicar equipos virtuales, siga los siguientes pasos:
 *Seleccione la casilla de verificación Remapping de red (para sitios SDDC de AVS con diferentes redes) si los segmentos en SDDC de Azure VMware Solution no coinciden con los de las redes del sitio local.
 ** Si el esquema de direccionamiento IP en el sitio de producción local difiere del esquema en el sitio AVS de destino, seleccione la casilla de verificación Réplica por IP (para sitios de DR con esquema de direccionamiento IP diferente).
 +
-image::dr-veeam-anf-image2.png[dr veeam y image2]
+image:dr-veeam-anf-image2.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 
 
 . Seleccione las máquinas virtuales que se van a replicar en el almacén de datos Azure NetApp Files conectado a un SDDC de la solución VMware de Azure en el paso * Máquinas virtuales *. Las máquinas virtuales se pueden colocar en vSAN para llenar la capacidad de almacenes de datos vSAN disponible. En un clúster ligero piloto, la capacidad útil de un clúster de 3 nodos se verá limitada. El resto de los datos puede colocarse fácilmente en almacenes de datos Azure NetApp Files para que las máquinas virtuales se puedan recuperar. El clúster se puede expandir para cumplir los requisitos de CPU/mem. Haga clic en *Agregar*, luego en la ventana *Agregar Objeto* seleccione las VM o contenedores de VM necesarios y haga clic en *Agregar*. Haga clic en *Siguiente*.
 +
-image::dr-veeam-anf-image3.png[dr veeam y image3]
+image:dr-veeam-anf-image3.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 . Después de eso, seleccione el destino como clúster/host SDDC de la solución VMware Azure y el conjunto de recursos apropiado, la carpeta de VM y el almacén de datos FSx para ONTAP para réplicas de VM. A continuación, haga clic en *Siguiente*.
 +
-image::dr-veeam-anf-image4.png[dr veeam y image4]
+image:dr-veeam-anf-image4.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 . En el siguiente paso, cree la asignación entre la red virtual de origen y de destino según sea necesario.
 +
-image::dr-veeam-anf-image5.png[dr veeam y image5]
+image:dr-veeam-anf-image5.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 . En el paso *Configuración del trabajo*, especifique el repositorio de copia de seguridad que almacenará metadatos para réplicas de VM, política de retención, etc.
 . Actualice los servidores proxy *Source* y *Target* en el paso *Data Transfer* y deje la selección *Automatic* (predeterminada) y mantenga seleccionada la opción *Direct* y haga clic en *Next*.
 . En el paso *Guest Processing*, selecciona la opción *Enable application-aware processing* según sea necesario. Haga clic en *Siguiente*.
 +
-image::dr-veeam-anf-image6.png[dr veeam y image6]
+image:dr-veeam-anf-image6.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 . Seleccione el programa de replicación para ejecutar el trabajo de replicación con regularidad.
 +
-image::dr-veeam-anf-image7.png[dr veeam y image7]
+image:dr-veeam-anf-image7.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 . En el paso *Summary* del asistente, revise los detalles del trabajo de replicación. Para iniciar el trabajo justo después de cerrar el asistente, seleccione la casilla de verificación *Ejecutar el trabajo cuando haga clic en Finalizar*, de lo contrario deje la casilla de verificación sin seleccionar. A continuación, haga clic en *Finalizar* para cerrar el asistente.
 +
-image::dr-veeam-anf-image8.png[dr veeam y image8]
+image:dr-veeam-anf-image8.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 
 
 Una vez que se inicia el trabajo de replicación, las máquinas virtuales con el sufijo especificado se rellenarán en el clúster/host AVS SDDC de destino.
 
-image::dr-veeam-anf-image9.png[dr veeam y image9]
+image:dr-veeam-anf-image9.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 Si quiere más información sobre la replicación de Veeam, consulte link:https://helpcenter.veeam.com/docs/backup/vsphere/replication_process.html?ver=120["Funcionamiento de la replicación"]
 
@@ -147,15 +147,15 @@ Para crear el *Failover Plan*, haga lo siguiente:
 
 . En la vista Inicio. Haga clic con el botón derecho en el nodo replicas y seleccione Failover Plans > Failover Plan > VMware vSphere.
 +
-image::dr-veeam-anf-image10.png[dr veeam y image10]
+image:dr-veeam-anf-image10.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 . A continuación, proporcione un nombre y una descripción al plan. El script previo y posterior al failover se puede agregar según sea necesario. Por ejemplo, ejecute un script para cerrar los equipos virtuales antes de iniciar los equipos virtuales replicados.
 +
-image::dr-veeam-anf-image11.png[dr veeam y image11]
+image:dr-veeam-anf-image11.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 . Agregue las máquinas virtuales al plan y modifique el orden de arranque de la máquina virtual y los retrasos de arranque para cumplir con las dependencias de la aplicación.
 +
-image::dr-veeam-anf-image12.png[dr veeam y image12]
+image:dr-veeam-anf-image12.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 
 
@@ -172,17 +172,17 @@ NOTE: Asegúrese de que la segmentación de la red está en su lugar para evitar
 
 Para iniciar el plan de conmutación por error, simplemente haga clic en la pestaña *Planes de conmutación por error* y haga clic con el botón derecho en su plan de conmutación por error. Selecciona **Inicio*. Se conmutará al nodo de respaldo usando los puntos de restauración más recientes de réplicas de equipos virtuales. Para conmutar por error a puntos de restauración específicos de réplicas de VM, seleccione *Iniciar a*.
 
-image::dr-veeam-anf-image13.png[dr veeam y image13]
+image:dr-veeam-anf-image13.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
-image::dr-veeam-anf-image14.png[dr veeam y image14]
+image:dr-veeam-anf-image14.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 El estado de la réplica de VM cambia de Ready a Failover y VMs se iniciará en el clúster/host SDDC de Azure VMware Solution (AVS) de destino.
 
-image::dr-veeam-anf-image15.png[dr veeam y image15]
+image:dr-veeam-anf-image15.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 Una vez finalizada la conmutación por error, el estado de las máquinas virtuales cambiará a «Failover».
 
-image::dr-veeam-anf-image16.png[dr veeam y image16]
+image:dr-veeam-anf-image16.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 
 NOTE: Veeam Backup & Replication detiene todas las actividades de replicación de la máquina virtual de origen hasta que su réplica vuelve al estado Ready.
@@ -207,23 +207,23 @@ NOTE: Al realizar la conmutación por recuperación, los cambios solo se transfi
 
 En esta demostración se eligió la conmutación de retorno tras recuperación en producción. Se ha seleccionado la conmutación por recuperación a la VM original durante el paso de destino del asistente y la casilla de verificación “Power on VM after restoring” estaba activada.
 
-image::dr-veeam-anf-image17.png[dr veeam y image17]
+image:dr-veeam-anf-image17.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
-image::dr-veeam-anf-image18.png[dr veeam y image18]
+image:dr-veeam-anf-image18.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
-image::dr-veeam-anf-image19.png[dr veeam y image19]
+image:dr-veeam-anf-image19.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
-image::dr-veeam-anf-image20.png[dr veeam y image20]
+image:dr-veeam-anf-image20.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 La confirmación de conmutación por recuperación es una de las formas de finalizar la operación de conmutación por recuperación. Cuando se confirma la conmutación por recuperación, confirma que los cambios enviados a la máquina virtual que se devuelve una conmutación por error (la máquina virtual de producción) funcionan según lo esperado. Tras la operación de confirmación, Veeam Backup & Replication reanuda las actividades de replicación para la máquina virtual de producción.
 
 Para obtener información detallada sobre el proceso de conmutación por recuperación, consulte la documentación de Veeam para link:https://helpcenter.veeam.com/docs/backup/vsphere/failover_failback.html?ver=120["Conmutación al nodo de respaldo y conmutación de retorno tras recuperación para replicación"].
 
-image::dr-veeam-anf-image21.png[dr veeam y image21]
+image:dr-veeam-anf-image21.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 Una vez que la conmutación de retorno tras recuperación en producción se realiza correctamente, las máquinas virtuales se restauran de nuevo en el sitio de producción original.
 
-image::dr-veeam-anf-image22.png[dr veeam y image22]
+image:dr-veeam-anf-image22.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 ====
 

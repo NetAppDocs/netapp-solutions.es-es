@@ -42,9 +42,7 @@ Este escenario cubre los siguientes pasos de alto nivel:
 
 El siguiente diagrama muestra una arquitectura típica de VMware Site Recovery con herramientas ONTAP para VMware vSphere 10 configuradas en una configuración de alta disponibilidad de 3 nodos.
 
-image::vmware-nfs-srm-image05.png[Configurar el dispositivo]
-
-{nbsp}
+image:vmware-nfs-srm-image05.png["Configurar el dispositivo"] {nbsp}
 
 
 
@@ -99,14 +97,14 @@ Deben completarse los siguientes pasos tanto para el sitio primario como para el
 
 . En un navegador web, navegue https://<SRM_appliance_IP>:5480*[] e inicie sesión. Haga clic en *Configurar dispositivo* para comenzar.
 +
-image::vmware-nfs-srm-image01.png[Configurar el dispositivo]
+image:vmware-nfs-srm-image01.png["Configurar el dispositivo"]
 
 +
 {nbsp}
 
 . En la página *Platform Services Controller* del asistente Configure Site Recovery Manager, rellene las credenciales del servidor vCenter en el que se registrará SRM. Haga clic en *Siguiente* para continuar.
 +
-image::vmware-nfs-srm-image02.png[controlador de servicios de plataforma]
+image:vmware-nfs-srm-image02.png["controlador de servicios de plataforma"]
 
 +
 {nbsp}
@@ -114,7 +112,7 @@ image::vmware-nfs-srm-image02.png[controlador de servicios de plataforma]
 . En la página *vCenter Server*, vea el vServer conectado y haga clic en *Siguiente* para continuar.
 . En la página *Nombre y extensión*, introduzca un nombre para el sitio SRM, una dirección de correo electrónico de los administradores y el host local que utilizará SRM. Haga clic en *Siguiente* para continuar.
 +
-image::vmware-nfs-srm-image03.png[Configurar el dispositivo]
+image:vmware-nfs-srm-image03.png["Configurar el dispositivo"]
 
 +
 {nbsp}
@@ -131,7 +129,7 @@ Complete los siguientes pasos para configurar el SRA en el dispositivo SRM:
 . Descargue las herramientas SRA para ONTAP 10 en el https://mysupport.netapp.com/site/products/all/details/otv10/downloads-tab["Sitio de soporte de NetApp"] y guarde el archivo tar.gz en una carpeta local.
 . Desde el dispositivo de gestión SRM, haga clic en *Adaptadores de replicación de almacenamiento* en el menú de la izquierda y luego en *Nuevo adaptador*.
 +
-image::vmware-nfs-srm-image04.png[Agregue un nuevo adaptador SRM]
+image:vmware-nfs-srm-image04.png["Agregue un nuevo adaptador SRM"]
 
 +
 {nbsp}
@@ -153,35 +151,35 @@ El siguiente paso se completa en el cliente vCenter del sitio primario.
 
 . En el cliente vSphere haga clic en *Site Recovery* en el menú de la izquierda. Se abre una nueva ventana del explorador en la interfaz de usuario de gestión de SRM en el sitio principal.
 +
-image::vmware-nfs-srm-image06.png[Recuperación del sitio]
+image:vmware-nfs-srm-image06.png["Recuperación del sitio"]
 
 +
 {nbsp}
 
 . En la página *Site Recovery*, haz clic en *NEW SITE PAIR*.
 +
-image::vmware-nfs-srm-image07.png[Recuperación del sitio]
+image:vmware-nfs-srm-image07.png["Recuperación del sitio"]
 
 +
 {nbsp}
 
 . En la página *Pair type* del asistente *New Pair*, verifique que el servidor vCenter local esté seleccionado y seleccione el *Pair type*. Haga clic en *Siguiente* para continuar.
 +
-image::vmware-nfs-srm-image08.png[Tipo de par]
+image:vmware-nfs-srm-image08.png["Tipo de par"]
 
 +
 {nbsp}
 
 . En la página *Peer vCenter*, rellene las credenciales de vCenter en el sitio secundario y haga clic en *Buscar instancias de vCenter*. Compruebe que la instancia de vCenter se ha detectado y haga clic en *Siguiente* para continuar.
 +
-image::vmware-nfs-srm-image09.png[VCenter entre iguales]
+image:vmware-nfs-srm-image09.png["VCenter entre iguales"]
 
 +
 {nbsp}
 
 . En la página *Servicios*, marque la casilla junto al emparejamiento de sitios propuesto. Haga clic en *Siguiente* para continuar.
 +
-image::vmware-nfs-srm-image10.png[Servicios]
+image:vmware-nfs-srm-image10.png["Servicios"]
 
 +
 {nbsp}
@@ -189,7 +187,7 @@ image::vmware-nfs-srm-image10.png[Servicios]
 . En la página *Listo para completar*, revise la configuración propuesta y luego haga clic en el botón *Finalizar* para crear el Emparejamiento del sitio
 . El nuevo par de sitios y su resumen se pueden ver en la página Resumen.
 +
-image::vmware-nfs-srm-image11.png[Resumen de pares de sitios]
+image:vmware-nfs-srm-image11.png["Resumen de pares de sitios"]
 
 
 
@@ -201,35 +199,35 @@ El siguiente paso se completa en la interfaz de recuperación del sitio principa
 
 . En la interfaz de recuperación del sitio, vaya a *Configure > Array Based Replication > Array Pairs* en el menú de la izquierda. Haga clic en *ADD* para comenzar.
 +
-image::vmware-nfs-srm-image12.png[Parejas de cabinas]
+image:vmware-nfs-srm-image12.png["Parejas de cabinas"]
 
 +
 {nbsp}
 
 . En la página *Storage replication adapter* del asistente *Add Array Pair*, verifique que el adaptador SRA esté presente para el sitio principal y haga clic en *Next* para continuar.
 +
-image::vmware-nfs-srm-image13.png[Añada pareja de cabinas]
+image:vmware-nfs-srm-image13.png["Añada pareja de cabinas"]
 
 +
 {nbsp}
 
 . En la página *Local array manager*, introduzca un nombre para la cabina en el sitio primario, el FQDN del sistema de almacenamiento, las direcciones IP de SVM que sirven NFS y, opcionalmente, los nombres de volúmenes específicos que se van a detectar. Haga clic en *Siguiente* para continuar.
 +
-image::vmware-nfs-srm-image14.png[Gestor de cabina local]
+image:vmware-nfs-srm-image14.png["Gestor de cabina local"]
 
 +
 {nbsp}
 
 . En el *Remote array manager*, rellene la misma información que el último paso para el sistema de almacenamiento ONTAP en el sitio secundario.
 +
-image::vmware-nfs-srm-image15.png[Gestor de cabina remota]
+image:vmware-nfs-srm-image15.png["Gestor de cabina remota"]
 
 +
 {nbsp}
 
 . En la página *Matrices*, seleccione los pares de matrices que desea habilitar y haga clic en *Siguiente* para continuar.
 +
-image::vmware-nfs-srm-image16.png[Parejas de cabinas]
+image:vmware-nfs-srm-image16.png["Parejas de cabinas"]
 
 +
 {nbsp}
@@ -245,42 +243,42 @@ El siguiente paso se completa en la interfaz de recuperación del sitio principa
 
 . En la interfaz de recuperación del sitio, haga clic en la pestaña * Grupos de protección * y luego en * Nuevo grupo de protección * para comenzar.
 +
-image::vmware-nfs-srm-image17.png[Recuperación del sitio]
+image:vmware-nfs-srm-image17.png["Recuperación del sitio"]
 
 +
 {nbsp}
 
 . En la página *Nombre y dirección* del asistente *New Protection Group*, proporcione un nombre para el grupo y elija la dirección del sitio para la protección de los datos.
 +
-image::vmware-nfs-srm-image18.png[Nombre y dirección]
+image:vmware-nfs-srm-image18.png["Nombre y dirección"]
 
 +
 {nbsp}
 
 . En la página *Type*, seleccione el tipo de grupo de protección (almacén de datos, VM o VVol) y seleccione el par de cabinas. Haga clic en *Siguiente* para continuar.
 +
-image::vmware-nfs-srm-image19.png[Tipo]
+image:vmware-nfs-srm-image19.png["Tipo"]
 
 +
 {nbsp}
 
 . En la página *Datastore groups*, seleccione los almacenes de datos que desea incluir en el grupo de protección. Las máquinas virtuales que residen actualmente en el almacén de datos se muestran para cada almacén de datos seleccionado. Haga clic en *Siguiente* para continuar.
 +
-image::vmware-nfs-srm-image20.png[Grupos de almacenes de datos]
+image:vmware-nfs-srm-image20.png["Grupos de almacenes de datos"]
 
 +
 {nbsp}
 
 . En la página *Recovery plan*, opcionalmente, elija agregar el grupo de protección a un plan de recuperación. En este caso, el plan de recuperación aún no se ha creado, por lo que se selecciona *NO AÑADIR AL PLAN DE RECUPERACIÓN*. Haga clic en *Siguiente* para continuar.
 +
-image::vmware-nfs-srm-image21.png[Plan de recuperación]
+image:vmware-nfs-srm-image21.png["Plan de recuperación"]
 
 +
 {nbsp}
 
 . En la página *Listo para completar*, revise los nuevos parámetros del grupo de protección y haga clic en *Finalizar* para crear el grupo.
 +
-image::vmware-nfs-srm-image22.png[Plan de recuperación]
+image:vmware-nfs-srm-image22.png["Plan de recuperación"]
 
 
 
@@ -292,28 +290,28 @@ El siguiente paso se completa en la interfaz de recuperación del sitio principa
 
 . En la interfaz de recuperación del sitio haga clic en la pestaña *Plan de recuperación* y luego en *Nuevo plan de recuperación* para comenzar.
 +
-image::vmware-nfs-srm-image23.png[Nuevo plan de recuperación]
+image:vmware-nfs-srm-image23.png["Nuevo plan de recuperación"]
 
 +
 {nbsp}
 
 . En la página *Nombre y dirección* del asistente *Crear plan de recuperación*, proporcione un nombre para el plan de recuperación y elija la dirección entre los sitios de origen y destino. Haga clic en *Siguiente* para continuar.
 +
-image::vmware-nfs-srm-image24.png[Nombre y dirección]
+image:vmware-nfs-srm-image24.png["Nombre y dirección"]
 
 +
 {nbsp}
 
 . En la página *Grupos de protección*, seleccione los grupos de protección creados previamente para incluir en el plan de recuperación. Haga clic en *Siguiente* para continuar.
 +
-image::vmware-nfs-srm-image25.png[Grupos de protección]
+image:vmware-nfs-srm-image25.png["Grupos de protección"]
 
 +
 {nbsp}
 
 . En las *Redes de prueba* configure redes específicas que se utilizarán durante la prueba del plan. Si no existe ninguna asignación o si no se selecciona ninguna red, se creará una red de prueba aislada. Haga clic en *Siguiente* para continuar.
 +
-image::vmware-nfs-srm-image26.png[Probar redes]
+image:vmware-nfs-srm-image26.png["Probar redes"]
 
 +
 {nbsp}
@@ -337,28 +335,28 @@ El siguiente paso se completa en la interfaz de recuperación del sitio.
 
 . En la interfaz de recuperación del sitio haga clic en la pestaña *Plan de recuperación* y luego seleccione un plan de recuperación. Haga clic en el botón *Test* para comenzar a probar la conmutación por error en el sitio secundario.
 +
-image::vmware-nfs-srm-image27.png[Probar la recuperación tras fallos]
+image:vmware-nfs-srm-image27.png["Probar la recuperación tras fallos"]
 
 +
 {nbsp}
 
 . Es posible ver el progreso de la prueba desde el panel de tareas Site Recovery y el panel de tareas de vCenter.
 +
-image::vmware-nfs-srm-image28.png[prueba de failover en el panel de tareas]
+image:vmware-nfs-srm-image28.png["prueba de failover en el panel de tareas"]
 
 +
 {nbsp}
 
 . El SRM envía comandos a través del SRA al sistema de almacenamiento de ONTAP secundario. Se crea y se monta una FlexClone de la snapshot más reciente en el clúster de vSphere secundario. El almacén de datos recién montado puede verse en el inventario de almacenamiento.
 +
-image::vmware-nfs-srm-image29.png[Almacén de datos recién montado]
+image:vmware-nfs-srm-image29.png["Almacén de datos recién montado"]
 
 +
 {nbsp}
 
 . Una vez completada la prueba, haga clic en *Cleanup* para desmontar el almacén de datos y volver al entorno original.
 +
-image::vmware-nfs-srm-image30.png[Almacén de datos recién montado]
+image:vmware-nfs-srm-image30.png["Almacén de datos recién montado"]
 
 
 
@@ -370,14 +368,14 @@ Realice una recuperación completa y una conmutación al nodo de respaldo en el 
 
 . En la interfaz de recuperación del sitio haga clic en la pestaña *Plan de recuperación* y luego seleccione un plan de recuperación. Haga clic en el botón *Run* para iniciar la conmutación por error al sitio secundario.
 +
-image::vmware-nfs-srm-image31.png[Ejecutar la recuperación tras fallos]
+image:vmware-nfs-srm-image31.png["Ejecutar la recuperación tras fallos"]
 
 +
 {nbsp}
 
 . Una vez finalizada la conmutación al respaldo, puede ver el almacén de datos montado y las máquinas virtuales registradas en el sitio secundario.
 +
-image::vmware-nfs-srm-image32.png[Filover completo]
+image:vmware-nfs-srm-image32.png["Filover completo"]
 
 
 

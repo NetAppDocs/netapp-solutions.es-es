@@ -53,7 +53,7 @@ Los siguientes pasos muestran cómo configurar los backups de máquinas virtuale
 Aparece el cuadro de diálogo Propiedades de matriz.
 
 +
-image::hyperv-deploy-image09.png[Imagen del cuadro de diálogo Propiedades de matriz]
+image:hyperv-deploy-image09.png["Imagen del cuadro de diálogo Propiedades de matriz"]
 
 . En la pestaña General, especifique la siguiente información:
 . En la lista Snap Vendor, seleccione NetApp.
@@ -63,11 +63,11 @@ image::hyperv-deploy-image09.png[Imagen del cuadro de diálogo Propiedades de ma
 . Haga clic en Aceptar.
 . Una vez hecho <Mandatory step>, también configure SVM en la cabina de almacenamiento de NetApp utilizando la opción Detectar para detectar automáticamente máquinas virtuales de almacenamiento (SVM), luego elija una SVM y, con la opción de añadir, añada SVM en la base de datos de CommServe, como una entrada de gestión de cabinas.
 +
-image::hyperv-deploy-image10.png[Imagen que muestra cómo configurar la SVM como una entrada de gestión de cabinas]
+image:hyperv-deploy-image10.png["Imagen que muestra cómo configurar la SVM como una entrada de gestión de cabinas"]
 
 . Haga clic en Avanzado (como se muestra en los siguientes gráficos) y seleccione la casilla de verificación “Habilitar IntelliSnap”.
 +
-image::hyperv-deploy-image11.png[Imagen que muestra la opción Habilitar IntelliSnap]
+image:hyperv-deploy-image11.png["Imagen que muestra la opción Habilitar IntelliSnap"]
 
 
 
@@ -92,15 +92,15 @@ Los siguientes pasos muestran cómo añadir Hyper-V como hipervisor.
 . Ahora aparece la página Agregar hipervisor > Seleccionar proveedor: Seleccionar Hyper-V (introduzca la dirección IP o FQDN y las credenciales de usuario)
 . Para un servidor Hyper-V, haga clic en Discover Nodes. Cuando se rellene el campo Nodos, seleccione uno o más nodos en los que instalar el agente de servidor virtual.
 +
-image::hyperv-deploy-image12.png[Imagen que muestra el descubrimiento de nodos hiper-v.]
+image:hyperv-deploy-image12.png["Imagen que muestra el descubrimiento de nodos hiper-v."]
 
 . Haga clic en Siguiente y en Guardar.
 +
-image::hyperv-deploy-image13.png[Imagen que muestra los resultados del paso anterior]
+image:hyperv-deploy-image13.png["Imagen que muestra los resultados del paso anterior"]
 
 . En la página Add VM group, seleccione las máquinas virtuales que se van a proteger (Demogrp es el grupo de máquinas virtuales creado en este caso) y habilite la opción IntelliSnap como se muestra a continuación.
 +
-image::hyperv-deploy-image14.png[Imagen que muestra la selección de máquinas virtuales a proteger]
+image:hyperv-deploy-image14.png["Imagen que muestra la selección de máquinas virtuales a proteger"]
 
 +
 *Nota*: Cuando IntelliSnap está habilitado en un grupo de máquinas virtuales, Commvault crea automáticamente políticas de programación para las copias primarias (snap) y de backup.
@@ -115,11 +115,11 @@ Para obtener información detallada sobre la configuración de la matriz, consul
 . En el panel de navegación, vaya a Protect > Virtualization. Aparece la página Máquinas Virtuales.
 . Realice un backup de la máquina virtual o del grupo de máquinas virtuales. En esta demostración, se selecciona el grupo VM. En la fila del grupo de máquinas virtuales, haga clic en el botón de acción ACTION_BUTTON y, a continuación, seleccione Back up. En este caso, nimplan es el plan asociado a Demogrp y Demogrp01.
 +
-image::hyperv-deploy-image15.png[Imagen que muestra el cuadro de diálogo para seleccionar las máquinas virtuales que se van a realizar un backup]
+image:hyperv-deploy-image15.png["Imagen que muestra el cuadro de diálogo para seleccionar las máquinas virtuales que se van a realizar un backup"]
 
 . Una vez que la copia de seguridad se realiza correctamente, los puntos de restauración están disponibles como se muestra en la captura de pantalla. A partir de la copia snap, se puede restaurar equipos virtuales completos y restaurar archivos y carpetas de invitado.
 +
-image::hyperv-deploy-image16.png[Imagen que muestra los puntos de restauración para una copia de seguridad]
+image:hyperv-deploy-image16.png["Imagen que muestra los puntos de restauración para una copia de seguridad"]
 
 +
 *Nota*: Para máquinas virtuales críticas y muy utilizadas, mantenga menos máquinas virtuales por CSV
@@ -136,11 +136,11 @@ Restaura equipos virtuales completos, archivos y carpetas invitados o archivos d
 . En el área VM groups, haga clic en Restore for the VM group que contiene la máquina virtual.
 . Aparece la página Seleccionar tipo de restauración.
 +
-image::hyperv-deploy-image17.png[Imagen que muestra los tipos de restauración para una copia de seguridad]
+image:hyperv-deploy-image17.png["Imagen que muestra los tipos de restauración para una copia de seguridad"]
 
 . Seleccione Guest files o Full virtual machine dependiendo de la selección y active la restauración.
 +
-image::hyperv-deploy-image18.png[Imagen que muestra las opciones para la restauración]
+image:hyperv-deploy-image18.png["Imagen que muestra las opciones para la restauración"]
 
 
 

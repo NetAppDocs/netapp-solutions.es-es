@@ -40,7 +40,7 @@ Para evitar que los trabajos de replicación consuman todo el ancho de banda de 
 
 Cuando se realiza una conmutación por error, una máquina virtual replicada asume el rol de la máquina virtual original. La conmutación por error se puede realizar en el estado más reciente de una réplica o en cualquiera de sus puntos de restauración conocidos. Esto permite la recuperación frente al ransomware o las pruebas aisladas según sea necesario. En Veeam Backup & Replication, la conmutación por error y la conmutación tras recuperación son pasos intermedios temporales que deberían completarse aún más. Veeam Backup & Replication ofrece múltiples opciones para gestionar diferentes escenarios de recuperación ante desastres.
 
-image::dr-veeam-fsx-image1.png[Diagrama del escenario de recuperación ante desastres con replicación de Veeam y FSx ONTAP para VMC]
+image:dr-veeam-fsx-image1.png["Diagrama del escenario de recuperación ante desastres con replicación de Veeam y FSx ONTAP para VMC"]
 
 
 
@@ -87,38 +87,38 @@ Para replicar equipos virtuales, siga los siguientes pasos:
 ** Seleccione la casilla de verificación Remapping de red (para sitios VMC de AWS con redes diferentes) si los segmentos de VMware Cloud en AWS SDDC no coinciden con los de las redes del sitio local.
 ** Si el esquema de direccionamiento IP en el sitio de producción local difiere del esquema en el sitio VMC de AWS, seleccione la casilla de verificación Réplica por IP (para sitios de DR con esquema de direccionamiento IP diferente).
 +
-image::dr-veeam-fsx-image2.png[dr veeam fsx image2]
+image:dr-veeam-fsx-image2.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 
 
 . Seleccione las máquinas virtuales que se deben replicar en el almacén de datos FSx para ONTAP conectado a VMware Cloud en AWS SDDC en el paso * Máquinas virtuales *. Las máquinas virtuales se pueden colocar en vSAN para llenar la capacidad de almacenes de datos vSAN disponible. En un clúster ligero piloto, la capacidad útil de un clúster de 3 nodos se verá limitada. El resto de datos puede replicarse en los almacenes de datos de FSx for ONTAP. Haga clic en *Agregar*, luego en la ventana *Agregar Objeto* seleccione las VM o contenedores de VM necesarios y haga clic en *Agregar*. Haga clic en *Siguiente*.
 +
-image::dr-veeam-fsx-image3.png[dr veeam fsx image3]
+image:dr-veeam-fsx-image3.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 . Después de eso, seleccione el destino como clúster/host SDDC de VMware Cloud on AWS y el conjunto de recursos apropiado, la carpeta de VM y el almacén de datos FSx para ONTAP para réplicas de VM. Luego haga clic en *Siguiente*.
 +
-image::dr-veeam-fsx-image4.png[dr veeam fsx image4]
+image:dr-veeam-fsx-image4.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 . En el siguiente paso, cree la asignación entre la red virtual de origen y de destino según sea necesario.
 +
-image::dr-veeam-fsx-image5.png[dr veeam fsx image5]
+image:dr-veeam-fsx-image5.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 . En el paso *Configuración del trabajo*, especifique el repositorio de copia de seguridad que almacenará metadatos para réplicas de VM, política de retención, etc.
 . Actualice los servidores proxy *Source* y *Target* en el paso *Data Transfer* y deje la selección *Automatic* (predeterminada) y mantenga seleccionada la opción *Direct* y haga clic en *Next*.
 . En el paso *Guest Processing*, selecciona la opción *Enable application-aware processing* según sea necesario. Haga clic en *Siguiente*.
 +
-image::dr-veeam-fsx-image6.png[dr veeam fsx image6]
+image:dr-veeam-fsx-image6.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 . Seleccione el programa de replicación para ejecutar el trabajo de replicación con regularidad.
 . En el paso *Summary* del asistente, revise los detalles del trabajo de replicación. Para iniciar el trabajo justo después de cerrar el asistente, seleccione la casilla de verificación *Ejecutar el trabajo cuando haga clic en Finalizar*, de lo contrario deje la casilla de verificación sin seleccionar. A continuación, haga clic en *Finalizar* para cerrar el asistente.
 +
-image::dr-veeam-fsx-image7.png[dr veeam fsx image7]
+image:dr-veeam-fsx-image7.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 
 
 Una vez que se inicie el trabajo de replicación, las máquinas virtuales con el sufijo especificado se completarán en el clúster/host de VMC SDDC de destino.
 
-image::dr-veeam-fsx-image8.png[dr veeam fsx image8]
+image:dr-veeam-fsx-image8.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 Para obtener información adicional sobre la replicación de Veeam, consulte link:https://helpcenter.veeam.com/docs/backup/vsphere/replication_process.html?ver=120["Funcionamiento de la replicación"].
 
@@ -144,11 +144,11 @@ Para crear el *Failover Plan*, haga lo siguiente:
 . En la vista Inicio, seleccione *Failover Plan > VMware vSphere*.
 . A continuación, proporcione un nombre y una descripción al plan. El script previo y posterior al failover se puede agregar según sea necesario. Por ejemplo, ejecute un script para cerrar los equipos virtuales antes de iniciar los equipos virtuales replicados.
 +
-image::dr-veeam-fsx-image9.png[dr veeam fsx image9]
+image:dr-veeam-fsx-image9.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 . Agregue las máquinas virtuales al plan y modifique el orden de arranque de la máquina virtual y los retrasos de arranque para cumplir con las dependencias de la aplicación.
 +
-image::dr-veeam-fsx-image10.png[dr veeam fsx image10]
+image:dr-veeam-fsx-image10.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 
 
@@ -165,17 +165,17 @@ NOTE: Asegúrese de que la segmentación de la red está en su lugar para evitar
 
 Para iniciar el plan de conmutación por error, simplemente haga clic en la pestaña *Planes de conmutación por error* y haga clic con el botón derecho en el plan de conmutación por error. Seleccione *Iniciar*. Se conmutará al nodo de respaldo usando los puntos de restauración más recientes de réplicas de equipos virtuales. Para conmutar por error a puntos de restauración específicos de réplicas de VM, seleccione *Iniciar a*.
 
-image::dr-veeam-fsx-image11.png[dr veeam fsx image11]
+image:dr-veeam-fsx-image11.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
-image::dr-veeam-fsx-image12.png[dr veeam fsx image12]
+image:dr-veeam-fsx-image12.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 El estado de la réplica de VM cambia de Ready a Failover y VMs comenzará en el clúster/host de destino de VMware Cloud en AWS SDDC.
 
-image::dr-veeam-fsx-image13.png[dr veeam fsx image13]
+image:dr-veeam-fsx-image13.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 Una vez finalizada la conmutación por error, el estado de las máquinas virtuales cambiará a «Failover».
 
-image::dr-veeam-fsx-image14.png[dr veeam fsx image14]
+image:dr-veeam-fsx-image14.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 
 NOTE: Veeam Backup & Replication detiene todas las actividades de replicación de la máquina virtual de origen hasta que su réplica vuelve al estado Ready.
@@ -200,21 +200,21 @@ NOTE: Al realizar la conmutación por recuperación, los cambios solo se transfi
 
 En esta demostración se eligió la conmutación de retorno tras recuperación en producción. Se ha seleccionado la conmutación por recuperación a la VM original durante el paso de destino del asistente y la casilla de verificación “Power on VM after restoring” estaba activada.
 
-image::dr-veeam-fsx-image15.png[dr veeam fsx image15]
+image:dr-veeam-fsx-image15.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
-image::dr-veeam-fsx-image16.png[dr veeam fsx image16]
+image:dr-veeam-fsx-image16.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 La confirmación de conmutación por recuperación es una de las formas de finalizar la operación de conmutación por recuperación. Cuando se confirma la conmutación por recuperación, confirma que los cambios enviados a la máquina virtual que se devuelve una conmutación por error (la máquina virtual de producción) funcionan según lo esperado. Tras la operación de confirmación, Veeam Backup & Replication reanuda las actividades de replicación para la máquina virtual de producción.
 
 Para obtener información detallada sobre el proceso de conmutación por recuperación, consulte la documentación de Veeam para link:https://helpcenter.veeam.com/docs/backup/vsphere/failover_failback.html?ver=120["Conmutación al nodo de respaldo y conmutación de retorno tras recuperación para replicación"].
 
-image::dr-veeam-fsx-image17.png[dr veeam fsx image17]
+image:dr-veeam-fsx-image17.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
-image::dr-veeam-fsx-image18.png[dr veeam fsx image18]
+image:dr-veeam-fsx-image18.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 Una vez que la conmutación de retorno tras recuperación en producción se realiza correctamente, las máquinas virtuales se restauran de nuevo en el sitio de producción original.
 
-image::dr-veeam-fsx-image19.png[dr veeam fsx image19]
+image:dr-veeam-fsx-image19.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 ====
 

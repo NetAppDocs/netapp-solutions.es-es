@@ -18,7 +18,7 @@ Detectar el ransomware lo antes posible es crucial para evitar su propagación y
 
 Veamos cómo las funciones anteriores funcionan con VMware para proteger y recuperar los datos contra el ransomware. Para proteger vSphere y las máquinas virtuales invitadas contra ataques, es esencial tomar varias medidas, como la segmentación, el uso de EDR/XDR/SIEM para terminales e la instalación de actualizaciones de seguridad y el cumplimiento de las directrices de endurecimiento adecuadas. Cada máquina virtual que reside en un almacén de datos también aloja un sistema operativo estándar. Asegúrese de que los paquetes de productos antimalware de servidor empresarial se instalan y se actualizan regularmente en ellos, lo que es un componente esencial de la estrategia de protección contra ransomware de varias capas. Además, habilite la protección autónoma frente a ransomware (ARP) en el volumen NFS que alimenta el almacén de datos. ARP aprovecha EL APRENDIZAJE automático integrado que analiza la actividad de las cargas de trabajo del volumen más la entropía de los datos para detectar automáticamente el ransomware. ARP es configurable a través de la interfaz de gestión incorporada de ONTAP o System Manager y se habilita para cada volumen.
 
-image::nfs-arp-image1.png[nfs arp image1]
+image:nfs-arp-image1.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 
 NOTE: Con el nuevo ARP/AI de NetApp, que actualmente se encuentra en versión preliminar tecnológica, no es necesario un modo de aprendizaje. En su lugar, puede pasar directamente al modo activo con su función de detección de ransomware impulsada por la IA.
@@ -28,7 +28,7 @@ NOTE: Con ONTAP One, todos estos conjuntos de características son completamente
 
 Una vez en el modo activo, se inicia a buscar la actividad anormal del volumen que podría ser potencialmente ransomware. Si se detecta una actividad anormal, se realiza inmediatamente una copia snapshot automática que proporciona un punto de restauración lo más cercano posible a la infección del archivo. ARP puede detectar cambios en las extensiones de archivos específicas de la máquina virtual en un volumen NFS ubicado fuera de la máquina virtual cuando se agrega una nueva extensión al volumen cifrado o se modifica la extensión de un archivo.
 
-image::nfs-arp-image2.png[nfs arp image2]
+image:nfs-arp-image2.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 Si un ataque de ransomware se dirige a la máquina virtual (VM) y altera los archivos dentro de la máquina virtual sin hacer cambios fuera de la máquina virtual, la protección avanzada contra ransomware (ARP) seguirá detectando la amenaza si la entropía predeterminada de la máquina virtual es baja, por ejemplo, para tipos de archivos como .txt, .docx o .mp4. Aunque ARP crea una instantánea de protección en este escenario, no genera una alerta de amenaza porque las extensiones de archivo fuera de la VM no se han manipulado. En tales escenarios, las capas iniciales de defensa identificarían la anomalía, sin embargo ARP ayuda en la creación de una instantánea basada en la entropía.
 
@@ -36,11 +36,11 @@ Para obtener información detallada, consulte la sección “ARP and Virtual Mac
 
 Al pasar de los archivos a los datos de backup, los ataques de ransomware se dirigen cada vez más a los backups y los puntos de recuperación de snapshots al intentar eliminarlos antes de comenzar a cifrar los archivos. Sin embargo, con ONTAP, esto se puede evitar creando instantáneas a prueba de manipulaciones en sistemas primarios o secundarios con link:https://docs.netapp.com/us-en/ontap/snaplock/snapshot-lock-concept.html["Bloqueo de copia NetApp SnapShot™"].
 
-image::nfs-arp-image3.png[nfs arp image3]
+image:nfs-arp-image3.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 Estas copias de SnapVault no se pueden eliminar ni modificar por atacantes de ransomware ni administradores malintencionados, por lo que están disponibles incluso después de un ataque. Si el almacén de datos o las máquinas virtuales específicas se ven afectados, SnapCenter puede recuperar los datos de máquinas virtuales en segundos, lo que minimiza el tiempo de inactividad de la organización.
 
-image::nfs-arp-image4.png[nfs arp image4]
+image:nfs-arp-image4.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 La prueba anterior demuestra cómo el almacenamiento de ONTAP suma una capa adicional a las técnicas existentes, con lo que mejora la prueba del entorno para el futuro.
 
@@ -50,25 +50,25 @@ Ahora, si todo esto necesita orquestarse e integrarse con herramientas de SIEM, 
 
 En este ejemplo, el almacén de datos NFS «src_nfs_DS04» está protegido con protección contra ransomware de BlueXP .
 
-image::nfs-arp-image5.png[nfs arp image5]
+image:nfs-arp-image5.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
-image::nfs-arp-image6.png[nfs arp image6]
+image:nfs-arp-image6.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 Para obtener información detallada sobre cómo configurar la protección contra ransomware de BlueXP , consulte link:https://docs.netapp.com/us-en/bluexp-ransomware-protection/rp-start-setup.html["Configura la protección frente al ransomware de BlueXP "]y link:https://docs.netapp.com/us-en/bluexp-ransomware-protection/rp-use-settings.html#add-amazon-web-services-as-a-backup-destination["Configura las opciones de protección contra ransomware de BlueXP"].
 
 Es hora de caminar a través de esto con un ejemplo. En este tutorial, el almacén de datos “src_nfs_DS04” se ve afectado.
 
-image::nfs-arp-image7.png[nfs arp image7]
+image:nfs-arp-image7.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 ARP activó inmediatamente una instantánea en el volumen después de la detección.
 
-image::nfs-arp-image8.png[nfs arp image8]
+image:nfs-arp-image8.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
-image::nfs-arp-image9.png[nfs arp image9]
+image:nfs-arp-image9.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 Una vez que se ha completado el análisis forense, las restauraciones pueden realizarse de forma rápida y sin problemas gracias a SnapCenter o la protección frente al ransomware de BlueXP . Con SnapCenter, vaya a las máquinas virtuales afectadas y seleccione la snapshot que desee restaurar.
 
-image::nfs-arp-image10.png[nfs arp image10]
+image:nfs-arp-image10.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 Esta sección muestra cómo la protección contra ransomware de BlueXP  orquesta la recuperación de un incidente de ransomware en el que los archivos de VM están cifrados.
 
@@ -78,11 +78,11 @@ NOTE: Si SnapCenter gestiona la máquina virtual, la protección frente al ranso
 . Acceda a la protección contra ransomware de BlueXP  y aparece una alerta en la consola de protección contra ransomware de BlueXP .
 . Haga clic en la alerta para revisar los incidentes en ese volumen específico para la alerta generada
 +
-image::nfs-arp-image11.png[nfs arp image11]
+image:nfs-arp-image11.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 . Marque el incidente de ransomware como listo para la recuperación (después de que se neutralicen los incidentes) seleccionando «Mark restore needed» (Mark restore needed).
 +
-image::nfs-arp-image12.png[nfs arp image12]
+image:nfs-arp-image12.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 +
 
@@ -90,19 +90,19 @@ NOTE: La alerta se puede descartar si el incidente resulta ser falso positivo.
 
 . Tengo que acceder a la pestaña Recovery y revisar la información de la carga de trabajo en la página Recovery y seleccionar el volumen del almacén de datos que está en el estado «Restore needed» y seleccionar Restore.
 +
-image::nfs-arp-image13.png[nfs arp image13]
+image:nfs-arp-image13.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 . En este caso, el ámbito de la restauración es «por equipo virtual» (para SnapCenter en los equipos virtuales, el ámbito de la restauración se establece «por equipo virtual»).
 +
-image::nfs-arp-image14.png[nfs arp image14]
+image:nfs-arp-image14.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 . Elija el punto de restauración que desea utilizar para restaurar los datos y seleccione Destino y haga clic en Restaurar.
 +
-image::nfs-arp-image15.png[nfs arp image15]
+image:nfs-arp-image15.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 . En el menú superior, seleccione Recovery para revisar la carga de trabajo en la página Recovery, en la que el estado de la operación se mueve por los estados. Una vez completada la restauración, los archivos del equipo virtual se restauran como se muestra a continuación.
 +
-image::nfs-arp-image16.png[nfs arp image16]
+image:nfs-arp-image16.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 
 

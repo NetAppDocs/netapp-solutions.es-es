@@ -196,7 +196,7 @@ https://docs.aws.amazon.com/cli/latest/reference/fsx/update-file-system.html[]
 En la siguiente imagen se muestra nuestra arquitectura final de un clúster kafka basado en FSx para NetApp ONTAP:
 
 +
-image::aws-fsx-kafka-arch1.png[Esta imagen muestra la arquitectura de un clúster Kafka basado en FSxN.]
+image:aws-fsx-kafka-arch1.png["Esta imagen muestra la arquitectura de un clúster Kafka basado en FSxN."]
 
 +
 ** Informática. Utilizamos un clúster Kafka de tres nodos con un conjunto de zookeeper de tres nodos ejecutándose en servidores dedicados. Cada agente tenía seis puntos de montaje de NFS en seis volúmenes en la instancia de FSx para NetApp ONTAP.
@@ -254,12 +254,12 @@ El controlador Sync puede generar un rendimiento constante a medida que los regi
 
 Estos números de rendimiento se generan para la configuración de AWS determinada. Para requisitos de rendimiento más altos, los tipos de instancias se pueden escalar verticalmente para mejorar los números de rendimiento. El rendimiento total o la tasa total es la combinación de la tasa de producción y del consumidor.
 
-image::aws-fsxn-performance-rf-1-rf-3.png[Esta imagen muestra el rendimiento de kafka con RF1 y RF3]
+image:aws-fsxn-performance-rf-1-rf-3.png["Esta imagen muestra el rendimiento de kafka con RF1 y RF3"]
 
 En el siguiente gráfico se muestra el rendimiento de 2GB MB/s FSx para NetApp ONTAP y 4GB GB/s para el factor de replicación Kafka 3. El factor de replicación 3 realiza la operación de lectura y escritura tres veces en el almacenamiento FSx para NetApp ONTAP. La tasa total para el controlador de rendimiento es de 881 MB/s, que lee y escribe la operación Kafka aproximadamente 2,64 GB/s en el sistema de archivos FSX de 2GB MB/s para NetApp ONTAP y la tasa total para el controlador de rendimiento es de 1328 MB/s que lee y escribe la operación kafka aproximadamente 3,98 GB/s. El rendimiento de Kafka es lineal y escalable basado en el rendimiento de FSx para NetApp ONTAP.
 
-image::aws-fsxn-2gb-4gb-scale.png[Esta imagen muestra el rendimiento de escalado horizontal de 2GB Gb/s y 4GB Gb/s.]
+image:aws-fsxn-2gb-4gb-scale.png["Esta imagen muestra el rendimiento de escalado horizontal de 2GB Gb/s y 4GB Gb/s."]
 
 En el siguiente gráfico se muestra el rendimiento entre la instancia de EC2 frente a FSx para NetApp ONTAP (Factor de replicación de Kafka: 3).
 
-image::aws-fsxn-ec2-fsxn-comparition.png[Esta imagen muestra la comparación de rendimiento de EC2 frente a FSxN en RF3.]
+image:aws-fsxn-ec2-fsxn-comparition.png["Esta imagen muestra la comparación de rendimiento de EC2 frente a FSxN en RF3."]

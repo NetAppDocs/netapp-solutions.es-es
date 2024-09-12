@@ -20,7 +20,7 @@ En el entorno, la instancia de computación de Oracle se pone en marcha a travé
 
 Por otro lado, el almacenamiento de bases de datos Oracle en volúmenes FSX se pone en marcha con la consola o CLI de AWS FSX. Los volúmenes binarios, datos o registro de Oracle se presentan y se montan después en un host Linux de instancia de EC2. Cada datos o volumen de registro puede tener varias LUN asignadas en función del protocolo de almacenamiento subyacente empleado.
 
-image::aws_ora_fsx_ec2_arch.PNG[En esta imagen se muestra un ejemplo de diagrama de arquitectura que incluye el clúster ha principal: El clúster ha en espera - nodos de gestión - y los nodos de conexión relacionados.]
+image:aws_ora_fsx_ec2_arch.png["En esta imagen se muestra un ejemplo de diagrama de arquitectura que incluye el clúster ha principal: El clúster ha en espera - nodos de gestión - y los nodos de conexión relacionados."]
 
 Un clúster de almacenamiento FSX ha sido diseñado con doble redundancia, de modo que los clústeres de almacenamiento primario y en espera se implementen en dos zonas de disponibilidad diferentes. Los volúmenes de base de datos se replican desde un clúster FSX principal a un clúster FSX en espera en un intervalo configurable por el usuario para todos los volúmenes binarios de Oracle, datos y registros.
 

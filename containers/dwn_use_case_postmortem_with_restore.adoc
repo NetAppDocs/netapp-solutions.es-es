@@ -24,7 +24,7 @@ En la link:dwn_use_case_integrated_data_protection.html["primer caso de uso"], D
 
 En un flujo de trabajo tradicional, después de haber encontrado un error cuando la aplicación se actualiza a una nueva versión, el equipo de desarrollo intentaría solucionar el problema en tiempo real a partir de los informes de errores que proporcionaban los clientes. Como alternativa, en el primer signo de problema, el equipo podría intentar volver a implementar la aplicación en un entorno de depuración paralelo para desconectar ese proceso. Podrían volver a poner en marcha una base de código anterior de una versión anterior a la producción, lo que restauraría la aplicación a la orden de trabajo.
 
-image::dwn_image9.jpg[Flujo de trabajo tradicional]
+image:dwn_image9.jpg["Flujo de trabajo tradicional"]
 
 Aunque este enfoque funciona, el equipo tendría que asegurarse de que el estado de la aplicación de producción rota coincide con el de la versión que se ve en producción cuando se produjeron los problemas. También tendrían que dedicar tiempo a la promoción de la producción de funcionalidad comprobada obteniendo código desde su repositorio y volviendo a poner en marcha las imágenes de la máquina para restaurar la aplicación a un estado en buen funcionamiento. Asimismo, en este escenario no se tuvo en cuenta si el código defectuoso corromía la base de datos de producción en sí. Lo ideal es que existan procesos de backup independientes para los datos de la base de datos, pero, ¿debemos asumir que son coherentes con el estado de la aplicación tal como se publicó? Aquí es donde las ventajas de los backups con estado y consistentes con las aplicaciones, las restauraciones y los clones con Astra Control realmente muestran su valor.
 
@@ -32,7 +32,7 @@ En primer lugar, podemos utilizar Astra Control para facilitar el análisis post
 
 Además, Astra Control admite la función de restauración in situ que nos permite restaurar la aplicación de producción a una última copia de seguridad aceptable (que precedió a la versión afligida del código). La versión restaurada asume la posición de la aplicación de producción de buggy anterior, de manera coherente con la aplicación y con estado, incluida la IP de entrada asignada previamente. Por lo tanto, los clientes que acceden al interfaz de usuario no tendrían conocimiento de la transición a la versión de backup.
 
-image::dwn_image10.jpg[Flujo de trabajo post mortem]
+image:dwn_image10.jpg["Flujo de trabajo post mortem"]
 
 
 
@@ -57,7 +57,7 @@ Se pusieron en marcha y configuraron como requisitos previos las siguientes herr
 
 Teniendo en cuenta que la aplicación se ha actualizado a una nueva versión, la aplicación del entorno de producción (`magento-prod`) no se comporta como se pretende después de la actualización. Supongamos que los datos que devuelven las consultas de interfaz de usuario no coinciden con la solicitud o que la base de datos se ha dañado de hecho. Para clonar y restaurar la canalización, siga estos pasos:
 
-image::dwn_image12.jpg[Error de aplicación]
+image:dwn_image12.jpg["Error de aplicación"]
 
 . Inicie sesión en Jenkins y cree una canalización haciendo clic en Nuevo elemento y, a continuación, en canalización.
 . Copie la canalización del archivo Jenkinsfile https://github.com/NetApp/netapp-astra-toolkits/blob/main/ci_cd_examples/jenkins_pipelines/clone_for_postmortem_and_restore/Jenkinsfile["aquí"^].
@@ -79,15 +79,15 @@ DEBUG_KUBERNETES_CLUSTER = 'ocp-vmw'
 ----
 . Haga clic en Crear ahora. La canalización comienza a ejecutarse y avanza a lo largo de los pasos. La aplicación se clona primero en el estado actual en un entorno de depuración y, a continuación, se restaura a un backup de trabajo conocido.
 +
-image::dwn_image15.jpg[Canalización post mortem]
+image:dwn_image15.jpg["Canalización post mortem"]
 
 . Compruebe que la aplicación clonada sea la versión que contiene errores.
 +
-image::dwn_image13.jpg[Error al clonar la aplicación]
+image:dwn_image13.jpg["Error al clonar la aplicación"]
 
 . Comprobar que el entorno de producción se ha restaurado en un backup en funcionamiento y que la aplicación en producción funciona de la forma esperada.
 +
-image::dwn_image14.jpg[Prod App restaurada]
+image:dwn_image14.jpg["Prod App restaurada"]
 
 
 

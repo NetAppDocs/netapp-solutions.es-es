@@ -22,7 +22,7 @@ En esta sección se explica cómo clonar una máquina virtual con Red Hat OpenSh
 
 La clonación de una VM existente en OpenShift se logra con la compatibilidad de la función de clonación Volume CSI de Astra Trident. La clonación de volúmenes CSI permite la creación de un nuevo PVC utilizando un PVC existente como origen de datos duplicando su PV. Después de crear el nuevo PVC, funciona como una entidad independiente y sin ningún vínculo ni dependencia del PVC de origen.
 
-image::redhat_openshift_image57.png[Arquitectura de clonado de equipos virtuales]
+image:redhat_openshift_image57.png["Arquitectura de clonado de equipos virtuales"]
 
 Hay ciertas restricciones en la clonación de volúmenes de CSI a tener en cuenta:
 
@@ -46,7 +46,7 @@ Clonar una máquina virtual existente cerrando una máquina virtual es una funci
 . Vaya a cargas de trabajo > virtualización > máquinas virtuales y haga clic en los tres puntos junto a la máquina virtual que desea clonar.
 . Haga clic en Clone Virtual Machine e proporcione los detalles de la nueva máquina virtual.
 +
-image::redhat_openshift_image58.JPG[clon de la máquina virtual]
+image:redhat_openshift_image58.JPG["clon de la máquina virtual"]
 
 . Haga clic en Clone Virtual Machine; se cierra la máquina virtual de origen e inicia la creación del equipo virtual clonado.
 . Una vez completado este paso, puede acceder al contenido del equipo virtual clonado y verificarlo.
@@ -61,7 +61,7 @@ También es posible clonar una máquina virtual existente clonando la RVP existe
 . Vaya a almacenamiento > PersistentVolumeClaments y haga clic en los tres puntos junto a la RVP que está conectada a la máquina virtual de origen.
 . Haga clic en Clone PVC y proporcione los detalles de la nueva RVP.
 +
-image::redhat_openshift_image59.JPG[clonar rvp]
+image:redhat_openshift_image59.JPG["clonar rvp"]
 
 . A continuación, haga clic en Clonar. De este modo se crea una RVP para la nueva máquina virtual.
 . Desplácese hasta cargas de trabajo > virtualización > Máquinas virtuales y haga clic en Crear > con AYLMA.

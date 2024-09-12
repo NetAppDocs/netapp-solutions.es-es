@@ -28,7 +28,7 @@ El clonado de una aplicación puesta en marcha en un clúster de Kubernetes es u
 
 La tecnología FlexClone de NetApp es una copia editable, basada en copias Snapshot de un momento específico de un FlexVol de NetApp. Se aprovisionan casi al instante, contienen todos los datos del volumen de origen y no consumen espacio de almacenamiento adicional hasta que los datos del nuevo volumen empiecen a desviarse del origen. A menudo se utilizan en entornos basados en desarrollo o en plantillas cuando varias copias de datos son útiles para fines de configuración y los sistemas de almacenamiento tienen recursos limitados para aprovisionar estos volúmenes. En comparación con un sistema de almacenamiento tradicional en el que los datos deben copiarse varias veces, por lo que se consume un tiempo y un espacio de almacenamiento considerable, la tecnología FlexClone de NetApp acelera las tareas dependientes del almacenamiento.
 
-image::Astra-DevOps-UC3-FlexClone.png[Imagen de FlexClone]
+image:Astra-DevOps-UC3-FlexClone.png["Imagen de FlexClone"]
 
 Si quiere más información sobre la tecnología FlexClone de NetApp, visite la página en https://docs.netapp.com/us-en/ontap/concepts/flexclone-volumes-files-luns-concept.html["Documentos de NetApp"].
 
@@ -49,7 +49,7 @@ Si quiere más información sobre la tecnología FlexClone de NetApp, visite la 
 
 Para este caso de uso, visualizamos algo similar al siguiente flujo de trabajo:
 
-image::Astra-DevOps-UC3-Workflow.png[Imagen del flujo de trabajo]
+image:Astra-DevOps-UC3-Workflow.png["Imagen del flujo de trabajo"]
 
 . Un usuario ejecuta el libro de estrategia de Ansible para crear un nuevo entorno de almacenamiento provisional.
 . Ansible utiliza el módulo URI-API para llamar a Astra Control y ejecutar la operación de clonado.
@@ -70,7 +70,7 @@ NOTE: Estos dos procesos se pueden automatizar.
 
 El caso de uso que se presenta aquí depende de la existencia de plantillas maestras para los entornos o aplicaciones concretas que desee clonar. En nuestro entorno hemos creado tres de estas plantillas, una para la implementación de Wordpress, otra para la implementación de Magento y otra para un entorno CI/CD de Jenkins con Gitea que hemos titulado DevTools.
 
-image::Astra-DevOps-UC3-Templates.png[Imagen de plantillas]
+image:Astra-DevOps-UC3-Templates.png["Imagen de plantillas"]
 
 Cada uno de estos entornos se gestiona mediante Astra Control de NetApp, con volúmenes persistentes que se almacenan actualmente en un sistema de almacenamiento ONTAP de NetApp con un back-end NFS proporcionado por Astra Trident de NetApp.
 
@@ -98,7 +98,7 @@ astra_control_api_token: "xxxxx"
 NOTE: Los valores del entorno global que debe rellenar están disponibles en el icono de perfil de usuario de NetApp Astra Control, en el menú API Access.
 
 +
-image::Astra-DevOps-UC3-APIAccess.png[Imagen de acceso API]
+image:Astra-DevOps-UC3-APIAccess.png["Imagen de acceso API"]
 
 . Una vez completadas las variables globales, puede elegir los valores de la aplicación específica que desea clonar. Para clonar el entorno devtools a un entorno personal llamado `alan-devtools`, haría lo siguiente:
 +
@@ -127,7 +127,7 @@ NOTE: el libro de aplicaciones como escrito debe ser ejecutado por el usuario ra
 
 . Una vez que el libro de aplicaciones complete su ejecución, la aplicación clonada aparecerá como disponible en la consola del Centro de control de Astra.
 +
-image::Astra-DevOps-UC3-ClonedApp.png[Imagen de la aplicación clonada]
+image:Astra-DevOps-UC3-ClonedApp.png["Imagen de la aplicación clonada"]
 
 . A continuación, un usuario puede iniciar sesión en el entorno Kubernetes en el que se ha puesto en marcha la aplicación, comprobar que la aplicación está expuesta con una nueva dirección IP e iniciar el trabajo de desarrollo.
 

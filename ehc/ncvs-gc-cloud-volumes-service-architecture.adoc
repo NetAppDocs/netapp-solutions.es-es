@@ -18,7 +18,7 @@ De forma similar a otros servicios nativos de Google Cloud como CloudSQL, Google
 
 La siguiente figura, a la que se hace referencia desde https://cloud.google.com/architecture/partners/netapp-cloud-volumes/architecture?hl=en_US["sección de arquitectura"^] De la documentación de Cloud Volumes Service, muestra una vista de alto nivel.
 
-image::ncvs-gc-image1.png[ncvs gc image1]
+image:ncvs-gc-image1.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 La pieza situada encima de la línea de puntos muestra el plano de control del servicio, que controla el ciclo de vida del volumen. La pieza debajo de la línea de puntos muestra el plano de datos. El cuadro azul izquierdo muestra el VPC (consumidor de servicios) del usuario, el cuadro azul derecho es el productor de servicios que proporciona NetApp. Ambos se conectan mediante la agrupación de VPC.
 
@@ -58,16 +58,16 @@ Las capturas de paquetes pueden ser útiles para solucionar problemas de red u o
 
 Cuando se utilizan VPC compartidos, cifrado en tránsito con NFS Kerberos y/o. link:ncvs-gc-data-encryption-in-transit.html#smb-encryption["Cifrado SMB"] puede enmascarar gran parte de la información obtenida de las trazas. Sin embargo, cierto tráfico se sigue enviando en texto sin texto, como link:ncvs-gc-other-nas-infrastructure-service-dependencies.html#dns["DNS"] y.. link:ncvs-gc-other-nas-infrastructure-service-dependencies.html#ldap-queries["Consultas LDAP"]. En la siguiente figura se muestra una captura de paquetes de una consulta LDAP de texto sin formato originada en Cloud Volumes Service y la información de identificación potencial que se expone. Las consultas LDAP en Cloud Volumes Service actualmente no admiten cifrado ni LDAP sobre SSL. CVS-Performance admite la firma LDAP, si es solicitada por Active Directory. CVS-SW no admite la firma LDAP.
 
-image::ncvs-gc-image2.png[ncvs gc image2]
+image:ncvs-gc-image2.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 
 NOTE: UnixUserPassword es consultada por LDAP y no se envía en texto sin formato sino en un hash salado. De forma predeterminada, LDAP de Windows no rellena los campos unixUserPassword. Este campo sólo es necesario si necesita aprovechar LDAP de Windows para inicios de sesión interactivos a través de LDAP a clientes. Cloud Volumes Service no admite inicios de sesión LDAP interactivos en las instancias.
 
 En la siguiente figura se muestra una captura de paquetes desde una conversación Kerberos de NFS junto a una captura de NFS sobre AUTH_SYS. Tenga en cuenta que la información disponible en una traza difiere entre ambas y cómo habilitar el cifrado en tránsito ofrece una mayor seguridad general para el tráfico NAS.
 
-image::ncvs-gc-image3.png[ncvs gc image3]
+image:ncvs-gc-image3.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
-image::ncvs-gc-image4.png[ncvs gc image4]
+image:ncvs-gc-image4.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 
 

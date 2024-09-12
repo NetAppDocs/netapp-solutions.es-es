@@ -24,7 +24,7 @@ Migración dinámica es un proceso de migrar una instancia de máquina virtual d
 
 Por lo tanto, para que la migración en vivo se realice correctamente, las máquinas virtuales deben aprovisionarse con discos (discos de arranque y discos de conexión en caliente adicionales) con RVP que utilicen las clases de almacenamiento ontap-nas u ontap-san (volumeMode: Block). Cuando se crean las RVP, Trident crea volúmenes de ONTAP en una SVM que se encuentra habilitada para NFS o iSCSI.
 
-image::redhat_openshift_image55.png[Arquitectura de migración dinámica de máquinas virtuales]
+image:redhat_openshift_image55.png["Arquitectura de migración dinámica de máquinas virtuales"]
 
 Para realizar una migración activa de una VM que se ha creado previamente y que se encuentra en estado en ejecución, realice los siguientes pasos:
 
@@ -40,6 +40,6 @@ La migración de la VM pasará de *Pendiente* a *Programación* a *Correcto*
 
 NOTE: Una instancia de máquina virtual de un clúster de OpenShift migra automáticamente a otro nodo cuando el nodo original se pone en modo de mantenimiento si la estrategia de desalojetionStrategy se establece en LiveMigrate.
 
-image::rh-os-n_use_case_vm_live_migrate_1.png[Inicio de migración en vivo de VM]
+image:rh-os-n_use_case_vm_live_migrate_1.png["Inicio de migración en vivo de VM"]
 
-image::rh-os-n_use_case_vm_live_migrate_2.png[Migración activa de VM correcta]
+image:rh-os-n_use_case_vm_live_migrate_2.png["Migración activa de VM correcta"]

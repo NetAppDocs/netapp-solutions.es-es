@@ -24,7 +24,7 @@ Niyaz Mohamed, NetApp
 
 Disaster Recovery Orchestrator (DRO, una solución basada en scripts con la interfaz de usuario) se puede usar para recuperar sin problemas las cargas de trabajo replicadas desde las instalaciones a FSX para ONTAP. DRO automatiza la recuperación del nivel de SnapMirror, mediante el registro de VM en VMC, hasta las asignaciones de red directamente en NSX-T. Esta función está incluida en todos los entornos VMC.
 
-image::dro-vmc-image1.png[Este gráfico muestra la estructura y las interconexiones entre un centro de datos en las instalaciones, un cloud VMware en una instancia de AWS SDDC y Amazon FSX para ONTAP de NetApp. Entre ellas se incluyen la replicación de SnapMirror, el tráfico de Operaciones de recuperación ante desastres, Internet o conexión directa y VMware Transit Connect.]
+image:dro-vmc-image1.png["Este gráfico muestra la estructura y las interconexiones entre un centro de datos en las instalaciones, un cloud VMware en una instancia de AWS SDDC y Amazon FSX para ONTAP de NetApp. Entre ellas se incluyen la replicación de SnapMirror, el tráfico de Operaciones de recuperación ante desastres, Internet o conexión directa y VMware Transit Connect."]
 
 
 
@@ -51,7 +51,7 @@ Amazon FSX para ONTAP de NetApp es un servicio totalmente gestionado que ofrece 
 
 El siguiente paso consiste en utilizar NetApp BlueXP y descubrir la instancia de FSX aprovisionada para ONTAP en AWS y replicar los volúmenes de almacenes de datos deseados de un entorno local a FSX para ONTAP con la frecuencia adecuada y la retención de copias Snapshot de NetApp:
 
-image::dro-vmc-image2.png[Este gráfico muestra el mapa de relaciones de lienzo de BlueXP que muestra las diversas interacciones entre los servicios activados.]
+image:dro-vmc-image2.png["Este gráfico muestra el mapa de relaciones de lienzo de BlueXP que muestra las diversas interacciones entre los servicios activados."]
 
 Siga los pasos de este enlace para configurar BlueXP. También puede utilizar la CLI de ONTAP de NetApp para programar la replicación a continuación de este enlace.
 
@@ -138,7 +138,7 @@ Password: admin
 
 NOTE: La contraseña se puede cambiar con la opción "Cambiar contraseña".
 
-image::dro-vmc-image3.png[Pantalla de inicio de sesión en el orquestador de recuperación ante desastres.]
+image:dro-vmc-image3.png["Pantalla de inicio de sesión en el orquestador de recuperación ante desastres."]
 
 
 
@@ -164,13 +164,13 @@ El primer paso es descubrir y añadir los recursos locales y cloud (tanto vCente
 
 
 
-image::dro-vmc-image4.png[Descripción temporal de la imagen del marcador de posición.]
+image:dro-vmc-image4.png["Descripción temporal de la imagen del marcador de posición."]
 
-image::dro-vmc-image5.png[Página general DEL sitio DE DRO que contiene sitios de origen y destino.]
+image:dro-vmc-image5.png["Página general DEL sitio DE DRO que contiene sitios de origen y destino."]
 
 Una vez añadida, DRO realiza la detección automática y muestra las máquinas virtuales con las réplicas de SnapMirror correspondientes desde el almacenamiento de origen a FSX para ONTAP. DRO detecta automáticamente las redes y los grupos de puertos utilizados por los equipos virtuales y los rellena.
 
-image::dro-vmc-image6.png[Pantalla de detección automática con 219 máquinas virtuales y 10 almacenes de datos.]
+image:dro-vmc-image6.png["Pantalla de detección automática con 219 máquinas virtuales y 10 almacenes de datos."]
 
 El siguiente paso es agrupar los equipos virtuales necesarios en grupos funcionales para servir como grupos de recursos.
 
@@ -196,7 +196,7 @@ Las opciones son estas:
 . Haga clic en *Crear grupo de recursos*.
 
 
-image::dro-vmc-image7.png[Captura de pantalla de la lista de grupos de recursos con dos entradas: Test y DemoRG1.]
+image:dro-vmc-image7.png["Captura de pantalla de la lista de grupos de recursos con dos entradas: Test y DemoRG1."]
 
 
 
@@ -208,15 +208,15 @@ Para comenzar a crear un plan de replicación, lleve a cabo los siguientes pasos
 
 . Acceda a *planes de replicación* y haga clic en *Crear nuevo plan de replicación*.
 +
-image::dro-vmc-image8.png[Captura de pantalla del plan de replicación que contiene un plan llamado DemoRP.]
+image:dro-vmc-image8.png["Captura de pantalla del plan de replicación que contiene un plan llamado DemoRP."]
 
 . En *Nuevo Plan de replicación*, proporcione un nombre para el plan y agregue asignaciones de recuperación seleccionando el sitio de origen, vCenter asociada, sitio de destino y vCenter asociada.
 +
-image::dro-vmc-image9.png[Captura de pantalla de los detalles del plan de replicación, incluida la asignación de recuperación.]
+image:dro-vmc-image9.png["Captura de pantalla de los detalles del plan de replicación, incluida la asignación de recuperación."]
 
 . Después de completar la asignación de recuperación, seleccione la asignación de clústeres.
 +
-image::dro-vmc-image10.png[Descripción temporal de la imagen del marcador de posición.]
+image:dro-vmc-image10.png["Descripción temporal de la imagen del marcador de posición."]
 
 . Seleccione *Detalles del grupo de recursos* y haga clic en *continuar*.
 . Establezca el orden de ejecución del grupo de recursos. Esta opción permite seleccionar la secuencia de operaciones cuando existen varios grupos de recursos.
@@ -227,47 +227,41 @@ image::dro-vmc-image10.png[Descripción temporal de la imagen del marcador de po
 NOTE: SnapMirror se encuentra en el nivel de volumen. Por lo tanto, todas las máquinas virtuales se replican en el destino de replicación. Asegúrese de seleccionar todas las máquinas virtuales que forman parte del almacén de datos. Si no se seleccionan, solo se procesan las máquinas virtuales que forman parte del plan de replicación.
 
 +
-image::dro-vmc-image11.png[Descripción temporal de la imagen del marcador de posición.]
+image:dro-vmc-image11.png["Descripción temporal de la imagen del marcador de posición."]
 
 . Si se especifican los datos del equipo virtual, se puede modificar de forma opcional el tamaño de los parámetros de RAM y CPU del equipo virtual; esto puede resultar muy útil a la hora de recuperar entornos de gran tamaño en clústeres de destino más pequeños o realizar pruebas de recuperación ante desastres sin tener que aprovisionar una infraestructura de VMware física única. Además, puede modificar el orden de arranque y el retraso de arranque (segundos) para todas las máquinas virtuales seleccionadas entre los grupos de recursos. Existe una opción adicional para modificar el orden de arranque si se requieren cambios de los seleccionados durante la selección de orden de arranque del grupo de recursos. De forma predeterminada, se utiliza el orden de arranque seleccionado durante la selección de grupos de recursos; sin embargo, se pueden realizar modificaciones en esta fase.
 +
-image::dro-vmc-image12.png[Descripción temporal de la imagen del marcador de posición.]
+image:dro-vmc-image12.png["Descripción temporal de la imagen del marcador de posición."]
 
 . Haga clic en *Crear plan de replicación*.
 +
-image::dro-vmc-image13.png[Descripción temporal de la imagen del marcador de posición.]
+image:dro-vmc-image13.png["Descripción temporal de la imagen del marcador de posición."]
 
 
 
 Una vez creado el plan de replicación, la opción de conmutación por error, la opción de conmutación por error de prueba o la opción de migración se pueden ejercer en función de los requisitos. Durante las opciones de conmutación por error y conmutación al nodo de respaldo, se utiliza la copia Snapshot de SnapMirror más reciente o se puede seleccionar una copia Snapshot específica de una copia Snapshot puntual (según la política de retención de SnapMirror). La opción de momento específico puede ser muy útil si se enfrenta a un evento de corrupción como ransomware, donde las réplicas más recientes ya están comprometidas o cifradas. DRO muestra todos los puntos disponibles en el tiempo. Para activar la conmutación por error o la conmutación por error de prueba con la configuración especificada en el plan de replicación, puede hacer clic en *failover* o *Prueba de conmutación por error*.
 
-image::dro-vmc-image14.png[Descripción temporal de la imagen del marcador de posición.]
-
-image::dro-vmc-image15.png[En esta pantalla, se proporcionan los detalles de la snapshot para el volumen, donde se puede elegir entre utilizar la snapshot más reciente y seleccionar una snapshot específica.]
+image:dro-vmc-image14.png["Descripción temporal de la imagen del marcador de posición."] image:dro-vmc-image15.png["En esta pantalla, se proporcionan los detalles de la snapshot para el volumen, donde se puede elegir entre utilizar la snapshot más reciente y seleccionar una snapshot específica."]
 
 El plan de replicación se puede supervisar en el menú de tareas:
 
-image::dro-vmc-image16.png[El menú de tareas muestra todos los trabajos y opciones del plan de replicación, y también le permite ver los registros.]
+image:dro-vmc-image16.png["El menú de tareas muestra todos los trabajos y opciones del plan de replicación, y también le permite ver los registros."]
 
 Después de activar la conmutación por error, los elementos recuperados pueden verse en el VMC vCenter (máquinas virtuales, redes y almacenes de datos). De forma predeterminada, las máquinas virtuales se recuperan en la carpeta de carga de trabajo.
 
-image::dro-vmc-image17.png[Descripción temporal de la imagen del marcador de posición.]
+image:dro-vmc-image17.png["Descripción temporal de la imagen del marcador de posición."]
 
 La conmutación por recuperación se puede activar en el nivel de plan de replicación. En el caso de una conmutación por error de prueba, se puede utilizar la opción de eliminación para revertir los cambios y eliminar la relación de FlexClone. La conmutación por recuperación relacionada con la conmutación por error es un proceso de dos pasos. Seleccione el plan de replicación y seleccione *sincronización inversa de datos*.
 
-image::dro-vmc-image18.png[Captura de pantalla de la descripción general del plan de replicación con la opción de sincronización inversa de datos.]
-
-image::dro-vmc-image19.png[Descripción temporal de la imagen del marcador de posición.]
+image:dro-vmc-image18.png["Captura de pantalla de la descripción general del plan de replicación con la opción de sincronización inversa de datos."] image:dro-vmc-image19.png["Descripción temporal de la imagen del marcador de posición."]
 
 Una vez finalizada, puede activar la conmutación tras recuperación para volver a la instalación de producción original.
 
-image::dro-vmc-image20.png[Captura de pantalla de la descripción general del plan de replicación con el menú desplegable que contiene la opción de conmutación por recuperación.]
-
-image::dro-vmc-image21.png[Captura de pantalla de la página de resumen de DRO con el sitio de producción original en funcionamiento.]
+image:dro-vmc-image20.png["Captura de pantalla de la descripción general del plan de replicación con el menú desplegable que contiene la opción de conmutación por recuperación."] image:dro-vmc-image21.png["Captura de pantalla de la página de resumen de DRO con el sitio de producción original en funcionamiento."]
 
 Desde BlueXP de NetApp vemos que el estado de la replicación se ha roto para los volúmenes adecuados (los asignados a VMC como volúmenes de lectura y escritura). Durante la conmutación al nodo de respaldo de prueba, DRO no asigna el volumen de destino o de réplica. En su lugar, realiza una copia FlexClone de la instancia de SnapMirror (o Snapshot) necesaria y expone la instancia de FlexClone, que no consume capacidad física adicional para FSX para ONTAP. Este proceso garantiza que el volumen no se modifique y que los trabajos de réplica puedan continuar incluso durante las pruebas de recuperación ante desastres o los flujos de trabajo de clasificación. Además, este proceso garantiza que, si se producen errores o se recuperan los datos dañados, la recuperación se puede limpiar sin riesgo de destrucción de la réplica.
 
-image::dro-vmc-image22.png[Descripción temporal de la imagen del marcador de posición.]
+image:dro-vmc-image22.png["Descripción temporal de la imagen del marcador de posición."]
 
 
 

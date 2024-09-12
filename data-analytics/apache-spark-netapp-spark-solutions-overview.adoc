@@ -18,7 +18,7 @@ NetApp cuenta con tres carteras de almacenamiento: FAS/AFF, E-Series y Cloud Vol
 
 El Data Fabric con tecnología de NetApp integra servicios y aplicaciones de gestión de datos (elementos básicos) para el acceso, control, protección y seguridad de los datos, como se muestra en la siguiente figura.
 
-image::apache-spark-image4.png[El Data Fabric proporciona servicios y aplicaciones de gestión de datos.]
+image:apache-spark-image4.png["El Data Fabric proporciona servicios y aplicaciones de gestión de datos."]
 
 Los elementos básicos de la figura anterior incluyen:
 
@@ -31,16 +31,16 @@ Los elementos básicos de la figura anterior incluyen:
 
 En la siguiente figura se muestra la solución Spark con el almacenamiento de NetApp.
 
-image::apache-spark-image5.png[Fomente la solución con almacenamiento de NetApp.]
+image:apache-spark-image5.png["Fomente la solución con almacenamiento de NetApp."]
 
 La solución ONTAP Spark utiliza el protocolo de acceso directo NFS de NetApp para análisis in situ y flujos de trabajo de IA, ML y DL mediante el acceso a los datos de producción existentes. Los datos de producción disponibles en los nodos de Hadoop se exportan para realizar trabajos de análisis e IA sin movimiento, ML y DL. Puede acceder a los datos para procesar en nodos Hadoop con el acceso directo NFS de NetApp o sin ellos. En Spark con el independiente o. `yarn` Gestor de clústeres, puede configurar un volumen NFS mediante `<file:///<target_volume>`. Validamos tres casos de uso con conjuntos de datos diferentes. Los detalles de estas validaciones se presentan en la sección “resultados de la prueba”. (xref)
 
 La siguiente figura muestra el posicionamiento del almacenamiento de Apache Spark/Hadoop de NetApp.
 
-image::apache-spark-image7.png[Posicionamiento del almacenamiento de Apache Spark/Hadoop de NetApp.]
+image:apache-spark-image7.png["Posicionamiento del almacenamiento de Apache Spark/Hadoop de NetApp."]
 
 Hemos identificado las características únicas de la solución Spark E-Series, la solución AFF/FAS ONTAP Spark y la solución StorageGRID Spark, y se ha realizado una validación y pruebas detalladas. Basándose en nuestras observaciones, NetApp recomienda la solución E-Series para instalaciones vírgenes y puestas en marcha escalables nuevas y la solución AFF/FAS para cargas de trabajo de análisis in situ, IA, ML y DL que utilizan datos NFS existentes, y StorageGRID para IA, APRENDIZAJE AUTOMÁTICO y análisis de datos modernos cuando se requiere almacenamiento de objetos.
 
-image::apache-spark-image9.png[Soluciones de NetApp recomendadas para Spark.]
+image:apache-spark-image9.png["Soluciones de NetApp recomendadas para Spark."]
 
 Un lago de datos es un repositorio de almacenamiento para grandes conjuntos de datos de forma nativa que se puede usar para trabajos de análisis, IA, ML y DL. Creamos un repositorio de lago de datos para las soluciones E-Series, AFF/FAS y SG6060 de StorageGRID. El sistema E-Series proporciona acceso HDFS al clúster de Hadoop Spark, mientras que se accede a los datos de producción existentes a través del protocolo de acceso directo NFS al clúster de Hadoop. Para los conjuntos de datos que residen en el almacenamiento de objetos, StorageGRID de NetApp proporciona acceso seguro S3 y S3A.

@@ -43,7 +43,7 @@ La configuración se ejecuta en AWS. La siguiente tabla muestra los diferentes c
 |===
 En la siguiente figura, se muestra la configuración de la arquitectura para esta solución.
 
-image::kafka-nfs-image1.png[Estas imágenes muestran la topología de AWS que contiene un VPC que contiene tres subredes privadas con un descalido de productor, el clúster de Kafka y la instancia de CVO, respectivamente.]
+image:kafka-nfs-image1.png["Estas imágenes muestran la topología de AWS que contiene un VPC que contiene tres subredes privadas con un descalido de productor, el clúster de Kafka y la instancia de CVO, respectivamente."]
 
 
 
@@ -78,13 +78,13 @@ aws-shantanclastrecall-aws::*> volume create -vserver kafka_svm -volume kafka_fg
 Clúster 1:
 
 +
-image::kafka-nfs-image2.png[Esta captura de pantalla muestra el tema de demostración creado en el clúster 1.]
+image:kafka-nfs-image2.png["Esta captura de pantalla muestra el tema de demostración creado en el clúster 1."]
 
 +
 Clúster 2:
 
 +
-image::kafka-nfs-image3.png[Esta captura de pantalla muestra el tema de demostración creado en el clúster 2.]
+image:kafka-nfs-image3.png["Esta captura de pantalla muestra el tema de demostración creado en el clúster 2."]
 
 . Los datos se han cargado en estos temas recién creados para ambos clústeres. Esto se hizo con el kit de herramientas de prueba de rendimiento-productor que se incluye en el paquete Kafka predeterminado:
 +
@@ -99,7 +99,7 @@ image::kafka-nfs-image3.png[Esta captura de pantalla muestra el tema de demostra
 En la siguiente captura de pantalla se muestra una comprobación del estado correcta de los agentes en ambos clusters:
 
 +
-image::kafka-nfs-image4.png[Esta captura de pantalla muestra la información para una comprobación de estado correcta en ambos corredores.]
+image:kafka-nfs-image4.png["Esta captura de pantalla muestra la información para una comprobación de estado correcta en ambos corredores."]
 
 
 
@@ -120,7 +120,7 @@ kafka-reassign-partitions --bootstrap-server=172.30.0.198:9092,172.30.0.163:9092
 
 . Después de unos minutos cuando se completó la reasignación, otra comprobación del estado de los agentes mostró que el clúster con volúmenes de almacenamiento NFSv3 se había ejecutado en un problema tonto de cambio y se había bloqueado, mientras que el clúster 1 con los volúmenes de almacenamiento NFSv4.1 de ONTAP de NetApp con la corrección continuó las operaciones sin ninguna interrupción.
 +
-image::kafka-nfs-image5.png[Esta captura de pantalla muestra el resultado de un agente bloqueado.]
+image:kafka-nfs-image5.png["Esta captura de pantalla muestra el resultado de un agente bloqueado."]
 
 +
 ** Cluster1-Broker-1 está vivo.
@@ -129,12 +129,12 @@ image::kafka-nfs-image5.png[Esta captura de pantalla muestra el resultado de un 
 
 . Tras comprobar los directorios de registro de Kafka, estaba claro que el clúster 1 con los volúmenes de almacenamiento NFSv4.1 de ONTAP de NetApp con la solución tenía una asignación de particiones limpia, mientras que el clúster 2 con almacenamiento NFSv3 genérico no se debía a problemas tontos de cambio de nombre, lo que provocó el bloqueo. En la siguiente imagen, se muestra el reequilibrio de particiones del clúster 2, lo que dio lugar a un problema de cambio de nombre tonto en el almacenamiento NFSv3.
 +
-image::kafka-nfs-image6.png[Esta captura de pantalla muestra la salida del registro para el bloqueo del clúster 2.]
+image:kafka-nfs-image6.png["Esta captura de pantalla muestra la salida del registro para el bloqueo del clúster 2."]
 
 +
 La siguiente imagen muestra un reequilibrado de particiones limpio del clúster 1 mediante NFSv4.1 de NetApp.
 
 +
-image::kafka-nfs-image7.png[Esta captura de pantalla muestra la salida del registro para una asignación de partición limpia correcta para el clúster 1 mientras que]
+image:kafka-nfs-image7.png["Esta captura de pantalla muestra la salida del registro para una asignación de partición limpia correcta para el clúster 1 mientras que"]
 
 

@@ -101,30 +101,27 @@ El kit de herramientas consta de un analizador HTML basado en web y dos scripts 
 ====
 . Abra el módulo AWR del analizador HTML.
 +
-image::db_sizing_ora_parser_01.png[Esta imagen proporciona la pantalla del analizador HTML para el ajuste de tamaño de Oracle]
+image:db_sizing_ora_parser_01.png["Esta imagen proporciona la pantalla del analizador HTML para el ajuste de tamaño de Oracle"]
 
 . Compruebe el formato de salida como .csv y haga clic en `Upload files` para cargar el informe awr. El analizador devuelve los resultados en una página HTML con un resumen de tabla y un archivo output.csv en `Download` carpeta.
 +
-image::db_sizing_ora_parser_02.png[Esta imagen proporciona la pantalla del analizador HTML para el ajuste de tamaño de Oracle]
+image:db_sizing_ora_parser_02.png["Esta imagen proporciona la pantalla del analizador HTML para el ajuste de tamaño de Oracle"]
 
 . Abra el archivo de plantilla de excel y copie y pegue el contenido csv en la columna A y la celda 1 para generar la información de tamaño del servidor de base de datos.
 +
-image::db_sizing_ora_parser_03_anf.png[Esta imagen proporciona una captura de pantalla de plantilla de excel para el ajuste de tamaño de Oracle]
+image:db_sizing_ora_parser_03_anf.png["Esta imagen proporciona una captura de pantalla de plantilla de excel para el ajuste de tamaño de Oracle"]
 
 . Resalte la columna A y los campos 1 y 2, haga clic en `Data`, entonces `Text to Columns` Para abrir Text Wizzard. Seleccione `Delimited`, entonces `Next` a la siguiente pantalla.
 +
-image::db_sizing_ora_parser_04_anf.png[Esta imagen proporciona una captura de pantalla de plantilla de excel para el ajuste de tamaño de Oracle]
+image:db_sizing_ora_parser_04_anf.png["Esta imagen proporciona una captura de pantalla de plantilla de excel para el ajuste de tamaño de Oracle"]
 
 . Comprobar `Other`, a continuación, introduzca '=' como `Delimiters`. Haga clic en `Next` a la siguiente pantalla.
 +
-image::db_sizing_ora_parser_05_anf.png[Esta imagen proporciona una captura de pantalla de plantilla de excel para el ajuste de tamaño de Oracle]
+image:db_sizing_ora_parser_05_anf.png["Esta imagen proporciona una captura de pantalla de plantilla de excel para el ajuste de tamaño de Oracle"]
 
 . Haga clic en `Finish` para completar la conversión de cadena en formato de columna legible. Tenga en cuenta que los campos de tamaño de VM y ANF se han rellenado con datos recuperados del informe de Oracle AWR.
 +
-image::db_sizing_ora_parser_06_anf.png[Esta imagen proporciona una captura de pantalla de plantilla de excel para el ajuste de tamaño de Oracle]
-
-+
-image::db_sizing_ora_parser_07_anf.png[Esta imagen proporciona una captura de pantalla de plantilla de excel para el ajuste de tamaño de Oracle]
+image:db_sizing_ora_parser_06_anf.png["Esta imagen proporciona una captura de pantalla de plantilla de excel para el ajuste de tamaño de Oracle"] image:db_sizing_ora_parser_07_anf.png["Esta imagen proporciona una captura de pantalla de plantilla de excel para el ajuste de tamaño de Oracle"]
 
 . Ejecute el script ora_db_data_size.sql, ora_db_logs_size.sql como DBA en sqlplus para recuperar el tamaño de los datos de la base de datos Oracle existente y el tamaño de los archive logs con el número de días de la ventana de retención.
 +
@@ -167,7 +164,7 @@ NOTE: La información de tamaño de la base de datos recuperada con los scripts 
 
 . Introduzca el resultado en el archivo de excel para completar la salida de la guía de ajuste de tamaño.
 +
-image::db_sizing_ora_parser_08_anf.png[Esta imagen proporciona una captura de pantalla de plantilla de excel para el ajuste de tamaño de Oracle]
+image:db_sizing_ora_parser_08_anf.png["Esta imagen proporciona una captura de pantalla de plantilla de excel para el ajuste de tamaño de Oracle"]
 
 . ANF utiliza un nivel de servicio de tres niveles (Standard, Premium, Ultra) para gestionar el límite de rendimiento de volúmenes de la base de datos. Consulte link:https://learn.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-service-levels["Niveles de servicio para Azure NetApp Files"^] para obtener más detalles. Según los resultados de las directrices de dimensionamiento, elija un nivel de servicio de ANF que proporcione un rendimiento que cumpla el requisito para la base de datos.
 

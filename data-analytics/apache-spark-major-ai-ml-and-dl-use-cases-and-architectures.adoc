@@ -42,7 +42,7 @@ El motor de aprendizaje profundo subyacente para Spark NLP es TensorFlow, una pl
 
 == Horovod distribuyó entrenamiento
 
-La validación principal de Hadoop para el rendimiento relacionado con MapReduce se realiza con TeraGen, TeraSort, TeraValidate y DFSIO (lectura y escritura). Los resultados de la validación TeraGen y TeraSort se presentan en http://www.netapp.com/us/media/tr-3969.pdf["TR-3969: Soluciones de NetApp para Hadoop"^] Para E-Series y en la sección “Storage Tiering” (xref) para AFF.
+La validación principal de Hadoop para el rendimiento relacionado con MapReduce se realiza con TeraGen, TeraSort, TeraValidate y DFSIO (lectura y escritura). Los resultados de validación de TeraGen y TeraSort se presentan http://www.netapp.com/us/media/tr-3969.pdf[] en para E-Series y en la sección «Almacenamiento por niveles» (xref) para AFF.
 
 En función de las solicitudes de los clientes, consideramos que la formación distribuida con Spark es una de las más importantes de las distintas situaciones de uso. En este documento, utilizamos la https://horovod.readthedocs.io/en/stable/spark_include.html["Hovorod en Spark"^] Para validar el rendimiento de Spark con NetApp en las instalaciones, nativas del cloud e híbridas mediante las controladoras de almacenamiento All Flash FAS (AFF) de NetApp, Azure NetApp Files y StorageGRID.
 
@@ -95,4 +95,4 @@ Para esta validación, hemos utilizado cuatro nodos de trabajo y uno de nodo mae
 
 Para esta validación de la solución Spark de NetApp, se utilizaron tres controladoras de almacenamiento distintas: El E5760, el E5724 y AFF-A800. Las controladoras de almacenamiento E-Series se conectaron a cinco nodos de datos con conexiones SAS de 12 Gbps. La controladora de almacenamiento de la pareja de alta disponibilidad de AFF proporciona volúmenes NFS exportados a través de conexiones 10 GbE a los nodos de trabajo de Hadoop. Los miembros de los clústeres de Hadoop se conectaron mediante conexiones 10 GbE en las soluciones E-Series, AFF y Hadoop de StorageGRID.
 
-image::apache-spark-image10.png[Arquitecturas que se utilizan para la validación.]
+image:apache-spark-image10.png["Arquitecturas que se utilizan para la validación."]

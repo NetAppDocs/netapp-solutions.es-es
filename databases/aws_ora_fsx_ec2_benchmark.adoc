@@ -32,7 +32,7 @@ En las siguientes secciones se ofrecen detalles de los resultados de configuraci
 
 Implementamos una instancia EC2 M5 con 8vCPU, 32G RAM y 10Gps de ancho de banda de red.
 
-image::aws_ora_fsx_ec2_inst_10.PNG[aws ora fsx ec2 inst 10]
+image:aws_ora_fsx_ec2_inst_10.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 
 
@@ -47,7 +47,7 @@ Creamos tres volúmenes de base de datos y montó los volúmenes con NFS en una 
 
 Guardamos dos copias de un archivo de control crítico para la redundancia.
 
-image::aws_ora_fsx_ec2_stor_15.PNG[aws ora fsx ec2 stor 15]
+image:aws_ora_fsx_ec2_stor_15.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 El sistema de archivos FSX está configurado con una capacidad de 80,000 IOPS y un rendimiento de I/o de 2 GIB.
 
@@ -59,7 +59,7 @@ Instalamos la versión 19c de Oracle con el parche 19.8 de RU. DNFS se habilitó
 
 La base de datos se implementó como una base de datos en contenedor con tres PDB. Utilizamos una instancia de PDB para las pruebas de rendimiento. La siguiente figura muestra el ajuste de tamaño del almacenamiento Oracle en los puntos de montaje NFS.
 
-image::aws_ora_fsx_ec2_inst_11.PNG[aws ora fsx ec2 inst 11]
+image:aws_ora_fsx_ec2_inst_11.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 
 
@@ -71,7 +71,7 @@ El factor de escala de esquema que utilizamos fue 50, que proporcionó un tamañ
 
 La siguiente captura de pantalla muestra el perfil de carga de trabajo y las métricas de ejecución transaccional típicas de la interfaz de usuario de Windows de Swingbench.
 
-image::aws_ora_fsx_ec2_swin_01.PNG[aws ora fsx ec2 swin 01]
+image:aws_ora_fsx_ec2_swin_01.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 Como muestra este gráfico, el nivel de transacción se mantuvo al mismo nivel durante la ejecución de la prueba.
 
@@ -87,18 +87,16 @@ Desde el final del servidor Oracle, hemos analizado el informe de Oracle AWR par
 
 Se registraron el volumen de transacciones del usuario, el tiempo de respuesta del usuario y los eventos de espera principales de Oracle en relación con el número de usuarios simultáneos durante una ejecución de transacción. A continuación se muestran los resultados:
 
-image::aws_ora_fsx_ec2_swin_02.PNG[aws ora fsx ec2 swin 02]
+image:aws_ora_fsx_ec2_swin_02.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 Este resultado indica que podríamos aumentar constantemente los volúmenes de transacciones de usuario con un mayor número de usuarios simultáneos, a la vez que se mantiene una latencia de I/o baja y el tiempo de respuesta del usuario, lo cual es un rendimiento adecuado para una aplicación de Oracle.
 
 La latencia de I/o y el tiempo de respuesta del usuario comenzaron a aumentar algo cuando llegamos a 10 128 usuarios simultáneos. Esto se espera porque la instancia de EC2 está cerca de la capacidad completa de los servidores, tal como se muestra en el siguiente diagrama:
 
-image::aws_ora_fsx_ec2_swin_03.PNG[aws ora fsx ec2 swin 03]
+image:aws_ora_fsx_ec2_swin_03.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 De forma similar, el siguiente diagrama muestra la tasa de IOPS y el rendimiento de FSX correspondientes mientras se cumplen los volúmenes de transacciones del usuario en ese momento.
 
-image::aws_ora_fsx_ec2_swin_04.PNG[aws ora fsx ec2 swin 04]
-
-image::aws_ora_fsx_ec2_swin_05.PNG[aws ora fsx ec2 swin 05]
+image:aws_ora_fsx_ec2_swin_04.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"] image:aws_ora_fsx_ec2_swin_05.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 No alcanzamos la capacidad de almacenamiento FSX aprovisionada en IOPS o rendimiento cuando la instancia de EC2 del servidor Oracle se convirtió en el factor limitante. Por lo tanto, debe dimensionar correctamente los recursos informáticos y de almacenamiento en función del volumen de transacciones por aplicaciones del usuario, tal y como mostramos en la sección link:aws_ora_fsx_ec2_factors.html["Factores que deben tenerse en cuenta para la instalación de bases de datos de Oracle."]

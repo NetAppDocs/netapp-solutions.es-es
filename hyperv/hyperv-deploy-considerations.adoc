@@ -68,18 +68,18 @@ Los recursos compartidos de archivos de SMB 3,0 se pueden utilizar como almacena
 . Comprobar que las opciones requeridas para servidor CIFS estén habilitadas en la máquina virtual de almacenamiento (SVM)
 . Las siguientes opciones se deben definir en true: SMB2-enabled smb3-enabled copy-offload-enabled shadowcopy-enabled is-multichannel-enabled is-large-mtu-enabled
 +
-image::hyperv-deploy-image03.png[Imagen de la configuración de colume del bloque de mensajes del servidor]
+image:hyperv-deploy-image03.png["Imagen de la configuración de colume del bloque de mensajes del servidor"]
 
 . Crea volúmenes de datos NTFS en la máquina virtual de almacenamiento (SVM) y, a continuación, configura los recursos compartidos disponibles continuamente para usarlos con Hyper-V
 +
-image::hyperv-deploy-image04.png[Imagen de la configuración del volumen de datos NTFS]
+image:hyperv-deploy-image04.png["Imagen de la configuración del volumen de datos NTFS"]
 
 +
 *Nota*: Las operaciones no disruptivas para Hyper-V a través de SMB no funcionan correctamente a menos que los volúmenes utilizados en la configuración se creen como volúmenes de estilo de seguridad NTFS.
 
 . Active la disponibilidad continua y configure los permisos NTFS en el recurso compartido para incluir nodos Hyper-V con control total.
 +
-image::hyperv-deploy-image05.png[Imagen de la configuración de permisos NTFS]
+image:hyperv-deploy-image05.png["Imagen de la configuración de permisos NTFS"]
 
 
 
@@ -127,7 +127,7 @@ Para aprovisionar el volumen ISCSI, asegúrese de cumplir los siguientes requisi
 . Examine y seleccione la SVM designada en la que se crearán las LUN que se crearán y se mostrará el Asistente para crear LUN.
 . En la página General Properties, seleccione Hyper-V para LUN que contienen discos duros virtuales (VHD) para máquinas virtuales de Hyper-V.
 +
-image::hyperv-deploy-image06.png[Imagen de la página General Properties para la creación de LUN de Hyper-V.]
+image:hyperv-deploy-image06.png["Imagen de la página General Properties para la creación de LUN de Hyper-V."]
 
 . <clic en más opciones> En la página contenedor LUN, seleccione un volumen FlexVol existente en caso contrario, se creará un volumen nuevo.
 . <Haga clic en más opciones> en la página Initiators Mapping, haga clic en Add Initiator Group, introduzca la información requerida en la pestaña General y, a continuación, en la pestaña Initiators, introduzca el nombre del nodo iniciador de iSCSI de los hosts.
@@ -146,7 +146,7 @@ Una vez creada la LUN, vaya al Administrador de clústeres de conmutación al no
 . Los discos ahora están asignados al grupo de almacenamiento disponible.
 . Una vez hecho esto, seleccione el disco que se acaba de asignar a Almacenamiento disponible, haga clic con el botón derecho en la selección y, a continuación, seleccione Agregar a volúmenes compartidos de clúster.
 +
-image::hyperv-deploy-image07.png[Imagen de la interfaz Add to Cluster Shared Volumes]
+image:hyperv-deploy-image07.png["Imagen de la interfaz Add to Cluster Shared Volumes"]
 
 . Los discos ahora se asignan al grupo de volúmenes compartidos de clúster en el clúster. Los discos se exponen a cada nodo del clúster como volúmenes numerados (puntos de montaje) en la carpeta %SystemDrive%ClusterStorage. Los volúmenes aparecen en el sistema de archivos CSVFS.
 

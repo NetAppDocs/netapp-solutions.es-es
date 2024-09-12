@@ -1,0 +1,32 @@
+---
+sidebar: sidebar 
+keywords: Cyber vault, cybervault, cyber-vault, data protection, security, ransomware, ONTAP, hardening 
+permalink: /cyber-vault/ontap-cyber-vault-sizing.html 
+summary: Guía para ayudar a dimensionar un ciberalmacén de ONTAP 
+---
+= Dimensionamiento de cibervault con ONTAP
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Para ajustar el tamaño de un ciberalmacén es necesario comprender cuántos datos se necesitarán restaurar en un determinado objetivo de tiempo de recuperación. Hay muchos factores que influyen en el diseño adecuado de una solución de ciberalmacén del tamaño adecuado.
+
+
+
+== Consideraciones DE TAMAÑO
+
+. ¿Cuáles son los modelos de plataforma de origen (FAS v AFF A-Series v AFF C-Series)?
+. ¿Cuál es el ancho de banda y la latencia entre el origen y el ciberalmacén?
+. ¿Qué tamaño tienen los archivos y cuántos archivos?
+. ¿Cuál es su objetivo de tiempo de recuperación?
+. ¿Qué cantidad de datos necesita recuperar dentro del RTO?
+. ¿Cuántas relaciones de fan-in de SnapMirror procesará el cibervault?
+. ¿Se producirán recuperaciones únicas o múltiples al mismo tiempo?
+. ¿Ocurrirán esas múltiples recuperaciones en el mismo primario?
+. ¿SnapMirror se replicará en el almacén durante una recuperación desde un almacén?
+

@@ -26,7 +26,7 @@ A medida que los equipos aumentan su nivel de automatización, el ritmo de los c
 
 En este caso de uso, analizamos con detalle una canalización de promoción a producción que pone en marcha una nueva versión de una aplicación: Primero, a un entorno de almacenamiento provisional y, finalmente, a un entorno de producción. Este ejemplo se aplica de igual forma a los principales clouds públicos y también a un entorno local. Aunque mostramos el despliegue de una versión de la aplicación, la canalización también se puede utilizar con otras estrategias, como la implementación azul/verde o canaria. Como parte de la canalización de CI/CD, vamos a proteger la aplicación creando una copia de seguridad completa de la aplicación. Un backup coherente con las aplicaciones de la aplicación de producción y sus datos, estado y configuración pueden ser útiles para numerosos flujos de trabajo de DevOps.
 
-image::dwn_image1.jpg[DevOps con la arquitectura Astra de NetApp para el caso de uso 1]
+image:dwn_image1.jpg["DevOps con la arquitectura Astra de NetApp para el caso de uso 1"]
 
 Se utilizó la aplicación para validar este caso de uso https://magento.com/["Magento"^], Una solución de comercio electrónico con un front-end basado en la web; una instancia de Elasticsearch para las funciones de búsqueda y análisis; y una base de datos MariaDB que realiza un seguimiento de todos los detalles del inventario de compras y las transacciones. Esta aplicación en contenedor se instaló en un clúster de Red Hat OpenShift. Cada pod de la aplicación usaba volúmenes persistentes para almacenar datos. Los volúmenes persistentes fueron creados automáticamente por NetApp Astra Trident, el orquestador de almacenamiento compatible con Container Storage Interface para Kubernetes que permite aprovisionar el almacenamiento en los sistemas de almacenamiento de NetApp. Además, para utilizar las funcionalidades de protección de aplicaciones de Astra Control Center, Astra Control gestiona esta aplicación, que se utiliza para activar los backups de aplicaciones que almacenaban el estado de la aplicación y los datos contenidos en volúmenes persistentes. Utilizamos la https://github.com/NetApp/netapp-astra-toolkits["Kit de desarrollo de software Astra Control Python de NetApp"^] Para automatizar el proceso de activación de backups de aplicaciones, que posteriormente se introdujo en una canalización de CI/CD. Esta canalización se creó y ejecutó utilizando una herramienta de CI/CD conocida llamada [https://www.jenkins.io/["Jenkins"^]] para automatizar el flujo para crear, proteger e implementar la aplicación.
 
@@ -87,7 +87,7 @@ magento-mariadb-0                                        1/1     Running   0    
 . Haga clic en los puntos suspensivos con la aplicación Magento en el entorno de producción (`magento-prod`) Y haga clic en Administrar.
 . La aplicación Magento es ahora gestionada por Astra Control Center. Todas las operaciones compatibles con Astra Control se pueden realizar en la aplicación. Anote también la versión de la aplicación.
 +
-image::dwn_image2.jpg[Comprobación de la versión de Magento antes de la actualización]
+image:dwn_image2.jpg["Comprobación de la versión de Magento antes de la actualización"]
 
 . Repita los pasos para administrar la aplicación Magento en el entorno de ensayo (`magento-staging`).
 
@@ -102,7 +102,7 @@ Cuando trabajamos con nuevas versiones de aplicaciones, utilizamos una canalizac
 . Desplácese hasta Manage Jenkins > Manage Credentials y haga clic en el dominio adecuado.
 . Haga clic en Agregar credenciales y establezca el tipo en Nombre de usuario con contraseña y ámbito establecido en Global. Introduzca el nombre de usuario, la contraseña y el ID para las credenciales y haga clic en OK.
 +
-image::dwn_image8.jpg[Cree credenciales]
+image:dwn_image8.jpg["Cree credenciales"]
 
 . Repita el mismo procedimiento para las otras dos credenciales.
 . Vuelva a la consola, cree una canalización haciendo clic en Nuevo elemento y, a continuación, haga clic en canalización.
@@ -130,27 +130,27 @@ MAGENTO_MARIADB_ROOT_CREDS = credentials('magento-mariadb-root-cred')
 ----
 . Haga clic en Crear ahora. La canalización comienza a ejecutarse y avanza a lo largo de los pasos. La imagen de la aplicación se crea primero y se carga en el registro del contenedor.
 +
-image::dwn_image3.jpg[Progreso de la canalización]
+image:dwn_image3.jpg["Progreso de la canalización"]
 
 . Las copias de seguridad de aplicaciones se inician mediante Astra Control.
 +
-image::dwn_image4.jpg[Backup iniciado]
+image:dwn_image4.jpg["Backup iniciado"]
 
 . Una vez que las fases de copia de seguridad se hayan completado correctamente, compruebe las copias de seguridad desde Astra Control Center.
 +
-image::dwn_image5.jpg[Backup realizado correctamente]
+image:dwn_image5.jpg["Backup realizado correctamente"]
 
 . A continuación, la nueva versión de la aplicación se implementa en el entorno de almacenamiento provisional.
 +
-image::dwn_image6.jpg[Se inició la implementación de almacenamiento provisional]
+image:dwn_image6.jpg["Se inició la implementación de almacenamiento provisional"]
 
 . Una vez completado este paso, el programa espera a que el usuario apruebe la implementación a producción. En esta fase, suponga que el equipo de QA realiza algunas pruebas manuales y aprueba la producción. A continuación, puede hacer clic en aprobar para implementar la nueva versión de la aplicación en el entorno de producción.
 +
-image::dwn_image7.jpg[Esperando promoción]
+image:dwn_image7.jpg["Esperando promoción"]
 
 . Compruebe que la aplicación de producción también se ha actualizado a la versión deseada.
 +
-image::dwn_image11.jpg[Prod App actualizada]
+image:dwn_image11.jpg["Prod App actualizada"]
 
 
 

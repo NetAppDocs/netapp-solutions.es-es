@@ -79,15 +79,15 @@ Para crear un almacén de datos vVols en Herramientas de ONTAP, lleve a cabo los
 ====
 . Acceda a herramientas de NetApp ONTAP seleccionándolo en el menú principal del vSphere Client.
 +
-image::vmware-asa-image6.png[Herramientas de NetApp ONTAP]
+image:vmware-asa-image6.png["Herramientas de NetApp ONTAP"]
 
 . En Herramientas de ONTAP seleccione *Sistemas de almacenamiento* en el menú de la izquierda y luego presione *Añadir*.
 +
-image::vmware-asa-image8.png[Añada sistema de almacenamiento]
+image:vmware-asa-image8.png["Añada sistema de almacenamiento"]
 
 . Rellene la dirección IP, las credenciales del sistema de almacenamiento y el número de puerto. Haga clic en *Add* para iniciar el proceso de descubrimiento.
 +
-image::vmware-asa-image9.png[Añada sistema de almacenamiento]
+image:vmware-asa-image9.png["Añada sistema de almacenamiento"]
 
 
 
@@ -101,31 +101,31 @@ Para crear un perfil de funcionalidad del almacenamiento en las herramientas de 
 
 . En Herramientas de ONTAP seleccione *Perfil de capacidad de almacenamiento* en el menú de la izquierda y luego presione *Crear*.
 +
-image::vmware-asa-image7.png[Perfil de funcionalidad de almacenamiento]
+image:vmware-asa-image7.png["Perfil de funcionalidad de almacenamiento"]
 
 . En el asistente de *Crear perfil de capacidad de almacenamiento*, proporcione un nombre y una descripción del perfil y haga clic en *Siguiente*.
 +
-image::vmware-asa-image10.png[Agregar nombre para SCP]
+image:vmware-asa-image10.png["Agregar nombre para SCP"]
 
 . Seleccione el tipo de plataforma y especifique que el sistema de almacenamiento debe ser una cabina SAN All-Flash establecida en *asimétrica* en false.
 +
-image::vmware-asa-image11.png[Platorm para SCP]
+image:vmware-asa-image11.png["Platorm para SCP"]
 
 . A continuación, seleccione la opción de protocolo o * cualquiera * para permitir todos los protocolos posibles. Haga clic en *Siguiente* para continuar.
 +
-image::vmware-asa-image12.png[Protocolo para SCP]
+image:vmware-asa-image12.png["Protocolo para SCP"]
 
 . La página *PERFORMANCE* permite establecer la calidad del servicio en forma de IOPS mínima y máxima permitida.
 +
-image::vmware-asa-image13.png[QoS para SCP]
+image:vmware-asa-image13.png["QoS para SCP"]
 
 . Complete la página *atributos de almacenamiento* seleccionando eficiencia de almacenamiento, reserva de espacio, cifrado y cualquier política de organización en niveles según sea necesario.
 +
-image::vmware-asa-image14.png[Atributos para SCP]
+image:vmware-asa-image14.png["Atributos para SCP"]
 
 . Por último, revise el resumen y haga clic en Finalizar para crear el perfil.
 +
-image::vmware-asa-image15.png[Resumen para SCP]
+image:vmware-asa-image15.png["Resumen para SCP"]
 
 
 
@@ -137,23 +137,23 @@ Para crear un almacén de datos vVols en Herramientas de ONTAP, lleve a cabo los
 
 . En Herramientas de ONTAP seleccione *Descripción general* y en la pestaña *Introducción* haga clic en *Provisión* para iniciar el asistente.
 +
-image::vmware-asa-image16.png[Aprovisionar el almacén de datos]
+image:vmware-asa-image16.png["Aprovisionar el almacén de datos"]
 
 . En la página *General* del asistente New Datastore, seleccione el centro de datos de vSphere o el destino del clúster. Seleccione *vVols* como tipo dastatore, rellene un nombre para el almacén de datos y seleccione el protocolo.
 +
-image::vmware-asa-image17.png[General]
+image:vmware-asa-image17.png["General"]
 
 . En la página *Sistema de almacenamiento*, seleccione el perfil de capacidad de almacenamiento, el sistema de almacenamiento y SVM. Haga clic en *Siguiente* para continuar.
 +
-image::vmware-asa-image18.png[Sistema de almacenamiento]
+image:vmware-asa-image18.png["Sistema de almacenamiento"]
 
 . En la página *Atributos de almacenamiento*, seleccione crear un nuevo volumen para el almacén de datos y completar los atributos de almacenamiento del volumen que se va a crear. Haga clic en *Agregar* para crear el volumen y luego en *Siguiente* para continuar.
 +
-image::vmware-asa-image19.png[Los atributos del almacenamiento]
+image:vmware-asa-image19.png["Los atributos del almacenamiento"]
 
 . Por último, revise el resumen y haga clic en *Finish* para iniciar el proceso de creación del almacén de datos de VVol.
 +
-image::vmware-asa-image20.png[Resumen]
+image:vmware-asa-image20.png["Resumen"]
 
 
 
@@ -173,19 +173,19 @@ Para crear una política de almacenamiento de VM, complete los siguientes pasos:
 
 . En el menú principal de vSphere Clients, seleccione *Políticas y perfiles*.
 +
-image::vmware-asa-image21.png[Políticas y perfiles]
+image:vmware-asa-image21.png["Políticas y perfiles"]
 
 . En el asistente de *Create VM Storage Policy*, primero complete un nombre y una descripción para la política y haga clic en *Next* para continuar.
 +
-image::vmware-asa-image22.png[Asistente de políticas de almacenamiento de máquinas virtuales]
+image:vmware-asa-image22.png["Asistente de políticas de almacenamiento de máquinas virtuales"]
 
 . En la página *Estructura de políticas*, seleccione habilitar las reglas para el almacenamiento de VVOL de Clustered Data ONTAP de NetApp y haga clic en *Siguiente*.
 +
-image::vmware-asa-image23.png[Estructura de políticas]
+image:vmware-asa-image23.png["Estructura de políticas"]
 
 . En la siguiente página, específica de la estructura de políticas elegida, seleccione el perfil de funcionalidad de almacenamiento que describe los sistemas de almacenamiento que se utilizarán en la normativa de almacenamiento de los equipos virtuales. Haga clic en *Siguiente* para continuar.
 +
-image::vmware-asa-image24.png[Estructura de políticas]
+image:vmware-asa-image24.png["Estructura de políticas"]
 
 . En la página *Compatibilidad de almacenamiento*, revise la lista de almacenes de datos vSAN que coincidan con esta política y haga clic en *Siguiente*.
 . Por último, revise la política a implementar y haga clic en *Finalizar* para crear la política.
@@ -207,22 +207,22 @@ El último paso es crear una máquina virtual utilizando las políticas de almac
 
 . Desde el asistente de *Nueva máquina virtual*, selecciona *Crear una nueva máquina virtual* y selecciona *Siguiente* para continuar.
 +
-image::vmware-asa-image25.png[Nueva máquina virtual]
+image:vmware-asa-image25.png["Nueva máquina virtual"]
 
 . Introduzca un nombre y seleccione una ubicación para la máquina virtual y haga clic en *Siguiente*.
 . En la página *Seleccionar un recurso de cálculo* seleccione un destino y haga clic en *Siguiente*.
 +
-image::vmware-asa-image26.png[Recurso de computación]
+image:vmware-asa-image26.png["Recurso de computación"]
 
 . En la página *Select storage* seleccione una política de almacenamiento de VM y el almacén de datos vVols que será el destino de la VM. Haga clic en *Siguiente*.
 +
-image::vmware-asa-image27.png[Seleccione almacenamiento]
+image:vmware-asa-image27.png["Seleccione almacenamiento"]
 
 . En la página *Seleccionar compatibilidad*, seleccione las versiones de vSphere con las que será compatible la VM.
 . Seleccione la familia y la versión del SO invitado para la nueva VM y haga clic en *Next*.
 . Rellene la página *Personalizar hardware*. Tenga en cuenta que puede seleccionarse una normativa de almacenamiento de equipos virtuales independiente para cada disco duro (archivo VMDK).
 +
-image::vmware-asa-image28.png[Seleccione almacenamiento]
+image:vmware-asa-image28.png["Seleccione almacenamiento"]
 
 . Por último, revise la página de resumen y haga clic en *Finish* para crear la VM.
 

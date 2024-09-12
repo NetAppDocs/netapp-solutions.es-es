@@ -58,29 +58,29 @@ NOTE: Para descargar el dispositivo, el usuario debe registrarse con F5. Proporc
 
 . Haga clic con el botón derecho en el grupo de recursos de infraestructura y seleccione implementar plantilla OVF. Se inicia un asistente que permite seleccionar el archivo OVA que acaba de descargar en el paso 1. Haga clic en Siguiente.
 +
-image::deploy-big_ip_1.PNG[Implemente el dispositivo Big-IP]
+image:deploy-big_ip_1.png["Implemente el dispositivo Big-IP"]
 
 . Haga clic en Siguiente para continuar con cada paso y aceptar los valores predeterminados de cada pantalla que se presenta hasta que llegue a la pantalla de selección de almacenamiento. Seleccione el VM_Datastore en el que desea implementar la máquina virtual y, a continuación, haga clic en Next.
 . La siguiente pantalla que presenta el asistente le permite personalizar las redes virtuales para su uso en el entorno. Seleccione VM_Network en el campo External y seleccione Management_Network en el campo Management. Los dispositivos Big-IP de F5 utilizan configuraciones internas y de alta disponibilidad para configuraciones avanzadas y no están configurados. Estos parámetros se pueden dejar solos o se pueden configurar para conectarse a grupos de puertos distribuidos que no sean de infraestructura. Haga clic en Siguiente.
 +
-image::deploy-big_ip_2.PNG[Despliegue el dispositivo Big_IP]
+image:deploy-big_ip_2.png["Implemente el dispositivo Big_IP, parte 2"]
 
 . Revise la pantalla de resumen del dispositivo y, si toda la información es correcta, haga clic en Finalizar para iniciar la implementación.
 . Después de poner en marcha el dispositivo virtual, haga clic con el botón derecho del ratón en él y encirelo. Debe recibir una dirección DHCP en la red de gestión. El dispositivo está basado en Linux y tiene instaladas VMware Tools, por lo que puede ver la dirección DHCP que recibe en el cliente vSphere.
 +
-image::deploy-big_ip_3.PNG[Implemente el dispositivo Big-IP]
+image:deploy-big_ip_3.png["Implemente el dispositivo Big-IP, parte 3"]
 
 . Abra un explorador Web y conéctese al dispositivo en la dirección IP del paso anterior. El inicio de sesión predeterminado es admin/admin y, después del primer inicio de sesión, el dispositivo solicita inmediatamente que cambie la contraseña de administrador. A continuación, volverá a una pantalla en la que deberá iniciar sesión con las nuevas credenciales.
 +
-image::big-IP_config_1.PNG[Configuración de Big-IP]
+image:big-IP_config_1.png["Configuración de Big-IP"]
 
 . La primera pantalla solicita al usuario que complete la utilidad de configuración. Para iniciar la utilidad, haga clic en Siguiente.
 +
-image::big-IP_config_2.PNG[Configuración de Big-IP]
+image:big-IP_config_2.png["Configuración Big-IP, parte 2"]
 
 . En la siguiente pantalla se solicita la activación de la licencia del dispositivo. Haga clic en Activar para comenzar. Cuando se le solicite en la página siguiente, pegue la clave de licencia de evaluación de 30 días que recibió cuando se registró para la descarga o la licencia permanente que adquirió al adquirir el dispositivo. Haga clic en Siguiente.
 +
-image::big-IP_config_3.PNG[Configuración de Big-IP]
+image:big-IP_config_3.png["Configuración Big-IP, parte 3"]
 
 +
 
@@ -89,23 +89,23 @@ NOTE: Para que el dispositivo realice la activación, la red definida en la inte
 . En la siguiente pantalla, se presenta el Contrato de licencia para el usuario final (EULA). Si los términos de la licencia son aceptables, haga clic en Aceptar.
 . La siguiente pantalla cuenta el tiempo transcurrido, ya que verifica los cambios de configuración que se han realizado hasta ahora. Haga clic en continuar para reanudar con la configuración inicial.
 +
-image::big-IP_config_4.PNG[Configuración de Big-IP]
+image:big-IP_config_4.png["Configuración Big-IP, parte 4"]
 
 . La ventana Cambio de configuración se cierra y la utilidad de configuración muestra el menú aprovisionamiento de recursos. En esta ventana se enumeran las características con licencia y las asignaciones de recursos actuales para el dispositivo virtual y cada servicio en ejecución.
 +
-image::big-IP_config_5.png[Configuración de Big-IP]
+image:big-IP_config_5.png["Configuración Big-IP, parte 5"]
 
 . Al hacer clic en la opción de menú Plataforma de la izquierda se activa la modificación adicional de la plataforma. Las modificaciones incluyen establecer la dirección IP de administración configurada con DHCP, establecer el nombre de host y la zona horaria en la que se instaló el dispositivo y proteger el dispositivo de la accesibilidad a SSH.
 +
-image::big-IP_config_6.PNG[Configuración de Big-IP]
+image:big-IP_config_6.png["Configuración Big-IP, parte 6"]
 
 . A continuación, haga clic en el menú Red, que le permite configurar las características de red estándar. Haga clic en Siguiente para iniciar el asistente de configuración de red estándar.
 +
-image::big-IP_config_7.PNG[Configuración de Big-IP]
+image:big-IP_config_7.png["Configuración Big-IP, parte 7"]
 
 . La primera página del asistente configura la redundancia; deje los valores predeterminados y haga clic en Siguiente. La página siguiente le permite configurar una interfaz interna en el equilibrador de carga. La interfaz 1.1 se asigna al VMNIC con la etiqueta Internal en el asistente de implementación de OVF.
 +
-image::big-IP_config_8.PNG[Configuración de Big-IP]
+image:big-IP_config_8.png["Configuración Big-IP, parte 8"]
 
 +
 
@@ -113,21 +113,21 @@ NOTE: Los espacios de esta página para Dirección IP automática, máscara de r
 
 . La siguiente página permite configurar una red externa que se usará para asignar servicios a los pods implementados en Kubernetes. Seleccione una IP estática del rango VM_Network, la máscara de subred adecuada y una IP flotante del mismo rango. La interfaz 1.2 se asigna al VMNIC con la etiqueta External en el asistente de implementación de OVF.
 +
-image::big-IP_config_9.PNG[Configuración de Big-IP]
+image:big-IP_config_9.png["Configuración Big-IP, parte 9"]
 
 . En la página siguiente, puede configurar una red de alta disponibilidad interna si va a poner en marcha varios dispositivos virtuales en el entorno. Para continuar, debe rellenar los campos Dirección IP automática y máscara de red, y debe seleccionar la interfaz 1.3 como interfaz VLAN, que se asigna a la red ha definida por el asistente de plantilla OVF.
 +
-image::big-IP_config_10.png[Configuración de Big-IP]
+image:big-IP_config_10.png["Configuración Big-IP, parte 10"]
 
 . La página siguiente le permite configurar los servidores NTP. A continuación, haga clic en Siguiente para continuar con la configuración de DNS. El servidor DHCP ya debe rellenar los servidores DNS y la lista de búsqueda de dominios. Haga clic en Siguiente para aceptar los valores predeterminados y continuar.
 . Para el resto del asistente, haga clic en Siguiente para continuar con la configuración avanzada de la relación de paridad, cuya configuración está más allá del alcance de este documento. A continuación, haga clic en Finalizar para salir del asistente.
 . Cree particiones individuales para el clúster de administración de Anthos y cada clúster de usuario implementado en el entorno. Haga clic en sistema en el menú de la izquierda, desplácese a usuarios y haga clic en Lista de particiones.
 +
-image::big-IP_config_11.PNG[Configuración de Big-IP]
+image:big-IP_config_11.png["Configuración Big-IP, parte 11"]
 
 . La pantalla mostrada sólo muestra la partición común actual. Haga clic en Crear a la derecha para crear la primera partición adicional y asigne un nombre `GKE-Admin`. A continuación, haga clic en repetir y asigne un nombre a la partición `User-Cluster-1`. Vuelva a hacer clic en el botón repetir para asignar un nombre a la siguiente partición `User-Cluster-2`. Por último, haga clic en Finalizar para completar el asistente. La pantalla de lista de particiones vuelve con todas las particiones que se muestran ahora.
 +
-image::big-IP_config_12.PNG[Configuración de Big-IP]
+image:big-IP_config_12.png["Configuración Big-IP, parte 12"]
 
 
 

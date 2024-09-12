@@ -16,11 +16,11 @@ summary: Esta página describe el rendimiento de Splunk SmartStore en una contro
 [role="lead"]
 En esta sección se describe el rendimiento de Splunk SmartStore en una controladora StorageGRID de NetApp. Splunk SmartStore mueve los datos calientes al almacenamiento remoto, lo que en este caso es el almacenamiento de objetos StorageGRID en la validación del rendimiento.
 
-image::stgr-splunkss-image10.png[stgr splunkss image10]
+image:stgr-splunkss-image10.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 Utilizamos EF600 para el almacenamiento en caché/caliente y StorageGRID 6060 para el almacenamiento remoto. Utilizamos la siguiente arquitectura para la validación del rendimiento. Se utilizaron dos cabezales de búsqueda, cuatro reenviadores pesados para reenviar los datos a los indizadores, siete generadores de eventos de Splunk (Eventgens) para generar los datos en tiempo real y 18 indizadores para almacenar los datos.
 
-image::stgr-splunkss-image11.png[stgr splunkss image11]
+image:stgr-splunkss-image11.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 
 
@@ -57,7 +57,7 @@ En esta validación del rendimiento, configuramos el almacenamiento en caché Sm
 
 Esta imagen muestra los datos procesados en un día.
 
-image::stgr-splunkss-image12.png[stgr splunkss image12]
+image:stgr-splunkss-image12.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 Se ejecutó el siguiente comando desde cluster master (el nombre de índice es `eventgen-test`). A continuación, capturamos el rendimiento de carga máxima y media por instancia y de toda la implementación a través de los paneles de control de SmartStore Monitoring Console.
 
@@ -140,15 +140,15 @@ rtp-cm01:~ #
 ....
 Realizamos la siguiente consulta de búsqueda en el cabezal de búsqueda para recopilar la matriz de rendimiento.
 
-image::stgr-splunkss-image13.png[stgr splunkss image13]
+image:stgr-splunkss-image13.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 Recopilamos la información de rendimiento del maestro de clústeres. El máximo rendimiento fue de 61,34 Gbps.
 
-image::stgr-splunkss-image14.png[stgr splunkss image14]
+image:stgr-splunkss-image14.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 El rendimiento medio era de aproximadamente 29 Gbps.
 
-image::stgr-splunkss-image15.png[stgr splunkss image15]
+image:stgr-splunkss-image15.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 
 
@@ -159,11 +159,11 @@ El rendimiento de SmartStore se basa en la búsqueda de patrones y cadenas espec
 
 NOTE: El color verde muestra los datos de aciertos y el color naranja muestra los datos de pérdidas.
 
-image::stgr-splunkss-image16.png[stgr splunkss image16]
+image:stgr-splunkss-image16.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 Cuando se ejecuta la consulta para la búsqueda en StorageGRID, la hora de la tasa de recuperación de S3 de StorageGRID se muestra en la siguiente imagen.
 
-image::stgr-splunkss-image17.png[stgr splunkss image17]
+image:stgr-splunkss-image17.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 
 
@@ -171,7 +171,7 @@ image::stgr-splunkss-image17.png[stgr splunkss image17]
 
 La instancia de StorageGRID tiene un equilibrador de carga y tres controladoras de StorageGRID. El uso de CPU de las tres controladoras es del 75 % al 100 %.
 
-image::stgr-splunkss-image18.png[stgr splunkss image18]
+image:stgr-splunkss-image18.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 
 

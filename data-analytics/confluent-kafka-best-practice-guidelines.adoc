@@ -24,7 +24,7 @@ En esta sección se presentan las lecciones aprendidas en esta certificación.
 
 En la figura siguiente, se presenta la ingesta y la recuperación de objetos de S3 según `length.key.value`.
 
-image::confluent-kafka-image11.png[confluente kafka image11]
+image:confluent-kafka-image11.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 * *Ajuste Kafka.* para mejorar el rendimiento del almacenamiento por niveles, puede aumentar TierFetcherNumThreads y TierArchiverNumThreads. Como guía general, desea aumentar TierFetcherNumThreads para que coincida con el número de núcleos de CPU físicos y aumentar TierArchiverNumThreads a la mitad del número de núcleos de CPU. Por ejemplo, en las propiedades del servidor, si tiene una máquina con ocho núcleos físicos, establezca confluent.tier.fetcher.num.threads = 8 y confluent.tier.archivver.num.threads = 4.
 * *Intervalo de tiempo para las eliminaciones de temas.* cuando se elimina un tema, la eliminación de los archivos del segmento de registro en el almacenamiento de objetos no comienza inmediatamente. En su lugar, hay un intervalo de tiempo con un valor predeterminado de 3 horas antes de que se elimine dichos archivos. Puede modificar la configuración, confluent.tier.topic.delete.check.interval.ms, para cambiar el valor de este intervalo. Si elimina un tema o clúster, también puede eliminar manualmente los objetos en el bloque correspondiente.

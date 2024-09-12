@@ -66,7 +66,7 @@ NOTE: HCX Advanced es la opción predeterminada y VMware HCX Enterprise Edition 
 ====
 Para realizar las pruebas, el entorno de laboratorio de las instalaciones que se emplean para esta validación se conectó a través de una VPN de cloud que permite la conectividad local con Google Cloud VPC.
 
-image::gcpd-hcx-image1.png[Esta imagen muestra la arquitectura de alto nivel utilizada en esta solución.]
+image:gcpd-hcx-image1.png["Esta imagen muestra la arquitectura de alto nivel utilizada en esta solución."]
 
 Para obtener un diagrama más detallado del HCX, consulte https://www.vmware.com/content/dam/digitalmarketing/vmware/en/pdf/products/vmw-google-cloud-vmware-engine-logical-design-poster-for-workload-mobility.pdf["Enlace de VMware"^]
 
@@ -84,10 +84,10 @@ El componente DE HCX Cloud Manager se instala automáticamente a medida que apro
 
 . Inicie sesión en el portal Google VMware Engine e inicie sesión en HCX Cloud Manager.
 +
-Puede iniciar sesión en HCX Console haciendo clic en la imagen del enlace de la versión de HCX::gcpd-hcx-image2.png[Acceso a la consola HCX con enlace en el recurso de GCVE] o haciendo clic en HCX FQDN en la pestaña vSphere Management Network. Image::gcpd-hcx-image3.png[Acceso a la consola HCX con enlace FQDN]
+Puede iniciar sesión en HCX Console haciendo clic en el enlace de la versión de HCX image:gcpd-hcx-image2.png["Acceso A la consola HCX con enlace en el recurso GCVE"]o haciendo clic en HCX FQDN en la pestaña vSphere Management Network. image:gcpd-hcx-image3.png["Acceso A la consola HCX con enlace FQDN"]
 
 . En HCX Cloud Manager, vaya a *Administración > actualizaciones del sistema*.
-. Haga clic en *Solicitar enlace de descarga* y descargue el archivo OVA. Image::gcpd-hcx-image4.png[Solicitar enlace de descarga]
+. Haga clic en *Solicitar enlace de descarga* y descargue el archivo OVA. image:gcpd-hcx-image4.png["Solicitar enlace de descarga"]
 . Actualice HCX Cloud Manager a la última versión disponible desde la interfaz de usuario de HCX Cloud Manager.
 
 
@@ -102,7 +102,7 @@ Para descargar e instalar el conector HCX en el vCenter Server local, complete l
 . Haga que la ova se descargue de la consola HCX en Google Cloud VMware Engine como se indica en el paso anterior.
 . Una vez descargado el OVA, póngalo en marcha en el entorno local de VMware vSphere mediante la opción *implementar plantilla OVF*.
 +
-image::gcpd-hcx-image5.png[Captura de pantalla para seleccionar la plantilla OVA correcta.]
+image:gcpd-hcx-image5.png["Captura de pantalla para seleccionar la plantilla OVA correcta."]
 
 . Introduzca toda la información necesaria para la implementación de OVA, haga clic en *Siguiente* y, a continuación, haga clic en *Finalizar* para implementar el OVA del conector HCX de VMware.
 +
@@ -119,7 +119,7 @@ Para obtener instrucciones paso a paso, consulte https://docs.vmware.com/en/VMwa
 ====
 Después de implementar el OVA del conector HCX de VMware en las instalaciones e iniciar el dispositivo, lleve a cabo los siguientes pasos para activar el conector HCX. Genere la clave de licencia desde el portal Google Cloud VMware Engine y actívela en VMware HCX Manager.
 
-. En el portal de VMware Engine, haga clic en Recursos, seleccione la nube privada y haga clic en el icono de descarga en HCX Manager Cloud Version*. Image::gcpd-hcx-image6.png[Descargar licencia HCX] Abra el archivo descargado y copie la cadena de clave de licencia.
+. En el portal VMware Engine, haga clic en Resources, seleccione la nube privada y *haga clic en el icono de descarga en HCX Manager Cloud Version*. image:gcpd-hcx-image6.png["Descargar la licencia HCX"] Abra el archivo descargado y copie la cadena de clave de licencia.
 . Inicie sesión en el VMware HCX Manager local en `"https://hcxmanagerIP:9443"` uso de las credenciales de administrador.
 +
 
@@ -150,7 +150,7 @@ NOTE: Para el PSC integrado, introduzca el FQDN de VMware vCenter Server o la di
 NOTE: Este proceso debe tardar aproximadamente de 10 a 20 minutos y el plugin se añadirá a vCenter Server.
 
 +
-image::gcpd-hcx-image7.png[Captura de pantalla que muestra el proceso completado.]
+image:gcpd-hcx-image7.png["Captura de pantalla que muestra el proceso completado."]
 
 
 
@@ -162,7 +162,7 @@ Después de implementar y configurar el conector HCX en el vCenter local, establ
 
 . Para crear una pareja de sitios entre el entorno local de vCenter y el motor SDDC de Google Cloud VMware, inicie sesión en la instancia local de vCenter Server y acceda al nuevo complemento HCX vSphere Web Client.
 +
-image::gcpd-hcx-image8.png[Captura de pantalla del complemento HCX vSphere Web Client.]
+image:gcpd-hcx-image8.png["Captura de pantalla del complemento HCX vSphere Web Client."]
 
 . En Infraestructura, haga clic en *Agregar un emparejamiento de sitios*.
 +
@@ -170,7 +170,7 @@ image::gcpd-hcx-image8.png[Captura de pantalla del complemento HCX vSphere Web C
 NOTE: Introduzca la dirección URL o dirección IP de HCX Cloud Manager de Google Cloud Engine y las credenciales para el usuario con privilegios de rol de propietario de cloud para acceder al cloud privado.
 
 +
-image::gcpd-hcx-image9.png[Captura de pantalla URL o dirección IP y credenciales para el rol CloudOwner.]
+image:gcpd-hcx-image9.png["Captura de pantalla URL o dirección IP y credenciales para el rol CloudOwner."]
 
 . Haga clic en *conectar*.
 +
@@ -179,7 +179,7 @@ NOTE: El conector HCX de VMware debe poder enrutar a HCX Cloud Manager IP a trav
 
 . Una vez creado el emparejamiento, el emparejamiento de sitios recién configurado está disponible en el panel de HCX.
 +
-image::gcpd-hcx-image10.png[Captura de pantalla del proceso completado en el panel HCX.]
+image:gcpd-hcx-image10.png["Captura de pantalla del proceso completado en el panel HCX."]
 
 
 
@@ -195,7 +195,7 @@ El dispositivo de servicio VMware HCX Interconnect proporciona funcionalidades d
 NOTE: Los perfiles informáticos definen los parámetros de implementación, incluidos los dispositivos que se implementan y qué parte del centro de datos de VMware puede acceder al servicio HCX.
 
 +
-image::gcpd-hcx-image11.png[Captura de pantalla de la página vSphere Client Interconnect.]
+image:gcpd-hcx-image11.png["Captura de pantalla de la página vSphere Client Interconnect."]
 
 . Después de crear el perfil de computación, cree los perfiles de red seleccionando *malla de servicio multisitio > Perfiles de red > Crear perfil de red*.
 +
@@ -206,7 +206,7 @@ El perfil de red define un rango de direcciones IP y redes que utiliza HCX para 
 NOTE: Este paso requiere dos o más direcciones IP. Estas direcciones IP se asignan desde la red de gestión a los dispositivos de interconexión.
 
 +
-image::gcpd-hcx-image12.png[Captura de pantalla del perfil de red.]
+image:gcpd-hcx-image12.png["Captura de pantalla del perfil de red."]
 
 . En este momento, se han creado correctamente los perfiles de computación y red.
 . Cree la malla de servicio seleccionando la pestaña *malla de servicio* en la opción *interconexión* y seleccione los sitios SDDC en las instalaciones y GCVE.
@@ -216,11 +216,11 @@ image::gcpd-hcx-image12.png[Captura de pantalla del perfil de red.]
 NOTE: Como parte de este proceso, los dispositivos HCX se implementan y se configuran automáticamente tanto en los sitios de origen como en los de destino con el fin de crear una estructura de transporte segura.
 
 +
-image::gcpd-hcx-image13.png[Captura de pantalla de la pestaña Service Mesh en la página vSphere Client Interconnect.]
+image:gcpd-hcx-image13.png["Captura de pantalla de la pestaña Service Mesh en la página vSphere Client Interconnect."]
 
 . Este es el paso final de la configuración. Esta operación debería tardar cerca de 30 minutos en completar la puesta en marcha. Una vez configurada la malla de servicio, el entorno está preparado con los túneles IPsec creados correctamente para migrar las VM de carga de trabajo.
 +
-image::gcpd-hcx-image14.png[Captura de pantalla de los dispositivos HCX en la página vSphere Client Interconnect.]
+image:gcpd-hcx-image14.png["Captura de pantalla de los dispositivos HCX en la página vSphere Client Interconnect."]
 
 
 
@@ -246,15 +246,15 @@ NOTE: La extensión de red debe estar en su lugar (para el grupo de puertos en e
 
 . Desde el cliente vSphere local, vaya a Inventory, haga clic con el botón derecho en la máquina virtual que se va a migrar y seleccione HCX Actions > Migrate to HCX Target Site.
 +
-image::gcpd-hcx-image15.png[gcpd hcx image15]
+image:gcpd-hcx-image15.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 . En el asistente Migrate Virtual Machine, seleccione Remote Site Connection (GCVE de destino).
 +
-image::gcpd-hcx-image16.png[gcpd hcx image16]
+image:gcpd-hcx-image16.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 . Actualice los campos obligatorios (clúster, almacenamiento y red de destino), haga clic en Validate.
 +
-image::gcpd-hcx-image17.png[gcpd hcx image17]
+image:gcpd-hcx-image17.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 . Una vez finalizadas las comprobaciones de validación, haga clic en Ir para iniciar la migración.
 +
@@ -263,7 +263,7 @@ NOTE: La transferencia de vMotion captura la memoria activa de la máquina virtu
 
 . Es posible supervisar el progreso y la finalización de vMotion desde el panel HCX > Migration.
 +
-image::gcpd-hcx-image18.png[gcpd hcx image18]
+image:gcpd-hcx-image18.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 
 

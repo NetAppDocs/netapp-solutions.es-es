@@ -59,7 +59,7 @@ La siguiente tabla muestra la configuración del entorno utilizada para demostra
 
 La herramienta de evaluación comparativa utilizada en este caso de prueba es la https://openmessaging.cloud/["Mensajería abierta"^] marco. OpenMessaging es independiente del lenguaje y está neutral en todos los proveedores; proporciona directrices del sector para finanzas, comercio electrónico, Internet de las cosas y Big Data; además, ayuda a desarrollar aplicaciones de mensajería y transmisión de datos en sistemas y plataformas heterogéneos. La figura siguiente muestra la interacción de los clientes de OpenMessaging con un clúster Kafka.
 
-image::kafka-nfs-image8.png[Esta imagen muestra la interacción de los clientes de OpenMessaging con un clúster Kafka.]
+image:kafka-nfs-image8.png["Esta imagen muestra la interacción de los clientes de OpenMessaging con un clúster Kafka."]
 
 * *Compute.* utilizamos un clúster Kafka de tres nodos con un conjunto de zoomkeeper de tres nodos que se ejecuta en servidores dedicados. Cada agente tenía dos puntos de montaje de NFSv4.1 en un único volumen de la instancia de CVO de NetApp a través de un LIF dedicado.
 * *Supervisión.* utilizamos dos nodos para una combinación Prometheus-Grafana. Para generar cargas de trabajo, tenemos un clúster de tres nodos separado que puede producir y consumir a partir de este clúster Kafka.
@@ -71,12 +71,12 @@ image::kafka-nfs-image8.png[Esta imagen muestra la interacción de los clientes 
 
 
 
-image::kafka-nfs-image9.png[Esta imagen muestra las especificaciones seleccionadas para los corredores Kafka.]
+image:kafka-nfs-image9.png["Esta imagen muestra las especificaciones seleccionadas para los corredores Kafka."]
 
 * *Configuración de carga de trabajo de OpenMessaging Benchmark (OMB).* se proporcionaron las siguientes especificaciones. Hemos especificado una tasa de producción objetivo, que se destaca a continuación.
 
 
-image::kafka-nfs-image10.png[Esta imagen muestra las especificaciones seleccionadas para la configuración de carga de trabajo del punto de referencia de OpenMessaging.]
+image:kafka-nfs-image10.png["Esta imagen muestra las especificaciones seleccionadas para la configuración de carga de trabajo del punto de referencia de OpenMessaging."]
 
 
 
@@ -113,15 +113,15 @@ Se obtienen dos principales ventajas de usar el almacenamiento NFS de NetApp con
 * * Una reducción de tres veces en la deriva de la utilización de la CPU a tasas de producción más altas.* como se esperaba, hubo una deriva ascendente para el aumento de la utilización de la CPU a medida que se aumentaron las tasas de producción. Sin embargo, el uso de la CPU en los agentes Kafka que utilizan DAS ha aumentado del 31% con la tasa de producción inferior al 70% con la tasa de producción más alta, lo que representa un aumento del 39%. Sin embargo, con un back-end de almacenamiento NFS, el uso de CPU ha aumentado del 26 % al 38 %, lo que representa un aumento del 12 %.
 
 
-image::kafka-nfs-image11.png[Este gráfico muestra el comportamiento de un clúster basado en DAS.]
+image:kafka-nfs-image11.png["Este gráfico muestra el comportamiento de un clúster basado en DAS."]
 
-image::kafka-nfs-image12.png[Este gráfico muestra el comportamiento de un clúster basado en NFS.]
+image:kafka-nfs-image12.png["Este gráfico muestra el comportamiento de un clúster basado en NFS."]
 
 Asimismo, en 100,000 mensajes, el almacenamiento DAS muestra más uso de CPU que un clúster NFS.
 
-image::kafka-nfs-image13.png[Este gráfico muestra el comportamiento de un clúster basado en DAS en 100,000 mensajes.]
+image:kafka-nfs-image13.png["Este gráfico muestra el comportamiento de un clúster basado en DAS en 100,000 mensajes."]
 
-image::kafka-nfs-image14.png[Este gráfico muestra el comportamiento de un clúster basado en NFS en 100,000 mensajes.]
+image:kafka-nfs-image14.png["Este gráfico muestra el comportamiento de un clúster basado en NFS en 100,000 mensajes."]
 
 
 
@@ -156,7 +156,7 @@ En la siguiente tabla se muestra la configuración del entorno de un clúster de
 |===
 En la figura siguiente se muestra la arquitectura de un clúster Kafka basado en NAS.
 
-image::kafka-nfs-image8.png[En esta figura, se muestra la arquitectura de un clúster Kafka basado en NAS.]
+image:kafka-nfs-image8.png["En esta figura, se muestra la arquitectura de un clúster Kafka basado en NAS."]
 
 * *Compute.* un clúster Kafka de tres nodos con un conjunto de zomantenimiento de tres nodos que se ejecuta en servidores dedicados. Cada agente tiene dos puntos de montaje NFS en un único volumen en la instancia de NetApp CVO a través de un LIF dedicado.
 * *Supervisión.* dos nodos para una combinación Prometheus-Grafana. Para generar cargas de trabajo, utilizamos un clúster de tres nodos independiente que puede producir y consumir con este clúster de Kafka.
@@ -164,7 +164,7 @@ image::kafka-nfs-image8.png[En esta figura, se muestra la arquitectura de un cl�
 * *Configuración de Broker.* el único elemento configurable en este caso de prueba son agentes Kafka. Se seleccionaron las siguientes especificaciones para los corredores Kafka. La `replica.lag.time.mx.ms` Se establece en un valor alto porque determina la rapidez con la que se sale un nodo concreto de la lista ISR. Cuando cambia entre nodos defectuosos y sanos, no desea que ese ID de broker se excluya de la lista ISR.
 
 
-image::kafka-nfs-image15.png[Esta imagen muestra las especificaciones elegidas para los corredores Kafka.]
+image:kafka-nfs-image15.png["Esta imagen muestra las especificaciones elegidas para los corredores Kafka."]
 
 
 
@@ -182,7 +182,7 @@ image::kafka-nfs-image15.png[Esta imagen muestra las especificaciones elegidas p
 ** *Clúster basado en EC2.* se asigna Un directorio de datos de Kafka broker `/mnt/data-2` (En la siguiente figura, Broker-1 de cluster1 [terminal izquierdo]).
 ** *Clúster basado en NFS de NetApp.* un directorio de datos de Kafka Broker está montado en punto NFS `/mnt/data` (En la siguiente figura, Broker-1 de cluster2 [terminal derecho]).
 +
-image::kafka-nfs-image16.png[Esta imagen muestra dos pantallas de terminal.]
+image:kafka-nfs-image16.png["Esta imagen muestra dos pantallas de terminal."]
 
 
 
@@ -215,11 +215,11 @@ Observamos que el clúster basado en EC2 tardó 10 minutos en reconstruir los 11
 
 . El nodo de backup se inició a las 08:55:53,730.
 +
-image::kafka-nfs-image17.png[Esta imagen muestra la salida del registro para un clúster basado en DAS.]
+image:kafka-nfs-image17.png["Esta imagen muestra la salida del registro para un clúster basado en DAS."]
 
 . El proceso de recompilación de datos finalizó a las 09:05:24,860. El procesamiento de 110 GB de datos requería aproximadamente 10 minutos.
 +
-image::kafka-nfs-image18.png[Esta imagen muestra la salida del registro para un clúster basado en DAS.]
+image:kafka-nfs-image18.png["Esta imagen muestra la salida del registro para un clúster basado en DAS."]
 
 
 
@@ -229,17 +229,17 @@ image::kafka-nfs-image18.png[Esta imagen muestra la salida del registro para un 
 
 . El nodo de backup se inició a las 09:39:17,213. A continuación se resalta la entrada del registro inicial.
 +
-image::kafka-nfs-image19.png[Esta imagen muestra la salida del registro para un clúster basado en NFS.]
+image:kafka-nfs-image19.png["Esta imagen muestra la salida del registro para un clúster basado en NFS."]
 
 . El proceso de reconstrucción de los datos terminó a las 09:42:29,115. El procesamiento de 110 GB de datos requería aproximadamente 3 minutos.
 +
-image::kafka-nfs-image20.png[Esta imagen muestra la salida del registro para un clúster basado en NFS.]
+image:kafka-nfs-image20.png["Esta imagen muestra la salida del registro para un clúster basado en NFS."]
 
 +
 La prueba fue repetida para los agentes que tenían alrededor de 1 TB de datos, lo que supuso aproximadamente 48 minutos para el sistema DAS y 3 minutos para NFS. Los resultados se muestran en el siguiente gráfico.
 
 +
-image::kafka-nfs-image21.png[Este gráfico muestra el tiempo necesario para la recuperación de broker en función de la cantidad de datos cargados en el intermediario para un clúster basado en DAS o un clúster basado en NFS.]
+image:kafka-nfs-image21.png["Este gráfico muestra el tiempo necesario para la recuperación de broker en función de la cantidad de datos cargados en el intermediario para un clúster basado en DAS o un clúster basado en NFS."]
 
 
 
@@ -275,7 +275,7 @@ En la siguiente tabla se muestra la configuración del entorno de un clúster de
 |===
 En la figura siguiente se muestra la arquitectura de un clúster Kafka basado en NAS.
 
-image::kafka-nfs-image8.png[En esta figura, se muestra la arquitectura de un clúster Kafka basado en NAS.]
+image:kafka-nfs-image8.png["En esta figura, se muestra la arquitectura de un clúster Kafka basado en NAS."]
 
 * *Compute.* utilizamos un clúster Kafka de tres nodos con un conjunto de zoomkeeper de tres nodos que se ejecuta en servidores dedicados. Cada agente tenía dos puntos de montaje NFS en un único volumen en la instancia de NetApp CVO a través de un LIF dedicado.
 * *Supervisión.* utilizamos dos nodos para una combinación Prometheus-Grafana. Para generar cargas de trabajo, utilizamos un clúster de tres nodos independiente que podía producir y consumir este clúster Kafka.
@@ -300,8 +300,8 @@ La compresión se apagó al final del productor, lo que permitió a los producto
 
 Para los datos generados con la herramienta OMB, observamos un ahorro de espacio de ~33 % con una relación de eficiencia de almacenamiento de 1.70:1. Tal y como se aprecia en las siguientes figuras, el espacio lógico utilizado por los datos producidos era de 420,3 GB y el espacio físico utilizado para almacenar los datos era de 281,7 GB.
 
-image::kafka-nfs-image22.png[Esta imagen muestra el ahorro de espacio en VMDISK.]
+image:kafka-nfs-image22.png["Esta imagen muestra el ahorro de espacio en VMDISK."]
 
-image::kafka-nfs-image23.png[Captura de pantalla]
+image:kafka-nfs-image23.png["Captura de pantalla"]
 
-image::kafka-nfs-image24.png[Captura de pantalla]
+image:kafka-nfs-image24.png["Captura de pantalla"]

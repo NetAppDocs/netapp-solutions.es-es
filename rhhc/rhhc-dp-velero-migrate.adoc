@@ -62,7 +62,7 @@ spec:
 * Cree una aplicación en el cluster y realice una copia de seguridad de esta aplicación. Por ejemplo, instalar una aplicación postgres.
 
 
-image::redhat_openshift_OADP_migrate_image1.png[instale la aplicación postgres]
+image:redhat_openshift_OADP_migrate_image1.png["instale la aplicación postgres"]
 
 * Utilice la siguiente especificación para el CR de copia de seguridad:
 
@@ -78,7 +78,7 @@ spec:
   storageLocation: velero-sample-1
   ttl: 720h0m0s
 ....
-image::redhat_openshift_OADP_migrate_image2.png[instale la aplicación postgres]
+image:redhat_openshift_OADP_migrate_image2.png["instale la aplicación postgres"]
 
 Puede hacer clic en la pestaña **Todas las instancias** para ver los diferentes objetos que se crean y moverse a través de diferentes fases para finalmente llegar a la fase de copia de seguridad **Completado**.
 
@@ -96,13 +96,13 @@ Se almacenará una copia de seguridad de los recursos en el espacio de nombres p
 * El CR de backup debe estar visible desde el segundo cluster.
 
 
-image::redhat_openshift_OADP_migrate_image3.png[instalado de trident]
+image:redhat_openshift_OADP_migrate_image3.png["instalado de trident"]
 
-image::redhat_openshift_OADP_migrate_image4.png[postgres aún no instalado]
+image:redhat_openshift_OADP_migrate_image4.png["postgres aún no instalado"]
 
-image::redhat_openshift_OADP_migrate_image5.png[OADP en el clúster 2installed]
+image:redhat_openshift_OADP_migrate_image5.png["OADP en el clúster 2installed"]
 
-image::redhat_openshift_OADP_migrate_image6.png[ubicación de almacenamiento de backup que apunta al mismo almacén de objetos]
+image:redhat_openshift_OADP_migrate_image6.png["ubicación de almacenamiento de backup que apunta al mismo almacén de objetos"]
 
 Restaure la aplicación en este cluster desde la copia de seguridad. Utilice el siguiente yaml para crear el CR de restauración.
 
@@ -119,8 +119,8 @@ spec:
 ....
 Una vez completada la restauración, verá que la aplicación postgresql se está ejecutando en este cluster y está asociada a la rvp y a un vp correspondiente. El estado de la aplicación es el mismo que cuando se realizó la copia de seguridad.
 
-image::redhat_openshift_OADP_migrate_image7.png[restauración correcta]
+image:redhat_openshift_OADP_migrate_image7.png["restauración correcta"]
 
-image::redhat_openshift_OADP_migrate_image8.png[postgres migrado]
+image:redhat_openshift_OADP_migrate_image8.png["postgres migrado"]
 
 ====

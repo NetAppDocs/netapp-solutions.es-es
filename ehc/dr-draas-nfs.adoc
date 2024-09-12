@@ -22,7 +22,7 @@ Mediante el servicio de recuperación ante desastres de BlueXP , integrado en l
 
 La recuperación ante desastres de BlueXP  aprovecha la tecnología FlexClone de ONTAP para crear una copia del almacén de datos NFS con gestión eficiente del espacio del último Snapshot replicado del sitio de recuperación ante desastres. Una vez finalizada la prueba de recuperación ante desastres, los clientes pueden eliminar fácilmente el entorno de prueba sin que ello afecte a los recursos de producción replicados. En caso de una conmutación al respaldo real, el servicio de recuperación ante desastres de BlueXP  orquesta todos los pasos necesarios para poner automáticamente las máquinas virtuales protegidas en el sitio de recuperación ante desastres designado con tan solo unos clics. El servicio también revertirá la relación de SnapMirror con el sitio principal y replicará cualquier cambio del secundario al primario para realizar una operación de conmutación tras recuperación, cuando sea necesario. Todas estas funciones suponen una fracción del coste en comparación con otras alternativas conocidas.
 
-image::dr-draas-nfs-image1.png[dr draas nfs image1]
+image:dr-draas-nfs-image1.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 
 
@@ -34,7 +34,7 @@ Para comenzar a usar la recuperación ante desastres de BlueXP , use la consola
 . En el menú de navegación izquierdo de BlueXP , seleccione Protection > Disaster recovery.
 . Aparece la Consola de recuperación de desastres de BlueXP .
 +
-image::dr-draas-nfs-image2.png[dr draas nfs image2]
+image:dr-draas-nfs-image2.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 
 
@@ -54,7 +54,7 @@ Una vez establecida la conectividad entre los sitios de origen y destino, contin
 
 NOTE: NetApp recomienda la puesta en marcha del conector BlueXP  en el sitio de destino o en un tercer sitio para que el conector BlueXP  pueda comunicarse a través de la red con recursos de origen y de destino.
 
-image::dr-draas-nfs-image3.png[dr draas nfs image3]
+image:dr-draas-nfs-image3.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 
 
@@ -64,17 +64,17 @@ El primer paso para prepararse para la recuperación de desastres es detectar y 
 
 Abra la consola de BlueXP  y seleccione *Protección > Recuperación ante desastres* en la navegación izquierda. Seleccione *Descubrir servidores de vCenter* o utilice el menú superior, seleccione *Sitios > Agregar > Agregar vCenter*.
 
-image::dr-draas-nfs-image4.png[dr draas nfs image4]
+image:dr-draas-nfs-image4.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 Añada las siguientes plataformas:
 
 * *Fuente*. VCenter en las instalaciones.
 +
-image::dr-draas-nfs-image5.png[dr draas nfs image5]
+image:dr-draas-nfs-image5.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 * *Destino*. SDDC VMC vCenter.
 +
-image::dr-draas-nfs-image6.png[dr draas nfs image6]
+image:dr-draas-nfs-image6.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 
 
@@ -97,14 +97,14 @@ NOTE: Si la relación de SnapMirror ya está configurada para el volumen a trav�
 
 El proceso para crear una replicación de SnapMirror sigue siendo el mismo para cualquier aplicación dada. El proceso puede ser manual o automatizado. La forma más sencilla es aprovechar BlueXP  para configurar la replicación de SnapMirror mediante una simple acción de arrastrar y soltar el sistema ONTAP de origen del entorno en el destino para activar el asistente que guiará durante el resto del proceso.
 
-image::dr-draas-nfs-image7.png[dr draas nfs image7]
+image:dr-draas-nfs-image7.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 BlueXP  DRaaS también puede automatizar lo mismo siempre que se cumplan los siguientes dos criterios:
 
 * Los clústeres de origen y destino tienen una relación entre iguales.
 * La SVM de origen y la SVM de destino tienen una relación entre iguales.
 +
-image::dr-draas-nfs-image8.png[dr draas nfs image8]
+image:dr-draas-nfs-image8.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 
 
@@ -117,36 +117,36 @@ NOTE: Si la relación de SnapMirror ya se ha configurado para el volumen a trav�
 
 Después de añadir los sitios de origen y de destino, la recuperación de desastres de BlueXP  lleva a cabo una detección profunda automática y muestra las máquinas virtuales junto con los metadatos asociados. La recuperación ante desastres de BlueXP  también detecta automáticamente las redes y los grupos de puertos que utilizan las máquinas virtuales y los rellena.
 
-image::dr-draas-nfs-image9.png[dr draas nfs image9]
+image:dr-draas-nfs-image9.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 Una vez agregados los sitios, los equipos virtuales se pueden agrupar en grupos de recursos. Los grupos de recursos de recuperación ante desastres de BlueXP  le permiten agrupar un conjunto de equipos virtuales dependientes en grupos lógicos que contengan sus órdenes de arranque y retrasos en el arranque que se pueden ejecutar en el momento de su recuperación. Para comenzar a crear grupos de recursos, navegue a *Grupos de recursos* y haga clic en *Crear nuevo grupo de recursos*.
 
-image::dr-draas-nfs-image10.png[dr draas nfs image10]
+image:dr-draas-nfs-image10.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
-image::dr-draas-nfs-image11.png[dr draas nfs image11]
+image:dr-draas-nfs-image11.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 
 NOTE: El grupo de recursos también se puede crear al crear un plan de replicación.
 
 El orden de arranque de los equipos virtuales se puede definir o modificar durante la creación de grupos de recursos mediante un sencillo mecanismo de arrastrar y soltar.
 
-image::dr-draas-nfs-image12.png[dr draas nfs image12]
+image:dr-draas-nfs-image12.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 Una vez creados los grupos de recursos, el siguiente paso es crear el plan de ejecución o un plan para recuperar máquinas virtuales y aplicaciones en caso de desastre. Como se ha mencionado en los requisitos previos, la replicación de SnapMirror se puede configurar de antemano o DRaaS puede configurarla usando el RPO y el recuento de retención especificado durante la creación del plan de replicación.
 
-image::dr-draas-nfs-image13.png[dr draas nfs image13]
+image:dr-draas-nfs-image13.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
-image::dr-draas-nfs-image14.png[dr draas nfs image14]
+image:dr-draas-nfs-image14.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 Configure el plan de replicación seleccionando desde el menú desplegable las plataformas vCenter de origen y de destino, y elija los grupos de recursos que se incluirán en el plan, junto con la agrupación de cómo se deben restaurar y encender las aplicaciones y la asignación de clústeres y redes. Para definir el plan de recuperación, vaya a la pestaña *Plan de replicación* y haga clic en *Agregar plan*.
 
 Primero, seleccione la instancia de vCenter de origen y, a continuación, seleccione la instancia de vCenter de destino.
 
-image::dr-draas-nfs-image15.png[dr draas nfs image15]
+image:dr-draas-nfs-image15.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 El siguiente paso es seleccionar grupos de recursos existentes. Si no se crearon grupos de recursos, el asistente ayuda a agrupar las máquinas virtuales necesarias (básicamente crear grupos de recursos funcionales) en función de los objetivos de recuperación. Esto también ayuda a definir la secuencia de operaciones de cómo se deben restaurar las máquinas virtuales de aplicaciones.
 
-image::dr-draas-nfs-image16.png[dr draas nfs image16]
+image:dr-draas-nfs-image16.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 
 NOTE: El grupo de recursos permite establecer el orden de inicio mediante la función de arrastrar y soltar. Se puede utilizar para modificar fácilmente el orden en el que se encenderían las VM durante el proceso de recuperación.
@@ -156,33 +156,33 @@ NOTE: Cada máquina virtual de un grupo de recursos se inicia en secuencia segú
 
 La siguiente captura de pantalla muestra la opción de filtrar máquinas virtuales o almacenes de datos específicos según los requisitos de la organización si no se crean grupos de recursos con antelación.
 
-image::dr-draas-nfs-image17.png[dr draas nfs image17]
+image:dr-draas-nfs-image17.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 Una vez seleccionados los grupos de recursos, cree las asignaciones de conmutación por error. En este paso, especifique cómo se asignan los recursos del entorno de origen al destino. Esto incluye recursos de computación y redes virtuales. Personalización de IP, scripts previos y posteriores, retrasos en el inicio, coherencia de aplicaciones, etc. Para obtener información detallada, consulte link:https://docs.netapp.com/us-en/bluexp-disaster-recovery/use/drplan-create.html#select-applications-to-replicate-and-assign-resource-groups["Cree un plan de replicación"].
 
-image::dr-draas-nfs-image18.png[dr draas nfs image18]
+image:dr-draas-nfs-image18.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 
 NOTE: De forma predeterminada, se utilizan los mismos parámetros de asignación para las operaciones de prueba y conmutación por error. Para definir diferentes asignaciones para el entorno de prueba, seleccione la opción de asignación de prueba después de desactivar la casilla de verificación como se muestra a continuación:
 
-image::dr-draas-nfs-image19.png[dr draas nfs image19]
+image:dr-draas-nfs-image19.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 Una vez finalizada la asignación de recursos, haga clic en Siguiente.
 
-image::dr-draas-nfs-image20.png[dr draas nfs image20]
+image:dr-draas-nfs-image20.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 Seleccione el tipo de recurrencia. En pocas palabras, seleccione Migrate (one time migration using failover) o Recurring continuous replication option. En este tutorial, se selecciona la opción Replicar.
 
-image::dr-draas-nfs-image21.png[dr draas nfs image21]
+image:dr-draas-nfs-image21.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 Una vez hecho esto, revisa las asignaciones creadas y luego haz clic en *Añadir plan*.
 
 
 NOTE: Las máquinas virtuales de diferentes volúmenes y SVM se pueden incluir en un plan de replicación. Según la ubicación de la máquina virtual (ya sea en el mismo volumen o en un volumen independiente dentro de la misma SVM, volúmenes independientes en distintas SVM), la recuperación ante desastres de BlueXP  crea una Snapshot de grupo de consistencia.
 
-image::dr-draas-nfs-image22.png[dr draas nfs image22]
+image:dr-draas-nfs-image22.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
-image::dr-draas-nfs-image23.png[dr draas nfs image23]
+image:dr-draas-nfs-image23.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 La recuperación ante desastres como servicio de BlueXP  consta de los siguientes flujos de trabajo:
 
@@ -198,11 +198,11 @@ La recuperación ante desastres como servicio de BlueXP  consta de los siguient
 
 La prueba de recuperación tras fallos en DRaaS de BlueXP  es un procedimiento operativo que permite a los administradores de VMware validar por completo sus planes de recuperación sin que ello afecte a sus entornos de producción.
 
-image::dr-draas-nfs-image24.png[dr draas nfs image24]
+image:dr-draas-nfs-image24.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 DRaaS de BlueXP  incorpora la capacidad de seleccionar la instantánea como una funcionalidad opcional en la operación de prueba de conmutación por error. Esta funcionalidad permite al administrador de VMware verificar que los cambios realizados recientemente en el entorno se replican en el sitio de destino y que, por lo tanto, están presentes durante la prueba. Entre estos cambios se incluyen parches en el sistema operativo invitado de las máquinas virtuales
 
-image::dr-draas-nfs-image25.png[dr draas nfs image25]
+image:dr-draas-nfs-image25.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 Cuando el administrador de VMware ejecuta una operación de recuperación tras fallos de prueba, DRaaS de BlueXP  automatiza las siguientes tareas:
 
@@ -214,7 +214,7 @@ Cuando el administrador de VMware ejecuta una operación de recuperación tras f
 * Ejecutando cualquier comando personalizado que se haya almacenado en el plan de replicación.
 * Encendido de las máquinas virtuales en el orden definido en el plan de replicación.
 +
-image::dr-draas-nfs-image26.png[dr draas nfs image26]
+image:dr-draas-nfs-image26.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 
 
@@ -224,7 +224,7 @@ image::dr-draas-nfs-image26.png[dr draas nfs image26]
 
 La operación de prueba de limpieza de conmutación al nodo de respaldo se produce una vez que se completa la prueba del plan de replicación y el administrador de VMware responde al aviso de limpieza.
 
-image::dr-draas-nfs-image27.png[dr draas nfs image27]
+image:dr-draas-nfs-image27.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 Esta acción restablecerá las máquinas virtuales (VM) y el estado del plan de replicación al estado Listo.
 
@@ -240,7 +240,7 @@ Cuando el administrador de VMware lleva a cabo una operación de recuperación, 
 
 BlueXP  DRaaS cuenta con dos métodos para realizar una recuperación tras fallos real: La migración planificada y la conmutación por error. El primer método, la migración planificada, incorpora la sincronización de apagado y replicación de almacenamiento de la máquina virtual al proceso para recuperar o mover eficazmente los equipos virtuales al site de destino. La migración planificada requiere acceso al sitio de origen. El segundo método, la conmutación al respaldo, es una conmutación al respaldo planificada/sin planificar en la que las máquinas virtuales se recuperan en el sitio de destino desde el último intervalo de replicación de almacenamiento que pudo finalizar. Dependiendo del objetivo de punto de recuperación que haya sido diseñado en la solución, cabe esperar cierta pérdida de datos en el escenario de recuperación de desastres.
 
-image::dr-draas-nfs-image28.png[dr draas nfs image28]
+image:dr-draas-nfs-image28.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 Cuando el administrador de VMware realiza una operación de recuperación tras fallos, DRaaS de BlueXP  automatiza las siguientes tareas:
 
@@ -252,7 +252,7 @@ Cuando el administrador de VMware realiza una operación de recuperación tras f
 * Encienda las máquinas virtuales en el orden definido en el plan de replicación.
 
 
-image::dr-draas-nfs-image29.png[dr draas nfs image29]
+image:dr-draas-nfs-image29.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 
 
@@ -260,7 +260,7 @@ image::dr-draas-nfs-image29.png[dr draas nfs image29]
 
 Una conmutación de retorno tras recuperación es un procedimiento opcional que restaura la configuración original de los sitios de origen y de destino después de una recuperación.
 
-image::dr-draas-nfs-image30.png[dr draas nfs image30]
+image:dr-draas-nfs-image30.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 Los administradores de VMware pueden configurar y ejecutar un procedimiento de conmutación tras recuperación cuando estén preparados para restaurar servicios en el sitio de origen original.
 
@@ -280,14 +280,14 @@ Para obtener más información sobre el acceso y la configuración de DRaaS de B
 
 Desde BlueXP  o la CLI de ONTAP, se puede supervisar el estado de la replicación de los volúmenes de almacén de datos correspondientes, y se puede rastrear el estado de una conmutación por error o conmutación por error de prueba mediante la supervisión de trabajos.
 
-image::dr-draas-nfs-image31.png[dr draas nfs image31]
+image:dr-draas-nfs-image31.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 
 NOTE: Si un trabajo se encuentra en curso o en cola y desea detenerlo, existe una opción para cancelarlo.
 
 Con el panel de recuperación ante desastres de BlueXP , evalúe con seguridad el estado de los sitios de recuperación ante desastres y los planes de replicación. Esto permite a los administradores identificar rápidamente sitios y planes en buen estado, desconectados o degradados.
 
-image::dr-draas-nfs-image32.png[dr draas nfs image32]
+image:dr-draas-nfs-image32.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 Esto constituye una potente solución que le permite gestionar un plan de recuperación tras siniestros personalizado y personalizado. La conmutación por error se puede realizar como conmutación al respaldo planificada o conmutación al respaldo con un clic de un botón cuando se produce un desastre y se toma la decisión de activar el sitio de recuperación de desastres.
 

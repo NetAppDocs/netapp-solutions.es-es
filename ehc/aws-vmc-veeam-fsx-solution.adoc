@@ -88,7 +88,7 @@ El objetivo de esta solución es demostrar la protección de datos de máquinas 
 
 Las pruebas y la validación de esta solución se llevaron a cabo en un laboratorio que puede o no coincidir con el entorno de puesta en marcha final. Para obtener más información, consulte las siguientes secciones.
 
-image::aws-vmc-veeam-00.png[Diagrama de la arquitectura de la solución]
+image:aws-vmc-veeam-00.png["Diagrama de la arquitectura de la solución"]
 
 .Componentes de hardware/software
 [%collapsible]
@@ -144,11 +144,11 @@ En este paso, Veeam Proxy se implementa en una VM de Windows existente. Esto per
 . En el servidor Veeam Backup and Replication, abra la consola de administración y seleccione *Infraestructura de copia de seguridad* en el menú inferior izquierdo.
 . Haga clic derecho en *Proxies de copia de seguridad* y haga clic en *Agregar proxy de copia de seguridad de VMware...* para abrir el asistente.
 +
-image::aws-vmc-veeam-04.png[Abra el asistente Add Veeam backup proxy]
+image:aws-vmc-veeam-04.png["Abra el asistente Add Veeam backup proxy"]
 
 . En el asistente de *Agregar proxy VMware*, haga clic en el botón *Agregar nuevo...* para agregar un nuevo servidor proxy.
 +
-image::aws-vmc-veeam-05.png[Seleccione esta opción para agregar un nuevo servidor]
+image:aws-vmc-veeam-05.png["Seleccione esta opción para agregar un nuevo servidor"]
 
 . Seleccione para agregar Microsoft Windows y siga las indicaciones para agregar el servidor:
 +
@@ -156,24 +156,24 @@ image::aws-vmc-veeam-05.png[Seleccione esta opción para agregar un nuevo servid
 ** Seleccione una cuenta para utilizar las credenciales en el nuevo sistema o agregue nuevas credenciales
 ** Revise los componentes que se van a instalar y luego haga clic en *Aplicar* para comenzar la implementación
 +
-image::aws-vmc-veeam-06.png[Rellena las peticiones de datos para agregar un nuevo servidor]
+image:aws-vmc-veeam-06.png["Rellena las peticiones de datos para agregar un nuevo servidor"]
 
 
 
 . De nuevo en el asistente de *New VMware Proxy*, elija un modo de transporte. En nuestro caso elegimos *Selección Automática*.
 +
-image::aws-vmc-veeam-07.png[Seleccione el modo de transporte]
+image:aws-vmc-veeam-07.png["Seleccione el modo de transporte"]
 
 . Seleccione los almacenes de datos conectados a los que desea que VMware Proxy tenga acceso directo.
 +
-image::aws-vmc-veeam-08.png[Seleccione un servidor para VMware Proxy]
+image:aws-vmc-veeam-08.png["Seleccione un servidor para VMware Proxy"]
 
 +
-image::aws-vmc-veeam-09.png[Seleccione los almacenes de datos a los que desea acceder]
+image:aws-vmc-veeam-09.png["Seleccione los almacenes de datos a los que desea acceder"]
 
 . Configure y aplique las reglas de tráfico de red específicas, como el cifrado o la limitación que desee. Cuando termine, haga clic en el botón *Aplicar* para completar la implementación.
 +
-image::aws-vmc-veeam-10.png[Configure las reglas de tráfico de red]
+image:aws-vmc-veeam-10.png["Configure las reglas de tráfico de red"]
 
 
 
@@ -191,15 +191,15 @@ Cree un sistema de archivos FSx para ONTAP que se utilizará para alojar los vol
 
 . En la consola de AWS, vaya a FSX y luego a *Crear sistema de archivos*
 +
-image::aws-vmc-veeam-01.png[Crear FSX para el sistema de archivos ONTAP]
+image:aws-vmc-veeam-01.png["Crear FSX para el sistema de archivos ONTAP"]
 
 . Selecciona *Amazon FSx para ONTAP de NetApp* y, a continuación, *Siguiente* para continuar.
 +
-image::aws-vmc-veeam-02.png[Seleccione Amazon FSx para NetApp ONTAP]
+image:aws-vmc-veeam-02.png["Seleccione Amazon FSx para NetApp ONTAP"]
 
 . Rellene el nombre del sistema de archivos, el tipo de puesta en marcha, la capacidad de almacenamiento SSD y la VPC en la que residirá el clúster de FSx para ONTAP. Debe ser una VPC configurada para comunicarse con la red de máquina virtual en VMware Cloud. Haga clic en *Siguiente*.
 +
-image::aws-vmc-veeam-03.png[Rellene la información del sistema de archivos]
+image:aws-vmc-veeam-03.png["Rellene la información del sistema de archivos"]
 
 . Revise los pasos de implementación y haga clic en *Crear sistema de archivos* para comenzar el proceso de creación del sistema de archivos.
 
@@ -242,15 +242,15 @@ FSx-Backup::> lun mapping create -vserver svm_name -path /vol/vol_name/lun_name 
 ....
 . Para montar los LUN iSCSI, inicie sesión en Veeam Backup & Replication Server y abra Propiedades del iniciador iSCSI. Vaya a la pestaña *Discover* e introduzca la dirección IP de destino iSCSI.
 +
-image::aws-vmc-veeam-11.png[Detección del iniciador iSCSI]
+image:aws-vmc-veeam-11.png["Detección del iniciador iSCSI"]
 
 . En la pestaña *Targets*, resalte la LUN inactiva y haga clic en *Connect*. Marque la casilla *Enable multi-path* y haga clic en *OK* para conectarse a la LUN.
 +
-image::aws-vmc-veeam-12.png[Conecte el iniciador iSCSI a la LUN]
+image:aws-vmc-veeam-12.png["Conecte el iniciador iSCSI a la LUN"]
 
 . En la utilidad Administración de discos, inicialice el nuevo LUN y cree un volumen con el nombre y la letra de unidad deseados. Marque la casilla *Enable multi-path* y haga clic en *OK* para conectarse a la LUN.
 +
-image::aws-vmc-veeam-13.png[Administración de discos de Windows]
+image:aws-vmc-veeam-13.png["Administración de discos de Windows"]
 
 . Repita estos pasos para montar los volúmenes iSCSI en el servidor proxy de Veeam.
 
@@ -263,16 +263,16 @@ En la consola Veeam Backup and Replication, cree repositorios de backup para los
 
 . En la consola Veeam Backup and Replication, haga clic en *Backup Infrastructure* en la parte inferior izquierda y luego seleccione *Add Repository*
 +
-image::aws-vmc-veeam-14.png[Cree un nuevo repositorio de copia de seguridad]
+image:aws-vmc-veeam-14.png["Cree un nuevo repositorio de copia de seguridad"]
 
 . En el asistente New Backup Repository, introduzca un nombre para el repositorio y, a continuación, seleccione el servidor de la lista desplegable y haga clic en el botón *Llenar* para elegir el volumen NTFS que se utilizará.
 +
-image::aws-vmc-veeam-15.png[Seleccione Servidor de repositorio de copia de seguridad]
+image:aws-vmc-veeam-15.png["Seleccione Servidor de repositorio de copia de seguridad"]
 
 . En la página siguiente, elija el servidor de montaje que se utilizará para montar backups en la realización de restauraciones avanzadas. Por defecto, este es el mismo servidor que tiene conectado el almacenamiento del repositorio.
 . Revise sus selecciones y haga clic en *Aplicar* para iniciar la creación del repositorio de copia de seguridad.
 +
-image::aws-vmc-veeam-16.png[Seleccione Mount server]
+image:aws-vmc-veeam-16.png["Seleccione Mount server"]
 
 . Repita estos pasos para cualquier servidor proxy adicional.
 
@@ -298,11 +298,11 @@ En esta solución se crearon tareas de backup independientes para:
 . Permitir el procesamiento con reconocimiento de aplicaciones para crear copias de seguridad coherentes y realizar el procesamiento de registros de transacciones.
 . Después de activar el procesamiento que tenga en cuenta la aplicación, agregue las credenciales correctas con privilegios de administrador a la aplicación, ya que puede ser diferente de las credenciales del sistema operativo invitado.
 +
-image::aws-vmc-veeam-17.png[Configuración de procesamiento de aplicaciones]
+image:aws-vmc-veeam-17.png["Configuración de procesamiento de aplicaciones"]
 
 . Para administrar la política de retención para la copia de seguridad, verifique el *Mantenga ciertas copias de seguridad completas durante más tiempo para fines de archivado* y haga clic en el botón *Configurar...* para configurar la política.
 +
-image::aws-vmc-veeam-18.png[Política de retención a largo plazo]
+image:aws-vmc-veeam-18.png["Política de retención a largo plazo"]
 
 
 
@@ -333,27 +333,27 @@ Veeam Backup & Replication ofrece varias opciones para restaurar bases de datos 
 ====
 . En la consola de Veeam Backup and Replication, navegue a la lista de copias de seguridad de SQL Server, haga clic con el botón derecho en un servidor y seleccione *Restaurar elementos de aplicación* y luego *Bases de datos de Microsoft SQL Server...*.
 +
-image::aws-vmc-veeam-19.png[Restaure las bases de datos de SQL Server]
+image:aws-vmc-veeam-19.png["Restaure las bases de datos de SQL Server"]
 
 . En el Asistente de restauración de bases de datos de Microsoft SQL Server, seleccione un punto de restauración de la lista y haga clic en *Siguiente*.
 +
-image::aws-vmc-veeam-20.png[Seleccione un punto de restauración de la lista]
+image:aws-vmc-veeam-20.png["Seleccione un punto de restauración de la lista"]
 
 . Introduzca un *Razón de restauración* si lo desea y, a continuación, en la página Resumen, haga clic en el botón *Examinar* para iniciar Veeam Explorer para Microsoft SQL Server.
 +
-image::aws-vmc-veeam-21.png[Haga clic en Examinar para iniciar Veeam Explorer]
+image:aws-vmc-veeam-21.png["Haga clic en Examinar para iniciar Veeam Explorer"]
 
 . En Veeam Explorer expanda la lista de instancias de base de datos, haga clic derecho y seleccione *Recuperación instantánea* y luego el punto de restauración específico para recuperar.
 +
-image::aws-vmc-veeam-22.png[Seleccione el punto de restauración de recuperación instantánea]
+image:aws-vmc-veeam-22.png["Seleccione el punto de restauración de recuperación instantánea"]
 
 . En el Asistente de Recuperación Instantánea, especifique el tipo de switchover. Esto puede realizarse automáticamente con un tiempo de inactividad mínimo, manualmente o en un momento determinado. Luego haga clic en el botón *Recuperar* para comenzar el proceso de restauración.
 +
-image::aws-vmc-veeam-23.png[Seleccione el tipo de switchover]
+image:aws-vmc-veeam-23.png["Seleccione el tipo de switchover"]
 
 . El proceso de recuperación se puede supervisar desde Veeam Explorer.
 +
-image::aws-vmc-veeam-24.png[supervisar el proceso de recuperación de sql server]
+image:aws-vmc-veeam-24.png["supervisar el proceso de recuperación de sql server"]
 
 
 
@@ -375,31 +375,31 @@ En esta sección, se trata una restauración de la base de datos Oracle en un se
 
 . En la consola de Veeam Backup and Replication, navegue a la lista de copias de seguridad de Oracle, haga clic con el botón derecho en un servidor y seleccione *Restaurar elementos de aplicación* y luego *Bases de datos Oracle...*.
 +
-image::aws-vmc-veeam-25.png[Restaurar bases de datos de Oracle]
+image:aws-vmc-veeam-25.png["Restaurar bases de datos de Oracle"]
 
 . En el Asistente de restauración de bases de datos Oracle, seleccione un punto de restauración de la lista y haga clic en *Siguiente*.
 +
-image::aws-vmc-veeam-26.png[Seleccione un punto de restauración de la lista]
+image:aws-vmc-veeam-26.png["Seleccione un punto de restauración de la lista"]
 
 . Introduzca un *Razón de restauración* si lo desea y, a continuación, en la página Resumen, haga clic en el botón *Examinar* para iniciar Veeam Explorer para Oracle.
 +
-image::aws-vmc-veeam-27.png[Haga clic en Examinar para iniciar Veeam Explorer]
+image:aws-vmc-veeam-27.png["Haga clic en Examinar para iniciar Veeam Explorer"]
 
 . En Veeam Explorer expanda la lista de instancias de base de datos, haga clic en la base de datos que desea restaurar y luego en el menú desplegable *Restaurar base de datos* en la parte superior seleccione *Restaurar a otro servidor...*.
 +
-image::aws-vmc-veeam-28.png[Seleccione Restaurar a otro servidor]
+image:aws-vmc-veeam-28.png["Seleccione Restaurar a otro servidor"]
 
 . En el Asistente de restauración, especifique el punto de restauración desde el que desea restaurar y haga clic en *Siguiente*.
 +
-image::aws-vmc-veeam-29.png[Seleccione el punto de restauración]
+image:aws-vmc-veeam-29.png["Seleccione el punto de restauración"]
 
 . Especifique el servidor de destino al que se restaurará la base de datos y las credenciales de la cuenta y haga clic en *Siguiente*.
 +
-image::aws-vmc-veeam-30.png[Especifique las credenciales del servidor de destino]
+image:aws-vmc-veeam-30.png["Especifique las credenciales del servidor de destino"]
 
 . Por último, especifique la ubicación de destino de los archivos de base de datos y haga clic en el botón *Restaurar* para iniciar el proceso de restauración.
 +
-image::aws-vmc-veeam-31.png[Ubicación de destino específica]
+image:aws-vmc-veeam-31.png["Ubicación de destino específica"]
 
 . Una vez finalizada la recuperación de la base de datos, compruebe que la base de datos Oracle se inicia correctamente en el servidor.
 
@@ -412,21 +412,21 @@ En esta sección se publica una base de datos en un servidor alternativo para ob
 
 . En la consola de Veeam Backup and Replication, navegue a la lista de copias de seguridad de Oracle, haga clic con el botón derecho en un servidor y seleccione *Restaurar elementos de aplicación* y luego *Bases de datos Oracle...*.
 +
-image::aws-vmc-veeam-32.png[Restaurar bases de datos de Oracle]
+image:aws-vmc-veeam-32.png["Restaurar bases de datos de Oracle"]
 
 . En el Asistente de restauración de bases de datos Oracle, seleccione un punto de restauración de la lista y haga clic en *Siguiente*.
 +
-image::aws-vmc-veeam-33.png[Seleccione un punto de restauración de la lista]
+image:aws-vmc-veeam-33.png["Seleccione un punto de restauración de la lista"]
 
 . Introduzca un *Razón de restauración* si lo desea y, a continuación, en la página Resumen, haga clic en el botón *Examinar* para iniciar Veeam Explorer para Oracle.
 . En Veeam Explorer expanda la lista de instancias de base de datos, haga clic en la base de datos que desea restaurar y luego en el menú desplegable *Publicar base de datos* en la parte superior seleccione *Publicar en otro servidor...*.
 +
-image::aws-vmc-veeam-34.png[Seleccione un punto de restauración de la lista]
+image:aws-vmc-veeam-34.png["Seleccione un punto de restauración de la lista"]
 
 . En el asistente Publicar, especifique el punto de restauración desde el que publicar la base de datos y haga clic en *Siguiente*.
 . Por último, especifique la ubicación del sistema de archivos linux de destino y haga clic en *Publicar* para comenzar el proceso de restauración.
 +
-image::aws-vmc-veeam-35.png[Seleccione un punto de restauración de la lista]
+image:aws-vmc-veeam-35.png["Seleccione un punto de restauración de la lista"]
 
 . Una vez finalizada la publicación, conéctese al servidor de destino y ejecute los siguientes comandos para asegurarse de que la base de datos se está ejecutando:
 +
@@ -438,7 +438,7 @@ oracle@ora_srv_01> sqlplus / as sysdba
 SQL> select name, open_mode from v$database;
 ....
 +
-image::aws-vmc-veeam-36.png[Seleccione un punto de restauración de la lista]
+image:aws-vmc-veeam-36.png["Seleccione un punto de restauración de la lista"]
 
 
 

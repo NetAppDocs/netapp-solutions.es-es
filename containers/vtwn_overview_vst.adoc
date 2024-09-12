@@ -16,17 +16,17 @@ summary:
 [role="lead"]
 VMware vSphere con Tanzu, también conocido como vSphere Pods, le permite utilizar los nodos de hipervisor ESXi en el entorno VMware vSphere como nodos de trabajo en un entorno Kubernetes con configuración básica.
 
-image::vtwn_image30.png[VMware vSphere con Kubernetes]
+image:vtwn_image30.png["VMware vSphere con Kubernetes"]
 
 Se habilita un entorno VMware vSphere con tanzu en Workload Management al igual que un clúster TKGS nativo.
 
 Se crea un clúster de supervisor virtualizado para proporcionar un plano de control de alta disponibilidad para Kubernetes y se crean espacios de nombres individuales para cada aplicación con el fin de garantizar el aislamiento de recursos para los usuarios.
 
-image::vtwn_image29.png[Clúster de supervisión]
+image:vtwn_image29.png["Clúster de supervisión"]
 
 Cuando se habilita VMware vSphere con tanzu, cada uno de los hosts ESXi tiene la aplicación Spherelet instalada y configurada. De este modo, cada nodo puede actuar como trabajador en una puesta en marcha de Kubernetes y gestionar los pods puestos en marcha en cada nodo.
 
-image::vtwn_image28.png[Espacio de nombres]
+image:vtwn_image28.png["Espacio de nombres"]
 
 Actualmente, VMware vSphere con tanzu y vSphere Pods solo son compatibles con el controlador vSphere CSI local. Esto funciona porque los administradores crean políticas de almacenamiento en el cliente de vSphere que seleccionan los destinos de almacenamiento actualmente disponibles para utilizarse como almacenes de datos de vSphere. Estas políticas se utilizan para crear volúmenes persistentes para aplicaciones en contenedores.
 

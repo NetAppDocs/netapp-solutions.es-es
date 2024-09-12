@@ -32,10 +32,10 @@ Para usar la solución VMware de Azure, registre primero el proveedor de recurso
 . Seleccione proveedores de recursos e introduzca Microsoft.AVS en la búsqueda.
 . Si el proveedor de recursos no está registrado, seleccione Register.
 +
-image::avs-register-create-pc-1.png[avs register create pc 1]
+image:avs-register-create-pc-1.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 +
-image::avs-register-create-pc-2.png[avs register create pc 2]
+image:avs-register-create-pc-2.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 . Una vez registrado el proveedor de recursos, cree un cloud privado de Azure VMware Solution mediante el portal de Azure.
 . Inicie sesión en el portal de Azure.
@@ -52,13 +52,13 @@ Notas:
 * Asegúrese de que la dirección CIDR sea única y no se superponga con otras redes virtuales de Azure o en las instalaciones. CIDR representa la red de gestión de nube privada y se utiliza para los servicios de gestión de clúster, como vCenter Server y NSX-T Manager. NetApp recomienda utilizar el espacio de direcciones /22. En este ejemplo, se utiliza 10.21.0.0/22.
 
 
-image::avs-register-create-pc-3.png[avs register create pc 3]
+image:avs-register-create-pc-3.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 El proceso de aprovisionamiento dura entre 4 y 5 horas, aproximadamente. Una vez completado el proceso, compruebe que la implementación se realizó correctamente accediendo a la nube privada desde el portal de Azure. Se muestra el estado correcto cuando se completa la implementación.
 
 Un cloud privado de una solución VMware Azure requiere una red virtual de Azure. Como la solución VMware Azure no es compatible con vCenter en las instalaciones, se requieren pasos adicionales para integrarse con un entorno local existente. También es necesario configurar un circuito ExpressRoute y una puerta de enlace de red virtual. Mientras se espera a que finalice el aprovisionamiento del clúster, cree una red virtual nueva o utilice una existente para conectarse a la solución VMware Azure.
 
-image::avs-register-create-pc-4.png[avs register create pc 4]
+image:avs-register-create-pc-4.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 ====
 .Conéctese a una puerta de enlace de red virtual ExpressRoute nueva o existente
@@ -76,12 +76,12 @@ Esta función permite conectar una vnet al cloud privado de la solución VMware 
 *Nota:* el espacio de dirección vnet no debe superponerse con la nube privada CIDR.
 
 +
-image::azure-connect-gateway-1.png[puerta de enlace azure connect 1]
+image:azure-connect-gateway-1.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 . Proporcione o actualice la información del nuevo vnet y seleccione Aceptar.
 
 
-image::azure-connect-gateway-2.png[puerta de enlace azure connect 2]
+image:azure-connect-gateway-2.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 El vnet con el intervalo de direcciones y la subred de puerta de enlace proporcionados se crea en la suscripción designada y el grupo de recursos.
 
@@ -94,24 +94,24 @@ NOTE: Si crea un vnet manualmente, cree un gateway de red virtual con el SKU y E
 ====
 La solución para VMware Azure no le permite gestionar un cloud privado con VMware vCenter en las instalaciones. En su lugar, se requiere el host de salto para conectarse a la instancia de Azure VMware Solution vCenter. Cree un host de salto en el grupo de recursos designado e inicie sesión en Azure VMware Solution vCenter. Este host de saltos debe ser una máquina virtual de Windows en la misma red virtual que se creó para tener conectividad y debe proporcionar acceso tanto a vCenter como a NSX Manager.
 
-image::azure-validate-network-1.png[azure valide la red 1]
+image:azure-validate-network-1.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 Después de aprovisionar la máquina virtual, utilice la opción Connect para acceder a RDP.
 
-image::azure-validate-network-2.png[azure valide la red 2]
+image:azure-validate-network-2.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 Inicie sesión en vCenter desde esta máquina virtual de host de salto recién creada mediante el usuario administrador de la nube . Para acceder a las credenciales, vaya al portal de Azure y vaya a Identity (en la opción Manage dentro de la nube privada). Desde aquí, se pueden copiar las URL y las credenciales de usuario del cloud privado vCenter y NSX-T Manager.
 
-image::azure-validate-network-3.png[azure valide la red 3]
+image:azure-validate-network-3.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 En la máquina virtual Windows, abra un explorador y desplácese hasta la URL del cliente web de vCenter (`"https://10.21.0.2/"`) y utilice el nombre de usuario admin como *cloudadmin@vsphere.local* y pegue la contraseña copiada. De igual modo, también es posible acceder al administrador de NSX-T mediante la URL del cliente web (`"https://10.21.0.3/"`) y utilice el nombre de usuario admin y pegue la contraseña copiada para crear nuevos segmentos o modificar las puertas de enlace de nivel existentes.
 
 
 NOTE: Las URL del cliente web son diferentes para cada SDDC aprovisionado.
 
-image::azure-validate-network-4.png[azure valide la red 4]
+image:azure-validate-network-4.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
-image::azure-validate-network-5.png[azure valide la red 5]
+image:azure-validate-network-5.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 Ahora se pone en marcha y configura el SDDC de la solución para Azure VMware. Aproveche ExpressRoute Global REACH para conectar el entorno local al cloud privado de la solución VMware para Azure. Para obtener más información, consulte link:https://docs.microsoft.com/en-us/azure/azure-vmware/tutorial-expressroute-global-reach-private-cloud["Configurar de forma conjunta los entornos locales en la solución Azure VMware"].
 

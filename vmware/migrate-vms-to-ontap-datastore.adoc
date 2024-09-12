@@ -38,11 +38,11 @@ Se asume que ya hay una red de almacenamiento doble para que el almacén de dato
 
 La migración de equipos virtuales entre los hosts de vSphere también se realiza mediante la interfaz de VMkernel del host de vSphere. Para la migración en caliente (equipos virtuales con encendido), se utiliza la interfaz de VMkernel con el servicio vMotion y, para la migración en frío (equipos virtuales apagados), se consume la interfaz de VMkernel con el servicio de aprovisionamiento habilitado para trasladar los datos. Si no se encuentra una interfaz válida, utilizará la interfaz de gestión para mover los datos que puede que no sea deseable para ciertos casos prácticos.
 
-image::migrate-vms-to-ontap-image02.png[VMkernel con servicios habilitados]
+image:migrate-vms-to-ontap-image02.png["VMkernel con servicios habilitados"]
 
 Cuando edita la interfaz de VMkernel, aquí está la opción para habilitar los servicios requeridos.
 
-image::migrate-vms-to-ontap-image01.png[Opciones del servicio VMkernel]
+image:migrate-vms-to-ontap-image01.png["Opciones del servicio VMkernel"]
 
 
 TIP: Asegúrese de que hay al menos dos nic de enlace ascendente activas de alta velocidad disponibles para el grupo de puertos utilizado por las interfaces de VMkernel de vMotion y Provisioning.
@@ -64,23 +64,23 @@ Siga el procedimiento que se indica a continuación para migrar equipos virtuale
 
 . Con vSphere Web Client, seleccione el Datastore en el inventario de almacenamiento y haga clic en la pestaña VMs.
 +
-image::migrate-vms-to-ontap-image03.png[Equipos virtuales en un almacén de datos específico]
+image:migrate-vms-to-ontap-image03.png["Equipos virtuales en un almacén de datos específico"]
 
 . Seleccione las máquinas virtuales que se deben migrar y haga clic con el botón derecho del ratón para seleccionar la opción Migrate.
 +
-image::migrate-vms-to-ontap-image04.png[Máquinas virtuales para migrar]
+image:migrate-vms-to-ontap-image04.png["Máquinas virtuales para migrar"]
 
 . Elija la opción para cambiar solo el almacenamiento, haga clic en Siguiente
 +
-image::migrate-vms-to-ontap-image05.png[Cambiar sólo almacenamiento]
+image:migrate-vms-to-ontap-image05.png["Cambiar sólo almacenamiento"]
 
 . Seleccione la política de almacenamiento de máquina virtual deseada y seleccione el almacén de datos compatible. Haga clic en Siguiente.
 +
-image::migrate-vms-to-ontap-image06.png[Almacén de datos que cumple con la política de almacenamiento de máquinas virtuales]
+image:migrate-vms-to-ontap-image06.png["Almacén de datos que cumple con la política de almacenamiento de máquinas virtuales"]
 
 . Revise y haga clic en Finalizar.
 +
-image::migrate-vms-to-ontap-image07.png[Revisión de la migración del almacenamiento]
+image:migrate-vms-to-ontap-image07.png["Revisión de la migración del almacenamiento"]
 
 
 
@@ -117,23 +117,23 @@ Siga el procedimiento que se indica a continuación para migrar equipos virtuale
 
 . Con vSphere Web Client, seleccione el Cluster en el inventario Host and Cluster y haga clic en la pestaña VMs.
 +
-image::migrate-vms-to-ontap-image08.png[Equipos virtuales en un clúster específico]
+image:migrate-vms-to-ontap-image08.png["Equipos virtuales en un clúster específico"]
 
 . Seleccione las máquinas virtuales que se deben migrar y haga clic con el botón derecho del ratón para seleccionar la opción Migrate.
 +
-image::migrate-vms-to-ontap-image04.png[Máquinas virtuales para migrar]
+image:migrate-vms-to-ontap-image04.png["Máquinas virtuales para migrar"]
 
 . Elija la opción para cambiar solo el almacenamiento, haga clic en Siguiente
 +
-image::migrate-vms-to-ontap-image05.png[Cambiar sólo almacenamiento]
+image:migrate-vms-to-ontap-image05.png["Cambiar sólo almacenamiento"]
 
 . Seleccione la política de almacenamiento de máquina virtual deseada y seleccione el almacén de datos compatible. Haga clic en Siguiente.
 +
-image::migrate-vms-to-ontap-image06.png[Almacén de datos que cumple con la política de almacenamiento de máquinas virtuales]
+image:migrate-vms-to-ontap-image06.png["Almacén de datos que cumple con la política de almacenamiento de máquinas virtuales"]
 
 . Revise y haga clic en Finalizar.
 +
-image::migrate-vms-to-ontap-image07.png[Revisión de la migración del almacenamiento]
+image:migrate-vms-to-ontap-image07.png["Revisión de la migración del almacenamiento"]
 
 
 
@@ -176,35 +176,35 @@ Siga el procedimiento que se indica a continuación para migrar equipos virtuale
 
 . Con vSphere Web Client, seleccione el Cluster en el inventario Host and Cluster y haga clic en la pestaña VMs.
 +
-image::migrate-vms-to-ontap-image08.png[Equipos virtuales en un clúster específico]
+image:migrate-vms-to-ontap-image08.png["Equipos virtuales en un clúster específico"]
 
 . Seleccione las máquinas virtuales que se deben migrar y haga clic con el botón derecho del ratón para seleccionar la opción Migrate.
 +
-image::migrate-vms-to-ontap-image04.png[Máquinas virtuales para migrar]
+image:migrate-vms-to-ontap-image04.png["Máquinas virtuales para migrar"]
 
 . Elija la opción para cambiar el recurso de computación y el almacenamiento, haga clic en Siguiente
 +
-image::migrate-vms-to-ontap-image09.png[Cambie la computación y el almacenamiento]
+image:migrate-vms-to-ontap-image09.png["Cambie la computación y el almacenamiento"]
 
 . Navegue y elija el clúster adecuado para migrar.
 +
-image::migrate-vms-to-ontap-image12.png[Seleccione el clúster de destino]
+image:migrate-vms-to-ontap-image12.png["Seleccione el clúster de destino"]
 
 . Seleccione la política de almacenamiento de máquina virtual deseada y seleccione el almacén de datos compatible. Haga clic en Siguiente.
 +
-image::migrate-vms-to-ontap-image13.png[Almacén de datos que cumple con la política de almacenamiento de máquinas virtuales]
+image:migrate-vms-to-ontap-image13.png["Almacén de datos que cumple con la política de almacenamiento de máquinas virtuales"]
 
 . Seleccione la carpeta de VM para colocar las VM de destino.
 +
-image::migrate-vms-to-ontap-image14.png[Selección de la carpeta de VM de destino]
+image:migrate-vms-to-ontap-image14.png["Selección de la carpeta de VM de destino"]
 
 . Seleccione el grupo de puertos de destino.
 +
-image::migrate-vms-to-ontap-image15.png[Selección del grupo de puertos de destino]
+image:migrate-vms-to-ontap-image15.png["Selección del grupo de puertos de destino"]
 
 . Revise y haga clic en Finalizar.
 +
-image::migrate-vms-to-ontap-image07.png[Revisión de la migración del almacenamiento]
+image:migrate-vms-to-ontap-image07.png["Revisión de la migración del almacenamiento"]
 
 
 
@@ -247,35 +247,35 @@ NOTE: Para conocer requisitos adicionales, como versiones de vCenter de origen y
 
 . Con vSphere Web Client, seleccione el Cluster en el inventario Host and Cluster y haga clic en la pestaña VMs.
 +
-image::migrate-vms-to-ontap-image08.png[Equipos virtuales en un clúster específico]
+image:migrate-vms-to-ontap-image08.png["Equipos virtuales en un clúster específico"]
 
 . Seleccione las máquinas virtuales que se deben migrar y haga clic con el botón derecho del ratón para seleccionar la opción Migrate.
 +
-image::migrate-vms-to-ontap-image04.png[Máquinas virtuales para migrar]
+image:migrate-vms-to-ontap-image04.png["Máquinas virtuales para migrar"]
 
 . Elija la opción para cambiar el recurso de computación y el almacenamiento, haga clic en Siguiente
 +
-image::migrate-vms-to-ontap-image09.png[Cambie la computación y el almacenamiento]
+image:migrate-vms-to-ontap-image09.png["Cambie la computación y el almacenamiento"]
 
 . Seleccione el clúster de destino en la instancia de vCenter Server de destino.
 +
-image::migrate-vms-to-ontap-image12.png[Seleccione el clúster de destino]
+image:migrate-vms-to-ontap-image12.png["Seleccione el clúster de destino"]
 
 . Seleccione la política de almacenamiento de máquina virtual deseada y seleccione el almacén de datos compatible. Haga clic en Siguiente.
 +
-image::migrate-vms-to-ontap-image13.png[Almacén de datos que cumple con la política de almacenamiento de máquinas virtuales]
+image:migrate-vms-to-ontap-image13.png["Almacén de datos que cumple con la política de almacenamiento de máquinas virtuales"]
 
 . Seleccione la carpeta de VM para colocar las VM de destino.
 +
-image::migrate-vms-to-ontap-image14.png[Selección de la carpeta de VM de destino]
+image:migrate-vms-to-ontap-image14.png["Selección de la carpeta de VM de destino"]
 
 . Seleccione el grupo de puertos de destino.
 +
-image::migrate-vms-to-ontap-image15.png[Selección del grupo de puertos de destino]
+image:migrate-vms-to-ontap-image15.png["Selección del grupo de puertos de destino"]
 
 . Revise las opciones de migración y haga clic en Finish.
 +
-image::migrate-vms-to-ontap-image07.png[Revisión de la migración del almacenamiento]
+image:migrate-vms-to-ontap-image07.png["Revisión de la migración del almacenamiento"]
 
 
 
@@ -318,15 +318,15 @@ Siga el procedimiento a continuación para migrar máquinas virtuales a una inst
 
 . Con vSphere Web Client, seleccione la instancia de vCenter Server de origen y haga clic en la pestaña VMs.
 +
-image::migrate-vms-to-ontap-image10.png[Máquinas virtuales en vCenter de origen]
+image:migrate-vms-to-ontap-image10.png["Máquinas virtuales en vCenter de origen"]
 
 . Seleccione las máquinas virtuales que se deben migrar y haga clic con el botón derecho del ratón para seleccionar la opción Migrate.
 +
-image::migrate-vms-to-ontap-image04.png[Máquinas virtuales para migrar]
+image:migrate-vms-to-ontap-image04.png["Máquinas virtuales para migrar"]
 
 . Elija la opción Cross vCenter Server export y haga clic en Next
 +
-image::migrate-vms-to-ontap-image11.png[Exportación en vCenter Server]
+image:migrate-vms-to-ontap-image11.png["Exportación en vCenter Server"]
 
 +
 
@@ -334,31 +334,31 @@ TIP: La máquina virtual también puede importarse desde el servidor vCenter de 
 
 . Proporcione los detalles de las credenciales de vCenter y haga clic en Login.
 +
-image::migrate-vms-to-ontap-image23.png[Credenciales de vCenter]
+image:migrate-vms-to-ontap-image23.png["Credenciales de vCenter"]
 
 . Confirme y acepte la huella digital de certificados SSL de vCenter Server
 +
-image::migrate-vms-to-ontap-image24.png[Huella digital SSL]
+image:migrate-vms-to-ontap-image24.png["Huella digital SSL"]
 
 . Expanda vCenter de destino y seleccione el clúster de computación de destino.
 +
-image::migrate-vms-to-ontap-image25.png[Seleccione el clúster de computación de destino]
+image:migrate-vms-to-ontap-image25.png["Seleccione el clúster de computación de destino"]
 
 . Seleccione el almacén de datos de destino según la política de almacenamiento de la máquina virtual.
 +
-image::migrate-vms-to-ontap-image26.png[seleccione un almacén de datos de destino]
+image:migrate-vms-to-ontap-image26.png["seleccione un almacén de datos de destino"]
 
 . Seleccione la carpeta de VM de destino.
 +
-image::migrate-vms-to-ontap-image27.png[Seleccione la carpeta de VM de destino]
+image:migrate-vms-to-ontap-image27.png["Seleccione la carpeta de VM de destino"]
 
 . Seleccione el grupo de puertos de VM para cada asignación de tarjeta de interfaz de red.
 +
-image::migrate-vms-to-ontap-image28.png[Seleccione el grupo de puertos de destino]
+image:migrate-vms-to-ontap-image28.png["Seleccione el grupo de puertos de destino"]
 
 . Revise y haga clic en Finish para iniciar vMotion en vCenter Server.
 +
-image::migrate-vms-to-ontap-image29.png[Revisión de operaciones de Cross vMotion]
+image:migrate-vms-to-ontap-image29.png["Revisión de operaciones de Cross vMotion"]
 
 
 
@@ -438,7 +438,7 @@ VCenter Server o una biblioteca de contenido pueden gestionar las plantillas de 
 ====
 . En vSphere Web Client, haga clic con el botón derecho en la plantilla de máquina virtual en la vista de la carpeta VM and Templates y seleccione la opción de convertir a máquina virtual.
 +
-image::migrate-vms-to-ontap-image16.png[Convertir plantilla de VM en VM]
+image:migrate-vms-to-ontap-image16.png["Convertir plantilla de VM en VM"]
 
 . Cuando se convierta como equipo virtual, siga las opciones de migración de la máquina virtual.
 
@@ -449,12 +449,12 @@ image::migrate-vms-to-ontap-image16.png[Convertir plantilla de VM en VM]
 ====
 . En vSphere Web Client, seleccione Bibliotecas de contenido
 +
-image::migrate-vms-to-ontap-image17.png[Selección de biblioteca de contenido]
+image:migrate-vms-to-ontap-image17.png["Selección de biblioteca de contenido"]
 
 . Seleccione la biblioteca de contenido en la que desea clonar el elemento
 . Haga clic con el botón derecho del ratón en el elemento y haga clic en Clonar elemento ..
 +
-image::migrate-vms-to-ontap-image18.png[Clonar elemento de biblioteca de contenido]
+image:migrate-vms-to-ontap-image18.png["Clonar elemento de biblioteca de contenido"]
 
 +
 
@@ -462,11 +462,11 @@ WARNING: Si utiliza el menú de acción, asegúrese de que aparece el objeto de 
 
 . Seleccione la biblioteca de contenido de destino y haga clic en Aceptar.
 +
-image::migrate-vms-to-ontap-image19.png[Selección de biblioteca de contenido de destino]
+image:migrate-vms-to-ontap-image19.png["Selección de biblioteca de contenido de destino"]
 
 . Compruebe que el elemento está disponible en la biblioteca de contenido de destino.
 +
-image::migrate-vms-to-ontap-image20.png[Verificación del elemento Clonar]
+image:migrate-vms-to-ontap-image20.png["Verificación del elemento Clonar"]
 
 
 
@@ -487,7 +487,7 @@ Get-ContentLibaryItem -ContentLibary (Get-ContentLibary 'CL01' -Server $sourcevc
 ====
 . En vSphere Web Client, seleccione la máquina virtual y haga clic con el botón derecho para elegir Clonar como plantilla en la biblioteca
 +
-image::migrate-vms-to-ontap-image21.png[Clon de VM como plantilla en libary]
+image:migrate-vms-to-ontap-image21.png["Clon de VM como plantilla en libary"]
 
 +
 
@@ -495,7 +495,7 @@ TIP: Cuando se selecciona la plantilla VM para clonar en libary, sólo puede alm
 
 . Confirme que el tipo de plantilla está seleccionado como plantilla de VM y siga respondiendo al asistente para completar la operación.
 +
-image::migrate-vms-to-ontap-image22.png[Selección de tipo de plantilla]
+image:migrate-vms-to-ontap-image22.png["Selección de tipo de plantilla"]
 
 +
 

@@ -48,7 +48,7 @@ NOTE: Los equipos y partners de campo de NetApp solo pueden acceder al estimador
 
 Aquí tiene una captura de pantalla del estimador de TCO.
 
-image::vmfs-deploy-image1.png[puesta en marcha de vmfs image1]
+image:vmfs-deploy-image1.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 
 
@@ -58,9 +58,9 @@ Una vez que el evaluador muestre el ahorro posible (que será el caso de una org
 
 A continuación se muestran las capturas de pantalla de Cloud Insights.
 
-image::vmfs-deploy-image2.png[puesta en marcha de vmfs image2]
+image:vmfs-deploy-image2.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
-image::vmfs-deploy-image3.png[puesta en marcha de vmfs image3]
+image:vmfs-deploy-image3.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 
 NOTE: Realice evaluaciones periódicas para detectar los recursos infrautilizados, aumentar la densidad de los equipos virtuales y su utilización en clústeres de VMware para controlar los crecientes costes asociados con las nuevas licencias de suscripción. Considere la posibilidad de reducir el número de núcleos por CPU a 16 GHz en compras de nuevos servidores para alinearlo con los cambios en los modelos de licencia de VMware.
@@ -100,26 +100,26 @@ NOTE: Se requieren tres direcciones IP para la implementación: Una dirección I
 NOTE: La opción de fácil implementación se utiliza en este tutorial.
 
 +
-image::vmfs-deploy-image4.png[puesta en marcha de vmfs image4]
+image:vmfs-deploy-image4.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 . Seleccione el almacén de datos para implementar el OVA, la red de origen y destino. Cuando haya terminado, seleccione Siguiente.
 . Es hora de personalizar la plantilla > la ventana de configuración del sistema.
 +
-image::vmfs-deploy-image5.png[puesta en marcha de vmfs image5]
+image:vmfs-deploy-image5.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 +
-image::vmfs-deploy-image6.png[puesta en marcha de vmfs image6]
+image:vmfs-deploy-image6.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 +
-image::vmfs-deploy-image7.png[puesta en marcha de vmfs image7]
+image:vmfs-deploy-image7.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 
 
 Después de la instalación correcta, la consola web muestra el estado de las herramientas de ONTAP para VMware vSphere.
 
-image::vmfs-deploy-image8.png[puesta en marcha de vmfs image8]
+image:vmfs-deploy-image8.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
-image::vmfs-deploy-image9.png[puesta en marcha de vmfs image9]
+image:vmfs-deploy-image9.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 
 NOTE: El asistente de creación de almacenes de datos admite el aprovisionamiento de almacenes de datos VMFS, NFS y vVols.
@@ -129,27 +129,27 @@ Es hora de aprovisionar almacenes de datos VMFS basados en ISCSI para este tutor
 . Inicie sesión en el cliente de vSphere mediante https://vcenterip/ui[]
 . Haga clic con el botón derecho en un host, un clúster de hosts o un almacén de datos y, a continuación, seleccione Herramientas de NetApp ONTAP > Crear almacén de datos.
 +
-image::vmfs-deploy-image10.png[puesta en marcha de vmfs image10]
+image:vmfs-deploy-image10.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 . En el panel Type, seleccione VMFS en Datastore Type.
 +
-image::vmfs-deploy-image11.png[puesta en marcha de vmfs image11]
+image:vmfs-deploy-image11.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 . En el panel Name and Protocol, introduzca el nombre, el tamaño y la información del protocolo del almacén de datos. En la sección Advanced options del panel, seleccione el clúster del almacén de datos si desea añadir este almacén de datos.
 +
-image::vmfs-deploy-image12.png[puesta en marcha de vmfs image12]
+image:vmfs-deploy-image12.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 . Seleccione Plataforma y almacenamiento VM en el panel Almacenamiento. Proporcione el nombre de iGroup personalizado en la sección Advanced Options del panel (opcional). Puede seleccionar un igroup existente para el almacén de datos o crear un igroup nuevo con un nombre personalizado.
 +
-image::vmfs-deploy-image13.png[puesta en marcha de vmfs image13]
+image:vmfs-deploy-image13.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 . En el panel de atributos de almacenamiento, seleccione el agregado en el menú desplegable. Seleccione las opciones Space Reserve, volume Option y Enable QoS según sea necesario en la sección Advanced options.
 +
-image::vmfs-deploy-image14.png[puesta en marcha de vmfs image14]
+image:vmfs-deploy-image14.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 . Revise los detalles del almacén de datos en el panel Summary y haga clic en Finish. El almacén de datos de VMFS se crea y se monta en todos los hosts.
 +
-image::vmfs-deploy-image15.png[puesta en marcha de vmfs image15]
+image:vmfs-deploy-image15.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 
 
@@ -168,7 +168,7 @@ Los primitivos VAAI se usan en operaciones rutinarias de vSphere, como la creaci
 * Recuperación de espacio
 
 
-image::vmfs-deploy-image16.png[puesta en marcha de vmfs image16]
+image:vmfs-deploy-image16.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 
 NOTE: Asegúrese de que HardwareAcceleratedMove está habilitado a través de las opciones de configuración avanzadas de ESX.
@@ -176,12 +176,12 @@ NOTE: Asegúrese de que HardwareAcceleratedMove está habilitado a través de la
 
 NOTE: Asegúrese de que la LUN tiene habilitada la «asignación de espacio». Si no está habilitada, habilite la opción y vuelva a analizar todos los HBA.
 
-image::vmfs-deploy-image17.png[puesta en marcha de vmfs image17]
+image:vmfs-deploy-image17.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 
 NOTE: Estos valores se establecen fácilmente mediante las herramientas de ONTAP para VMware vSphere. En la consola Overview, vaya a Tarjeta de cumplimiento de host ESXi y seleccione la opción Apply Recommended Settings. En la ventana Aplicar configuración de host recomendada, seleccione los hosts y haga clic en Siguiente para aplicar la configuración de host recomendada por NetApp.
 
-image::vmfs-deploy-image18.png[puesta en marcha de vmfs image18]
+image:vmfs-deploy-image18.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 Ver orientación detallada para link:https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware-vsphere-settings.html["Host ESXi recomendado y otra configuración de ONTAP"].
 
@@ -191,7 +191,7 @@ Ver orientación detallada para link:https://docs.netapp.com/us-en/ontap-apps-db
 
 Realizar backups eficientes de máquinas virtuales en almacenes de datos VMFS y recuperarlas rápidamente son algunas de las ventajas clave de ONTAP para vSphere. Al integrarse con vCenter, el software NetApp SnapCenter® ofrece una amplia gama de funciones de copia de seguridad y recuperación para máquinas virtuales. Proporciona operaciones de backup y restauración rápidas, eficientes en cuanto al espacio, consistentes con los fallos y consistentes con las máquinas virtuales para máquinas virtuales, almacenes de datos y VMDK. También funciona con el servidor de SnapCenter para admitir operaciones de backup y restauración basadas en aplicaciones en entornos VMware usando plugins específicos de la aplicación de SnapCenter. El aprovechamiento de las copias snapshot permite realizar copias rápidas de la máquina virtual o del almacén de datos sin ningún impacto en el rendimiento y utilizar la tecnología NetApp SnapMirror® o NetApp SnapVault® para la protección de datos a largo plazo fuera del sitio.
 
-image::vmfs-deploy-image19.png[puesta en marcha de vmfs image19]
+image:vmfs-deploy-image19.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 El flujo de trabajo es sencillo. Añada los sistemas de almacenamiento principales y SVM (y secundario si se requiere SnapMirror/SnapVault).
 
@@ -223,11 +223,11 @@ Los pasos para desplegar son los siguientes:
 . Espere a que se completen las tareas de importación y despliegue de OVF.
 . Una vez que el plugin de SnapCenter para VMware se ponga en marcha correctamente, se registrará en vCenter. Lo mismo se puede verificar accediendo a Administration > Client Plugins
 +
-image::vmfs-deploy-image20.png[puesta en marcha de vmfs image20]
+image:vmfs-deploy-image20.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 . Para acceder al plugin, desplácese hasta el lateral izquierdo de la página Web Client de vCenter, seleccione SnapCenter Plug-in for VMware.
 +
-image::vmfs-deploy-image21.png[puesta en marcha de vmfs image21]
+image:vmfs-deploy-image21.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 
 
@@ -248,10 +248,10 @@ El proceso es directo.
 . Seleccione Agregar para agregar los detalles de «almacenamiento».
 . Utilice Credenciales como método de autenticación e introduzca el nombre de usuario y su contraseña y, a continuación, haga clic en Agregar para guardar la configuración.
 +
-image::vmfs-deploy-image22.png[puesta en marcha de vmfs image22]
+image:vmfs-deploy-image22.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 +
-image::vmfs-deploy-image23.png[puesta en marcha de vmfs image23]
+image:vmfs-deploy-image23.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 
 
@@ -266,7 +266,7 @@ Antes de realizar un backup de las máquinas virtuales y los almacenes de datos,
 . En el panel de navegación de la izquierda del plugin de SnapCenter para VMware, haga clic en Policies.
 . En la página Policies, haga clic en Create para iniciar el asistente.
 +
-image::vmfs-deploy-image24.png[puesta en marcha de vmfs image24]
+image:vmfs-deploy-image24.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 . En la página New Backup Policy, escriba el nombre de la política.
 . Especifique la retención, la configuración de frecuencia y la replicación.
@@ -279,7 +279,7 @@ NOTE: Para replicar copias Snapshot en un sistema de almacenamiento secundario r
 NOTE: Para permitir los backups coherentes con los equipos virtuales, las herramientas de VMware deben instalarse y ejecutarse. Cuando se marca la casilla de consistencia de máquina virtual, las máquinas virtuales primero se ponen en modo inactivo, VMware ejecuta una Snapshot consistente de máquina virtual (excepto la memoria) y, a continuación, el plugin de SnapCenter para VMware ejecuta su operación de backup y, a continuación, se reanudan las operaciones de máquina virtual.
 
 +
-image::vmfs-deploy-image25.png[puesta en marcha de vmfs image25]
+image:vmfs-deploy-image25.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 +
 Una vez creada la política, el siguiente paso es crear el grupo de recursos que definirá los almacenes de datos iSCSI y las máquinas virtuales correspondientes que deben respaldarse. Una vez creado el grupo de recursos, es hora de activar los backups.
@@ -300,24 +300,24 @@ Siga los pasos a continuación para crear un grupo de recursos.
 Otra opción para crear un grupo de recursos es seleccionar la máquina virtual o el almacén de datos individual y crear un grupo de recursos respectivamente.
 
 +
-image::vmfs-deploy-image26.png[puesta en marcha de vmfs image26]
+image:vmfs-deploy-image26.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 . En la página Resources, seleccione el alcance (máquinas virtuales o almacenes de datos) y el centro de datos.
 +
-image::vmfs-deploy-image27.png[puesta en marcha de vmfs image27]
+image:vmfs-deploy-image27.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 . En la página Spanning Disks, seleccione una opción para Virtual Machines con varios VMDK en diferentes almacenes de datos
 . El siguiente paso es asociar una política de backup. Seleccione una política existente o cree una nueva.
 . En la página Schedules, configure la programación de backup para cada política seleccionada.
 +
-image::vmfs-deploy-image28.png[puesta en marcha de vmfs image28]
+image:vmfs-deploy-image28.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 . Una vez realizadas las selecciones adecuadas, haga clic en Finalizar.
 +
 Esto creará un nuevo grupo de recursos y lo añadirá a la lista de grupos de recursos.
 
 +
-image::vmfs-deploy-image29.png[puesta en marcha de vmfs image29]
+image:vmfs-deploy-image29.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 
 
@@ -329,12 +329,12 @@ Ahora es el momento de activar un backup. Las operaciones de backup se ejecutan 
 
 . En la navegación izquierda de la página de cliente web de vCenter, seleccione SnapCenter Plug-in for VMware > Resource Groups y, a continuación, seleccione el grupo de recursos designado. Seleccione Run now para iniciar el backup ad-hoc.
 +
-image::vmfs-deploy-image30.png[puesta en marcha de vmfs image30]
+image:vmfs-deploy-image30.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 . Si el grupo de recursos tiene varias políticas configuradas, seleccione la política para la operación de backup en el cuadro de diálogo Backup Now.
 . Seleccione OK para iniciar el backup.
 +
-image::vmfs-deploy-image31.png[puesta en marcha de vmfs image31]
+image:vmfs-deploy-image31.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 +
 Supervise el progreso de las operaciones seleccionando Recent Tasks en la parte inferior de la ventana o en la consola Job Monitor para obtener más detalles.
@@ -350,23 +350,23 @@ El plugin de SnapCenter para VMware permite restaurar máquinas virtuales (VM) e
 . En la GUI de VMware vSphere Web Client, seleccione Menu en la barra de herramientas. Seleccione Inventory y, a continuación, Virtual Machines and Templates.
 . En la navegación de la izquierda, seleccione la máquina virtual y, a continuación, seleccione Configure, seleccione Backups en SnapCenter Plug-in for VMware. Haga clic en el trabajo de backup desde el que debe restaurarse la máquina virtual.
 +
-image::vmfs-deploy-image32.png[puesta en marcha de vmfs image32]
+image:vmfs-deploy-image32.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 . Seleccione la máquina virtual que necesita restaurar desde el backup.
 +
-image::vmfs-deploy-image33.png[puesta en marcha de vmfs image33]
+image:vmfs-deploy-image33.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 . En la página Select Scope, seleccione Entire Virtual Machine en el campo Restore scope, a continuación, seleccione Restore location y, a continuación, introduzca la información ESXi de destino donde debe montarse el backup. Habilite la casilla de comprobación Restart VM si la máquina virtual debe encenderse después de la operación de restauración.
 +
-image::vmfs-deploy-image34.png[puesta en marcha de vmfs image34]
+image:vmfs-deploy-image34.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 . En la página Seleccionar ubicación, seleccione la ubicación de la ubicación principal.
 +
-image::vmfs-deploy-image35.png[puesta en marcha de vmfs image35]
+image:vmfs-deploy-image35.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 . Revise la página Summary y seleccione Finish.
 +
-image::vmfs-deploy-image36.png[puesta en marcha de vmfs image36]
+image:vmfs-deploy-image36.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 +
 Supervise el progreso de las operaciones seleccionando Recent Tasks, en la parte inferior de la pantalla.
@@ -378,7 +378,7 @@ NOTE: Aunque las máquinas virtuales se restauran, no se agregan automáticament
 
 Ahora, ¿qué sucede si se eliminó la VM original? Es una tarea sencilla con el plug-in de SnapCenter para VMware. La operación de restauración para una máquina virtual eliminada puede ejecutarse desde el nivel de almacén de datos. Vaya a respectivo Datastore > Configure > Backups y seleccione la máquina virtual eliminada y seleccione Restore.
 
-image::vmfs-deploy-image37.png[puesta en marcha de vmfs image37]
+image:vmfs-deploy-image37.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 En resumen, al usar almacenamiento de ONTAP ASA para optimizar el TCO para una puesta en marcha de VMware, use el complemento SnapCenter para VMware como un método sencillo y eficiente para realizar backups de máquinas virtuales. Permite realizar backups y restauraciones de máquinas virtuales de una manera rápida y fluida, ya que los backups de copias Snapshot tardan literalmente segundos en completarse.
 
@@ -386,7 +386,7 @@ Consulte esto link:https://docs.netapp.com/us-en/netapp-solutions/ehc/bxp-scv-hy
 
 Para reducir los costes de almacenamiento, se puede permitir la organización en niveles de volúmenes de FabricPool para mover datos automáticamente para copias Snapshot a un nivel de almacenamiento de menor coste. Las copias Snapshot suelen utilizar más del 10 % del almacenamiento asignado. Si bien son importantes para la protección de datos y la recuperación ante desastres, estas copias puntuales rara vez se utilizan y no suponen un uso eficiente del almacenamiento de alto rendimiento. Con la normativa «solo Snapshot» para FabricPool, puede liberar espacio fácilmente en almacenamiento de alto rendimiento. Cuando se habilita esta política, los bloques de copia de Snapshot inactivos del volumen que no está usando el sistema de archivos activo se mueven al nivel de objetos y, una vez leída, la copia de Snapshot se mueve al nivel local para recuperar una máquina virtual o un almacén de datos entero. Este nivel de objetos puede estar en la forma de un cloud privado (como NetApp StorageGRID) o un cloud público (como AWS o Azure).
 
-image::vmfs-deploy-image38.png[puesta en marcha de vmfs image38]
+image:vmfs-deploy-image38.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 Ver orientación detallada para link:https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware-vsphere-overview.html["VMware vSphere con ONTAP"].
 
@@ -398,7 +398,7 @@ Una de las formas más efectivas para la protección contra ataques de ransomwar
 
 Los ataques de ransomware se dirigen cada vez más a los backups y los puntos de recuperación de snapshots al intentar eliminarlos antes de empezar a cifrar archivos. Sin embargo, con ONTAP, esto se puede evitar creando snapshots a prueba de manipulaciones en sistemas primarios o secundarios link:https://docs.netapp.com/us-en/ontap/snaplock/snapshot-lock-concept.html["Bloqueo de copia NetApp SnapShot™"]con en ONTAP. Estas copias de SnapVault no se pueden eliminar ni modificar por atacantes de ransomware ni administradores malintencionados, por lo que están disponibles incluso después de un ataque. Puede recuperar los datos de máquinas virtuales en segundos, lo que minimiza el tiempo de inactividad de la organización. Además, tiene la flexibilidad de elegir la programación de Snapshot y la duración del bloqueo que mejor se adapte a su organización.
 
-image::vmfs-deploy-image39.png[puesta en marcha de vmfs image39]
+image:vmfs-deploy-image39.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 Como parte de la adición de un método compuesto por varias capas, también existe una solución de ONTAP nativa incorporada para proteger la eliminación no autorizada de copias Snapshot de backup. Se conoce como verificación multiadmin o MAV, que está disponible en ONTAP 9.11,1 y versiones posteriores. El enfoque ideal será utilizar consultas para operaciones específicas de MAV.
 

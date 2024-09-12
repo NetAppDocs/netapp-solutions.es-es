@@ -1,0 +1,48 @@
+---
+sidebar: sidebar 
+keywords: Cyber vault, cybervault, cyber-vault, data protection, security, ransomware, ONTAP 
+permalink: /cyber-vault/ontap-cyber-vault-overview.html 
+summary: Aquí se ofrece una descripción general de la solución de ciberalmacén de NetApp ONTAP, con tecnología de SnapLock Compliance para la retención de datos inalterable e indeleble. 
+---
+= Descripción general de ciberalmacén de ONTAP
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+La principal amenaza motriz que requiere la implementación de ciberbóvedas es la creciente prevalencia y sofisticación de los ciberataques, en particular el ransomware y las filtraciones de datos. link:https://www.verizon.com/business/resources/reports/dbir/["Con un aumento en el phishing"^] y métodos cada vez más sofisticados de robo de credenciales, las credenciales utilizadas para iniciar un ataque de ransomware podrían usarse para acceder a los sistemas de infraestructura. En estos casos, incluso los sistemas de infraestructura reforzados están en riesgo de ataque. La única defensa de un sistema comprometido es tener los datos protegidos y aislados en un ciberalmacén.
+
+
+NOTE: A partir de julio de 2024, el contenido de informes técnicos previamente publicados como archivos PDF se integró con la documentación de los productos de ONTAP. Además, los nuevos informes técnicos (TRS) como este documento ya no obtendrán números TR.
+
+
+
+== ¿Qué es el cyber vaulting?
+
+Las copias ciber-bóvedas son una técnica específica de protección de datos que incluye almacenar datos críticos en un entorno aislado, independiente de la infraestructura de TI primaria.
+
+Repositorio de datos “airgapped”, *inmutable* e *indeleble* que es inmune a las amenazas que afectan a la red principal, como malware, ransomware o incluso amenazas internas. Las bóvedas cibernéticas se pueden lograr con instantáneas *inmutable* e *indelebles*.
+
+Las copias de seguridad que utilizan métodos tradicionales implican la creación de espacio y la separación física de los medios primarios y secundarios. Al mover los medios fuera de las instalaciones o cortar la conectividad, los atacantes no tienen acceso a los datos. Esto protege los datos, pero puede producir tiempos de recuperación más lentos.
+
+
+
+== El enfoque de NetApp para el cibervaulting
+
+Algunas de las funciones clave de la arquitectura de referencia de NetApp para las bóvedas cibernéticas son:
+
+* Infraestructura de almacenamiento aislada y segura (p. ej., sistemas de almacenamiento de consumo aéreo)
+* Las copias de los datos deben ser tanto *inmutable* como *indeleble* sin excepción
+* Estrictos controles de acceso y autenticación multifactor
+* Funciones de restauración de datos rápida
+
+
+Puede utilizar almacenamiento de NetApp con ONTAP como ciberalmacén aislado aprovechando el link:../../ontap/snaplock/commit-snapshot-copies-worm-concept.html["SnapLock Compliance para proteger WORM las copias Snapshot"^]. Puede realizar todas las tareas básicas de SnapLock Compliance en el Cibervault. Una vez configurados, los volúmenes de Cyber vault se protegen de forma automática, lo que elimina la necesidad de comprometer manualmente las copias Snapshot en WORM. En esto se puede encontrar más información sobre el chorro lógico de aire link:https://www.netapp.com/blog/ransomware-protection-snaplock/["blog"^]
+
+SnapLock Compliance se utiliza para cumplir las regulaciones bancarias y financieras SEC 70-a-4(f), FINRA 4511(c) y CFTC 1,31(c)-(d). Ha sido certificado por Cohasset Associates para adherirse a estas regulaciones (informe de auditoría disponible a petición). Usando SnapLock Compliance con esta certificación, obtendrá un mecanismo reforzado para el intercambio aéreo de datos en el que confían las mayores instituciones financieras del mundo para garantizar tanto la retención como la recuperación de registros bancarios.
+
+image:ontap-cyber-vault-logical-air-gap.png["Cibervault mediante NetApp ONTAP utilizado de forma lógica"]

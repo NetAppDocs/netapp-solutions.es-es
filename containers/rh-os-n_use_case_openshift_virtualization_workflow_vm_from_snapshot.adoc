@@ -29,19 +29,19 @@ Para las operaciones de Snapshot en OpenShift, se deben definir los recursos Vol
 * VolumeSnapshotClass permite que el administrador especifique diferentes atributos para una copia VolumeSnapshot. Permite tener distintos atributos para las diferentes copias Snapshot realizadas desde el mismo volumen.
 
 
-image::redhat_openshift_image60.png[Equipos virtuales desde la arquitectura de Snapshot]
+image:redhat_openshift_image60.png["Equipos virtuales desde la arquitectura de Snapshot"]
 
 Para crear una instantánea de un equipo virtual, complete los siguientes pasos:
 
 . Cree una copia Snapshot de VolumeshotClass que puede utilizarse para crear una copia Snapshot de Volume. Vaya a almacenamiento > VolumeSnapshotClasses y haga clic en Create VolumeSnapshotClass.
 . Introduzca el nombre de la clase de Snapshot, introduzca csi.trident.netapp.io para el controlador y haga clic en Create.
 +
-image::redhat_openshift_image61.JPG[Cree la clase Snapshot]
+image:redhat_openshift_image61.JPG["Cree la clase Snapshot"]
 
 . Identifique la RVP que está Unido a la máquina virtual de origen y, a continuación, cree una copia Snapshot de esa RVP. Vaya a. `Storage > VolumeSnapshots` Y haga clic en Create VolumeSnapshots.
 . Seleccione la RVP para la que desea crear la Snapshot, introduzca el nombre de la Snapshot o acepte el valor predeterminado y seleccione VolumeSnapshotClass adecuado. A continuación, haga clic en Crear.
 +
-image::redhat_openshift_image62.JPG[Cree Snapshot]
+image:redhat_openshift_image62.JPG["Cree Snapshot"]
 
 . Esto crea la snapshot de la RVP en ese momento específico.
 
@@ -53,7 +53,7 @@ image::redhat_openshift_image62.JPG[Cree Snapshot]
 . En primer lugar, restaure la snapshot en una nueva RVP. Desplácese hasta almacenamiento > VolumeSnapshots, haga clic en los tres puntos junto a la snapshot que desea restaurar y haga clic en Restore como nueva RVP.
 . Introduzca los detalles del nuevo PVC y haga clic en Restore. De este modo se crea una nueva RVP.
 +
-image::redhat_openshift_image63.JPG[Restaurar snapshot en una nueva RVP]
+image:redhat_openshift_image63.JPG["Restaurar snapshot en una nueva RVP"]
 
 . A continuación, cree una nueva máquina virtual a partir de esta RVP. Navegue a Virtualization > Virtual Machines y haga clic en Create > With YAML.
 . En la sección Spec > template > Volumes, especifique la nueva RVP creada en Snapshot en lugar de en el disco de contenedor. Proporcione los demás detalles de la nueva VM de acuerdo con sus requisitos.

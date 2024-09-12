@@ -18,17 +18,17 @@ Tanto si los contenedores de Red Hat Open Shift se ejecutan en VMware como en pr
 
 El siguiente diagrama muestra los diversos sistemas de almacenamiento back-end de NetApp que se pueden integrar con clústeres OpenShift utilizando Astra Trident de NetApp.
 
-image::a-w-n_astra_trident.png[un tridente w n astra]
+image:a-w-n_astra_trident.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 Storage Virtual Machine (SVM) de ONTAP proporciona multi-tenancy seguro. Un único clúster de OpenShift se puede conectar a una única SVM o a varias SVM o incluso a varios clústeres de ONTAP. La clase de almacenamiento filtra el almacenamiento de backend en función de parámetros o por etiquetas. Los administradores de almacenamiento definen los parámetros para conectarse al sistema de almacenamiento mediante la configuración de back-end trident. Al establecer correctamente la conexión, crea el backend trident y rellena la información que la clase de almacenamiento puede filtrar.
 
 A continuación se muestra la relación entre storageclass y backend.
 
-image::rhhc-storage-options-sc2ontap.png[Clase de almacenamiento con relación de ONTAP]
+image:rhhc-storage-options-sc2ontap.png["Clase de almacenamiento con relación de ONTAP"]
 
 El propietario de la aplicación solicita un volumen persistente mediante la clase de almacenamiento. La clase de almacenamiento filtra el almacenamiento back-end. A continuación se muestra la relación entre el pod y el almacenamiento back-end.
 
-image::rhhc_storage_opt_pod2vol.png[Relación de Pod a ONTAP Volume]
+image:rhhc_storage_opt_pod2vol.png["Relación de Pod a ONTAP Volume"]
 
 
 
@@ -58,6 +58,6 @@ En entornos vSphere, los clientes pueden elegir el controlador CSI de VMware o A
 
 Para VMware CSI y Astra Trident CSI, ONTAP admite nconnect, trunking de sesión, kerberos, etc. para NFS y multivía, autenticación CHAP, etc. para los protocolos de bloque.
 
-En AWS, FSx para ONTAP de NetApp (FSxN) puede ponerse en marcha en una zona de disponibilidad única (AZ) o en varias zonas. Para cargas de trabajo de producción que requieren alta disponibilidad, multi-AZ ofrece tolerancia a fallos de nivel de zona y ofrece una mejor caché de lectura NVMe que una única zona de disponibilidad. Para obtener más información, consulte link:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/performance.html["Directrices de rendimiento de AWS"]. Para ahorrar costes en el sitio de recuperación ante desastres, se puede utilizar un único AZ FSx ONTAP. Image::rhhc_storage_options_fsxn_options.png[«Replicación entre Multi-AZ y Single-AZ»]
+En AWS, FSx para ONTAP de NetApp (FSxN) puede ponerse en marcha en una zona de disponibilidad única (AZ) o en varias zonas. Para cargas de trabajo de producción que requieren alta disponibilidad, multi-AZ ofrece tolerancia a fallos de nivel de zona y ofrece una mejor caché de lectura NVMe que una única zona de disponibilidad. Para obtener más información, consulte link:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/performance.html["Directrices de rendimiento de AWS"]. Para ahorrar costes en el sitio de recuperación ante desastres, se puede utilizar un único AZ FSx ONTAP. image:rhhc_storage_options_fsxn_options.png["Replicación entre Multi-AZ y Single-AZ"]
 
 Para obtener más información sobre el número de SVM que admite FSx ONTAP, consulte link:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-svms.html#max-svms["Gestión de la máquina virtual de almacenamiento FSx ONTAP"]
