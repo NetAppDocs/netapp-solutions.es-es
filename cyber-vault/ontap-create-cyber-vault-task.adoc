@@ -1,7 +1,7 @@
 ---
 sidebar: sidebar 
 keywords: Cyber vault, cybervault, cyber-vault, data protection, security, ransomware, ONTAP 
-permalink: /cyber-vault/ontap-create-cyber-vault-task.html 
+permalink: cyber-vault/ontap-create-cyber-vault-task.html 
 summary: Los pasos incluidos en esta página le ayudarán a crear una solución de almacén cibernético basada en ONTAP 
 ---
 = Crear un ciberalmacén con ONTAP
@@ -19,7 +19,7 @@ Los pasos a continuación ayudarán con la creación de una bóveda cibernética
 .Antes de empezar
 * El clúster de origen debe ejecutar ONTAP 9 o una versión posterior.
 * Los agregados de origen y destino deben tener 64 bits.
-* Los volúmenes de origen y destino deben crearse en clústeres con una relación entre iguales con SVM. Para obtener más información, consulte link:../../ontap-sm-classic/peering/index.html["Conexión de clústeres entre iguales"^].
+* Los volúmenes de origen y destino deben crearse en clústeres con una relación entre iguales con SVM. Para obtener más información, consulte link:https://docs.netapp.com/us-en/ontap/peering/index.html["Conexión de clústeres entre iguales"^].
 * Si se deshabilita el crecimiento automático de un volumen, el espacio libre en el volumen de destino debe ser al menos un cinco por ciento mayor que el espacio usado en el volumen de origen.
 
 
@@ -30,7 +30,7 @@ image::ontap-cyber-vault-air-gap.png[Cyber vault de red desconectada mediante Ne
 
 .Pasos
 . Identifique la cabina de destino que se convertirá en el ciber vault para recibir los datos aislados.
-. En la matriz de destino, para preparar el almacén cibernético, link:../../ontap/system-admin/install-license-task.html["Instale la licencia de ONTAP One"^] link:../../ontap/snaplock/initialize-complianceclock-task.html["Inicialice el reloj de cumplimiento"^], y, si está utilizando una versión de ONTAP anterior a 9.10.1, link:../../ontap/snaplock/create-snaplock-aggregate-task.html["Cree un agregado de SnapLock Compliance"^].
+. En la matriz de destino, para preparar el almacén cibernético, link:https://docs.netapp.com/us-en/ontap/system-admin/install-license-task.html["Instale la licencia de ONTAP One"^] link:https://docs.netapp.com/us-en/ontap/snaplock/initialize-complianceclock-task.html["Inicialice el reloj de cumplimiento"^], y, si está utilizando una versión de ONTAP anterior a 9.10.1, link:https://docs.netapp.com/us-en/ontap/snaplock/create-snaplock-aggregate-task.html["Cree un agregado de SnapLock Compliance"^].
 . En la cabina de destino, cree un volumen de destino SnapLock Compliance del tipo dp:
 +
 `volume create -vserver SVM_name -volume volume_name -aggregate aggregate_name -snaplock-type compliance|enterprise -type DP -size size`
@@ -42,8 +42,8 @@ El siguiente comando crea un volumen SnapLock Compliance de 2GB GB llamado `dstv
 +
 `cluster2::> volume create -vserver SVM2 -volume dstvolB -aggregate node01_aggr -snaplock-type compliance -type DP -size 2GG`
 
-. En el clúster de destino, para crear el espacio aéreo, establezca el período de retención predeterminado, como se describe en link:../../ontap/snaplock/set-default-retention-period-task.html["Establecer el período de retención predeterminado"^]. Un volumen SnapLock que es un destino de almacén tiene asignado un período de retención predeterminado. El valor de este período se establece inicialmente en un mínimo de 0 años y un máximo de 30 años para los volúmenes SnapLock Compliance. Cada copia de Snapshot de NetApp se compromete con el primer período de retención predeterminado. Debe cambiarse el período de retención predeterminado. El período de retención se puede ampliar más tarde, si es necesario, pero nunca acortar. Para obtener más información, consulte link:../../ontap/snaplock/set-retention-period-task.html["Establecer información general sobre el tiempo de retención"^].
-. link:../../ontap/data-protection/create-replication-relationship-task.html["Cree una nueva relación de replicación"^] Entre el origen que no es de SnapLock y el nuevo destino de SnapLock que creó en el Paso 3.
+. En el clúster de destino, para crear el espacio aéreo, establezca el período de retención predeterminado, como se describe en link:https://docs.netapp.com/us-en/ontap/snaplock/set-default-retention-period-task.html["Establecer el período de retención predeterminado"^]. Un volumen SnapLock que es un destino de almacén tiene asignado un período de retención predeterminado. El valor de este período se establece inicialmente en un mínimo de 0 años y un máximo de 30 años para los volúmenes SnapLock Compliance. Cada copia de Snapshot de NetApp se compromete con el primer período de retención predeterminado. Debe cambiarse el período de retención predeterminado. El período de retención se puede ampliar más tarde, si es necesario, pero nunca acortar. Para obtener más información, consulte link:https://docs.netapp.com/us-en/ontap/snaplock/set-retention-period-task.html["Establecer información general sobre el tiempo de retención"^].
+. link:https://docs.netapp.com/us-en/ontap/data-protection/create-replication-relationship-task.html["Cree una nueva relación de replicación"^] Entre el origen que no es de SnapLock y el nuevo destino de SnapLock que creó en el Paso 3.
 +
 Este ejemplo crea una nueva relación de SnapMirror con el volumen SnapLock de destino dstvolB mediante una política de XDPDefault para almacenar copias Snapshot etiquetadas diariamente y semanalmente en una programación horaria:
 
@@ -51,7 +51,7 @@ Este ejemplo crea una nueva relación de SnapMirror con el volumen SnapLock de d
 `cluster2::> snapmirror create -source-path SVM1:srcvolA -destination-path SVM2:dstvolB -vserver SVM2 -policy XDPDefault -schedule hourly`
 
 +
-link:../../ontap/data-protection/create-custom-replication-policy-concept.html["Cree una política de replicación personalizada"^] o un link:../../ontap/data-protection/create-replication-job-schedule-task.html["programación personalizada"^] si los valores predeterminados disponibles no son adecuados.
+link:https://docs.netapp.com/us-en/ontap/data-protection/create-custom-replication-policy-concept.html["Cree una política de replicación personalizada"^] o un link:https://docs.netapp.com/us-en/ontap/data-protection/create-replication-job-schedule-task.html["programación personalizada"^] si los valores predeterminados disponibles no son adecuados.
 
 . En la SVM de destino, inicialice la relación de SnapVault creada en el paso 5:
 +
