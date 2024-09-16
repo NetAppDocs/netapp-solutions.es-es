@@ -16,7 +16,7 @@ summary: Recomendaciones de mejores prácticas para máquinas virtuales en Red H
 Autor: Banu Sundhar, NetApp
 
 [role="lead"]
-Esta sección describe los diferentes factores que debe tener en cuenta al implementar nuevas máquinas virtuales o al importar máquinas virtuales existentes desde un entorno VMware a OpenShift Virtualization on OpenShift Container Platform.
+Esta sección describe los diferentes factores que debe tener en cuenta al implementar nuevas máquinas virtuales o al importar máquinas virtuales existentes de VMware vSphere a OpenShift Virtualization on OpenShift Container Platform.
 
 
 
@@ -31,7 +31,7 @@ El tipo de almacenamiento que se desea elegir para los discos de la máquina vir
 * Las características de rendimiento que necesita para sus cargas de trabajo
 
 
-Consulte la sección Configuración del almacenamiento para obtener más información.
+Consulte la sección Configuración del almacenamiento a continuación para obtener más información.
 
 
 
@@ -39,21 +39,23 @@ Consulte la sección Configuración del almacenamiento para obtener más informa
 
 La virtualización OpenShift admite migraciones en vivo de una máquina virtual. La migración en vivo permite que una instancia de máquina virtual en ejecución (VMI) se mueva a otro nodo sin interrumpir la carga de trabajo. La migración puede ser útil para que la transición se realice sin problemas durante las actualizaciones de clúster o siempre que un nodo tenga que drenarse para realizar los cambios de mantenimiento o de configuración. La migración en directo requiere el uso de una solución de almacenamiento compartido que proporcione el modo de acceso ReadWriteMany (RWX). Los discos de VM deben estar respaldados por una opción de almacenamiento que proporcione el modo de acceso RWX. OpenShift Virtualization comprobará que una VMI es **migrable en vivo** y, de ser así, la **evictionStrategy** se establecerá en **LiveMigrate**. Consulte link:https://docs.openshift.com/container-platform/latest/virt/live_migration/virt-about-live-migration.html["Sección Acerca de la migración en vivo en la documentación de Red Hat"] para obtener más información.
 
-Es importante que utilice un controlador que admita el modo de acceso **RWX**. Consulte la sección Configuración de almacenamiento para obtener más información sobre los controladores que admiten el modo de acceso RWX.
+Es importante que utilice un controlador que admita el modo de acceso **RWX**. Consulte la sección Configuración de almacenamiento a continuación para obtener más información sobre los controladores de ONTAP que admiten el modo de acceso RWX.
 
 
 
 == Configuración del almacenamiento
 
-el aprovisionador de CSI de Trident ofrece diversos controladores (nas, economía de nas, nas-FlexGroup, san y san) para el aprovisionamiento del almacenamiento respaldado por las opciones de almacenamiento de NetApp. **Protocolos utilizados:** * Los controladores nas usan protocolos NAS (NFS y SMB) * Los controladores san usan el protocolo iSCSI o NVMe/TCP
+el aprovisionador de CSI de Trident ofrece diversos controladores (nas, economía de nas, nas-FlexGroup, san y san) para el aprovisionamiento del almacenamiento respaldado por las opciones de almacenamiento de NetApp.
+
+**Protocolos utilizados:** * Los controladores nas usan protocolos NAS (NFS y SMB) * Los controladores san usan el protocolo iSCSI o NVMe/TCP
 
 Lo siguiente puede ayudarle a decidir la forma en que desea configurar el almacenamiento en función de los requisitos de la carga de trabajo y del aprovechamiento del almacenamiento.
 
-* El controlador nas crea un volumen persistente (VP) en un FlexVolume.
-* El controlador económico de nas crea un VP en un qtree en un FlexVolume compartido. (Un FlexVolume por cada 200 VP, configurable entre 50 y 300)
-* El controlador nas-FlexGroup se crea en un VP en un FlexGroup
+* **El controlador nas** crea un volumen persistente (PV) en un FlexVolume.
+* **El controlador nas-ECONOMY** crea un PV en un qtree en un FlexVolume compartido. (Un FlexVolume por cada 200 VP, configurable entre 50 y 300)
+* **El controlador nas-FlexGroup** se crea en un PV en un FlexGroup
 * El controlador san crea un VP en LUN en un FlexVolume dedicado
-* El controlador económico san crea un VP en LUN en FlexVolume compartido (un FlexVolume por cada 100 VP, configurable entre 50 y 200).
+* **El controlador san-ECONOMY** crea un VP en LUN en FlexVolume compartido (un FlexVolume por cada 100 VP, configurable entre 50 y 200)
 
 
 El siguiente diagrama ilustra esto.
@@ -62,12 +64,12 @@ image::redhat_openshift_bpg_image1.png[conductores]
 
 Además, los modos de acceso admitidos por los controladores son diferentes.
 
-Compatibilidad con controladores nas de ONTAP
+**Compatibilidad con controladores nas de ONTAP**
 
 * Acceso al sistema de archivos y modos de acceso RWO, ROX, RWX, RWOP.
 
 
-Los controladores san de ONTAP admiten el bloque raw, así como los modos de sistema de archivos.
+**Los controladores ONTAP san admiten bloques raw, así como modos de sistema de archivos**
 
 * En el modo de bloque raw, puede admitir los modos de acceso RWO, ROX, RWX, RWOP.
 * En el modo de sistema de archivos, solo se permiten los modos de acceso RWO, RWOP.
@@ -195,8 +197,39 @@ Los límites admitidos documentan los máximos de los objetos probados al ejecut
 
 
 
-=== **Migración de VM desde VMware Environment**
+=== **Migración de VM desde el entorno VMware**
 
-Puede encontrar más información sobre la migración de equipos virtuales desde el entorno de VMware en link:https://docs.netapp.com/us-en/netapp-solutions/containers/rh-os-n_use_case_openshift_virtualization_workflow_vm_migration_using_mtv.html["Flujos de trabajo > Red Hat OpenShift Virtualization con NetApp ONTAP"]
+Migration Toolkit for OpenShift Virtualization es un operador proporcionado por Red Hat disponible en OperatorHub de OpenShift Container Platform. Esta herramienta se puede utilizar para migrar máquinas virtuales desde vSphere, Red Hat Virtualization, OpenStack y OpenShift Virtualization.
 
-Si va a migrar más de 10 equipos virtuales desde un host ESXi en el mismo plan de migración, debe aumentar la memoria de servicio NFC del host. De lo contrario, la migración fallará porque la memoria de servicio NFC está limitada a 10 conexiones paralelas. Para obtener más información, consulte la documentación de Red Hat: Link: https://docs.redhat.com/en/documentation/migration_toolkit_for_virtualization/2.6/html/installing_and_using_the_migration_toolkit_for_virtualization/prerequisites_mtv#increasing-nfc-memory-vmware-host_mtv[Increasing La memoria de servicio NFC de un host ESXi]
+Puede encontrar información sobre la migración de máquinas virtuales desde vSphere en link:https://docs.netapp.com/us-en/netapp-solutions/containers/rh-os-n_use_case_openshift_virtualization_workflow_vm_migration_using_mtv.html["Flujos de trabajo > Red Hat OpenShift Virtualization con NetApp ONTAP"]
+
+Puede configurar límites para varios parámetros desde la CLI o desde la consola web de migración. Algunas muestras se dan a continuación
+
+. Máximo de migraciones simultáneas de máquinas virtuales Establece el número máximo de máquinas virtuales que se pueden migrar simultáneamente. El valor predeterminado es 20 máquinas virtuales.
+. Intervalo de Precopy (minutos) Controla el intervalo en el que se solicita una nueva instantánea antes de iniciar una migración en caliente. El valor predeterminado es 60 minutos.
+. El intervalo de sondeo de instantáneas (segundos) determina la frecuencia con la que el sistema comprueba el estado de creación o eliminación de instantáneas durante la migración en caliente de oVirt. El valor predeterminado es 10 segundos.
+
+
+Si va a migrar más de 10 equipos virtuales desde un host ESXi en el mismo plan de migración, debe aumentar la memoria de servicio NFC del host. De lo contrario, la migración fallará porque la memoria de servicio NFC está limitada a 10 conexiones paralelas. Para obtener más información, consulte la documentación de Red Hat: link:https://docs.redhat.com/en/documentation/migration_toolkit_for_virtualization/2.6/html/installing_and_using_the_migration_toolkit_for_virtualization/prerequisites_mtv#increasing-nfc-memory-vmware-host_mtv["Aumentar la memoria de servicio NFC de un host ESXi"]
+
+Aquí hay una migración paralela exitosa de 10 VM desde el mismo host en vSphere a OpenShift Virtualization usando Migration Toolkit for Virtualization.
+
+**VMs en el mismo host ESXi **
+
+image::redhat_openshift_bpg_image2-a.png[equipos virtuales del mismo host]
+
+**Se crea un plan por primera vez para migrar 10 VM desde VMware**
+
+image::redhat_openshift_bpg_image2.png[plan de migración]
+
+**El plan de migración ha comenzado a ejecutarse**
+
+image::redhat_openshift_bpg_image3.png[migración-plan-ejecución]
+
+**Las 10 VM han migrado con éxito**
+
+image::redhat_openshift_bpg_image4.png[plan de migración correcto]
+
+**Las 10 VM están en un estado en ejecución en OpenShift Virtualization**
+
+image::redhat_openshift_bpg_image5.png[equipos virtuales migrados en ejecución]
