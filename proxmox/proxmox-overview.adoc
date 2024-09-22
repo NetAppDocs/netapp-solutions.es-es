@@ -1,0 +1,133 @@
+---
+sidebar: sidebar 
+permalink: proxmox/proxmox-overview.html 
+keywords: proxmox ve, kvm, qemu, lxc, vm 
+summary:  
+---
+= Descripción general del entorno virtual de Proxmox
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Proxmox Virtual Environment es un hipervisor Type-1 de código abierto (instalado en servidores bare metal) basado en Debian Linux. Puede alojar máquinas virtuales (VM), así como contenedores linux (LXC).
+
+
+
+== Descripción general
+
+Proxmox Virtual Environment(VE) es compatible con la virtualización completa basada en contenedores y máquinas virtuales en el mismo host. La máquina virtual basada en kernel (KVM) y Quick Emulator (QEMU) se utilizan para la virtualización completa de la máquina virtual. QEMU es un emulador y virtualizador de máquinas de código abierto y utiliza el módulo KVM Kernel para ejecutar el código invitado directamente en la CPU del host. Linux Containers (LXC) permite que los contenedores se gestionen como máquinas virtuales con persistencia de datos a lo largo de los reinicios.
+
+image:proxmox-overview-image01.png["VM y LXC en el host Proxmox"]
+
+La API RESTful está disponible para tareas de automatización. Para obtener información sobre llamadas API, compruebe link:https://pve.proxmox.com/pve-docs/api-viewer/index.html["Visor de api Proxmox VE"]
+
+
+
+== Gestión de clústeres
+
+El portal de gestión basado en web está disponible en el nodo Proxmox VE en el puerto 8006. Se puede unir una colección de nodos para formar un clúster. La configuración de Proxmox VE, `/etc/pve`, se comparte entre todos los nodos del cluster. Proxmox VE utiliza link:https://pve.proxmox.com/wiki/Cluster_Manager["Motor del grupo de instrumentos Corosync"] para gestionar el clúster. Se puede acceder al portal de gestión desde cualquier nodo del clúster.
+
+image:proxmox-overview-image02.png["Interfaz de gestión"]
+
+Un clúster permite supervisar y reiniciar máquinas virtuales y contenedores en otros nodos si se produce un error en el nodo de host. Las máquinas virtuales y el contenedor se deben configurar para alta disponibilidad. VM and Containers se pueden alojar en un subconjunto específico de hosts mediante la creación de grupos. La máquina virtual o el contenedor están alojados en un host con la prioridad más alta. Para obtener más información, consulte link:https://pve.proxmox.com/wiki/High_Availability["GESTOR DE ALTA disponibilidad"]
+
+image:proxmox-overview-image03.png["Prioridad de GRUPO HA"]
+
+Las opciones de autenticación incluyen Linux PAM, Proxmox VE PAM, LDAP, Microsoft AD u OpenID. Los permisos se pueden asignar a través de Roles y el uso de pools de recursos que son una colección de recursos. Para obtener más información, consulte link:https://pve.proxmox.com/pve-docs/chapter-pveum.html["Gestión de usuarios de Proxmox"]
+
+
+TIP: Las credenciales de conexión de LDAP/Microsoft AD se pueden almacenar en texto sin cifrar y en un archivo que necesita ser protegido por el sistema de archivos host.
+
+
+
+== Informática
+
+Las opciones de CPU para una máquina virtual incluyen el número de núcleos y sockets de CPU (para especificar el número de vCPU), la opción para elegir NUMA, la definición de afinidad, el establecimiento de los límites y el tipo de CPU.
+
+image:proxmox-overview-image11.png["Opciones de CPU de VM"]
+
+Para obtener orientación sobre los tipos de CPU y cómo afecta a la migración dinámica, compruebe link:https://pve.proxmox.com/pve-docs/chapter-qm.html#qm_cpu["Sección QEMU/KVM Virtual Machine de la documentación de Proxmox VE"]
+
+Las opciones de CPU para la imagen del contenedor LXC se muestran en la siguiente captura de pantalla.
+
+image:proxmox-overview-image12.png["Opciones de CPU LXC"]
+
+La VM y LXC pueden especificar el tamaño de la memoria. Para las máquinas virtuales, la función de balooning está disponible para las máquinas virtuales de Linux. Para obtener más información, consulte link:https://pve.proxmox.com/pve-docs/chapter-qm.html#qm_memory["Sección QEMU/KVM Virtual Machine de la documentación de Proxmox VE"]
+
+
+
+== Reducida
+
+Una máquina virtual consta de un archivo de configuración, `/etc/pve/qemu-server/<vm id>.conf` y componentes de disco virtual. Los formatos de disco virtual compatibles son sin configurar, qcow2 y VMDK. qcow2 puede proporcionar funcionalidades de thin provisioning y Snapshot en varios tipos de almacenamiento.
+
+image:proxmox-overview-image04.png["Formatos de disco de equipo virtual"]
+
+Existe una opción para presentar los LUN iSCSI a una máquina virtual como dispositivos sin formato.
+
+LXC también tiene su propio archivo de configuración, `/etc/pve/lxc/<container id>.conf` y componentes de disco contenedor. El volumen de datos puede montarse desde los tipos de almacenamiento admitidos.
+
+image:proxmox-overview-image05.png["Soporte adicional del contenedor"]
+
+Los tipos de almacenamiento compatibles incluyen disco local, NAS (SMB y NFS) y SAN (FC, iSCSI, NVMe-oF, etc.). Si quiere más información, consulte link:https://pve.proxmox.com/pve-docs/chapter-pvesm.html["Almacenamiento Proxmox VE"]
+
+Cada volumen de almacenamiento se configura con los tipos de contenido permitidos. Los volúmenes NAS admiten todos los tipos de contenido, mientras que la compatibilidad con SAN se limita a imágenes de máquina virtual y contenedor.
+
+
+NOTE: El tipo de almacenamiento de directorios también admite todos los tipos de contenido. Las credenciales de conexión SMB se almacenan en texto sin cifrar y solo se puede acceder a root.
+
+image:proxmox-overview-image06.png["Tipos de contenido con NAS"]
+
+image:proxmox-overview-image07.png["Tipos de contenido con SAN"]
+
+Para importar equipos virtuales desde un entorno Broadcom vSphere, el host de vSphere también puede incluirse como dispositivo de almacenamiento.
+
+
+
+== Red
+
+Proxmox VE es compatible con funciones de red Linux nativas como Linux bridge o Open vSwitch, para implementar redes definidas por software (SDN). Las interfaces Ethernet del host se pueden unir para proporcionar redundancia y alta disponibilidad. Para ver otras opciones, consulte link:https://pve.proxmox.com/pve-docs/chapter-sysadmin.html#_choosing_a_network_configuration["Documentación de Proxmox VE"]
+
+image:proxmox-overview-image08.png["Red vinculada"]
+
+Las redes de invitado se pueden configurar en el nivel del clúster y los cambios se envían a los hosts miembros. La separación se gestiona con zonas, redes virtuales y subredes. link:https://pve.proxmox.com/pve-docs/chapter-pvesdn.html["Zona"] Define los tipos de red como simple, VLAN, apilamiento de VLAN, VXLAN, EVPN, etc.
+
+Dependiendo del tipo de zona, la red se comporta de manera diferente y ofrece características, ventajas y limitaciones específicas.
+
+Los casos de uso de SDN van desde una red privada aislada en cada nodo individual hasta complejas redes de superposición en varios clústeres de PVE en diferentes ubicaciones.
+
+Después de configurar un vnet en la interfaz de administración SDN del centro de datos de todo el clúster, está disponible como un puente de Linux común, localmente en cada nodo, que se asignará a máquinas virtuales y contenedores.
+
+Cuando se crea una VM, el usuario tiene la capacidad de elegir el bridge de Linux para conectarse. Se pueden incluir interfaces adicionales una vez que se ha creado la máquina virtual.
+
+image:proxmox-overview-image13.png["Selección de la red de máquinas virtuales"]
+
+Y esta es la información de vnet a nivel de centro de datos.
+
+image:proxmox-overview-image14.png["Información vnet en el centro de datos"]
+
+
+
+== Supervisión
+
+La página de resumen sobre la mayoría de los objetos, como el centro de datos, el host, el equipo virtual, el contenedor, el almacenamiento, etc., proporciona detalles e incluye algunas métricas de rendimiento. La siguiente captura de pantalla muestra la página de resumen de un host e incluye información sobre los paquetes instalados.
+
+image:proxmox-overview-image09.png["Vista de paquete de host"]
+
+Las estadísticas sobre hosts, invitados, almacenamiento, etc. se pueden enviar a una base de datos externa de Graphite o Influxdb. Para obtener más información, consulte link:https://pve.proxmox.com/pve-docs/chapter-sysadmin.html#external_metric_server["Documentación de Proxmox VE"].
+
+
+
+== Protección de datos
+
+Proxmox VE incluye opciones para realizar copias de seguridad y restaurar las máquinas virtuales y los contenedores a almacenamiento configurado para contenido de copia de seguridad. Los backups se pueden iniciar desde UI o CLI con la herramienta vzdump o puede programarse. Para obtener más información, consulte link:https://pve.proxmox.com/pve-docs/chapter-vzdump.html["Sección Copia de seguridad y restauración de la documentación de Proxmox VE"].
+
+image:proxmox-overview-image10.png["Contenido de almacenamiento de copia de seguridad de Proxmox VE"]
+
+El contenido de backup debe almacenarse fuera de las instalaciones para protegerse de cualquier diaster en el sitio de origen.
+
+Veeam agregó soporte para Proxmox VE con la versión 12,2. Esto permite restaurar backups de máquinas virtuales desde vSphere a un host de Proxmox VE.

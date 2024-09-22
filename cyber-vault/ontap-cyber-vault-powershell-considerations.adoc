@@ -1,0 +1,80 @@
+---
+sidebar: sidebar 
+permalink: cyber-vault/ontap-cyber-vault-powershell-considerations.html 
+keywords: Cyber vault, powershell, script, configuration, validation, hardening 
+summary: Esta es la solución de NetApp ONTAP para configurar, reforzar y validar un ciberalmacén basado en ONTAP 
+---
+= Consideraciones adicionales
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media
+
+
+[role="lead"]
+Hay consideraciones adicionales a la hora de diseñar e implementar un ciberalmacén basado en ONTAP.
+
+
+
+== Consideraciones sobre el tamaño de la capacidad
+
+La cantidad de espacio en disco necesaria para un volumen de destino de ciberalmacén ONTAP depende de diversos factores, siendo el más importante la tasa de cambio de los datos del volumen de origen. La programación de backups y la programación de Snapshot en el volumen de destino afectan tanto al uso de disco del volumen de destino como a la tasa de cambio del volumen de origen no es probable que sea constante. Es una buena idea proporcionar un búfer de capacidad de almacenamiento adicional superior a la necesaria para adaptarse a los cambios futuros en el comportamiento de los usuarios finales o las aplicaciones.
+
+Para dimensionar una relación durante 1 mes de retención en ONTAP, debe calcular los requisitos de almacenamiento en función de varios factores, como el tamaño del conjunto de datos principal, la tasa de cambio de los datos (tasa de cambio diaria) y el ahorro en deduplicación y compresión (si procede).
+
+Este es el enfoque paso a paso:
+
+El primer paso es conocer el tamaño de los volúmenes de origen que está protegiendo con el almacén cibernético. Esta es la cantidad base de datos que se replicará inicialmente en el destino del ciberalmacén. A continuación, calcule la tasa de cambio diaria del conjunto de datos. Este es el porcentaje de datos que cambia cada día. Es crucial tener una buena comprensión de lo dinámicos que son los datos.
+
+Por ejemplo:
+
+* Tamaño del conjunto de datos principal = 5TB TB
+* Tasa de cambio diario = 5% (0,05)
+* Eficiencia de deduplicación y compresión = 50 % (0,50)
+
+
+Ahora, veamos el cálculo:
+
+* Calcule la tasa de cambio diaria de datos:
++
+`Changed data per day = 5000 * 5% = 250GB`
+
+* Calcule los datos totales modificados en 30 días:
++
+`Total changed data in 30 days = 250 GB * 14 = 3.5TB`
+
+* Calcule el almacenamiento total necesario:
++
+`TOTAL = 5TB + 3.5TB = 8.5TB`
+
+* Aplique el ahorro en deduplicación y compresión:
++
+`EFFECTIVE = 8.5TB * 50% = 4.25TB`
+
+
+
+*Resumen de las necesidades de almacenamiento*
+
+* Sin eficiencia: Requeriría *8,5TB* para almacenar 30 días de los datos de la bóveda cibernética.
+* Con una eficiencia del 50%: Requeriría *4,25TB* de almacenamiento después de la deduplicación y la compresión.
+
+
+
+NOTE: Las copias Snapshot pueden tener una sobrecarga adicional debido a los metadatos, pero esto suele ser menor.
+
+
+NOTE: Si se realizan varios backups por día, ajuste el cálculo según el número de copias snapshot realizadas cada día.
+
+
+NOTE: Factor de crecimiento de datos a lo largo del tiempo para garantizar que el tamaño esté preparado para el futuro.
+
+
+
+== Impacto en el rendimiento primario/fuente
+
+Dado que la transferencia de datos es una operación de extracción, el impacto en el rendimiento del almacenamiento principal puede variar en función de la carga de trabajo, el volumen de datos y la frecuencia de los backups. Sin embargo, el impacto en el rendimiento general en el sistema principal suele ser moderado y gestionable, ya que la transferencia de datos está diseñada para descargar las tareas de backup y protección de datos en el sistema de almacenamiento cibernético. Durante la configuración inicial de las relaciones y el primer backup completo, se transfiere una cantidad significativa de datos del sistema primario al sistema cibervault (el volumen SnapLock Compliance). Esto puede provocar un aumento del tráfico de red y de la carga de E/S en el sistema principal. Una vez que se ha completado el primer backup completo, ONTAP solo necesita hacer un seguimiento y transferir los bloques que han cambiado desde el último backup. Esto da como resultado una carga de I/O mucho menor en comparación con la replicación inicial. Las actualizaciones incrementales son eficientes y tienen un impacto mínimo en el rendimiento del almacenamiento primario. El proceso de almacén se ejecuta en segundo plano, lo que reduce las posibilidades de interferencia con las cargas de trabajo de producción del sistema principal.
+
+* Asegurarse de que el sistema de almacenamiento tenga suficientes recursos (CPU, memoria e IOPS) para gestionar la carga adicional reduce el impacto en el rendimiento.
+

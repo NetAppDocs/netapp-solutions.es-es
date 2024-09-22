@@ -1,0 +1,91 @@
+---
+sidebar: sidebar 
+permalink: cyber-vault/ontap-cyber-vault-powershell-overview.html 
+keywords: Cyber vault, powershell, script, configuration, validation, hardening 
+summary: Esta es la solución de NetApp ONTAP para configurar, reforzar y validar un ciberalmacén basado en ONTAP 
+---
+= Descripción general de ONTAP cyber vault con PowerShell
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media
+
+
+[role="lead"]
+En el panorama digital actual, proteger los activos de datos importantes de una empresa no es solo una práctica recomendada: Es un imperativo empresarial. Las amenazas cibernéticas evolucionan a un ritmo sin precedentes y las medidas tradicionales de protección de datos ya no son suficientes para proteger la información confidencial. Aquí es donde entra en juego una ciberbóveda, la solución de vanguardia basada en ONTAP de NetApp combina técnicas avanzadas de chorro de aire con sólidas medidas de protección de datos para crear una barrera impenetrable contra las ciberamenazas. Al aislar los datos más valiosos con tecnología de endurecimiento seguro, un ciberalmacén minimiza la superficie de ataque para que los datos más cruciales permanezcan confidenciales, intactos y disponibles cuando sea necesario.
+
+Un ciberalmacén es una instalación de almacenamiento seguro que consta de varias capas de protección, como firewalls, redes y almacenamiento. Estos componentes protegen los datos esenciales de recuperación necesarios para operaciones empresariales cruciales. Los componentes del almacén cibernético se sincronizan regularmente con los datos de producción esenciales basados en la política de almacén, pero de lo contrario permanecen inaccesibles. Esta configuración aislada y desconectada garantiza que, en caso de un ciberataque que comprometa el entorno de producción, se pueda realizar fácilmente una recuperación final y fiable desde el ciberalmacén.
+
+NetApp permite crear fácilmente una red desconectada para ciberalmacén mediante la configuración de la red, la deshabilitación de las LIF, la actualización de las reglas de firewall y el aislamiento del sistema de redes externas e Internet. Este enfoque robusto desconecta efectivamente el sistema de las redes externas e Internet, proporcionando una protección sin igual contra ataques cibernéticos remotos e intentos de acceso no autorizado, haciendo que el sistema sea inmune a las amenazas e intrusiones basadas en la red.
+
+Si se combina esto con la protección de SnapLock Compliance, los datos no se pueden modificar ni eliminar, ni siquiera por los administradores de ONTAP ni por los servicios de soporte de NetApp. SnapLock realiza una auditoría periódica contra las normativas SEC y FINRA, garantizando que la resiliencia de los datos cumpla las estrictas normativas en materia de retención de DATOS y WORM del sector bancario. NetApp es el único sistema de almacenamiento empresarial validado por NSA CSfC que almacena datos confidenciales.
+
+image:ontap-cyber-vault-logical-air-gap.png["Air gapped ciberalmacén de ONTAP con copias SnapLock inmutables e indelebles"]
+
+Este documento describe la configuración automatizada del ciberalmacén de NetApp para el almacenamiento ONTAP en las instalaciones a otro almacenamiento ONTAP designado con copias Snapshot inmutables. Además, se añade una capa adicional de protección frente al aumento de ciberataques para una rápida recuperación. Como parte de esta arquitectura, se aplica toda la configuración según las prácticas recomendadas de ONTAP. La última sección tiene instrucciones para realizar una recuperación en caso de un ataque.
+
+
+NOTE: La misma solución se puede aplicar para crear el ciberalmacén designado en AWS mediante FSx para ONTAP.
+
+
+
+== Pasos de alto nivel para crear una bóveda cibernética ONTAP
+
+* Creación de una relación entre iguales
++
+** El sitio de producción que utiliza el almacenamiento de ONTAP está relacionado con el almacenamiento ONTAP de ciberalmacén designado
+
+
+* Crear volumen de SnapLock Compliance
+* Configure la relación y la regla de SnapMirror para definir la etiqueta
++
+** Se configura la relación con SnapMirror y los programas apropiados
+
+
+* Establecer retenciones antes de iniciar la transferencia SnapMirror (almacén)
++
+** El bloqueo de retención se aplica a los datos copiados, lo que evita aún más que los datos puedan provocar fallos internos o de datos. Con esto, los datos no se pueden eliminar antes de que expire el período de retención
+** Las organizaciones pueden conservar estos datos durante varias semanas o meses en función de sus requisitos
+
+
+* Inicialice la relación de SnapMirror según las etiquetas
++
+** La propagación inicial y la transferencia permanente incremental se producen según la programación de SnapMirror
+** Los datos se protegen (inmutables e indelebles) con SnapLock Compliance, y que los datos están disponibles para recuperar
+
+
+* Implemente estrictos controles de transferencia de datos
++
+** Cyber vault se desbloquea durante un período limitado con datos del sitio de producción y se sincroniza con los datos del almacén. Una vez completada la transferencia, la conexión se desconecta, se cierra y se vuelve a bloquear
+
+
+* Recuperación rápida
++
+** Si los datos primarios se ven afectados en el sitio de producción, los datos del ciberalmacén se recuperan de forma segura a la producción original o a otro entorno elegido
+
+
+
+
+image:ontap-cyber-vault-air-gap.png["Pasos de alto nivel para crear una bóveda cibernética ONTAP"]
+
+
+
+== Componentes de la solución
+
+NetApp ONTAP que ejecuta 9.15.1 en los clústeres de origen y destino.
+
+ONTAP One: Licencia todo en uno de NetApp ONTAP.
+
+Funcionalidades que se usan con la licencia de ONTAP One:
+
+* Cumplimiento de normativas SnapLock
+* SnapMirror
+* Verificación de varios administradores
+* Todas las capacidades de fortalecimiento a las que ONTAP expone
+* Credenciales de RBAC independientes para el almacén cibernético
+
+
+
+NOTE: Todas las cabinas físicas unificadas ONTAP se pueden usar para un ciberalmacén, sin embargo, los sistemas flash basados en capacidad de la serie C de AFF y los sistemas de flash híbrido FAS son las plataformas ideales más rentables para este fin. Consulte link:./ontap-cyber-vault-sizing.html["Ajuste de tamaño de cibervault de ONTAP"]para obtener orientación sobre el tamaño.

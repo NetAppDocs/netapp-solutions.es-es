@@ -1,0 +1,29 @@
+---
+sidebar: sidebar 
+permalink: cyber-vault/ontap-cyber-vault-powershell-data-recovery.html 
+keywords: Cyber vault, powershell, script, configuration, validation, hardening 
+summary: Esta es la solución de NetApp ONTAP para configurar, reforzar y validar un ciberalmacén basado en ONTAP 
+---
+= Recuperación de datos de ciberalmacenes de ONTAP
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media
+
+
+[role="lead"]
+Si los datos se destruyen en el centro de datos de producción, los datos del ciberalmacén se pueden recuperar de forma segura en el entorno elegido. A diferencia de una solución físicamente desconectada, el ciberalmacén de ONTAP de red desconectada se ha creado utilizando funciones nativas de ONTAP como SnapLock Compliance y SnapMirror. El resultado es un proceso de recuperación rápido y fácil de ejecutar.
+
+En caso de ataque de ransomware y necesidad de recuperarse del almacén cibernético, el proceso de recuperación es sencillo y sencillo, ya que se utilizan las copias snapshot alojadas en el almacén cibernético para restaurar los datos cifrados.
+
+image:ontap-cyber-vault-data-recovery.png["Relación de restauración"]
+
+Si el requisito es proporcionar un método más rápido para volver a conectar los datos cuando sea necesario para validar, aislar y analizar rápidamente los datos para recuperarlos. Esto se puede lograr fácilmente usando FlexClone con la opción de tipo SnapLock definida en el tipo no SnapLock.
+
+
+NOTE: A partir de ONTAP 9.13,1, puede restaurarse instantáneamente una copia Snapshot bloqueada en el volumen SnapLock de destino de una relación de almacén SnapLock creando un FlexClone con la opción de tipo SnapLock establecida en «non-SnapLock». Al ejecutar la operación de creación de clones de volúmenes, especifique la copia Snapshot como el «parent-snapshot». Más información sobre la creación de un volumen de FlexClone con un tipo de SnapLock link:https://docs.netapp.com/us-en/ontap/volumes/create-flexclone-task.html?q=volume+clone["aquí."]
+
+
+NOTE: La práctica de los procedimientos de recuperación desde la bóveda cibernética garantizará que se establezcan los pasos adecuados para conectarse al bóveda cibernética y recuperar datos. La planificación y prueba del procedimiento es esencial para cualquier recuperación durante un evento de ciberataque.

@@ -1,0 +1,75 @@
+---
+sidebar: sidebar 
+permalink: cyber-vault/ontap-cyber-vault-powershell-script.html 
+keywords: Cyber vault, powershell, script, configuration, validation, hardening 
+summary: Esta es la solución de NetApp ONTAP para configurar, reforzar y validar un ciberalmacén basado en ONTAP 
+---
+= Configurar, analizar, cron script
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media
+
+
+[role="lead"]
+NetApp ha creado un único script que puede descargarse y utilizarse para configurar, verificar y programar las relaciones de ciberalmacén.
+
+
+
+== Qué hace este script
+
+* Conexión de clústeres entre iguales
+* Relaciones entre iguales de SVM
+* Creación de volúmenes DP
+* Relación de SnapMirror e inicialización
+* Reforzar el sistema ONTAP utilizado para el ciberalmacén
+* Desactivar y reanudar la relación según la programación de transferencias
+* Valide la configuración de seguridad periódicamente y genere un informe en el que se muestren las anomalías
+
+
+
+
+== Cómo utilizar este script
+
+Descargue el script y para utilizar el script, simplemente siga los siguientes pasos:
+
+* Iniciar Windows PowerShell como administrador.
+* Navegue hasta el directorio que contiene el script.
+* Ejecute el script mediante `.\` la sintaxis junto con los parámetros necesarios
+
+
+
+NOTE: Asegúrese de introducir toda la información. En la primera ejecución (modo de configuración), pedirá credenciales tanto para la producción como para el nuevo sistema de ciber bóveda. Después, creará los pares de SVM (si no existen), los volúmenes y la SnapMirror entre el sistema e inicializarlos.
+
+
+NOTE: El modo cron se puede utilizar para programar la pausa y la reanudación de la transferencia de datos.
+
+
+
+== Modos de funcionamiento
+
+El script de automatización proporciona 3 modos de ejecución - `configure`, `analyze` y `cron`.
+
+[source, powershell]
+----
+if($SCRIPT_MODE -eq "configure") {
+        configure
+    } elseif ($SCRIPT_MODE -eq "analyze") {
+        analyze
+    } elseif ($SCRIPT_MODE -eq "cron") {
+        runCron
+    }
+----
+* Configurar: Realiza las comprobaciones de validación y configura el sistema como de aire acondicionado.
+* Analizar: Función de supervisión e informes automatizada para enviar información a los grupos de supervisión en busca de anomalías y actividades sospechosas a fin de garantizar que las configuraciones no se desvíen.
+* Cron: Para habilitar la infraestructura desconectada, el modo CRON automatiza la deshabilitación del LIF y desactiva la relación de transferencia.
+
+
+Necesitará tiempo para transferir los datos en los volúmenes seleccionados en función del rendimiento y la cantidad de datos.
+
+[source, powershell]
+----
+./script.ps1 -SOURCE_ONTAP_CLUSTER_MGMT_IP "172.21.166.157" -SOURCE_ONTAP_CLUSTER_NAME "NTAP915_Src" -SOURCE_VSERVER "svm_NFS" -SOURCE_VOLUME_NAME "Src_RP_Vol01" -DESTINATION_ONTAP_CLUSTER_MGMT_IP "172.21.166.159" -DESTINATION_ONTAP_CLUSTER_NAME "NTAP915_Destn" -DESTINATION_VSERVER "svm_nim_nfs" -DESTINATION_AGGREGATE_NAME "NTAP915_Destn_01_VM_DISK_1" -DESTINATION_VOLUME_NAME "Dst_RP_Vol01_Vault" -DESTINATION_VOLUME_SIZE "5g" -SNAPLOCK_MIN_RETENTION "15minutes" -SNAPLOCK_MAX_RETENTION "30minutes" -SNAPMIRROR_PROTECTION_POLICY "XDPDefault" -SNAPMIRROR_SCHEDULE "5min" -DESTINATION_CLUSTER_USERNAME "admin" -DESTINATION_CLUSTER_PASSWORD "PASSWORD123"
+----

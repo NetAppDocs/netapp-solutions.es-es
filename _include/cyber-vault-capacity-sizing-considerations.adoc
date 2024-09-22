@@ -1,0 +1,57 @@
+= Consideraciones sobre el tamaño de la capacidad
+:allow-uri-read: 
+
+
+
+
+== Consideraciones sobre el tamaño de la capacidad
+
+La cantidad de espacio en disco necesaria para un volumen de destino de ciberalmacén ONTAP depende de diversos factores, siendo el más importante la tasa de cambio de los datos del volumen de origen. La programación de backups y la programación de Snapshot en el volumen de destino afectan tanto al uso de disco del volumen de destino como a la tasa de cambio del volumen de origen no es probable que sea constante. Es una buena idea proporcionar un búfer de capacidad de almacenamiento adicional superior a la necesaria para adaptarse a los cambios futuros en el comportamiento de los usuarios finales o las aplicaciones.
+
+Para dimensionar una relación durante 1 mes de retención en ONTAP, debe calcular los requisitos de almacenamiento en función de varios factores, como el tamaño del conjunto de datos principal, la tasa de cambio de los datos (tasa de cambio diaria) y el ahorro en deduplicación y compresión (si procede).
+
+Este es el enfoque paso a paso:
+
+El primer paso es conocer el tamaño de los volúmenes de origen que está protegiendo con el almacén cibernético. Esta es la cantidad base de datos que se replicará inicialmente en el destino del ciberalmacén. A continuación, calcule la tasa de cambio diaria del conjunto de datos. Este es el porcentaje de datos que cambia cada día. Es crucial tener una buena comprensión de lo dinámicos que son los datos.
+
+Por ejemplo:
+
+* Tamaño del conjunto de datos principal = 5TB TB
+* Tasa de cambio diario = 5% (0,05)
+* Eficiencia de deduplicación y compresión = 50 % (0,50)
+
+
+Ahora, veamos el cálculo:
+
+* Calcule la tasa de cambio diaria de datos:
++
+`Changed data per day = 5000 * 5% = 250GB`
+
+* Calcule los datos totales modificados en 30 días:
++
+`Total changed data in 30 days = 250 GB * 14 = 3.5TB`
+
+* Calcule el almacenamiento total necesario:
++
+`TOTAL = 5TB + 3.5TB = 8.5TB`
+
+* Aplique el ahorro en deduplicación y compresión:
++
+`EFFECTIVE = 8.5TB * 50% = 4.25TB`
+
+
+
+*Resumen de las necesidades de almacenamiento*
+
+* Sin eficiencia: Requeriría *8,5TB* para almacenar 30 días de los datos de la bóveda cibernética.
+* Con una eficiencia del 50%: Requeriría *4,25TB* de almacenamiento después de la deduplicación y la compresión.
+
+
+
+NOTE: Las copias Snapshot pueden tener una sobrecarga adicional debido a los metadatos, pero esto suele ser menor.
+
+
+NOTE: Si se realizan varios backups por día, ajuste el cálculo según el número de copias snapshot realizadas cada día.
+
+
+NOTE: Factor de crecimiento de datos a lo largo del tiempo para garantizar que el tamaño esté preparado para el futuro.

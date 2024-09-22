@@ -26,10 +26,10 @@ Los pasos a continuación ayudarán con la creación de una bóveda cibernética
 .Acerca de esta tarea
 En la siguiente ilustración, se muestra el procedimiento para inicializar una relación de almacén de SnapLock Compliance:
 
-image::ontap-cyber-vault-air-gap.png[Cyber vault de red desconectada mediante NetApp ONTAP]
+image:ontap-cyber-vault-air-gap.png["Cyber vault de red desconectada mediante NetApp ONTAP"]
 
 .Pasos
-. Identifique la cabina de destino que se convertirá en el ciber vault para recibir los datos aislados.
+. Identifique la cabina de destino que se convertirá en el ciberalmacén para recibir los datos aislados.
 . En la matriz de destino, para preparar el almacén cibernético, link:https://docs.netapp.com/us-en/ontap/system-admin/install-license-task.html["Instale la licencia de ONTAP One"^] link:https://docs.netapp.com/us-en/ontap/snaplock/initialize-complianceclock-task.html["Inicialice el reloj de cumplimiento"^], y, si está utilizando una versión de ONTAP anterior a 9.10.1, link:https://docs.netapp.com/us-en/ontap/snaplock/create-snaplock-aggregate-task.html["Cree un agregado de SnapLock Compliance"^].
 . En la cabina de destino, cree un volumen de destino SnapLock Compliance del tipo dp:
 +
@@ -42,7 +42,7 @@ El siguiente comando crea un volumen SnapLock Compliance de 2GB GB llamado `dstv
 +
 `cluster2::> volume create -vserver SVM2 -volume dstvolB -aggregate node01_aggr -snaplock-type compliance -type DP -size 2GG`
 
-. En el clúster de destino, para crear el espacio aéreo, establezca el período de retención predeterminado, como se describe en link:https://docs.netapp.com/us-en/ontap/snaplock/set-default-retention-period-task.html["Establecer el período de retención predeterminado"^]. Un volumen SnapLock que es un destino de almacén tiene asignado un período de retención predeterminado. El valor de este período se establece inicialmente en un mínimo de 0 años y un máximo de 30 años para los volúmenes SnapLock Compliance. Cada copia de Snapshot de NetApp se compromete con el primer período de retención predeterminado. Debe cambiarse el período de retención predeterminado. El período de retención se puede ampliar más tarde, si es necesario, pero nunca acortar. Para obtener más información, consulte link:https://docs.netapp.com/us-en/ontap/snaplock/set-retention-period-task.html["Establecer información general sobre el tiempo de retención"^].
+. En el clúster de destino, para crear el espacio de aire, establezca el período de retención predeterminado, como se describe en link:https://docs.netapp.com/us-en/ontap/snaplock/set-default-retention-period-task.html["Establecer el período de retención predeterminado"^]. Un volumen SnapLock que es un destino de almacén tiene asignado un período de retención predeterminado. El valor de este período se establece inicialmente en un mínimo de 0 años y un máximo de 30 años para los volúmenes SnapLock Compliance. Cada copia de Snapshot de NetApp se compromete con el primer período de retención predeterminado. Debe cambiarse el período de retención predeterminado. El período de retención se puede ampliar más tarde, si es necesario, pero nunca acortar. Para obtener más información, consulte link:https://docs.netapp.com/us-en/ontap/snaplock/set-retention-period-task.html["Establecer información general sobre el tiempo de retención"^].
 . link:https://docs.netapp.com/us-en/ontap/data-protection/create-replication-relationship-task.html["Cree una nueva relación de replicación"^] Entre el origen que no es de SnapLock y el nuevo destino de SnapLock que creó en el Paso 3.
 +
 Este ejemplo crea una nueva relación de SnapMirror con el volumen SnapLock de destino dstvolB mediante una política de XDPDefault para almacenar copias Snapshot etiquetadas diariamente y semanalmente en una programación horaria:
