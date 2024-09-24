@@ -1,6 +1,6 @@
 ---
 sidebar: sidebar 
-permalink: ai/aicp_example_mlflow_workflows_overview.html 
+permalink: ai/aicp_example_mlflow_workflows_overview_update.html 
 keywords: AI, control plane, MLOps, MLflow 
 summary: MLOps de código abierto con NetApp - Trazabilidad de conjunto de datos a modelo con NetApp y MLflow 
 ---
@@ -113,7 +113,7 @@ mlflow.set_tracking_uri("<your_tracking_server_uri>>:<port>>")
 ----
 El fragmento de código anterior registra los ID de instantánea en el servidor de seguimiento de experimentos MLflow, que se puede utilizar para rastrear el conjunto de datos y el modelo específicos que se utilizaron para entrenar el modelo. Esto le permitirá rastrear el conjunto de datos y el modelo específicos que se utilizaron para entrenar el modelo, así como el código específico que se utilizó para preprocesar los datos, tokenizar el archivo de entrada, cargar el tokenizador y el modelo, codificar, generar y descodificar el texto, guardar el modelo, afinar el modelo, evaluar el modelo utilizando link:https://www.nltk.org/api/nltk.lm.api.html["NLTK"^]puntuaciones de perplejidad y registrar los hiperparámetros y métricas para fluir. Por ejemplo, la siguiente figura muestra el error medio cuadrado (MSE) de un modelo scikit-learn para diferentes ejecuciones de experimentos:
 
-image::aicp_mlrun-mlflow_sklearn-MLmodels_MSEs.png[aicp mlrun mlflow sklearn MLmodels MSE]
+image::aicp_mlrun-mlflow_sklearn-MLmodels_MSEs.png[Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito]
 
 Es sencillo para el análisis de datos, los propietarios de líneas de negocio y los ejecutivos comprender e inferir qué modelo funciona mejor bajo sus restricciones particulares, configuraciones, período de tiempo y otras circunstancias. Para obtener más detalles sobre cómo preprocesar, tokenizar, cargar, codificar, generar, decodificar, guardar, ajustar y evaluar el modelo, consulte el `dotk-mlflow` ejemplo de Python empaquetado en el `netapp_dataops.k8s` repositorio.
 
@@ -132,7 +132,7 @@ En cuanto a los modelos que fueron entrenados, se utilizaron los siguientes mode
 
 El resultado link:https://mlflow.org/docs/latest/model-registry.html#deploy-and-organize-models["Registro de modelos en MLflow"^]contendrá los siguientes modelos, versiones y etiquetas de bosque aleatorio:
 
-image::aicp_mlrun-mlflow_sklearn_modelRegistry_sk-learn-random-forest-reg-model_versions.png[aicp mlrun mlflow sklearn modelRegistry sk aprender versiones aleatorias del modelo de registro forestal]
+image::aicp_mlrun-mlflow_sklearn_modelRegistry_sk-learn-random-forest-reg-model_versions.png[Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito]
 
 Para implementar el modelo en un servidor de inferencia a través de Kubernetes, simplemente ejecute el siguiente Jupyter Notebook. Tenga en cuenta que en este ejemplo `dotk-mlflow`, en lugar de usar el paquete, estamos modificando la arquitectura del modelo de regresión forestal aleatoria para minimizar el error medio-cuadrado (MSE) en el modelo inicial, y por lo tanto creamos múltiples versiones de dicho modelo en nuestro Registro de Modelos.
 
@@ -194,22 +194,22 @@ Created version '3' of model 'sk-learn-random-forest-reg-model'.
 ....
 En el registro de modelos, después de guardar los modelos, versiones y etiquetas deseados, es posible rastrear el conjunto de datos, el modelo y el código específicos que se utilizaron para entrenar el modelo, así como el código específico que se utilizó para procesar los datos, cargar el tokenizador y el modelo, codificar, generar y descodificar el texto, guardar el modelo, finalizar el modelo, evaluar el modelo utilizando las métricas de perplexity `snapshot_id`'s and your chosen metrics to MLflow by choosing the corerct experiment under `mlrun` del menú activo, las pestañas de NLTK y perplexity correspondientes:
 
-image::aicp_jhub_mlrun-experiments.png[experimentos de mlrun de jhub aicp]
+image::aicp_jhub_mlrun-experiments.png[Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito]
 
 Del mismo modo, para nuestros `phi-2_finetuned_model` cuyos pesos cuantificados se calcularon a través de GPU o vGPU utilizando la `torch` biblioteca, podemos inspeccionar los siguientes artefactos intermedios, lo que permitiría la optimización del rendimiento, la escalabilidad (rendimiento/gaurantee SLA) y la reducción de costos de todo el flujo de trabajo:
 
-image::aicp_jhub_mlrun-torch_artifacts.png[artefactos de antorcha jhub mlrun de aicp]
+image::aicp_jhub_mlrun-torch_artifacts.png[Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito]
 
 Para una sola ejecución de experimento con Scikit-learn y MLflow, la siguiente figura muestra los artefactos generados, `conda` entorno, `MLmodel` archivo y `MLmodel` directorio:
 
-image::aicp_jhub_mlrun-mlflow_sklearn-MLmodel.png[aicp jhub mlrun mlflow sklearn MLmodel]
+image::aicp_jhub_mlrun-mlflow_sklearn-MLmodel.png[Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito]
 
 Los clientes pueden especificar etiquetas, por ejemplo, «predeterminada», «etapa», «proceso» o «cuello de botella» para organizar distintas características de sus ejecuciones de flujo de trabajo de IA, tomar nota de sus últimos resultados o `contributors` establecer un seguimiento del progreso de los desarrolladores del equipo de ciencia de datos. Si para la etiqueta por defecto ' ', su guardado `mlflow.log-model.history`, , , , `mlflow.runName` `mlflow.source.type` `mlflow.source.name` y `mlflow.user` en la pestaña JupyterHub del navegador de archivos activo actualmente:
 
-image::aicp_jhub_mlrun-mlflow-tags.png[etiquetas de flujo de flujo de flujo de flujo de flujo de flujo de jhub aicp]
+image::aicp_jhub_mlrun-mlflow-tags.png[Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito]
 
 Por último, los usuarios tienen su propio Jupyter Workspace especificado, que se versiona y almacena en una reclamación de volumen persistente (PVC) en el clúster de Kubernetes. En la siguiente figura se muestra el espacio de trabajo Jupyter, que contiene el `netapp_dataops.k8s` paquete Python, y los resultados de una `VolumeSnapshot` :
 
-image::aicp_jhub_dotk_nb_cvs_usrWsVol.png[aicp jhub dotk nb cvs usrWsVol]
+image::aicp_jhub_dotk_nb_cvs_usrWsVol.png[Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito]
 
 Nuestra tecnología probada en la industria Snapshot® y otras tecnologías se utilizaron para garantizar la protección de datos a nivel empresarial, el movimiento y la compresión eficiente. Para otros casos prácticos de IA, consulte link:https://docs.netapp.com/us-en/netapp-solutions/ai/aipod_nv_intro.html["AIPod de NetApp"^]la documentación.
