@@ -24,7 +24,7 @@ La solución ofrece una descripción general y detalles de la implementación y 
 
 VMware vSphere Virtual Volumes (vVols) es un marco de gestión e integración de SAN/NAS que expone los discos virtuales como objetos de almacenamiento nativos y posibilita las operaciones basadas en cabinas en los discos virtuales. En otras palabras, vVols hace que los dispositivos SAN/NAS sepan equipos virtuales y libera la capacidad de aprovechar los servicios de datos basados en arreglos con un método centrado en VM con la granularidad de un único disco virtual. VVols permite a los clientes aprovechar las exclusivas funcionalidades de su inversión actual en almacenamiento y realizar una transición sin interrumpir el servicio a un modelo operativo más simple y eficiente optimizado para entornos virtuales que funcionan en todos los tipos de almacenamiento.
 
-En link:https://docs.netapp.com/us-en/netapp-solutions/databases/vcf_ora_si_vvol.html["TR-4996"^], demostramos la implementación y la protección de bases de datos Oracle en una instancia única en VCF con vVols. Esta documentación muestra la puesta en marcha y la protección de una base de datos Oracle RAC en un entorno VMware Cloud Foundation con vVols como almacenamiento de base de datos principal en un clúster de almacenamiento de NetApp ONTAP. La base de datos de Oracle RAC se configura como si se implementara en sistemas de archivos locales en un sistema de almacenamiento local. Este informe técnico se centra en los pasos para crear vVols en VCF para la implementación de Oracle RAC. También mostramos la puesta en marcha de la base de datos RAC de Oracle en VCF en vVols con el kit de herramientas de automatización de NetApp y la protección de base de datos de RAC con la herramienta UI de NetApp SnapCenter.
+En link:vcf_ora_si_vvol.html["TR-4996"^], demostramos la implementación y la protección de bases de datos Oracle en una instancia única en VCF con vVols. Esta documentación muestra la puesta en marcha y la protección de una base de datos Oracle RAC en un entorno VMware Cloud Foundation con vVols como almacenamiento de base de datos principal en un clúster de almacenamiento de NetApp ONTAP. La base de datos de Oracle RAC se configura como si se implementara en sistemas de archivos locales en un sistema de almacenamiento local. Este informe técnico se centra en los pasos para crear vVols en VCF para la implementación de Oracle RAC. También mostramos la puesta en marcha de la base de datos RAC de Oracle en VCF en vVols con el kit de herramientas de automatización de NetApp y la protección de base de datos de RAC con la herramienta UI de NetApp SnapCenter.
 
 Esta solución aborda los siguientes casos prácticos:
 
@@ -151,7 +151,7 @@ En las siguientes secciones se ofrecen procedimientos paso a paso para el despli
 La implementación requiere los siguientes requisitos previos.
 
 . Se configuró una VCF de VMware. Para obtener información o instrucciones sobre cómo crear un VCF, consulte la documentación de VMware link:https://docs.vmware.com/en/VMware-Cloud-Foundation/index.html["Documentación de VMware Cloud Foundation"^].
-. Aprovisione tres equipos virtuales de Linux, dos equipos virtuales para el clúster de base de datos de Oracle RAC y una máquina virtual para la controladora Ansible dentro del dominio de carga de trabajo de VCF. Aprovisionar un equipo virtual de servidor Windows para ejecutar el servidor NetApp SnapCenter. Para obtener información sobre la configuración del controlador Ansible para la implementación automatizada de bases de datos de Oracle, consulte los siguientes recursos link:https://docs.netapp.com/us-en/netapp-solutions/automation/getting-started.html["Primeros pasos con la automatización de soluciones de NetApp"^].
+. Aprovisione tres equipos virtuales de Linux, dos equipos virtuales para el clúster de base de datos de Oracle RAC y una máquina virtual para la controladora Ansible dentro del dominio de carga de trabajo de VCF. Aprovisionar un equipo virtual de servidor Windows para ejecutar el servidor NetApp SnapCenter. Para obtener información sobre la configuración del controlador Ansible para la implementación automatizada de bases de datos de Oracle, consulte los siguientes recursos link:../automation/getting-started.html["Primeros pasos con la automatización de soluciones de NetApp"^].
 . Las máquinas virtuales de la base de datos Oracle RAC deben haber aprovisionado al menos dos interfaces de red: Una para la interconexión privada de Oracle RAC y otra para el tráfico de aplicaciones o datos públicos.
 . El complemento de SnapCenter versión 6,0 para VMware vSphere se ha puesto en marcha en VCF. Consulte los siguientes recursos para el despliegue del plugin link:https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/["Documentación del plugin de SnapCenter para VMware vSphere"^]: .
 . La herramienta ONTAP para VMware vSphere se ha puesto en marcha en VCF. Consulte los siguientes recursos para la implementación de la herramienta ONTAP para VMware vSphere: link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere/index.html["Documentación de las herramientas de ONTAP para VMware vSphere"^]
@@ -1203,20 +1203,8 @@ Esto completa la demostración del backup, la restauración y la recuperación d
 
 Si quiere más información sobre la información descrita en este documento, consulte los siguientes documentos o sitios web:
 
-* Base de cloud de VMware
-+
-link:https://www.vmware.com/products/cloud-infrastructure/vmware-cloud-foundation["https://www.vmware.com/products/cloud-infrastructure/vmware-cloud-foundation"^]
-
-* Soluciones de bases de datos empresariales de NetApp
-+
-link:https://docs.netapp.com/us-en/netapp-solutions/databases/index.html["https://docs.netapp.com/us-en/netapp-solutions/databases/index.html"^]
-
-* Software SnapCenter 6.0
-+
-link:https://docs.netapp.com/us-en/snapcenter/concept/concept_snapcenter_overview.html["https://docs.netapp.com/us-en/snapcenter/concept/concept_snapcenter_overview.html"^]
-
-* Documentación de las herramientas de ONTAP para VMware vSphere
-+
-link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere/index.html["https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere/index.html"^]
-
+* link:https://www.vmware.com/products/cloud-infrastructure/vmware-cloud-foundation["Base de cloud de VMware"^]
+* link:index.html["Soluciones de bases de datos empresariales de NetApp"^]
+* link:https://docs.netapp.com/us-en/snapcenter/concept/concept_snapcenter_overview.html["Software SnapCenter 6.0"^]
+* link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere/index.html["Documentación de las herramientas de ONTAP para VMware vSphere"^]
 

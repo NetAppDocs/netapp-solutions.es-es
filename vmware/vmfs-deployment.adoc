@@ -382,7 +382,7 @@ image:vmfs-deploy-image37.png["Figura que muestra el cuadro de diálogo de entra
 
 En resumen, al usar almacenamiento de ONTAP ASA para optimizar el TCO para una puesta en marcha de VMware, use el complemento SnapCenter para VMware como un método sencillo y eficiente para realizar backups de máquinas virtuales. Permite realizar backups y restauraciones de máquinas virtuales de una manera rápida y fluida, ya que los backups de copias Snapshot tardan literalmente segundos en completarse.
 
-Consulte esto link:https://docs.netapp.com/us-en/netapp-solutions/ehc/bxp-scv-hybrid-solution.html#restoring-virtual-machines-in-the-case-of-data-loss["guía de soluciones"] y link:https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/scpivs44_get_started_overview.html["documentación de productos"]descubra más detalles sobre la configuración de SnapCenter, el backup, la restauración desde sistemas de almacenamiento principal o secundario, o incluso a partir de backups almacenados en un almacenamiento de objetos para retención a largo plazo.
+Consulte esto link:../ehc/bxp-scv-hybrid-solution.html#restoring-virtual-machines-in-the-case-of-data-loss["guía de soluciones"] y link:https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/scpivs44_get_started_overview.html["documentación de productos"]descubra más detalles sobre la configuración de SnapCenter, el backup, la restauración desde sistemas de almacenamiento principal o secundario, o incluso a partir de backups almacenados en un almacenamiento de objetos para retención a largo plazo.
 
 Para reducir los costes de almacenamiento, se puede permitir la organización en niveles de volúmenes de FabricPool para mover datos automáticamente para copias Snapshot a un nivel de almacenamiento de menor coste. Las copias Snapshot suelen utilizar más del 10 % del almacenamiento asignado. Si bien son importantes para la protección de datos y la recuperación ante desastres, estas copias puntuales rara vez se utilizan y no suponen un uso eficiente del almacenamiento de alto rendimiento. Con la normativa «solo Snapshot» para FabricPool, puede liberar espacio fácilmente en almacenamiento de alto rendimiento. Cuando se habilita esta política, los bloques de copia de Snapshot inactivos del volumen que no está usando el sistema de archivos activo se mueven al nivel de objetos y, una vez leída, la copia de Snapshot se mueve al nivel local para recuperar una máquina virtual o un almacén de datos entero. Este nivel de objetos puede estar en la forma de un cloud privado (como NetApp StorageGRID) o un cloud público (como AWS o Azure).
 
@@ -412,9 +412,9 @@ Muchas ORGANIZACIONES DE TECNOLOGÍA adoptan un enfoque donde se prioriza el clo
 
 Al integrarse con servicios 1P impulsados por NetApp en cada hiperescala, las organizaciones pueden lograr una solución cloud basada en vSphere con un método de migración sencillo, sin necesidad de volver a crear la plataforma, cambios de IP ni cambios en la arquitectura. Asimismo, esta optimización le permite escalar el espacio de almacenamiento a la vez que mantiene el número de hosts al menor tiempo necesario en vSphere, pero sin cambios en la jerarquía de almacenamiento, la seguridad ni los archivos que se han puesto a disposición.
 
-* Ver orientación detallada para link:https://docs.netapp.com/us-en/netapp-solutions/ehc/aws-migrate-vmware-hcx.html["Migra las cargas de trabajo a el almacén de datos de FSx para ONTAP"].
-* Ver orientación detallada para link:https://docs.netapp.com/us-en/netapp-solutions/ehc/azure-migrate-vmware-hcx.html["Migre cargas de trabajo a un almacén de datos de Azure NetApp Files"].
-* Ver orientación detallada para link:https://docs.netapp.com/us-en/netapp-solutions/ehc/gcp-migrate-vmware-hcx.html["Migre cargas de trabajo al almacén de datos de Google Cloud NetApp Volumes"].
+* Ver orientación detallada para link:../ehc/aws-migrate-vmware-hcx.html["Migra las cargas de trabajo a el almacén de datos de FSx para ONTAP"].
+* Ver orientación detallada para link:../ehc/azure-migrate-vmware-hcx.html["Migre cargas de trabajo a un almacén de datos de Azure NetApp Files"].
+* Ver orientación detallada para link:../ehc/gcp-migrate-vmware-hcx.html["Migre cargas de trabajo al almacén de datos de Google Cloud NetApp Volumes"].
 
 
 
@@ -433,9 +433,9 @@ Si desea obtener más información, visite link:../ehc/dr-draas-vmfs.html["Recup
 
 Para aquellos clientes que busquen usar VMware Cloud en cualquier cloud a hiperescala como destino de recuperación ante desastres, los almacenes de datos con tecnología de almacenamiento de ONTAP (Azure NetApp Files, FSx para ONTAP, Google Cloud NetApp Volumes) se pueden usar para replicar datos de las instalaciones mediante cualquier solución de terceros validada que proporcione funcionalidad de replicación de máquinas virtuales. Al añadir almacenes de datos basados en el almacenamiento de ONTAP, se permitirá una recuperación ante desastres de costes optimizados en el destino con menos cantidad de hosts ESXi. Esto también permite retirar el sitio secundario en el entorno local, lo que ayuda a ahorrar significativamente en costes.
 
-* Ver orientación detallada para link:https://docs.netapp.com/us-en/netapp-solutions/ehc/veeam-fsxn-dr-to-vmc.html["Recuperación ante desastres para el almacén de datos de FSx para ONTAP"].
-* Ver orientación detallada para link:https://docs.netapp.com/us-en/netapp-solutions/ehc/azure-native-dr-jetstream.html["Recuperación ante desastres en el almacén de datos de Azure NetApp Files"].
-* Ver orientación detallada para link:https://docs.netapp.com/us-en/netapp-solutions/ehc/gcp-app-dr-sc-cvs-veeam.html["Recuperación ante desastres en el almacén de datos de Google Cloud NetApp Volumes"].
+* Ver orientación detallada para link:../ehc/veeam-fsxn-dr-to-vmc.html["Recuperación ante desastres para el almacén de datos de FSx para ONTAP"].
+* Ver orientación detallada para link:../ehc/azure-native-dr-jetstream.html["Recuperación ante desastres en el almacén de datos de Azure NetApp Files"].
+* Ver orientación detallada para link:../ehc/gcp-app-dr-sc-cvs-veeam.html["Recuperación ante desastres en el almacén de datos de Google Cloud NetApp Volumes"].
 
 
 

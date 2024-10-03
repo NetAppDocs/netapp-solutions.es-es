@@ -148,7 +148,7 @@ En las siguientes secciones se ofrecen procedimientos paso a paso para el despli
 La implementación requiere los siguientes requisitos previos.
 
 . Se configuró una VCF de VMware. Para obtener información o instrucciones sobre cómo crear un VCF, consulte la documentación de VMware link:https://docs.vmware.com/en/VMware-Cloud-Foundation/index.html["Documentación de VMware Cloud Foundation"^].
-. Aprovisione tres máquinas virtuales de Linux, dos máquinas virtuales para la base de datos de Oracle y una máquina virtual para la controladora Ansible en el dominio de cargas de trabajo de VCF. Aprovisionar un equipo virtual de servidor Windows para ejecutar el servidor NetApp SnapCenter. Para obtener información sobre la configuración del controlador Ansible para la implementación automatizada de bases de datos de Oracle, consulte los siguientes recursos link:https://docs.netapp.com/us-en/netapp-solutions/automation/getting-started.html["Primeros pasos con la automatización de soluciones de NetApp"^].
+. Aprovisione tres máquinas virtuales de Linux, dos máquinas virtuales para la base de datos de Oracle y una máquina virtual para la controladora Ansible en el dominio de cargas de trabajo de VCF. Aprovisionar un equipo virtual de servidor Windows para ejecutar el servidor NetApp SnapCenter. Para obtener información sobre la configuración del controlador Ansible para la implementación automatizada de bases de datos de Oracle, consulte los siguientes recursos link:../automation/getting-started.html["Primeros pasos con la automatización de soluciones de NetApp"^].
 . El complemento de SnapCenter versión 6,0 para VMware vSphere se ha puesto en marcha en VCF. Consulte los siguientes recursos para el despliegue del plugin link:https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/["Documentación del plugin de SnapCenter para VMware vSphere"^]: .
 . La herramienta ONTAP para VMware vSphere se ha puesto en marcha en VCF. Consulte los siguientes recursos para la implementación de la herramienta ONTAP para VMware vSphere: link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere/index.html["Documentación de las herramientas de ONTAP para VMware vSphere"^]
 
@@ -434,7 +434,7 @@ UUID=aff942c4-b224-4b62-807d-6a5c22f7b623 /boot                   xfs     defaul
 
 [%collapsible]
 ====
-Se recomienda aprovechar el kit de herramientas de automatización de NetApp para poner en marcha Oracle en VCF con vVols. Para obtener una referencia detallada sobre la ejecución del despliegue automatizado de Oracle en sistemas de archivos xfs, consulte TR-4992 link:https://docs.netapp.com/us-en/netapp-solutions/databases/automation_ora_c-series_nfs.html["Implementación de Oracle simplificada y automatizada en NetApp C-Series con NFS"^]: . Aunque TR-4992 incluye la puesta en marcha automática de Oracle en NetApp C-Series con NFS, es idéntica a la puesta en marcha de Oracle en VCF con vVols si se omite el montaje de sistemas de archivos NFS en máquinas virtuales de bases de datos. Simplemente omitiríamos eso con etiquetas específicas. A continuación se incluyen los procedimientos paso a paso.
+Se recomienda aprovechar el kit de herramientas de automatización de NetApp para poner en marcha Oracle en VCF con vVols. Para obtener una referencia detallada sobre la ejecución del despliegue automatizado de Oracle en sistemas de archivos xfs, consulte TR-4992 link:automation_ora_c-series_nfs.html["Implementación de Oracle simplificada y automatizada en NetApp C-Series con NFS"^]: . Aunque TR-4992 incluye la puesta en marcha automática de Oracle en NetApp C-Series con NFS, es idéntica a la puesta en marcha de Oracle en VCF con vVols si se omite el montaje de sistemas de archivos NFS en máquinas virtuales de bases de datos. Simplemente omitiríamos eso con etiquetas específicas. A continuación se incluyen los procedimientos paso a paso.
 
 . Inicie sesión en la máquina virtual de la controladora de Ansible como usuario administrador a través de SSH y clone una copia del kit de herramientas de automatización para Oracle en NFS.
 +
@@ -449,7 +449,7 @@ LINUX.X64_193000_db_home.zip
 p34765931_190000_Linux-x86-64.zip
 p6880880_190000_Linux-x86-64.zip
 ....
-. Configurar archivo de destino de despliegue - hosts, archivo de variables globales - vars/vars.yml y archivo de variables de VM de base de datos local - host_vars/host_name.yml de acuerdo con las instrucciones de esta sección de TR-4992 link:https://docs.netapp.com/us-en/netapp-solutions/databases/automation_ora_c-series_nfs.html#parameter-files-configuration["Configuración de archivos de parámetros"^]: . Comentar la variable nfs_lif del archivo de variables de VM de base de datos local.
+. Configurar archivo de destino de despliegue - hosts, archivo de variables globales - vars/vars.yml y archivo de variables de VM de base de datos local - host_vars/host_name.yml de acuerdo con las instrucciones de esta sección de TR-4992 link:automation_ora_c-series_nfs.html#parameter-files-configuration["Configuración de archivos de parámetros"^]: . Comentar la variable nfs_lif del archivo de variables de VM de base de datos local.
 . Configurar la autenticación sin clave ssh entre la controladora de Ansible y las máquinas virtuales de base de datos, lo que requiere generar un par de claves ssh y copiar la clave pública en el directorio raíz del usuario administrador de las máquinas virtuales de base de datos .ssh carpeta archivo authorized_keys.
 +
 [source, cli]
@@ -852,16 +852,7 @@ Esto completa la demostración del backup, la restauración y el clon de la base
 
 Si quiere más información sobre la información descrita en este documento, consulte los siguientes documentos o sitios web:
 
-* Base de cloud de VMware
-+
-link:https://www.vmware.com/products/cloud-infrastructure/vmware-cloud-foundation["https://www.vmware.com/products/cloud-infrastructure/vmware-cloud-foundation"^]
-
-* Soluciones de bases de datos empresariales de NetApp
-+
-link:https://docs.netapp.com/us-en/netapp-solutions/databases/index.html["https://docs.netapp.com/us-en/netapp-solutions/databases/index.html"^]
-
-* Software SnapCenter 6.0
-+
-link:https://docs.netapp.com/us-en/snapcenter/concept/concept_snapcenter_overview.html["https://docs.netapp.com/us-en/snapcenter/concept/concept_snapcenter_overview.html"^]
-
+* link:https://www.vmware.com/products/cloud-infrastructure/vmware-cloud-foundation["Base de cloud de VMware"^]
+* link:index.html["Soluciones de bases de datos empresariales de NetApp"^]
+* link:https://docs.netapp.com/us-en/snapcenter/concept/concept_snapcenter_overview.html["Software SnapCenter 6.0"^]
 
