@@ -1,7 +1,7 @@
 ---
 sidebar: sidebar 
 permalink: containers/rh-os-n_use_case_openshift_virtualization_dataprotection_overview.html 
-keywords: OpenShift, OCP, Astra Trident, NetApp ONTAP, Red Hat OpenShift, OpenShift Virtualization, CNV, Container Native Virtualization, Red Hat OpenShift Virtualization, OADP operator, Openshift Data Protection Application operator, velero 
+keywords: OpenShift, OCP, Trident, NetApp ONTAP, Red Hat OpenShift, OpenShift Virtualization, CNV, Container Native Virtualization, Red Hat OpenShift Virtualization, OADP operator, Openshift Data Protection Application operator, velero 
 summary: Protección de datos de virtualización de Red Hat OpenShift con NetApp ONTAP 
 ---
 = Protección de datos para máquinas virtuales de OpenShift Virtualization mediante OpenShift API for Data Protection (OADP)
@@ -16,11 +16,11 @@ summary: Protección de datos de virtualización de Red Hat OpenShift con NetApp
 Autor: Banu Sundhar, NetApp
 
 [role="lead"]
-Esta sección del documento de referencia proporciona detalles para la creación de backups de máquinas virtuales mediante la API de OpenShift para protección de datos (OADP) con Velero en NetApp ONTAP S3 o NetApp StorageGRID S3. Los backups de Persistent Volumes (VP) de los discos de los equipos virtuales se crean mediante snapshots de Astra Trident de CSI.
+Esta sección del documento de referencia proporciona detalles para la creación de backups de máquinas virtuales mediante la API de OpenShift para protección de datos (OADP) con Velero en NetApp ONTAP S3 o NetApp StorageGRID S3. Los backups de los volúmenes persistentes (VP) de los discos de los equipos virtuales se crean mediante snapshots de CSI Trident.
 
 Las máquinas virtuales en el entorno de virtualización de OpenShift son aplicaciones en contenedores que se ejecutan en los nodos de trabajo de la plataforma de contenedores de OpenShift. Es importante proteger los metadatos de la máquina virtual y los discos persistentes de las máquinas virtuales, de forma que, cuando se pierden o están dañados, se puedan recuperar.
 
-Los discos persistentes de los equipos virtuales de virtualización OpenShift pueden estar respaldados por el almacenamiento ONTAP integrado en el cluster OpenShift mediante link:https://docs.netapp.com/us-en/trident/["CSI de Astra Trident"]. En esta sección utilizamos link:https://docs.openshift.com/container-platform/4.14/backup_and_restore/application_backup_and_restore/installing/installing-oadp-ocs.html["API de OpenShift para la protección de datos (OADP)"] Para realizar un backup de máquinas virtuales, incluidos sus volúmenes de datos en
+Los discos persistentes de las máquinas virtuales de virtualización de OpenShift pueden ser respaldados por el almacenamiento ONTAP integrado en el cluster de OpenShift usando link:https://docs.netapp.com/us-en/trident/["CSI de Trident"]. En esta sección, utilizaremos link:https://docs.openshift.com/container-platform/4.14/backup_and_restore/application_backup_and_restore/installing/installing-oadp-ocs.html["API de OpenShift para la protección de datos (OADP)"] para realizar backup de equipos virtuales, incluidos sus volúmenes de datos en
 
 * Almacenamiento de objetos ONTAP
 * StorageGRID
@@ -44,10 +44,8 @@ OADP 1,3 está disponible desde el concentrador de operadores del cluster OpenSh
 * OpenShift Virtualization instalado a través de OperatorOpenShift Virtualization Operator proporcionado por Red Hat
 * Operador OADP 1,13 proporcionado por Red Hat
 * Velero CLI 1,13 para Linux
-* Astra Trident 24,02
+* Trident 24,02
 * ONTAP 9,12
 
 
-link:https://docs.netapp.com/us-en/trident/["CSI de Astra Trident"]
-link:https://docs.openshift.com/container-platform/4.14/backup_and_restore/application_backup_and_restore/installing/installing-oadp-ocs.html["API de OpenShift para la protección de datos (OADP)"]
-link:https://velero.io/["Velero"]
+link:https://docs.netapp.com/us-en/trident/["CSI de Trident"] link:https://docs.openshift.com/container-platform/4.14/backup_and_restore/application_backup_and_restore/installing/installing-oadp-ocs.html["API de OpenShift para la protección de datos (OADP)"] link:https://velero.io/["Velero"]

@@ -1,7 +1,7 @@
 ---
 sidebar: sidebar 
 permalink: containers/a-w-n_overview_astra.html 
-keywords: NetApp Astra Control, Astra Control Center, Application, Trident, Astra Trident, Helm, Operator, ONTAP, OpenShift, Kubernetes, Red Hat OpenShift 
+keywords: NetApp Astra Control, Astra Control Center, Application, Trident, Trident, Helm, Operator, ONTAP, OpenShift, Kubernetes, Red Hat OpenShift 
 summary: Astra Control Center de NetApp ofrece un amplio conjunto de servicios de gestión de datos para aplicaciones y almacenamiento para cargas de trabajo con estado de Kubernetes, implementados en un entorno en las instalaciones, impulsadas por la tecnología de protección de datos de confianza de NetApp. 
 ---
 = Descripción general de Astra Control Center de NetApp
@@ -18,9 +18,9 @@ Astra Control Center de NetApp ofrece un amplio conjunto de servicios de gestió
 
 image:redhat_openshift_image44.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
-NetApp Astra Control Center se puede instalar en un clúster de Red Hat OpenShift que tiene el orquestador de almacenamiento Astra Trident puesto en marcha y configurado con clases de almacenamiento y back-ends de almacenamiento en sistemas de almacenamiento ONTAP de NetApp.
+Astra Control Center de NetApp se puede instalar en un clúster Red Hat OpenShift donde el orquestador de almacenamiento de Trident se haya puesto en marcha y configurado con clases de almacenamiento y back-ends de almacenamiento a los sistemas de almacenamiento de NetApp ONTAP.
 
-Para obtener información sobre la instalación y configuración de Astra Trident y su compatibilidad con Astra Control Center, consulte link:rh-os-n_overview_trident.html["este documento"^].
+Para conocer la instalación y configuración de Trident para ser compatible con Astra Control Center, consulte link:rh-os-n_overview_trident.html["este documento"^].
 
 En un entorno conectado a la nube, Astra Control Center utiliza Cloud Insights para proporcionar supervisión y telemetría avanzadas. Ante la ausencia de una conexión con Cloud Insights, la supervisión y la telemetría limitadas (valor equivalente a 7 días de métricas) están disponibles y se exportan a herramientas de supervisión nativas de Kubernetes (Prometheus y Grafana) mediante extremos de métricas abiertos.
 
@@ -35,14 +35,14 @@ Para empezar a utilizar Astra Control Center de NetApp, visite link:https://clou
 == Requisitos previos de instalación de Astra Control Center
 
 . Uno o más clústeres de Red Hat OpenShift. Actualmente se admiten las versiones 4.6 EUS y 4.7.
-. Astra Trident ya debe estar instalado y configurado en cada clúster de Red Hat OpenShift.
+. Trident ya debe estar instalado y configurado en cada clúster de Red Hat OpenShift.
 . Uno o más sistemas de almacenamiento ONTAP de NetApp que ejecutan ONTAP 9.5 o superior.
 +
 
 NOTE: Se trata de una práctica recomendada para cada instalación de OpenShift en un sitio a fin de tener una SVM dedicada para el almacenamiento persistente. Las puestas en marcha de varios sitios requieren sistemas de almacenamiento adicionales.
 
 . Debe configurarse un back-end de almacenamiento de Trident en cada clúster de OpenShift con una SVM respaldada por un clúster de ONTAP.
-. Un StorageClass predeterminado configurado en cada clúster OpenShift con Astra Trident como aprovisionador de almacenamiento.
+. Un tipo de almacenamiento predeterminado configurado en cada clúster OpenShift con Trident como aprovisionador de almacenamiento.
 . Se debe instalar y configurar un equilibrador de carga en cada clúster de OpenShift para que pueda equilibrarse la carga y exponer los servicios de OpenShift.
 +
 

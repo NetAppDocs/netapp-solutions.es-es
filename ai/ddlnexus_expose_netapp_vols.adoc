@@ -30,9 +30,9 @@ El uso de NetApp Volumes junto con Domino ofrece las siguientes ventajas:
 
 
 
-== Muestre los volúmenes de NFS existentes que Astra Trident no aprovisionó
+== Muestre los volúmenes de NFS existentes que no fueron aprovisionados por Trident
 
-Si tu volumen de NFS de NetApp ONTAP existente no se ha aprovisionado en Astra Trident, sigue los pasos descritos en esta subsección.
+Si su volumen NFS de NetApp ONTAP existente no se ha aprovisionado con Trident, siga los pasos descritos en esta subsección.
 
 
 
@@ -53,15 +53,15 @@ image:ddlnexus_image3.png["Figura que muestra el cuadro de diálogo de entrada/s
 
 
 
-== Exponer los volúmenes existentes que fueron aprovisionados por Astra Trident
+== Muestre los volúmenes existentes que fueron aprovisionados por Trident
 
-Si el volumen existente se aprovisionó con Astra Trident, siga los pasos descritos en esta subsección.
+Si el volumen existente se aprovisionó con Trident, siga los pasos descritos en esta subsección.
 
 
 
 === Edite la RVP existente
 
-Si tu volumen fue aprovisionado por Astra Trident, ya tienes una reclamación de volumen persistente (RVP) correspondiente al volumen. Para exponer este volumen a Domino, debe editar la PVC y agregar la siguiente etiqueta a la lista de etiquetas de la `metadata.labels` campo:
+Si el volumen fue aprovisionado por Trident, ya tiene una reclamación de volumen persistente (RVP) correspondiente al volumen. Para exponer este volumen a Domino, debe editar la PVC y agregar la siguiente etiqueta a la lista de etiquetas del `metadata.labels` campo:
 
 ....
 "dominodatalab.com/external-data-volume": "Generic"

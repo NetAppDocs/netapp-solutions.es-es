@@ -1,7 +1,7 @@
 ---
 sidebar: sidebar 
 permalink: containers/rh-os-n_use_case_openshift_virtualization_workflow_vm_migration_using_mtv.html 
-keywords: OpenShift, OCP, Astra Trident, NetApp ONTAP, Red Hat OpenShift, OpenShift Virtualization, CNV, Container Native Virtualization, Red Hat OpenShift Virtualization 
+keywords: OpenShift, OCP, Trident, NetApp ONTAP, Red Hat OpenShift, OpenShift Virtualization, CNV, Container Native Virtualization, Red Hat OpenShift Virtualization 
 summary: OpenShift Virtualization de Red Hat con ONTAP de NetApp 
 ---
 = Flujos de trabajo: Virtualización de Red Hat OpenShift con ONTAP de NetApp
@@ -20,7 +20,7 @@ En esta sección se explica cómo migrar una máquina virtual de VMware a un cl�
 
 == Migración de equipos virtuales de VMware a OpenShift Virtualization mediante Migration Toolkit for Virtualization
 
-En esta sección, veremos cómo utilizar el Kit de herramientas de migración para virtualización (MTV) para migrar máquinas virtuales de VMware a la virtualización OpenShift ejecutándose en la plataforma de contenedores OpenShift e integrada con el almacenamiento de NetApp ONTAP mediante Astra Trident.
+En esta sección, veremos cómo utilizar el kit de herramientas de migración para virtualización (MTV) para migrar máquinas virtuales de VMware a OpenShift Virtualization ejecutándose en la plataforma de contenedores OpenShift e integradas con el almacenamiento NetApp ONTAP mediante Trident.
 
 El siguiente vídeo muestra una demostración de la migración de una máquina virtual RHEL de VMware a OpenShift Virtualization utilizando la clase de almacenamiento ontap-san para el almacenamiento persistente.
 
@@ -69,7 +69,7 @@ NOTE: Asegúrese de iniciar el servidor postgresql y activar el servicio para qu
 Antes de instalar MTV se completaron las siguientes instalaciones:
 
 * Cluster OpenShift 4.13.34
-* link:https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-deploy.html["Astra Trident 23,10"]
+* link:https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-deploy.html["Trident 23,10"]
 * Multivía en los nodos del clúster habilitados para iSCSI (para el tipo de almacenamiento ontap-san). Consulte el yaml proporcionado para crear un conjunto de daemon que habilite iSCSI en cada nodo del cluster.
 * Back-end de Trident y clase de almacenamiento para SAN de ONTAP mediante iSCSI. Consulte los archivos yaml proporcionados para obtener información sobre el backend trident y la clase de almacenamiento.
 * link:https://docs.openshift.com/container-platform/4.13/virt/install/installing-virt-web.html["Virtualización OpenShift"]

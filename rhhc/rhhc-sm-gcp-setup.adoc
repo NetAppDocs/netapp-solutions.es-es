@@ -13,7 +13,7 @@ summary:
 == Implemente y configure la plataforma Red Hat OpenShift Container en GCP
 
 [role="lead"]
-En esta sección se describe un flujo de trabajo de alto nivel sobre cómo configurar y gestionar clústeres de OpenShift en GCP e implementar aplicaciones con estado en ellos. Muestra el uso del almacenamiento Cloud Volumes ONTAP de NetApp con la ayuda de Astra Trident para proporcionar volúmenes persistentes. Se proporcionan detalles sobre el uso de Astra Control Center para realizar actividades de protección de datos y migración para las aplicaciones con estado.
+En esta sección se describe un flujo de trabajo de alto nivel sobre cómo configurar y gestionar clústeres de OpenShift en GCP e implementar aplicaciones con estado en ellos. Muestra el uso del almacenamiento de NetApp Cloud Volumes ONTAP con la ayuda de Trident para proporcionar volúmenes persistentes. Se proporcionan detalles sobre el uso de Astra Control Center para realizar actividades de protección de datos y migración para las aplicaciones con estado.
 
 Aquí hay un diagrama que muestra los clústeres implementados en GCP y conectados al centro de datos mediante una VPN.
 
@@ -58,11 +58,11 @@ El proceso de configuración puede dividirse en los siguientes pasos:
 
 
 ====
-.Instale Astra Trident en el clúster OCP de GCP
+.Instale Trident en el clúster OCP en GCP
 [%collapsible]
 ====
-* Como se muestra, hay muchos métodos para poner en marcha Astra Trident https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-deploy.html["aquí"].
-* Para este proyecto, se instaló Astra Trident poniendo en marcha el operador Astra Trident de forma manual mediante las instrucciones https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-deploy-operator.html["aquí"].
+* Hay muchos métodos para implementar Trident como se muestra https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-deploy.html["aquí"].
+* Para este proyecto, Trident se instaló mediante la implementación manual del operador Trident mediante las instrucciones https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-deploy-operator.html["aquí"].
 * Crear backend y clases de almacenamiento. Consulte las instrucciones link:https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-postdeployment.html["aquí"].
 
 
@@ -78,10 +78,10 @@ link:https://docs.netapp.com/us-en/astra-control-center/get-started/setup_overvi
 
 ====
 .Uso de la función de topología CSI de Trident para arquitecturas de varias zonas
-Los proveedores de cloud, hoy en día, permiten que los administradores de clústeres de Kubernetes/OpenShift generen nodos de los clústeres basados en zonas. Los nodos se pueden ubicar en diferentes zonas de disponibilidad dentro de una región o en varias regiones. Para facilitar el aprovisionamiento de volúmenes para cargas de trabajo en una arquitectura de varias zonas, Astra Trident utiliza la topología CSI. Con la función de topología CSI, el acceso a los volúmenes puede limitarse a un subconjunto de nodos, en función de regiones y zonas de disponibilidad. Consulte link:https://docs.netapp.com/us-en/trident/trident-use/csi-topology.html["aquí"] para obtener más detalles.
+Los proveedores de cloud, hoy en día, permiten que los administradores de clústeres de Kubernetes/OpenShift generen nodos de los clústeres basados en zonas. Los nodos se pueden ubicar en diferentes zonas de disponibilidad dentro de una región o en varias regiones. Para facilitar el aprovisionamiento de volúmenes para cargas de trabajo en una arquitectura multizona, Trident utiliza la topología CSI. Con la función de topología CSI, el acceso a los volúmenes puede limitarse a un subconjunto de nodos, en función de regiones y zonas de disponibilidad. Consulte link:https://docs.netapp.com/us-en/trident/trident-use/csi-topology.html["aquí"] para obtener más información.
 
 
-NOTE: Kubernetes admite dos modos de vinculación de volúmenes: - Cuando **_VolumeBindingMode_ se establece en _Immediate_** (predeterminado), Astra Trident crea el volumen sin reconocimiento de topología. Los volúmenes persistentes se crean sin dependencia alguna de los requisitos de programación del POD solicitante. - Cuando **_VolumeBindingMode_ se establece en _WaitForFirstConsumer_**, la creación y vinculación de un Volumen persistente para una RVP se retrasa hasta que se programe y cree un pod que utilice la RVP. De esta forma, se crean volúmenes con el fin de cumplir las restricciones de programación que se aplican en los requisitos de topología. Los back-ends de almacenamiento de Astra Trident se pueden diseñar para aprovisionar volúmenes de forma selectiva según las zonas de disponibilidad (back-end compatible con topología). En el caso de StorageClasses que utilizan dicho back-end, solo se creará un volumen si lo solicita una aplicación programada en una región/zona admitida. (Clase StorageClass compatible con topología) link:https://docs.netapp.com/us-en/trident/trident-use/csi-topology.html["aquí"] para obtener más detalles.
+NOTE: Kubernetes admite dos modos de enlace de volúmenes: - Cuando **_VolumeBindingMode_ se establece en _Immediate_** (predeterminado), Trident crea el volumen sin ninguna detección de topología. Los volúmenes persistentes se crean sin dependencia alguna de los requisitos de programación del POD solicitante. - Cuando **_VolumeBindingMode_ se establece en _WaitForFirstConsumer_**, la creación y vinculación de un Volumen persistente para una RVP se retrasa hasta que se programe y cree un pod que utilice la RVP. De esta forma, se crean volúmenes con el fin de cumplir las restricciones de programación que se aplican en los requisitos de topología. Los back-ends de almacenamiento de Trident se pueden diseñar para aprovisionar volúmenes de forma selectiva según las zonas de disponibilidad (back-end compatible con topología). En el caso de StorageClasses que utilizan dicho back-end, solo se creará un volumen si lo solicita una aplicación programada en una región/zona admitida. (Topology-aware StorageClass). Consulte link:https://docs.netapp.com/us-en/trident/trident-use/csi-topology.html["aquí"] para obtener más información.
 
 [Subrayar]#*Vídeo de demostración*#
 

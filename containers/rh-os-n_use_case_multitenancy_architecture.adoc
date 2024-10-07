@@ -1,7 +1,7 @@
 ---
 sidebar: sidebar 
 permalink: containers/rh-os-n_use_case_multitenancy_architecture.html 
-keywords: OpenShift, OCP, Astra Trident, NetApp ONTAP, Red Hat OpenShift, Multitenancy, Multi-tenancy 
+keywords: OpenShift, OCP, Trident, NetApp ONTAP, Red Hat OpenShift, Multitenancy, Multi-tenancy 
 summary: Configuración de Multitenancy en Red Hat OpenShift con NetApp 
 ---
 = Arquitectura
@@ -14,13 +14,13 @@ summary: Configuración de Multitenancy en Red Hat OpenShift con NetApp
 
 
 [role="lead"]
-Aunque Red Hat OpenShift y Astra Trident con el respaldo de ONTAP de NetApp no proporcionan aislamiento entre cargas de trabajo de forma predeterminada, ofrecen una amplia gama de funciones que se pueden utilizar para configurar multi-tenancy. Para comprender mejor el diseño de una solución multitenant en un clúster de Red Hat OpenShift con Astra Trident respaldado por ONTAP de NetApp, consideremos un ejemplo con un conjunto de requisitos y esquememos la configuración que lo rodea.
+Aunque Red Hat OpenShift y Trident respaldados por NetApp ONTAP no proporcionan aislamiento entre cargas de trabajo de forma predeterminada, ofrecen una amplia gama de funciones que se pueden utilizar para configurar el multi-tenancy. Para comprender mejor el diseño de una solución multi-tenant en un clúster de Red Hat OpenShift con Trident respaldado por NetApp ONTAP, consideremos un ejemplo con un conjunto de requisitos y describimos la configuración a su alrededor.
 
-Supongamos que una organización ejecuta dos de sus cargas de trabajo en un clúster de Red Hat OpenShift como parte de dos proyectos en los que trabajan dos equipos diferentes. Los datos de estas cargas de trabajo residen en RVP que aprovisiona de forma dinámica Astra Trident en un back-end NAS de ONTAP de NetApp. La organización tiene el requisito de diseñar una solución multitenant para estas dos cargas de trabajo y aislar los recursos utilizados para estos proyectos para garantizar que se mantiene la seguridad y el rendimiento, centrados principalmente en los datos que sirven a esas aplicaciones.
+Supongamos que una organización ejecuta dos de sus cargas de trabajo en un clúster de Red Hat OpenShift como parte de dos proyectos en los que trabajan dos equipos diferentes. Los datos de estas cargas de trabajo residen en RVP que Trident aprovisiona de forma dinámica en un back-end NAS de NetApp ONTAP. La organización tiene el requisito de diseñar una solución multitenant para estas dos cargas de trabajo y aislar los recursos utilizados para estos proyectos para garantizar que se mantiene la seguridad y el rendimiento, centrados principalmente en los datos que sirven a esas aplicaciones.
 
-En la siguiente figura se describe la solución multitenant en un clúster de Red Hat OpenShift con Astra Trident respaldado por ONTAP de NetApp.
+En la siguiente figura se muestra la solución multitenant en un clúster de Red Hat OpenShift con Trident respaldado por NetApp ONTAP.
 
-image:redhat_openshift_image40.jpg["Multi-tenancy en el clúster Red Hat OpenShift con Astra Trident y con el respaldo de ONTAP de NetApp"]
+image:redhat_openshift_image40.jpg["Multi-tenancy en el cluster Red Hat OpenShift con Trident respaldado por NetApp ONTAP"]
 
 
 
@@ -28,7 +28,7 @@ image:redhat_openshift_image40.jpg["Multi-tenancy en el clúster Red Hat OpenShi
 
 . Clúster de almacenamiento ONTAP de NetApp
 . Clúster de Red Hat OpenShift
-. Astra Trident
+. Trident
 
 
 
@@ -47,7 +47,7 @@ Es importante aislar el almacenamiento compartido que sirve como proveedor de al
 
 
 
-== Astra Trident
+== Trident
 
 Después de haber establecido diferentes SVM para diferentes proyectos creados en ONTAP de NetApp, debe asignar cada SVM a un back-end de Trident diferente. La configuración de back-end en Trident impulsa la asignación de almacenamiento persistente a recursos de clúster de OpenShift y requiere los detalles de la SVM a la que se va a asignar. Este debe ser el controlador de protocolo para el back-end como mínimo. De manera opcional, le permite definir cómo se aprovisionan los volúmenes en el almacenamiento y establecer límites para el tamaño de los volúmenes o el uso de agregados, etc. Se pueden encontrar detalles sobre la definición de los back-ends de Trident https://docs.netapp.com/us-en/trident/trident-use/backends.html["aquí"^].
 
