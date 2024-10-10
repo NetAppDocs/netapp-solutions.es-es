@@ -1,7 +1,7 @@
 ---
 sidebar: sidebar 
 permalink: ai/ddlnexus_initial_setup.html 
-keywords: NetApp AI, AI, Artificial Intelligence, ML, Machine Learning, NVIDIA, Hybrid, Hybrid Cloud, Hybrid Multicloud, Cloud, AWS, Amazon, Amazon Web Services, FSx for NetApp ONTAP, FSx, NetApp ONTAP, FlexCache, SnapMirror, BlueXP 
+keywords: NetApp AI, AI, Artificial Intelligence, ML, Machine Learning, NVIDIA, Hybrid, Hybrid Cloud, Hybrid Multicloud, Cloud, AWS, Amazon, Amazon Web Services, FSx ONTAP, FSx, NetApp ONTAP, FlexCache, SnapMirror, BlueXP 
 summary: 'MLOps de multinube híbrida con Domino Data Lab y NetApp: Configuración inicial' 
 ---
 = Configuración inicial
@@ -23,11 +23,11 @@ En esta sección se describen las tareas de configuración iniciales que se debe
 Antes de realizar los pasos que se describen en esta sección, asumimos que ya ha realizado las siguientes tareas:
 
 * Ya ha puesto en marcha y configurado su plataforma de almacenamiento NetApp ONTAP en las instalaciones. Para obtener más información, consulte la link:https://www.netapp.com/support-and-training/documentation/["Documentación de productos de NetApp"].
-* Ya ha aprovisionado una instancia de Amazon FSx para NetApp ONTAP en AWS. Para obtener más información, consulte la link:https://aws.amazon.com/fsx/netapp-ontap/["Página de producto de Amazon FSx para NetApp ONTAP"].
+* Ya ha aprovisionado una instancia de Amazon FSx ONTAP en AWS. Para obtener más información, consulte la link:https://aws.amazon.com/fsx/netapp-ontap/["Página de producto de Amazon FSx ONTAP"].
 * Ya ha aprovisionado un clúster de Kubernetes en su centro de datos en las instalaciones. Para obtener más información, consulte la link:https://docs.dominodatalab.com/en/latest/admin_guide/b35e66/admin-guide/["Guía del administrador de Domino"].
 * Ya ha aprovisionado un clúster de Amazon EKS en AWS. Para obtener más información, consulte la link:https://docs.dominodatalab.com/en/latest/admin_guide/b35e66/admin-guide/["Guía del administrador de Domino"].
 * Ha instalado NetApp Trident en su clúster de Kubernetes en las instalaciones. Además, ha configurado esta instancia de Trident para utilizar su plataforma de almacenamiento de NetApp ONTAP local al aprovisionar y gestionar recursos de almacenamiento. Para obtener más información, consulte la link:https://docs.netapp.com/us-en/trident/index.html["Documentación de Trident de NetApp"].
-* Ha instalado NetApp Trident en su clúster de Amazon EKS. Además, ha configurado esta instancia de Trident de modo que utilice su instancia de Amazon FSx para NetApp ONTAP al aprovisionar y gestionar recursos de almacenamiento. Para obtener más información, consulte la link:https://docs.netapp.com/us-en/trident/index.html["Documentación de Trident de NetApp"].
+* Ha instalado NetApp Trident en su clúster de Amazon EKS. Además, has configurado esta instancia de Trident de modo que utilice tu instancia de Amazon FSx ONTAP al aprovisionar y gestionar recursos de almacenamiento. Para obtener más información, consulte la link:https://docs.netapp.com/us-en/trident/index.html["Documentación de Trident de NetApp"].
 * Debe disponer de conectividad de red bidireccional entre su centro de datos en las instalaciones y la nube privada virtual (VPC) en AWS. Para obtener más información sobre las distintas opciones para implementarlo, consulte la link:https://docs.aws.amazon.com/vpc/latest/userguide/vpn-connections.html["Documentación de Amazon Virtual Private Network (VPN)"].
 
 
@@ -41,7 +41,7 @@ Para instalar Domino Enterprise MLOps Platform en AWS, siga las instrucciones de
 NOTE: Consulte la link:https://docs.dominodatalab.com/en/latest/admin_guide/7f4331/install-configuration-reference/#storage-classes["Guía de referencia de configuración de instalación de Domino"] para obtener detalles sobre cómo especificar una clase de almacenamiento compartido en el archivo de configuración de instalación de domino.yml.
 
 
-NOTE: link:https://www.netapp.com/media/79922-tr-4952.pdf["Informe técnico TR-4952"] Explica la puesta en marcha de Domino en AWS con Amazon FSx para NetApp ONTAP y puede ser una referencia útil para solucionar los problemas que surjan.
+NOTE: link:https://www.netapp.com/media/79922-tr-4952.pdf["Informe técnico TR-4952"] Recorre la implementación de Domino en AWS con Amazon FSx ONTAP y puede ser una referencia útil para solucionar cualquier problema que surja.
 
 
 

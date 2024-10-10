@@ -1,7 +1,7 @@
 ---
 sidebar: sidebar 
 permalink: rhhc/rhhc-pm-data-protection.html 
-keywords: NetApp Solutions, redhat OpenShift, red hat OpenShift, redhat openshift container platform, ocp, openshift container platform, Advanced Cluster Management, ACM, Hub Cluster, containers, container workloads, VMWare, provider managed storage, ONTAP, AWS FSxN, Astra Control Service 
+keywords: NetApp Solutions, redhat OpenShift, red hat OpenShift, redhat openshift container platform, ocp, openshift container platform, Advanced Cluster Management, ACM, Hub Cluster, containers, container workloads, VMWare, provider managed storage, ONTAP, AWS FSx ONTAP, Astra Control Service 
 summary:  
 ---
 = Protección de datos
@@ -16,14 +16,14 @@ summary:
 [role="lead"]
 Esta página muestra las opciones de protección de datos para clústeres de Red Hat OpenShift gestionados en AWS (ROSA) mediante Astra Control Service. Astra Control Service (ACS) proporciona una interfaz gráfica de usuario fácil de usar con la que puedes añadir clústeres, definir aplicaciones en ellas y realizar actividades de gestión de datos para aplicaciones. También se puede acceder a las funciones de ACS mediante una API que permite la automatización de flujos de trabajo.
 
-El poder de Astra Control (ACS o ACC) es NetApp Trident. Trident integra varios tipos de clústeres de Kubernetes, como Red Hat OpenShift, EKS, AKS, SUSE Rancher, Anthos, etc., con varios tipos de almacenamiento de NetApp ONTAP, como FAS/AFF, ONTAP Select, CVO, Google Cloud Volumes Service, Azure NetApp Files y Amazon FSx para NetApp ONTAP.
+El poder de Astra Control (ACS o ACC) es NetApp Trident. Trident integra varios tipos de clústeres de Kubernetes, como Red Hat OpenShift, EKS, AKS, SUSE Rancher, Anthos, etc., con varios tipos de almacenamiento de NetApp ONTAP, como FAS/AFF, ONTAP Select, CVO, Google Cloud Volumes Service, Azure NetApp Files y Amazon FSx ONTAP.
 
 En esta sección se proporcionan detalles sobre las siguientes opciones de protección de datos mediante ACS:
 
 * Un vídeo que muestra la copia de seguridad y restauración de una aplicación ROSA que se ejecuta en una región y la restauración en otra.
 * Un vídeo que muestra la instantánea y la restauración de una aplicación ROSA.
-* Detalles paso a paso de la instalación de un clúster ROSA, Amazon FSx para NetApp ONTAP, mediante NetApp Trident para integrar con el backend de almacenamiento, la instalación de una aplicación postgresql en el clúster ROSA, el uso de ACS para crear una instantánea de la aplicación y restaurar la aplicación desde ella.
-* Un blog en el que se muestran detalles paso a paso de la creación y restauración a partir de una instantánea para una aplicación mysql en un clúster ROSA con FSx para ONTAP mediante ACS.
+* Detalles paso a paso de la instalación de un clúster ROSA, Amazon FSx ONTAP, mediante NetApp Trident para integrarse con el backend de almacenamiento, la instalación de una aplicación postgresql en el clúster ROSA, el uso de ACS para crear una instantánea de la aplicación y restaurar la aplicación desde ella.
+* Un blog que muestra detalles paso a paso de la creación y restauración a partir de una instantánea para una aplicación mysql en un clúster ROSA con FSX ONTAP mediante ACS.
 
 
 
@@ -40,7 +40,7 @@ video::01dd455e-7f5a-421c-b501-b01200fa91fd[panopto]
 
 En el siguiente vídeo se muestra la toma de una instantánea de una aplicación ROSA y la restauración de la instantánea después.
 
-.Snapshot/Restore para aplicaciones en Red Hat OpenShift Service en clústeres de AWS (ROSA) con almacenamiento de Amazon FSx para NetApp ONTAP
+.Snapshot/Restore para aplicaciones en Red Hat OpenShift Service en clústeres de AWS (ROSA) con almacenamiento de Amazon FSx ONTAP
 video::36ecf505-5d1d-4e99-a6f8-b11c00341793[panopto]
 
 
@@ -65,7 +65,7 @@ video::36ecf505-5d1d-4e99-a6f8-b11c00341793[panopto]
 * link:https://console.redhat.com/openshift/downloads["CLI de OpenShift"](oc)
 * VPC con subredes y puertas de enlace y rutas correspondientes
 * link:https://docs.openshift.com/rosa/rosa_install_access_delete_clusters/rosa_getting_started_iam/rosa-installing-rosa.html["ROSA Cluster instalado"] En el VPC
-* link:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/getting-started-step1.html["Amazon FSX para ONTAP de NetApp"] Creadas en el mismo VPC
+* link:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/getting-started-step1.html["Amazon FSx ONTAP"] Creadas en el mismo VPC
 * Acceso al clúster ROSA desde link:https://console.redhat.com/openshift/overview["Consola de nube híbrida de OpenShift"]
 
 
@@ -128,7 +128,7 @@ image:rhhc-trident-installed.png["Figura que muestra el cuadro de diálogo de en
 
 ==== **4. Cree una configuración de backend, clase de almacenamiento y clase de snapshot usando el aprovisionador CSI de Trident**
 
-Utilice los archivos yaml que se muestran a continuación para crear un objeto backend trident, un objeto de clase de almacenamiento y el objeto Volumesnapshot. Asegúrese de proporcionar las credenciales a su sistema de archivos Amazon FSx para NetApp ONTAP que creó, la LIF de gestión y el nombre Vserver de su sistema de archivos en la configuración yaml para el backend. Para obtener esos detalles, ve a la consola de AWS para Amazon FSx y selecciona el sistema de archivos, navega a la pestaña Administración. También, haga clic en Actualizar para establecer la contraseña del `fsxadmin` usuario.
+Utilice los archivos yaml que se muestran a continuación para crear un objeto backend trident, un objeto de clase de almacenamiento y el objeto Volumesnapshot. Asegúrese de proporcionar las credenciales a su sistema de archivos de Amazon FSx ONTAP que creó, la LIF de gestión y el nombre Vserver de su sistema de archivos en la configuración yaml para el backend. Para obtener esos detalles, ve a la consola de AWS para Amazon FSx y selecciona el sistema de archivos, navega a la pestaña Administración. También, haga clic en Actualizar para establecer la contraseña para `fsxadmin` el usuario.
 
 
 NOTE: Puede utilizar la línea de comandos para crear los objetos o crearlos con los archivos yaml desde la consola de la nube híbrida.
@@ -211,7 +211,7 @@ image:rhhc-postgres-install.png["Figura que muestra el cuadro de diálogo de ent
 
 NOTE: Si no ve los pods de la aplicación en ejecución, es posible que haya un error debido a las restricciones del contexto de seguridad. image:rhhc-scc-error.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"] Corrija el error editando los `runAsUser` `fsGroup` campos y en `statefuleset.apps/postgresql` el objeto con el uid que está en la salida del `oc get project` comando como se muestra a continuación. image:rhhc-scc-fix.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
-La aplicación de postgresql debería ejecutar y utilizar volúmenes persistentes respaldados por Amazon FSx para el almacenamiento de NetApp ONTAP.
+La aplicación de postgresql debería ejecutar y utilizar volúmenes persistentes respaldados por el almacenamiento de Amazon FSx ONTAP.
 
 image:rhhc-postgres-running.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 

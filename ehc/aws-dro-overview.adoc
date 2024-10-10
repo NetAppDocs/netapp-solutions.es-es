@@ -4,7 +4,7 @@ permalink: ehc/aws-dro-overview.html
 keywords: NetApp Solutions, hybrid, multicloud, multi cloud, hyperscalers, vmware, disaster recovery orchestrator, DRO 
 summary:  
 ---
-= TR-4955: Recuperación ante desastres con FSX para ONTAP y VMC (cloud VMware de AWS)
+= TR-4955: Recuperación ante desastres con FSx ONTAP y VMC (AWS VMware Cloud)
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -14,7 +14,7 @@ summary:
 
 
 [role="lead"]
-Disaster Recovery Orchestrator (DRO, una solución basada en scripts con la interfaz de usuario) se puede usar para recuperar sin problemas las cargas de trabajo replicadas desde las instalaciones a FSX para ONTAP. DRO automatiza la recuperación del nivel de SnapMirror, mediante el registro de VM en VMC, hasta las asignaciones de red directamente en NSX-T. Esta función está incluida en todos los entornos VMC.
+Se puede utilizar el orquestador de recuperación ante desastres (DRO; una solución basada en secuencias de comandos con IU) para recuperar sin problemas las cargas de trabajo replicadas desde las instalaciones a FSx ONTAP. DRO automatiza la recuperación desde el nivel de SnapMirror, a través del registro de la VM en VMC, a los mapas de red directamente en NSX-T. Esta función se incluye en todos los entornos de VMC.
 
 Niyaz Mohamed, NetApp
 
@@ -22,11 +22,11 @@ Niyaz Mohamed, NetApp
 
 == Descripción general
 
-La recuperación ante desastres en el cloud es un método resiliente y rentable de proteger las cargas de trabajo contra interrupciones del sitio y eventos dañados por los datos (por ejemplo, ransomware). Con la tecnología SnapMirror de NetApp, las cargas de trabajo de VMware en las instalaciones se pueden replicar en FSX para ONTAP ejecutándose en AWS.
+La recuperación ante desastres en el cloud es un método resiliente y rentable de proteger las cargas de trabajo contra interrupciones del sitio y eventos dañados por los datos (por ejemplo, ransomware). Con la tecnología NetApp SnapMirror, las cargas de trabajo de VMware on-premises se pueden replicar en FSx ONTAP ejecutándose en AWS.
 
-Disaster Recovery Orchestrator (DRO, una solución basada en scripts con la interfaz de usuario) se puede usar para recuperar sin problemas las cargas de trabajo replicadas desde las instalaciones a FSX para ONTAP. DRO automatiza la recuperación del nivel de SnapMirror, mediante el registro de VM en VMC, hasta las asignaciones de red directamente en NSX-T. Esta función está incluida en todos los entornos VMC.
+Se puede utilizar el orquestador de recuperación ante desastres (DRO; una solución basada en secuencias de comandos con IU) para recuperar sin problemas las cargas de trabajo replicadas desde las instalaciones a FSx ONTAP. DRO automatiza la recuperación desde el nivel de SnapMirror, a través del registro de la VM en VMC, a los mapas de red directamente en NSX-T. Esta función se incluye en todos los entornos de VMC.
 
-image:dro-vmc-image1.png["Este gráfico muestra la estructura y las interconexiones entre un centro de datos en las instalaciones, un cloud VMware en una instancia de AWS SDDC y Amazon FSX para ONTAP de NetApp. Entre ellas se incluyen la replicación de SnapMirror, el tráfico de Operaciones de recuperación ante desastres, Internet o conexión directa y VMware Transit Connect."]
+image:dro-vmc-image1.png["En este gráfico se muestra la estructura y las interconexiones entre un centro de datos en las instalaciones, una instancia de SDDC de VMware Cloud en AWS y Amazon FSx ONTAP. Entre ellas se incluyen la replicación de SnapMirror, el tráfico de Operaciones de recuperación ante desastres, Internet o conexión directa y VMware Transit Connect."]
 
 
 
@@ -43,15 +43,15 @@ NOTE: En la versión inicial, DRO admite un clúster de luces piloto existente. 
 
 
 
-=== Aprovisionar y configurar FSX para ONTAP
+=== Aprovisionar y configurar FSx ONTAP
 
-Amazon FSX para ONTAP de NetApp es un servicio totalmente gestionado que ofrece un almacenamiento de archivos altamente fiable, escalable, de alto rendimiento y con numerosas funciones incorporado en el popular sistema de archivos ONTAP de NetApp. Siga estos pasos link:aws-native-overview.html["enlace"^] Para aprovisionar y configurar FSX para ONTAP.
+Amazon FSx ONTAP es un servicio totalmente gestionado que ofrece un almacenamiento de archivos altamente fiable, escalable, de alto rendimiento y con una gran cantidad de funciones incorporado en el popular sistema de archivos NetApp ONTAP. Sigue los pasos de esto link:aws-native-overview.html["enlace"^] para aprovisionar y configurar FSx ONTAP.
 
 
 
-=== Poner en marcha y configurar SnapMirror a FSX para ONTAP
+=== Pon en marcha y configura SnapMirror para FSx ONTAP
 
-El siguiente paso consiste en utilizar NetApp BlueXP y descubrir la instancia de FSX aprovisionada para ONTAP en AWS y replicar los volúmenes de almacenes de datos deseados de un entorno local a FSX para ONTAP con la frecuencia adecuada y la retención de copias Snapshot de NetApp:
+El siguiente paso es utilizar NetApp BlueXP  y descubrir la instancia de FSx ONTAP aprovisionada en AWS y replicar los volúmenes de un almacén de datos deseado desde un entorno on-premises en FSx ONTAP con la frecuencia adecuada y retención de copias snapshot de NetApp:
 
 image:dro-vmc-image2.png["Este gráfico muestra el mapa de relaciones de lienzo de BlueXP que muestra las diversas interacciones entre los servicios activados."]
 
@@ -146,9 +146,9 @@ image:dro-vmc-image3.png["Pantalla de inicio de sesión en el orquestador de rec
 
 == Configuración DE DRO
 
-Después de que los FSX para ONTAP y VMC se hayan configurado correctamente, puede empezar a configurar DRO para automatizar la recuperación de las cargas de trabajo en las instalaciones a VMC usando las copias SnapMirror de solo lectura en FSX para ONTAP.
+Una vez que FSx ONTAP y VMC se han configurado correctamente, puedes empezar a configurar DRO para automatizar la recuperación de cargas de trabajo on-premises en VMC mediante el uso de las copias SnapMirror de solo lectura en FSx ONTAP.
 
-NetApp recomienda la puesta en marcha del agente DRO en AWS y también en el mismo VPC, en el que se ponga en marcha FSX para ONTAP (también puede estar conectado por la misma paridad), Para que el agente DRO pueda comunicarse a través de la red con sus componentes locales, así como con los recursos FSX para ONTAP y VMC.
+NetApp recomienda implementar el agente DRO en AWS y también en la misma VPC donde se implementa FSx ONTAP (también se puede conectar por pares), para que el agente DRO pueda comunicarse a través de la red con sus componentes locales, así como con los recursos de FSX ONTAP y VMC.
 
 El primer paso es descubrir y añadir los recursos locales y cloud (tanto vCenter como almacenamiento) a la DRO. Abra DRO en un navegador compatible y utilice el nombre de usuario y la contraseña predeterminados (admin/admin) y Add Sites. También se pueden añadir sitios mediante la opción detectar. Añada las siguientes plataformas:
 
@@ -161,7 +161,7 @@ El primer paso es descubrir y añadir los recursos locales y cloud (tanto vCente
 * Cloud
 +
 ** VCenter de VMC
-** FSX para ONTAP
+** FSX ONTAP
 
 
 
@@ -170,7 +170,7 @@ image:dro-vmc-image4.png["Descripción temporal de la imagen del marcador de pos
 
 image:dro-vmc-image5.png["Página general DEL sitio DE DRO que contiene sitios de origen y destino."]
 
-Una vez añadida, DRO realiza la detección automática y muestra las máquinas virtuales con las réplicas de SnapMirror correspondientes desde el almacenamiento de origen a FSX para ONTAP. DRO detecta automáticamente las redes y los grupos de puertos utilizados por los equipos virtuales y los rellena.
+Una vez añadida, DRO realiza una detección automática y muestra las máquinas virtuales con las réplicas de SnapMirror correspondientes desde el almacenamiento de origen a FSx ONTAP. DRO detecta automáticamente las redes y los grupos de puertos utilizados por los equipos virtuales y los rellena.
 
 image:dro-vmc-image6.png["Pantalla de detección automática con 219 máquinas virtuales y 10 almacenes de datos."]
 
@@ -261,7 +261,7 @@ Una vez finalizada, puede activar la conmutación tras recuperación para volver
 
 image:dro-vmc-image20.png["Captura de pantalla de la descripción general del plan de replicación con el menú desplegable que contiene la opción de conmutación por recuperación."] image:dro-vmc-image21.png["Captura de pantalla de la página de resumen de DRO con el sitio de producción original en funcionamiento."]
 
-Desde BlueXP de NetApp vemos que el estado de la replicación se ha roto para los volúmenes adecuados (los asignados a VMC como volúmenes de lectura y escritura). Durante la conmutación al nodo de respaldo de prueba, DRO no asigna el volumen de destino o de réplica. En su lugar, realiza una copia FlexClone de la instancia de SnapMirror (o Snapshot) necesaria y expone la instancia de FlexClone, que no consume capacidad física adicional para FSX para ONTAP. Este proceso garantiza que el volumen no se modifique y que los trabajos de réplica puedan continuar incluso durante las pruebas de recuperación ante desastres o los flujos de trabajo de clasificación. Además, este proceso garantiza que, si se producen errores o se recuperan los datos dañados, la recuperación se puede limpiar sin riesgo de destrucción de la réplica.
+Desde BlueXP de NetApp vemos que el estado de la replicación se ha roto para los volúmenes adecuados (los asignados a VMC como volúmenes de lectura y escritura). Durante la conmutación al nodo de respaldo de prueba, DRO no asigna el volumen de destino o de réplica. En su lugar, crea una copia FlexClone de la instancia de SnapMirror (o Snapshot) necesaria y expone la instancia de FlexClone, que no consume capacidad física adicional para FSx ONTAP. Este proceso garantiza que el volumen no se modifique y que los trabajos de réplica puedan continuar incluso durante las pruebas de recuperación ante desastres o los flujos de trabajo de clasificación. Además, este proceso garantiza que, si se producen errores o se recuperan los datos dañados, la recuperación se puede limpiar sin riesgo de destrucción de la réplica.
 
 image:dro-vmc-image22.png["Descripción temporal de la imagen del marcador de posición."]
 

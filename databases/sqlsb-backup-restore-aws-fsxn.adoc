@@ -4,7 +4,7 @@ permalink: databases/sqlsb-backup-restore-aws-fsxn.html
 keywords: SQL server, SQL, backup, recover, AWS, aws, sql 
 summary:  
 ---
-= TR-4951: Backup y recuperación de datos para Microsoft SQL Server en AWS FSx para ONTAP
+= TR-4951: Backup y recuperación de datos para Microsoft SQL Server en AWS FSx ONTAP
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -16,7 +16,7 @@ summary:
 Autor(es): Niyaz Mohammed, Carine Ngwekwe, NetApp Solutions Engineering
 
 [role="lead"]
-Este documento aborda los pasos necesarios para realizar el backup y la recuperación de datos para Microsoft SQL Server en AWS FSx para ONTAP con SnapCenter. Esto incluye la siguiente información:
+Este documento aborda los pasos necesarios para realizar el backup y la recuperación de datos para Microsoft SQL Server en AWS FSx ONTAP con SnapCenter. Esto incluye la siguiente información:
 
 * Configuración de SnapCenter
 * Operaciones de backup de SnapCenter
@@ -32,7 +32,7 @@ Este documento aborda los pasos necesarios para realizar el backup y la recupera
 Se deben realizar los siguientes pasos en relación con la configuración de SnapCenter y la protección de los recursos de Microsoft SQL Server. Cada uno de los siguientes pasos se detalla en las siguientes secciones.
 
 . Configure las credenciales de sysadmin para el usuario de backup y restauración de SQL Server.
-. Configure los ajustes de almacenamiento. Proporcionar una credencial de gestión de Amazon Web Services (AWS) para acceder a las máquinas virtuales de almacenamiento (SVM) de Amazon FSx para ONTAP de NetApp desde SnapCenter.
+. Configure los ajustes de almacenamiento. Proporciona una credencial de gestión de Amazon Web Services (AWS) para acceder a las máquinas virtuales de almacenamiento (SVM) de Amazon FSx ONTAP desde SnapCenter.
 . Añada un host de SQL Server a SnapCenter. Ponga en marcha e instale los complementos de SnapCenter necesarios.
 . Configurar políticas. Defina el tipo de operación de backup, la retención y la replicación de backup de Snapshot opcional.
 . Configurar y proteger la base de datos de Microsoft SQL Server.
@@ -72,7 +72,7 @@ Para configurar el almacenamiento en SnapCenter, complete los siguientes pasos:
 +
 image:sqlsb-aws-image4.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
-. Proporcione el punto final *FSX para la gestión de ONTAP*.
+. Proporcione el punto final *FSX ONTAP management*.
 +
 image:sqlsb-aws-image5.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
@@ -107,7 +107,7 @@ Los paquetes de SQL Server están instalados.
 
 image:sqlsb-aws-image9.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
-. Una vez completada la instalación, vaya a la pestaña *Recurso* para verificar si todos los volúmenes iSCSI de FSx para ONTAP están presentes.
+. Una vez completada la instalación, vaya a la pestaña *Recurso* para verificar si todos los volúmenes iSCSI de FSx ONTAP están presentes.
 +
 image:sqlsb-aws-image10.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 

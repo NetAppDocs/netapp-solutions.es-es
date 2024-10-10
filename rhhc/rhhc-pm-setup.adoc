@@ -14,14 +14,14 @@ summary:
 
 
 [role="lead"]
-En esta sección se describe un flujo de trabajo de alto nivel de configuración de los clústeres gestionados de Red Hat OpenShift en AWS (ROSA). Muestra el uso de Managed FSx para NetApp ONTAP (FSxN) como back-end de almacenamiento por parte de Trident para proporcionar volúmenes persistentes. Encontrará más detalles sobre la implementación de FSxN en AWS mediante BlueXP. Además, se incluyen más detalles sobre el uso de BlueXP y OpenShift GitOps (Argo CD) para realizar actividades de protección y migración de datos para las aplicaciones con estado en los clústeres de ROSA.
+En esta sección se describe un flujo de trabajo de alto nivel de configuración de los clústeres gestionados de Red Hat OpenShift en AWS (ROSA). Muestra el uso de Amazon FSx para NetApp ONTAP (FSx ONTAP) gestionado como back-end de almacenamiento por parte de Trident para proporcionar volúmenes persistentes. Se ofrecen detalles sobre la puesta en marcha de FSx ONTAP en AWS mediante BlueXP . Además, se incluyen más detalles sobre el uso de BlueXP y OpenShift GitOps (Argo CD) para realizar actividades de protección y migración de datos para las aplicaciones con estado en los clústeres de ROSA.
 
-A continuación se muestra un diagrama que muestra los clústeres ROSA implementados en AWS y utilizando FSxN como almacenamiento back-end.
+Aquí se muestra un diagrama que muestra los clústeres ROSA puestos en marcha en AWS y utilizando FSx ONTAP como almacenamiento de back-end.
 
 image:rhhc-rosa-with-fsxn.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 
-NOTE: Esta solución se verificó mediante el uso de dos clústeres ROSA en dos VPC en AWS. Cada clúster ROSA fue integrado con FSxN usando Trident. Hay varias formas de implementar los clusters ROSA y FSxN en AWS. Esta descripción de alto nivel de la configuración proporciona enlaces de documentación para el método específico utilizado. Puede consultar los otros métodos en los enlaces correspondientes proporcionados en la link:rhhc-resources.html["sección recursos"].
+NOTE: Esta solución se verificó mediante el uso de dos clústeres ROSA en dos VPC en AWS. Todos los clústeres ROSA se integraron con FSx ONTAP mediante Trident. Hay varias maneras de implementar los clústeres ROSA y FSx ONTAP en AWS. Esta descripción de alto nivel de la configuración proporciona enlaces de documentación para el método específico utilizado. Puede consultar los otros métodos en los enlaces correspondientes proporcionados en la link:rhhc-resources.html["sección recursos"].
 
 El proceso de configuración puede dividirse en los siguientes pasos:
 
@@ -33,11 +33,11 @@ El proceso de configuración puede dividirse en los siguientes pasos:
 
 
 ====
-.Instale FSxN
+.Instale FSx ONTAP
 [%collapsible]
 ====
-* Instala FSxN en los PC de BlueXP. Consulte link:https://docs.netapp.com/us-en/cloud-manager-setup-admin/index.html["aquí"] Para la creación de cuenta de BlueXP y para comenzar a usarla. Consulte link:https://docs.netapp.com/us-en/cloud-manager-fsx-ontap/index.html["aquí"] Para instalar FSxN. Consulte link:https://docs.netapp.com/us-en/cloud-manager-setup-admin/index.html["aquí"] Para crear un conector en AWS para gestionar FSxN.
-* Implemente FSxN con AWS. Consulte link:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/getting-started-step1.html["aquí"] Para la puesta en marcha mediante la consola de AWS.
+* Instala FSx ONTAP en los PC de BlueXP . Consulte link:https://docs.netapp.com/us-en/cloud-manager-setup-admin/index.html["aquí"] para obtener información sobre la creación de cuenta de BlueXP  y para comenzar. Consulte link:https://docs.netapp.com/us-en/cloud-manager-fsx-ontap/index.html["aquí"] para instalar FSx ONTAP. Consulte link:https://docs.netapp.com/us-en/cloud-manager-setup-admin/index.html["aquí"]Crear un conector en AWS para administrar FSx ONTAP.
+* Pon en marcha FSx ONTAP con AWS. Consulte link:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/getting-started-step1.html["aquí"] para la implementación mediante la consola de AWS.
 
 
 ====
@@ -47,7 +47,7 @@ El proceso de configuración puede dividirse en los siguientes pasos:
 * Use el gráfico Helm para instalar Trident en clústeres ROSA. url para el diagrama Helm: https://netapp.github.io/trident-helm-chart[]
 
 
-.Integración de FSxN con Trident para clusters ROSA
+.Integración de FSx ONTAP con Trident para clústeres ROSA
 video::621ae20d-7567-4bbf-809d-b01200fa7a68[panopto]
 
 NOTE: OpenShift GitOps se puede utilizar para implementar CSI de Trident en todos los clústeres gestionados a medida que se registran en ArgoCD mediante ApplicationSet.
@@ -55,7 +55,7 @@ NOTE: OpenShift GitOps se puede utilizar para implementar CSI de Trident en todo
 image:rhhc-trident-helm.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 ====
-.Crear clases de almacenamiento y back-end con Trident (para FSxN)
+.Crear clases de almacenamiento y back-end con Trident (para FSx ONTAP)
 [%collapsible]
 ====
 * Consulte link:https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-postdeployment.html["aquí"] para obtener detalles sobre la creación del back-end y la clase de almacenamiento.

@@ -22,7 +22,7 @@ Esta solución ofrece información general y detallada para la implementación a
 
 == Específico
 
-Amazon FSx para NetApp ONTAP es un servicio de almacenamiento que te permite iniciar y ejecutar sistemas de archivos de NetApp ONTAP totalmente gestionados en la nube de AWS. Proporciona las características, el rendimiento, las funcionalidades y las API que ya conoce de los sistemas de archivos de NetApp con la agilidad, la escalabilidad y la simplicidad de un servicio de AWS totalmente gestionado. Te permite ejecutar la carga de trabajo de bases de datos más exigentes, como Oracle, en la nube de AWS con total tranquilidad.
+Amazon FSx ONTAP es un servicio de almacenamiento que te permite iniciar y ejecutar sistemas de archivos de NetApp ONTAP totalmente gestionados en la nube de AWS. Proporciona las características, el rendimiento, las funcionalidades y las API que ya conoce de los sistemas de archivos de NetApp con la agilidad, la escalabilidad y la simplicidad de un servicio de AWS totalmente gestionado. Te permite ejecutar la carga de trabajo de bases de datos más exigentes, como Oracle, en la nube de AWS con total tranquilidad.
 
 Esta documentación demuestra la puesta en marcha simplificada de las bases de datos de Oracle en un sistema de archivos Amazon FSx ONTAP mediante la automatización de Ansible. La base de datos Oracle se despliega en una configuración de reinicio independiente con protocolo iSCSI para el acceso a datos y Oracle ASM para la gestión de discos de almacenamiento de base de datos. También ofrece información sobre los procesos de backup, restauración y clonación de bases de datos de Oracle usando la herramienta de interfaz de usuario de NetApp SnapCenter para que funcionen de forma eficiente en el cloud de AWS.
 
@@ -143,7 +143,7 @@ La implementación requiere los siguientes requisitos previos.
 
 . Se configuró una cuenta de AWS y se crearon el VPC y los segmentos de red necesarios en la cuenta de AWS.
 . Desde la consola AWS EC2, despliegue EC2 instancias de Linux como servidores Oracle DB. Active la autenticación de clave pública/privada SSH para EC2 usuarios. Consulte el diagrama de arquitectura en la sección anterior para obtener información detallada sobre la configuración del entorno. Revise también la link:https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/concepts.html["Guía de usuario para instancias de Linux"^] si quiere más información.
-. Desde la consola de AWS FSx, aprovisiona un sistema de archivos de Amazon FSx ONTAP que cumpla los requisitos. Revise la documentación link:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/creating-file-systems.html["Creación de FSX para sistemas de archivos ONTAP"^] para obtener instrucciones paso a paso.
+. Desde la consola de AWS FSx, aprovisiona un sistema de archivos de Amazon FSx ONTAP que cumpla los requisitos. Consulte la documentación link:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/creating-file-systems.html["Creación de sistemas de archivos FSX ONTAP"^] para obtener instrucciones paso a paso.
 . Los pasos 2 y 3 se pueden realizar utilizando el siguiente kit de herramientas de automatización de Terraform, que crea una instancia de EC2 denominada `ora_01` Y un sistema de archivos FSX llamado `fsx_01`. Revise las instrucciones detenidamente y cambie las variables para adaptarlas a su entorno antes de su ejecución. La plantilla se puede revisar fácilmente para satisfacer sus propios requisitos de implementación.
 +
 [source, cli]
@@ -585,7 +585,7 @@ Consulte TR-4979 link:aws_ora_fsx_vmc_guestmount.html#oracle-backup-restore-and-
 
 Si quiere más información sobre la información descrita en este documento, consulte los siguientes documentos o sitios web:
 
-* Amazon FSX para ONTAP de NetApp
+* Amazon FSx ONTAP
 +
 link:https://aws.amazon.com/fsx/netapp-ontap/["https://aws.amazon.com/fsx/netapp-ontap/"^]
 

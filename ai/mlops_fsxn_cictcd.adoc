@@ -1,7 +1,7 @@
 ---
 sidebar: sidebar 
 permalink: ai/mlops_fsxn_cictcd.html 
-keywords: FSxN, MLOps, NetApp ONTAP, AWS Lambda Functions, SageMaker, AWS S3 
+keywords: FSx ONTAP, FSx ONTAP, MLOps, NetApp ONTAP, AWS Lambda Functions, SageMaker, AWS S3 
 summary: El artículo proporciona una guía para crear una canalización de MLOps con servicios de AWS, centrándose en el reciclaje automatizado de modelos, la implementación y la optimización de costos. 
 ---
 = Parte 3: Creación de Una canalización simplificada de MLOps (CI/CT/CD)
@@ -34,10 +34,10 @@ En este tutorial, aprenderá cómo aprovechar varios servicios de AWS para const
 | Funcionalidad | Nombre | Comentar 
 
 
-| Almacenamiento de datos | FSxN de AWS | Consulte link:./mlops_fsxn_s3_integration.html["1 parte: Integración de AWS FSx para NetApp ONTAP (FSxN) como bloque de S3 privado en AWS SageMaker"]. 
+| Almacenamiento de datos | ONTAP FSX de AWS | Consulte link:./mlops_fsxn_s3_integration.html["1 parte: Integración de Amazon FSx para NetApp ONTAP (FSx ONTAP) como bloque de S3 privado en AWS SageMaker"]. 
 
 
-| IDE de ciencia de datos | SageMaker de AWS | Este tutorial se basa en el cuaderno Jupyter que se presenta en la link:./mlops_fsxn_sagemaker_integration_training.html["Parte 2: Aprovechamiento de AWS FSx para NetApp ONTAP (FSxN) como fuente de datos para el entrenamiento de modelos en SageMaker"]. 
+| IDE de ciencia de datos | SageMaker de AWS | Este tutorial se basa en el cuaderno Jupyter presentado en link:./mlops_fsxn_sagemaker_integration_training.html["Parte 2: Aprovechamiento de Amazon FSx para NetApp ONTAP (FSx ONTAP) como fuente de datos para el entrenamiento de modelos en SageMaker"]. 
 
 
 | Función para activar el pipeline de MLOps | Función AWS Lambda | - 
@@ -58,8 +58,8 @@ En este tutorial, aprenderá cómo aprovechar varios servicios de AWS para const
 
 == Requisito previo
 
-* Un sistema de archivos FSxN preconfigurado. Este tutorial utiliza los datos almacenados en FSxN para el proceso de entrenamiento.
-* Una instancia *SageMaker Notebook* que está configurada para compartir la misma VPC que el sistema de archivos FSxN mencionado anteriormente.
+* Un sistema de archivos FSX ONTAP preconfigurado. Este tutorial utiliza datos almacenados en FSx ONTAP para el proceso de entrenamiento.
+* Una instancia de bloc de notas *SageMaker* que está configurada para compartir la misma VPC que el sistema de archivos FSX ONTAP mencionado anteriormente.
 * Antes de activar la función *AWS Lambda*, asegúrese de que la instancia *SageMaker Notebook* esté en estado *Detenido*.
 * El tipo de instancia *ML.g4dn.xlarge* es necesario para aprovechar la aceleración de GPU necesaria para los cálculos de redes neuronales profundas.
 
@@ -114,7 +114,7 @@ echo "Starting the autostop script in cron"
 (crontab -l 2>/dev/null; echo "*/5 * * * * bash -c 'if ps -p $nbconvert_pid > /dev/null; then echo \"Notebook is still running.\" >> /var/log/jupyter.log; else echo \"Notebook execution completed.\" >> /var/log/jupyter.log; $PYTHON_DIR -c \"import boto3;boto3.client(\'sagemaker\').stop_notebook_instance(NotebookInstanceName=get_notebook_name())\" >> /var/log/jupyter.log; fi'") | crontab -
 EOF
 ----
-. Este script ejecuta el Jupyter Notebook, que se encarga del reciclaje y el redespliegue del modelo para la inferencia. Una vez finalizada la ejecución, el bloc de notas se apagará automáticamente en 5 minutos. Para obtener más información sobre la declaración del problema y la implementación del código, consulte link:./mlops_fsxn_sagemaker_integration_training.html["Parte 2: Aprovechamiento de AWS FSx para NetApp ONTAP (FSxN) como fuente de datos para el entrenamiento de modelos en SageMaker"].
+. Este script ejecuta el Jupyter Notebook, que se encarga del reciclaje y el redespliegue del modelo para la inferencia. Una vez finalizada la ejecución, el bloc de notas se apagará automáticamente en 5 minutos. Para obtener más información sobre la declaración del problema y la implementación del código, consulte link:./mlops_fsxn_sagemaker_integration_training.html["Parte 2: Aprovechamiento de Amazon FSx para NetApp ONTAP (FSx ONTAP) como fuente de datos para el entrenamiento de modelos en SageMaker"].
 +
 image:mlops_fsxn_cictcd_3.png["Cree la configuración del ciclo de vida"]
 
@@ -176,6 +176,6 @@ image:mlops_fsxn_cictcd_11.png["Finalizar disparador"]
 
 
 
-Después de completar la configuración en dos pasos, diariamente, la función *AWS Lambda* iniciará el *SageMaker Notebook*, realizará el reciclaje del modelo utilizando los datos del repositorio *FSxN*, volverá a desplegar el modelo actualizado en el entorno de producción y cerrará automáticamente la instancia *SageMaker Notebook* para optimizar los costos. Esto garantiza que el modelo permanezca actualizado.
+Después de completar la configuración en dos pasos, diariamente, la función *AWS Lambda* iniciará el *SageMaker Notebook*, realizará el reciclaje del modelo utilizando los datos del repositorio *FSX ONTAP*, volverá a desplegar el modelo actualizado en el entorno de producción y cerrará automáticamente la instancia *SageMaker Notebook* para optimizar los costos. Esto garantiza que el modelo permanezca actualizado.
 
 Esto concluye el tutorial para desarrollar un pipeline de MLOps.

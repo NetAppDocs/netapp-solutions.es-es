@@ -107,15 +107,15 @@ Debe crear dos instancias EC2 como servidores Oracle primarios y en espera en su
 
 
 
-== Aprovisionar FSX para los sistemas de archivos ONTAP para el almacenamiento de bases de datos Oracle
+== Aprovisionar los sistemas de archivos FSx ONTAP para el almacenamiento de bases de datos de Oracle
 
-La puesta en marcha de instancias de EC2 asigna un volumen raíz de EBS al sistema operativo. FSX para sistemas de archivos ONTAP proporciona volúmenes de almacenamiento de bases de datos de Oracle, como volúmenes binarios, datos y registros de Oracle. Los volúmenes NFS de almacenamiento FSX se pueden aprovisionar desde la consola AWS FSX o desde la instalación de Oracle, y la automatización de la configuración que asigna los volúmenes como el usuario configura en un archivo de parámetros de automatización.
+La puesta en marcha de instancias de EC2 asigna un volumen raíz de EBS al sistema operativo. Los sistemas de archivos FSx ONTAP proporcionan volúmenes de almacenamiento de bases de datos de Oracle, incluidos los binarios de Oracle, los datos y los volúmenes de registro. Los volúmenes NFS de almacenamiento FSX se pueden aprovisionar desde la consola AWS FSX o desde la instalación de Oracle, y la automatización de la configuración que asigna los volúmenes como el usuario configura en un archivo de parámetros de automatización.
 
 
 
-=== Creación de FSX para sistemas de archivos ONTAP
+=== Creación de sistemas de archivos FSX ONTAP
 
-Se hace referencia a esta documentación https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-file-systems.html["Administrar FSX para sistemas de archivos ONTAP"^] Para crear FSX para sistemas de archivos ONTAP.
+Consulte esta documentación https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-file-systems.html["Gestión de sistemas de archivos FSx ONTAP"^] para crear sistemas de archivos FSX ONTAP.
 
 Consideraciones clave:
 
@@ -136,7 +136,7 @@ Consulte los siguientes procedimientos paso a paso para configurar un clúster F
 +
 image:aws_ora_fsx_ec2_stor_01.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
-. Seleccione Amazon FSX para NetApp ONTAP. A continuación, haga clic en Siguiente.
+. Seleccione Amazon FSx ONTAP. A continuación, haga clic en Siguiente.
 +
 image:aws_ora_fsx_ec2_stor_02.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
@@ -170,7 +170,7 @@ image:aws_ora_fsx_ec2_stor_08.png["Figura que muestra el cuadro de diálogo de e
 
 === Aprovisionamiento de volúmenes de bases de datos para bases de datos de Oracle
 
-Consulte link:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-volumes.html["Gestión de FSX para volúmenes de ONTAP: Creación de un volumen"^] para obtener más detalles.
+Consulte link:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-volumes.html["Gestionar volúmenes de FSx ONTAP: Crear un volumen"^] para obtener más información.
 
 Consideraciones clave:
 

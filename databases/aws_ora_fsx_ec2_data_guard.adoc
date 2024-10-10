@@ -54,7 +54,7 @@ Las pruebas y la validación de esta solución se llevaron a cabo en un entorno 
 
 === Arquitectura
 
-image:aws_ora_fsx_data_guard_architecture.png["Esta imagen proporciona una imagen detallada de la implementación de Oracle Data Guard en AWS con FSxN."]
+image:aws_ora_fsx_data_guard_architecture.png["Esta imagen ofrece una imagen detallada de la implementación de Oracle Data Guard en AWS con FSx ONTAP."]
 
 
 
@@ -117,7 +117,7 @@ image:aws_ora_fsx_data_guard_architecture.png["Esta imagen proporciona una image
 * *Gestión de Almacenamiento de Base de Datos.* Para una mayor simplicidad operativa, Oracle recomienda que al configurar Oracle Automatic Storage Management (Oracle ASM) y Oracle Managed Files (OMF) en una configuración de Oracle Data Guard, se configure de forma simétrica en las bases de datos primaria y en espera.
 * *EC2 instancias de cálculo.* En estas pruebas y validaciones, utilizamos una instancia de AWS EC2 T2.xlarge como instancia de cálculo de la base de datos Oracle. NetApp recomienda usar una instancia de M5 de tipo EC2 como instancia informática para Oracle en la puesta en marcha de producción porque está optimizada para la carga de trabajo de la base de datos. Debe ajustar el tamaño de la instancia de EC2 según el número de vCPU y la cantidad de RAM en función de los requisitos de las cargas de trabajo reales.
 * *Implementación de clústeres de alta disponibilidad de almacenamiento FSX de una o varias zonas.* en estas pruebas y validaciones, implementamos un clúster de alta disponibilidad FSX en una única zona de disponibilidad de AWS. Para la puesta en marcha en producción, NetApp recomienda la puesta en marcha de un par de alta disponibilidad FSX en dos zonas de disponibilidad diferentes. Un clúster de FSx se aprovisiona siempre en un par de alta disponibilidad que se refleja en un par de sistemas de archivos activo-pasivo para ofrecer redundancia a nivel de almacenamiento. La puesta en marcha de varias zonas mejora aún más la alta disponibilidad en caso de fallo en una única zona de AWS.
-* *Ajuste de tamaño del clúster de almacenamiento FSX.* un sistema de archivos de almacenamiento Amazon FSX para ONTAP proporciona hasta 160,000 IOPS SSD sin configurar, un rendimiento de hasta 4 Gbps y una capacidad máxima de 192 TIB. Sin embargo, puede ajustar el tamaño del clúster en términos de IOPS aprovisionadas, rendimiento y el límite de almacenamiento (mínimo de 1,024 GIB) según sus requisitos reales en el momento de la implementación. La capacidad se puede ajustar de forma dinámica y sobre la marcha sin que se vea afectada la disponibilidad de las aplicaciones.
+* *Tamaño del clúster de almacenamiento FSX.* Un sistema de archivos de almacenamiento de Amazon FSx ONTAP proporciona hasta 160.000 000 IOPS de SSD sin configurar, hasta 4Gbps Gbps de rendimiento y una capacidad máxima de 192TiB TB. Sin embargo, puede ajustar el tamaño del clúster en términos de IOPS aprovisionadas, rendimiento y el límite de almacenamiento (mínimo de 1,024 GIB) según sus requisitos reales en el momento de la implementación. La capacidad se puede ajustar de forma dinámica y sobre la marcha sin que se vea afectada la disponibilidad de las aplicaciones.
 
 
 
@@ -143,7 +143,7 @@ La implementación requiere los siguientes requisitos previos.
 
 . Se configuró una cuenta de AWS y se crearon el VPC y los segmentos de red necesarios en la cuenta de AWS.
 . Desde la consola AWS EC2, necesita desplegar al menos tres instancias de Linux EC2, una como instancia principal de Oracle DB, una como instancia de Oracle DB en espera y una instancia de base de datos destino de clonación para informes, desarrollo y pruebas, etc. Consulte el diagrama de la arquitectura en la sección anterior para obtener más detalles acerca de la configuración del entorno. Revise también AWS link:https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/concepts.html["Guía de usuario para instancias de Linux"^] si quiere más información.
-. Desde la consola AWS EC2, implementa los clústeres de alta disponibilidad de almacenamiento de Amazon FSx para ONTAP para alojar los volúmenes de Oracle que almacenan la base de datos en espera de Oracle. Si no está familiarizado con la implementación de almacenamiento FSX, consulte la documentación link:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/creating-file-systems.html["Creación de FSX para sistemas de archivos ONTAP"^] para obtener instrucciones paso a paso.
+. Desde la consola AWS EC2, implementa los clústeres de alta disponibilidad de almacenamiento de Amazon FSx ONTAP para alojar los volúmenes de Oracle que almacenan la base de datos en espera de Oracle. Si no estás familiarizado con la puesta en marcha del almacenamiento FSx, consulta la documentación link:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/creating-file-systems.html["Creación de sistemas de archivos FSX ONTAP"^] para obtener instrucciones paso a paso.
 . Los pasos 2 y 3 se pueden realizar utilizando el siguiente kit de herramientas de automatización de Terraform, que crea una instancia de EC2 denominada `ora_01` Y un sistema de archivos FSX llamado `fsx_01`. Revise las instrucciones detenidamente y cambie las variables para adaptarlas a su entorno antes de su ejecución. La plantilla se puede revisar fácilmente para satisfacer sus propios requisitos de implementación.
 +
 [source, cli]
@@ -998,7 +998,7 @@ link:https://docs.oracle.com/en/database/oracle/oracle-database/19/sbydb/index.h
 +
 link:aws_ora_fsx_ec2_deploy_intro.html["Introducción"]
 
-* Amazon FSX para ONTAP de NetApp
+* Amazon FSx ONTAP
 +
 link:https://aws.amazon.com/fsx/netapp-ontap/["https://aws.amazon.com/fsx/netapp-ontap/"^]
 

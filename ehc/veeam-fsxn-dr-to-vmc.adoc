@@ -1,10 +1,10 @@
 ---
 sidebar: sidebar 
 permalink: ehc/veeam-fsxn-dr-to-vmc.html 
-keywords: disaster recovery, vmc, vmware cloud, aws, amazon web services, fsxn, fsx for ontap, fsx for netapp ontap, disaster recovery, dr, veeam, replication 
+keywords: disaster recovery, vmc, vmware cloud, aws, amazon web services, fsxn, FSx ONTAP, FSx ONTAP, disaster recovery, dr, veeam, replication 
 summary:  
 ---
-= Usar la replicación de Veeam y FSx para ONTAP para la recuperación ante desastres en VMware Cloud on AWS
+= Usar la replicación de Veeam y FSx ONTAP para la recuperación ante desastres en VMware Cloud on AWS
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -14,7 +14,7 @@ summary:
 
 
 [role="lead"]
-La integración de Amazon FSx para NetApp ONTAP con VMware Cloud en AWS es un almacén de datos NFS externo y gestionado por AWS basado en el sistema de archivos ONTAP de NetApp que se puede conectar a un clúster en SDDC. Proporciona a los clientes una infraestructura de almacenamiento virtualizado flexible y de alto rendimiento que se puede escalar independientemente de los recursos de computación.
+La integración de Amazon FSx ONTAP con VMware Cloud en AWS es un almacén de datos NFS externo gestionado por AWS basado en el sistema de archivos ONTAP de NetApp que se puede conectar a un clúster en SDDC. Proporciona a los clientes una infraestructura de almacenamiento virtualizado flexible y de alto rendimiento que se puede escalar independientemente de los recursos de computación.
 
 Autor: Niyaz Mohamed - Ingeniería de Soluciones NetApp
 
@@ -22,15 +22,15 @@ Autor: Niyaz Mohamed - Ingeniería de Soluciones NetApp
 
 == Descripción general
 
-Para aquellos clientes que busquen usar VMware Cloud en AWS SDDC como objetivo de recuperación ante desastres, los almacenes de datos FSx para ONTAP se pueden usar para replicar datos desde las instalaciones mediante cualquier solución validada de terceros que proporciona la funcionalidad de replicación de máquinas virtuales. Al añadir el almacén de datos FSx para ONTAP, permitirá una puesta en marcha optimizada en costes que la creación del cloud de VMware en SDDC de AWS con una enorme cantidad de hosts ESXi para acomodar el almacenamiento.
+Para aquellos clientes que buscan usar VMware Cloud en AWS SDDC como objetivo de recuperación ante desastres, los almacenes de datos FSx ONTAP se pueden usar para replicar datos desde las instalaciones usando cualquier solución validada de terceros que proporcione funcionalidad de replicación de máquinas virtuales. Al añadir el almacén de datos FSx ONTAP, permitirá una puesta en marcha optimizada en costes que crear el cloud de VMware en SDDC de AWS con una enorme cantidad de hosts ESXi para acomodar el almacenamiento.
 
-Este enfoque también ayuda a los clientes a utilizar un clúster ligero piloto en VMC junto con almacenes de datos de FSx para ONTAP para alojar las réplicas de máquinas virtuales. También se puede ampliar el mismo proceso como una opción de migración a VMware Cloud en AWS al conmutar al nodo de respaldo sin incidencias del plan de replicación.
+Este enfoque también ayuda a los clientes a utilizar un clúster ligero piloto en VMC junto con almacenes de datos FSx ONTAP para alojar las réplicas de máquinas virtuales. También se puede ampliar el mismo proceso como una opción de migración a VMware Cloud en AWS al conmutar al nodo de respaldo sin incidencias del plan de replicación.
 
 
 
 == Declaración del problema
 
-Este documento describe cómo utilizar el almacén de datos FSx para ONTAP y Veeam Backup y la replicación para configurar la recuperación ante desastres para máquinas virtuales VMware on-premises en VMware Cloud on AWS usando la funcionalidad de replicación de máquinas virtuales.
+Este documento describe cómo utilizar el almacén de datos FSx ONTAP y Veeam Backup y la replicación para configurar la recuperación de desastres para máquinas virtuales VMware en las instalaciones a VMware Cloud en AWS usando la funcionalidad de replicación de máquinas virtuales.
 
 Veeam Backup & Replication permite la replicación local y remota para la recuperación ante desastres (DR). Cuando se replican máquinas virtuales, Veeam Backup & Replication crea una copia exacta de las máquinas virtuales en el formato nativo de VMware vSphere en el clúster SDDC de VMware Cloud on AWS de destino y mantiene la copia sincronizada con la máquina virtual original.
 
@@ -51,7 +51,7 @@ image:dr-veeam-fsx-image1.png["Diagrama del escenario de recuperación ante desa
 === Escalones de alto nivel
 
 . El software Veeam Backup and Replication se ejecuta en un entorno en las instalaciones con la conectividad de red adecuada.
-. Configure VMware Cloud en AWS, consulte el artículo VMware Cloud Tech Zone link:https://vmc.techzone.vmware.com/fsx-guide["Guía de puesta en marcha de la integración de VMware Cloud on AWS con Amazon FSx para NetApp ONTAP"] Para ponerla en marcha, configura VMware Cloud en AWS SDDC y FSx para ONTAP como almacén de datos NFS. (Un entorno piloto configurado con una configuración mínima se puede usar con fines de recuperación ante desastres. Los equipos virtuales se conmutarán por error a este clúster en caso de que se produzca un incidente y se podrán agregar nodos adicionales).
+. Configura VMware Cloud en AWS, consulta el artículo de VMware Cloud Tech Zone link:https://vmc.techzone.vmware.com/fsx-guide["Guía de puesta en marcha de VMware Cloud on AWS con Amazon FSx ONTAP"]para implementar, configurar VMware Cloud en AWS SDDC y FSx ONTAP como almacén de datos NFS. (Un entorno piloto configurado con una configuración mínima se puede usar con fines de recuperación ante desastres. Los equipos virtuales se conmutarán por error a este clúster en caso de que se produzca un incidente y se podrán agregar nodos adicionales).
 . Configure trabajos de replicación para crear réplicas de máquinas virtuales con Veeam Backup and Replication.
 . Crear un plan de recuperación tras fallos y realizar una recuperación tras fallos.
 . Vuelva a los equipos virtuales de producción una vez que el evento de desastre haya finalizado y el sitio principal esté activo.
@@ -59,11 +59,11 @@ image:dr-veeam-fsx-image1.png["Diagrama del escenario de recuperación ante desa
 
 
 
-=== Requisitos previos de la replicación de Veeam VM en VMC y FSx para almacenes de datos de ONTAP
+=== Requisitos previos para la replicación de Veeam VM en almacenes de datos de VMC y FSx ONTAP
 
 . Garantizar que la máquina virtual de backup de Veeam Backup & Replication esté conectada a la instancia de vCenter de origen, así como al cloud de VMware de destino en los clústeres de SDDC de AWS.
 . El servidor de copia de seguridad debe ser capaz de resolver nombres cortos y conectarse a vCenters de origen y destino.
-. El almacén de datos FSx para ONTAP de destino debe tener suficiente espacio libre para almacenar VMDK de máquinas virtuales replicadas
+. El almacén de datos FSx ONTAP de destino debe tener suficiente espacio libre para almacenar VMDK de equipos virtuales replicados
 
 
 Para obtener información adicional, consulte “Consideraciones y limitaciones” cubiertos link:https://helpcenter.veeam.com/docs/backup/vsphere/replica_limitations.html?ver=120["aquí"].
@@ -91,11 +91,11 @@ image:dr-veeam-fsx-image2.png["Figura que muestra el cuadro de diálogo de entra
 
 
 
-. Seleccione las máquinas virtuales que se deben replicar en el almacén de datos FSx para ONTAP conectado a VMware Cloud en AWS SDDC en el paso * Máquinas virtuales *. Las máquinas virtuales se pueden colocar en vSAN para llenar la capacidad de almacenes de datos vSAN disponible. En un clúster ligero piloto, la capacidad útil de un clúster de 3 nodos se verá limitada. El resto de datos puede replicarse en los almacenes de datos de FSx for ONTAP. Haga clic en *Agregar*, luego en la ventana *Agregar Objeto* seleccione las VM o contenedores de VM necesarios y haga clic en *Agregar*. Haga clic en *Siguiente*.
+. Seleccione las máquinas virtuales que deben replicarse en el almacén de datos FSx ONTAP conectado a VMware Cloud on AWS SDDC en el paso * Máquinas virtuales *. Las máquinas virtuales se pueden colocar en vSAN para llenar la capacidad de almacenes de datos vSAN disponible. En un clúster ligero piloto, la capacidad útil de un clúster de 3 nodos se verá limitada. El resto de datos puede replicarse en almacenes de datos de FSx ONTAP. Haga clic en *Agregar*, luego en la ventana *Agregar Objeto* seleccione las VM o contenedores de VM necesarios y haga clic en *Agregar*. Haga clic en *Siguiente*.
 +
 image:dr-veeam-fsx-image3.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
-. Después de eso, seleccione el destino como clúster/host SDDC de VMware Cloud on AWS y el conjunto de recursos apropiado, la carpeta de VM y el almacén de datos FSx para ONTAP para réplicas de VM. Luego haga clic en *Siguiente*.
+. Después de eso, seleccione el destino como clúster/host de SDDC de VMware Cloud on AWS y el conjunto de recursos apropiado, la carpeta de VM y el almacén de datos de FSX ONTAP para réplicas de VM. Luego haga clic en *Siguiente*.
 +
 image:dr-veeam-fsx-image4.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
@@ -221,7 +221,7 @@ image:dr-veeam-fsx-image19.png["Figura que muestra el cuadro de diálogo de entr
 
 == Conclusión
 
-La funcionalidad de almacén de datos FSx para ONTAP permite que Veeam o cualquier herramienta validada de terceros proporcionen una solución de recuperación ante desastres de bajo coste con un clúster ligero de piloto y sin necesidad de instalar un gran número de hosts en el clúster para acomodar la copia de réplica de la máquina virtual. Esto ofrece una potente solución que gestiona un plan de recuperación ante desastres personalizado y personalizado, y permite también reutilizar productos de backup existentes de forma interna para satisfacer las necesidades de recuperación ante desastres, lo que permite la recuperación ante desastres basada en el cloud saliendo de los centros de datos de recuperación ante desastres en las instalaciones. La conmutación por error se puede realizar como conmutación al respaldo planificada o conmutación al respaldo con un clic de un botón cuando se produce un desastre y se toma la decisión de activar el sitio de recuperación ante desastres.
+La funcionalidad de almacén de datos FSX ONTAP permite a Veeam o cualquier herramienta validada de terceros proporcionar una solución de recuperación ante desastres de bajo coste con un clúster piloto ligero y sin necesidad de instalar un gran número de hosts en el clúster para acomodar la copia de réplica de la máquina virtual. Esto ofrece una potente solución que gestiona un plan de recuperación ante desastres personalizado y personalizado, y permite también reutilizar productos de backup existentes de forma interna para satisfacer las necesidades de recuperación ante desastres, lo que permite la recuperación ante desastres basada en el cloud saliendo de los centros de datos de recuperación ante desastres en las instalaciones. La conmutación por error se puede realizar como conmutación al respaldo planificada o conmutación al respaldo con un clic de un botón cuando se produce un desastre y se toma la decisión de activar el sitio de recuperación ante desastres.
 
 Para obtener más información sobre este proceso, puede seguir el vídeo detallado del tutorial.
 

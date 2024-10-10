@@ -1,7 +1,7 @@
 ---
 sidebar: sidebar 
 permalink: ai/ddlnexus_expose_netapp_vols.html 
-keywords: NetApp AI, AI, Artificial Intelligence, ML, Machine Learning, NVIDIA, Hybrid, Hybrid Cloud, Hybrid Multicloud, Cloud, AWS, Amazon, Amazon Web Services, FSx for NetApp ONTAP, FSx, NetApp ONTAP, FlexCache, SnapMirror, BlueXP 
+keywords: NetApp AI, AI, Artificial Intelligence, ML, Machine Learning, NVIDIA, Hybrid, Hybrid Cloud, Hybrid Multicloud, Cloud, AWS, Amazon, Amazon Web Services, FSx ONTAP, FSx, NetApp ONTAP, FlexCache, SnapMirror, BlueXP 
 summary: 'MLOps de la multinube híbrida con Domino Data Lab y NetApp: Expone los volúmenes de NetApp existentes a Domino' 
 ---
 = Expone los volúmenes NetApp existentes a Domino
@@ -39,7 +39,7 @@ Si su volumen NFS de NetApp ONTAP existente no se ha aprovisionado con Trident, 
 === Cree un VP y una RVP en Kubernetes
 
 
-NOTE: Para los volúmenes en las instalaciones, cree el VP y el PVC en su clúster de Kubernetes en las instalaciones. Para Amazon FSx para NetApp ONTAP Volumes, cree el VP y la RVP en Amazon EKS.
+NOTE: Para los volúmenes en las instalaciones, cree el VP y el PVC en su clúster de Kubernetes en las instalaciones. Para los volúmenes de ONTAP de Amazon FSx, cree el VP y la RVP en Amazon EKS.
 
 Primero, debe crear un volumen persistente (PV) y una reclamación de volumen persistente (PVC) en su clúster de Kubernetes. Para crear el VP y la RVP, utilice el link:https://docs.dominodatalab.com/en/latest/admin_guide/4cdae9/set-up-kubernetes-pv-and-pvc/#_nfs_pvpvc_example["EJEMPLO DE PV/PVC DE NFS"] De la guía de administración de Domino y actualice los valores para reflejar el entorno. Asegúrese de especificar los valores correctos para el `namespace`, `nfs.path`, y. `nfs.server` campos. Además, recomendamos indicar a sus nombres VP y RVP únicos que representen la naturaleza de los datos que se almacenan en el volumen NFS de ONTAP correspondiente. Por ejemplo, si el volumen contiene imágenes de defectos de fabricación, puede nombrar el VP, `pv-mfg-defect-images`, Y el PVC, `pvc-mfg-defect-images`.
 
