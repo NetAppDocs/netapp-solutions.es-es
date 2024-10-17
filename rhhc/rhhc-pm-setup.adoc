@@ -58,7 +58,7 @@ image:rhhc-trident-helm.png["Figura que muestra el cuadro de diálogo de entrada
 .Crear clases de almacenamiento y back-end con Trident (para FSx ONTAP)
 [%collapsible]
 ====
-* Consulte link:https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-postdeployment.html["aquí"] para obtener detalles sobre la creación del back-end y la clase de almacenamiento.
+* Consulte link:https://docs.netapp.com/us-en/trident/trident-use/backends.html["aquí"] para obtener más información sobre la creación de un back-end y una clase de almacenamiento.
 * Convierta la clase de almacenamiento creada para FsxN con Trident CSI por defecto en OpenShift Console. Consulte la captura de pantalla a continuación:
 
 
@@ -72,7 +72,7 @@ image:rhhc-default-storage-class.png["Figura que muestra el cuadro de diálogo d
 * Configure una nueva instancia de CD de Argo para el cluster. Consulte las instrucciones link:https://docs.openshift.com/container-platform/4.10/cicd/gitops/setting-up-argocd-instance.html["aquí"].
 
 
-Abre la consola del CD de Argo e implementa una aplicación. Como ejemplo, puedes implementar una aplicación Jenkins usando Argo CD con un Helm Chart. Al crear la aplicación, se proporcionaron los siguientes detalles: Proyecto: Clúster predeterminado: https://kubernetes.default.svc[]Espacio de nombres: Jenkins La url del diagrama Helm: https://charts.bitnami.com/bitnami[]
+Abre la consola del CD de Argo e implementa una aplicación. Como ejemplo, puedes implementar una aplicación Jenkins usando Argo CD con un Helm Chart. Al crear la aplicación, se proporcionaron los siguientes detalles: Project: Default cluster'https://kubernetes.default.svc'[]: (Sin las comillas) Namespace: Jenkins La url para el Helm Chart: 'https://charts.bitnami.com/bitnami'[] (Sin las comillas)
 
 Parámetros del timón: Global.storageClass: Fsxn-nas
 
