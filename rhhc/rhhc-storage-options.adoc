@@ -26,7 +26,9 @@ A continuación se muestra la relación entre storageclass y backend.
 
 image:rhhc-storage-options-sc2ontap.png["Clase de almacenamiento con relación de ONTAP"]
 
-El propietario de la aplicación solicita un volumen persistente mediante la clase de almacenamiento. La clase de almacenamiento filtra el almacenamiento back-end. A continuación se muestra la relación entre el pod y el almacenamiento back-end.
+El propietario de la aplicación solicita un volumen persistente mediante la clase de almacenamiento. La clase de almacenamiento filtra el almacenamiento back-end.
+
+A continuación se muestra la relación entre el pod y el almacenamiento back-end.
 
 image:rhhc_storage_opt_pod2vol.png["Relación de Pod a ONTAP Volume"]
 
@@ -34,7 +36,9 @@ image:rhhc_storage_opt_pod2vol.png["Relación de Pod a ONTAP Volume"]
 
 == Opciones de la interfaz de almacenamiento de contenedores (CSI)
 
-En entornos vSphere, los clientes pueden elegir el controlador CSI de VMware o CSI de Trident para integrarse con ONTAP. Con VMware CSI, los volúmenes persistentes se consumen como discos SCSI locales, mientras que, con Trident, se consumen con la red. Como VMware CSI no admite modos de acceso RWX con ONTAP, las aplicaciones deben utilizar Trident CSI si se requiere el modo RWX. Con las puestas en marcha basadas en FC, es preferible VMware CSI, y SnapMirror Business Continuity (SMBC) proporciona alta disponibilidad a nivel de zona.
+En entornos vSphere, los clientes pueden elegir el controlador CSI de VMware o CSI de Trident para integrarse con ONTAP. Con VMware CSI, los volúmenes persistentes se consumen como discos SCSI locales, mientras que, con Trident, se consumen con la red.
+
+Como VMware CSI no admite modos de acceso RWX con ONTAP, las aplicaciones deben utilizar Trident CSI si se requiere el modo RWX. Con las puestas en marcha basadas en FC, es preferible VMware CSI, y SnapMirror Business Continuity (SMBC) proporciona alta disponibilidad a nivel de zona.
 
 
 
@@ -58,6 +62,8 @@ En entornos vSphere, los clientes pueden elegir el controlador CSI de VMware o C
 
 Para VMware CSI y Trident CSI, ONTAP admite nconnect, trunking de sesión, kerberos, etc. para NFS y multivía, autenticación CHAP, etc. para protocolos de bloque.
 
-En AWS, Amazon FSx for NetApp ONTAP (FSx ONTAP) puede ponerse en marcha en una zona de disponibilidad única (AZ) o en varias zonas. Para cargas de trabajo de producción que requieren alta disponibilidad, multi-AZ ofrece tolerancia a fallos de nivel de zona y ofrece una mejor caché de lectura NVMe que una única zona de disponibilidad. Para obtener más información, consulte link:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/performance.html["Directrices de rendimiento de AWS"]. Para ahorrar costes en el sitio de recuperación ante desastres, se puede utilizar un único AZ FSx ONTAP. image:rhhc_storage_options_fsxn_options.png["Replicación entre Multi-AZ y Single-AZ"]
+En AWS, Amazon FSx for NetApp ONTAP (FSx ONTAP) puede ponerse en marcha en una zona de disponibilidad única (AZ) o en varias zonas. Para cargas de trabajo de producción que requieren alta disponibilidad, multi-AZ ofrece tolerancia a fallos de nivel de zona y ofrece una mejor caché de lectura NVMe que una única zona de disponibilidad. Para obtener más información, consulte link:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/performance.html["Directrices de rendimiento de AWS"].
+
+Para ahorrar costes en el sitio de recuperación ante desastres, se puede utilizar un único AZ FSx ONTAP. image:rhhc_storage_options_fsxn_options.png["Replicación entre Multi-AZ y Single-AZ"]
 
 Para obtener más información sobre el número de SVM que admite FSx ONTAP, consulte link:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-svms.html#max-svms["Gestión de la máquina virtual de almacenamiento FSx ONTAP"]
