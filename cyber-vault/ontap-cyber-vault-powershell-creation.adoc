@@ -48,7 +48,7 @@ NOTE: El clúster de ciberalmacén puede estar en el mismo centro de datos o en 
 
 
 
-NOTE: La retención predeterminada se establece en Mínimo. Un volumen SnapLock que es un destino de almacén tiene asignado un período de retención predeterminado. El valor de este período se establece inicialmente en un mínimo de 0 años y un máximo de 30 años para los volúmenes SnapLock Compliance. Cada copia de Snapshot de NetApp se compromete con el primer período de retención predeterminado. El período de retención se puede ampliar más tarde, si es necesario, pero nunca acortar.
+NOTE: La retención predeterminada se establece en Mínimo. Un volumen SnapLock que es un destino de almacén tiene asignado un período de retención predeterminado. El valor de este período se establece inicialmente en un mínimo de 0 años y un máximo de 100 años (a partir de ONTAP 9.10,1. En versiones anteriores de ONTAP, el valor es 0 - 70) para volúmenes SnapLock Compliance. Cada copia de Snapshot de NetApp se compromete con el primer período de retención predeterminado. El período de retención se puede ampliar más tarde, si es necesario, pero nunca acortar. Para obtener más información, consulte link:https://docs.netapp.com/us-en/ontap/snaplock/set-retention-period-task.html["Establecer información general sobre el tiempo de retención"^].
 
 Lo anterior abarca pasos manuales. Los expertos en seguridad aconsejan automatizar el proceso para evitar la gestión manual, lo que introduce un gran margen de error. A continuación se muestra el fragmento de código que automatiza completamente los requisitos previos y la configuración de SnapLock Compliance y la inicialización del reloj.
 
