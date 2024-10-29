@@ -1,0 +1,137 @@
+---
+sidebar: sidebar 
+keywords: Cyber vault, cybervault, cyber-vault, data protection, security, ransomware, ONTAP, FAQ 
+permalink: cyber-vault/ontap-cyber-vault-faq.html 
+summary: Este documento contiene las preguntas frecuentes sobre la solución de ciberalmacén de NetApp ONTAP. 
+---
+= Preguntas frecuentes sobre Cyber Vault
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Estas preguntas frecuentes están dirigidas a clientes y partners de NetApp. Responde a preguntas frecuentes acerca de la arquitectura de referencia de ciberalmacenes basada en ONTAP de NetApp.
+
+
+
+== ¿Qué es un ciberalmacén de NetApp?
+
+Cyber vault es una técnica específica de protección de datos que implica almacenar datos en un entorno aislado, independiente de la infraestructura TECNOLÓGICA primaria.
+
+Cyber vault es un repositorio de datos «aislado», inmutable e indeleble que es inmune a las amenazas que afectan a los datos principales, como malware, ransomware o amenazas internas. Un ciberalmacén se puede conseguir con copias Snapshot inmutables de NetApp ONTAP y hacerlo indeleble con NetApp SnapLock Compliance. Mientras se encuentra en la protección SnapLock Compliance, los datos no se pueden modificar ni eliminar, ni siquiera por los administradores de ONTAP ni el soporte de NetApp.
+
+El intercambio de aire que utiliza métodos tradicionales implica la creación de espacio y la separación física de los medios primarios y secundarios. La falta de aire con cibervault incluye el uso de una red de replicación de datos independiente fuera de las redes de acceso a datos estándar para replicar las copias Snapshot en un destino indeleble.
+
+Otros pasos más allá de las redes aisladas implican deshabilitar todos los protocolos de acceso a los datos y replicación en el ciberalmacén cuando no son necesarios. De este modo se evita el acceso a los datos o la exfiltración de datos en el sitio de destino. Con SnapLock Compliance no es necesaria la separación física. SnapLock Compliance protege las copias snapshot vault de un momento específico y de solo lectura, lo que permite recuperar datos rápidamente, evitar la eliminación e inalterable.
+
+
+
+== El enfoque de NetApp del cibervault
+
+El ciberalmacén de NetApp, con tecnología de SnapLock, ofrece a las organizaciones una solución completa y flexible para proteger sus activos de datos más importantes. Al aprovechar las tecnologías de refuerzo de ONTAP, NetApp te permite crear un cibervault seguro, aislado y sin explotar que sea inmune a las ciberamenazas en constante evolución. Con NetApp, puede garantizar la confidencialidad, la integridad y la disponibilidad de sus datos y mantener la agilidad y la eficiencia de su infraestructura de almacenamiento.
+
+Algunas de las funciones clave de la arquitectura de referencia de NetApp para un ciberalmacén son:
+
+* Infraestructura de almacenamiento aislada y segura (p. ej., sistemas de almacenamiento de red desconectada)
+* Las copias de backup de sus datos son inalterables e indelebles
+* Controles de acceso estrictos y separados, verificación multiadministrador y autenticación multifactor
+* Funciones de restauración de datos rápida
+
+
+
+
+== Preguntas frecuentes sobre Cyber Vault
+
+.¿El ciberalmacén es un producto de NetApp?
+[%collapsible%open]
+====
+No, «ciberalmacén» es un término que se aplica a todo el sector. NetApp ha creado una arquitectura de referencia para que los clientes puedan crear sus propias bóvedas cibernéticas y aprovechar las numerosas funciones de seguridad de ONTAP para ayudar a proteger sus datos de las ciberamenazas. Más información está disponible en el link:https://docs.netapp.com/us-en/netapp-solutions/cyber-vault/ontap-cyber-vault-overview.html["Sitio de documentación de ONTAP"^].
+
+====
+.¿El ciberalmacén con NetApp es solo otro nombre para LockVault o SnapVault?
+[%collapsible%open]
+====
+LockVault era una función de Data ONTAP 7-Mode que no está disponible en las versiones actuales de ONTAP.
+
+SnapVault era un término heredado para lo que se logra ahora con la política de almacén de SnapMirror. Esta política permite al destino conservar una cantidad distinta de copias Snapshot al volumen de origen.
+
+Cyber vault está usando SnapMirror con la política de almacén y SnapLock Compliance juntos para crear una copia de datos inalterable e indeleble.
+
+====
+.¿Qué hardware de NetApp puedo usar para un ciberalmacén, FAS, flash de capacidad o flash de rendimiento?
+[%collapsible%open]
+====
+Esta arquitectura de referencia para copias vault se aplica a toda la cartera de hardware de ONTAP. Los clientes pueden usar las plataformas AFF A-Series, AFF C-Series o FAS como almacén. Las plataformas basadas en Flash proporcionarán los tiempos de recuperación más rápidos, mientras que las plataformas basadas en disco proporcionarán la solución más rentable. Según la cantidad de datos que se recuperen y si se realizan varias recuperaciones en paralelo, el uso de sistemas basados en disco (FAS) puede tardar entre días y semanas en completarse. Póngase en contacto con un representante de NetApp o de un partner para determinar correctamente la solución de ciberalmacén y cumplir los requisitos del negocio.
+
+====
+.¿Puedo usar Cloud Volumes ONTAP como fuente de ciberalmacén?
+[%collapsible%open]
+====
+Sí, sin embargo, el uso de CVO como origen requiere la replicación de los datos en un destino de ciberalmacén on-premises, ya que SnapLock Compliance es un requisito para un ciberalmacén de ONTAP. La replicación de datos de una instancia de CVO basada en un proveedor a hiperescala puede incurrir en cargos por salida.
+
+====
+.¿Puedo usar Cloud Volumes ONTAP como destino de ciberalmacén?
+[%collapsible%open]
+====
+La arquitectura de Cyber Vault se basa en la imposibilidad de borrado de SnapLock Compliance de ONTAP y está diseñada para implementaciones en las instalaciones. Las arquitecturas Cyber Vault basadas en la nube están siendo investigadas para su futura publicación.
+
+====
+.¿Puedo usar ONTAP Select como fuente de ciberalmacén?
+[%collapsible%open]
+====
+Sí, ONTAP Select se puede usar como origen en un destino de ciberalmacén basado en hardware en las instalaciones.
+
+====
+.¿Puedo usar ONTAP Select como destino de ciberalmacén?
+[%collapsible%open]
+====
+No, no se debe utilizar ONTAP Select como destino de ciberalmacenes, ya que no tiene la capacidad de utilizar SnapLock Compliance.
+
+====
+.¿Un ciberalmacén con NetApp solo usa SnapMirror?
+[%collapsible%open]
+====
+No, una arquitectura de almacén cibernético de NetApp aprovecha muchas funciones de ONTAP para crear una copia de datos segura, aislada, con conexión inalámbrica y reforzada. Para obtener más información sobre qué técnicas adicionales se pueden utilizar, consulte la siguiente pregunta.
+
+====
+.¿Se utiliza alguna otra tecnología o configuración para el cibervault?
+[%collapsible%open]
+====
+La base de un ciberalmacén de NetApp es SnapMirror y SnapLock Compliance, pero el uso de funciones de ONTAP adicionales, como copias Snapshot a prueba de manipulaciones, autenticación multifactor (MFA), verificación de administrador múltiple, control de acceso basado en roles y registro de auditorías local y remoto, mejora la seguridad de los datos.
+
+====
+.¿Qué hace que las copias Snapshot de ONTAP sean mejores que otras para un ciberalmacén?
+[%collapsible%open]
+====
+Las copias Snapshot de ONTAP son inmutables de forma predeterminada y se pueden hacer indelebles con SnapLock Compliance. Ni siquiera la compatibilidad con NetApp puede eliminar las copias Snapshot de SnapLock. La mejor pregunta que se debe hacer es qué hace que la ciberbóveda de NetApp sea mejor que otras bóvedas cibernéticas en la industria. En primer lugar, ONTAP es el almacenamiento más seguro del planeta y ha obtenido la validación CSfC, que permite el almacenamiento de datos secretos y de alto secreto en reposo, tanto en la capa de hardware como en la de software. Más información en link:https://www.netapp.com/esg/trust-center/compliance/CSfC-Program/["CSfC se puede encontrar aquí"^]. Además, la tecnología ONTAP puede conectarse mediante aire en la capa de almacenamiento, mientras que el sistema de ciberalmacén controla la replicación, lo que permite crear una red desconectada en la red de ciberalmacenes.
+
+====
+.¿El volumen de origen de un ciberalmacén puede ser un volumen habilitado para ONTAP Fabric Pool (volumen organizado por niveles en ONTAP S3 o StorageGRID)?
+[%collapsible%open]
+====
+No, Un volumen de origen de Fabric Pool independientemente de la política utilizada no se puede replicar en un destino de SnapLock Compliance.
+
+====
+.¿El ciberalmacén de NetApp se ejecuta en una personalidad o un perfil de ONTAP diferente?
+[%collapsible%open]
+====
+No, es una arquitectura de referencia. Los clientes pueden usar link:ontap-create-cyber-vault-task.html["flexible y escalable"]y construir una bóveda cibernética, o pueden usar link:ontap-cyber-vault-powershell-overview.html["Scripts de PowerShell para crear, reforzar y validar"]una bóveda cibernética.
+
+====
+.¿Puedo activar protocolos de datos como NFS, SMB y S3 en un ciberalmacén?
+[%collapsible%open]
+====
+De forma predeterminada, los protocolos de datos deben desactivarse en el ciberalmacén para que sea seguro. Sin embargo, se pueden habilitar los protocolos de datos en el ciberalmacén para acceder a los datos para su recuperación o cuando sea necesario. Debe realizarse de forma temporal y desactivarse una vez finalizada la recuperación.
+
+====
+.¿Puede convertir un entorno existente de SnapVault en un ciberalmacén, o tiene que revender todo?
+[%collapsible%open]
+====
+Sí. Uno podría tomar un sistema que es un destino SnapMirror (con directiva de almacén), deshabilitar los protocolos de datos, endurecer el sistema según link:https://docs.netapp.com/us-en/ontap/ontap-security-hardening/security-hardening-overview.html["Guía de endurecimiento de ONTAP"^], aislarlo de una ubicación segura y seguir los demás procedimientos de la arquitectura de referencia para convertirlo en un almacén cibernético sin tener que revender el destino.
+
+====
+*Tiene preguntas adicionales?* Por favor envíe un correo electrónico a: Ng-cyber-vault@NetApp.com[ng-cyber-vault@NetApp.com^,Preguntas sobre Cyber vault,Me gustaría saber más sobre: ] Con sus preguntas! Responderemos y añadiremos sus preguntas a la FAQ.
