@@ -25,7 +25,7 @@ El proceso de configuración puede dividirse en los siguientes pasos:
 ====
 Para configurar un entorno GCVE en GCP, inicie sesión en la consola de GCP y acceda al portal VMware Engine.
 
-Haga clic en el botón “New Private Cloud” e introduzca la configuración deseada para GCVE Private Cloud. En “ubicación”, asegúrese de poner en marcha el cloud privado en la misma región/zona donde se pone en marcha CVS/CVO, para garantizar el mejor rendimiento y la menor latencia.
+Haga clic en el botón “New Private Cloud” e introduzca la configuración deseada para GCVE Private Cloud. En la «Ubicación», asegúrese de poner en marcha el cloud privado en la misma región/zona en la que se pone en marcha NetApp Volumes/CVO para garantizar el mejor rendimiento y la menor latencia.
 
 Requisitos previos:
 
@@ -44,7 +44,7 @@ Nota: La creación de clouds privados puede tardar entre 30 minutos y 2 horas.
 ====
 Una vez aprovisionado el cloud privado, configure el acceso privado al cloud privado para obtener una conexión de ruta de datos de alto rendimiento y baja latencia.
 
-De este modo, se asegurará de que la red VPC en la que se ejecutan las instancias de Cloud Volumes ONTAP pueda comunicarse con la nube privada de GCVE. Para ello, siga la link:https://cloud.google.com/architecture/partners/netapp-cloud-volumes/quickstart["Documentación para GCP"]. Para Cloud Volume Service, establezca una conexión entre VMware Engine y Cloud Volumes Service mediante la ejecución de un par de tiempo único entre los proyectos de host de inquilinos. Siga estos pasos para obtener más información link:https://cloud.google.com/vmware-engine/docs/vmware-ecosystem/howto-cloud-volumes-service["enlace"].
+De este modo, se asegurará de que la red VPC en la que se ejecutan las instancias de Cloud Volumes ONTAP pueda comunicarse con la nube privada de GCVE. Para ello, siga la link:https://cloud.google.com/architecture/partners/netapp-cloud-volumes/quickstart["Documentación para GCP"]. Para Cloud Volume Service, establezca una conexión entre VMware Engine y Google Cloud NetApp Volumes mediante la realización de una relación entre iguales de un solo momento entre los proyectos de host de inquilinos. Para pasos detallados, siga este link:https://cloud.google.com/vmware-engine/docs/vmware-ecosystem/howto-cloud-volumes-service["enlace"].
 
 image:gcve-access-1.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
@@ -61,9 +61,9 @@ image:gcve-access-3.png["Figura que muestra el cuadro de diálogo de entrada/sal
 image:gcve-access-4.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
 ====
-.Implemente el almacén de datos complementario del servicio de volúmenes de cloud de NetApp en GCVE
+.Implementa el almacén de datos complementario de NetApp Volumes de Google Cloud en GCVE
 [%collapsible]
 ====
-Consulte link:gcp-ncvs-datastore.html["Procedimiento para implementar un almacén de datos NFS complementario con NetApp CVS en GCVE"]
+Consulte link:gcp-ncvs-datastore.html["Procedimiento para implementar un almacén de datos NFS complementario con volúmenes de NetApp en GCVE"]
 
 ====

@@ -14,7 +14,7 @@ summary:
 
 
 [role="lead"]
-GCP admite almacenamiento NetApp conectado como invitado con Cloud Volumes ONTAP (CVO) o Cloud Volumes Service (CVS).
+GCP admite el almacenamiento NetApp conectado como invitado con Cloud Volumes ONTAP (CVO) o Google Cloud NetApp Volumes (NetApp Volumes).
 
 
 
@@ -216,27 +216,27 @@ image:gcve-cvo-guest-26.png["Figura que muestra el cuadro de diálogo de entrada
 ====
 
 
-== Cloud Volumes Service (CVS)
+== NetApp Volumes de Google Cloud (NetApp Volumes)
 
-Cloud Volumes Services (CVS) es una cartera completa de servicios de datos que ofrece soluciones avanzadas de cloud. Cloud Volumes Services admite varios protocolos de acceso a archivos para los principales proveedores de cloud (compatibilidad con NFS y SMB).
+Google Cloud NetApp Volumes (NetApp Volumes) es una cartera completa de servicios de datos que ofrece soluciones de nube avanzadas. NetApp Volumes admite varios protocolos de acceso a archivos para los principales proveedores de cloud (compatibilidad con NFS y SMB).
 
 Otras ventajas y funciones incluyen: Protección de datos y restauración con Snapshot; funciones especiales para replicar, sincronizar y migrar destinos de datos en las instalaciones o en el cloud; y alto rendimiento constante en el nivel de un sistema de almacenamiento flash dedicado.
 
 
 
-=== Cloud Volumes Service (CVS) como almacenamiento conectado como invitado
+=== Google Cloud NetApp Volumes (NetApp Volumes) como almacenamiento conectado de invitado
 
-.Configuración de Cloud Volumes Service con el motor de VMware
+.Configure NetApp Volumes con VMware Engine
 [%collapsible]
 ====
-Los recursos compartidos de Cloud Volumes Service se pueden montar a partir de máquinas virtuales que se crean en el entorno de motor de VMware. Los volúmenes también pueden montarse en el cliente Linux y asignarse en el cliente Windows, ya que Cloud Volumes Service admite los protocolos SMB y NFS. Los volúmenes de Cloud Volumes Service se pueden configurar en pasos sencillos.
+Los recursos compartidos de Google Cloud NetApp Volumes se pueden montar desde las máquinas virtuales que se crean en el entorno de VMware Engine. Los volúmenes también pueden montarse en el cliente Linux y asignarse en el cliente Windows porque Google Cloud NetApp Volumes admite los protocolos SMB y NFS. Google Cloud NetApp Volumes puede configurarse en sencillos pasos.
 
-Cloud Volume Service y el cloud privado Google Cloud VMware Engine deben encontrarse en la misma región.
+El cloud privado de Google Cloud NetApp Volumes y Google Cloud VMware Engine debe estar en la misma región.
 
-Para comprar, habilitar y configurar Cloud Volumes Service de NetApp para Google Cloud desde Google Cloud Marketplace, siga este detallado link:https://cloud.google.com/vmware-engine/docs/quickstart-prerequisites["guía"].
+Para comprar, habilitar y configurar Google Cloud NetApp Volumes para Google Cloud desde Google Cloud Marketplace, sigue estos detalleslink:https://cloud.google.com/vmware-engine/docs/quickstart-prerequisites["guía"].
 
 ====
-.Cree un volumen CVS NFS en el cloud privado de GCVE
+.Cree un volumen de NetApp Volumes NFS en el cloud privado de GCVE
 [%collapsible]
 ====
 Para crear y montar volúmenes NFS, complete los siguientes pasos:
@@ -253,7 +253,7 @@ image:gcve-cvs-guest-2.png["Figura que muestra el cuadro de diálogo de entrada/
 +
 image:gcve-cvs-guest-3.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
-. Seleccione el servicio adecuado. Para GCVE, seleccione CVS-Performance y el nivel de servicio deseado para la mejora de la latencia y el rendimiento superior en función de los requisitos de la carga de trabajo de la aplicación.
+. Seleccione el servicio adecuado. Para GCVE, elija NetApp Volumes-Performance y el nivel de servicio deseado para mejorar la latencia y un mayor rendimiento en función de los requisitos de carga de trabajo de la aplicación.
 +
 image:gcve-cvs-guest-4.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
@@ -271,7 +271,7 @@ image:gcve-cvs-guest-7.png["Figura que muestra el cuadro de diálogo de entrada/
 
 . En este paso, seleccione la red VPC desde la que se podrá acceder al volumen. Compruebe que la agrupación de VPC esté en su lugar.
 +
-SUGERENCIA: Si VPC peering no se ha hecho, aparecerá un botón emergente que le guiará a través de los comandos peering. Abra una sesión de Cloud Shell y ejecute los comandos adecuados para conectar el VPC con el productor de Cloud Volumes Service. Si decide previamente preparar la agrupación en VPC, consulte estas instrucciones.
+SUGERENCIA: Si VPC peering no se ha hecho, aparecerá un botón emergente que le guiará a través de los comandos peering. Abre una sesión de Cloud Shell y ejecuta los comandos adecuados para conectar tu VPC con el productor de volúmenes de Google Cloud NetApp. Si decide previamente preparar la agrupación en VPC, consulte estas instrucciones.
 
 +
 image:gcve-cvs-guest-8.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
@@ -345,7 +345,7 @@ Una vez que la conexión AD esté en su lugar, cree el volumen con el nivel de s
 +
 image:gcve-cvs-guest-31.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
-. Seleccione el servicio adecuado. Para GCVE, seleccione CVS-Performance y el nivel de servicio deseado para la mejora de la latencia y el rendimiento superior en función de los requisitos de la carga de trabajo.
+. Seleccione el servicio adecuado. Para GCVE, elija NetApp Volumes-Performance y el nivel de servicio deseado para mejorar la latencia y un mayor rendimiento en función de los requisitos de la carga de trabajo.
 +
 image:gcve-cvs-guest-32.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]
 
@@ -363,7 +363,7 @@ image:gcve-cvs-guest-35.png["Figura que muestra el cuadro de diálogo de entrada
 
 . En este paso, seleccione la red VPC desde la que se podrá acceder al volumen. Compruebe que la agrupación de VPC esté en su lugar.
 +
-SUGERENCIA: Si VPC peering no se ha hecho, aparecerá un botón emergente que le guiará a través de los comandos peering. Abra una sesión de Cloud Shell y ejecute los comandos adecuados para conectar el VPC con el productor de Cloud Volumes Service. Si decide previamente preparar la agrupación VPC, consulte las mismas link:https://cloud.google.com/architecture/partners/netapp-cloud-volumes/setting-up-private-services-access?hl=en["instrucciones"].
+SUGERENCIA: Si VPC peering no se ha hecho, aparecerá un botón emergente que le guiará a través de los comandos peering. Abre una sesión de Cloud Shell y ejecuta los comandos adecuados para conectar tu VPC con el productor de volúmenes de Google Cloud NetApp. En caso de que decida preparar VPC peering de antemano, consulte estos link:https://cloud.google.com/architecture/partners/netapp-cloud-volumes/setting-up-private-services-access?hl=en["instrucciones"].
 
 +
 image:gcve-cvs-guest-36.png["Figura que muestra el cuadro de diálogo de entrada/salida o que representa el contenido escrito"]

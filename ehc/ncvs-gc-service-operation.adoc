@@ -2,7 +2,7 @@
 sidebar: sidebar 
 permalink: ehc/ncvs-gc-service-operation.html 
 keywords: physical security, operations team, customer responsibilities, malicious sre protection, certifications, gdpr 
-summary: El equipo de Cloud Volumes Service gestiona los servicios de back-end en Google Cloud y utiliza varias estrategias para proteger la plataforma y evitar el acceso no deseado. 
+summary: El equipo de Google Cloud NetApp Volumes gestiona los servicios de back-end en Google Cloud y utiliza varias estrategias para proteger la plataforma y evitar el acceso no deseado. 
 ---
 = Operación de servicio
 :hardbreaks:
@@ -14,9 +14,9 @@ summary: El equipo de Cloud Volumes Service gestiona los servicios de back-end e
 
 
 [role="lead"]
-El equipo de Cloud Volumes Service gestiona los servicios de back-end en Google Cloud y utiliza varias estrategias para proteger la plataforma y evitar el acceso no deseado.
+El equipo de Google Cloud NetApp Volumes gestiona los servicios de back-end en Google Cloud y utiliza varias estrategias para proteger la plataforma y evitar el acceso no deseado.
 
-Cada cliente obtiene su propia subred única, que tiene acceso acotado de forma predeterminada a otros clientes; cada cliente de Cloud Volumes Service obtiene su propio espacio de nombres y VLAN para aislar todos los datos. Una vez autenticado un usuario, el motor de entrega de servicios (SDE) sólo puede leer los datos de configuración específicos de ese arrendatario.
+Cada cliente obtiene su propia subred única que tiene acceso protegido por los demás clientes de forma predeterminada, y cada inquilino de Google Cloud NetApp Volumes obtiene su propio espacio de nombres y VLAN para aislar totalmente los datos. Una vez autenticado un usuario, el motor de entrega de servicios (SDE) sólo puede leer los datos de configuración específicos de ese arrendatario.
 
 
 
@@ -30,41 +30,41 @@ Para los ingenieros in situ, se crea un ticket para la descripción del trabajo 
 
 == Equipo de operaciones
 
-El equipo de operaciones de Cloud Volumes Service consta de ingeniería de producción y un ingeniero de fiabilidad de sitio (SRE) para servicios de volumen de cloud, e ingenieros de soporte de campo y partners de NetApp para hardware. Todos los miembros del equipo de operaciones están acreditados por su trabajo en Google Cloud y se mantienen registros detallados del trabajo para cada ticket generado. Además, existe un estricto proceso de control y aprobación de cambios para garantizar que cada decisión sea examinada adecuadamente.
+El equipo de operaciones para Google Cloud NetApp Volumes consta de Ingeniería de producción y un ingeniero de fiabilidad del sitio (SRE) para Google Cloud NetApp Volumes e ingenieros de soporte de campo de NetApp y partners para el hardware. Todos los miembros del equipo de operaciones están acreditados por su trabajo en Google Cloud y se mantienen registros detallados del trabajo para cada ticket generado. Además, existe un estricto proceso de control y aprobación de cambios para garantizar que cada decisión sea examinada adecuadamente.
 
-El equipo de SRE gestiona el plano de control y cómo se enrutan los datos desde las solicitudes de la interfaz de usuario al hardware y software de back-end en Cloud Volumes Service. El equipo de SRE también gestiona los recursos del sistema, como los máximos de volumen e inodo. Los SRE no pueden interactuar con los datos del cliente ni tener acceso a ellos. Los Sres también proporcionan coordinación con Autorizaciones de devolución de material (RMA), como solicitudes de sustitución de disco o memoria nuevas para el hardware de backend.
+El equipo de SRE gestiona el plano de control y la forma en que se enrutan los datos desde las solicitudes de la interfaz de usuario al hardware y software de back-end en Google Cloud NetApp Volumes. El equipo de SRE también gestiona los recursos del sistema, como los máximos de volumen e inodo. Los SRE no pueden interactuar con los datos del cliente ni tener acceso a ellos. Los Sres también proporcionan coordinación con Autorizaciones de devolución de material (RMA), como solicitudes de sustitución de disco o memoria nuevas para el hardware de backend.
 
 
 
 == Responsabilidades del Cliente
 
-Los clientes de Cloud Volumes Service gestionan la administración de Active Directory y las funciones de usuario de su empresa, así como las operaciones de volumen y datos. Los clientes pueden tener roles administrativos y pueden delegar permisos en otros usuarios finales dentro del mismo proyecto de Google Cloud con las dos funciones predefinidas que proporcionan NetApp y Google Cloud (Administrador y Visor).
+Los clientes de Google Cloud NetApp Volumes gestionan el directorio activo y la gestión de las funciones de usuario de su organización, así como las operaciones de volúmenes y datos. Los clientes pueden tener roles administrativos y pueden delegar permisos en otros usuarios finales dentro del mismo proyecto de Google Cloud con las dos funciones predefinidas que proporcionan NetApp y Google Cloud (Administrador y Visor).
 
-El administrador puede establecer la relación entre iguales de cualquier VPC del proyecto del cliente a Cloud Volumes Service que el cliente determine que es apropiado. Es responsabilidad del cliente gestionar el acceso a su suscripción a Google Cloud Marketplace y gestionar los ordenadores virtuales que tienen acceso al plano de datos.
+El administrador puede asignar cualquier VPC dentro del proyecto del cliente a los volúmenes de Google Cloud NetApp que el cliente determine que es adecuado. Es responsabilidad del cliente gestionar el acceso a su suscripción a Google Cloud Marketplace y gestionar los ordenadores virtuales que tienen acceso al plano de datos.
 
 
 
 == Protección frente a SRE maliciosa
 
-Una preocupación que podría surgir es cómo protege Cloud Volumes Service frente a situaciones en las que hay una SRE maliciosa o cuando se han comprometido las credenciales de SRE?
+Una de las preocupaciones que podría surgir es: ¿Cómo protege Google Cloud NetApp Volumes frente a escenarios en los que hay un SRE malicioso o cuando se han visto comprometidas las credenciales de SRE?
 
-El acceso al entorno de producción es sólo con un número limitado de personas que reciben servicios de salud sexual y reproductiva. Los privilegios administrativos se limitan además a un puñado de administradores con experiencia. Todas las acciones realizadas por cualquier persona en el entorno de producción de Cloud Volumes Service se registran y cualquier anomalía en la línea de base o actividades sospechosas es detectada por nuestra plataforma de inteligencia de amenazas de gestión de eventos e información de seguridad (SIEM). Como resultado, se puede realizar un seguimiento y mitigar de acciones maliciosas antes de que se produzcan demasiados daños en el entorno de administración de Cloud Volumes Service.
+El acceso al entorno de producción es sólo con un número limitado de personas que reciben servicios de salud sexual y reproductiva. Los privilegios administrativos se limitan además a un puñado de administradores con experiencia. Todas las acciones que realiza cualquier persona en el entorno de producción de Google Cloud NetApp Volumes se registran y cualquier anomalía en las actividades básicas o sospechosas es detectada por nuestra plataforma de inteligencia de amenazas de gestión de eventos e información de seguridad (SIEM). Como resultado, es posible realizar un seguimiento y mitigar las acciones maliciosas antes de que se produzcan demasiado daño en el back-end de Google Cloud NetApp Volumes.
 
 
 
 == Ciclo de vida de volumen
 
-Cloud Volumes Service solo gestiona los objetos dentro del servicio, no los datos dentro de los volúmenes. Solo los clientes que acceden a los volúmenes pueden gestionar los datos, las ACL, los propietarios de archivos, etc. Los datos de estos volúmenes se cifran en reposo y el acceso se limita a los inquilinos de la instancia de Cloud Volumes Service.
+Google Cloud NetApp Volumes gestiona solo los objetos dentro del servicio, no los datos de los volúmenes. Solo los clientes que acceden a los volúmenes pueden gestionar los datos, las ACL, los propietarios de archivos, etc. Los datos de estos volúmenes están cifrados en reposo y el acceso se limita a los inquilinos de la instancia de Google Cloud NetApp Volumes.
 
-El ciclo de vida del volumen para Cloud Volumes Service es create-update-delete. Los volúmenes conservan las copias Snapshot de los volúmenes hasta que se eliminan los volúmenes y solo los administradores de Cloud Volumes Service validados pueden eliminar volúmenes en Cloud Volumes Service. Cuando un administrador solicita la eliminación de un volumen, se necesita un paso adicional para introducir el nombre del volumen para verificar la eliminación. Una vez eliminado el volumen, este ya no se puede recuperar.
+El ciclo de vida de los volúmenes para Google Cloud NetApp Volumes es create-update-delete. Los volúmenes retienen copias Snapshot de los volúmenes hasta que se eliminan los volúmenes. Solo los administradores de volúmenes de Google Cloud NetApp validados pueden eliminar volúmenes en volúmenes de Google Cloud NetApp. Cuando un administrador solicita la eliminación de un volumen, se necesita un paso adicional para introducir el nombre del volumen para verificar la eliminación. Una vez eliminado el volumen, este ya no se puede recuperar.
 
-En los casos en que se termina un contrato de Cloud Volumes Service, NetApp Marca los volúmenes para su eliminación después de un período de tiempo específico. Antes de que caduque ese período de tiempo, puede recuperar volúmenes a petición del cliente.
+En los casos en que se finaliza un contrato de Google Cloud NetApp Volumes, NetApp marca volúmenes para su eliminación después de un período de tiempo determinado. Antes de que caduque ese período de tiempo, puede recuperar volúmenes a petición del cliente.
 
 
 
 == Certificaciones
 
-Cloud Volumes Services para Google Cloud está certificado actualmente para cumplir los estándares ISO/IEC 27001:2013 e ISO/IEC 27018:2019. El servicio también recibió recientemente su informe de certificación SOC2 de tipo I. Si desea obtener más información sobre el compromiso de NetApp con la privacidad y la seguridad de los datos, consulte https://www.netapp.com/company/trust-center/compliance/["Cumplimiento de normativas: Seguridad y privacidad de los datos"^].
+Google Cloud NetApp Volumes para Google Cloud cuenta actualmente con la certificación ISO/IEC 27001:2013 e ISO/IEC 27018:2019. El servicio también recibió recientemente su informe de certificación SOC2 de tipo I. Para obtener más información sobre el compromiso de NetApp con la seguridad y privacidad de los datos, consulte https://www.netapp.com/company/trust-center/compliance/["Cumplimiento de normativas: Seguridad y privacidad de los datos"^].
 
 
 

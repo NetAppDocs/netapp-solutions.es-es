@@ -1,7 +1,7 @@
 ---
 sidebar: sidebar 
 permalink: automation/cloud_volumes_terraform.html 
-keywords: AWS, Azure, GCP, FSX, CVO, ANF, CVS, Terraform, automation 
+keywords: AWS, Azure, GCP, FSX, CVO, ANF, NetApp Volumes, Terraform, automation 
 summary: 'Esta página describe el método automatizado para poner en marcha volúmenes de NetApp en proveedores de cloud (AWS, Azure, GCP) mediante terraform.' 
 ---
 = Automatización de Cloud Volumes a través de Terraform
@@ -1698,10 +1698,10 @@ Variables de Terraform para instancias de NetApp CVO en el par de alta disponibi
 | *gcp_cvo_gcp_volume_size_unit* | Cadena | (Opcional) ['GB' o 'TB']. El valor predeterminado es 'TB'. 
 |===
 --
-.Volumen CVS
+.Volumen de NetApp Volumes
 --
-.Archivos de configuración de Terraform para la implementación de CVS Volume de NetApp en GCP
-Esta sección contiene varios archivos de configuración de Terraform para poner en marcha/configurar volúmenes de CVS de NetApp (Cloud Volumes Services) en GCP (Google Cloud Platform).
+.Archivos de configuración Terraform para la puesta en marcha de NetApp Volumes Volume en GCP
+Esta sección contiene varios archivos de configuración de Terraform para poner en marcha/configurar volumen de NetApp Volumes (Google Cloud NetApp Volumes) en GCP (Google Cloud Platform).
 
 Documentación de Terraform: https://registry.terraform.io/providers/NetApp/netapp-gcp/latest/docs[]
 
@@ -1755,25 +1755,25 @@ Para eliminar la implementación
     terraform destroy
 ----
 .Precipitación:
-`CVS Volume`
+`NetApp Volumes Volume`
 
-Variables de Terraform para volumen de CVS para GCP de NetApp.
+Variables Terraform para GCP NetApp Volumes Volume de NetApp.
 
 [cols="20%, 10%, 70%"]
 |===
 | *Nombre* | *Tipo* | *Descripción* 
 
 
-| *gcp_cvs_name* | Cadena | (Obligatorio) el nombre del volumen CVS de NetApp. 
+| *gcp_cvs_name* | Cadena | (Obligatorio) El nombre del volumen de NetApp Volumes. 
 
 
-| *gcp_cvs_project_id* | Cadena | (Requerido) el proyecto_id de GCP donde se creará el volumen CVS. 
+| *gcp_cvs_project_id* | Cadena | (Obligatorio) El project_id de GCP al que se creará el volumen de NetApp Volumes. 
 
 
-| *gcp_cvs_gcp_service_account_path* | Cadena | (Obligatorio) la ruta local del archivo JSON Service_account para la autorización de GCP. Esta cuenta de servicio se utiliza para crear el volumen CVS en GCP. 
+| *gcp_cvs_gcp_service_account_path* | Cadena | (Obligatorio) la ruta local del archivo JSON Service_account para la autorización de GCP. Esta cuenta de servicio se utiliza para crear NetApp Volumes Volume en GCP. 
 
 
-| *gcp_cvs_region* | Cadena | (Obligatorio) la zona GCP donde se creará el volumen CVS. 
+| *gcp_cvs_region* | Cadena | (Obligatorio) La zona de GCP donde se creará NetApp Volumes Volume. 
 
 
 | *gcp_cvs_network* | Cadena | (Requerido) el VPC de red del volumen. 

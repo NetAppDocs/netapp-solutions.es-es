@@ -2,7 +2,7 @@
 sidebar: sidebar 
 permalink: data-analytics/bda-ai-data-mover-solution-for-ai.html 
 keywords: data mover, ai, hadoop, nipam, nfs, azure, 
-summary: La solución de movimiento de datos para IA se basa en las necesidades del cliente de procesar datos de Hadoop desde operaciones de IA. NetApp mueve datos de HDFS a NFS mediante EL COMANDO NIPAM. En un caso de uso, el cliente necesitaba mover datos a NFS en las instalaciones y otro cliente necesitaba mover datos de Windows Azure Storage Blob a Cloud Volumes Service para procesar los datos de las instancias de cloud de la GPU en el cloud. 
+summary: La solución de movimiento de datos para IA se basa en las necesidades del cliente de procesar datos de Hadoop desde operaciones de IA. NetApp mueve datos de HDFS a NFS mediante EL COMANDO NIPAM. En un caso práctico, el cliente necesitaba mover los datos a NFS en las instalaciones y otro cliente necesitaba mover los datos desde Windows Azure Storage Blob a Google Cloud NetApp Volumes para poder procesar los datos de las instancias de cloud de GPU en el cloud. 
 ---
 = Solución de movimiento de datos para IA
 :hardbreaks:
@@ -14,7 +14,7 @@ summary: La solución de movimiento de datos para IA se basa en las necesidades 
 
 
 [role="lead"]
-La solución de movimiento de datos para IA se basa en las necesidades del cliente de procesar datos de Hadoop desde operaciones de IA. NetApp mueve datos de HDFS a NFS mediante EL COMANDO NIPAM. En un caso de uso, el cliente necesitaba mover datos a NFS en las instalaciones y otro cliente necesitaba mover datos de Windows Azure Storage Blob a Cloud Volumes Service para procesar los datos de las instancias de cloud de la GPU en el cloud.
+La solución de movimiento de datos para IA se basa en las necesidades del cliente de procesar datos de Hadoop desde operaciones de IA. NetApp mueve datos de HDFS a NFS mediante EL COMANDO NIPAM. En un caso práctico, el cliente necesitaba mover los datos a NFS en las instalaciones y otro cliente necesitaba mover los datos desde Windows Azure Storage Blob a Google Cloud NetApp Volumes para poder procesar los datos de las instancias de cloud de GPU en el cloud.
 
 El siguiente diagrama muestra los detalles de la solución del transportador de datos.
 
@@ -28,8 +28,8 @@ Para crear la solución de movimiento de datos se requieren los siguientes pasos
 . Los datos de un LUN DE SAN HDFS se copian en un volumen NFS con NIPAM y el `hadoop distcp` comando. NIPAM utiliza el ancho de banda de varias interfaces de red para transferir datos. Este proceso reduce el tiempo de copia de datos para poder transferir más datos.
 . Ambos volúmenes NFS se aprovisionan en el clúster de IA para operaciones de IA.
 . Para procesar datos NFS en las instalaciones con GPU en el cloud, los volúmenes NFS se duplican en el almacenamiento privado de NetApp (NPS) con la tecnología SnapMirror de NetApp y se montan en proveedores de servicios cloud para GPU.
-. El cliente desea procesar datos en servicios EC2/EMR, HDInsight o DataProc en GPU de proveedores de servicios cloud. El transportador de datos de Hadoop mueve los datos de servicios de Hadoop a Cloud Volumes Services con NIPAM y el `hadoop distcp` comando.
-. Los datos de Cloud Volumes Service se aprovisionan para IA a través del protocolo NFS. Los datos que se procesan mediante IA se pueden enviar en una ubicación local para análisis de Big Data, además del clúster de NVIDIA a través DE NIPAM, SnapMirror y NPS.
+. El cliente desea procesar datos en servicios EC2/EMR, HDInsight o DataProc en GPU de proveedores de servicios cloud. El movimiento de datos de Hadoop mueve los datos de los servicios de Hadoop al NetApp Volumes de Google Cloud con NIPAM y `hadoop distcp` el comando.
+. Los datos de Google Cloud NetApp Volumes se aprovisionan para IA a través del protocolo NFS. Los datos que se procesan a través de la IA se pueden enviar en una ubicación en las instalaciones para realizar análisis de Big Data, además del clúster de NVIDIA a través de NIPAM, SnapMirror y NPS.
 
 
 En esta situación, el cliente tiene grandes datos con recuento de archivos en el sistema NAS en una ubicación remota necesaria para procesar IA en la controladora de almacenamiento de NetApp en las instalaciones. En este caso, es mejor utilizar la herramienta de migración XCP para migrar los datos a una velocidad más rápida.

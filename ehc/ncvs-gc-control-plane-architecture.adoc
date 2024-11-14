@@ -2,7 +2,7 @@
 sidebar: sidebar 
 permalink: ehc/ncvs-gc-control-plane-architecture.html 
 keywords: identity, access, management, authorization, permission, service accounts, cloud volumes service api, jwt tokens 
-summary: Todas las acciones de gestión a Cloud Volumes Service se realizan mediante API. La gestión de Cloud Volumes Service integrada en la consola cloud de GCP también utiliza la API de Cloud Volumes Service. 
+summary: Todas las acciones de gestión de Google Cloud NetApp Volumes se realizan mediante la API. La gestión de volúmenes de Google Cloud NetApp integrada en la consola de GCP Cloud también utiliza Google Cloud NetApp Volumes API. 
 ---
 = Arquitectura del plano de control
 :hardbreaks:
@@ -14,23 +14,23 @@ summary: Todas las acciones de gestión a Cloud Volumes Service se realizan medi
 
 
 [role="lead"]
-Todas las acciones de gestión a Cloud Volumes Service se realizan mediante API. La gestión de Cloud Volumes Service integrada en la consola cloud de GCP también utiliza la API de Cloud Volumes Service.
+Todas las acciones de gestión de Google Cloud NetApp Volumes se realizan mediante la API. La gestión de volúmenes de Google Cloud NetApp integrada en la consola de GCP Cloud también utiliza Google Cloud NetApp Volumes API.
 
 
 
 == Gestión de acceso e identidad
 
-Gestión de acceso e identidad (https://cloud.google.com/iam/docs/overview["IAM"^]) Es un servicio estándar que le permite controlar la autenticación (inicios de sesión) y la autorización (permisos) a las instancias de proyecto de Google Cloud. Google IAM proporciona un registro de auditoría completo de la autorización y eliminación de permisos. Actualmente, Cloud Volumes Service no proporciona auditoría del plano de control.
+Identity and Access Management (https://cloud.google.com/iam/docs/overview["IAM"^]) es un servicio estándar que permite controlar la autenticación (inicios de sesión) y la autorización (permisos) para las instancias de proyecto de Google Cloud. Google IAM proporciona un registro de auditoría completo de la autorización y eliminación de permisos. Actualmente, Google Cloud NetApp Volumes no proporciona auditorías de plano de control.
 
 
 
 === Información general sobre autorización/permisos
 
-IAM ofrece permisos granulares integrados para Cloud Volumes Service. Puede encontrar un https://cloud.google.com/architecture/partners/netapp-cloud-volumes/security-considerations?hl=en_US["complete aquí la lista de permisos granulares"^].
+IAM ofrece permisos granulares incorporados para volúmenes de NetApp de Google Cloud. Puede encontrar un https://cloud.google.com/architecture/partners/netapp-cloud-volumes/security-considerations?hl=en_US["complete aquí la lista de permisos granulares"^].
 
 IAM también ofrece dos roles predefinidos llamados `netappcloudvolumes.admin` y.. `netappcloudvolumes.viewer`. Estos roles pueden asignarse a usuarios o cuentas de servicio específicos.
 
-Asigne roles y permisos adecuados para permitir que los usuarios de IAM gestionen Cloud Volumes Service.
+Asigne los roles y los permisos adecuados para permitir a los usuarios de IAM gestionar volúmenes de Google Cloud NetApp.
 
 Algunos ejemplos para el uso de permisos granulares son los siguientes:
 
@@ -43,7 +43,7 @@ Algunos ejemplos para el uso de permisos granulares son los siguientes:
 
 === Cuentas de servicio
 
-Para realizar llamadas a la API de Cloud Volumes Service a través de scripts o. https://registry.terraform.io/providers/NetApp/netapp-gcp/latest/docs["Terraform"^], debe crear una cuenta de servicio con `roles/netappcloudvolumes.admin` función. Puede utilizar esta cuenta de servicio para generar los tokens JWT necesarios para autenticar las solicitudes de API de Cloud Volumes Service de dos maneras diferentes:
+Para realizar llamadas a la API de Google Cloud NetApp Volumes mediante scripts o https://registry.terraform.io/providers/NetApp/netapp-gcp/latest/docs["Terraform"^], debe crear una cuenta de servicio con el `roles/netappcloudvolumes.admin` rol. Puedes utilizar esta cuenta de servicio para generar los tokens JWT necesarios para autenticar las solicitudes API de Google Cloud NetApp Volumes de dos formas diferentes:
 
 * Genere una clave JSON y utilice las API de Google para obtener un token de JWT de él. Este es el método más sencillo, pero implica la gestión de secretos manuales (la clave JSON).
 * Uso https://cloud.google.com/iam/docs/impersonating-service-accounts["Suplantación de cuentas de servicio"^] con `roles/iam.serviceAccountTokenCreator`. El código (script, Terraform, etc.) se ejecuta con https://google.aip.dev/auth/4110["Credenciales predeterminadas de la aplicación"^] e representa a la cuenta de servicio para obtener sus permisos. Este enfoque refleja las mejores prácticas de seguridad de Google.
@@ -53,9 +53,9 @@ Consulte https://cloud.google.com/architecture/partners/netapp-cloud-volumes/api
 
 
 
-== API de Cloud Volumes Service
+== API de Google Cloud NetApp Volumes
 
-La API de Cloud Volumes Service utiliza una API basada en REST usando HTTPS (TLSv1.2) como transporte de red subyacente. Puede encontrar la definición de API más reciente https://cloudvolumesgcp-api.netapp.com/swagger.json["aquí"^] E información acerca de cómo utilizar la API en https://cloud.google.com/architecture/partners/netapp-cloud-volumes/api?hl=en_US["API de Cloud Volumes en la documentación de Google Cloud"^].
+La API de Google Cloud NetApp Volumes utiliza una API basada EN REST utilizando HTTPS (TLSv1,2) como transporte de red subyacente. Puede encontrar la última definición de API https://cloudvolumesgcp-api.netapp.com/swagger.json["aquí"^] e información sobre cómo usar la API en https://cloud.google.com/architecture/partners/netapp-cloud-volumes/api?hl=en_US["API de Cloud Volumes en la documentación de Google Cloud"^].
 
 NetApp utiliza y protege el extremo de la API mediante la funcionalidad estándar HTTPS (TLSv1.2).
 

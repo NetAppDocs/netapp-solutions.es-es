@@ -2,7 +2,7 @@
 sidebar: sidebar 
 permalink: ehc/ncvs-gc-data-encryption-at-rest.html 
 keywords: aes-256 encryption, cmek 
-summary: Todos los volúmenes de Cloud Volumes Service se cifran en reposo mediante el cifrado AES-256, lo que significa que todos los datos de usuario escritos en medios se cifran y solo se pueden descifrar con una clave por volumen. 
+summary: Todos los volúmenes en volúmenes NetApp de Google Cloud se cifran en reposo mediante el cifrado AES-256, lo que significa que todos los datos del usuario que se escriben en medios se cifran y solo se pueden descifrar con una clave por volumen. 
 ---
 = Cifrado de datos en reposo
 :hardbreaks:
@@ -14,12 +14,12 @@ summary: Todos los volúmenes de Cloud Volumes Service se cifran en reposo media
 
 
 [role="lead"]
-Todos los volúmenes de Cloud Volumes Service se cifran en reposo mediante el cifrado AES-256, lo que significa que todos los datos de usuario escritos en medios se cifran y solo se pueden descifrar con una clave por volumen.
+Todos los volúmenes en volúmenes NetApp de Google Cloud se cifran en reposo mediante el cifrado AES-256, lo que significa que todos los datos del usuario que se escriben en medios se cifran y solo se pueden descifrar con una clave por volumen.
 
-* Para CVS-SW, se usan claves generadas por Google.
-* Para CVS-Performance, las claves por volumen se almacenan en un gestor de claves incorporado en Cloud Volumes Service.
+* Para NetApp Volumes-SW, se utilizan las claves generadas por Google.
+* Para NetApp Volumes-Performance, las claves por volumen se almacenan en un gestor de claves integrado en los volúmenes de Google Cloud NetApp.
 
 
 A partir de noviembre de 2021, ya estaba disponible la funcionalidad de obtener una vista previa de las claves de cifrado gestionadas por el cliente (CMEK). Esto permite cifrar las claves por volumen con una clave maestra por proyecto y por región alojada en https://cloud.google.com/kms/docs["Servicio de administración de claves (KMS) de Google."^] KMS le permite asociar gestores de claves externos.
 
-Para obtener información acerca de la configuración de KMS para CVS-Performance, consulte https://cloud.google.com/architecture/partners/netapp-cloud-volumes/customer-managed-keys?hl=en_US["Configurar las claves de cifrado gestionadas por el cliente"^].
+Para obtener más información sobre la configuración de KMS para NetApp Volumes-Performance, consulte https://cloud.google.com/architecture/partners/netapp-cloud-volumes/customer-managed-keys?hl=en_US["Configurar las claves de cifrado gestionadas por el cliente"^].
