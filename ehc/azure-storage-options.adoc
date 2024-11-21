@@ -1,0 +1,59 @@
+---
+sidebar: sidebar 
+permalink: ehc/azure-storage-options.html 
+keywords: azure, netapp, anf, storage, options, nfs, supplemental, cvo 
+summary: El almacenamiento de NetApp se puede vincular al servicio Azure VMware como almacenamiento conectado como invitado o como almacenamiento complementario. 
+---
+= Azure Virtualization Service: Opciones para usar el almacenamiento de NetApp
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+El almacenamiento de NetApp se puede vincular al servicio Azure VMware como almacenamiento conectado como invitado o como almacenamiento complementario.
+
+
+
+== Azure NetApp Files (ANF) como almacén de datos NFS complementario
+
+La compatibilidad con almacenes de datos NFS se introdujo con ESXi versión 3 en implementaciones locales, que amplió en gran medida las funcionalidades de almacenamiento de vSphere.
+
+Ejecutar vSphere en NFS es una opción ampliamente adoptada para puestas en marcha de virtualización en las instalaciones porque ofrece un gran rendimiento y estabilidad. Si tiene un almacenamiento conectado a la red (NAS) significativo en un centro de datos en las instalaciones, debería plantearse la puesta en marcha de una solución de VMware para Azure SDDC en Azure con almacenes de datos de archivo de NetApp para superar los retos de capacidad y rendimiento.
+
+Azure NetApp Files se basa en el software de gestión de datos ONTAP de NetApp, líder en el sector y altamente disponible. Los servicios de Microsoft Azure se agrupan en tres categorías: Fundamental, principal y especializado. Azure NetApp Files se encuentra en la categoría especializada y cuenta con el respaldo de un hardware ya implementado en muchas regiones. Con la alta disponibilidad incorporada, Azure NetApp Files protege los datos en la mayoría de las interrupciones del servicio y le ofrece un acuerdo de nivel de servicio líder en el sector con un tiempo de actividad del 99,99 %.
+
+Si desea más información sobre ANF como almacén de datos NFS complementario, visite:
+
+* link:azure-native-overview.html["ANF como Datastore NFS suplementario: Descripción general"]
+* link:azure-native-nfs-datastore-option.html["Opción complementaria de almacén de datos NFS en Azure"]
+
+
+
+
+== Azure NetApp Files (ANF) como almacenamiento conectado como invitado
+
+Azure NetApp Files lleva la gestión de datos y el almacenamiento de clase empresarial a Azure para que pueda gestionar sus cargas de trabajo y aplicaciones fácilmente. Migre sus cargas de trabajo al cloud y ejecútelas sin sacrificar el rendimiento.
+
+Azure NetApp Files elimina obstáculos, de forma que puede mover todas las aplicaciones basadas en archivos al cloud. Por primera vez, no tiene que volver a crear la arquitectura de sus aplicaciones y obtiene almacenamiento persistente para sus aplicaciones sin complejidad.
+
+Dado que el servicio se ofrece mediante Microsoft Azure Portal, los usuarios disfrutan de un servicio totalmente gestionado como parte de su contrato empresarial de Microsoft. El soporte líder, gestionado por Microsoft, le ofrece tranquilidad completa. Esta solución única le permite agregar de forma rápida y fácil cargas de trabajo multiprotocolo. Puede compilar e implementar aplicaciones basadas en archivos de Windows y Linux, incluso para entornos heredados.
+
+Para más información, por favor visite link:azure-guest.html#anf["ANF como almacenamiento conectado como invitado"].
+
+
+
+== Cloud Volumes ONTAP (CVO) como almacenamiento conectado como invitado
+
+Cloud Volumes ONTAP (CVO) es la solución de gestión de datos en cloud líder del sector basada en el software de almacenamiento ONTAP de NetApp, disponible de forma nativa en Amazon Web Services (AWS), Microsoft Azure y Google Cloud Platform (GCP).
+
+Se trata de una versión de ONTAP definida por software que consume almacenamiento nativo del cloud, lo que le permite tener el mismo software de almacenamiento en el cloud y en las instalaciones, lo que reduce la necesidad de volver a formar al personal INFORMÁTICO en todos los métodos nuevos para gestionar sus datos.
+
+CVO ofrece a los clientes la capacidad de mover datos del perímetro, al centro de datos, al cloud y al backup sin problemas, de tal modo que su cloud híbrido se aúna, todo ello gestionado con una consola de gestión de panel único, Cloud Manager de NetApp.
+
+Por su diseño, CVO ofrece un rendimiento extremo y capacidades de gestión de datos avanzadas para responder incluso a sus aplicaciones más exigentes en el cloud
+
+Para más información, por favor visite link:azure-guest.html#azure-cvo["CVO como almacenamiento conectado invitado"].
