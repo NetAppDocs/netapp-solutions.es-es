@@ -1,7 +1,7 @@
 ---
 sidebar: sidebar 
 permalink: ehc/gcp-migrate-vmware-hcx.html 
-keywords: gcp, gcve, hybrid multicloud, migrate, vmware hcx, hcx, google cloud, enterprise, hybrid, cloud, migration 
+keywords: gcp, gcve, hybrid, multicloud, migrate, vmware, hcx, google, cloud, enterprise, hybrid, cloud, migration 
 summary:  
 ---
 = Migre cargas de trabajo a Google Cloud NetApp Volumes datastore en Google Cloud VMware Engine mediante VMware HCX: Guía de inicio rápido
@@ -68,7 +68,7 @@ Para realizar las pruebas, el entorno de laboratorio de las instalaciones que se
 
 image:gcpd-hcx-image1.png["Esta imagen muestra la arquitectura de alto nivel utilizada en esta solución."]
 
-Para obtener un diagrama más detallado del HCX, consulte https://www.vmware.com/content/dam/digitalmarketing/vmware/en/pdf/products/vmw-google-cloud-vmware-engine-logical-design-poster-for-workload-mobility.pdf["Enlace de VMware"^]
+Para obtener más información sobre el uso de VMware HCX con Google, consulte https://cloud.google.com/vmware-engine/docs/workloads/howto-migrate-vms-using-hcx["Enlace de VMware"^]
 
 ====
 
@@ -111,7 +111,7 @@ NOTE: Encienda el dispositivo virtual manualmente.
 
 
 
-Para obtener instrucciones paso a paso, consulte https://docs.vmware.com/en/VMware-HCX/4.5/hcx-user-guide/GUID-47774FEA-6BDA-48E5-9D5F-ABEAD64FDDF7.html["Guía del usuario de VMware HCX"^].
+Para obtener instrucciones paso a paso, consulte la https://cloud.google.com/vmware-engine/docs/workloads/howto-migrate-vms-using-hcx#prepare-for-hcx-manager-installation["Documentación de Google HCX"^].
 
 ====
 .Paso 3: Active el conector HCX con la clave de licencia
@@ -230,7 +230,7 @@ image:gcpd-hcx-image14.png["Captura de pantalla de los dispositivos HCX en la p�
 ====
 Las cargas de trabajo se pueden migrar de manera bidireccional entre los centros de datos de GCVE y sus instalaciones mediante diversas tecnologías de migración de VMware HCX. Los equipos virtuales se pueden mover hacia y desde entidades activadas por HCX de VMware mediante varias tecnologías de migración, como la migración masiva de HCX, HCX vMotion, migración en frío de HCX, el asistente de replicación de HCX vMotion (disponible con la edición de HCX Enterprise) y la migración asistida por SO HCX (disponible con la edición de HCX Enterprise).
 
-Para obtener más información sobre varios mecanismos de migración de HCX, consulte https://docs.vmware.com/en/VMware-HCX/4.5/hcx-user-guide/GUID-8A31731C-AA28-4714-9C23-D9E924DBB666.html["Tipos de migración HCX de VMware"^].
+Para obtener más información sobre varios mecanismos de migración de HCX, consulte https://cloud.google.com/vmware-engine/docs/workloads/howto-migrate-vms-using-hcx["Migración de máquinas virtuales de VMware con documentación de VMware HCX"^].
 
 El dispositivo HCX-IX utiliza el servicio de agente de movilidad para realizar migraciones vMotion, de frío y de replicación asistida (RAV).
 
@@ -259,7 +259,7 @@ image:gcpd-hcx-image17.png["Figura que muestra el cuadro de diálogo de entrada/
 . Una vez finalizadas las comprobaciones de validación, haga clic en Ir para iniciar la migración.
 +
 
-NOTE: La transferencia de vMotion captura la memoria activa de la máquina virtual, su estado de ejecución, su dirección IP y su dirección MAC. Para obtener más información sobre los requisitos y las limitaciones de HCX vMotion, consulte https://docs.vmware.com/en/VMware-HCX/4.5/hcx-user-guide/GUID-517866F6-AF06-4EFC-8FAE-DA067418D584.html["Comprender vMotion y la migración de datos fríos de VMware HCX"^].
+NOTE: La transferencia de vMotion captura la memoria activa de la máquina virtual, su estado de ejecución, su dirección IP y su dirección MAC. Para obtener más información sobre los requisitos y limitaciones de HCX vMotion, consulte https://techdocs.broadcom.com/us/en/vmware-cis/hcx/vmware-hcx/4-10/vmware-hcx-user-guide-4-10/migrating-virtual-machines-with-vmware-hcx/understanding-vmware-hcx-vmotion-and-cold-migration.html#GUID-517866F6-AF06-4EFC-8FAE-DA067418D584-en["Comprender vMotion y la migración de datos fríos de VMware HCX"^].
 
 . Es posible supervisar el progreso y la finalización de vMotion desde el panel HCX > Migration.
 +
