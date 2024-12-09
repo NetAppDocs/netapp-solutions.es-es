@@ -40,7 +40,7 @@ La siguiente tabla muestra ejemplos de asignaciones de cableado de hasta 16 sist
 | switch1 puertos 37-40 | AFF-A90-01 a -04 | puerto e11a 
 
 
-| switch1 puertos 41-44 | AFF-A90-01 a -04 | puerto e8a 
+| switch1 puertos 41-44 | AFF-A90-01 a -04 | puerto e2a 
 
 
 | switch1 puertos 57-64 | ISL a switch2 | puertos 57-64 
@@ -61,7 +61,7 @@ La siguiente tabla muestra ejemplos de asignaciones de cableado de hasta 16 sist
 | switch2 puertos 37-40 | AFF-A90-01 a -04 | puerto e11b 
 
 
-| switch2 puertos 41-44 | AFF-A90-01 a -04 | puerto e8b 
+| switch2 puertos 41-44 | AFF-A90-01 a -04 | puerto e2b 
 
 
 | switch2 puertos 57-64 | ISL a switch1 | puertos 57-64 
@@ -100,7 +100,7 @@ A continuación se describen los pasos básicos que se utilizan para configurar 
 . Configurar LACP MLAG para cada pareja de puertos de cliente y puertos de almacenamiento en ambos switches
 +
 ** Puerto swp17 en cada switch para DGX-H100-01 (enp170s0f1np1 y enp41s0f1np1), puerto swp18 para DGX-H100-02, etc (bond1-16)
-** Puerto swp41 en cada switch para AFF-A90-01 (E8a y e8b), puerto swp42 para AFF-A90-02, etc. (bond17-20)
+** Puerto swp41 en cada switch para AFF-A90-01 (e2a y e2b), puerto swp42 para AFF-A90-02, etc (bond17-20)
 ** nv set interfaz bondX bond member swpX
 ** nv Set interfaz bondx bond mlag id X
 
@@ -201,7 +201,7 @@ A continuación se describen los pasos básicos que se utilizan para configurar 
 . Configure ifgrps en cada controladora
 +
 ** puerto de red ifgrp create -node <node> -ifgrp a1a -mode multimodo_lacp -distr-function port
-** puerto de red ifgrp add-port -node <node> -ifgrp <ifgrp> -ports <node>:e8a,<node>:e8b
+** puerto de red ifgrp add-port -node <node> -ifgrp <ifgrp> -ports <node>:e2a,<node>:e2b
 
 
 . Configure el puerto vlan de gestión en ifgrp en cada controladora
@@ -245,7 +245,7 @@ A continuación se describen los pasos básicos que se utilizan para configurar 
 +
 ** Configurar SVM para compatibilidad con RDMA
 +
-*** vserver modify -vserver basepod-data -rdma habilitado
+*** vserver nfs modify -vserver basepod-data -rdma habilitado
 
 
 ** Cree LIF
