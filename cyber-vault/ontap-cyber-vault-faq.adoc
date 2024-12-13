@@ -110,10 +110,27 @@ La base de un ciberalmacén de NetApp es SnapMirror y SnapLock Compliance, pero 
 Las copias Snapshot de ONTAP son inmutables de forma predeterminada y se pueden hacer indelebles con SnapLock Compliance. Ni siquiera la compatibilidad con NetApp puede eliminar las copias Snapshot de SnapLock. La mejor pregunta que se debe hacer es qué hace que la ciberbóveda de NetApp sea mejor que otras bóvedas cibernéticas en la industria. En primer lugar, ONTAP es el almacenamiento más seguro del planeta y ha obtenido la validación CSfC, que permite el almacenamiento de datos secretos y de alto secreto en reposo, tanto en la capa de hardware como en la de software. Más información en link:https://www.netapp.com/esg/trust-center/compliance/CSfC-Program/["CSfC se puede encontrar aquí"^]. Además, la tecnología ONTAP puede conectarse mediante aire en la capa de almacenamiento, mientras que el sistema de ciberalmacén controla la replicación, lo que permite crear una red desconectada en la red de ciberalmacenes.
 
 ====
-.¿El volumen de origen de un ciberalmacén puede ser un volumen habilitado para ONTAP Fabric Pool (volumen organizado por niveles en ONTAP S3 o StorageGRID)?
+.¿Un volumen de un ciberalmacén puede usar Fabric Pool de ONTAP?
 [%collapsible%open]
 ====
-No, Un volumen de origen de Fabric Pool independientemente de la política utilizada no se puede replicar en un destino de SnapLock Compliance.
+No, no se puede organizar en niveles un volumen de ciberalmacenes (destino de SnapLock Compliance SnapMirror) con Fabric Pool, independientemente de la política.
+
+image:ontap-cyber-vault-fabric-pool-configurations.png["Configuraciones compatibles con Fabric Pool de ciberalmacén"]
+
+
+NOTE: Hay múltiples escenarios en los que Fabric pool *no* se puede utilizar con una bóveda cibernética.
+
+. Los niveles fríos de Fabric Pool *no* pueden usar un clúster de bóveda cibernética. Esto se debe a que la activación del protocolo S3 invalida la naturaleza segura de la arquitectura de referencia del almacén cibernético. Además, no se puede proteger el bucket de S3 utilizado para Fabric pool.
+. Los volúmenes de SnapLock Compliance en el almacén cibernético *no* se pueden organizar en niveles en un cubo de S3, ya que los datos están bloqueados en el volumen.
+
+
+image:ontap-cyber-vault-fabric-pool-configurations-p-s-cv.png["Configuraciones compatibles con Cyber vault Fabric Pool para relaciones en cascada"]
+
+====
+.¿Está disponible ONTAP S3 Worm en un ciberalmacén?
+[%collapsible%open]
+====
+No, S3 es un protocolo de acceso a datos que invalida la naturaleza segura de la arquitectura de referencia.
 
 ====
 .¿El ciberalmacén de NetApp se ejecuta en una personalidad o un perfil de ONTAP diferente?
