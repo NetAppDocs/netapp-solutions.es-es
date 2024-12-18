@@ -150,7 +150,7 @@ La implementación requiere los siguientes requisitos previos.
 . Desde el portal de la nube de Azure, implemente máquinas virtuales de Azure Linux como servidores de Oracle DB. Crear un pool de capacidad de Azure NetApp Files y volúmenes de base de datos para las bases de datos de Oracle. Active la autenticación de clave pública/privada SSH de VM para azureuser en servidores de base de datos. Consulte el diagrama de arquitectura en la sección anterior para obtener información detallada sobre la configuración del entorno. También se ha mencionado link:azure_ora_nfile_procedures.html["Procedimientos detallados de puesta en marcha de Oracle en Azure VM y Azure NetApp Files"^] para obtener información detallada.
 +
 
-NOTE: Para las máquinas virtuales de Azure implementadas con redundancia de disco local, asegúrese de que ha asignado al menos 128G en el disco raíz de la máquina virtual para tener espacio suficiente para almacenar en zona intermedia los archivos de instalación de Oracle y agregar el archivo de intercambio del sistema operativo. Expanda la partición /tmplv y /rootlv OS en consecuencia. Asegúrese de que la nomenclatura de volúmenes de base de datos siga la convención VMname-u01, VMname-u02 y VMname-u03.
+NOTE: Para las máquinas virtuales de Azure implementadas con redundancia de disco local, asegúrese de que ha asignado al menos 128G en el disco raíz de la máquina virtual para tener espacio suficiente para almacenar en zona intermedia los archivos de instalación de Oracle y agregar el archivo de intercambio del sistema operativo. Expanda la partición /tmplv y /rootlv OS en consecuencia. Agregue 1G de espacio libre a rootvg-homelv si es menos de 1G. Asegúrese de que la nomenclatura de volúmenes de base de datos siga la convención VMname-u01, VMname-u02 y VMname-u03.
 
 +
 [source, cli]
@@ -161,6 +161,11 @@ sudo lvresize -r -L +20G /dev/mapper/rootvg-rootlv
 [source, cli]
 ----
 sudo lvresize -r -L +10G /dev/mapper/rootvg-tmplv
+----
++
+[source, cli]
+----
+sudo lvresize -r -L +1G /dev/mapper/rootvg-homelv
 ----
 . Desde el portal de cloud de Azure, aprovisione un servidor de Windows para ejecutar la herramienta de interfaz de usuario de NetApp SnapCenter con la última versión. Consulte el siguiente enlace para obtener más información: link:https://docs.netapp.com/us-en/snapcenter/install/task_install_the_snapcenter_server_using_the_install_wizard.html["Instale el servidor SnapCenter"^]
 . Aprovisione una máquina virtual de Linux como nodo de controladora de Ansible con la última versión de Ansible y Git instalada. Consulte el siguiente enlace para obtener más información: link:../automation/getting-started.html["Primeros pasos con la automatización de soluciones de NetApp"^] en la sección -
