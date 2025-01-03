@@ -1,0 +1,47 @@
+---
+sidebar: sidebar 
+permalink: ai/aicp_example_mlflow_traceability.html 
+keywords: AI, control plane, MLOps, MLflow 
+summary: MLOps de código abierto con NetApp - Trazabilidad de conjunto de datos a modelo con NetApp y MLflow 
+---
+= Trazabilidad de conjunto de datos a modelo con NetApp y MLflow
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Se https://github.com/NetApp/netapp-dataops-toolkit/tree/main/netapp_dataops_k8s["Kit de herramientas Data OPS de NetApp para Kubernetes"^] puede utilizar junto con las capacidades de seguimiento de experimentos de MLflow para implementar la trazabilidad de conjunto de datos a modelo o de espacio de trabajo a modelo.
+
+Para implementar la trazabilidad entre conjuntos de datos y modelos o entre espacios de trabajo y modelos, simplemente cree una instantánea de su conjunto de datos o volumen del espacio de trabajo utilizando el kit de herramientas de DataOps como parte de su ciclo de entrenamiento, como se muestra en el siguiente fragmento de código de ejemplo. Este código guardará el nombre del volumen de datos y el nombre de la instantánea como etiquetas asociadas a la ejecución de entrenamiento específica que está registrando en el servidor de seguimiento de experimentos MLflow.
+
+[source]
+----
+...
+from netapp_dataops.k8s import create_volume_snapshot
+
+with mlflow.start_run() :
+    ...
+
+    namespace = "my_namespace" # Kubernetes namespace in which dataset volume PVC resides
+    dataset_volume_name = "project1" # Name of PVC corresponding to dataset volume
+    snapshot_name = "run1" # Name to assign to your new snapshot
+
+    # Create snapshot
+    create_volume_snapshot(
+        namespace=namespace,
+        pvc_name=dataset_volume_name,
+        snapshot_name=snapshot_name,
+        printOutput=True
+    )
+
+    # Log data volume name and snapshot name as "tags"
+    # associated with this training run in mlflow.
+    mlflow.set_tag("data_volume_name", dataset_volume_name)
+    mlflow.set_tag("snapshot_name", snapshot_name)
+
+    ...
+----
