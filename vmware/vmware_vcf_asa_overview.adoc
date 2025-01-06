@@ -16,9 +16,9 @@ summary:
 [role="lead"]
 VMware Cloud Foundation (VCF) es una plataforma integrada de centro de datos definido por software (SDDC) que proporciona una pila completa de infraestructura definida por software para ejecutar aplicaciones empresariales en un entorno de cloud híbrido. Combina funcionalidades de computación, almacenamiento, redes y gestión en una plataforma unificada que ofrece una experiencia operativa consistente en clouds privados y públicos.
 
-Autor: Josh Powell
+Autor: Josh Powell, Suresh Thoppay
 
-Este documento proporciona información sobre las opciones de almacenamiento disponibles para VMware Cloud Foundation mediante la cabina SAN all-flash de NetApp. Las opciones de almacenamiento admitidas se cubren con instrucciones específicas para poner en marcha almacenes de datos iSCSI como almacenamiento complementario para dominios de gestión y tanto almacenes de datos VVol (iSCSI) como NVMe/TCP como almacenes de datos complementarios para dominios de carga de trabajo. También se cubre la protección de datos de máquinas virtuales y almacenes de datos mediante SnapCenter para VMware vSphere.
+Este documento proporciona información sobre las opciones de almacenamiento disponibles para VMware Cloud Foundation mediante la cabina SAN all-flash de NetApp. Las opciones de almacenamiento admitidas se cubren con instrucciones específicas para poner en marcha almacenes de datos VMFS (FC/iSCSI) como almacenamiento principal y complementario (FC/iSCSI/NVMe-oF/VVol) para dominios de gestión y cargas de trabajo. También se cubre la protección de datos de máquinas virtuales y almacenes de datos mediante SnapCenter para VMware vSphere.
 
 
 
@@ -71,16 +71,50 @@ Para obtener más información sobre la arquitectura y planificación de VCF, co
 
 ==== Opciones de almacenamiento de VCF
 
-VMware divide las opciones de almacenamiento para VCF en almacenamiento *principal* y *suplementario*. El dominio de gestión de VCF debe utilizar vSAN como su almacenamiento principal. Sin embargo, existen muchas opciones de almacenamiento suplementarias para el dominio de gestión y las opciones de almacenamiento principal y suplementario disponibles para los dominios de carga de trabajo VI.
+VMware divide las opciones de almacenamiento para VCF en almacenamiento *principal* y *suplementario*. El almacenamiento de ONTAP se puede consumir como almacenamiento principal y complementario para dominios de carga de trabajo y de gestión a partir de VCF 5,2, que tiene la opción de convertir un entorno vSphere existente en un dominio de gestión de VCF o importarlo como dominio de carga de trabajo a un entorno de VCF existente.
 
 image:vmware-vcf-aff-image01.png["Opciones de almacenamiento de VCF"]
 
-*Almacenamiento principal para dominios de carga de trabajo*
-El almacenamiento principal se refiere a cualquier tipo de almacenamiento que se puede conectar directamente a un dominio de carga de trabajo de VI durante el proceso de configuración dentro de SDDC Manager. El almacenamiento principal se pone en marcha con el administrador SDDC como parte de la orquestación de la creación de un clúster y es el primer almacén de datos configurado para un dominio de carga de trabajo. Incluye vSAN, vVols (VMFS), NFS y VMFS en Fibre Channel.
+*Almacenamiento principal para dominios de administración y carga de trabajo* El almacenamiento principal se refiere a cualquier tipo de almacenamiento que se puede implementar o importar como parte del proceso de configuración del dominio. Para utilizar almacenamiento de ONTAP como almacenamiento principal en el dominio de gestión, debe convertirse desde el entorno de vSphere existente. Se admite VMFS en un almacén de datos FC o NFS v3.
+
+[cols="20% 20% 20% 20% 20%"]
+|===
+| Tipo de almacenamiento | Dominio de gestión - Clúster predeterminado | Dominio de gestión - Clúster adicional | Dominio de Carga de Trabajo de VI: Clúster por Defecto | Dominio de carga de trabajo de VI: Clúster adicional 
+
+
+| VMFS en FC | *Herramienta de importación* | *SDDC API* | Sí | Sí 
+
+
+| VMFS en iSCSI | NA | NA | NA | NA 
+
+
+| VVol con FC | NA | NA | No | Sí 
+
+
+| VVol con iSCSI | NA | NA | No | Sí 
+|===
+* NA: No es compatible con VCF.
+
 
 *Almacenamiento suplementario para dominios de gestión y carga de trabajo*
 El almacenamiento complementario es el tipo de almacenamiento que se puede añadir a los dominios de las cargas de trabajo o gestión en cualquier momento una vez que se ha creado el clúster. El almacenamiento complementario representa la gama más amplia de opciones de almacenamiento compatibles, que son compatibles con las cabinas de NetApp ASA. El almacenamiento complementario se puede poner en marcha usando herramientas de ONTAP para VMware vSphere para la mayoría de los tipos de protocolo de almacenamiento.
 
+[cols="25% 25% 25% 25%"]
+|===
+| Tipo de almacenamiento | Dominio de gestión - Clúster predeterminado | Dominio de gestión - Clúster adicional | Dominio de carga de trabajo VI 
+
+
+| VMFS en FC | Sí | Sí | Sí 
+
+
+| VMFS en iSCSI | Sí | Sí | Sí 
+
+
+| VVol con FC | Sí | Sí | Sí 
+
+
+| VVol con iSCSI | Sí | Sí | Sí 
+|===
 Recursos de documentación adicionales para VMware Cloud Foundation:
 * link:https://docs.vmware.com/en/VMware-Cloud-Foundation/index.html["Documentación de VMware Cloud Foundation"]
 * link:https://docs.vmware.com/en/VMware-Cloud-Foundation/5.1/vcf-design/GUID-2156EC66-BBBB-4197-91AD-660315385D2E.html["Tipos de almacenamiento compatibles para VMware Cloud Foundation"]
@@ -194,12 +228,14 @@ Para obtener más información sobre estrategias de backup 3-2-1 con BlueXP, vis
 
 == Descripción general de la solución
 
-Los escenarios presentados en esta documentación mostrarán cómo usar sistemas de almacenamiento de ONTAP como almacenamiento complementario para dominios de cargas de trabajo y gestión. Además, el plugin de SnapCenter para VMware vSphere se utiliza para proteger máquinas virtuales y almacenes de datos.
+Los escenarios presentados en esta documentación mostrarán cómo usar los sistemas de almacenamiento de ONTAP como almacenamiento principal y complementario para dominios de cargas de trabajo y gestión. Además, el plugin de SnapCenter para VMware vSphere se utiliza para proteger máquinas virtuales y almacenes de datos.
 
 Escenarios cubiertos en esta documentación:
 
 * *Utilice las herramientas de ONTAP para implementar almacenes de datos iSCSI en un dominio de administración de VCF*. Haga clic en link:vmware_vcf_asa_supp_mgmt_iscsi.html["*aquí*"] para pasos de despliegue.
 * *Utilice las herramientas de ONTAP para implementar almacenes de datos vVols (iSCSI) en un dominio de carga de trabajo VI*. Haga clic en link:vmware_vcf_asa_supp_wkld_vvols.html["*aquí*"] para pasos de despliegue.
 * *Configurar almacenes de datos NVMe sobre TCP para su uso en un dominio de carga de trabajo VI*. Haga clic en link:vmware_vcf_asa_supp_wkld_nvme.html["*aquí*"] para pasos de despliegue.
-* * Implementar y utilizar el complemento de SnapCenter para VMware vSphere para proteger y restaurar máquinas virtuales en un dominio de carga de trabajo VI*. Haga clic en link:vmware_vcf_asa_scv_wkld.html["*aquí*"] para pasos de despliegue.
+* * Implementar y utilizar el plugin de SnapCenter para VMware vSphere para proteger y restaurar máquinas virtuales en un dominio de carga de trabajo VI * Haga clic  para los pasos de implementación.link:vmware_vcf_asa_scv_wkld.html["*aquí*"]
+* *Utilice el cluster de extensión con el almacén de datos VMFS en el dominio de administración* Haga clic link:vmware_vcf_asa_mgmt_stretchcluster.html["*aquí*"] para los pasos de implementación.
+* *Utilice el cluster de extensión con el almacén de datos VMFS en el dominio de carga de trabajo VI* Haga clic link:vmware_vcf_asa_wkld_stretchcluster.html["*aquí*"] para los pasos de implementación.
 
