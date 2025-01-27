@@ -40,7 +40,7 @@ image:ontap-cyber-vault-air-gap.png["Cyber vault de red desconectada mediante Ne
 El siguiente comando crea un volumen SnapLock Compliance de 2GB GB llamado `dstvolB` `SVM2` en el agregado `node01_aggr`:
 
 +
-`cluster2::> volume create -vserver SVM2 -volume dstvolB -aggregate node01_aggr -snaplock-type compliance -type DP -size 2GG`
+`cluster2::> volume create -vserver SVM2 -volume dstvolB -aggregate node01_aggr -snaplock-type compliance -type DP -size 2GB`
 
 . En el clúster de destino, para crear el espacio de aire, establezca el período de retención predeterminado, como se describe en link:https://docs.netapp.com/us-en/ontap/snaplock/set-default-retention-period-task.html["Establecer el período de retención predeterminado"^]. Un volumen SnapLock que es un destino de almacén tiene asignado un período de retención predeterminado. El valor de este período se establece inicialmente en un mínimo de 0 años y un máximo de 100 años (a partir de ONTAP 9.10,1. En versiones anteriores de ONTAP, el valor es 0 - 70) para volúmenes SnapLock Compliance. Cada copia de Snapshot de NetApp se compromete con el primer período de retención predeterminado. Debe cambiarse el período de retención predeterminado. El período de retención se puede ampliar más tarde, si es necesario, pero nunca acortar. Para obtener más información, consulte link:https://docs.netapp.com/us-en/ontap/snaplock/set-retention-period-task.html["Establecer información general sobre el tiempo de retención"^].
 +
