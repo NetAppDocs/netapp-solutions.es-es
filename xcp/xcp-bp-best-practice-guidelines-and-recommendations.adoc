@@ -17,7 +17,7 @@ summary: Esta sección contiene las prácticas recomendadas, directrices y recom
 * Utilice el sistema operativo cliente XCP, que es compatible con IMT. El cliente compatible con IMT ha sido aprobado por NetApp.
 * Ejecute XCP como usuario root en el sistema operativo Linux para realizar la migración. Puede ejecutar el comando xcp como usuario sudo, pero no es compatible con XCP.
 * Ejecute sólo una instancia de XCP por cliente. Técnicamente, puede ejecutar varias instrucciones de XCP en el mismo host desde una ubicación diferente; sin embargo, no es una práctica compatible. De hecho, ejecutar muchas instancias puede dar como resultado un fallo.
-* En la versión XCP actual, Live Source no es compatible. Si el volumen de origen de NetApp está activo y los usuarios lo cambian continuamente, debe realizar una copia Snapshot del volumen de origen para realizar una migración.
+* XCP NFS es capaz de migrar desde un conjunto de datos de origen activo y esta configuración es compatible. Las migraciones SMB de XCP desde un conjunto de datos de origen activo no son compatibles y pueden dar lugar a fallos.
 * Se recomienda crear una nueva snapshot con un nombre distinto para cada sincronización incremental, de modo que resulta fácil crear una ruta de migración incremental según el nombre de la snapshot en caso de que se produzca un fallo.
 * Si está realizando una migración basada en Snapshot, se recomienda continuar con la migración basada en Snapshot hasta la transición.
 * Si tiene más de 10 millones de archivos y tiene un cambio de datos incremental de más del 50%, se recomienda usar un recuento de núcleos más alto y más memoria que la recomendación mínima de la guía de instalación y administración.
