@@ -16,8 +16,6 @@ summary:
 [role="lead"]
 Esta solución abarca la puesta en marcha de SQL Server en AWS EC2 mediante Amazon FSx ONTAP.
 
-Autores: Pat Sinthutan y Niyaz Mohamed, NetApp
-
 
 
 == Introducción
@@ -70,7 +68,7 @@ Antes de completar los pasos de este documento, debe tener los siguientes requis
 Asimismo, consulte las prácticas recomendadas de NetApp para entornos de SQL Server a fin de garantizar la mejor configuración de almacenamiento.
 
 .Prácticas recomendadas para entornos de SQL Server en EC2
-[%collapsible]
+[%collapsible%open]
 ====
 Con FSX ONTAP, la obtención del almacenamiento es la tarea más sencilla y se puede realizar actualizando el sistema de archivos. Este sencillo proceso permite una optimización dinámica de costes y rendimiento según sea necesario, ayuda a equilibrar la carga de trabajo de SQL y también es un excelente habilitador de thin provisioning. La tecnología de thin provisioning de ONTAP de FSX ha sido diseñada para presentar más almacenamiento lógico a las instancias EC2 que ejecutan SQL Server que el aprovisionado en el sistema de archivos. En lugar de asignar un espacio inicial, el espacio de almacenamiento se asigna de forma dinámica a cada volumen o LUN a medida que se escriben los datos. En la mayoría de configuraciones, el espacio libre también se libera cuando se eliminan datos del volumen o la LUN (y no quedan en ninguna copia Snapshot). La siguiente tabla proporciona ajustes de configuración para asignar almacenamiento de forma dinámica.
 
@@ -140,7 +138,7 @@ NOTE: El exceso de compromiso de almacenamiento debe considerarse y gestionarse 
 Para realizar operaciones de SQL Server con SnapCenter, primero debe crear volúmenes y LUN para SQL Server.
 
 .Crear volúmenes y LUN para SQL Server
-[%collapsible]
+[%collapsible%open]
 ====
 Para crear volúmenes y LUN para SQL Server, complete los pasos siguientes:
 
@@ -288,13 +286,13 @@ Puede automatizar la creación de volúmenes y LUN mediante el script de PowerSh
 Una vez definidos los volúmenes y los LUN, debe configurar SnapCenter para poder realizar las operaciones de la base de datos.
 
 .Información general de SnapCenter
-[%collapsible]
+[%collapsible%open]
 ====
 SnapCenter de NetApp es un software de protección de datos de última generación para aplicaciones empresariales de nivel 1. SnapCenter, con su interfaz de gestión de panel único, automatiza y simplifica los procesos manuales, complejos y que requieren mucho tiempo asociados con el backup, la recuperación y el clonado de varias bases de datos y otras cargas de trabajo de aplicaciones. SnapCenter aprovecha las tecnologías de NetApp, como las copias Snapshot de NetApp, SnapMirror, SnapRestore y FlexClone de NetApp. Esta integración permite a las organizaciones TECNOLÓGICAS escalar su infraestructura de almacenamiento, cumplir con compromisos de acuerdos de nivel de servicios cada vez más exigentes y mejorar la productividad de los administradores en toda la empresa.
 
 ====
 .Requisitos del servidor de SnapCenter
-[%collapsible]
+[%collapsible%open]
 ====
 En la tabla siguiente, se enumeran los requisitos mínimos para instalar SnapCenter Server y el plugin en Microsoft Windows Server.
 
@@ -346,7 +344,7 @@ Para obtener compatibilidad de versiones, consulte https://mysupport.netapp.com/
 
 ====
 .Distribución de almacenamiento de la base de datos
-[%collapsible]
+[%collapsible%open]
 ====
 La figura siguiente muestra algunas consideraciones que se deben tener en cuenta para crear el diseño de almacenamiento de la base de datos de Microsoft SQL Server al realizar backups con SnapCenter.
 
@@ -375,7 +373,7 @@ NOTE: Cuando se crea una nueva base de datos, Microsoft recomienda especificar u
 
 ====
 .Instalación y configuración para SnapCenter
-[%collapsible]
+[%collapsible%open]
 ====
 Siga la https://docs.netapp.com/us-en/snapcenter/install/task_install_the_snapcenter_server_using_the_install_wizard.html["Instale el servidor SnapCenter"^] y.. https://docs.netapp.com/us-en/snapcenter/protect-scsql/task_add_hosts_and_install_snapcenter_plug_ins_package_for_windows.html["Instalar el plugin de SnapCenter para Microsoft SQL Server"^] Para instalar y configurar SnapCenter.
 
@@ -423,7 +421,7 @@ image:sql-awsec2-image18.png["Figura que muestra el cuadro de diálogo de entrad
 Ahora está listo para realizar operaciones de backup, restauración y clonado para SQL Server.
 
 .Base de datos de backups con SnapCenter
-[%collapsible]
+[%collapsible%open]
 ====
 Después de colocar los archivos de base de datos y de registro en los LUN de ONTAP FSX, se puede usar SnapCenter para realizar backups de las bases de datos. Se utilizan los siguientes procesos para crear un backup completo.
 
@@ -465,7 +463,7 @@ image:sql-awsec2-image23.png["Figura que muestra el cuadro de diálogo de entrad
 
 ====
 .Restaurar base de datos con SnapCenter
-[%collapsible]
+[%collapsible%open]
 ====
 Una de las principales ventajas del uso de FSX ONTAP con SQL Server en EC2 es su capacidad de realizar restauraciones rápidas y granulares a nivel de base de datos.
 
@@ -485,7 +483,7 @@ image:sql-awsec2-image25.png["Figura que muestra el cuadro de diálogo de entrad
 
 ====
 .Consideraciones sobre una instancia con un gran número de bases de datos de tamaño pequeño a grande
-[%collapsible]
+[%collapsible%open]
 ====
 SnapCenter puede realizar el backup de un gran número de bases de datos importantes en una instancia o un grupo de instancias dentro de un grupo de recursos. El tamaño de una base de datos no es el factor principal del tiempo de backup. La duración de un backup puede variar en función del número de LUN por volumen, la carga en Microsoft SQL Server, el número total de bases de datos por instancia y, específicamente, el ancho de banda de I/o y el uso. Al configurar la política para realizar un backup de bases de datos desde una instancia o un grupo de recursos, NetApp recomienda restringir el máximo backup de la base de datos por copia de Snapshot a 100 por host. Asegúrese de que el número total de copias Snapshot no supere el límite de 1,023 copias.
 
@@ -516,7 +514,7 @@ Además del backup completo, NetApp recomienda configurar un backup de registros
 
 ====
 .Clonado de bases de datos con SnapCenter
-[%collapsible]
+[%collapsible%open]
 ====
 Para restaurar una base de datos en otra ubicación en un entorno de prueba o desarrollo o crear una copia para análisis empresarial, la práctica recomendada por NetApp es aprovechar la metodología de clonación para crear una copia de la base de datos en la misma instancia o en una alternativa.
 
@@ -527,7 +525,7 @@ La clonado de una base de datos puede realizarse con el método doble: Puede cre
 SnapCenter permite montar la copia de clonado en el disco necesario para mantener el formato de la estructura de carpetas en la instancia secundaria y continuar programar tareas de backup.
 
 .Clonar las bases de datos en el nuevo nombre de la base de datos en la misma instancia
-[%collapsible]
+[%collapsible%open]
 =====
 Se pueden seguir los pasos siguientes para clonar bases de datos en el nombre de la nueva base de datos en la misma instancia de servidor SQL que se ejecuta en EC2:
 
@@ -539,7 +537,7 @@ Se pueden seguir los pasos siguientes para clonar bases de datos en el nombre de
 
 =====
 .Clone bases de datos en la nueva instancia de SQL Server que se ejecuta en EC2
-[%collapsible]
+[%collapsible%open]
 =====
 El siguiente paso se utiliza para clonar bases de datos en la nueva instancia de SQL Server que se ejecuta en EC2:
 
@@ -570,7 +568,7 @@ video::27f28284-433d-4273-8748-b01200fb3cd7[panopto]
 == Apéndices
 
 .Apéndice A: Archivo YAML para su uso en plantilla de formación en la nube
-[%collapsible]
+[%collapsible%open]
 ====
 El siguiente archivo .yaml se puede utilizar con la plantilla de formación en la nube en la Consola de AWS.
 
@@ -581,7 +579,7 @@ Para automatizar la creación de LUN ISCSI y la instalación de SnapCenter de Ne
 
 ====
 .Apéndice B: Secuencias de comandos PowerShell para aprovisionar volúmenes y LUN
-[%collapsible]
+[%collapsible%open]
 ====
 El siguiente script se utiliza para aprovisionar volúmenes y LUN, así como para configurar iSCSI basándose en las instrucciones anteriores. Existen dos scripts de PowerShell:
 

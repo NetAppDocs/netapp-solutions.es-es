@@ -116,7 +116,7 @@ Su Oracle VLDB puede ejecutarse en un almacenamiento de ANF o en cualquier otro 
 
 === Requisitos previos para la implementación
 
-[%collapsible]
+[%collapsible%open]
 ====
 La implementación requiere los siguientes requisitos previos.
 
@@ -133,7 +133,7 @@ NOTE: Asegúrese de haber asignado al menos 128G en el volumen raíz de Azure VM
 
 === Aprovisione y exporte el volumen NFS que se va a montar en el servidor Oracle VLDB principal
 
-[%collapsible]
+[%collapsible%open]
 ====
 En esta sección, mostramos el aprovisionamiento de un volumen NFS desde un pool de capacidad de ANF a través de la consola del portal Azure. Repita los procedimientos en otros pools de capacidad de ANF si hay más de un pool de capacidad de ANF configurado para acomodar el tamaño de la base de datos.
 
@@ -185,7 +185,7 @@ sudo chown oracle:oinstall /nfsanf
 
 === Configure la fusión incremental de Oracle RMAN para copiar la imagen en ANF
 
-[%collapsible]
+[%collapsible%open]
 ====
 La fusión incremental de RMAN actualiza la copia de imagen de los archivos de datos de la base de datos temporal de forma continua en cada intervalo de copia de seguridad/fusión incremental. La copia de imagen de la copia de seguridad de la base de datos estará tan actualizada como la frecuencia con la que se ejecuta la copia de seguridad/fusión incremental. Por lo tanto, tenga en cuenta el rendimiento de la base de datos, sus objetivos RTO y RPO al decidir la frecuencia de la copia de seguridad y fusión incremental de RMAN.
 
@@ -812,7 +812,7 @@ De esta forma finaliza la configuración de una copia de seguridad y fusión de 
 
 === Cambie Oracle VLDB a la copia de imagen para una recuperación rápida
 
-[%collapsible]
+[%collapsible%open]
 ====
 En caso de que se produzca un fallo debido a un problema de almacenamiento principal como pérdida o daño de datos, la base de datos se puede cambiar rápidamente a copia de imagen en el montaje ANF NFS y recuperar a estado actual sin restauración de bases de datos. La eliminación de la restauración de medios físicos acelera enormemente la recuperación de la base de datos para un VLDB. En este caso de uso se asume que el servidor de la base de datos Oracle VLDB está intacto y que el archivo de control de la base de datos, los logs archivados y actuales están disponibles para su recuperación.
 
@@ -1094,7 +1094,7 @@ SQL>
 
 === Recuperación de Oracle VLDB de copia de imagen a un servidor de base de datos en espera
 
-[%collapsible]
+[%collapsible%open]
 ====
 Si se produce un fallo en el que se pierdan tanto el almacenamiento primario como el host del servidor de la base de datos primaria, la recuperación no podrá realizarse desde el servidor original. Sin embargo, la copia de imagen de backup de base de datos de Oracle, disponible en el sistema de archivos ANF NFS, es muy útil. Puede recuperar rápidamente la base de datos primaria en un servidor de base de datos en espera si hay uno disponible, utilizando la copia de imagen de copia de seguridad. En esta sección, demostraremos los procedimientos paso a paso para dicha recuperación.
 

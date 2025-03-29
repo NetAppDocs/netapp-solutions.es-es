@@ -137,7 +137,7 @@ Tu base de datos de Oracle principal puede ejecutarse en FSx ONTAP o en cualquie
 
 === Requisitos previos para la implementación
 
-[%collapsible]
+[%collapsible%open]
 ====
 La implementación requiere los siguientes requisitos previos.
 
@@ -160,7 +160,7 @@ NOTE: Asegúrese de haber asignado al menos 50g en el volumen raíz de la instan
 
 === Prepare la base de datos primaria para Data Guard
 
-[%collapsible]
+[%collapsible%open]
 ====
 En esta demostración, hemos configurado una base de datos Oracle primaria llamada db1 en la instancia primaria de EC2 DB con dos grupos de discos ASM en configuración de reinicio independiente con archivos de datos en el grupo de discos de ASM +DATA y área de recuperación flash en el grupo de discos de ASM +LOGS. A continuación se muestran los procedimientos detallados para configurar la base de datos primaria para Data Guard. Todos los pasos se deben ejecutar como propietario de la base de datos - usuario oracle.
 
@@ -404,7 +404,7 @@ Esto completa la configuración de la base de datos primaria para Data Guard.
 
 === Preparar la base de datos en espera y activar Data Guard
 
-[%collapsible]
+[%collapsible%open]
 ====
 Oracle Data Guard necesita la configuración del núcleo del sistema operativo y las pilas de software de Oracle, incluidos los juegos de parches en la instancia de base de datos EC2 en espera, para que coincidan con la instancia de base de datos EC2 primaria. Para facilitar la gestión y la simplicidad, la configuración de almacenamiento de la base de datos de la instancia de base de datos EC2 en espera debería coincidir también con la instancia de base de datos EC2 primaria, como el nombre, el número y el tamaño de los grupos de discos de ASM. A continuación se muestran los procedimientos detallados para configurar la instancia de base de datos EC2 en espera para Data Guard. Todos los comandos se deben ejecutar como identificador de usuario propietario de oracle.
 
@@ -704,7 +704,7 @@ De esta forma se completa la configuración de protección de Data Guard para db
 
 === Configurar Data Guard Broker
 
-[%collapsible]
+[%collapsible%open]
 ====
 Oracle Data Guard Broker es un marco de gestión distribuida que automatiza y centraliza la creación, el mantenimiento y la supervisión de las configuraciones de Oracle Data Guard. En la siguiente sección se muestra cómo configurar Data Guard Broker para gestionar el entorno de Data Guard.
 
@@ -799,7 +799,7 @@ En caso de fallo, Data Guard Broker se puede utilizar para conmutar por error la
 
 === Clonar base de datos en espera para otros casos de uso
 
-[%collapsible]
+[%collapsible%open]
 ====
 La ventaja clave de almacenar en espera la base de datos en AWS FSx ONTAP en Data Guard es que puede ser FlexCloned para dar servicio a muchos otros casos de uso con una inversión mínima en almacenamiento adicional. En la siguiente sección, mostramos cómo realizar snapshots y clonar los volúmenes de bases de datos en espera montados y en recuperación en FSx ONTAP para otros fines, como DESARROLLO, PRUEBAS, INFORMES, etc. con la herramienta NetApp SnapCenter.
 

@@ -63,7 +63,7 @@ NOTE: Hay ciertas restricciones en cuanto a la producción y/o el intercambio de
 
 === Requisitos previos para la implementación
 
-[%collapsible]
+[%collapsible%open]
 ====
 La implementación requiere los siguientes requisitos previos.
 
@@ -88,7 +88,7 @@ AWS EC2 Instance
 
 === Descargue el kit de herramientas
 
-[%collapsible]
+[%collapsible%open]
 ====
 [source, cli]
 ----
@@ -99,7 +99,7 @@ git clone https://github.com/NetApp/na_ora_hadr_failover_resync.git
 
 === Configuración de variables globales
 
-[%collapsible]
+[%collapsible%open]
 ====
 Los libros de estrategia de Ansible se basan en variables. Se incluye un ejemplo de archivo de variable global fsx_vars_EXAMPLE.yml para demostrar la configuración típica. A continuación se presentan algunas consideraciones clave:
 
@@ -129,7 +129,7 @@ Linux and DB specific global variables - keep it as is.
 
 === Configuración de variables de host
 
-[%collapsible]
+[%collapsible%open]
 ====
 Las variables de host se definen en el directorio HOST_vars denominado {{ HOST_NAME }}.yml. Se incluye un ejemplo de archivo de variables host host host host host_name.yml para demostrar la configuración típica. A continuación se presentan algunas consideraciones clave:
 
@@ -153,7 +153,7 @@ Linux - define host specific variables at Linux level
 
 === Configuración del archivo de host del servidor de BASE DE DATOS
 
-[%collapsible]
+[%collapsible%open]
 ====
 La instancia de AWS EC2 utiliza la dirección IP para la nomenclatura de hosts de forma predeterminada. Si utiliza un nombre diferente en el archivo de hosts para Ansible, configure la resolución de nomenclatura de host en el archivo /etc/hosts para los servidores de origen y de destino. A continuación se muestra un ejemplo.
 
@@ -168,7 +168,7 @@ La instancia de AWS EC2 utiliza la dirección IP para la nomenclatura de hosts d
 
 === Ejecución de PlayBook: Se ejecuta en secuencia
 
-[%collapsible]
+[%collapsible%open]
 ====
 . Instale los requisitos previos de la controladora Ansible.
 +

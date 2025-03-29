@@ -25,7 +25,7 @@ NOTE: Implementa FSx ONTAP en la misma zona disponible que VMware Cloud en el SD
 NOTE: No puedes implementar FSx ONTAP en el VPC conectado. En su lugar, debe ponerla en marcha en un VPC nuevo y luego conectar el VPC a una puerta de enlace de tránsito gestionada por VMware (vTGW) a través de grupos de SDDC.
 
 .Paso 1: Crear Amazon FSx ONTAP en una nueva VPC designada
-[%collapsible]
+[%collapsible%open]
 ====
 Para crear y montar el sistema de archivos de Amazon FSx ONTAP, lleve a cabo los siguientes pasos:
 
@@ -150,7 +150,7 @@ Para obtener más información sobre el rendimiento de Amazon FSx ONTAP, consult
 
 ====
 .Paso 2: Creación de un grupo SDDC
-[%collapsible]
+[%collapsible%open]
 ====
 Una vez creados los sistemas de archivos y las SVM, utilice VMware Console para crear un grupo SDDC y configurar VMware Transit Connect. Para ello, complete los siguientes pasos y recuerde que debe desplazarse entre VMware Cloud Console y la consola AWS.
 
@@ -169,7 +169,7 @@ image:fsx-nfs-image13.png["Figura que muestra el cuadro de diálogo de entrada/s
 
 ====
 .Paso 3: Configurar VMware Transit Connect
-[%collapsible]
+[%collapsible%open]
 ====
 . Conecte el VPC designado recientemente creado al grupo de SDDC. Seleccione la pestaña *External VPC* y siga la https://docs.vmware.com/en/VMware-Cloud-on-AWS/services/com.vmware.vmc-aws-networking-security/GUID-A3D03968-350E-4A34-A53E-C0097F5F26A9.html["Instrucciones para asociar un VPC externo al grupo"^]. El proceso puede tardar 10-15 minutos en completarse.
 +
@@ -198,7 +198,7 @@ image:fsx-nfs-image16.png["Figura que muestra el cuadro de diálogo de entrada/s
 
 ====
 .Paso 4: Crear un archivo adjunto de puerta de enlace de tránsito
-[%collapsible]
+[%collapsible%open]
 ====
 . En la consola de AWS, vaya a la página de servicio VPC y desplácese hasta el VPC que se utilizó para aprovisionar el sistema de archivos FSX. Aquí puede crear un archivo adjunto de puerta de enlace de tránsito haciendo clic en *accesorio de puerta de enlace de tránsito* en el panel de navegación de la derecha.
 . En *VPC Attachment*, asegúrate de que la compatibilidad con DNS esté marcada y selecciona la VPC en la que se implementó FSx ONTAP.
@@ -236,7 +236,7 @@ image:fsx-nfs-image22.png["Figura que muestra el cuadro de diálogo de entrada/s
 
 ====
 .Paso 5: Configurar el enrutamiento (AWS VPC y SDDC) y grupos de seguridad
-[%collapsible]
+[%collapsible%open]
 ====
 . En la consola de AWS, cree la ruta de vuelta al SDDC ubicando el VPC en la página de servicio VPC y seleccionando la tabla de rutas *main* para el VPC.
 . Vaya a la tabla de rutas en el panel inferior y haga clic en *Editar rutas*.
@@ -266,7 +266,7 @@ Este es el paso final en la preparación de la conectividad con el SDDC adecuado
 
 ====
 .Paso 6: Conectar volumen NFS como almacén de datos al clúster SDDC
-[%collapsible]
+[%collapsible%open]
 ====
 Una vez que se ha aprovisionado el sistema de archivos y se ha establecido la conectividad, acceda a VMware Cloud Console para montar el almacén de datos NFS.
 

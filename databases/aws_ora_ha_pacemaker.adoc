@@ -139,7 +139,7 @@ En las siguientes secciones se ofrecen procedimientos paso a paso para la implem
 
 === Requisitos previos para la implementación
 
-[%collapsible]
+[%collapsible%open]
 ====
 La implementación requiere los siguientes requisitos previos.
 
@@ -157,7 +157,7 @@ Habilite la autenticación de clave pública/privada ssh entre las máquinas vir
 
 === Aprovisione EC2 instancias y el clúster de almacenamiento de Amazon FSx ONTAP
 
-[%collapsible]
+[%collapsible%open]
 ====
 Aunque la instancia de EC2 y Amazon FSx ONTAP se pueden aprovisionar manualmente desde la consola de AWS, se recomienda utilizar el kit de herramientas de automatización basado en Terraform de NetApp para automatizar el aprovisionamiento de instancias EC2 y el clúster de almacenamiento de FSx ONTAP. A continuación se muestran los procedimientos detallados.
 
@@ -253,7 +253,7 @@ Esto completa las instancias de EC2 y el aprovisionamiento de FSx ONTAP para Ora
 
 === Configuración del grupo de marcapasos
 
-[%collapsible]
+[%collapsible%open]
 ====
 El complemento de alta disponibilidad para RHEL es un sistema en clúster que proporciona fiabilidad, escalabilidad y disponibilidad a servicios de producción esenciales como servicios de base de datos Oracle. En esta demostración de casos de uso, se configura un cluster Pacemaker de dos nodos para soportar la alta disponibilidad de una base de datos Oracle en un escenario de agrupación en cluster activo/pasivo.  
 
@@ -486,7 +486,7 @@ De este modo se completa la configuración inicial y la configuración del grupo
 
 === Configuración del cercado del grupo de marcapasos
 
-[%collapsible]
+[%collapsible%open]
 ====
 La configuración del cercado de marcapasos es obligatoria para un clúster de producción. Garantiza que un nodo que funcione mal en el clúster de AWS EC2 se aísle automáticamente, lo que evita que el nodo consuma los recursos del clúster, comprometa la funcionalidad del clúster o dañe los datos compartidos. En esta sección se muestra la configuración de la valla de cluster mediante el agente de vallado fence_aws.
 
@@ -599,7 +599,7 @@ NOTE: Ejecutar `pcs stonith refresh` comando para refrescar el agente stonith fe
 
 === Desplegar Oracle Database en el cluster PCS
 
-[%collapsible]
+[%collapsible%open]
 ====
 Se recomienda aprovechar el libro de estrategia de Ansible proporcionado por NetApp para ejecutar tareas de instalación y configuración de la base de datos con parámetros predefinidos en el clúster PCS. Para este despliegue automatizado de Oracle, es necesario introducir tres archivos de parámetros definidos por el usuario antes de ejecutar playbook.
 
@@ -1026,7 +1026,7 @@ The command completed successfully
 
 === Configurar recursos de Oracle para la gestión de PCS
 
-[%collapsible]
+[%collapsible%open]
 ====
 El objetivo de configurar la agrupación en clústeres de Pacemaker es configurar una solución de alta disponibilidad activa/pasiva para ejecutar Oracle en entornos AWS EC2 y FSx ONTAP con una intervención mínima del usuario en caso de fallo. A continuación se muestra la configuración de recursos de Oracle para la gestión de PCS.
 
@@ -1382,7 +1382,7 @@ Daemon Status:
 
 === Validación de alta disponibilidad posterior a la puesta en marcha
 
-[%collapsible]
+[%collapsible%open]
 ====
 Después del despliegue, es vital ejecutar algunas pruebas y validación para garantizar que el cluster de failover de base de datos Oracle de PCS esté configurado correctamente y funcione como se esperaba. La validación de la prueba incluye conmutación por error gestionada y fallos de recursos inesperados simulados y recuperaciones mediante el mecanismo de protección del clúster.
 
@@ -1816,7 +1816,7 @@ Esto completa la validación y demostración de la solución de Oracle HA en AWS
 
 === Backup, restauración y clonado de Oracle con SnapCenter
 
-[%collapsible]
+[%collapsible%open]
 ====
 NetApp recomienda la herramienta de interfaz de usuario de SnapCenter para gestionar la base de datos de Oracle implementada en AWS EC2 y Amazon FSx ONTAP. Consulte link:aws_ora_fsx_vmc_guestmount.html#oracle-backup-restore-and-clone-with-snapcenter["Oracle simplificado y autogestionado en VMware Cloud en AWS con FSx ONTAP montado en invitado"^]la sección TR-4979  `Oracle backup, restore, and clone with SnapCenter`para obtener más detalles sobre la configuración de SnapCenter y la ejecución de los flujos de trabajo de backup, restauración y clonado de la base de datos.
 

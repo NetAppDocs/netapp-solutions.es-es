@@ -89,7 +89,7 @@ NOTE: Para obtener un rendimiento óptimo, implemente Azure NetApp Files en la m
 Para adjuntar un volumen de archivos Azure NetApp como almacén de datos VMware de un cloud privado de la solución VMware Azure, asegúrese de cumplir los siguientes requisitos previos.
 
 .Requisitos previos
-[%collapsible]
+[%collapsible%open]
 ====
 . Utilice el inicio de sesión de az y valide que la suscripción está registrada en la función CloudSanExperience del espacio de nombres Microsoft.AVS.
 
@@ -146,7 +146,7 @@ az extension add --name vmware
 ....
 ====
 .Cree y monte volúmenes de Azure NetApp Files
-[%collapsible]
+[%collapsible%open]
 ====
 . Inicie sesión en el portal de Azure y acceda a Azure NetApp Files. Verifique el acceso al servicio Azure NetApp Files y registre el proveedor de recursos de Azure NetApp Files mediante la `az provider register` `--namespace Microsoft.NetApp –wait` comando. Después del registro, cree una cuenta de NetApp. Consulte este apartado https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-create-netapp-account["enlace"^] para conocer los pasos detallados.
 
@@ -178,7 +178,7 @@ Para obtener más información acerca del rendimiento de Azure NetApp Files Volu
 
 ====
 .Añada el almacén de datos Azure NetApp Files al cloud privado
-[%collapsible]
+[%collapsible%open]
 ====
 
 NOTE: El volumen de Azure NetApp Files puede adjuntarse a su cloud privado mediante el portal de Azure. Siga este link:https://learn.microsoft.com/en-us/azure/azure-vmware/attach-azure-netapp-files-to-azure-vmware-solution-hosts?tabs=azure-portal["Vínculo de Microsoft"] Para el enfoque paso a paso del uso del portal de Azure para montar un almacén de datos Azure NetApp Files.
@@ -287,13 +287,13 @@ El cambio de forma del volumen y los cambios dinámicos en el nivel de servicio 
 == Cargas de trabajo
 
 .Migración
-[%collapsible]
+[%collapsible%open]
 ====
 Uno de los casos de uso más comunes es la migración. Use VMware HCX o vMotion para mover máquinas virtuales en las instalaciones. Como alternativa, puede utilizar Rivermeadow para migrar máquinas virtuales a almacenes de datos de Azure NetApp Files.
 
 ====
 .Protección de datos
-[%collapsible]
+[%collapsible%open]
 ====
 Realizar backups de equipos virtuales y recuperarlos rápidamente se encuentran entre los grandes puntos fuertes de los almacenes de datos de ANF. Utilice copias de Snapshot para realizar copias rápidas de su máquina virtual o su almacén de datos sin que esto afecte al rendimiento y, a continuación, envíelas al almacenamiento de Azure para protección de datos a largo plazo o a una región secundaria usando replicación entre regiones para fines de recuperación ante desastres. Este método minimiza el espacio de almacenamiento y el ancho de banda de red porque solo almacena la información modificada.
 
@@ -303,7 +303,7 @@ Use copias Snapshot de Azure NetApp Files para protección general y use herrami
 NOTE: Con los almacenes de datos ANF, la opción Restore to New Volume puede utilizarse para clonar un volumen de almacén de datos completo, y el volumen restaurado se puede montar como otro almacén de datos en los hosts dentro de AVS SDDC. Tras montar un almacén de datos, los equipos virtuales del interior se pueden registrar, volver a configurar y personalizar como si se clonaran individualmente.
 
 .Backup y recuperación de BlueXP para máquinas virtuales
-[%collapsible]
+[%collapsible%open]
 =====
 El sistema de backup y recuperación de datos de BlueXP para máquinas virtuales proporciona una interfaz gráfica de usuario del cliente web de vSphere en vCenter para proteger máquinas virtuales y almacenes de datos de Azure NetApp Files de Azure VMware Solution mediante políticas de backup. Estas políticas pueden definir programaciones, retención y otras funcionalidades.  La funcionalidad de backup y recuperación de BlueXP para máquina virtual se puede implementar mediante el comando Run.
 
@@ -323,7 +323,7 @@ image:vmware-dr-image7.png["Figura que muestra el cuadro de diálogo de entrada/
 
 =====
 .Recuperación ante desastres con Azure NetApp Files, JetStream DR y solución VMware para Azure
-[%collapsible]
+[%collapsible%open]
 =====
 La recuperación ante desastres en el cloud es un método resiliente y rentable de proteger las cargas de trabajo contra interrupciones del sitio y eventos dañados por los datos (por ejemplo, ransomware). Gracias al marco de trabajo VAIO de VMware, las cargas de trabajo de VMware locales se pueden replicar en el almacenamiento Azure Blob y recuperarse, lo que permite una pérdida de datos mínima o casi nula, y el objetivo de tiempo de recuperación casi nulo. JetStream DR se puede utilizar para recuperar sin problemas las cargas de trabajo replicadas de las instalaciones a AVS y específicamente a Azure NetApp Files. Permite una recuperación ante desastres rentable usando unos recursos mínimos en el sitio de recuperación ante desastres y un almacenamiento en cloud rentable. Jetstream DR automatiza la recuperación en almacenes de datos de ANF mediante el almacenamiento BLOB de Azure. JetStream DR recupera máquinas virtuales independientes o grupos de máquinas virtuales relacionadas en la infraestructura de sitio de recuperación según su asignación de red y proporciona recuperación de un momento específico para la protección de ransomware.
 

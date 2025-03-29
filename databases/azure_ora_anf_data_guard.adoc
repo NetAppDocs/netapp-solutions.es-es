@@ -13,8 +13,6 @@ summary: 'La solución ofrece una descripción general y detalles para configura
 :imagesdir: ../media/
 
 
-Allen Cao, Niyaz Mohamed, NetApp
-
 [role="lead"]
 La solución ofrece una descripción general y detalles para configurar Oracle Data Guard con Microsoft Azure NetApp Files (ANF) como almacenamiento de bases de datos primaria y en espera para reducir el coste operativo y de licencias de la solución HA/DR de Oracle Data Guard en la nube de Azure.
 
@@ -115,7 +113,7 @@ image:azure_ora_anf_data_guard_architecture.png["Esta imagen proporciona una ima
 === Factores clave a tener en cuenta la puesta en marcha
 
 * *Standby Database Clone.* Al recibir y aplicar registros de transacciones de la base de datos primaria, la base de datos física en espera puede clonarse y montarse en un equipo virtual de base de datos para soportar otras cargas de trabajo como DESARROLLO, PRUEBA o informe. El clon puede ser un clon fino o grueso. En este momento, ANF solo admite clonado grueso, que es una copia completa de la base de datos en espera. La opción de clonación fina de ANF se lanzará en breve. Para realizar copias clonadas de volúmenes de bases de datos, comparte los mismos volúmenes de bases de datos en espera y utiliza la tecnología copy-on-write para dar servicio a iOS de escritura. Así, el clon resulta muy eficiente del almacenamiento que se puede utilizar en muchos otros casos de uso con una asignación de nuevo almacenamiento mínima e incremental para nuevas I/O de escritura. Esto proporciona un enorme ahorro en costes de almacenamiento al reducir de forma considerable el espacio físico de almacenamiento de Active Data Guard. NetApp recomienda minimizar las actividades de FlexClone en caso de cambiar de un almacenamiento principal al almacenamiento ANF en espera para mantener un rendimiento de Oracle a un nivel alto.
-* *Requisitos de software de Oracle.* En general, una base de datos física en espera debe tener la misma versión del directorio raíz de la base de datos que la base de datos primaria, incluidas las excepciones de juego de parches (PSE), las actualizaciones de parches críticos (CPU), y y Actualizaciones de Juegos de Parches (PSU), a menos que esté en curso un proceso de aplicación de Parches Primero en Espera de Oracle Data Guard (como se describe en la nota 1265700,1 de My Oracle Support en link:http://support.oracle.com.["support.oracle.com"^]
+* *Requisitos de software de Oracle.* En general, una base de datos física en espera debe tener la misma versión del directorio raíz de base de datos que la base de datos primaria, incluidas las excepciones de juego de parches (PSE), las actualizaciones críticas de parches (CPU) y las actualizaciones de juegos de parches (PSU), a menos que esté en curso un proceso de aplicación de parches de Oracle Data Guard en espera primero (como se describe en la nota 1265700,1 de My Oracle Support en link:https://support.oracle.com["support.oracle.com"^].
 * *Consideraciones sobre la estructura del directorio de la base de datos en espera.* Si es posible, los archivos de datos, los archivos de registro y los archivos de control en los sistemas primario y en espera deben tener los mismos nombres y nombres de ruta de acceso y usar las convenciones de nomenclatura de Arquitectura Flexible Óptima (OFA). Los directorios de archivado de la base de datos en espera también deben ser idénticos entre las ubicaciones, incluido el tamaño y la estructura. Esta estrategia permite que otras operaciones, como backups, conmutaciones y recuperaciones tras fallos, ejecuten el mismo conjunto de pasos, lo que reduce la complejidad de mantenimiento.
 * *Forzar modo de registro.* Para proteger contra las escrituras directas no registradas en la base de datos primaria que no se pueden propagar a la base de datos en espera, active FORZAR REGISTRO en la base de datos primaria antes de realizar copias de seguridad de archivos de datos para la creación en espera.
 * *Azure VM Sizing.* En estas pruebas y validaciones, utilizamos una VM de Azure - Standard_B4ms con 4 vCPU and16 GiB de memoria. Necesita ajustar el tamaño de la máquina virtual de Azure DB correctamente para el número de vCPU y la cantidad de RAM en función de los requisitos reales de la carga de trabajo.
@@ -135,7 +133,7 @@ Su base de datos de Oracle principal también puede ejecutarse en un almacenamie
 
 === Requisitos previos para la implementación
 
-[%collapsible]
+[%collapsible%open]
 ====
 La implementación requiere los siguientes requisitos previos.
 
@@ -174,7 +172,7 @@ Compruebe que se han establecido los flujos de tráfico (haga clic en tres punto
 
 === Prepare la base de datos primaria para Data Guard
 
-[%collapsible]
+[%collapsible%open]
 ====
 En esta demostración, hemos configurado una base de datos Oracle primaria llamada NTAP en el servidor de la base de datos Azure primaria con tres puntos de montaje NFS: /u01 para el binario de Oracle, /u02 para los archivos de datos de Oracle, y un archivo de control de Oracle, /u03 para los registros activos de Oracle, los archivos de registro archivados y un archivo de control redundante de Oracle. A continuación se muestran los procedimientos detallados para configurar la base de datos primaria para la protección de Oracle Data Guard. Todos los pasos se deben ejecutar como el propietario de la base de datos Oracle o el usuario por defecto `oracle`.
 
@@ -484,7 +482,7 @@ De esta forma finaliza la configuración de la base de datos primaria para Data 
 
 === Preparar la base de datos en espera y activar Data Guard
 
-[%collapsible]
+[%collapsible%open]
 ====
 Oracle Data Guard necesita la configuración del núcleo del sistema operativo y las pilas de software de Oracle, incluidos los juegos de parches en el servidor de base de datos en espera, para que coincidan con el servidor de base de datos primaria. Para facilitar la gestión y simplificar, la configuración del almacenamiento de la base de datos del servidor de base de datos en espera debería coincidir también con el servidor de base de datos primaria, como el diseño del directorio de la base de datos y los tamaños de los puntos de montaje NFS. A continuación se describen los procedimientos detallados para configurar el servidor de Oracle DB en espera y activar Oracle DataGuard para la protección HA/DR. Todos los comandos se deben ejecutar como el identificador de usuario propietario de Oracle por defecto `oracle` .
 
@@ -846,7 +844,7 @@ De esta forma se completa la configuración de protección de Data Guard para NT
 
 === Configurar Data Guard Broker
 
-[%collapsible]
+[%collapsible%open]
 ====
 Oracle Data Guard Broker es un marco de gestión distribuida que automatiza y centraliza la creación, el mantenimiento y la supervisión de las configuraciones de Oracle Data Guard. En la siguiente sección se muestra cómo configurar Data Guard Broker para gestionar el entorno de Data Guard.
 
@@ -943,7 +941,7 @@ En caso de fallo, Data Guard Broker se puede utilizar para conmutar por error la
 
 === Clonar base de datos en espera para otros casos de uso
 
-[%collapsible]
+[%collapsible%open]
 ====
 La ventaja principal de alojar la base de datos Oracle en espera en ANF en la configuración de Oracle Data Guard es que puede clonarse rápidamente para servir a muchos otros casos de uso con una inversión mínima de almacenamiento adicional si se activa una clonación ligera. NetApp recomienda utilizar la herramienta de interfaz de usuario de SnapCenter para gestionar la base de datos de Oracle DataGuard. En la siguiente sección, mostramos cómo realizar snapshots y clonar los volúmenes de bases de datos en espera montados y bajo recuperación en ANF para otros fines, como DESARROLLO, PRUEBAS, INFORMES, etc., con la herramienta NetApp SnapCenter.
 

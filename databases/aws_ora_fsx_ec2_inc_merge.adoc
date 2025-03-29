@@ -121,7 +121,7 @@ Oracle VLDB puede ejecutarse en FSx ONTAP o en cualquier otra opción de almacen
 
 === Requisitos previos para la implementación
 
-[%collapsible]
+[%collapsible%open]
 ====
 La implementación requiere los siguientes requisitos previos.
 
@@ -143,7 +143,7 @@ NOTE: Asegúrese de haber asignado al menos 50g en el volumen raíz de la instan
 
 === Aprovisione y exporte el volumen NFS que se montará en un host de instancias de base de datos de EC2
 
-[%collapsible]
+[%collapsible%open]
 ====
 En esta demostración, mostraremos cómo aprovisionar un volumen NFS desde la línea de comandos iniciando sesión en un clúster FSx a través de ssh como usuario fsxadmin a través de la IP de gestión del clúster de FSx. Alternativamente, el volumen también se puede asignar usando la consola de AWS FSx. Repita los procedimientos en otros sistemas de archivos FSX si hay más de un sistema de archivos FSX configurado para adaptarse al tamaño de la base de datos.
 
@@ -202,7 +202,7 @@ sudo chown oracle:oinstall /nfsfsxn
 
 === Configure la fusión incremental de Oracle RMAN para copiar imágenes en FSX
 
-[%collapsible]
+[%collapsible%open]
 ====
 La fusión incremental de RMAN actualiza la copia de imagen de los archivos de datos de la base de datos temporal de forma continua en cada intervalo de copia de seguridad/fusión incremental. La copia de imagen de la copia de seguridad de la base de datos estará tan actualizada como la frecuencia con la que se ejecuta la copia de seguridad/fusión incremental. Por lo tanto, tenga en cuenta el rendimiento de la base de datos, sus objetivos RTO y RPO al decidir la frecuencia de la copia de seguridad y fusión incremental de RMAN.
 
@@ -639,7 +639,7 @@ De esta forma finaliza la configuración de la copia de seguridad y fusión de l
 
 === Cambie la base de datos Oracle a la copia de imágenes para una recuperación rápida
 
-[%collapsible]
+[%collapsible%open]
 ====
 En caso de que se produzca un fallo debido a un problema de almacenamiento principal como pérdida o daño de datos, la base de datos se puede cambiar rápidamente a la copia de imagen en el montaje NFS de FSx ONTAP y recuperar su estado actual sin restaurar las bases de datos. La eliminación de la restauración de medios físicos acelera enormemente la recuperación de la base de datos para un VLDB. En este caso de uso se asume que la instancia de host de la base de datos está intacta y que el archivo de control de la base de datos, los logs archivados y los actuales están disponibles para la recuperación.
 
@@ -922,7 +922,7 @@ SQL>
 
 === Recuperación de Oracle DB de copia de imagen a otro host de instancias de EC2 DB
 
-[%collapsible]
+[%collapsible%open]
 ====
 En un fallo en el que se pierden tanto el almacenamiento primario como el host de la instancia de EC2 DB, la recuperación no puede llevarse a cabo desde el servidor original. Afortunadamente, todavía tiene una copia de imagen de backup de base de datos de Oracle en el sistema de archivos redundante NFS FSx ONTAP. Podría aprovisionar rápidamente otra instancia idéntica de EC2 DB y montar fácilmente la copia de imagen del VLDB en el nuevo host de EC2 DB a través de NFS para ejecutar la recuperación. En esta sección, demostraremos los procedimientos paso a paso para hacerlo.
 
@@ -1664,7 +1664,7 @@ Esto completa la recuperación de la base de datos de Oracle VLDB a partir de la
 
 === Clone la copia de imagen en espera de Oracle para otros casos de uso
 
-[%collapsible]
+[%collapsible%open]
 ====
 Otra ventaja de utilizar AWS FSx ONTAP para almacenar la copia de imágenes VLDB de Oracle es que puede clonarse para utilizar muchos otros propósitos con una inversión mínima en almacenamiento adicional. En el siguiente caso de uso, mostramos cómo se realiza una copia Snapshot y se clona el volumen de NFS provisional en FSx ONTAP para otros casos de uso de Oracle, como DEV, UAT, etc.
 

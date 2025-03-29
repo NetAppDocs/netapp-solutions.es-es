@@ -136,7 +136,7 @@ Las siguientes secciones proporcionan procedimientos paso a paso para SnapCenter
 
 === Requisitos previos para la implementación
 
-[%collapsible]
+[%collapsible%open]
 ====
 . La puesta en marcha requiere dos bases de datos PostgreSQL existentes que se ejecuten en un almacenamiento de ONTAP, una como servidor de base de datos primario y otra como servidor de base de datos clonado. Para obtener referencia sobre la implementación de bases de datos PostgreSQL en ONTAP, consulte TR-4956link:aws_postgres_fsx_ec2_hadr.html["Puesta en marcha automatizada de alta disponibilidad y recuperación ante desastres de PostgreSQL en AWS FSX/EC2"^]: , Buscando el libro de estrategia de implementación automatizada de PostgreSQL en la instancia primaria.
 . Aprovisione un servidor de Windows para ejecutar la herramienta de interfaz de usuario de NetApp SnapCenter con la versión más reciente. Consulte el siguiente enlace para obtener más informaciónlink:https://docs.netapp.com/us-en/snapcenter/install/task_install_the_snapcenter_server_using_the_install_wizard.html["Instale el servidor SnapCenter"^]: .
@@ -147,7 +147,7 @@ Las siguientes secciones proporcionan procedimientos paso a paso para SnapCenter
 
 === Instalación y configuración de SnapCenter
 
-[%collapsible]
+[%collapsible%open]
 ====
 Recomendamos pasar por Internet link:https://docs.netapp.com/us-en/snapcenter/index.html["Documentación sobre el software SnapCenter"^] antes de continuar con la instalación y configuración de SnapCenter: . A continuación, se proporciona un resumen general de los pasos para la instalación y configuración del software SnapCenter para PostgreSQL en ONTAP.
 
@@ -207,7 +207,7 @@ image:snapctr_psql_bkup_01.png["Esta imagen proporciona las políticas de config
 
 === Backup de bases de datos
 
-[%collapsible]
+[%collapsible%open]
 ====
 El clúster PostgreSQL detectado automáticamente inicial muestra un bloqueo rojo junto a su nombre de clúster. Debe desbloquearse con la credencial de base de datos PostgreSQL creada durante la configuración de SnapCenter en la sección anterior. Luego, necesita crear y aplicar una política de copia de seguridad para proteger la base de datos. Por último, ejecute el backup de forma manual o mediante un programador para crear un backup de Snapshot. En la siguiente sección se muestran los procedimientos detallados.
 
@@ -298,7 +298,7 @@ image:snapctr_psql_bkup_19.png["Esta imagen proporciona una copia de seguridad d
 
 === Recuperación de bases de datos
 
-[%collapsible]
+[%collapsible%open]
 ====
 En esta demostración de recuperación de base de datos, mostramos una recuperación puntual del clúster de base de datos PostgreSQL. En primer lugar, cree un backup Snapshot del volumen de la base de datos en el almacenamiento de ONTAP utilizando SnapCenter. A continuación, conéctese a la base de datos, cree una tabla de prueba, anote la marca de tiempo y borre la tabla de prueba. Ahora inicie una recuperación desde la copia de seguridad hasta la marca de tiempo cuando se cree la tabla de prueba para recuperar la tabla borrada. A continuación se capturan los detalles del flujo de trabajo y la validación de la recuperación puntual de la base de datos PostgreSQL con la interfaz de usuario de SnapCenter.
 
@@ -406,7 +406,7 @@ postgres=# select now();
 
 === Clon de la base de datos
 
-[%collapsible]
+[%collapsible%open]
 ====
 El clon de clúster de base de datos PostgreSQL a través de SnapCenter crea un nuevo volumen clonado ligero a partir de un backup Snapshot de un volumen de datos de base de datos de origen. Y lo que es más importante, es rápido (unos minutos) y eficiente en comparación con otros métodos para crear una copia clonada de la base de datos de producción como apoyo para desarrollo o pruebas. Así, reduce drásticamente los costes de almacenamiento y mejora la gestión del ciclo de vida de las aplicaciones de bases de datos. En la siguiente sección se muestra el flujo de trabajo del clon de la base de datos PostgreSQL con la IU de SnapCenter.
 

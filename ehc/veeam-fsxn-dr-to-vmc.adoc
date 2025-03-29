@@ -16,8 +16,6 @@ summary:
 [role="lead"]
 La integración de Amazon FSx ONTAP con VMware Cloud en AWS es un almacén de datos NFS externo gestionado por AWS basado en el sistema de archivos ONTAP de NetApp que se puede conectar a un clúster en SDDC. Proporciona a los clientes una infraestructura de almacenamiento virtualizado flexible y de alto rendimiento que se puede escalar independientemente de los recursos de computación.
 
-Autor: Niyaz Mohamed - Ingeniería de Soluciones NetApp
-
 
 
 == Descripción general
@@ -73,7 +71,7 @@ Para obtener información adicional, consulte “Consideraciones y limitaciones�
 === Detalles de la implementación
 
 .Paso 1: Replicar máquinas virtuales
-[%collapsible]
+[%collapsible%open]
 ====
 Veeam Backup & Replication aprovecha las funcionalidades de snapshot de VMware vSphere y, durante la replicación, Veeam Backup & Replication solicita a VMware vSphere para crear una snapshot de máquina virtual. La snapshot de la máquina virtual es la copia de un momento específico de una máquina virtual que incluye discos virtuales, estado del sistema, configuración, etc. Veeam Backup & Replication utiliza la snapshot como fuente de datos para la replicación.
 
@@ -124,7 +122,7 @@ Para obtener información adicional sobre la replicación de Veeam, consulte lin
 
 ====
 .Paso 2: Crear un plan de failover
-[%collapsible]
+[%collapsible%open]
 ====
 Una vez finalizada la replicación inicial o la propagación, cree el plan de conmutación por error. El plan de conmutación por error ayuda a realizar la conmutación por error de los equipos virtuales dependientes uno por uno o como grupo automáticamente. El plan de conmutación por error es el plan del orden en el que se procesan los equipos virtuales, incluidos los retrasos en el inicio. El plan de conmutación por error también ayuda a garantizar que los equipos virtuales cruciales dependientes ya se estén ejecutando.
 
@@ -156,7 +154,7 @@ Para obtener más información sobre la creación de trabajos de replicación, c
 
 ====
 .Paso 3: Ejecute el plan de failover
-[%collapsible]
+[%collapsible%open]
 ====
 En caso de fallo, la máquina virtual de origen del sitio de producción cambia a su réplica en el sitio de recuperación de desastres. Como parte del proceso de conmutación por error, Veeam Backup & Replication restaura la réplica de la máquina virtual al punto de restauración deseado y mueve todas las actividades de I/O del equipo virtual de origen a su réplica. Las réplicas pueden usarse no solo en caso de desastre, sino también para simular simulacros de recuperación ante desastres. Durante la simulación de recuperación tras fallos, la máquina virtual de origen sigue ejecutándose. Una vez realizadas todas las pruebas necesarias, puede deshacer la conmutación por error y volver a las operaciones normales.
 
@@ -184,7 +182,7 @@ Para obtener información detallada sobre los planes de conmutación por error, 
 
 ====
 .Paso 4: Conmutación por recuperación al sitio de producción
-[%collapsible]
+[%collapsible%open]
 ====
 Cuando se ejecuta el plan de failover, se considera un paso intermedio y debe finalizarse según el requisito. Las opciones incluyen las siguientes:
 

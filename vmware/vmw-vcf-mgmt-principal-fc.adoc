@@ -1,0 +1,77 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-vcf-mgmt-principal-fc.html 
+keywords: netapp, vmware, cloud, foundation, vcf, asa, all-flash, array, ontap tools, otv, sddc, fc 
+summary:  
+---
+= VMFS en FC como almacenamiento principal para Management Domains
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+En este escenario, revisaremos el caso de uso de un almacén de datos VMFS basado en FC existente en ONTAP, para que lo utilice como almacenamiento principal de dominios de gestión de VMware Cloud Foundation (VCF).
+
+
+
+== Introducción
+
+En su caso, nos referiremos a la documentación externa para conocer los pasos que se deben llevar a cabo en el SDDC Manager de VCF y haremos referencia a los pasos específicos de la parte de configuración del almacenamiento.
+
+Para obtener información sobre cómo convertir un entorno vSphere basado en FC existente con ONTAP, consulte link:vmw-vcf-mgmt-fc.html["Convertir entorno vSphere (almacén de datos FC) en dominio de gestión de VCF"].
+
+
+NOTE: VCF versión 5,2 introdujo la capacidad para convertir un entorno de vSphere 8 existente en un dominio de gestión de VCF o importarlo como dominios de carga de trabajo de VCF VI. Antes de esta versión, VMware vSAN era la única opción de almacenamiento principal para el dominio de gestión de VCF.
+
+
+NOTE: Esta solución es aplicable a las plataformas ONTAP que admiten almacenamiento FC, ya sean NetApp ASA, AFF y FAS.
+
+
+
+== Requisitos previos
+
+En este escenario se utilizan los siguientes componentes y configuraciones:
+
+* Sistema de almacenamiento de NetApp con una máquina virtual de almacenamiento (SVM) configurada para permitir el tráfico de FC.
+* Las interfaces lógicas (LIF) se han creado en la estructura de FC, que va a transportar tráfico de FC y está asociada con la SVM.
+* Se ha configurado la división en zonas para utilizar la división en zonas objetivo único iniciador en switches FC para los HBA de host y los destinos de almacenamiento.
+
+
+Para obtener información acerca de la configuración de los sistemas de almacenamiento ONTAP, consulte la link:https://docs.netapp.com/us-en/ontap["Documentación de ONTAP 9"] centro.
+
+Para obtener información sobre la configuración de VCF, consulte link:https://docs.vmware.com/en/VMware-Cloud-Foundation/index.html["Documentación de VMware Cloud Foundation"].
+
+
+
+== Pasos de despliegue
+
+
+
+=== Dominio de gestión - Clúster predeterminado
+
+El almacenamiento principal FC en el clúster inicial solo es compatible con la herramienta de importación «brownfield» de VCF. Si VCF se implementa con la herramienta Cloud Builder (priort para lanzar la versión 5,2.x), solo vSAN es compatible.
+
+Para obtener más información sobre el uso de un entorno de vSphere existente, consulte https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-5-2-and-earlier/5-2/map-for-administering-vcf-5-2/importing-existing-vsphere-environments-admin/convert-or-import-a-vsphere-environment-into-vmware-cloud-foundation-admin.html["Convertir el entorno de vSphere existente en el dominio de gestión"] para obtener más información.
+
+
+
+=== Dominio de gestión - Clúster adicional
+
+El clúster de vSphere adicional en el dominio de gestión se puede poner en marcha con las siguientes opciones:
+
+* Tenga un clúster adicional en el entorno de vSphere y utilice la herramienta de importación vcf brownfield para convertir el entorno de vSphere en dominio de gestión. https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/create-vvols-datastore.html["Herramientas de ONTAP para VMware vSphere"] https://docs.netapp.com/us-en/ontap/san-admin/provision-storage.html["System Manager o API de ONTAP"] Se puede utilizar para poner en marcha el almacén de datos de VMFS en el clúster de vSphere.
+* Use la API SDDC para poner en marcha un clúster adicional. Los hosts de vSphere deben tener configurado el almacén de datos VMFS. Utilice https://docs.netapp.com/us-en/ontap/san-admin/provision-storage.html["System Manager o API de ONTAP"] para implementar hosts de LUN en vSphere.
+* Utilice la interfaz de usuario de SDDC Manager para poner en marcha un clúster adicional. Pero esta opción solo crea un almacén de datos VSAN hasta la versión 5,2.x.
+
+
+
+
+== Información adicional
+
+Para obtener información acerca de la configuración de los sistemas de almacenamiento ONTAP, consulte la link:https://docs.netapp.com/us-en/ontap["Documentación de ONTAP 9"] centro.
+
+Para obtener información sobre la configuración de VCF, consulte link:https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-5-2-and-earlier/5-2.html["Documentación de VMware Cloud Foundation"].

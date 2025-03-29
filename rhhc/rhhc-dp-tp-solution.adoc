@@ -13,8 +13,6 @@ summary: Protección de datos de aplicaciones de contenedores de Red Hat OpenShi
 :imagesdir: ../media/
 
 
-Autor: Banu Sundhar, NetApp
-
 [role="lead"]
 En esta sección del documento de referencia se proporcionan detalles para crear instantáneas y copias de seguridad de aplicaciones de contenedor mediante Trident Protect. NetApp Trident Protect proporciona funcionalidades avanzadas de gestión de datos de aplicaciones que mejoran la funcionalidad y la disponibilidad de aplicaciones de Kubernetes con estado respaldadas por los sistemas de almacenamiento de NetApp ONTAP y el aprovisionador de almacenamiento CSI de NetApp Trident. Trident Protect crea copias Snapshot y backups de aplicaciones, lo que significa que no solo se crean copias Snapshot y backups de los datos de aplicaciones en volúmenes persistentes, sino que también se crean snapshots y backups de los metadatos de aplicaciones. Las snapshots y los backups creados por Trident Protect se pueden almacenar en cualquiera de los siguientes Object Storage y restaurarse a partir de ellos en un punto posterior.
 
@@ -36,7 +34,7 @@ NOTE: El administrador del clúster tiene acceso a recursos en el espacio de nom
 Trident Protect se puede instalar siguiendo las instrucciones proporcionadas en la documentaciónlink:https://docs.netapp.com/us-en/trident/trident-protect/trident-protect-installation.html["aquí"]. Esta sección mostrará el flujo de trabajo para la protección de datos de las aplicaciones de contenedores y la restauración de las aplicaciones con Trident Protect. 1. Creación de Snapshot (bajo demanda cuando se programa) 2. Restauración desde Snapshot (restauración a un mismo espacio de nombres y a uno diferente) 3. Creación de copias de seguridad 4. Restaurar desde copia de seguridad
 
 .Requisito previo
-[%collapsible]
+[%collapsible%open]
 ====
 Antes de crear las snapshots y backups para una aplicación, se debe configurar un almacenamiento de objetos en Trident Protect para almacenar las snapshots y los backups. Esto se realiza utilizando el bucket CR. Solo los administradores pueden crear un CR de bloque y configurarlo. El bucket CR se conoce como AppVault en Trident Protect. Los objetos de AppVault son la representación declarativa del flujo de trabajo de Kubernetes de un bloque de almacenamiento. Un AppVault CR contiene las configuraciones necesarias para que un bloque se utilice en operaciones de protección, como backups, snapshots, operaciones de restauración y replicación de SnapMirror.
 
@@ -178,7 +176,7 @@ image:rhhc_dp_tp_solution_container_image2.png["Aplicación creada"]
 
 ====
 .Crear snapshots
-[%collapsible]
+[%collapsible%open]
 ====
 **Crear una instantánea bajo demanda**
 
@@ -243,7 +241,7 @@ image:rhhc_dp_tp_solution_container_image8.png["PVC Snap creado según la progra
 
 ====
 .Suprima la aplicación para simular la pérdida de la aplicación
-[%collapsible]
+[%collapsible%open]
 ====
 [source, yaml]
 ----
@@ -253,7 +251,7 @@ No resources found in postgres namespace.
 ----
 ====
 .Restauración de Snapshot en el mismo espacio de nombres
-[%collapsible]
+[%collapsible%open]
 ====
 [source, yaml]
 ----
@@ -268,7 +266,7 @@ image:rhhc_dp_tp_solution_container_image10.png["App restaurada, señor"]
 
 ====
 .Restaurar desde Snapshot en un espacio de nombres diferente
-[%collapsible]
+[%collapsible%open]
 ====
 [source, yaml]
 ----
@@ -283,7 +281,7 @@ image:rhhc_dp_tp_solution_container_image12.png["App restaurada, SnapRestore"]
 
 ====
 .Crear backups
-[%collapsible]
+[%collapsible%open]
 ====
 **Creación de un backup bajo demanda**
 
@@ -307,7 +305,7 @@ image:rhhc_dp_tp_solution_container_image13a.png["Programa creado anteriormente"
 
 ====
 .Restaurar desde backup
-[%collapsible]
+[%collapsible%open]
 ====
 **Elimine la aplicación y los EVs para simular una pérdida de datos.**
 
@@ -327,7 +325,7 @@ image:rhhc_dp_tp_solution_container_image17.png["restaure un espacio de nombres 
 
 ====
 .Migrar aplicaciones
-[%collapsible]
+[%collapsible%open]
 ====
 Para clonar o migrar una aplicación a otro clúster (realizar un clon entre clústeres), crear un backup en el clúster de origen y, a continuación, restaurar el backup en un clúster diferente. Asegúrese de que Trident Protect está instalado en el clúster de destino.
 

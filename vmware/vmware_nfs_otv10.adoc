@@ -52,7 +52,7 @@ Esta solución requiere los siguientes componentes y configuraciones:
 
 NetApp recomienda diseños de red redundantes para NFS, lo que proporciona tolerancia a fallos para sistemas de almacenamiento, switches, adaptadores de red y sistemas host. Es común poner en marcha NFS con una única subred o varias subredes, en función de los requisitos de la arquitectura.
 
-Consulte https://core.vmware.com/resource/best-practices-running-nfs-vmware-vsphere["Prácticas recomendadas para ejecutar NFS con VMware vSphere"] Para obtener información detallada específica de VMware vSphere.
+Consulte https://www.vmware.com/docs/vmw-best-practices-running-nfs-vmware-vsphere["Prácticas recomendadas para ejecutar NFS con VMware vSphere"] para obtener información detallada sobre VMware vSphere.
 
 Para obtener orientación de red sobre el uso de ONTAP con VMware vSphere, consulte la https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware-vsphere-network.html#nfs["Configuración de red: NFS"] De la documentación de aplicaciones empresariales de NetApp.
 
@@ -71,7 +71,7 @@ Para implementar las herramientas de ONTAP 10 y utilizarlo para crear un almacé
 El siguiente paso se lleva a cabo en ONTAP System Manager.
 
 .Crear la máquina virtual de almacenamiento y las LIF
-[%collapsible]
+[%collapsible%open]
 ====
 Complete los siguientes pasos para crear una SVM junto con varios LIF para el tráfico de NFS.
 
@@ -111,7 +111,7 @@ image:vmware-vcf-asa-image04.png["Habilite la cuenta de SVM y Finalizar"]
 Los siguientes pasos se llevan a cabo en el clúster de dominio de carga de trabajo VI con el cliente vSphere. En este caso, se utiliza vCenter Single Sign-On para que el cliente vSphere sea común en los dominios de carga de trabajo y gestión.
 
 .Cree un grupo de puertos distribuidos para el tráfico NFS
-[%collapsible]
+[%collapsible%open]
 ====
 Complete lo siguiente para crear un nuevo grupo de puertos distribuidos para que la red transporte el tráfico NFS:
 
@@ -150,7 +150,7 @@ image:vmware-nfs-otv10-image02.png["DPG - enlaces ascendentes de equipo"]
 
 ====
 .Crear un adaptador de VMkernel en cada host ESXi
-[%collapsible]
+[%collapsible%open]
 ====
 Repita este proceso en cada host ESXi del dominio de la carga de trabajo.
 
@@ -199,7 +199,7 @@ Los siguientes pasos se realizan en un clúster de vSphere 8 mediante el cliente
 Para obtener la documentación completa sobre la puesta en marcha y el uso de las herramientas de ONTAP para VMware vSphere 10, consulte https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/deploy/ontap-tools-deployment.html["Ponga en marcha herramientas de ONTAP para VMware vSphere"] .
 
 .Ponga en marcha herramientas de ONTAP para VMware vSphere 10
-[%collapsible]
+[%collapsible%open]
 ====
 Las herramientas de ONTAP para VMware vSphere 10 se ponen en marcha como dispositivo de máquina virtual y proporcionan una interfaz de usuario integrada de vCenter para gestionar el almacenamiento de ONTAP. Las herramientas de ONTAP 10 cuenta con un nuevo portal de gestión global para gestionar conexiones a varios servidores vCenter y back-ends de almacenamiento de ONTAP.
 
@@ -282,7 +282,7 @@ image:vmware-nfs-otv10-image12.png["Personalizar plantilla OTV 2"]
 
 ====
 .Conecte el backend de almacenamiento y vCenter Server a las herramientas de ONTAP 10.
-[%collapsible]
+[%collapsible%open]
 ====
 El gestor de herramientas de ONTAP se utiliza para configurar los ajustes globales de las herramientas de ONTAP 10.
 
@@ -360,7 +360,7 @@ image:vmware-nfs-otv10-image22.png["Consola de herramientas de ONTAP"]
 
 ====
 .Cree un almacén de datos NFS con las herramientas de ONTAP 10
-[%collapsible]
+[%collapsible%open]
 ====
 Complete los siguientes pasos para implementar un almacén de datos de ONTAP, que se ejecute en NFS, con las herramientas de ONTAP 10.
 
@@ -407,7 +407,7 @@ image:vmware-nfs-otv10-image28.png["Revise el resumen y finalice"]
 
 ====
 .Cambie el tamaño de un almacén de datos NFS con ONTAP Tools 10
-[%collapsible]
+[%collapsible%open]
 ====
 Complete los siguientes pasos para cambiar el tamaño de un almacén de datos NFS existente con ONTAP Tools 10.
 

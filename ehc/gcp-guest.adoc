@@ -33,7 +33,7 @@ Por su diseño, CVO ofrece un rendimiento extremo y capacidades de gestión de d
 === Cloud Volumes ONTAP (CVO) como almacenamiento conectado como invitado
 
 .Implemente Cloud Volumes ONTAP en Google Cloud (hágalo usted mismo)
-[%collapsible]
+[%collapsible%open]
 ====
 Los recursos compartidos y LUN de Cloud Volumes ONTAP se pueden montar a partir de equipos virtuales creados en el entorno de cloud privado GCVE. Los volúmenes también pueden montarse en el cliente Linux y en el cliente Windows y se puede acceder A LUN y LUN en clientes Linux o Windows como dispositivos de bloque cuando se monta a través de iSCSI, porque Cloud Volumes ONTAP admite los protocolos iSCSI, SMB y NFS. Los volúmenes de Cloud Volumes ONTAP se pueden configurar en unos pocos pasos sencillos.
 
@@ -88,7 +88,7 @@ image:gcve-cvo-guest-9.png["Figura que muestra el cuadro de diálogo de entrada/
 
 ====
 .Configuraciones adicionales para volúmenes SMB
-[%collapsible]
+[%collapsible%open]
 ====
 . Una vez listo el entorno de trabajo, asegúrese de que el servidor CIFS esté configurado con los parámetros de configuración DNS y Active Directory adecuados. Este paso es necesario para poder crear el volumen de SMB.
 +
@@ -126,7 +126,7 @@ image:gcve-cvo-guest-15.png["Figura que muestra el cuadro de diálogo de entrada
 
 ====
 .Conectar el LUN en Cloud Volumes ONTAP a un host
-[%collapsible]
+[%collapsible%open]
 ====
 Para conectar el LUN de Cloud Volumes ONTAP a un host, complete los pasos siguientes:
 
@@ -181,7 +181,7 @@ image:gcve-cvo-guest-21.png["Figura que muestra el cuadro de diálogo de entrada
 
 ====
 .Montar el volumen NFS de Cloud Volumes ONTAP en el cliente Linux
-[%collapsible]
+[%collapsible%open]
 ====
 Para montar el sistema de archivos Cloud Volumes ONTAP (DIY) desde máquinas virtuales en Google Cloud VMware Engine, siga los siguientes pasos:
 
@@ -227,7 +227,7 @@ Otras ventajas y funciones incluyen: Protección de datos y restauración con Sn
 === Google Cloud NetApp Volumes (NetApp Volumes) como almacenamiento conectado de invitado
 
 .Configure NetApp Volumes con VMware Engine
-[%collapsible]
+[%collapsible%open]
 ====
 Los recursos compartidos de Google Cloud NetApp Volumes se pueden montar desde las máquinas virtuales que se crean en el entorno de VMware Engine. Los volúmenes también pueden montarse en el cliente Linux y asignarse en el cliente Windows porque Google Cloud NetApp Volumes admite los protocolos SMB y NFS. Google Cloud NetApp Volumes puede configurarse en sencillos pasos.
 
@@ -237,7 +237,7 @@ Para comprar, habilitar y configurar Google Cloud NetApp Volumes para Google Clo
 
 ====
 .Cree un volumen de NetApp Volumes NFS en el cloud privado de GCVE
-[%collapsible]
+[%collapsible%open]
 ====
 Para crear y montar volúmenes NFS, complete los siguientes pasos:
 
@@ -291,7 +291,7 @@ image:gcve-cvs-guest-10.png["Figura que muestra el cuadro de diálogo de entrada
 
 ====
 .Montar exportaciones de NFS a máquinas virtuales que se ejecutan en el motor de VMware
-[%collapsible]
+[%collapsible%open]
 ====
 Antes de preparar el montaje del volumen NFS, asegúrese de que el estado de la conexión entre iguales de la conexión privada aparezca como activo. Una vez el estado es activo, utilice el comando Mount.
 
@@ -332,7 +332,7 @@ image:gcve-cvs-guest-21.png["Figura que muestra el cuadro de diálogo de entrada
 
 ====
 .Crear y montar SMB comparte con máquinas virtuales que se ejecutan en VMware Engine
-[%collapsible]
+[%collapsible%open]
 ====
 En el caso de los volúmenes SMB, asegúrese de que las conexiones de Active Directory estén configuradas antes de crear el volumen de SMB.
 

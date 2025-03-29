@@ -101,7 +101,7 @@ Consulte https://cloud.google.com/vmware-engine/docs/vmware-ecosystem/howto-clou
 Complete los siguientes pasos para crear y utilizar un almacén de datos NFS para GCVE mediante volúmenes de NetApp:
 
 .Cree un volumen de NetApp Volumes NFS
-[%collapsible]
+[%collapsible%open]
 ====
 Para acceder a Google Cloud NetApp Volumes desde la consola de Google Cloud Platform (GCP).
 
@@ -152,7 +152,7 @@ image::dr-veeam-gcnv-image05.png[propiedades del volumen]
 
 ====
 .Monte el almacén de datos NFS en GCVE
-[%collapsible]
+[%collapsible%open]
 ====
 En el momento de escribir esto, el proceso para montar un almacén de datos en GCVE requiere abrir un ticket de soporte de GCP para que el volumen se monte como almacén de datos NFS.
 
@@ -164,7 +164,7 @@ Consulte https://cloud.google.com/vmware-engine/docs/vmware-ecosystem/howto-clou
 === Replica las máquinas virtuales en GCVE y ejecuta el plan de conmutación al nodo de respaldo y la conmutación de retorno tras recuperación
 
 .Replicar máquinas virtuales en un almacén de datos NFS en GCVE
-[%collapsible]
+[%collapsible%open]
 ====
 Veeam Backup & Replication aprovecha las funcionalidades Snapshot de VMware vSphere durante la replicación, Veeam Backup & Replication solicita a VMware vSphere para crear una snapshot de máquina virtual. La snapshot de la máquina virtual es la copia de un momento específico de una máquina virtual que incluye discos virtuales, estado del sistema, configuración y metadatos. Veeam Backup & Replication utiliza la snapshot como fuente de datos para la replicación.
 
@@ -257,7 +257,7 @@ Para obtener más información sobre la replicación de Veeam, consulte link:htt
 
 ====
 .Cree un plan de recuperación tras fallos
-[%collapsible]
+[%collapsible%open]
 ====
 Una vez finalizada la replicación inicial o la propagación, cree el plan de conmutación por error. El plan de conmutación por error ayuda a realizar la conmutación por error de los equipos virtuales dependientes uno por uno o como grupo automáticamente. El plan de conmutación por error es el plan del orden en el que se procesan los equipos virtuales, incluidos los retrasos en el inicio. El plan de conmutación por error también ayuda a garantizar que los equipos virtuales dependientes cruciales ya se estén ejecutando.
 
@@ -313,7 +313,7 @@ Para obtener más información sobre la creación de trabajos de replicación, c
 
 ====
 .Ejecute el plan de failover
-[%collapsible]
+[%collapsible%open]
 ====
 En el caso de la conmutación por error, la máquina virtual de origen del sitio de producción cambia a la réplica en el sitio de recuperación de desastres. Como parte del proceso, Veeam Backup & Replication restaura la réplica de la máquina virtual al punto de restauración requerido y transfiere todas las actividades de I/O del equipo virtual de origen a su réplica. Las réplicas no solo sirven para desastres reales, sino también para simular simulacros de recuperación ante desastres. En la simulación de recuperación tras fallos, la máquina virtual de origen sigue ejecutándose. Una vez finalizadas las pruebas necesarias, la conmutación por error puede deshacerse y devolver las operaciones a la normalidad.
 
@@ -345,7 +345,7 @@ Para obtener información detallada sobre los planes de conmutación por error, 
 
 ====
 .Conmutación tras recuperación en el sitio de producción
-[%collapsible]
+[%collapsible%open]
 ====
 La realización de una recuperación tras fallos se considera un paso intermedio y debe finalizarse de acuerdo con los requisitos. Las opciones incluyen las siguientes:
 

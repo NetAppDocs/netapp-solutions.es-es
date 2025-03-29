@@ -151,7 +151,7 @@ En las siguientes secciones se proporcionan procedimientos paso a paso para la i
 
 === Requisitos previos para la implementación
 
-[%collapsible]
+[%collapsible%open]
 ====
 La implementación requiere los siguientes requisitos previos.
 
@@ -178,7 +178,7 @@ NOTE: Asegúrese de haber asignado al menos 50g en el volumen raíz de Oracle VM
 
 === Configuración del núcleo de VM de BASE DE DATOS
 
-[%collapsible]
+[%collapsible%open]
 ====
 Con los requisitos previos aprovisionados, inicie sesión en el equipo virtual Oracle como usuario administrador a través de SSH y sudo al usuario raíz para configurar el núcleo Linux para la instalación de Oracle. Los archivos de instalación de Oracle se pueden almacenar en zona intermedia en un bloque de AWS S3 y transferir a la máquina virtual.
 
@@ -398,7 +398,7 @@ chmod 440 /etc/sudoers
 
 === Aprovisione y asigne LUN de FSx ONTAP a la máquina virtual de base de datos
 
-[%collapsible]
+[%collapsible%open]
 ====
 Aprovisione tres volúmenes de la línea de comandos iniciando sesión en el clúster FSx como usuario fsxadmin a través de la IP de gestión del clúster ssh y FSx. Crear LUN dentro de los volúmenes para alojar los archivos binarios, de datos y de registros de la base de datos de Oracle.
 
@@ -530,7 +530,7 @@ nim        /vol/ora_02_logs/ora_02_u03_02            ora_02        6  iscsi
 
 === Configuración de almacenamiento de máquina virtual de BASE DE DATOS
 
-[%collapsible]
+[%collapsible%open]
 ====
 Ahora, importa y configura el almacenamiento de FSx ONTAP para la infraestructura Grid de Oracle y la instalación de bases de datos en la máquina virtual de base de datos de VMC.
 
@@ -823,7 +823,7 @@ systemctl restart multipathd
 
 === Instalación de la infraestructura Grid de Oracle
 
-[%collapsible]
+[%collapsible%open]
 ====
 . Inicie sesión en la máquina virtual de base de datos como usuario administrador a través de SSH y habilite la autenticación de contraseña sin comentar `PasswordAuthentication yes` y después comentar `PasswordAuthentication no`.
 +
@@ -1084,7 +1084,7 @@ CRS-4638: Oracle High Availability Services is online
 
 === Instalación de bases de datos de Oracle
 
-[%collapsible]
+[%collapsible%open]
 ====
 . Inicie sesión como usuario de Oracle y desconéctese `$ORACLE_HOME` y.. `$ORACLE_SID` si está configurado.
 +
@@ -1475,7 +1475,7 @@ Esto completa la puesta en marcha del reinicio de Oracle 19C versión 19,18 en u
 
 ==== Configuración de SnapCenter
 
-[%collapsible]
+[%collapsible%open]
 ====
 SnapCenter se basa en un complemento en el lado del host en el equipo virtual de base de datos para realizar actividades de gestión de protección de datos para aplicaciones. Para obtener información detallada sobre el complemento de NetApp SnapCenter para Oracle, consulte esta documentación link:https://docs.netapp.com/us-en/snapcenter/protect-sco/concept_what_you_can_do_with_the_snapcenter_plug_in_for_oracle_database.html["Qué puede hacer con el plugin para base de datos de Oracle"^]. A continuación, se describen pasos generales para configurar SnapCenter para el backup, la recuperación y la clonación de la base de datos de Oracle.
 
@@ -1516,7 +1516,7 @@ NOTE: Asegúrese de que el nombre del servidor SnapCenter se pueda resolver en l
 
 ==== Backup de bases de datos
 
-[%collapsible]
+[%collapsible%open]
 ====
 SnapCenter aprovecha la tecnología Snapshot de volumen de FSx ONTAP para obtener backups, restauraciones o clones de bases de datos mucho más rápidos en comparación con la metodología tradicional basada en RMAN. Las copias Snapshot son coherentes con las aplicaciones, ya que se pone en modo de backup de Oracle antes de realizar una copia de Snapshot.
 
@@ -1551,7 +1551,7 @@ image:aws_ora_fsx_vmc_snapctr_11.png["Captura de pantalla que muestra la configu
 
 ==== Recuperación de bases de datos
 
-[%collapsible]
+[%collapsible%open]
 ====
 SnapCenter ofrece diversas opciones de restauración y recuperación para bases de datos de Oracle a partir de un backup de snapshots. En este ejemplo, demostramos una restauración punto en el tiempo para recuperar una tabla borrada por error. En VM ora_02, dos bases de datos cdb3, cdb4 comparten los mismos grupos de discos de +DATA y +LOGS. La restauración de base de datos de una base de datos no afecta a la disponibilidad de otra base de datos.
 
@@ -1748,7 +1748,7 @@ SQL>
 
 ==== Clon de la base de datos
 
-[%collapsible]
+[%collapsible%open]
 ====
 En este ejemplo, se utilizan los mismos conjuntos de backup para clonar una base de datos en el mismo equipo virtual en un ORACLE_HOME diferente. Los procedimientos son igualmente aplicables para clonar una base de datos desde el backup a separar la máquina virtual en VMC si es necesario.
 

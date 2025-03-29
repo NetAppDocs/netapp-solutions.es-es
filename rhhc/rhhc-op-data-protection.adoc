@@ -14,7 +14,7 @@ summary:
 
 
 [role="lead"]
-Esta página muestra las opciones de protección de datos para aplicaciones basadas en contenedores Red Hat OpenShift que se ejecutan en VMware vSphere mediante Astra Control Center (ACC).
+Esta página muestra las opciones de protección de datos para aplicaciones basadas en contenedores Red Hat OpenShift que se ejecutan en VMware vSphere mediante Trident Protect (ACC).
 
 A medida que los usuarios realizan el proceso de modernización de sus aplicaciones con Red Hat OpenShift, debe implementarse una estrategia de protección de datos para protegerlos de la eliminación accidental o de cualquier otro error humano. A menudo, también es necesaria una estrategia de protección para los fines normativos o de cumplimiento de normativas con el fin de proteger sus datos contra un diaster.
 
@@ -34,13 +34,13 @@ Se puede capturar una copia puntual de los datos mediante Snapshot con ACC. La p
 
 === Configuración de instantánea con ACC
 
-image:rhhc-onprem-dp-snap.png["Vista de snapshot de Astra Control Center"]
+image:rhhc-onprem-dp-snap.png["Vista Trident Protect Snapshot"]
 
 
 
 == Copia de seguridad y restauración con ACC
 
-Un backup se basa en una snapshot. ACC puede realizar copias Snapshot mediante CSI y realizar backups utilizando la copia snapshot puntual. El backup se almacena en un almacén de objetos externo (cualquier compatible con S3, incluido ONTAP S3 en una ubicación diferente). La política de protección puede configurarse para los backups programados y la cantidad de versiones de backup que deben conservarse. El objetivo de punto de recuperación mínimo es de una hora.
+Un backup se basa en una snapshot. Trident Protect puede realizar copias Snapshot mediante CSI y realizar backups utilizando la copia snapshot de un momento específico. El backup se almacena en un almacén de objetos externo (cualquier compatible con S3, incluido ONTAP S3 en una ubicación diferente). La política de protección puede configurarse para los backups programados y la cantidad de versiones de backup que deben conservarse. El objetivo de punto de recuperación mínimo es de una hora.
 
 
 
@@ -48,7 +48,7 @@ Un backup se basa en una snapshot. ACC puede realizar copias Snapshot mediante C
 
 ACC restaura la aplicación desde el bloque de S3, donde se almacenan los backups.
 
-image:rhhc-onprem-dp-br.png["Opción de restauración de Astra Control Center"]
+image:rhhc-onprem-dp-br.png["Trident Protect Restore"]
 
 
 
@@ -64,13 +64,13 @@ https://github.com/NetApp/Verda["Proyecto Verda GitHub de NetApp"] proporciona g
 
 == Enlace de ejecución de ejemplo para la instantánea previa de una aplicación de redis.
 
-image:rhhc-onprem-dp-br-hook.png["Gancho de ejecución de Astra Control Center"]
+image:rhhc-onprem-dp-br-hook.png["Gancho de ejecución de Trident Protect"]
 
 
 
 == Replicación con ACC
 
-Para la protección regional o para una solución de objetivo de punto de recuperación y objetivo de tiempo de recuperación bajos, una aplicación se puede replicar en otra instancia de Kubernetes que se ejecute en otro sitio, preferiblemente en otra región. ACC utiliza SnapMirror asíncrono de ONTAP con un objetivo de punto de recuperación mínimo de 5 minutos. La replicación se realiza mediante la replicación en ONTAP y, a continuación, una conmutación por error crea los recursos de Kubernetes en el clúster de destino.
+Para la protección regional o para una solución de objetivo de punto de recuperación y objetivo de tiempo de recuperación bajos, una aplicación se puede replicar en otra instancia de Kubernetes que se ejecute en otro sitio, preferiblemente en otra región. Trident Protect utiliza SnapMirror asíncrono de ONTAP con objetivo de punto de recuperación, solo 5 minutos. La replicación se realiza mediante la replicación en ONTAP y, a continuación, una conmutación por error crea los recursos de Kubernetes en el clúster de destino.
 
 
 NOTE: Tenga en cuenta que la replicación es diferente de la copia de seguridad y restauración donde la copia de seguridad va a S3 y la restauración se realiza a partir de S3. Consulte el enlace https://docs.netapp.com/us-en/astra-control-center/concepts/data-protection.html#replication-to-a-remote-cluster[here] para obtener detalles adicionales sobre las diferencias entre los dos tipos de protección de datos.
@@ -81,7 +81,7 @@ Consulte link:https://docs.netapp.com/us-en/astra-control-center/use/replicate_s
 
 === SnapMirror con ACC
 
-image:rhhc-onprem-dp-rep.png["Replicación de Astra Control Center"]
+image:rhhc-onprem-dp-rep.png["La replicación protege con Trident"]
 
 
 NOTE: los controladores de almacenamiento san y nas económicos no admiten la función de replicación. Consulte link:https://docs.netapp.com/us-en/astra-control-center/get-started/requirements.html#astra-trident-requirements["aquí"] para obtener más detalles.
@@ -90,9 +90,9 @@ NOTE: los controladores de almacenamiento san y nas económicos no admiten la fu
 
 === Vídeo de demostración:
 
-link:https://www.netapp.tv/details/29504?mcid=35609780286441704190790628065560989458["Vídeo de demostración de la recuperación de desastres con Astra Control Center"]
+link:https://www.netapp.tv/details/29504?mcid=35609780286441704190790628065560989458["Vídeo de demostración de recuperación ante desastres con Trident Protect"]
 
-.Protección de datos con Astra Control Center
+.Protección de datos con Trident Protect
 video::0cec0c90-4c6f-4018-9e4f-b09700eefb3a[panopto,width=360]
 
 
@@ -109,4 +109,4 @@ image:rhhc-onprem-dp-bc.png["Solución de continuidad de negocio con MetroCluste
 
 TIP: Para la configuración del back-end de Trident (TBC), no especifique la LIF de datos ni la SVM cuando se utilice la configuración de MetroCluster. Especifique la IP de gestión de SVM para la LIF de gestión y utilice las credenciales de rol vsadmin.
 
-Hay disponible más información sobre las funciones de protección de datos de Astra Control Center link:https://docs.netapp.com/us-en/astra-control-center/concepts/data-protection.html["aquí"]
+Hay disponible más información sobre las funciones de protección de datos de Trident Protect link:https://docs.netapp.com/us-en/astra-control-center/concepts/data-protection.html["aquí"]

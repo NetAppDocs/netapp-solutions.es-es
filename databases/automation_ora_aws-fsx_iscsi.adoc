@@ -137,7 +137,7 @@ Las siguientes secciones proporcionan procedimientos paso a paso para la impleme
 
 === Requisitos previos para la implementación
 
-[%collapsible]
+[%collapsible%open]
 ====
 La implementación requiere los siguientes requisitos previos.
 
@@ -185,7 +185,7 @@ video::81e389a0-d9b8-495c-883b-b0d701710847[panopto,width=360]
 
 === Archivos de parámetros de automatización
 
-[%collapsible]
+[%collapsible%open]
 ====
 Ansible playbook ejecuta las tareas de instalación y configuración de la base de datos con parámetros predefinidos. Para esta solución de automatización de Oracle, hay tres archivos de parámetros definidos por el usuario que necesitan entrada de usuario antes de ejecutar playbook.
 
@@ -201,7 +201,7 @@ Además de estos archivos de variables definidos por el usuario, hay varios arch
 
 === Configuración de archivos de parámetros
 
-[%collapsible]
+[%collapsible%open]
 ====
 . Destino de Ansible `hosts` configuración de archivo:
 +
@@ -277,7 +277,7 @@ memory_limit: 8192
 
 === Ejecución de PlayBook
 
-[%collapsible]
+[%collapsible%open]
 ====
 El kit de herramientas de automatización incluye un total de seis libros de estrategia. Cada uno realiza diferentes bloques de tareas y sirve para diferentes propósitos.
 
@@ -352,7 +352,7 @@ ansible-playbook -i hosts 5-destroy.yml -u ec2-user -e @vars/vars.yml
 
 === Validación posterior a la ejecución
 
-[%collapsible]
+[%collapsible%open]
 ====
 Después de ejecutar la tableta playbook, conéctese al servidor de base de datos Oracle como usuario oracle para validar que la infraestructura y la base de datos de grid de Oracle se han creado correctamente. A continuación se muestra un ejemplo de validación de base de datos de Oracle en el host ora_01.
 
@@ -574,7 +574,7 @@ image:automation_ora_aws-fsx_iscsi_em_01.png["Esta imagen proporciona una pantal
 
 === Backup, restauración y clonado de Oracle con SnapCenter
 
-[%collapsible]
+[%collapsible%open]
 ====
 Consulte TR-4979 link:aws_ora_fsx_vmc_guestmount.html#oracle-backup-restore-and-clone-with-snapcenter["Oracle simplificado y autogestionado en VMware Cloud on AWS con FSx ONTAP montado en invitado"^] sección `Oracle backup, restore, and clone with SnapCenter` Para obtener detalles sobre cómo configurar SnapCenter y ejecutar los flujos de trabajo de backup, restauración y clonado de base de datos.
 

@@ -1,0 +1,348 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-vcf-mgmt-nfs.html 
+keywords: netapp, vmware, cloud, foundation, vcf, aff, all-flash, nfs, array, ontap tools, otv, sddc, sddc manager, ontap tools, ontap tools 10 
+summary:  
+---
+= Convierta la instancia de vCenter (almacén de datos NFS) en dominio de gestión de VCF
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Con el lanzamiento de VMware Virtual Cloud Foundation (VCF) se incluye la capacidad de convertir clústeres de vSphere 8 existentes en dominios de gestión de VCF e importar clústeres adicionales como dominios de carga de trabajo de VCF VI.
+
+
+
+== Introducción
+
+La conversión de un clúster, con un almacén de datos NFS existente que se ejecuta en ONTAP, implica integrar la infraestructura existente en una arquitectura de cloud privado moderna. Este proceso aprovecha la flexibilidad del almacenamiento NFS para garantizar una gestión y un acceso de los datos perfectos. Después de establecer un dominio de gestión de VCF mediante el proceso de conversión, los administradores pueden importar eficientemente clústeres de vSphere adicionales, incluidos los que utilizan almacenes de datos NFS, al ecosistema VCF. Esta integración no solo mejora la utilización de recursos sino que también simplifica la gestión de la infraestructura de cloud privado, lo que garantiza una transición fluida con una interrupción mínima en las cargas de trabajo existentes.
+
+En esta solución, mostraremos cómo un almacén de datos NFS en vSphere 8 se convierte en almacenamiento principal cuando el cluster se convierte en dominio de gestión VCF.
+
+
+
+== Descripción general del escenario
+
+Este escenario cubre los siguientes pasos de alto nivel:
+
+* Ponga en marcha herramientas de ONTAP para VMware vSphere 10.
+* Aprovisionar un almacén de datos NFS con herramientas de ONTAP.
+* Utilice la herramienta de importación VCF para validar el clúster de vSphere.
+* Ponga en marcha el administrador de SDDC en el clúster de vSphere.
+* Configure un archivo JSON para crear NSX durante la conversión de VCF.
+* Use la herramienta de importación de VCF para convertir el clúster de vSphere 8 a VCF 5,2.
+
+
+
+
+== Requisitos previos
+
+Este escenario requiere los siguientes componentes y configuraciones:
+
+* Sistema de almacenamiento de NetApp AFF con una máquina virtual de almacenamiento (SVM) configurada para permitir el tráfico de NFS.
+* La interfaz lógica (LIF) se ha creado en la red IP que es para transportar el tráfico NFS y está asociada con la SVM.
+* Un clúster de vSphere 8 con 4 hosts ESXi y un dispositivo vCenter ubicado en el clúster.
+* Grupo de puertos distribuidos configurado para el tráfico de almacenamiento de vMotion y NFS en las VLAN o los segmentos de red establecidos para este fin.
+* Descargue el software necesario para la conversión VCF.
+
+
+Las herramientas de ONTAP para VMware vSphere 10 se pueden instalar tanto en configuraciones de alta disponibilidad como no de alta disponibilidad. Para obtener información completa sobre los requisitos previos para las herramientas de ONTAP, consulte https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/deploy/prerequisites.html#system-requirements["Requisitos previos para la implementación de las herramientas de ONTAP para VMware vSphere"] .
+
+Para obtener información sobre el almacenamiento compatible y otras consideraciones para convertir o importar vSphere a VCF 5,2, consulte https://techdocs.broadcom.com/fr/fr/vmware-cis/vcf/vcf-5-2-and-earlier/5-2/considerations-before-converting-or-importing-existing-vsphere-environments-into-vcf.html["Consideraciones antes de convertir o importar entornos vSphere existentes a VMware Cloud Foundation"] .
+
+Para obtener el software necesario, vaya a la https://support.broadcom.com/["Portal de soporte de Broadcom"].
+
+Para obtener información acerca de la configuración de los sistemas de almacenamiento ONTAP, consulte la link:https://docs.netapp.com/us-en/ontap["Documentación de ONTAP 9"] centro.
+
+Para obtener información sobre la configuración de VCF, consulte link:https://techdocs.broadcom.com/us/en/vmware-cis/vcf.html["Documentación de VMware Cloud Foundation"].
+
+
+
+== Pasos de despliegue
+
+La solución cubre el uso de herramientas ONTAP para VMware vSphere para aprovisionar almacenes de datos NFS y el proceso de convertir un clúster de vSphere 8 existente en un dominio de gestión de VCF.
+
+Complete los siguientes pasos:
+
+* Ponga en marcha herramientas de ONTAP para VMware vSphere 10.
+* Aprovisionar un almacén de datos NFS con herramientas de ONTAP.
+* Copie la herramienta de importación VCF en el dispositivo vCenter.
+* Ejecute una comprobación previa en el dispositivo vCenter con la herramienta de importación VCF.
+* Ponga en marcha el equipo virtual del administrador de SDDC en el clúster de vCenter.
+* Cree un archivo JSON para que se despliegue un clúster NSX durante el proceso de conversión.
+* Cargue el software necesario en el gestor de SDDC.
+* Convierta el clúster de vSphere en el inventario de SDDC Manager.
+
+
+Para obtener una descripción general del proceso de conversión, consulte https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-5-2-and-earlier/5-2/map-for-administering-vcf-5-2/importing-existing-vsphere-environments-admin/convert-or-import-a-vsphere-environment-into-vmware-cloud-foundation-admin.html["Convierta un entorno vSphere en un dominio de gestión o importe un entorno vSphere como dominio de carga de trabajo VI en VMware Cloud Foundation"] .
+
+
+
+=== Ponga en marcha herramientas de ONTAP y aprovisione un almacén de datos NFS
+
+La arquitectura de herramientas de ONTAP 10 está diseñada para integrarse perfectamente con entornos VMware, aprovechando un marco modular y escalable que incluye los servicios de herramientas de ONTAP, complemento vSphere y API DE REST para permitir una gestión del almacenamiento, automatización y protección de datos eficientes.
+
+Las herramientas de ONTAP para VMware vSphere 10 se pueden instalar tanto en configuraciones de alta disponibilidad como no de alta disponibilidad.
+
+image:vmware-vcf-import-nfs-10.png["Arquitectura de herramientas de ONTAP"]
+
+.Ponga en marcha herramientas de ONTAP para VMware vSphere 10
+[%collapsible%open]
+====
+En este paso, se pone en marcha ONTAP Tools 10 con una configuración que no es de alta disponibilidad.
+
+Para obtener más información sobre la puesta en marcha sobre configuraciones de alta disponibilidad y no alta disponibilidad, consulte https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/deploy/ontap-tools-deployment.html["Ponga en marcha herramientas de ONTAP para VMware vSphere"] .
+
+. Descargue la plantilla de OVA de ONTAP TOOLS 10 desde el https://mysupport.netapp.com/site/["Sitio de soporte de NetApp"].
+. En el cliente vSphere, haga clic con el botón derecho en el clúster y haga clic en *Implementar plantilla OVF*
++
+image:vmware-vcf-import-nfs-01.png["Despliegue la plantilla OVF"]
+
++
+{nbsp}
+
+. En la plantilla *Deploy OVF* complete los pasos para:
++
+** Seleccione una plantilla OVF.
+** Seleccione un nombre y una carpeta.
+** Seleccione un recurso de computación.
+** Detalles de revisión.
+** Acepte el acuerdo de licencia.
+
+
+. En la página *Configuración* de la plantilla, seleccione el tipo de implementación que incluye si desea implementar las herramientas de ONTAP en una configuración HA. Haga clic en *Siguiente* para continuar.
++
+image:vmware-vcf-import-nfs-02.png["configuración: tipo de despliegue"]
+
++
+{nbsp}
+
+. En la página *Seleccionar almacenamiento*, elija el almacén de datos en el que instalar la VM y haga clic en *Siguiente*.
+. Seleccione la red en la que se comunicará la VM de herramientas de ONTAP. Haga clic en *Siguiente* para continuar.
+. En la ventana «Personalizar plantilla», rellene toda la información obligatoria.
++
+** Nombre de usuario y contraseña de la aplicación
+** Elija si desea habilitar ASUP (soporte automático), incluida una URL proxy.
+** Nombre de usuario y contraseña del administrador.
+** Servidores NTP.
+** Nombre de usuario y contraseña de mantenimiento (cuenta de mantenimiento utilizada en la consola).
+** Proporcione las direcciones IP requeridas para la configuración de implementación.
+** Proporcione toda la información de red para la configuración del nodo.
++
+image:vmware-vcf-import-nfs-03.png["Personalizar plantilla"]
+
++
+{nbsp}
+
+
+
+. Finalmente, haga clic en *Siguiente* para continuar y luego en *Finalizar* para comenzar la implementación.
+
+
+====
+.Configure las herramientas de ONTAP
+[%collapsible%open]
+====
+Una vez que el equipo virtual de ONTAP Tools está instalado y encendido, será necesario configurar algo básico, como añadir servidores vCenter y sistemas de almacenamiento ONTAP para gestionar. Consulte la documentación en https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/index.html["Documentación de las herramientas de ONTAP para VMware vSphere"] para obtener información más detallada.
+
+. Consulte https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/add-vcenter.html["Añada instancias de vCenter"] para configurar las instancias de vCenter que se van a gestionar con herramientas de ONTAP.
+. Para añadir un sistema de almacenamiento de ONTAP, inicie sesión en el cliente de vSphere y desplácese al menú principal de la izquierda. Haga clic en *NetApp ONTAP tools* para iniciar la interfaz de usuario.
++
+image:vmware-vcf-import-nfs-04.png["Abra las herramientas de ONTAP"]
+
++
+{nbsp}
+
+. Navega a *Storage Backends* en el menú de la izquierda y haz clic en *Add* para acceder a la ventana *Add Storage Backend*.
+. Rellene la dirección IP y las credenciales del sistema de almacenamiento de ONTAP que se va a gestionar. Haga clic en *Add* para finalizar.
++
+image:vmware-vcf-import-nfs-05.png["Añadir back-end de almacenamiento"]
+
+
+
+
+NOTE: Aquí, el back-end de almacenamiento se añade en la interfaz de usuario del cliente de vSphere mediante la dirección IP del clúster. Esto permite la gestión completa en todas las SVM del sistema de almacenamiento. Como alternativa, el back-end de almacenamiento se puede añadir y asociar con una instancia de vCenter mediante ONTAP tools Manager en `https://loadBalanceIP:8443/virtualization/ui/`. Con este método solo se pueden añadir credenciales de SVM en la interfaz de usuario del cliente de vSphere, lo que ofrece un control más granular sobre el acceso al almacenamiento.
+
+====
+.Aprovisionar el almacén de datos NFS con herramientas de ONTAP
+[%collapsible%open]
+====
+Las herramientas de ONTAP integran la funcionalidad en toda la interfaz de usuario del cliente de vSphere. En este paso, se aprovisionará un almacén de datos NFS desde la página del inventario de almacenamiento.
+
+. En el cliente de vSphere, desplácese hasta el inventario de almacenamiento.
+. Vaya a *ACCIONES > HERRAMIENTAS NetApp ONTAP > Crear almacén de datos*.
++
+image:vmware-vcf-import-nfs-06.png["Cree el almacén de datos"]
+
++
+{nbsp}
+
+. En el asistente *Create Datastore*, seleccione el tipo de almacén de datos que desea crear. Las opciones son NFS o VMFS.
+. En la página *Name and Protocol*, introduzca un nombre para el almacén de datos, el tamaño y el protocolo NFS que se va a utilizar.
++
+image:vmware-vcf-import-nfs-07.png["Nombre y protocolo"]
+
++
+{nbsp}
+
+. En la página *Almacenamiento*, seleccione la plataforma de almacenamiento ONTAP y la máquina virtual de almacenamiento (SVM). También puede seleccionar cualquier política de exportación personalizada disponible aquí. Haga clic en *Siguiente* para continuar.
++
+image:vmware-vcf-import-nfs-08.png["Página de almacenamiento"]
+
++
+{nbsp}
+
+. En la página *Atributos de almacenamiento*, seleccione el agregado de almacenamiento que se va a utilizar. Haga clic en *Siguiente* para continuar.
+. En la página *Resumen*, revise la información y haga clic en *Finalizar* para comenzar el proceso de aprovisionamiento. Las herramientas de ONTAP crean un volumen en el sistema de almacenamiento ONTAP y lo montan como almacén de datos NFS en todos los hosts ESXi del clúster.
++
+image:vmware-vcf-import-nfs-09.png["Resumen"]
+
+
+
+====
+
+
+=== Convierta el clúster de vSphere en VCF 5,2
+
+En la siguiente sección se tratan los pasos para implementar el administrador de SDDC y convertir el clúster de vSphere 8 en un dominio de gestión de VCF 5,2. Cuando sea necesario, se consultará la documentación de VMware para obtener más información.
+
+La herramienta de importación VCF de VMware by Broadcom es una utilidad que se utiliza tanto en el dispositivo vCenter como en el administrador SDDC para validar las configuraciones y proporcionar servicios de conversión e importación para entornos vSphere y VCF.
+
+Para obtener más información, consulte https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-5-2-and-earlier/5-2/map-for-administering-vcf-5-2/importing-existing-vsphere-environments-admin/vcf-import-tool-options-and-parameters-admin.html["Opciones y parámetros de la herramienta de importación de VCF"].
+
+.Copiar y extraer la herramienta de importación VCF
+[%collapsible%open]
+====
+Las herramientas de importación de VCF se usan en el dispositivo vCenter para validar que el clúster de vSphere esté en buen estado para el proceso de importación o conversión de VCF.
+
+Complete los siguientes pasos:
+
+. Siga los pasos de https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-5-2-and-earlier/5-2/copy-the-vcf-import-tool-to-the-target-vcenter-appliance.html["Copie la herramienta de importación de VCF en la aplicación vCenter de destino"] en VMware Docs para copiar la herramienta de importación de VCF en la ubicación correcta.
+. Extraiga el paquete mediante el siguiente comando:
++
+....
+tar -xvf vcf-brownfield-import-<buildnumber>.tar.gz
+....
+
+
+====
+.Valide el dispositivo vCenter
+[%collapsible%open]
+====
+Utilice la herramienta VCF Import para validar el dispositivo vCenter antes de la conversión.
+
+. Siga los pasos indicados en https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-5-2-and-earlier/5-2/run-a-precheck-on-the-target-vcenter-before-conversion.html["Ejecute una comprobación previa en el vCenter de destino antes de la conversión"] para ejecutar la validación.
+. El resultado siguiente muestra que el dispositivo de vCenter ha superado la comprobación previa.
++
+image:vmware-vcf-import-nfs-11.png["comprobación previa de la herramienta de importación vcf"]
+
+
+
+====
+.Implemente SDDC Manager
+[%collapsible%open]
+====
+El administrador de SDDC debe estar ubicado en el clúster de vSphere que se convertirá en un dominio de gestión de VCF.
+
+Siga las instrucciones de puesta en marcha que encontrará en VMware Docs para completar la puesta en marcha.
+
+Consulte https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-5-2-and-earlier/5-2/deploy-the-sddc-manager-appliance-on-the-target-vcenter.html["Implemente el dispositivo SDDC Manager en la instancia de vCenter de destino"].
+
+Para obtener más información, consulte link:https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-5-2-and-earlier/5-1/commission-hosts.html["Anfitriones de comisión"] en la Guía de administración de VCF.
+
+====
+.Cree un archivo JSON para el despliegue de NSX
+[%collapsible%open]
+====
+Para implementar NSX Manager al importar o convertir un entorno vSphere en VMware Cloud Foundation, cree una especificación de implementación de NSX. La puesta en marcha de NSX requiere un mínimo de 3 hosts.
+
+
+NOTE: Al implementar un clúster de NSX Manager en una operación de conversión o importación, se utiliza la red NSX-VLAN. Para obtener más información sobre las limitaciones de la red NSX-VLAN, consulte la sección «Consideraciones antes de convertir o importar entornos vSphere existentes en VMware Cloud Foundation». Para obtener información sobre las limitaciones de red NSX-VLAN, consulte https://techdocs.broadcom.com/fr/fr/vmware-cis/vcf/vcf-5-2-and-earlier/5-2/considerations-before-converting-or-importing-existing-vsphere-environments-into-vcf.html["Consideraciones antes de convertir o importar entornos vSphere existentes a VMware Cloud Foundation"] .
+
+A continuación se muestra un ejemplo de un archivo JSON para la implementación de NSX:
+
+....
+{
+  "license_key": "xxxxx-xxxxx-xxxxx-xxxxx-xxxxx",
+  "form_factor": "medium",
+  "admin_password": "NetApp!23456789",
+  "install_bundle_path": "/tmp/vcfimport/bundle-133764.zip",
+  "cluster_ip": "172.21.166.72",
+  "cluster_fqdn": "vcf-m02-nsx01.sddc.netapp.com",
+  "manager_specs": [{
+    "fqdn": "vcf-m02-nsx01a.sddc.netapp.com",
+    "name": "vcf-m02-nsx01a",
+    "ip_address": "172.21.166.73",
+    "gateway": "172.21.166.1",
+    "subnet_mask": "255.255.255.0"
+  },
+  {
+    "fqdn": "vcf-m02-nsx01b.sddc.netapp.com",
+    "name": "vcf-m02-nsx01b",
+    "ip_address": "172.21.166.74",
+    "gateway": "172.21.166.1",
+    "subnet_mask": "255.255.255.0"
+  },
+  {
+    "fqdn": "vcf-m02-nsx01c.sddc.netapp.com",
+    "name": "vcf-m02-nsx01c",
+    "ip_address": "172.21.166.75",
+    "gateway": "172.21.166.1",
+    "subnet_mask": "255.255.255.0"
+  }]
+}
+....
+Copie el archivo JSON en un directorio del Administrador de SDDC.
+
+====
+.Cargue el software en SDDC Manager
+[%collapsible%open]
+====
+Copie la herramienta de importación de VCF y el paquete de implementación de NSX en el directorio /home/vcf/vcfimport en el administrador de SDDC.
+
+Consulte https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-5-2-and-earlier/5-2/seed-software-on-sddc-manager.html["Cargue el software necesario en el dispositivo SDDC Manager"] para obtener instrucciones detalladas.
+
+====
+.Convierta el clúster de vSphere en un dominio de gestión de VCF
+[%collapsible%open]
+====
+La herramienta de importación de VCF se utiliza para llevar a cabo el proceso de conversión. Ejecute el siguiente comando desde el directorio /home/vcf/vcf-import-package/vcf-brownfield-import-<version>/vcf-brownfield-Toolset para revisar una impresión de las funciones de la herramienta de importación VCF:
+
+....
+python3 vcf_brownfield.py --help
+....
+El siguiente comando se ejecuta para convertir el clúster de vSphere en un dominio de gestión de VCF e implementar el clúster NSX:
+
+....
+python3 vcf_brownfield.py convert --vcenter '<vcenter-fqdn>' --sso-user '<sso-user>' --domain-name '<wld-domain-name>' --nsx-deployment-spec-path '<nsx-deployment-json-spec-path>'
+....
+Para obtener instrucciones completas, consulte https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-5-2-and-earlier/5-2/import-workload-domain-into-sddc-manager-inventory.html["Convierta o importe el entorno de vSphere en el inventario de SDDC Manager"] .
+
+====
+.Añada una licencia a VCF
+[%collapsible%open]
+====
+Después de completar la conversión, la licencia debe agregarse al entorno.
+
+. Inicie sesión en la interfaz de usuario de SDDC Manager.
+. Vaya a *Administration > Licensing* en el panel de navegación.
+. Haga clic en *+ Clave de licencia*.
+. Elija un producto del menú desplegable.
+. Introduzca la clave de licencia.
+. Proporcione una descripción de la licencia.
+. Haga clic en *Agregar*.
+. Repita estos pasos para cada licencia.
+
+
+====
+
+
+== Vídeo de demostración de las herramientas de ONTAP para VMware vSphere 10
+
+.Almacén de datos NFS con herramientas ONTAP para VMware vSphere 10
+video::1e4c3701-0bc2-41fa-ac93-b2680147f351[panopto,width=360]

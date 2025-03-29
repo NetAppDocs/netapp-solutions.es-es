@@ -114,7 +114,7 @@ En la siguiente sección se proporcionan procedimientos de puesta en marcha paso
 
 === Requisitos previos para la implementación
 
-[%collapsible]
+[%collapsible%open]
 ====
 La implementación requiere los siguientes requisitos previos.
 
@@ -136,7 +136,7 @@ NOTE: Asegúrese de haber asignado al menos 50g en el volumen raíz de la instan
 
 === Configuración del kernel de la instancia de EC2
 
-[%collapsible]
+[%collapsible%open]
 ====
 Con los requisitos previos aprovisionados, inicie sesión en la instancia de EC2 como usuario EC2 y sudo como usuario root para configurar el núcleo de Linux para la instalación de Oracle.
 
@@ -277,7 +277,7 @@ systemctl disable firewalld
 
 === Aprovisione y asigne volúmenes de base de datos y LUN al host de la instancia de EC2
 
-[%collapsible]
+[%collapsible%open]
 ====
 Aprovisionar tres volúmenes desde la línea de comandos iniciando sesión en el clúster FSx a través de ssh como usuario fsxadmin con la IP de administración de clúster de FSx para alojar los archivos binarios, de datos y de registros de la base de datos de Oracle.
 
@@ -369,7 +369,7 @@ svm_ora    /vol/ora_01_logs/ora_01_logs_02           ora_01        6  iscsi
 
 === Configuración de almacenamiento de base de datos
 
-[%collapsible]
+[%collapsible%open]
 ====
 Ahora, importe y configure el almacenamiento FSX para la instalación de la base de datos y la infraestructura de grid de Oracle en el host de la instancia de EC2.
 
@@ -640,7 +640,7 @@ systemctl restart multipathd
 
 === Instalación de la infraestructura Grid de Oracle
 
-[%collapsible]
+[%collapsible%open]
 ====
 . Inicie sesión en la instancia de EC2 como usuario de ec2 a través de SSH y habilite la autenticación de contraseñas sin comentarios `PasswordAuthentication yes` y después comentar `PasswordAuthentication no`.
 +
@@ -818,7 +818,7 @@ ASMCMD-9526: The AFD state is 'LOADED' and filtering is 'ENABLED' on host 'ip-17
 
 === Instalación de bases de datos de Oracle
 
-[%collapsible]
+[%collapsible%open]
 ====
 . Inicie sesión como usuario de Oracle y desconéctese `$ORACLE_HOME` y.. `$ORACLE_SID` si está configurado.
 +

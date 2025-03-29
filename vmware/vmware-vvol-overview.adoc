@@ -14,7 +14,13 @@ summary:
 
 
 [role="lead"]
-VMware Virtual Volumes (vVols) hace posible que los requisitos específicos de las aplicaciones dirijan las decisiones de aprovisionamiento de almacenamiento al tiempo que se aprovecha el amplio conjunto de funcionalidades que proporcionan los arrays de almacenamiento. La API de vSphere for Storage Awareness (VASA) facilita que un administrador de máquinas virtuales utilice cualquier capacidad de almacenamiento necesaria para aprovisionar máquinas virtuales sin tener que interactuar con su equipo de almacenamiento. Antes de VASA, los administradores de máquinas virtuales podían definir políticas de almacenamiento de máquinas virtuales, pero debían trabajar con sus administradores de almacenamiento para identificar los almacenes de datos adecuados, a menudo mediante la documentación o las convenciones de nomenclatura. Con VASA, los administradores de vCenter con los permisos adecuados pueden definir una serie de funcionalidades de almacenamiento que los usuarios de vCenter pueden usar luego para aprovisionar máquinas virtuales. La asignación entre la política de almacenamiento de las máquinas virtuales y el perfil de funcionalidades de almacenamiento de almacenes de datos permite a vCenter mostrar una lista de almacenes de datos compatibles para su selección, además de permitir que otras tecnologías, como Aria (antes conocida como vRealize) Automation o Tanzu Kubernetes Grid, seleccionen automáticamente el almacenamiento de una política asignada. Este enfoque se conoce como gestión basada en políticas de almacenamiento. Si bien las políticas y perfiles de la capacidad de almacenamiento también se pueden utilizar con almacenes de datos tradicionales, nuestro enfoque se centra en los almacenes de datos vVols. El proveedor VASA para ONTAP se incluye como parte de las herramientas de ONTAP para VMware vSphere.
+VMware Virtual Volumes (vVols) hace posible que los requisitos específicos de las aplicaciones dirijan las decisiones de aprovisionamiento de almacenamiento al tiempo que se aprovecha el amplio conjunto de funcionalidades que proporcionan los arrays de almacenamiento.
+
+
+
+== Descripción general
+
+La API de vSphere for Storage Awareness (VASA) facilita que un administrador de máquinas virtuales utilice cualquier capacidad de almacenamiento necesaria para aprovisionar máquinas virtuales sin tener que interactuar con su equipo de almacenamiento. Antes de VASA, los administradores de máquinas virtuales podían definir políticas de almacenamiento de máquinas virtuales, pero debían trabajar con sus administradores de almacenamiento para identificar los almacenes de datos adecuados, a menudo mediante la documentación o las convenciones de nomenclatura. Con VASA, los administradores de vCenter con los permisos adecuados pueden definir una serie de funcionalidades de almacenamiento que los usuarios de vCenter pueden usar luego para aprovisionar máquinas virtuales. La asignación entre la política de almacenamiento de las máquinas virtuales y el perfil de funcionalidades de almacenamiento de almacenes de datos permite a vCenter mostrar una lista de almacenes de datos compatibles para su selección, además de permitir que otras tecnologías, como Aria (antes conocida como vRealize) Automation o Tanzu Kubernetes Grid, seleccionen automáticamente el almacenamiento de una política asignada. Este enfoque se conoce como gestión basada en políticas de almacenamiento. Si bien las políticas y perfiles de la capacidad de almacenamiento también se pueden utilizar con almacenes de datos tradicionales, nuestro enfoque se centra en los almacenes de datos vVols. El proveedor VASA para ONTAP se incluye como parte de las herramientas de ONTAP para VMware vSphere.
 
 Las ventajas de tener un proveedor VASA fuera de la cabina de almacenamiento incluyen:
 
@@ -84,7 +90,9 @@ Virtual Volumes de VMware (vVols) ofrece los siguientes beneficios:
 
 El entorno de estructura doble se suele recomendar para que las redes de almacenamiento aborden la alta disponibilidad, el rendimiento y la tolerancia a fallos. Los vVols son compatibles con iSCSI, FC, NFSv3 GbE y NVMe/FC. NOTA: Consulte link:https://imt.netapp.com/matrix["Herramienta de matriz de interoperabilidad (IMT)"] la versión compatible de la herramienta ONTAP
 
-La opción de conectividad sigue siendo consistente con las opciones de almacén de datos VMFS o NFS. A continuación se muestra un ejemplo de red vSphere de referencia para iSCSI y NFS. image:vmware-vvol-overview-image03.png["Red iSCSI"]
+La opción de conectividad sigue siendo consistente con las opciones de almacén de datos VMFS o NFS. A continuación se muestra un ejemplo de red vSphere de referencia para iSCSI y NFS.
+
+image:vmware-vvol-overview-image03.png["Red iSCSI"]
 
 image:vmware-vvol-overview-image04.png["Red NFS"]
 

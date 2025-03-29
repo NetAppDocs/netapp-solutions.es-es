@@ -137,7 +137,7 @@ Se asume que ya tiene su base de datos Oracle principal implementada en un entor
 
 === Requisitos previos para la implementación
 
-[%collapsible]
+[%collapsible%open]
 ====
 La implementación requiere los siguientes requisitos previos.
 
@@ -177,7 +177,7 @@ Compruebe que se han establecido los flujos de tráfico (haga clic en tres punto
 
 === Configuración primaria de Oracle VLDB para Data Guard
 
-[%collapsible]
+[%collapsible%open]
 ====
 En esta demostración, hemos configurado una base de datos Oracle primaria denominada NTAP en el servidor de la base de datos Azure primario con seis puntos de montaje NFS: /u01 para el binario de Oracle, /u02, /u04, /u05, /u06 para los archivos de datos de Oracle, y un archivo de control de Oracle, /u03 para los registros activos de Oracle, los archivos archive log y un archivo de control redundante de Oracle. Esta configuración sirve como configuración de referencia. Su puesta en marcha real debe tener en cuenta sus necesidades y requisitos específicos en términos de dimensionamiento del pool de capacidad, el nivel de servicio, el número de volúmenes de base de datos y el ajuste de tamaño de cada volumen.
 
@@ -505,7 +505,7 @@ Con esto finaliza la demostración de una configuración de Data Guard para VLDB
 
 === Configuración de Oracle VLDB en espera para Data Guard
 
-[%collapsible]
+[%collapsible%open]
 ====
 Oracle Data Guard necesita la configuración del núcleo del sistema operativo y las pilas de software de Oracle, incluidos los juegos de parches en el servidor de base de datos en espera, para que coincidan con el servidor de base de datos primaria. Para facilitar la gestión y simplificar, la configuración del almacenamiento de la base de datos del servidor de base de datos en espera debería coincidir también con el servidor de base de datos primaria, como el diseño del directorio de la base de datos y los tamaños de los puntos de montaje NFS.
 
@@ -825,7 +825,7 @@ Esto completa la demostración de una configuración de Data Guard para VLDB NTA
 
 === Configurar Data Guard Broker
 
-[%collapsible]
+[%collapsible%open]
 ====
 Oracle Data Guard Broker es un marco de gestión distribuida que automatiza y centraliza la creación, el mantenimiento y la supervisión de las configuraciones de Oracle Data Guard. En la siguiente sección se muestra cómo configurar Data Guard Broker para gestionar el entorno de Data Guard.
 
@@ -922,7 +922,7 @@ En caso de fallo, Data Guard Broker se puede utilizar para conmutar por error la
 
 === Clone las bases de datos en espera para otros casos prácticos a través de la automatización
 
-[%collapsible]
+[%collapsible%open]
 ====
 Póngase en contacto con el equipo de ingeniería de soluciones de NetApp para conocer el kit de herramientas de automatización con el que podrá crear y actualizar clones para obtener una gestión completa del ciclo de vida de los clones.
 

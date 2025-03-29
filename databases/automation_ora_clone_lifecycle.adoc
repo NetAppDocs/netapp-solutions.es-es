@@ -58,7 +58,7 @@ NOTE: Hay ciertas restricciones en cuanto a la producción y/o el intercambio de
 
 === Requisitos previos para la implementación
 
-[%collapsible]
+[%collapsible%open]
 ====
 La implementación requiere los siguientes requisitos previos.
 
@@ -91,7 +91,7 @@ NOTE: Para la simplificación, el servidor de Oracle de destino de clonación se
 
 === Descargue el kit de herramientas
 
-[%collapsible]
+[%collapsible%open]
 ====
 [source, cli]
 ----
@@ -105,7 +105,7 @@ NOTE: Solo el usuario interno de NetApp con acceso a bitBucket puede acceder al 
 
 === Configuración de archivos de hosts de destino de Ansible
 
-[%collapsible]
+[%collapsible%open]
 ====
 El kit de herramientas incluye un archivo de hosts que define los destinos contra los que se ejecuta un libro de estrategia de Ansible. Normalmente, son los hosts de clonado de Oracle de destino. A continuación se muestra un archivo de ejemplo. Una entrada de host incluye la dirección IP del host de destino, así como la clave ssh para que un usuario administrador acceda al host para ejecutar el comando de clonación o actualización.
 
@@ -122,7 +122,7 @@ ora_04.cie.netapp.com ansible_host=10.61.180.29 ansible_ssh_private_key_file=ora
 
 === Configuración de variables globales
 
-[%collapsible]
+[%collapsible%open]
 ====
 Los libros de estrategia de Ansible toman entradas variables de varios archivos variables. A continuación se muestra un ejemplo de archivo de variables globales vars.yml.
 
@@ -140,7 +140,7 @@ snapctr_pwd: 'xxxxxxxx'
 
 === Configuración de variables de host
 
-[%collapsible]
+[%collapsible%open]
 ====
 Las variables de host se definen en el directorio HOST_vars denominado {{ HOST_NAME }}.yml. A continuación se muestra un ejemplo del archivo de variables de host de Oracle de destino ora_04.cie.netapp.com.yml que muestra la configuración típica.
 
@@ -160,7 +160,7 @@ clone_db_sid: NTAP1DEV
 
 === Configuración adicional del servidor de Oracle de destino de clonación
 
-[%collapsible]
+[%collapsible%open]
 ====
 El servidor de Oracle de destino de clonación debe tener la misma pila de software de Oracle que el servidor de Oracle de origen instalado y con parches. El usuario de Oracle .bash_profile tiene $ORACLE_BASE y $ORACLE_HOME configurados. Además, la variable $ORACLE_HOME debe coincidir con el valor del servidor de Oracle de origen. A continuación se muestra un ejemplo.
 
@@ -181,7 +181,7 @@ export ORACLE_HOME=/u01/app/oracle/product/19.0.0/NTAP1
 
 === Ejecución de PlayBook
 
-[%collapsible]
+[%collapsible%open]
 ====
 Existen tres libros de estrategia para ejecutar el ciclo de vida de los clones de base de datos de Oracle con las utilidades de la CLI de SnapCenter.
 

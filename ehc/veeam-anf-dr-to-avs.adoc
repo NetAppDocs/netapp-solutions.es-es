@@ -16,8 +16,6 @@ summary:
 [role="lead"]
 Los almacenes de datos de Azure NetApp Files (ANF) separan el almacenamiento de los nodos informáticos y libera la flexibilidad necesaria para que cualquier organización lleve sus cargas de trabajo al cloud. Proporciona a los clientes una infraestructura de almacenamiento flexible y de alto rendimiento que se escala independientemente de los recursos de computación. El almacén de datos de Azure NetApp Files simplifica y optimiza la implementación junto con la solución Azure VMware (AVS) como sitio de recuperación de desastres para entornos VMware en las instalaciones.
 
-Autor: Niyaz Mohamed - Ingeniería de Soluciones NetApp
-
 
 
 == Descripción general
@@ -74,7 +72,7 @@ Para obtener información adicional, consulte “Consideraciones y limitaciones�
 === Detalles de la implementación
 
 .Paso 1: Replicar máquinas virtuales
-[%collapsible]
+[%collapsible%open]
 ====
 Veeam Backup & Replication aprovecha las funcionalidades de snapshot de VMware vSphere/durante la replicación, Veeam Backup & Replication solicita a VMware vSphere para crear una snapshot de máquina virtual. La snapshot de la máquina virtual es la copia de un momento específico de una máquina virtual que incluye discos virtuales, estado del sistema, configuración y metadatos. Veeam Backup & Replication utiliza la snapshot como fuente de datos para la replicación.
 
@@ -128,7 +126,7 @@ Si quiere más información sobre la replicación de Veeam, consulte link:https:
 
 ====
 .Paso 2: Crear un plan de failover
-[%collapsible]
+[%collapsible%open]
 ====
 Una vez finalizada la replicación inicial o la propagación, cree el plan de conmutación por error. El plan de conmutación por error ayuda a realizar la conmutación por error de los equipos virtuales dependientes uno por uno o como grupo automáticamente. El plan de conmutación por error es el plan del orden en el que se procesan los equipos virtuales, incluidos los retrasos en el inicio. El plan de conmutación por error también ayuda a garantizar que los equipos virtuales cruciales dependientes ya se estén ejecutando.
 
@@ -163,7 +161,7 @@ Para obtener más información sobre la creación de trabajos de replicación, c
 
 ====
 .Paso 3: Ejecute el plan de failover
-[%collapsible]
+[%collapsible%open]
 ====
 En caso de fallo, la máquina virtual de origen del sitio de producción cambia a su réplica en el sitio de recuperación de desastres. Como parte del proceso de conmutación por error, Veeam Backup & Replication restaura la réplica de la máquina virtual al punto de restauración deseado y mueve todas las actividades de I/O del equipo virtual de origen a su réplica. Las réplicas pueden usarse no solo en caso de desastre, sino también para simular simulacros de recuperación ante desastres. Durante la simulación de recuperación tras fallos, la máquina virtual de origen sigue ejecutándose. Una vez realizadas todas las pruebas necesarias, puede deshacer la conmutación por error y volver a las operaciones normales.
 
@@ -191,7 +189,7 @@ Para obtener información detallada sobre los planes de conmutación por error, 
 
 ====
 .Paso 4: Conmutación por recuperación al sitio de producción
-[%collapsible]
+[%collapsible%open]
 ====
 Cuando se ejecuta el plan de failover, se considera un paso intermedio y debe finalizarse según el requisito. Las opciones incluyen las siguientes:
 

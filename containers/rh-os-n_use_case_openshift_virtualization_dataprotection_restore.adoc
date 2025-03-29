@@ -23,7 +23,7 @@ En esta sección se describe cómo restaurar máquinas virtuales desde un backup
 Para restaurar desde un backup, asumimos que el espacio de nombres donde existía la máquina virtual se eliminó por accidente.
 
 .Restaure el mismo espacio de nombres
-[%collapsible]
+[%collapsible%open]
 ====
 Para restaurar desde el backup que acabamos de crear, necesitamos crear un Restore Custom Resource (CR). Necesitamos darle un nombre, proporcionar el nombre del backup del que queremos restaurar y establecer restorePVs en true. Los parámetros adicionales se pueden establecer como se muestra en la link:https://docs.openshift.com/container-platform/4.14/backup_and_restore/application_backup_and_restore/backing_up_and_restoring/restoring-applications.html["documentación"]. Haga clic en el botón Crear.
 
@@ -45,7 +45,7 @@ image:redhat_openshift_OADP_restore_image2.jpg["Se completó la restauración"]
 
 ====
 .Restaure un espacio de nombres diferente
-[%collapsible]
+[%collapsible%open]
 ====
 Para restaurar el equipo virtual en un espacio de nombres diferente, puede proporcionar un namespaceMapping en la definición yaml del Restore CR.
 
@@ -71,7 +71,7 @@ image:redhat_openshift_OADP_restore_image3.jpg["Restauración completada en un n
 
 ====
 .Restaure a otra clase de almacenamiento
-[%collapsible]
+[%collapsible%open]
 ====
 Velero proporciona una capacidad genérica para modificar los recursos durante la restauración mediante la especificación de parches json. Los parches json se aplican a los recursos antes de restaurarlos. Los parches json se especifican en un configmap y se hace referencia al configmap en el comando restore. Esta función le permite restaurar utilizando una clase de almacenamiento diferente.
 

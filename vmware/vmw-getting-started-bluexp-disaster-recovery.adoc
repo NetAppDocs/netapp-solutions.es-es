@@ -1,0 +1,46 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-getting-started-bluexp-disaster-recovery.html 
+keywords: vmware, getting, started, overview, netapp, bluexp, disaster, recovery, draas 
+summary:  
+---
+= Recuperación ante desastres de BlueXP  (DRaaS)
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+La planificación de la recuperación ante desastres es crucial para que los administradores de VMware minimicen los tiempos de inactividad en caso de errores de hardware, ciberataques o desastres naturales.
+
+
+
+== Introducción
+
+Tener un plan exitoso y una combinación de tecnologías garantiza la protección de los datos críticos, las aplicaciones y las máquinas virtuales. El reto con la recuperación ante desastres es determinar el nivel adecuado de protección y los costes asociados.
+
+Las cabinas de ONTAP ofrecen replicación integrada para transferir datos de volúmenes y, por lo tanto, los equipos virtuales que residen en los LUN de almacén de datos designados, desde un sitio a otro. DRaaS de BlueXP  se integra con vSphere y automatiza todo el flujo de trabajo para obtener una conmutación al respaldo y una conmutación de retorno tras recuperación fluidas en caso de desastre.
+
+Para obtener más información sobre DRaaS de BlueXP , consulte link:https://docs.netapp.com/us-en/netapp-solutions/ehc/dr-draas-overview.html["Descripción general de BlueXP  DRaaS"].
+
+
+
+== Consideraciones
+
+Las partes de una conmutación por error en recuperación ante desastres que más tiempo requieren en un entorno VMware vSphere son los pasos necesarios para inventariar, registrar, reconfigurar y encender las máquinas virtuales en el centro de recuperación ante desastres. Una solución ideal tiene un objetivo de punto de recuperación bajo (medido en minutos) y un objetivo de tiempo de recuperación bajo (medido en minutos y horas). Un factor que a menudo se pasa por alto en una solución de recuperación ante desastres es la posibilidad de probar la solución de recuperación ante desastres con eficiencia a intervalos periódicos.
+
+Para diseñar una solución de recuperación ante desastres, tenga en cuenta los siguientes factores:
+
+* El objetivo de tiempo de recuperación. El objetivo de tiempo de recuperación es la rapidez con la que una empresa puede recuperarse de un desastre o, más concretamente, el tiempo que se tarda en ejecutar el proceso de recuperación para volver a garantizar la disponibilidad de los servicios empresariales.
+* El objetivo de punto de recuperación (RPO). El objetivo de punto de recuperación es la antigüedad de los datos recuperados una vez que se han puesto a disposición, en relación con el momento en que ocurrió el desastre.
+* Escalabilidad y adaptabilidad. Este factor incluye la posibilidad de aumentar los recursos de almacenamiento incrementalmente a medida que aumenta la demanda.
+
+
+Para obtener más información técnica sobre las soluciones disponibles, consulte:
+
+* link:https://docs.netapp.com/us-en/netapp-solutions/ehc/dr-draas-nfs.html["Recuperación ante desastres mediante DRaaS de BlueXP  para almacenes de datos NFS"]
+* link:https://docs.netapp.com/us-en/netapp-solutions/ehc/dr-draas-vmfs.html["Recuperación ante desastres mediante DRaaS de BlueXP  para almacenes de datos de VMFS"]
+

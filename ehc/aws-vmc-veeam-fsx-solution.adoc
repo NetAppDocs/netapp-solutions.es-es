@@ -16,8 +16,6 @@ summary:
 [role="lead"]
 Veeam Backup & Replication es una solución efectiva y fiable para proteger datos en VMware Cloud. Esta solución demuestra la instalación y la configuración adecuadas para usar Backup and Replication de Veeam para realizar backups y restaurar VM de aplicaciones que residen en almacenes de datos NFS de FSx ONTAP en VMware Cloud.
 
-Autor: Josh Powell: Ingeniería de soluciones de NetApp
-
 
 
 == Descripción general
@@ -47,7 +45,7 @@ Todas las máquinas virtuales de esta solución residen en almacenes de datos NF
 
 
 .Descripción general de la puesta en marcha de soluciones
-[%collapsible]
+[%collapsible%open]
 ====
 Esta lista proporciona los pasos de alto nivel necesarios para configurar Veeam Backup & Replication, ejecutar trabajos de backup y restauración con FSx ONTAP como repositorio de backup y realizar restauraciones de máquinas virtuales y bases de datos de SQL Server y Oracle:
 
@@ -60,7 +58,7 @@ Esta lista proporciona los pasos de alto nivel necesarios para configurar Veeam 
 
 ====
 .Requisitos previos
-[%collapsible]
+[%collapsible%open]
 ====
 El objetivo de esta solución es demostrar la protección de datos de las máquinas virtuales que se ejecutan en VMware Cloud y ubicadas en almacenes de datos NFS alojados por FSx ONTAP. Esta solución asume que los siguientes componentes están configurados y listos para su uso:
 
@@ -91,7 +89,7 @@ Las pruebas y la validación de esta solución se llevaron a cabo en un laborato
 image:aws-vmc-veeam-00.png["Diagrama de la arquitectura de la solución"]
 
 .Componentes de hardware/software
-[%collapsible]
+[%collapsible%open]
 ====
 El objetivo de esta solución es demostrar la protección de datos de las máquinas virtuales que se ejecutan en VMware Cloud y ubicadas en almacenes de datos NFS alojados por FSx ONTAP. Esta solución asume que los siguientes componentes ya están configurados y listos para su uso:
 
@@ -137,7 +135,7 @@ Para obtener más información sobre los modos de transporte, consulte la https:
 En el siguiente paso, cubrimos la implementación del Veeam Proxy Server en una VM de Windows en el SDDC de VMware Cloud.
 
 .Implemente Veeam Proxy para distribuir las cargas de trabajo de backup
-[%collapsible]
+[%collapsible%open]
 ====
 En este paso, Veeam Proxy se implementa en una VM de Windows existente. Esto permite que los trabajos de backup se distribuyan entre el Veeam Backup Server principal y Veeam Proxy.
 
@@ -185,7 +183,7 @@ image:aws-vmc-veeam-10.png["Configure las reglas de tráfico de red"]
 El servidor principal de Veeam Backup y el servidor Veeam Proxy tienen acceso a un repositorio de respaldo en forma de almacenamiento conectado directamente. En esta sección trataremos la creación de un sistema de archivos FSx ONTAP, el montaje de LUN iSCSI en los servidores de Veeam y la creación de repositorios de backup.
 
 .Crear sistema de archivos FSX ONTAP
-[%collapsible]
+[%collapsible%open]
 ====
 Cree un sistema de archivos FSx ONTAP que se utilizará para alojar los volúmenes iSCSI para los repositorios de backup de Veeam.
 
@@ -206,7 +204,7 @@ image:aws-vmc-veeam-03.png["Rellene la información del sistema de archivos"]
 
 ====
 .Configuración y montaje de LUN iSCSI
-[%collapsible]
+[%collapsible%open]
 ====
 Crear y configurar las LUN iSCSI en FSx ONTAP y montarlas en los servidores proxy y de backup de Veeam. Estos LUN se usarán más adelante para crear repositorios de backup de Veeam.
 
@@ -257,7 +255,7 @@ image:aws-vmc-veeam-13.png["Administración de discos de Windows"]
 
 ====
 .Crear repositorios de Veeam Backup
-[%collapsible]
+[%collapsible%open]
 ====
 En la consola Veeam Backup and Replication, cree repositorios de backup para los servidores Veeam Backup y Veeam Proxy. Estos repositorios se utilizarán como destinos de copia de seguridad para las copias de seguridad de máquinas virtuales.
 
@@ -293,7 +291,7 @@ En esta solución se crearon tareas de backup independientes para:
 
 
 .Consideraciones generales al configurar trabajos de backup de Veeam
-[%collapsible]
+[%collapsible%open]
 ====
 . Permitir el procesamiento con reconocimiento de aplicaciones para crear copias de seguridad coherentes y realizar el procesamiento de registros de transacciones.
 . Después de activar el procesamiento que tenga en cuenta la aplicación, agregue las credenciales correctas con privilegios de administrador a la aplicación, ya que puede ser diferente de las credenciales del sistema operativo invitado.
@@ -329,7 +327,7 @@ Veeam Backup & Replication ofrece varias opciones para restaurar bases de datos 
 
 
 .Restaure la base de datos de SQL Server con Veeam Explorer Instant Recovery
-[%collapsible]
+[%collapsible%open]
 ====
 . En la consola de Veeam Backup and Replication, navegue a la lista de copias de seguridad de SQL Server, haga clic con el botón derecho en un servidor y seleccione *Restaurar elementos de aplicación* y luego *Bases de datos de Microsoft SQL Server...*.
 +
@@ -369,7 +367,7 @@ Veeam Explorer para la base de datos Oracle permite realizar una restauración e
 Para obtener información más detallada sobre cómo realizar operaciones de restauración de bases de datos de Oracle con Veeam Explorer, consulte la sección Oracle en la https://helpcenter.veeam.com/docs/backup/explorers/veor_user_guide.html?ver=120["Guía del usuario de Veeam Explorers"].
 
 .Restaurar base de datos de Oracle con Veeam Explorer
-[%collapsible]
+[%collapsible%open]
 ====
 En esta sección, se trata una restauración de la base de datos Oracle en un servidor diferente mediante Veeam Explorer.
 
@@ -406,7 +404,7 @@ image:aws-vmc-veeam-31.png["Ubicación de destino específica"]
 
 ====
 .Publicar la base de datos Oracle en un servidor alternativo
-[%collapsible]
+[%collapsible%open]
 ====
 En esta sección se publica una base de datos en un servidor alternativo para obtener un acceso rápido sin iniciar una restauración completa.
 

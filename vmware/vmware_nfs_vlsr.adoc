@@ -62,7 +62,7 @@ Este escenario requiere los siguientes componentes y configuraciones:
 
 NetApp recomienda diseños de red redundantes para NFS, lo que proporciona tolerancia a fallos para sistemas de almacenamiento, switches, adaptadores de red y sistemas host. Es común poner en marcha NFS con una única subred o varias subredes, en función de los requisitos de la arquitectura.
 
-Consulte https://core.vmware.com/resource/best-practices-running-nfs-vmware-vsphere["Prácticas recomendadas para ejecutar NFS con VMware vSphere"] Para obtener información detallada específica de VMware vSphere.
+Consulte https://www.vmware.com/docs/vmw-best-practices-running-nfs-vmware-vsphere["Prácticas recomendadas para ejecutar NFS con VMware vSphere"] para obtener información detallada sobre VMware vSphere.
 
 Para obtener orientación de red sobre el uso de ONTAP con VMware vSphere, consulte la https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware-vsphere-network.html#nfs["Configuración de red: NFS"] De la documentación de aplicaciones empresariales de NetApp.
 
@@ -91,7 +91,7 @@ Las instrucciones paso a paso se describen en el siguiente documento, ubicado li
 Complete los siguientes pasos para configurar el dispositivo SRM y el adaptador de SRA.
 
 .Conecte el dispositivo SRM para sitios primarios y secundarios
-[%collapsible]
+[%collapsible%open]
 ====
 Deben completarse los siguientes pasos tanto para el sitio primario como para el secundario.
 
@@ -122,7 +122,7 @@ image:vmware-nfs-srm-image03.png["Configurar el dispositivo"]
 
 ====
 .Configure el SRA en el dispositivo SRM
-[%collapsible]
+[%collapsible%open]
 ====
 Complete los siguientes pasos para configurar el SRA en el dispositivo SRM:
 
@@ -145,7 +145,7 @@ image:vmware-nfs-srm-image04.png["Agregue un nuevo adaptador SRM"]
 Realice los siguientes pasos para configurar el emparejamiento de sitios, crear grupos de protección,
 
 .Configure Site Pairing para SRM
-[%collapsible]
+[%collapsible%open]
 ====
 El siguiente paso se completa en el cliente vCenter del sitio primario.
 
@@ -193,7 +193,7 @@ image:vmware-nfs-srm-image11.png["Resumen de pares de sitios"]
 
 ====
 .Añada un par de cabinas para SRM
-[%collapsible]
+[%collapsible%open]
 ====
 El siguiente paso se completa en la interfaz de recuperación del sitio principal.
 
@@ -237,7 +237,7 @@ image:vmware-nfs-srm-image16.png["Parejas de cabinas"]
 
 ====
 .Configure los grupos de protección para el SRM
-[%collapsible]
+[%collapsible%open]
 ====
 El siguiente paso se completa en la interfaz de recuperación del sitio principal.
 
@@ -284,7 +284,7 @@ image:vmware-nfs-srm-image22.png["Plan de recuperación"]
 
 ====
 .Configurar el plan de recuperación para SRM
-[%collapsible]
+[%collapsible%open]
 ====
 El siguiente paso se completa en la interfaz de recuperación del sitio principal.
 
@@ -329,7 +329,7 @@ En esta sección se tratarán varias funciones de uso de la recuperación ante d
 Consulte https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware-srm-operational_best_practices.html["Mejores prácticas operativas"] si desea más información sobre cómo usar el almacenamiento de ONTAP con operaciones de recuperación ante desastres de SRM.
 
 .Pruebas de recuperación tras fallos con SRM
-[%collapsible]
+[%collapsible%open]
 ====
 El siguiente paso se completa en la interfaz de recuperación del sitio.
 
@@ -362,7 +362,7 @@ image:vmware-nfs-srm-image30.png["Almacén de datos recién montado"]
 
 ====
 .Ejecute el plan de recuperación con SRM
-[%collapsible]
+[%collapsible%open]
 ====
 Realice una recuperación completa y una conmutación al nodo de respaldo en el sitio secundario.
 
@@ -394,4 +394,4 @@ Para obtener documentación de NetApp sobre el uso del almacenamiento de ONTAP c
 
 Para obtener información acerca de la configuración de los sistemas de almacenamiento ONTAP, consulte la link:https://docs.netapp.com/us-en/ontap["Documentación de ONTAP 9"] centro.
 
-Para obtener información sobre la configuración de VCF, consulte link:https://docs.vmware.com/en/VMware-Cloud-Foundation/index.html["Documentación de VMware Cloud Foundation"].
+Para obtener información sobre la configuración de VCF, consulte link:https://techdocs.broadcom.com/us/en/vmware-cis/vcf.html["Documentación de VMware Cloud Foundation"].
