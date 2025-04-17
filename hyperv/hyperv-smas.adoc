@@ -14,7 +14,7 @@ summary: En este documento se documenta la replicación bidireccional síncrona 
 
 
 [role="lead"]
-En este documento se documenta la replicación bidireccional síncrona de la tecnología de sincronización activa de SnapMirror entre Microsoft estira los clústeres de recuperación tras fallos, lo que permite que los datos de aplicaciones multisitio, por ejemplo, MSSQL y Oracle, estén activamente accesibles y sincronizados en ambas ubicaciones.
+En este documento se documenta la replicación bidireccional síncrona de la tecnología de sincronización activa de SnapMirror entre clústeres de recuperación tras fallos con ampliación de Microsoft, lo que permite que los datos de aplicaciones multisitio, por ejemplo, MSSQL y Oracle, estén activamente accesibles y sincronizados en ambos sitios.
 
 
 
@@ -28,7 +28,7 @@ A partir de ONTAP 9.15,1, la sincronización activa de SnapMirror admite impleme
 * Mejorar el rendimiento: Utilice una configuración activo-activo simétrica para distribuir la carga entre varios sistemas de almacenamiento, lo que mejora los tiempos de respuesta y el rendimiento general del sistema.
 
 
-En este documento se documenta la replicación bidireccional síncrona de la tecnología de sincronización activa de SnapMirror entre Microsoft estira los clústeres de recuperación tras fallos, lo que permite que los datos de aplicaciones multisitio, por ejemplo, MSSQL y Oracle, estén activamente accesibles y sincronizados en ambas ubicaciones. Si se produce un fallo, las aplicaciones se redirigen inmediatamente al sitio activo, sin pérdida de datos y sin pérdida de acceso, lo que proporciona una alta disponibilidad, recuperación de desastres y redundancia geográfica.
+En este documento se documenta la replicación bidireccional síncrona de la tecnología de sincronización activa de SnapMirror entre clústeres de recuperación tras fallos con ampliación de Microsoft, lo que permite que los datos de aplicaciones multisitio, por ejemplo, MSSQL y Oracle, estén activamente accesibles y sincronizados en ambos sitios. Si se produce un fallo, las aplicaciones se redirigen inmediatamente al sitio activo, sin pérdida de datos y sin pérdida de acceso, lo que proporciona una alta disponibilidad, recuperación de desastres y redundancia geográfica.
 
 
 
@@ -39,7 +39,7 @@ En caso de interrupción como un ciberataque, un corte de energía o un desastre
 SnapMirror Active Sync proporciona los siguientes casos de uso:
 
 .Puesta en marcha de aplicaciones para objeto de tiempo de recuperación cero (RTO)
-En una implementación de sincronización activa de SnapMirror, hay un clúster primario y de mirroring. Una LUN del clúster primario ( \L1P) tiene un reflejo (L1S) en el secundario; el sitio local sirve las operaciones de lectura y escritura en los hosts según la configuración de proximidad frecuente.
+En una implementación de sincronización activa de SnapMirror, hay un clúster primario y de mirroring. Una LUN del clúster primario (L1P) tiene un reflejo (L1S) en el secundario; el sitio local sirve las operaciones de lectura y escritura en los hosts según la configuración de proximidad frecuente.
 
 .Puesta en marcha de aplicaciones para un objetivo de tiempo de recuperación cero o TAF
 Transparent Application Failover (TAF) se basa en la conmutación por error basada en software MPIO del host para conseguir un acceso no disruptivo al almacenamiento. Las dos copias de LUN, por ejemplo, primaria (L1P) y copia reflejada (L1S), tienen la misma identidad (número de serie) y se notifican como de lectura y escritura en el host.
@@ -57,12 +57,12 @@ La sincronización activa de SnapMirror proporciona flexibilidad con granularida
 
 == Arquitectura de la solución
 
-El clúster ampliado de recuperación tras fallos de Microsoft tiene dos nodos Hyper-V en cada sitio. Estos dos nodos comparten almacenamiento NetApp y usan la sincronización activo-activo simétrico de SnapMirror para replicar los volúmenes entre los dos sitios. Un grupo de consistencia garantiza que todos los volúmenes de un conjunto de datos se pongan en modo inactivo y luego se capturen precisamente en el mismo momento específico. Esto proporciona un punto de restauración coherente con los datos en los volúmenes donde se admite el conjunto de datos. ONTAP Mediator recibe información sobre el estado de los nodos y clústeres de ONTAP con una relación entre iguales, orquesta entre los dos y determina si cada nodo/clúster está en buen estado y en ejecución.
+El cluster ampliado de Microsoft tiene dos nodos Hyper-V en cada sitio. Estos dos nodos comparten almacenamiento NetApp y usan la sincronización activo-activo simétrico de SnapMirror para replicar los volúmenes entre los dos sitios. Un grupo de consistencia garantiza que todos los volúmenes de un conjunto de datos se pongan en modo inactivo y luego se capturen precisamente en el mismo momento específico. Esto proporciona un punto de restauración coherente con los datos en los volúmenes donde se admite el conjunto de datos. ONTAP Mediator recibe información sobre el estado de los nodos y clústeres de ONTAP con una relación entre iguales, orquesta entre los dos y determina si cada nodo/clúster está en buen estado y en ejecución.
 
 Componentes de la solución:
 
 * Dos sistemas de almacenamiento de NetApp ONTAP 9.15,1: Primer y segundo dominio de fallo
-* Un mediador de máquina virtual de Rethat 8,7 para ONTAP
+* Una máquina virtual Redhat 8,7 para mediador de ONTAP
 * Tres clústeres de conmutación al nodo de respaldo de Hyper-V en Windows 2022:
 +
 ** site1, sitio 2 para las aplicaciones
@@ -82,7 +82,7 @@ Puede usar el Centro de administración de Windows, PowerShell o la consola de S
 
 Aquí hay una guía paso a paso para configurar un Windows Stretch Cluster:
 
-. Instale Windows 2022 en los cuatro servidores hyperv1, hyperv2, hyperv3 y hyperv4
+. Instale Windows 2022 en los cuatro servidores hyperv1, hyperv2, hyperv3 y hyperv4.
 . Una los cuatro servidores al mismo dominio de Active Directory: hyperv.local.
 . Instale las funcionalidades de clustering de recuperación tras fallos, Hyper-V, Hyper-V_PowerShell y MPIO en cada servidor.
 +
@@ -147,7 +147,7 @@ image:hyperv-smas-image7.png["Figura que muestra el cuadro de diálogo de entrad
 
 ONTAP Mediator recibe información sobre el estado de los nodos y clústeres de ONTAP con una relación entre iguales, orquesta entre los dos y determina si cada nodo/clúster está en buen estado y en ejecución. SM-As permite replicar los datos en el destino tan pronto como se escriben en el volumen de origen. El mediador debe desplegarse en el tercer dominio de fallo. Requisitos previos
 
-* Especificaciones de hardware: 8GB GB de RAM, CPU 2x2 GHz, red 1GB (<125ms RTT)
+* Especificaciones de hardware: 8GB GB de RAM, CPU 2x2 GHz, red 1GB (<125ms RTT).
 * Instalación del sistema operativo Red Hat 8,7, compruebe link:https://docs.netapp.com/us-en/ontap/mediator/index.html["Versión de ONTAP Mediator y versión de Linux compatible"].
 * Configure el host de Mediator Linux: Configuración de red y puertos de firewall 31784 y 3260
 * Instale el paquete yum-utils
@@ -247,7 +247,7 @@ Le recomendamos que realice pruebas de conmutación al nodo de respaldo planific
 Los requisitos de los clusters de recuperación tras fallos de Hyper-V incluyen:
 
 * La relación de sincronización activa de SnapMirror debe estar sincronizada.
-* No puede iniciar una conmutación al respaldo planificada cuando hay una operación no disruptiva en proceso. Las operaciones no disruptivas incluyen traslados de volúmenes, reubicaciones de agregados y recuperación tras fallos de almacenamiento.
+* No puede iniciar una conmutación al respaldo planificada cuando hay una operación no disruptiva en curso. Las operaciones no disruptivas incluyen movimiento de volúmenes, reubicaciones de agregados y recuperación tras fallos de almacenamiento.
 * El mediador ONTAP debe estar configurado, conectado y en quórum.
 * Al menos dos nodos de cluster Hyper-V en cada sitio con procesadores de CPU pertenecen a la misma familia de CPU para optimizar el proceso de migración de VM. Las CPU deben ser CPU con soporte para la virtualización asistida por hardware y la prevención de ejecución de datos basada en hardware (DEP).
 * Los nodos de clúster de Hyper-V deben ser los mismos miembros de dominio de Active Directory para garantizar la resistencia.
@@ -269,7 +269,6 @@ image:hyperv-smas-image13.png["Figura que muestra el cuadro de diálogo de entra
 
 
 .Fallo de almacenamiento en un sitio
-* Acción de volúmenes sin conexión: cluster1:> VOLUME Sin conexión vol1 Resultados esperados: ONTAP detectará el volumen de sitio principal sin conexión, el clúster se comunicará con el mediador y detectará el estado del almacenamiento. El Hyper-V del sitio principal se comunica con el volumen de almacenamiento del sitio de reflejos para alcanzar un objetivo de punto de recuperación cero y un objetivo de tiempo de recuperación cero.
 * Detener una SVM en el sitio principal Acción: Detenga los resultados esperados de la SVM iSCSI: El clúster principal de Hyper-v ya se ha conectado al sitio reflejado y con SnapMirror sincronización activa simétrica activo-activo sin impacto en la carga de trabajo con un objetivo de punto de recuperación cero y un objetivo de tiempo de recuperación cero.
 
 
