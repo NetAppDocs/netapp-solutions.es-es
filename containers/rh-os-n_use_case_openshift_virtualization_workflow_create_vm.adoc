@@ -14,7 +14,7 @@ summary: OpenShift Virtualization de Red Hat con ONTAP de NetApp
 
 
 [role="lead"]
-En esta sección se explica cómo crear una máquina virtual con Red Hat OpenShift Virtualization.
+En esta sección se explica cómo crear una máquina virtual con Red Hat OpenShift Virtualization. Como requisito previo, debe haber creado ya el back-end de Trident, la clase de almacenamiento y los objetos de clase de snapshot de volumen. Puede consultar la link:rh-os-n_use_case_openshift_virtualization_trident_install.html["Sección de instalación de Trident"] para obtener más información.
 
 
 
@@ -38,7 +38,7 @@ La máquina virtual se crea y se inicia y llega al estado *Running*. Crea autom�
 Para configurar la clase de almacenamiento ONTAP-san en el clúster, consulte la link:rh-os-n_use_case_openshift_virtualization_workflow_vm_migration_using_mtv.html["Sección para migrar una máquina virtual de VMware a OpenShift Virtualization"].
 
 
-NOTE: Puede configurar NAS o iSCSI de ONTAP como la clase de almacenamiento predeterminada para el clúster. Al hacer clic en Quick create VirtualMachine, se utilizará la clase de almacenamiento predeterminada para crear la PVC y el PV para el disco raíz de arranque para la máquina virtual. Si la clase de almacenamiento predeterminada no es ontap-nas ni ontap-san, puede seleccionar la clase de almacenamiento para el disco; para ello, seleccione Customize VirtualMachine > Customize VirtualMachine Parameter > Disks y, edite el disco para usar la clase de almacenamiento requerida.
+NOTE: Al hacer clic en Quick create VirtualMachine, se utilizará la clase de almacenamiento predeterminada para crear la PVC y el PV para el disco raíz de arranque para la máquina virtual. Puede seleccionar una clase de almacenamiento diferente para el disco seleccionando Personalizar VirtualMachine > Personalizar parámetros de VirtualMachine > Discos y, a continuación, editando el disco para utilizar la clase de almacenamiento necesaria.
 
 Generalmente se prefiere el modo de acceso a bloques en comparación con los sistemas de archivos mientras se aprovisionan los discos de máquinas virtuales.
 
