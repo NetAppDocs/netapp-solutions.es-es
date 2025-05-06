@@ -4,7 +4,7 @@ permalink: containers/rh-os-n_use_case_openshift_virtualization_trident_install.
 keywords: OpenShift, OCP, Trident, Trident protect, NetApp ONTAP, Red Hat OpenShift, OpenShift Virtualization, Red Hat OpenShift Virtualization 
 summary: OpenShift Virtualization de Red Hat con ONTAP de NetApp 
 ---
-= Instalación de Trident y creación de objetos Trident.
+= Instalación de Trident y creación de objetos Trident
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -14,19 +14,33 @@ summary: OpenShift Virtualization de Red Hat con ONTAP de NetApp
 
 
 [role="lead"]
-En esta sección se detalla cómo instalar Trident para preparar los nodos de trabajo para el acceso a bloques. Proporciona instrucciones paso a paso para crear los objetos de clase de almacenamiento y back-end de Trident. El objeto de back-end Trident incluye todos los detalles necesarios para conectarse al sistema de almacenamiento ONTAP de back-end y aprovisionar volúmenes de forma dinámica en ONTAP para el protocolo especificado. El objeto de clase de almacenamiento permite que las aplicaciones de contenedores y las máquinas virtuales soliciten el almacenamiento usando solo el tipo y la capacidad, sin necesitar conectividad ni otros detalles de back-end.
+En esta sección se detalla cómo instalar Trident mediante el Operador de Red Hat Certified Trident en el clúster de OpenShift y preparar los nodos de trabajo (en el momento de la instalación de Trident) para el acceso en bloque. El procedimiento es el mismo para los clústeres de OpenShift en las instalaciones, en la nube, así como Red OpenShift Cluster en AWS (ROSA) administrado que utiliza el almacenamiento FSx para NetApp ONTAP (FSxN). En esta sección también se proporcionan instrucciones paso a paso para crear el backend de Trident y los objetos de clase de almacenamiento cuando se utiliza ONTAP o FSxN como almacén de respaldo para contenedores y máquinas virtuales en los clústeres de OpenShift. El objeto de back-end Trident incluye todos los detalles necesarios para conectarse al sistema de almacenamiento ONTAP o FSxN de back-end y aprovisionar volúmenes de forma dinámica mediante el protocolo especificado. El objeto de clase de almacenamiento permite que las aplicaciones de contenedores y las máquinas virtuales soliciten el almacenamiento usando solo el tipo y la capacidad, sin necesitar conectividad ni otros detalles de back-end.
 
 
-NOTE: Si necesita crear máquinas virtuales en OpenShift Virtualization, Trident debe estar instalado y los objetos de back-end y los objetos de clase de almacenamiento deben crearse en el cluster OpenShift antes de instalar OpenShift Virtualization en el cluster. La clase de almacenamiento predeterminada y la clase de snapshot de volumen predeterminada deben establecerse en el almacenamiento Trident y la clase de snapshot en el clúster. Solo cuando se configura esto, la virtualización de OpenShift puede descargar imágenes maestras y ponerlas a disposición de la creación de VM mediante plantillas.
+NOTE: Si necesita crear máquinas virtuales en OpenShift Virtualization, Trident debe estar instalado y los objetos back-end y los objetos de clase de almacenamiento deben crearse en el cluster OpenShift antes de que OpenShift Virtualization se instale en el cluster (en las instalaciones y ROSA). La clase de almacenamiento predeterminada y la clase de snapshot de volumen predeterminada deben establecerse en el almacenamiento Trident y la clase de snapshot en el clúster. Solo cuando se configura esto, OpenShift Virtualization puede hacer que las imágenes maestras estén disponibles localmente para la creación de VM mediante plantillas.
+
+
+NOTE: Si se instala el operador de virtualización de OpenShift antes de instalar Trident, puede utilizar el siguiente comando para eliminar las imágenes maestras creadas con una clase de almacenamiento diferente y, a continuación, permitir que OpenShift Virtualization cree las imágenes maestras con la clase de almacenamiento de Trident asegurándose de que los valores predeterminados de la clase de instantánea de volumen y almacenamiento de Trident están definidos.
+
+[source, yaml]
+----
+oc delete dv,VolumeSnapshot -n openshift-virtualization-os-images --selector=cdi.kubevirt.io/dataImportCron
+----
+
+NOTE: Para obtener archivos yaml de ejemplo para crear objetos Trident para el almacenamiento FSxN para clusters ROSA y para obtener un archivo yaml de muestra para la clase VolumeSnapshotClass, desplácese hacia abajo en esta página.
 
 **Instalación de Trident**
 
 .Instalación de Trident con el operador certificado de Red Hat
 [%collapsible%open]
 ====
-En esta sección, se proporcionan detalles sobre la instalación de Trident con el operador Trident certificado de Red Hat. link:https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-deploy.html["Consulte la documentación de Trident"] Para otras formas de instalar Trident. Con el lanzamiento de Trident 25,02, los usuarios de Trident en Red Hat OpenShift en las instalaciones y en la nube y servicios gestionados como Red Hat OpenShift Service en AWS ahora pueden instalar Trident mediante el Operador certificado de Trident desde el Centro de operadores. Esto es importante para la comunidad de usuarios de OpenShift, ya que antes Trident solo estaba disponible como operador de la comunidad.
+En esta sección, se proporcionan detalles sobre la instalación de Trident mediante el operador de Red Hat Certified Trident link:https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-deploy.html["Consulte la documentación de Trident"]para otras formas de instalar Trident. Con el lanzamiento de Trident 25,02, los usuarios de Trident en Red Hat OpenShift en las instalaciones y en la nube y servicios gestionados como Red Hat OpenShift Service en AWS ahora pueden instalar Trident mediante el Operador certificado de Trident desde el Centro de operadores. Esto es importante para la comunidad de usuarios de OpenShift, ya que antes Trident solo estaba disponible como operador de la comunidad.
 
-La ventaja del operador Red Hat Certified Trident es que la base del operador y sus contenedores es totalmente compatible con NetApp cuando se utiliza con OpenShift (ya sea en las instalaciones, en la nube o como servicio gestionado). Además, NetApp Trident no tiene ningún coste para el cliente, por lo que solo tiene que instalarlo con el operador certificado que se ha verificado para que funcione sin problemas con Red Hat OpenShift y que se ha empaquetado para facilitar la gestión del ciclo de vida.
+La ventaja del operador Red Hat Certified Trident es que la base del operador y sus contenedores es totalmente compatible con NetApp cuando se utiliza con OpenShift (ya sea en las instalaciones, en la nube o como un servicio gestionado con ROSA). Además, NetApp Trident no tiene ningún coste para el cliente, por lo que solo tiene que instalarlo con el operador certificado que se ha verificado para que funcione sin problemas con Red Hat OpenShift y que se ha empaquetado para facilitar la gestión del ciclo de vida.
+
+Además, el operador Trident 25,02 (y versiones futuras) ofrece la ventaja opcional de preparar los nodos de trabajo para iSCSI. Esto es particularmente ventajoso si planea implementar sus cargas de trabajo en clusters ROSA y tiene la intención de utilizar el protocolo iSCSI con FSxN, especialmente para cargas de trabajo de VM de virtualización OpenShift. El desafío de la preparación de nodos de trabajo para iSCSI en clusters ROSA mediante FSxN se ha mitigado con esta capacidad al instalar Trident en el cluster.
+
+Los pasos de instalación que utiliza el operador son los mismos tanto si lo está instalando en un clúster local como en ROSA.
 
 Para instalar Trident con el operador, haga clic en Hub del operador y seleccione NetApp Trident certificado. En la página Instalar, la última versión se selecciona de forma predeterminada. Haga clic en Instalar. image:rh-os-n_use_case_openshift_virtualization_trident_install_img1.png["buje del operador"]
 
@@ -47,7 +61,17 @@ image:rh-os-n_use_case_openshift_virtualization_trident_install_img6.png["multip
 image:rh-os-n_use_case_openshift_virtualization_trident_install_img7.png["archivo multipathconf en ejecución"]
 
 ====
-**Configuración de Trident para clúster OpenShift en las instalaciones**
+
+
+== Demostración de vídeo
+
+En el siguiente vídeo se muestra una demostración de la instalación de Trident con el operador Trident certificado de Red Hat
+
+.Instalación de Trident 25.02.1 con el Operador Trident certificado en OpenShift
+video::15c225f3-13ef-41ba-b255-b2d500f927c0[panopto,width=360]
+
+
+== Configuración de Trident para clúster OpenShift en las instalaciones
 
 .Back-end de Trident y clase de almacenamiento para NAS
 [%collapsible%open]
@@ -235,7 +259,9 @@ parameters:
 allowVolumeExpansion: true
 ----
 ====
-**Configuración Trident para clúster ROSA usando almacenamiento FSxN**
+
+
+== Configuración de Trident para clúster ROSA mediante almacenamiento FSxN
 
 .Backend de Trident y clase de almacenamiento para FSxN NAS
 [%collapsible%open]
@@ -328,7 +354,9 @@ parameters:
 allowVolumeExpansion: true
 ----
 ====
-**Clase de instantánea de volumen Trident**
+
+
+== Creando clase de snapshot de volumen Trident
 
 .Clase de snapshot de volumen Trident
 [%collapsible%open]
@@ -352,14 +380,16 @@ oc create -f <backend-filename.yaml> -n trident
 oc create -f < storageclass-filename.yaml>
 oc create -f <snapshotclass-filename.yaml>
 ----
-**Configuración de valores predeterminados con Almacenamiento Trident y Clase Instantánea**
+
+
+== Establecimiento de valores predeterminados con Almacenamiento de Trident y Clase de instantánea
 
 .Establecimiento de valores predeterminados con Almacenamiento de Trident y Clase de instantánea
 [%collapsible%open]
 ====
-Ahora puede establecer la clase de almacenamiento Trident necesaria y la clase de snapshot para volúmenes como la predeterminada en el clúster de OpenShift. Como se ha mencionado anteriormente, es necesario configurar la clase de almacenamiento y la clase de instantánea de volumen para permitir que OpenShift Virtualization ponga el origen de imagen principal disponible para crear máquinas virtuales a partir de plantillas predeterminadas.
+Ahora puede establecer la clase de almacenamiento Trident necesaria y la clase de snapshot para volúmenes como la predeterminada en el clúster de OpenShift. Como se ha mencionado anteriormente, es necesario definir la clase de almacenamiento predeterminada y la clase de instantánea de volumen para permitir que OpenShift Virtualization ponga el origen de imagen principal a disposición para crear máquinas virtuales a partir de plantillas predeterminadas.
 
-Puede definir la clase de almacenamiento y la clase de instantánea como predeterminada editando la anotación desde la consola o aplicando parches desde la línea de comandos con lo siguiente:
+Puede definir la clase de almacenamiento Trident y la clase de instantánea como predeterminada editando la anotación desde la consola o aplicando revisiones desde la línea de comandos con lo siguiente.
 
 [source, yaml]
 ----
@@ -370,5 +400,11 @@ kubectl patch storageclass standard -p '{"metadata": {"annotations":{"storagecla
 storageclass.kubevirt.io/is-default-virt-class: true
 or
 kubectl patch storageclass standard -p '{"metadata": {"annotations":{"storageclass.kubevirt.io/is-default-virt-class": "true"}}}'
+----
+Una vez establecido, puede eliminar cualquier objeto dv y VolumeSnapShot preexistente mediante el siguiente comando:
+
+[source, yaml]
+----
+oc delete dv,VolumeSnapshot -n openshift-virtualization-os-images --selector=cdi.kubevirt.io/dataImportCron
 ----
 ====

@@ -247,7 +247,7 @@ Le recomendamos que realice pruebas de conmutación al nodo de respaldo planific
 Los requisitos de los clusters de recuperación tras fallos de Hyper-V incluyen:
 
 * La relación de sincronización activa de SnapMirror debe estar sincronizada.
-* No puede iniciar una conmutación al respaldo planificada cuando hay una operación no disruptiva en curso. Las operaciones no disruptivas incluyen movimiento de volúmenes, reubicaciones de agregados y recuperación tras fallos de almacenamiento.
+* No puede iniciar una conmutación al respaldo planificada cuando existe una operación no disruptiva en curso. Las operaciones no disruptivas incluyen traslados de volúmenes, reubicaciones de agregados y recuperación tras fallos de almacenamiento.
 * El mediador ONTAP debe estar configurado, conectado y en quórum.
 * Al menos dos nodos de cluster Hyper-V en cada sitio con procesadores de CPU pertenecen a la misma familia de CPU para optimizar el proceso de migración de VM. Las CPU deben ser CPU con soporte para la virtualización asistida por hardware y la prevención de ejecución de datos basada en hardware (DEP).
 * Los nodos de clúster de Hyper-V deben ser los mismos miembros de dominio de Active Directory para garantizar la resistencia.

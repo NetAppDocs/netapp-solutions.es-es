@@ -34,7 +34,7 @@ También examinaremos la conexión a la máquina virtual mediante las credencial
 * link:https://docs.aws.amazon.com/eks/latest/userguide/helm.html["Documentación de HELM 3"]
 * link:https://docs.openshift.com/rosa/rosa_hcp/rosa-hcp-sts-creating-a-cluster-quickly.html["UN GRUPO DE HCP ROSA"] (con al menos 3 nodos de trabajo con configuración básica)
 * link:https://console.redhat.com/openshift/overview["Acceso a la consola web de Red Hat OpenShift"]
-* Trident 25,02 o posterior
+* Trident 25,02 o posterior Para conocer el requisito previo de Trident anterior, consulte link:rh-os-n_use_case_openshift_virtualization_trident_install.html["Sección de instalación de Trident"] para obtener más detalles.
 * link:https://docs.redhat.com/en/documentation/openshift_container_platform/4.17/html/virtualization/installing#virt-aws-bm_preparing-cluster-for-virt["OpenShift Virtualization instalado en ROSA Cluster"]
 
 
@@ -99,10 +99,6 @@ deletionPolicy: Retain
 #oc create -f snapshot-class.yaml
 ----
 Asegúrese de que la clase de almacenamiento y la clase de instantánea del volumen estén configuradas como valores predeterminados antes de instalar OpenShift Virtualization. Para obtener más información sobre cómo configurar los valores por defecto, , puede consultar la link:rh-os-n_use_case_openshift_virtualization_trident_install.html["Definición de Valores por Defecto con Almacenamiento de Trident y Clase de Instantánea"] para obtener más información.
-
-Asegúrese de que la clase de almacenamiento predeterminada está definida en Trident-csi image:redhat_openshift_ocpv_rosa_image1.png["Clase de almacenamiento por defecto de OCP-v."]
-
-Asegúrese de que VolumeSnapShotClasses predeterminado esté definido como se muestra image:redhat_openshift_ocpv_rosa_image2.png["OCP-v Clase de Instantánea de Volumen por Defecto"]
 
 
 
