@@ -23,7 +23,7 @@ Para habilitar la integración de Trident con el sistema de almacenamiento ONTAP
 . Inicie sesión en el Administrador del sistema de ONTAP, desplácese hasta almacenamiento > Storage VMs y haga clic en Add.
 . Introduzca un nombre para la SVM, habilite el protocolo NFS, active la casilla de comprobación allow NFS Client Access y añada las subredes en las reglas de política de exportación para permitir el montaje de los volúmenes como VP en los clústeres de carga de trabajo.
 +
-image:vtwn_image06.jpg["Creación de SVM con NFS"]
+image:vtwn_image06.png["Creación de SVM con NFS"]
 
 +
 
@@ -31,11 +31,11 @@ NOTE: Si está utilizando NAT'ed despliegues de clústeres de usuarios o clúste
 
 . Proporcione los detalles de las LIF de datos y los detalles de la cuenta de administración de SVM y, a continuación, haga clic en Save.
 +
-image:vtwn_image07.jpg["LIF de datos de SVM y administración de SVM"]
+image:vtwn_image07.png["LIF de datos de SVM y administración de SVM"]
 
 . Asigne los agregados a una SVM. Desplácese hasta almacenamiento > Storage VMs, haga clic en los tres puntos junto a la SVM recién creada y, a continuación, haga clic en Edit. Active la casilla de comprobación Limit Volume Creation to Preferred local Tiers y adjunte los agregados necesarios.
 +
-image:vtwn_image08.jpg["Asignación del agregado de SVM"]
+image:vtwn_image08.png["Asignación del agregado de SVM"]
 
 . En caso de implementaciones en NAT de clústeres de usuarios o cargas de trabajo en los que se instale Trident, la solicitud de montaje del almacenamiento puede llegar desde un puerto no estándar debido a SNAT. De forma predeterminada, ONTAP solo permite las solicitudes de montaje del volumen cuando se origina desde el puerto raíz. Por lo tanto, inicie sesión en la CLI de ONTAP y modifique la configuración para permitir las solicitudes de montaje de puertos no estándares.
 +

@@ -27,7 +27,7 @@ Para restaurar desde un backup, asumimos que el espacio de nombres donde existí
 ====
 Para restaurar desde el backup que acabamos de crear, necesitamos crear un Restore Custom Resource (CR). Necesitamos darle un nombre, proporcionar el nombre del backup del que queremos restaurar y establecer restorePVs en true. Los parámetros adicionales se pueden establecer como se muestra en la link:https://docs.openshift.com/container-platform/4.14/backup_and_restore/application_backup_and_restore/backing_up_and_restoring/restoring-applications.html["documentación"]. Haga clic en el botón Crear.
 
-image:redhat_openshift_OADP_restore_image1.jpg["Crear Restaurar CR"]
+image:redhat_openshift_OADP_restore_image1.png["Crear Restaurar CR"]
 
 ....
 apiVersion: velero.io/v1
@@ -41,7 +41,7 @@ spec:
 ....
 Cuando la fase muestra Completado, puede ver que las máquinas virtuales se han restaurado al estado en que se tomó la instantánea. (Si el backup se creó cuando la máquina virtual se estaba ejecutando, al restaurar la máquina virtual desde el backup se iniciará la máquina virtual restaurada y se llevará a un estado en ejecución). La máquina virtual se restaura en el mismo espacio de nombres.
 
-image:redhat_openshift_OADP_restore_image2.jpg["Se completó la restauración"]
+image:redhat_openshift_OADP_restore_image2.png["Se completó la restauración"]
 
 ====
 .Restaure un espacio de nombres diferente
@@ -67,7 +67,7 @@ spec:
 ....
 Cuando la fase muestra Completado, puede ver que las máquinas virtuales se han restaurado al estado en que se tomó la instantánea. (Si el backup se creó cuando la máquina virtual se estaba ejecutando, al restaurar la máquina virtual desde el backup se iniciará la máquina virtual restaurada y se llevará a un estado en ejecución). La máquina virtual se restaura en un espacio de nombres diferente como se especifica en la yaml.
 
-image:redhat_openshift_OADP_restore_image3.jpg["Restauración completada en un nuevo espacio de nombres"]
+image:redhat_openshift_OADP_restore_image3.png["Restauración completada en un nuevo espacio de nombres"]
 
 ====
 .Restaure a otra clase de almacenamiento
@@ -77,9 +77,9 @@ Velero proporciona una capacidad genérica para modificar los recursos durante l
 
 En el siguiente ejemplo, la máquina virtual, durante su creación utiliza ontap-nas como clase de almacenamiento de sus discos. Se crea un backup de la máquina virtual llamada backup1.
 
-image:redhat_openshift_OADP_restore_image4.jpg["Máquina virtual mediante ontap-nas"]
+image:redhat_openshift_OADP_restore_image4.png["Máquina virtual mediante ontap-nas"]
 
-image:redhat_openshift_OADP_restore_image5.jpg["Backup de máquinas virtuales ontap-nas"]
+image:redhat_openshift_OADP_restore_image5.png["Backup de máquinas virtuales ontap-nas"]
 
 Simule una pérdida de la máquina virtual eliminando la máquina virtual.
 
@@ -107,11 +107,11 @@ version: v1
         path: "/spec/storageClassName"
         value: "ontap-nas-eco"
 ....
-image:redhat_openshift_OADP_restore_image6.jpg["iu de asignación de configuración"]
+image:redhat_openshift_OADP_restore_image6.png["iu de asignación de configuración"]
 
 El objeto de mapa de configuración resultante debe tener el siguiente aspecto (CLI):
 
-image:redhat_openshift_OADP_restore_image7.jpg["Asignación de CLI de configuración"]
+image:redhat_openshift_OADP_restore_image7.png["Asignación de CLI de configuración"]
 
 Esta asignación de configuración aplicará la regla de modificador de recursos cuando se cree la restauración. Se aplicará una revisión para sustituir el nombre de clase de almacenamiento a ontap-nas-eco para todas las solicitudes de volumen persistentes que comiencen por rhel.
 
@@ -124,6 +124,6 @@ Para restaurar la máquina virtual, utilice el siguiente comando desde la CLI de
 ....
 La máquina virtual se restaura en el mismo espacio de nombres con los discos creados utilizando ontap-nas-eco para la clase de almacenamiento.
 
-image:redhat_openshift_OADP_restore_image8.jpg["Restauración de máquina virtual ontap-nas-eco"]
+image:redhat_openshift_OADP_restore_image8.png["Restauración de máquina virtual ontap-nas-eco"]
 
 ====
