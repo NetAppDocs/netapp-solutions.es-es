@@ -5,12 +5,30 @@ keywords: NetApp Solutions, vMSC, Metro Storage Cluster, SnapMirror active sync,
 summary:  
 ---
 = Convierta la sincronización activa de SM asimétrica a activa/activa simétrica con VMware vSphere Metro Storage Cluster
+:hardbreaks:
 :allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
 
 
-link:https://docs.netapp.com/us-en/ontap/snapmirror-active-sync/["Sincronización activa de NetApp SnapMirror (SM sincronización activa)"] Es una solución sólida para lograr un objetivo de tiempo de recuperación cero (RTO) y un objetivo de punto de recuperación cero (RPO) en un entorno virtualizado. link:https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware_vmsc_overview.html["VMware vSphere Metro Storage Cluster (VMSC)"] Es una solución de clúster ampliada en diferentes dominios de fallo y permite distribuir las máquinas virtuales (VM) en dos sitios separados geográficamente, lo que proporciona una disponibilidad continua incluso si falla un sitio. La combinación de VMSC con SM Active Sync garantiza la coherencia de los datos y capacidades de recuperación tras fallos inmediata entre dos ubicaciones. Esta configuración es especialmente crucial para aplicaciones críticas en las que es inaceptable que se produzca una pérdida de datos o un tiempo de inactividad.
+[role="lead"]
+Este artículo detalla cómo convertir la sincronización activa de SnapMirror de asimétrica a simétrica activa/activa con VMware vSphere Metro Storage Cluster (VMSC).
 
-La sincronización activa de SM, anteriormente conocida como SnapMirror Business Continuity (SMBC), permite que los servicios empresariales continúen funcionando incluso si se produce un fallo completo del sitio, lo que permite que las aplicaciones conmuten por error de forma transparente mediante una copia secundaria. A partir de ONTAP 9.15.1, SM active sync admite una capacidad activo-activo simétrica. El activo-activo simétrico permite realizar operaciones de I/O de lectura y escritura desde ambas copias de una LUN protegida con replicación síncrona bidireccional. De este modo, ambas copias LUN pueden servir operaciones de I/O localmente. Este documento muestra los pasos de cómo convertir SM active sync asimétrico activo/activo a SM active sync simétrico activo/activo en un entorno VMware Stretch Cluster, en otras palabras, convierte una SM active sync de una política de failover automatizado a una política de failover dúplex automático. Para obtener información detallada sobre cómo configurar VMSC con sincronización activa de SnapMirror (SM-AS) mediante el Administrador del sistema y las herramientas de ONTAP, compruebe link:https://docs.netapp.com/us-en/netapp-solutions/vmware/vmware-vmsc-with-smas.html["VMware vSphere Metro Storage Cluster con sincronización activa SnapMirror"].
+
+
+== Descripción general
+
+link:https://docs.netapp.com/us-en/ontap/snapmirror-active-sync/["Sincronización activa de NetApp SnapMirror (SM sincronización activa)"] Es una solución sólida para lograr un objetivo de tiempo de recuperación cero (RTO) y un objetivo de punto de recuperación cero (RPO) en un entorno virtualizado.
+
+link:https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware_vmsc_overview.html["VMware vSphere Metro Storage Cluster (VMSC)"] Es una solución de clúster ampliada en diferentes dominios de fallo y permite distribuir las máquinas virtuales (VM) en dos sitios separados geográficamente, lo que proporciona una disponibilidad continua incluso si falla un sitio.
+
+La combinación de VMSC con SM Active Sync garantiza la coherencia de los datos y capacidades de recuperación tras fallos inmediata entre dos ubicaciones. Esta configuración es especialmente crucial para aplicaciones críticas en las que es inaceptable que se produzca una pérdida de datos o un tiempo de inactividad.
+
+La sincronización activa de SM, anteriormente conocida como SnapMirror Business Continuity (SMBC), permite que los servicios empresariales continúen funcionando incluso si se produce un fallo completo del sitio, lo que permite que las aplicaciones conmuten por error de forma transparente mediante una copia secundaria. A partir de ONTAP 9.15.1, SM active sync admite una capacidad activo-activo simétrica. El activo-activo simétrico permite realizar operaciones de I/O de lectura y escritura desde ambas copias de una LUN protegida con replicación síncrona bidireccional. De este modo, ambas copias LUN pueden servir operaciones de I/O localmente.
+
+Este documento muestra los pasos de cómo convertir SM active sync asimétrico activo/activo a SM active sync simétrico activo/activo en un entorno VMware Stretch Cluster, en otras palabras, convierte una SM active sync de una política de failover automatizado a una política de failover dúplex automático. Para obtener información detallada sobre cómo configurar VMSC con sincronización activa de SnapMirror (SM-AS) mediante el Administrador del sistema y las herramientas de ONTAP, compruebe link:https://docs.netapp.com/us-en/netapp-solutions/vmware/vmware-vmsc-with-smas.html["VMware vSphere Metro Storage Cluster con sincronización activa SnapMirror"].
 
 
 
